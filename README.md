@@ -19,10 +19,9 @@
 
 ## Crews
 
-- @tco0427
-- @nan-noo
-- @jaejae-yoo
-- @wilgur513
-- @sc0116
-- @airman5573
-
+- [디우(김동규)](https://github.com/tco0427)
+- [태태(김태윤)](https://github.com/nan-noo)
+- [그린론(유재서)](https://github.com/jaejae-yoo)
+- [베루스(정진혁)](https://github.com/wilgur513)
+- [짱구(신승철)](https://github.com/sc0116)
+- [병민(윤병인)](https://github.com/airman5573)
