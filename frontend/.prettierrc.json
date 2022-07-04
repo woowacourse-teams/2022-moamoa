@@ -10,7 +10,7 @@
   "arrowParens": "avoid",
   "endOfLine": "auto",
 
-  "importOrder": ["^@components/(.*)$", "^[./]"],
+  "importOrder": ["^@styles/(.*)$", "^@components/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
