@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import Chip from '@components/Chip';
 
 import * as S from './style';
@@ -7,20 +9,17 @@ export interface CardProps {
   thumbnailAlt: string;
   title: string;
   description: string;
-  chipText: string;
-  chipDisabled: boolean;
+  extraChips: Array<ReactNode>;
 }
 
-const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, description, chipText, chipDisabled }) => {
+const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, description, extraChips }) => {
   return (
     <S.Card>
       <S.Image src={thumbnailUrl} alt={thumbnailAlt} />
       <S.Contents>
         <S.Title>{title}</S.Title>
         <S.Description>{description}</S.Description>
-        <S.Extra>
-          <Chip disabled={chipDisabled}>{chipText}</Chip>
-        </S.Extra>
+        <S.Extra>{extraChips}</S.Extra>
       </S.Contents>
     </S.Card>
   );
