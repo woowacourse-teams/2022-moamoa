@@ -39,6 +39,7 @@ module.exports = {
       '@src': resolve(__dirname, '../src'),
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
+      '@custom-types': resolve(__dirname, '../src/custom-types'),
     },
   },
 };

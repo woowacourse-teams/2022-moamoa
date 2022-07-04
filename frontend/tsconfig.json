@@ -17,7 +17,8 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@custom-types/*": ["custom-types/*"]
     },
     "typeRoots": ["./types.d.ts"]
   },
