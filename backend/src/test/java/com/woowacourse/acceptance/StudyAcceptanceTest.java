@@ -84,7 +84,6 @@ public class StudyAcceptanceTest {
                 .body("message", not(blankOrNullString()));
     }
 
-    @Disabled
     @DisplayName("페이징 정보가 없는 경우에는 기본값을 사용해 스터디 목록을 조회한다.")
     @Test
     public void getStudiesByDefaultPagingInfo() {
@@ -93,6 +92,8 @@ public class StudyAcceptanceTest {
                 .get("/api/studies")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(5))
                 .body("studies.id", contains(
                         notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
                 .body("studies.title", contains(
