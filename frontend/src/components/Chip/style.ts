@@ -6,7 +6,7 @@ export const StyledChip = styled.span<ChipProps>`
   ${({ theme, disabled }) => `
     display: inline-block;
 
-    width: 3.75rem;
+    width: 5.75rem;
     padding: 0.5rem 0.8rem;
     
     text-align: center;
