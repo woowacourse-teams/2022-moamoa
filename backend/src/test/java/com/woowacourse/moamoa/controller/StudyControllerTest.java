@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.not;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -51,23 +52,9 @@ public class StudyControllerTest {
                 .build();
     }
 
-    @DisplayName("잘못된 페이징 정보로 스터디 목록 조회 시 400 반환")
-    @ParameterizedTest
-    @CsvSource({"0,3", "1,0", "one,1", "1,one"})
-    void return400ByInvalidPagingInfo(String page, String size) throws Exception {
-        mockMvc.perform(get("/api/studies")
-                .param("page", page)
-                .param("size", size)
-        )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("message", not(blankOrNullString())));
-    }
-
-    @DisplayName("기본값 페이징 정보로 스터디 목록 조회")
-    @Test
-    public void getStudiesByDefaultPagingInfo() throws Exception {
-        when(studyRepository.findAll(1, 5)).thenReturn(
+    @BeforeEach
+    void setUp() {
+        SliceImpl<Study> slice = new SliceImpl<>(
                 List.of(
                         new Study(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         new Study(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
@@ -77,13 +64,31 @@ public class StudyControllerTest {
                 )
         );
 
+        when(studyRepository.findAllBy(any())).thenReturn(slice);
+    }
+
+    @DisplayName("잘못된 페이징 정보로 스터디 목록 조회 시 400 반환")
+    @ParameterizedTest
+    @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
+    void return400ByInvalidPagingInfo(String page, String size) throws Exception {
+        mockMvc.perform(get("/api/studies")
+                        .param("page", page)
+                        .param("size", size)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message", not(blankOrNullString())));
+    }
+
+    @DisplayName("기본값 페이징 정보로 스터디 목록 조회")
+    @Test
+    public void getStudiesByDefaultPagingInfo() throws Exception {
         final String content = mockMvc.perform(get("/api/studies"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-
         final StudiesResponse studiesResponse = objectMapper.readValue(content, StudiesResponse.class);
 
         assertThat(studiesResponse.getStudies())
@@ -97,7 +102,5 @@ public class StudyControllerTest {
                         tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
                         tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE")
                 );
-
-        verify(studyRepository).findAll(1, 5);
     }
 }

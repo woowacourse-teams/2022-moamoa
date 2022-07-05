@@ -1,12 +1,24 @@
 package com.woowacourse.moamoa.domain;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Study {
 
-    private final Long id;
-    private final String title;
-    private final String description;
-    private final String thumbnail;
-    private final String status;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+    private String title;
+    private String description;
+    private String thumbnail;
+    private String status;
+
+    protected Study() {
+    }
 
     public Study(Long id, String title, String description, String thumbnail, String status) {
         this.id = id;

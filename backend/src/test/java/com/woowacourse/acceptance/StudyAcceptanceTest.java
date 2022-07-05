@@ -42,7 +42,7 @@ public class StudyAcceptanceTest {
     public void getFirstPageOfStudies() {
         RestAssured.given().log().all()
                 .when().log().all()
-                .get("/api/studies?page=1&size=3")
+                .get("/api/studies?page=0&size=3")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(true))
@@ -60,7 +60,7 @@ public class StudyAcceptanceTest {
     public void getLastPageOfStudies() {
         RestAssured.given().log().all()
                 .when().log().all()
-                .get("/api/studies?page=2&size=3")
+                .get("/api/studies?page=1&size=3")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(false))
@@ -74,7 +74,7 @@ public class StudyAcceptanceTest {
 
     @DisplayName("잘못된 페이징 정보로 목록을 조회시 400에러를 응답한다.")
     @ParameterizedTest
-    @CsvSource({"0,3", "1,0", "one,1", "1,one"})
+    @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
     public void response400WhenRequestByInvalidPagingInfo(String page, String size) {
         RestAssured.given().log().all()
                 .when().log().all()

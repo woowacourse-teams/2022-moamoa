@@ -4,35 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.domain.Study;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.jdbc.Sql;
 
-@DataJdbcTest
+@DataJpaTest
 @Sql("/init.sql")
 public class StudyRepositoryTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     private StudyRepository studyRepository;
-
-    @BeforeEach
-    void setUp() {
-        studyRepository = new JdbcStudyRepository(jdbcTemplate);
-    }
 
     @DisplayName("페이징 정보를 사용해 스터디 목록 조회")
     @Test
-    public void findAll() {
-        final List<Study> studies = studyRepository.findAll(2, 3);
+    public void findAllByPageable() {
+        final PageRequest pageRequest = PageRequest.of(1, 3);
 
-        assertThat(studies)
+        final Slice<Study> slice = studyRepository.findAllBy(pageRequest);
+
+        assertThat(slice.hasNext()).isFalse();
+        assertThat(slice.getContent())
                 .hasSize(2)
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "description", "thumbnail", "status")

@@ -5,7 +5,8 @@ import com.woowacourse.moamoa.controller.dto.StudyResponse;
 import com.woowacourse.moamoa.domain.Study;
 import com.woowacourse.moamoa.repository.StudyRepository;
 import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,11 +18,10 @@ public class StudyService {
         this.studyRepository = studyRepository;
     }
 
-    public StudiesResponse getStudies(int page, int size) {
-        List<Study> studies = studyRepository.findAll(page, size);
-        List<StudyResponse> responses = studies.stream()
-                .map(StudyResponse::new)
-                .collect(Collectors.toList());
-        return new StudiesResponse(responses, false);
+    public StudiesResponse getStudies(Pageable pageable) {
+        final Slice<Study> slice = studyRepository.findAllBy(pageable);
+        final List<StudyResponse> studies = slice.map(StudyResponse::new).getContent();
+
+        return new StudiesResponse(studies, slice.hasNext());
     }
 }

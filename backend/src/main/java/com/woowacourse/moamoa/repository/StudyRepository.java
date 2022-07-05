@@ -1,9 +1,11 @@
 package com.woowacourse.moamoa.repository;
 
 import com.woowacourse.moamoa.domain.Study;
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudyRepository {
+public interface StudyRepository extends JpaRepository<Study, Long> {
 
-    List<Study> findAll(int page, int size);
+    Slice<Study> findAllBy(Pageable pageable);
 }
