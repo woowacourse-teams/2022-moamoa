@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import com.woowacourse.moamoa.MoamoaApplication;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,7 +35,6 @@ public class StudyAcceptanceTest {
         RestAssured.port = port;
     }
 
-    @Disabled
     @DisplayName("첫번째 페이지의 스터디 목록을 조회 한다.")
     @Test
     public void getFirstPageOfStudies() {
@@ -54,7 +52,6 @@ public class StudyAcceptanceTest {
                 .body("studies.status", contains("OPEN", "OPEN", "OPEN"));
     }
 
-    @Disabled
     @DisplayName("마지막 페이지의 스터디 목록을 조회 한다.")
     @Test
     public void getLastPageOfStudies() {

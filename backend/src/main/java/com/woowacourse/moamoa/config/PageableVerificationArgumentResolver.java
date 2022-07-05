@@ -10,6 +10,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class PageableVerificationArgumentResolver extends PageableHandlerMethodArgumentResolver {
 
+    private static final int MINIMUM_PAGE = 0;
+    private static final int MINIMUM_SIZE = 1;
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return super.supportsParameter(parameter);
@@ -21,19 +24,39 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
         final String page = webRequest.getParameter("page");
         final String size = webRequest.getParameter("size");
 
-        if ((isNotNull(page) && isNumeric(page)) || (isNotNull(size) && isNumeric(size))) {
-            throw new InvalidFormatException();
-        }
+        validatePageAndSize(page, size);
 
         return super.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);
     }
 
-    private boolean isNotNull(String text) {
-        return text != null;
+    private void validatePageAndSize(String page, String size) {
+        if (page == null && size == null) {
+            return;
+        }
+
+        if (page == null || size == null) {
+            throw new InvalidFormatException();
+        }
+
+        if (isInvalidPage(page) || isInvalidSize(size)) {
+            throw new InvalidFormatException();
+        }
+    }
+
+    private boolean isInvalidPage(String page) {
+        return !isNumeric(page) || (Integer.parseInt(page) < MINIMUM_PAGE);
+    }
+
+    private boolean isInvalidSize(String size) {
+        return !isNumeric(size) || (Integer.parseInt(size) < MINIMUM_SIZE);
     }
 
     private boolean isNumeric(String text) {
-        return text.chars()
-                .allMatch(Character::isDigit);
+        for (char character : text.toCharArray()) {
+            if (!Character.isDigit(character)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
