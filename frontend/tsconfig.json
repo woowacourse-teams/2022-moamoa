@@ -16,8 +16,12 @@
     "jsxImportSource": "@emotion/react", // css prop을 사용하기 위해 필요하다
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"]
-    }
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
+      "@custom-types/*": ["custom-types/*"],
+      "@pages/*": ["pages/*"]
+    },
+    "typeRoots": ["./types.d.ts"]
   },
   "include": ["src"]
 }
