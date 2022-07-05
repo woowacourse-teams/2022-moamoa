@@ -38,6 +38,8 @@ export const Image = styled.img`
 
 export const Contents = styled.div`
   padding: 8px 8px 12px;
+
+  background-color: ${({ theme }) => theme.colors.secondary.light};
 `;
 
 export const Title = styled.h4`

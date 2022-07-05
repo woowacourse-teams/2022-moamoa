@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   position: relative;
-  width: 400px;
 `;
 
 // TODO : css 함수 사용하기(코드 자동 완성 및 일관성)
