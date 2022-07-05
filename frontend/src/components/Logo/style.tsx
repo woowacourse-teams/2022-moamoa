@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Row = styled.div`
@@ -20,7 +21,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const BorderText = styled.h1`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     color: ${theme.colors.primary.base};
     font-size: 40px;
     font-weight: 800;

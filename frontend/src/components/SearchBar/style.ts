@@ -1,12 +1,12 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
   position: relative;
 `;
 
-// TODO : css 함수 사용하기(코드 자동 완성 및 일관성)
 export const Input = styled.input`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     width: 100%;
     padding: 8px 40px;
     overflow: hidden;
@@ -19,7 +19,7 @@ export const Input = styled.input`
 
     &:focus {
       border-color: ${theme.colors.primary.light};
-      &+button {
+      & + button {
         svg {
           stroke: ${theme.colors.primary.light};
         }
@@ -29,7 +29,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     display: flex;
     align-items: center;
 

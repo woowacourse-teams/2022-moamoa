@@ -1,7 +1,8 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const ImageContainer = styled.div`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     width: 36px;
     min-width: 36px;
     height: 36px;
