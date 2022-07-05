@@ -16,6 +16,7 @@ module.exports = {
       '@styles': resolve(__dirname, '../src/styles'),
       '@types': resolve(__dirname, '../src/types'),
       '@pages': resolve(__dirname, '../src/pages'),
+      '@assets': resolve(__dirname, '../src/assets'),
     };
 
     config.module.rules[0].use[0].options.presets = [
