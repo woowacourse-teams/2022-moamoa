@@ -16,7 +16,11 @@ export default {
   },
 };
 
-const Template: Story<CardProps> = props => <Card {...props} />;
+const Template: Story<CardProps> = props => (
+  <div style={{ width: '256px' }}>
+    <Card {...props} />
+  </div>
+);
 
 export const Default = Template.bind({});
 Default.args = {

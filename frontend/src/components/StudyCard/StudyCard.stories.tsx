@@ -15,7 +15,11 @@ export default {
   },
 };
 
-const Template: Story<StudyCardProps> = props => <StudyCard {...props} />;
+const Template: Story<StudyCardProps> = props => (
+  <div style={{ width: '256px' }}>
+    <StudyCard {...props} />
+  </div>
+);
 
 export const Default = Template.bind({});
 Default.args = {

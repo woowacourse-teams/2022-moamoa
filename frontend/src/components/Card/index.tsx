@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import Chip from '@components/Chip';
-
 import * as S from './style';
 
 export interface CardProps {

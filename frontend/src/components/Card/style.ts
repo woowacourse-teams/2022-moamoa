@@ -3,13 +3,11 @@ import styled from '@emotion/styled';
 
 export const Card = styled.div`
   ${({ theme }) => css`
-    max-width: 15.625rem;
-    width: 100%;
     overflow: hidden;
 
-    border: 0.19rem solid ${theme.colors.primary.base};
-    border-radius: 1.56rem;
-    box-shadow: 0.5rem 0.5rem 0 0 ${theme.colors.secondary.dark};
+    border: 3px solid ${theme.colors.primary.base};
+    border-radius: 25px;
+    box-shadow: 8px 8px 0 0 ${theme.colors.secondary.dark};
 
     :hover {
       opacity: 0.9;
@@ -19,28 +17,35 @@ export const Card = styled.div`
 
 export const Image = styled.img`
   width: 100%;
-  height: 9rem;
+  height: 144px;
 
   object-fit: cover;
   object-position: center;
 `;
 
 export const Contents = styled.div`
-  padding: 0.5rem 0.5rem 0.7rem;
+  padding: 8px 8px 12px;
 `;
 
 export const Title = styled.h4`
-  padding-bottom: 1.25rem;
+  padding-bottom: 20px;
 
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
 `;
 
 export const Description = styled.p`
-  padding-bottom: 1.25rem;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 20px;
 
-  font-size: 1.25rem;
-  word-break: break-word;
+  overflow: clip;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+  line-height: 20px;
 `;
 
 export const Extra = styled.div`

@@ -6,11 +6,11 @@ export const StyledChip = styled.span<ChipProps>`
   ${({ theme, disabled }) => `
     display: inline-block;
 
-    width: 5.75rem;
-    padding: 0.5rem 0.8rem;
+    width: 92px;
+    padding: 8px 12.8px;
     
     text-align: center;
-    border-radius: 1rem;
+    border-radius: 16px;
     color: ${disabled ? theme.colors.black : theme.colors.white};
     background-color: ${disabled ? theme.colors.secondary.base : theme.colors.primary.base};
   `}
