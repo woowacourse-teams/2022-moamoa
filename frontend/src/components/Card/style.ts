@@ -3,6 +3,11 @@ import styled from '@emotion/styled';
 
 export const Card = styled.div`
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 350px;
     overflow: hidden;
 
     border: 3px solid ${theme.colors.primary.base};
@@ -15,9 +20,17 @@ export const Card = styled.div`
   `}
 `;
 
+export const ImageContainer = styled.div`
+  width: 100%;
+
+  flex-grow: 1;
+
+  overflow: hidden;
+`;
+
 export const Image = styled.img`
   width: 100%;
-  height: 144px;
+  height: 100%;
 
   object-fit: cover;
   object-position: center;

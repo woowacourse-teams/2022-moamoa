@@ -13,7 +13,9 @@ export interface CardProps {
 const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, description, extraChips }) => {
   return (
     <S.Card>
-      <S.Image src={thumbnailUrl} alt={thumbnailAlt} />
+      <S.ImageContainer>
+        <S.Image src={thumbnailUrl} alt={thumbnailAlt} />
+      </S.ImageContainer>
       <S.Contents>
         <S.Title>{title}</S.Title>
         <S.Description>{description}</S.Description>
