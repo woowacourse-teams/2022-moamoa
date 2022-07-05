@@ -18,7 +18,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
-      "@custom-types/*": ["custom-types/*"]
+      "@custom-types/*": ["custom-types/*"],
+      "@pages/*": ["pages/*"]
     },
     "typeRoots": ["./types.d.ts"]
   },

@@ -40,6 +40,7 @@ module.exports = {
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@custom-types': resolve(__dirname, '../src/custom-types'),
+      '@pages': resolve(__dirname, '../src/pages'),
     },
   },
 };
