@@ -82,7 +82,6 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.status", contains("OPEN", "OPEN", "OPEN", "CLOSE", "CLOSE"));
     }
 
-    @Disabled
     @DisplayName("앞뒤 공백을 제거한 키워드로 스터디 목록을 조회한다.")
     @Test
     void getStudiesByTrimKeyword() {

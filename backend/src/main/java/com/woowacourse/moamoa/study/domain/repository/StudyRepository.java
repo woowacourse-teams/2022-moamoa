@@ -8,5 +8,5 @@ public interface StudyRepository {
 
     Slice<Study> findAll(Pageable pageable);
 
-    Slice<Study> findByTitleContaining(String title, Pageable pageable);
+    Slice<Study> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }
