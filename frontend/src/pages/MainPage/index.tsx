@@ -16,9 +16,8 @@ const MainPage: React.FC = () => {
     <S.Page>
       <div className="filters"></div>
       <S.CardList>
-        <li>
+        <li key={'sdfw'}>
           <StudyCard
-            key={'sdfw'}
             thumbnailUrl={
               'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1774&q=80'
             }
@@ -29,9 +28,8 @@ const MainPage: React.FC = () => {
           />
         </li>
         {studyList.map(study => (
-          <li>
+          <li key={study.id}>
             <StudyCard
-              key={study.id}
               thumbnailUrl={study.thumbnail}
               thumbnailAlt={`${study.title} 스터디 이미지`}
               title={study.title}

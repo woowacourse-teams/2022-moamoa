@@ -19,9 +19,10 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@custom-types/*": ["custom-types/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@assets/*": ["assets/*"]
     },
-    "typeRoots": ["./types.d.ts"]
+    "typeRoots": ["src/custom-types"]
   },
   "include": ["src"]
 }

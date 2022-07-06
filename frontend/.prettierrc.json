@@ -10,7 +10,15 @@
   "arrowParens": "avoid",
   "endOfLine": "auto",
 
-  "importOrder": ["^@emotion", "^@custom-styles/(.*)$", "^@styles/(.*)$", "^@pages/(.*)$" ,"^@components/(.*)$", "^[./]"],
+  "importOrder": [
+    "^@emotion",
+    "^@assets/(.*)$",
+    "^@custom-types/(.*)$",
+    "^@styles/(.*)$",
+    "^@pages/(.*)$",
+    "^@components/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

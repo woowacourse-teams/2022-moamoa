@@ -13,7 +13,7 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
       thumbnailAlt={thumbnailAlt}
       title={title}
       description={description}
-      extraChips={[<StudyChip isOpen={isOpen} />]}
+      extraChips={[<StudyChip key={0} isOpen={isOpen} />]}
     />
   );
 };
