@@ -7,6 +7,10 @@ export const CardList = styled.ul`
   grid-gap: 32px;
   place-items: center;
 
+  & > li {
+    cursor: pointer;
+  }
+
   @media (max-width: 1100px) {
     grid-template-columns: repeat(3, 1fr);
   }
