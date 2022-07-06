@@ -12,6 +12,7 @@
     "build": "webpack --progress --config ./webpack/webpack.prod.js",
     "clean": "npm cache clean --force && rm -rf node_modules && rm package-lock.json",
     "start": "webpack serve --open --progress --config ./webpack/webpack.dev.js",
+    "build:msw": "npx msw init public/ --save",
     "lint:es": "eslint '**/*.{js,ts,tsx}'",
     "lint:es:fix": "npm run lint:es -- --fix",
     "prettier:etc": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --check",
@@ -45,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^16.0.1",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
@@ -56,6 +58,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.5.13",
     "html-webpack-plugin": "^5.5.0",
+    "msw": "^0.43.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
     "webpack": "^5.73.0",
@@ -64,9 +67,14 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "emotion-reset": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "react-query": "^3.39.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
