@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.controller.dto;
+package com.woowacourse.moamoa.study.service.response;
 
-import com.woowacourse.moamoa.domain.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 
 public class StudyResponse {
 
@@ -13,11 +13,15 @@ public class StudyResponse {
     public StudyResponse() {
     }
 
-    public StudyResponse(Study study) {
-        this(study.getId(), study.getTitle(), study.getDescription(), study.getThumbnail(), study.getStatus());
+    public StudyResponse(final Study study) {
+        this(study.getId(), study.getTitle(), study.getDescription(), study.getThumbnail(),
+                study.getStatus());
     }
 
-    public StudyResponse(Long id, String title, String description, String thumbnail, String status) {
+    public StudyResponse(
+            final Long id, final String title, final String description,
+            final String thumbnail, final String status
+    ) {
         this.id = id;
         this.title = title;
         this.description = description;
