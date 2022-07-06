@@ -1,10 +1,10 @@
-package com.woowacourse.moamoa.controller.dto;
+package com.woowacourse.moamoa.common.advice.response;
 
 public class ErrorResponse {
 
     private final String message;
 
-    public ErrorResponse(String message) {
+    public ErrorResponse(final String message) {
         this.message = message;
     }
 

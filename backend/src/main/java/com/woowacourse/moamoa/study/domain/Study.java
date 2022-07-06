@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.domain;
+package com.woowacourse.moamoa.study.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -20,7 +20,9 @@ public class Study {
     protected Study() {
     }
 
-    public Study(Long id, String title, String description, String thumbnail, String status) {
+    public Study(final Long id, final String title, final String description,
+                 final String thumbnail, final String status
+    ) {
         this.id = id;
         this.title = title;
         this.description = description;

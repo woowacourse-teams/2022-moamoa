@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.config;
+package com.woowacourse.moamoa.common.config;
 
-import com.woowacourse.moamoa.exception.InvalidFormatException;
+import com.woowacourse.moamoa.common.exception.InvalidFormatException;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -14,44 +14,47 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
     private static final int MINIMUM_SIZE = 1;
 
     @Override
-    public boolean supportsParameter(MethodParameter parameter) {
+    public boolean supportsParameter(final MethodParameter parameter) {
         return super.supportsParameter(parameter);
     }
 
     @Override
-    public Pageable resolveArgument(MethodParameter methodParameter, ModelAndViewContainer mavContainer,
-                                    NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public Pageable resolveArgument(final MethodParameter methodParameter,
+                                    final ModelAndViewContainer mavContainer,
+                                    final NativeWebRequest webRequest,
+                                    final WebDataBinderFactory binderFactory
+    ) {
         final String page = webRequest.getParameter("page");
         final String size = webRequest.getParameter("size");
 
-        validatePageAndSize(page, size);
+        if (isInvalidPageAndSize(page, size)) {
+            throw new InvalidFormatException();
+        }
 
         return super.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);
     }
 
-    private void validatePageAndSize(String page, String size) {
+    private boolean isInvalidPageAndSize(final String page, final String size) {
         if (page == null && size == null) {
-            return;
+            return false;
         }
 
         if (page == null || size == null) {
-            throw new InvalidFormatException();
+            return true;
         }
 
-        if (isInvalidPage(page) || isInvalidSize(size)) {
-            throw new InvalidFormatException();
-        }
+        return isInvalidPage(page) || isInvalidSize(size);
     }
 
-    private boolean isInvalidPage(String page) {
+    private boolean isInvalidPage(final String page) {
         return !isNumeric(page) || (Integer.parseInt(page) < MINIMUM_PAGE);
     }
 
-    private boolean isInvalidSize(String size) {
+    private boolean isInvalidSize(final String size) {
         return !isNumeric(size) || (Integer.parseInt(size) < MINIMUM_SIZE);
     }
 
-    private boolean isNumeric(String text) {
+    private boolean isNumeric(final String text) {
         for (char character : text.toCharArray()) {
             if (!Character.isDigit(character)) {
                 return false;
