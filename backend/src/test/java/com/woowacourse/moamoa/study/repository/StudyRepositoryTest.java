@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,6 +40,39 @@ public class StudyRepositoryTest {
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "description", "thumbnail", "status")
                 .containsExactlyElementsOf(expectedTuples);
+    }
+
+    @DisplayName("키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
+    @Test
+    public void findByTitleContaining() {
+        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase("java", PageRequest.of(0, 3));
+
+        assertThat(slice.hasNext()).isFalse();
+        assertThat(slice.getContent())
+                .hasSize(2)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "description", "thumbnail", "status")
+                .containsExactly(
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"));
+    }
+
+    @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
+    @Test
+    public void findByBlankTitle() {
+        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase("", PageRequest.of(0, 5));
+
+        assertThat(slice.hasNext()).isFalse();
+        assertThat(slice.getContent())
+                .hasSize(5)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "description", "thumbnail", "status")
+                .containsExactly(
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                        tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"),
+                        tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
+                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE"));
     }
 
     private static Stream<Arguments> providePageableAndExpect() {
