@@ -7,4 +7,6 @@ import org.springframework.data.domain.Slice;
 public interface StudyRepository {
 
     Slice<Study> findAll(Pageable pageable);
+
+    Slice<Study> findByTitleContaining(String title, Pageable pageable);
 }

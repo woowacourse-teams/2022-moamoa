@@ -39,6 +39,22 @@ public class StudyControllerTest {
                         ), Pageable.unpaged(), true)
                 );
 
+        when(studyRepository.findByTitleContaining("Java 스터디", PageRequest.of(0, 3)))
+                .thenReturn(
+                        new SliceImpl<>(List.of(
+                                new Study(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN")
+                        ))
+                );
+
+        when(studyRepository.findByTitleContaining("", PageRequest.of(0, 3)))
+                .thenReturn(
+                        new SliceImpl<>(List.of(
+                                new Study(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                                new Study(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
+                                new Study(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN")
+                        ), Pageable.unpaged(), true)
+                );
+
         studyController = new StudyController(new StudyService(studyRepository));
     }
 
@@ -60,5 +76,41 @@ public class StudyControllerTest {
                 );
 
         verify(studyRepository).findAll(PageRequest.of(0, 3));
+    }
+
+    @DisplayName("빈 문자열로 검색시 전체 스터디 목록에서 조회")
+    @Test
+    void searchByBlankKeyword() {
+        ResponseEntity<StudiesResponse> response = studyController.searchStudies("", PageRequest.of(0, 3));
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().isHasNext()).isTrue();
+        assertThat(response.getBody().getStudies())
+                .hasSize(3)
+                .extracting("id", "title", "description", "thumbnail", "status")
+                .containsExactlyElementsOf(List.of(
+                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
+                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"))
+                );
+
+        verify(studyRepository).findByTitleContaining("", PageRequest.of(0, 3));
+    }
+
+    @DisplayName("문자열로 검색시 해당되는 스터디 목록에서 조회")
+    @Test
+    void searchByKeyword() {
+        ResponseEntity<StudiesResponse> response = studyController.searchStudies("Java 스터디", PageRequest.of(0, 3));
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().isHasNext()).isFalse();
+        assertThat(response.getBody().getStudies())
+                .hasSize(1)
+                .extracting("id", "title", "description", "thumbnail", "status")
+                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
+
+        verify(studyRepository).findByTitleContaining("Java 스터디", PageRequest.of(0, 3));
     }
 }

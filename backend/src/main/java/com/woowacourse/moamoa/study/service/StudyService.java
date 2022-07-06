@@ -27,4 +27,12 @@ public class StudyService {
                 .getContent();
         return new StudiesResponse(studies, slice.hasNext());
     }
+
+    public StudiesResponse searchBy(final String title, final Pageable pageable) {
+        final Slice<Study> slice = studyRepository.findByTitleContaining(title, pageable);
+        final List<StudyResponse> studies = slice
+                .map(StudyResponse::new)
+                .getContent();
+        return new StudiesResponse(studies, slice.hasNext());
+    }
 }
