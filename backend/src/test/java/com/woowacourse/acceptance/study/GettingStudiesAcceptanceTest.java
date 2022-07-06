@@ -1,4 +1,4 @@
-package com.woowacourse.acceptance;
+package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;
@@ -7,34 +7,17 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.woowacourse.moamoa.MoamoaApplication;
+import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
-@SpringBootTest(
-        webEnvironment = WebEnvironment.RANDOM_PORT,
-        classes = {MoamoaApplication.class}
-)
-@Sql("/init.sql")
-public class StudyAcceptanceTest {
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
+@DisplayName("스터디 목록 조회 인수 테스트")
+public class GettingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("첫번째 페이지의 스터디 목록을 조회 한다.")
     @Test
