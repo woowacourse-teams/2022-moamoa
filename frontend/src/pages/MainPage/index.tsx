@@ -1,27 +1,34 @@
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 
-import type { StudyCardListQueryData } from '@custom-types/index';
+import type { Study, StudyListQueryData } from '@custom-types/index';
 
-import { getCardStudyList } from '@api/getStudyCardList';
+import { getStudyList } from '@api/getStudyList';
+import { getStudyListSearchedByTitle } from '@api/getStudyListSearchedByTitle';
+
+import { SearchContext } from '@context/search/SearchProvider';
 
 import StudyCard from '@components/StudyCard';
 
 import * as S from './style';
 
 const MainPage: React.FC = () => {
-  const { data, isError, isLoading, isFetching } = useQuery<unknown, unknown, StudyCardListQueryData>(
-    'study-card-list',
-    () => getCardStudyList(0, 12),
+  const { keyword } = useContext(SearchContext);
+  const { data, status: dataStatus } = useQuery<unknown, unknown, StudyListQueryData>('study-list', () =>
+    getStudyList(0, 12),
+  );
+  const { data: searchedStudyListQueryData, status: searchStatus } = useQuery<unknown, unknown, StudyListQueryData>(
+    ['searched-study-card-list', keyword],
+    () => getStudyListSearchedByTitle(0, 12, keyword),
     {
-      retry: 3,
+      enabled: !!keyword,
     },
   );
 
-  return (
-    <S.Page>
-      <div className="filters"></div>
+  const renderStudyCardList = (data: Array<Study>) => {
+    return (
       <S.CardList>
-        {data?.studies.map(study => (
+        {data.map(study => (
           <li key={study.id}>
             <StudyCard
               thumbnailUrl={study.thumbnail}
@@ -33,6 +40,25 @@ const MainPage: React.FC = () => {
           </li>
         ))}
       </S.CardList>
+    );
+  };
+
+  const renderList = () => {
+    if (keyword.length > 0) {
+      if (!searchedStudyListQueryData) return;
+      if (searchedStudyListQueryData.studies.length === 0) {
+        return <div>검색결과가 없습니다</div>;
+      }
+      return renderStudyCardList(searchedStudyListQueryData.studies);
+    }
+    return data && renderStudyCardList(data.studies);
+  };
+
+  return (
+    <S.Page>
+      <div className="filters"></div>
+      {(dataStatus === 'loading' || searchStatus === 'loading') && <div>Loading...</div>}
+      {renderList()}
     </S.Page>
   );
 };

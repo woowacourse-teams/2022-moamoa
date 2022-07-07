@@ -19,6 +19,7 @@ module.exports = {
       '@assets': resolve(__dirname, '../src/assets'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
+      '@context': resolve(__dirname, '../src/context'),
     };
 
     config.module.rules[0].use[0].options.presets = [

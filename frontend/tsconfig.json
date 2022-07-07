@@ -23,7 +23,8 @@
       "@pages/*": ["pages/*"],
       "@assets/*": ["assets/*"],
       "@constants": ["constants.ts"],
-      "@api/*": ["api/*"]
+      "@api/*": ["api/*"],
+      "@context/*": ["context/*"]
     },
     "typeRoots": ["src/custom-types"]
   },

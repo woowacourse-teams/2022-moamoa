@@ -9,7 +9,6 @@ const axiosInstance = axios.create({
 
 const handleAxiosError = (error: AxiosError) => {
   const { data } = error.response as AxiosResponse<{ message: string }>;
-
   if (data?.message) {
     throw new Error(data.message);
   }

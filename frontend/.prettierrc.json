@@ -17,6 +17,7 @@
     "^@custom-types/(.*)$",
     "^@styles/(.*)$",
     "^@api/(.*)$",
+    "^@context/(.*)$",
     "^@pages/(.*)$",
     "^@components/(.*)$",
     "^[./]"

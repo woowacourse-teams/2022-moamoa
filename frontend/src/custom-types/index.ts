@@ -1,8 +1,6 @@
-import StudyCard from '@components/StudyCard';
-
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type StudyStatus = 'open' | 'close';
-export type StudyCard = {
+export type Study = {
   id: number;
   title: string;
   description: string;
@@ -10,7 +8,7 @@ export type StudyCard = {
   status: StudyStatus;
 };
 
-export type StudyCardListQueryData = {
-  studies: Array<StudyCard>;
+export type StudyListQueryData = {
+  studies: Array<Study>;
   hasNext: boolean;
 };

@@ -6,6 +6,8 @@ import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
 
+import { SearchProvider } from '@context/search/SearchProvider';
+
 import App from './App';
 
 if (process.env.NODE_ENV == 'development') {
@@ -16,12 +18,20 @@ if (process.env.NODE_ENV == 'development') {
 const $root = document.getElementById('root');
 if ($root) {
   const root = createRoot($root);
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <GlobalStyles />
-        <App />
+        <SearchProvider>
+          <GlobalStyles />
+          <App />
+        </SearchProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );
