@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Card from '@components/Card';
 import type { CardProps } from '@components/Card';
 import StudyChip from '@components/StudyChip';
@@ -18,4 +20,4 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
   );
 };
 
-export default StudyCard;
+export default React.memo(StudyCard);
