@@ -42,6 +42,9 @@ module.exports = {
       '@custom-types': resolve(__dirname, '../src/custom-types'),
       '@pages': resolve(__dirname, '../src/pages'),
       '@assets': resolve(__dirname, '../src/assets'),
+      '@constants': resolve(__dirname, '../src/constants.ts'),
+      '@api': resolve(__dirname, '../src/api'),
+      '@context': resolve(__dirname, '../src/context'),
     },
   },
 };

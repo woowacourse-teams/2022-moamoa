@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "noEmit": true,
+    "resolveJsonModule": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react", // css prop을 사용하기 위해 필요하다
     "baseUrl": "./src",
@@ -20,7 +21,10 @@
       "@styles/*": ["styles/*"],
       "@custom-types/*": ["custom-types/*"],
       "@pages/*": ["pages/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@constants": ["constants.ts"],
+      "@api/*": ["api/*"],
+      "@context/*": ["context/*"]
     },
     "typeRoots": ["src/custom-types"]
   },

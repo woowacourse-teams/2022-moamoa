@@ -1,4 +1,8 @@
+import React, { useContext } from 'react';
+
 import { SerializedStyles } from '@emotion/react';
+
+import { SearchContext } from '@context/search/SearchProvider';
 
 import Avatar from '@components/Avatar';
 import Logo from '@components/Logo';
@@ -6,17 +10,29 @@ import SearchBar from '@components/SearchBar';
 
 import * as S from './style';
 
-type Props = {
+type HeaderProps = {
   className?: string;
   css?: SerializedStyles;
 };
 
-const Header: React.FC<Props> = ({ className }) => {
+const Header: React.FC<HeaderProps> = ({ className }) => {
+  const { setKeyword } = useContext(SearchContext);
+
+  const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
+    e.preventDefault();
+    const value = (e.target as any)[inputName].value;
+    if (value.length === 0) {
+      alert('검색어를 입력해주세요');
+      return;
+    }
+    setKeyword(value);
+  };
+
   return (
     <S.Row className={className}>
       <Logo />
       <S.SearchBarContainer>
-        <SearchBar />
+        <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>
       <Avatar
         // TODO: Context에서 정보를 가져온다
