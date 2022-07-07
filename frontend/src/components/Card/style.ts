@@ -42,25 +42,31 @@ export const Contents = styled.div`
   background-color: ${({ theme }) => theme.colors.secondary.light};
 `;
 
-export const Title = styled.h4`
-  padding-bottom: 20px;
-
-  font-size: 24px;
-  font-weight: 700;
-`;
-
-export const Description = styled.p`
-  width: 100%;
-  font-size: 20px;
-  margin-bottom: 20px;
-
+const onelineEllipsis = css`
   overflow: clip;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   word-break: break-all;
+`;
+
+export const Title = styled.h4`
+  margin-bottom: 20px;
+
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  ${onelineEllipsis};
+`;
+
+export const Description = styled.p`
+  width: 100%;
+  margin-bottom: 20px;
+
+  font-size: 20px;
   line-height: 20px;
+  ${onelineEllipsis};
 `;
 
 export const Extra = styled.div`
