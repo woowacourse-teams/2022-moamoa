@@ -21,6 +21,7 @@ const App = () => {
       <main
         css={css`
           padding: 120px 0 80px;
+          min-height: calc(100vh - 80px);
         `}
       >
         <Wrapper>
