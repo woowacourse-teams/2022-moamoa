@@ -125,6 +125,7 @@
       "description": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
+<<<<<<< HEAD
     },
     {
       "id": 19,
@@ -384,6 +385,8 @@
       "description": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
+=======
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
     }
   ]
 }

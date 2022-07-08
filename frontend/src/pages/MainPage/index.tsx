@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery, useQuery } from 'react-query';
+=======
+import { useContext } from 'react';
+import { useQuery } from 'react-query';
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
 
 import type { Study, StudyListQueryData } from '@custom-types/index';
 
@@ -13,6 +18,7 @@ import StudyCard from '@components/StudyCard';
 
 import * as S from './style';
 
+<<<<<<< HEAD
 type PageParam = {
   page: number;
   size: number;
@@ -62,10 +68,22 @@ const MainPage: React.FC = () => {
         if (!lastPage.hasNext) return;
         return { page: lastPage.page };
       },
+=======
+const MainPage: React.FC = () => {
+  const { keyword } = useContext(SearchContext);
+  const { data, status: dataStatus } = useQuery<unknown, unknown, StudyListQueryData>('study-list', () =>
+    getStudyList(0, 12),
+  );
+  const { data: searchedStudyListQueryData, status: searchStatus } = useQuery<unknown, unknown, StudyListQueryData>(
+    ['searched-study-card-list', keyword],
+    () => getStudyListSearchedByTitle(0, 12, keyword),
+    {
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
       enabled: !!keyword,
     },
   );
 
+<<<<<<< HEAD
   const noSearchResult = !!(keyword.length > 0 && searchedStudyListQueryResult.data?.pages[0].studies.length === 0);
   const hasSearchResult = !!(
     keyword.length > 0 &&
@@ -92,6 +110,8 @@ const MainPage: React.FC = () => {
     return () => observer.disconnect();
   }, [hasSearchResult, shouldDisplayBaseStudyList]);
 
+=======
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
   const renderStudyCardList = (data: Array<Study>) => {
     return (
       <S.CardList>
@@ -111,6 +131,7 @@ const MainPage: React.FC = () => {
   };
 
   const renderList = () => {
+<<<<<<< HEAD
     if (noSearchResult) {
       return <div>검색결과가 없습니다</div>;
     }
@@ -127,16 +148,31 @@ const MainPage: React.FC = () => {
       }, []);
       return renderStudyCardList(studies);
     }
+=======
+    if (keyword.length > 0) {
+      if (!searchedStudyListQueryData) return;
+      if (searchedStudyListQueryData.studies.length === 0) {
+        return <div>검색결과가 없습니다</div>;
+      }
+      return renderStudyCardList(searchedStudyListQueryData.studies);
+    }
+    return data && renderStudyCardList(data.studies);
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
   };
 
   return (
     <S.Page>
       <div className="filters"></div>
+<<<<<<< HEAD
       {(studyListQueryResult.status === 'loading' || searchedStudyListQueryResult.status === 'loading') && (
         <div>Loading...</div>
       )}
       {renderList()}
       <div ref={endRef} />
+=======
+      {(dataStatus === 'loading' || searchStatus === 'loading') && <div>Loading...</div>}
+      {renderList()}
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
     </S.Page>
   );
 };
