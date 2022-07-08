@@ -2,16 +2,13 @@ import { css } from '@emotion/react';
 
 import MainPage from '@pages/MainPage';
 
+import Footer from '@components/Footer';
 import Header from '@components/Header';
 import Wrapper from '@components/Wrapper';
 
 const App = () => {
   return (
-    <div
-      css={css`
-        padding-top: 120px;
-      `}
-    >
+    <div>
       <Header
         css={css`
           position: fixed;
@@ -21,11 +18,17 @@ const App = () => {
           z-index: 2;
         `}
       />
-      <main>
+      <main
+        css={css`
+          padding: 120px 0 80px;
+          min-height: calc(100vh - 80px);
+        `}
+      >
         <Wrapper>
           <MainPage />
         </Wrapper>
       </main>
+      <Footer />
     </div>
   );
 };

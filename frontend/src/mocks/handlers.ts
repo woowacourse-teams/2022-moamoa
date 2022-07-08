@@ -50,8 +50,11 @@ export const handlers = [
 
     const searchedStudies = studyJSON.studies.filter(study => study.title.includes(title));
 
+<<<<<<< HEAD
+=======
     console.log('searchedStudies', searchedStudies);
 
+>>>>>>> 1cddf47d74e317571a4325c73eae56521eaeea7c
     if (page === null && size === null) {
       return res(
         ctx.status(200),
