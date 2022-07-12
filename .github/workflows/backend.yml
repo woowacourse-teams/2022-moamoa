@@ -1,0 +1,45 @@
+name: backend                                         
+
+on:                                                   
+  push:
+    paths:
+      - '/**'
+  pull_request:
+    paths:
+      - 'backend/**'                                  
+
+defaults:
+  run:
+    working-directory: backend                        
+
+jobs:
+  build:
+    runs-on: ubuntu-latest                            
+    steps:                                            
+      - name: Checkout
+        uses: actions/checkout@v3                     
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3                   
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+  
+      - name: Grant gradlew
+        run: chmod +x gradlew
+      
+      - name: Build
+        run: ./gradlew build --exclude-task test
+        
+      - name: Test  
+        run: ./gradlew test
+        
+      - name: Notify To Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Github Actions Report
+          fields: commit,author,eventName,workflow,took,pullRequest
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
