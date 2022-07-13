@@ -18,10 +18,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
-@Sql("/init.sql")
 public class StudyRepositoryTest {
 
     @Autowired
@@ -38,7 +36,7 @@ public class StudyRepositoryTest {
         assertThat(slice.getContent())
                 .hasSize(expectedTuples.size())
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "description", "thumbnail", "status")
+                .extracting("title", "excerpt", "thumbnail", "status")
                 .containsExactlyElementsOf(expectedTuples);
     }
 
@@ -51,7 +49,7 @@ public class StudyRepositoryTest {
         assertThat(slice.getContent())
                 .hasSize(2)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "description", "thumbnail", "status")
+                .extracting("title", "excerpt", "thumbnail", "status")
                 .containsExactly(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"));
@@ -66,7 +64,7 @@ public class StudyRepositoryTest {
         assertThat(slice.getContent())
                 .hasSize(5)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "description", "thumbnail", "status")
+                .extracting("title", "excerpt", "thumbnail", "status")
                 .containsExactly(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
