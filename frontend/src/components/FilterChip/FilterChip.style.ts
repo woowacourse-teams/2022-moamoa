@@ -6,12 +6,13 @@ export const StyledFilterChip = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 4px;
 
     position: relative;
 
-    width: 92px;
-    padding: 6px 16.8px 6px 12.8px;
+    min-width: 92px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px 22.8px 6px 12.8px;
 
     border-radius: 16px;
     border: 2px solid ${theme.colors.primary.base};
@@ -26,6 +27,8 @@ export const FilterSpan = styled.span`
     color: ${theme.colors.primary.base};
     text-align: center;
     user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
   `}
 `;
 
