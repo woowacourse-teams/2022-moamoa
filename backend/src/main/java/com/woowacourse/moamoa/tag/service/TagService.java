@@ -17,9 +17,9 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
-    public TagsResponse getTags() {
-        List<Tag> tags = tagRepository.findAll();
-        List<TagResponse> tagsResponse = tags.stream()
+    public TagsResponse getTags(final String tagName) {
+        final List<Tag> tags = tagRepository.findAllByNameContainingIgnoreCase(tagName.trim());
+        final List<TagResponse> tagsResponse = tags.stream()
                 .map(TagResponse::new)
                 .collect(Collectors.toList());
         return new TagsResponse(tagsResponse);

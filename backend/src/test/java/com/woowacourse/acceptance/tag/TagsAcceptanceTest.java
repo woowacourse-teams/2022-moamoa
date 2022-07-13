@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.not;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -27,12 +26,11 @@ public class TagsAcceptanceTest extends AcceptanceTest {
                 .body("tags.tagName", contains("Java", "4기", "BE", "FE", "React"));
     }
 
-    @Disabled
     @DisplayName("공백의 태그 이름일 경우 전체 태그 목록을 조회한다.")
     @Test
     void getAllTagsByBlankTagName() {
         RestAssured.given().log().all()
-                .queryParam("tagname", "  \t  ")
+                .queryParam("tag-name", "  \t  ")
                 .when().log().all()
                 .get("/api/tags")
                 .then().log().all()
@@ -42,12 +40,11 @@ public class TagsAcceptanceTest extends AcceptanceTest {
                 .body("tags.tagName", contains("Java", "4기", "BE", "FE", "React"));
     }
 
-    @Disabled
     @DisplayName("태그 이름을 포함한 태그 목록을 대소문자 구분없이 조회한다.")
     @Test
     void getTagsByTagName() {
         RestAssured.given().log().all()
-                .queryParam("tagname", "ja")
+                .queryParam("tag-name", "ja")
                 .when().log().all()
                 .get("/api/tags")
                 .then().log().all()
