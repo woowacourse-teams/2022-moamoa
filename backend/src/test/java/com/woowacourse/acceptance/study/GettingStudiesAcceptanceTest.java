@@ -28,7 +28,7 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies", hasSize(3))
                 .body("studies.id", contains(notNullValue(), notNullValue(), notNullValue()))
                 .body("studies.title", contains("Java 스터디", "React 스터디", "javaScript 스터디"))
-                .body("studies.description", contains("자바 설명", "리액트 설명", "자바스크립트 설명"))
+                .body("studies.excerpt", contains("자바 설명", "리액트 설명", "자바스크립트 설명"))
                 .body("studies.thumbnail",
                         contains("java thumbnail", "react thumbnail", "javascript thumbnail"))
                 .body("studies.status", contains("OPEN", "OPEN", "OPEN"));
@@ -43,7 +43,7 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies", hasSize(2))
                 .body("studies.id", contains(notNullValue(), notNullValue()))
                 .body("studies.title", contains("HTTP 스터디", "알고리즘 스터디"))
-                .body("studies.description", contains("HTTP 설명", "알고리즘 설명"))
+                .body("studies.excerpt", contains("HTTP 설명", "알고리즘 설명"))
                 .body("studies.thumbnail", contains("http thumbnail", "algorithm thumbnail"))
                 .body("studies.status", contains("CLOSE", "CLOSE"));
     }
@@ -93,7 +93,7 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
                         notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
                 .body("studies.title", contains(
                         "Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디", "알고리즘 스터디"))
-                .body("studies.description", contains(
+                .body("studies.excerpt", contains(
                         "자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명", "알고리즘 설명"))
                 .body("studies.thumbnail", contains(
                         "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
