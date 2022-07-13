@@ -2,11 +2,11 @@ import { Story } from '@storybook/react';
 
 import Wrapper from '@components/Wrapper';
 
-import Markdown from './MarkdownRender';
+import MarkdownRender from './MarkdownRender';
 
 export default {
   title: 'Components/Markdown',
-  component: Markdown,
+  component: MarkdownRender,
 };
 
 const defaultMarkdown = `
@@ -41,7 +41,7 @@ const defaultMarkdown = `
 
 const Template: Story = () => (
   <Wrapper>
-    <Markdown markdownContent={defaultMarkdown} />
+    <MarkdownRender markdownContent={defaultMarkdown} />
   </Wrapper>
 );
 
