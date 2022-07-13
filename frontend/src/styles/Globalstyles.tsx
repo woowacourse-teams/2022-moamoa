@@ -80,10 +80,6 @@ const GlobalStyles = () => {
           font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
         }
 
-        li {
-          list-style: none;
-        }
-
         button {
           cursor: pointer;
         }
