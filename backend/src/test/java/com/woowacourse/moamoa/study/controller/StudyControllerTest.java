@@ -68,7 +68,7 @@ public class StudyControllerTest {
         assertThat(response.getBody().isHasNext()).isTrue();
         assertThat(response.getBody().getStudies())
                 .hasSize(3)
-                .extracting("id", "title", "description", "thumbnail", "status")
+                .extracting("id", "title", "excerpt", "thumbnail", "status")
                 .containsExactlyElementsOf(List.of(
                         tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
@@ -88,7 +88,7 @@ public class StudyControllerTest {
         assertThat(response.getBody().isHasNext()).isTrue();
         assertThat(response.getBody().getStudies())
                 .hasSize(3)
-                .extracting("id", "title", "description", "thumbnail", "status")
+                .extracting("id", "title", "excerpt", "thumbnail", "status")
                 .containsExactlyElementsOf(List.of(
                         tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
@@ -108,7 +108,7 @@ public class StudyControllerTest {
         assertThat(response.getBody().isHasNext()).isFalse();
         assertThat(response.getBody().getStudies())
                 .hasSize(1)
-                .extracting("id", "title", "description", "thumbnail", "status")
+                .extracting("id", "title", "excerpt", "thumbnail", "status")
                 .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
 
         verify(studyRepository).findByTitleContainingIgnoreCase("Java 스터디", PageRequest.of(0, 3));
@@ -124,7 +124,7 @@ public class StudyControllerTest {
         assertThat(response.getBody().isHasNext()).isFalse();
         assertThat(response.getBody().getStudies())
                 .hasSize(1)
-                .extracting("id", "title", "description", "thumbnail", "status")
+                .extracting("id", "title", "excerpt", "thumbnail", "status")
                 .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
 
         verify(studyRepository).findByTitleContainingIgnoreCase("Java 스터디", PageRequest.of(0, 3));

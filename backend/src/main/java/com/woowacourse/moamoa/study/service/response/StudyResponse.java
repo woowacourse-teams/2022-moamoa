@@ -6,7 +6,7 @@ public class StudyResponse {
 
     private Long id;
     private String title;
-    private String description;
+    private String excerpt;
     private String thumbnail;
     private String status;
 
@@ -14,17 +14,17 @@ public class StudyResponse {
     }
 
     public StudyResponse(final Study study) {
-        this(study.getId(), study.getTitle(), study.getDescription(), study.getThumbnail(),
+        this(study.getId(), study.getTitle(), study.getExcerpt(), study.getThumbnail(),
                 study.getStatus());
     }
 
     public StudyResponse(
-            final Long id, final String title, final String description,
+            final Long id, final String title, final String excerpt,
             final String thumbnail, final String status
     ) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.excerpt = excerpt;
         this.thumbnail = thumbnail;
         this.status = status;
     }
@@ -37,8 +37,8 @@ public class StudyResponse {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getExcerpt() {
+        return excerpt;
     }
 
     public String getThumbnail() {

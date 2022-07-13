@@ -13,19 +13,19 @@ public class Study {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String title;
-    private String description;
+    private String excerpt;
     private String thumbnail;
     private String status;
 
     protected Study() {
     }
 
-    public Study(final Long id, final String title, final String description,
+    public Study(final Long id, final String title, final String excerpt,
                  final String thumbnail, final String status
     ) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.excerpt = excerpt;
         this.thumbnail = thumbnail;
         this.status = status;
     }
@@ -38,8 +38,8 @@ public class Study {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getExcerpt() {
+        return excerpt;
     }
 
     public String getThumbnail() {
