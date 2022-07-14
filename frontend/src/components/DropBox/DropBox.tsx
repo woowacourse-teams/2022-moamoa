@@ -4,7 +4,7 @@ import { FiSearch } from 'react-icons/fi';
 import * as S from './DropBox.style';
 
 export interface DropBoxProps {
-  children: Array<ReactNode>;
+  children: ReactNode;
 }
 
 const DropBox: React.FC<DropBoxProps> = ({ children }) => {

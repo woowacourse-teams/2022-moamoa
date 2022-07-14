@@ -9,6 +9,7 @@ import { getStudyListSearchedByTitle } from '@api/getStudyListSearchedByTitle';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
+import FilterSection from '@components/FilterSection/FilterSection';
 import StudyCard from '@components/StudyCard';
 
 import * as S from './style';
@@ -94,19 +95,22 @@ const MainPage: React.FC = () => {
 
   const renderStudyCardList = (data: Array<Study>) => {
     return (
-      <S.CardList>
-        {data.map(study => (
-          <li key={study.id}>
-            <StudyCard
-              thumbnailUrl={study.thumbnail}
-              thumbnailAlt={`${study.title} 스터디 이미지`}
-              title={study.title}
-              description={study.description}
-              isOpen={study.status === 'open'}
-            />
-          </li>
-        ))}
-      </S.CardList>
+      <div>
+        <FilterSection />
+        <S.CardList>
+          {data.map(study => (
+            <li key={study.id}>
+              <StudyCard
+                thumbnailUrl={study.thumbnail}
+                thumbnailAlt={`${study.title} 스터디 이미지`}
+                title={study.title}
+                description={study.description}
+                isOpen={study.status === 'open'}
+              />
+            </li>
+          ))}
+        </S.CardList>
+      </div>
     );
   };
 
