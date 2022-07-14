@@ -8,6 +8,7 @@ export const FilterSectionContainer = styled.section`
     justify-content: flex-start;
     gap: 16px;
 
+    height: 50px;
     padding: 16px 0;
     margin-bottom: 16px;
 

@@ -5,14 +5,22 @@ import * as S from './DropBox.style';
 
 export interface DropBoxProps {
   children: ReactNode;
+  searchInputValue: string;
+  handleSearchInputChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const DropBox: React.FC<DropBoxProps> = ({ children }) => {
+const DropBox: React.FC<DropBoxProps> = ({ children, searchInputValue, handleSearchInputChange }) => {
   return (
     <S.DropBoxContainer>
       <S.FilterSearchBar>
         <FiSearch />
-        <S.FilterSearchInput type="text" maxLength={15} placeholder="태그 검색" />
+        <S.FilterSearchInput
+          type="text"
+          maxLength={15}
+          placeholder="태그 검색"
+          value={searchInputValue}
+          onChange={handleSearchInputChange}
+        />
       </S.FilterSearchBar>
       <S.FilterList>{children}</S.FilterList>
     </S.DropBoxContainer>
