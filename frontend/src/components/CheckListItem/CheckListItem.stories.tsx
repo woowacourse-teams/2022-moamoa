@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import type { CheckListItemProps } from './CheckListItem';
-import CheckListItem from './CheckListItem';
+import type { CheckListItemProps } from '@components/CheckListItem/CheckListItem';
+import CheckListItem from '@components/CheckListItem/CheckListItem';
 
 export default {
   title: 'Components/CheckListItem',

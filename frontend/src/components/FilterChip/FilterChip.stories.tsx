@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import FilterChip from './FilterChip';
-import type { FilterChipProps } from './FilterChip';
+import FilterChip from '@components/FilterChip/FilterChip';
+import type { FilterChipProps } from '@components/FilterChip/FilterChip';
 
 export default {
   title: 'Components/FilterChip',
