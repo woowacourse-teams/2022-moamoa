@@ -1,10 +1,9 @@
 package com.woowacourse.moamoa.auth.service;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
+import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.OAuthAccessTokenResponse;
-import com.woowacourse.moamoa.member.domain.Member;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,7 +14,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class OAuthClient {
 
-    public static final String ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
+    private static final String ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
+    private static final String PROFILE_URL = "https://api.github.com/user";
 
     private final String clientId;
     private final String clientSecret;
@@ -43,5 +43,16 @@ public class OAuthClient {
             throw new IllegalStateException("Access Token을 가져올 수 없습니다.");
         }
         return accessTokenResponse.getAccessToken();
+    }
+
+    public GithubProfileResponse getProfile(final String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.add("Authorization", "token " + accessToken);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(PROFILE_URL, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
+                .getBody();
     }
 }
