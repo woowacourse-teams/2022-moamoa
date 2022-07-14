@@ -13,18 +13,20 @@ export interface TagItem {
 }
 
 export interface FilterProps {
-  filters: Array<TagItem>;
+  filters: Array<TagItem> | undefined;
   selectedFilters: Array<{ id: number }>;
+  isOpen: boolean;
+  handlePlusButtonClick: React.MouseEventHandler<HTMLButtonElement>;
   handleFilterItemClick: (id: number) => React.MouseEventHandler<HTMLElement>;
 }
 
-const Filter: React.FC<FilterProps> = ({ filters, selectedFilters, handleFilterItemClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handlePlusButtonClick = () => {
-    setIsOpen(prev => !prev);
-  };
-
+const Filter: React.FC<FilterProps> = ({
+  filters,
+  selectedFilters,
+  isOpen,
+  handlePlusButtonClick,
+  handleFilterItemClick,
+}) => {
   const isSelected = useCallback(
     (id: number) => selectedFilters.some(({ id: selectedId }) => selectedId === id),
     [selectedFilters],
@@ -41,11 +43,12 @@ const Filter: React.FC<FilterProps> = ({ filters, selectedFilters, handleFilterI
         </S.FilterButton>
         {isOpen && (
           <DropBox>
-            {filters.map(({ id, tagName }) => (
-              <S.FilterListItem key={id} onClick={handleFilterItemClick(id)}>
-                <CheckListItem isChecked={isSelected(id)}>{tagName}</CheckListItem>
-              </S.FilterListItem>
-            ))}
+            {filters &&
+              filters.map(({ id, tagName }) => (
+                <S.FilterListItem key={id} onClick={handleFilterItemClick(id)}>
+                  <CheckListItem isChecked={isSelected(id)}>{tagName}</CheckListItem>
+                </S.FilterListItem>
+              ))}
           </DropBox>
         )}
       </S.FilterButtonContainer>

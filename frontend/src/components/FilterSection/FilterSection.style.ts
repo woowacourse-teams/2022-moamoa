@@ -9,6 +9,7 @@ export const FilterSectionContainer = styled.section`
     gap: 16px;
 
     padding: 16px 0;
+    margin-bottom: 16px;
 
     border-bottom: 1px solid ${theme.colors.secondary.dark};
   `}
