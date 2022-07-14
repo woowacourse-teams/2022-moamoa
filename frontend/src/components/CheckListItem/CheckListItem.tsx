@@ -1,3 +1,4 @@
+import React from 'react';
 import { FiCheck } from 'react-icons/fi';
 
 import * as S from './CheckListItem.style';
@@ -16,4 +17,4 @@ const CheckListItem: React.FC<CheckListItemProps> = ({ children, isChecked = fal
   );
 };
 
-export default CheckListItem;
+export default React.memo(CheckListItem);
