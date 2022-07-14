@@ -6,6 +6,6 @@ export const getTagList = async () => {
 };
 
 export const getTagListSearchedByTagName = async (tagName: string) => {
-  const response = await axiosInstance.get(`/api/tags?tagName=${tagName}`);
+  const response = await axiosInstance.get(`/api/tags?tag-name=${tagName}`);
   return response.data;
 };
