@@ -1,6 +1,6 @@
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useEffect, useRef } from 'react';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import type { Study, StudyListQueryData } from '@custom-types/index';
 
@@ -36,7 +36,7 @@ const MainPage: React.FC = () => {
 
   const getStudyListSearchedByTitleWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;
-    const data = await getStudyListSearchedByTitle(page, size, keyword!);
+    const data = await getStudyListSearchedByTitle(page, size, keyword);
     return { ...data, page: page + 1, keyword };
   };
 
@@ -95,22 +95,19 @@ const MainPage: React.FC = () => {
 
   const renderStudyCardList = (data: Array<Study>) => {
     return (
-      <div>
-        <FilterSection />
-        <S.CardList>
-          {data.map(study => (
-            <li key={study.id}>
-              <StudyCard
-                thumbnailUrl={study.thumbnail}
-                thumbnailAlt={`${study.title} 스터디 이미지`}
-                title={study.title}
-                description={study.description}
-                isOpen={study.status === 'open'}
-              />
-            </li>
-          ))}
-        </S.CardList>
-      </div>
+      <S.CardList>
+        {data.map(study => (
+          <li key={study.id}>
+            <StudyCard
+              thumbnailUrl={study.thumbnail}
+              thumbnailAlt={`${study.title} 스터디 이미지`}
+              title={study.title}
+              description={study.description}
+              isOpen={study.status === 'open'}
+            />
+          </li>
+        ))}
+      </S.CardList>
     );
   };
 
@@ -135,7 +132,7 @@ const MainPage: React.FC = () => {
 
   return (
     <S.Page>
-      <div className="filters"></div>
+      <FilterSection />
       {(studyListQueryResult.status === 'loading' || searchedStudyListQueryResult.status === 'loading') && (
         <div>Loading...</div>
       )}
