@@ -117,7 +117,8 @@ public class StudyControllerTest {
     @DisplayName("앞뒤 공백을 제거한 문자열로 스터디 목록 조회")
     @Test
     void searchWithTrimKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController.searchStudies("   Java 스터디   ", PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = studyController
+                .searchStudies("   Java 스터디   ", PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
