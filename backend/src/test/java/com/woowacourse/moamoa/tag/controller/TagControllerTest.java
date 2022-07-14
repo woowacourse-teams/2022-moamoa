@@ -26,12 +26,14 @@ class TagControllerTest {
     @BeforeEach
     void setUp() {
         tagRepository = Mockito.mock(TagRepository.class);
-        when(tagRepository.findAllByNameContainingIgnoreCase("")).thenReturn(List.of(
-                new Tag(1L, "Java"), new Tag(2L, "4기"), new Tag(3L, "BE")
-        ));
-        when(tagRepository.findAllByNameContainingIgnoreCase("ja")).thenReturn(List.of(
-                new Tag(1L, "Java")
-        ));
+        when(tagRepository.findAllByNameContainingIgnoreCase(""))
+                .thenReturn(List.of(
+                        new Tag(1L, "Java"), new Tag(2L, "4기"), new Tag(3L, "BE")
+                ));
+        when(tagRepository.findAllByNameContainingIgnoreCase("ja"))
+                .thenReturn(List.of(
+                        new Tag(1L, "Java")
+                ));
         tagController = new TagController(new TagService(tagRepository));
     }
 
