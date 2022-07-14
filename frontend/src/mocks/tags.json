@@ -1,0 +1,12 @@
+{
+  "tags": [
+    { "id": 1, "tagName": "FE"},
+    { "id": 2, "tagName": "BE" },
+    { "id": 3, "tagName": "4기"},
+    { "id": 4, "tagName": "1기" },
+    { "id": 5, "tagName": "Java" },
+    { "id": 6, "tagName": "JavaScript"},
+    { "id": 7, "tagName": "Spring" },
+    { "id": 8, "tagName": "React" }
+  ]
+}
