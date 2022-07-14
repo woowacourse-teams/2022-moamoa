@@ -21,20 +21,24 @@ public class Member {
 
     private String username;
 
-    private String profileImage;
+    private String imageUrl;
 
     private String profileUrl;
 
-    public Member(final Long githubId, final String username, final String profileImage, final String profileUrl) {
-        this(null, githubId, username, profileImage, profileUrl);
+    public Member(final Long githubId, final String username, final String imageUrl, final String profileUrl) {
+        this(null, githubId, username, imageUrl, profileUrl);
     }
 
-    public Member(final Long id, final Long githubId, final String username, final String profileImage,
+    public Member(final Long id, final Long githubId, final String username, final String imageUrl,
                   final String profileUrl) {
         this.id = id;
         this.githubId = githubId;
         this.username = username;
-        this.profileImage = profileImage;
+        this.imageUrl = imageUrl;
         this.profileUrl = profileUrl;
+    }
+
+    public void updateProfileImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

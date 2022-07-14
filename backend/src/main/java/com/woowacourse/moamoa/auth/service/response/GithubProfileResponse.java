@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.auth.service.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.woowacourse.moamoa.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +27,9 @@ public class GithubProfileResponse {
         this.username = username;
         this.imageUrl = imageUrl;
         this.profileUrl = profileUrl;
+    }
+
+    public Member toMember() {
+        return new Member(gitgubId, username, imageUrl, profileUrl);
     }
 }
