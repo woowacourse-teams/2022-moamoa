@@ -12,7 +12,7 @@ const FilterChip: React.FC<FilterChipProps> = ({ children, handleCloseButtonClic
     <S.StyledFilterChip>
       <S.FilterSpan>{children}</S.FilterSpan>
       <S.FilterCloseButton type="button" onClick={handleCloseButtonClick}>
-        <CgClose />
+        <CgClose strokeWidth={'1px'} />
       </S.FilterCloseButton>
     </S.StyledFilterChip>
   );

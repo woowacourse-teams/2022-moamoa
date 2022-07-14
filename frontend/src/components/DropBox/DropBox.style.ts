@@ -3,11 +3,9 @@ import styled from '@emotion/styled';
 
 export const DropBoxContainer = styled.div`
   ${({ theme }) => css`
+    position: absolute;
     width: fit-content;
-    height: fit-content;
     padding: 8px 16px;
-
-    overflow: hidden;
 
     background-color: ${theme.colors.white};
     border: 1px solid ${theme.colors.secondary.base};
@@ -57,10 +55,6 @@ export const FilterSearchInput = styled.input`
 
     &:focus {
       border-bottom: 1px solid ${theme.colors.primary.light};
-
-      svg {
-        stroke: ${theme.colors.primary.base};
-      }
     }
   `}
 `;
@@ -68,10 +62,10 @@ export const FilterSearchInput = styled.input`
 export const FilterList = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 4px;
 
   width: 100%;
+  min-width: 150px;
   max-height: 180px;
   overflow-y: hidden;
 

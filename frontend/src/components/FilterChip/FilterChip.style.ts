@@ -45,13 +45,13 @@ export const FilterCloseButton = styled.button`
     background-color: transparent;
 
     svg {
-      color: ${theme.colors.primary.base};
+      stroke: ${theme.colors.primary.base};
     }
 
     &:hover,
     &:active {
       svg {
-        color: ${theme.colors.primary.light};
+        stroke: ${theme.colors.primary.light};
       }
     }
   `}
