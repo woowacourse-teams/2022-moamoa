@@ -10,6 +10,7 @@ export const DropBoxContainer = styled.div`
     background-color: ${theme.colors.white};
     border: 1px solid ${theme.colors.secondary.base};
     border-radius: 25px;
+    z-index: 1;
   `}
 
   transform-origin: top;

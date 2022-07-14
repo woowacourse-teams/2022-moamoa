@@ -21,7 +21,7 @@ const FilterSection: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<Array<{ id: number }>>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data } = useQuery<unknown, unknown, TagListQueryData>(['filters', selectedFilters], getTagList, {
+  const { data } = useQuery<unknown, unknown, TagListQueryData>(['filters'], getTagList, {
     enabled: isOpen,
   });
 
@@ -53,8 +53,8 @@ const FilterSection: React.FC = () => {
       />
       <S.FilterChipList>
         {selectedFilters.map(({ id }) => (
-          <li>
-            <FilterChip key={id} handleCloseButtonClick={handleChipCloseButtonClick(id)}>
+          <li key={id}>
+            <FilterChip handleCloseButtonClick={handleChipCloseButtonClick(id)}>
               {findTagNameById(id, data?.tags)}
             </FilterChip>
           </li>
