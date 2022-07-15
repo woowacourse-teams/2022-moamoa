@@ -29,5 +29,9 @@ Default.args = {
   thumbnailAlt: '이미지 Alt',
   title: '타이틀',
   description: '세부 설명',
-  extraChips: [<Chip disabled={false}>Chip</Chip>],
+  extraChips: [
+    <Chip disabled={false} key="1">
+      Chip
+    </Chip>,
+  ],
 };

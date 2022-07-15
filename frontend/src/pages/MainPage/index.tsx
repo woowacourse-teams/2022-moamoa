@@ -35,7 +35,7 @@ const MainPage: React.FC = () => {
 
   const getStudyListSearchedByTitleWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;
-    const data = await getStudyListSearchedByTitle(page, size, keyword!);
+    const data = await getStudyListSearchedByTitle(page, size, keyword);
     return { ...data, page: page + 1, keyword };
   };
 
