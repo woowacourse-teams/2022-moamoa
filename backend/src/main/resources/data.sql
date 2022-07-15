@@ -13,8 +13,12 @@ VALUES ('HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'jjanggu');
 INSERT INTO study(title, excerpt, thumbnail, status, owner)
 VALUES ('알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'whitedog');
 
-INSERT INTO tag(tag_name) VALUES ('Java');
-INSERT INTO tag(tag_name) VALUES ('4기');
-INSERT INTO tag(tag_name) VALUES ('BE');
-INSERT INTO tag(tag_name) VALUES ('FE');
-INSERT INTO tag(tag_name) VALUES ('React');
+INSERT INTO category(id, name) VALUES (1, 'GENERATION');
+INSERT INTO category(id, name) VALUES (2, 'AREA');
+INSERT INTO category(id, name) VALUES (3, 'TAG');
+
+INSERT INTO filter(name, category_id) VALUES ('Java', 3);
+INSERT INTO filter(name, category_id) VALUES ('4기', 1);
+INSERT INTO filter(name, category_id) VALUES ('BE', 2);
+INSERT INTO filter(name, category_id) VALUES ('FE', 2);
+INSERT INTO filter(name, category_id) VALUES ('React', 3);
