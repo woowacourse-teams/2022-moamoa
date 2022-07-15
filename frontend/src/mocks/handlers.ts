@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 
+import detailStudyHandlers from './detail-study-handlers';
 import studyJSON from './studies.json';
 
 export const handlers = [
@@ -73,4 +74,5 @@ export const handlers = [
       }),
     );
   }),
+  ...detailStudyHandlers,
 ];

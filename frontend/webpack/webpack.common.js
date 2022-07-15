@@ -11,6 +11,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: join(__dirname, '../dist'),
+    publicPath: '/',
   },
   module: {
     rules: [

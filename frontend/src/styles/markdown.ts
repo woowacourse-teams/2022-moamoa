@@ -56,6 +56,10 @@ const markdown = css`
   line-height: 1.5;
   word-wrap: break-word;
 
+  li {
+    list-style: initial;
+  }
+
   .octicon {
     display: inline-block;
     fill: currentColor;

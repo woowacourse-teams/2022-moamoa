@@ -1,6 +1,7 @@
 import { Story } from '@storybook/react';
 
 import Header from '@components/Header';
+// TODO: 삭제
 import Wrapper from '@components/Wrapper';
 
 export default {

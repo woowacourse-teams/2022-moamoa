@@ -1,6 +1,9 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import { css } from '@emotion/react';
 
 import MainPage from '@pages/MainPage';
+import DetailPage from '@pages/detail-page/DetailPage';
 
 import Footer from '@components/Footer';
 import Header from '@components/Header';
@@ -8,7 +11,7 @@ import Wrapper from '@components/Wrapper';
 
 const App = () => {
   return (
-    <div>
+    <BrowserRouter>
       <Header
         css={css`
           position: fixed;
@@ -24,12 +27,27 @@ const App = () => {
           min-height: calc(100vh - 80px);
         `}
       >
-        <Wrapper>
-          <MainPage />
-        </Wrapper>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Wrapper>
+                <MainPage />
+              </Wrapper>
+            }
+          />
+          <Route
+            path="/study/:studyId"
+            element={
+              <Wrapper>
+                <DetailPage />
+              </Wrapper>
+            }
+          />
+        </Routes>
       </main>
       <Footer />
-    </div>
+    </BrowserRouter>
   );
 };
 

@@ -94,6 +94,10 @@ const GlobalStyles = () => {
             color: ${theme.colors.secondary.dark};
           }
         }
+
+        li {
+          list-style: none;
+        }
       `}
     />
   );
