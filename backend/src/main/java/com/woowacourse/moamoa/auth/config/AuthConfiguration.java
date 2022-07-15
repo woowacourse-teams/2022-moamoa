@@ -16,8 +16,7 @@ public class AuthConfiguration implements WebMvcConfigurer {
 
     public AuthConfiguration(
             final AuthenticationInterceptor authenticationInterceptor,
-            final AuthenticationArgumentResolver authenticationArgumentResolver
-    ) {
+            final AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.authenticationInterceptor = authenticationInterceptor;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
     }
@@ -30,7 +29,6 @@ public class AuthConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/login/token");
+                .excludePathPatterns("/**");
     }
 }

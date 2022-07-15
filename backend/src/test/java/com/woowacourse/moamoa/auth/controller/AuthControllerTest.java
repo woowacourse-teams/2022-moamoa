@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.controller;
 
+import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
@@ -15,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = {AuthController.class})
+@Import(JwtTokenProvider.class)
 public class AuthControllerTest {
 
     @Autowired
