@@ -1,7 +1,7 @@
-package com.woowacourse.moamoa.tag.controller;
+package com.woowacourse.moamoa.filter.controller;
 
-import com.woowacourse.moamoa.tag.service.TagService;
-import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import com.woowacourse.moamoa.filter.service.FilterService;
+import com.woowacourse.moamoa.filter.service.response.FiltersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class TagController {
+public class FilterController {
 
-    private final TagService tagService;
+    private final FilterService filterService;
 
     @GetMapping("/api/tags")
-    public ResponseEntity<TagsResponse> getTags(
+    public ResponseEntity<FiltersResponse> getTags(
             @RequestParam(value = "tag-name", required = false, defaultValue = "") final String tagName
     ) {
-        final TagsResponse tagsResponse = tagService.getTags(tagName);
+        final FiltersResponse filtersResponse = filterService.getTags(tagName);
 
-        return ResponseEntity.ok().body(tagsResponse);
+        return ResponseEntity.ok().body(filtersResponse);
     }
 }

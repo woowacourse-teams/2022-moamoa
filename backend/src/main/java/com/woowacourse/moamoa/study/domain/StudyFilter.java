@@ -1,26 +1,30 @@
-package com.woowacourse.moamoa.tag.domain;
+package com.woowacourse.moamoa.study.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import javax.persistence.Column;
+import com.woowacourse.moamoa.filter.domain.Filter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@Getter
 @Entity
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class Tag {
+public class StudyFilter {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "tag_name")
-    private String name;
+    @ManyToOne
+    private Study study;
+
+    @ManyToOne
+    private Filter filter;
 }

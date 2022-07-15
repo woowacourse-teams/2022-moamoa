@@ -1,12 +1,20 @@
 package com.woowacourse.moamoa.study.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 public class Study {
 
     @Id
@@ -17,8 +25,8 @@ public class Study {
     private String thumbnail;
     private String status;
 
-    protected Study() {
-    }
+    @OneToMany(mappedBy = "study")
+    private List<StudyFilter> studyFilters = new ArrayList<>();
 
     public Study(final Long id, final String title, final String excerpt,
                  final String thumbnail, final String status

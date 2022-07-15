@@ -15,7 +15,7 @@ VALUES ('알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 
 
 INSERT INTO category(id, name) VALUES (1, 'generation');
 INSERT INTO category(id, name) VALUES (2, 'area');
-INSERT INTO category(id, name) VALUES (3, 'tag');
+INSERT INTO category(id, name) VALUES (3, 'filter');
 
 INSERT INTO filter(name, category_id) VALUES ('Java', 3);
 INSERT INTO filter(name, category_id) VALUES ('4기', 1);
