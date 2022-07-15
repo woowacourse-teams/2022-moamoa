@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.member.service;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +17,16 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public void saveOrUpdate(final Member member) {
-        memberRepository.findByUsername(member.getUsername())
+        memberRepository.findByGithubId(member.getGithubId())
                 .ifPresentOrElse(findMember -> findMember.updateProfileImageUrl(member.getImageUrl()),
         () -> memberRepository.save(member));
     }
 
-    public Optional<Member> findByUsername(final String username) {
-        return memberRepository.findByUsername(username);
+    public MemberResponse searchBy(final Long githubId) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다."));
+        return MemberResponse.from(member);
     }
 }

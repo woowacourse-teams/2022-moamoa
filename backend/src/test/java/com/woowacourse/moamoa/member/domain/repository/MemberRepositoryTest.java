@@ -50,7 +50,7 @@ class MemberRepositoryTest {
     @Test
     void findMember() {
         final Member member = memberRepository.save(new Member(1L, "sc0116", "https://image", "github.com"));
-        final Member findMember = memberRepository.findByUsername(member.getUsername()).get();
+        final Member findMember = memberRepository.findByGithubId(member.getGithubId()).get();
 
         assertThat(member).isEqualTo(findMember);
     }
@@ -58,7 +58,7 @@ class MemberRepositoryTest {
     @DisplayName("존재하지 않는 사용자를 조회한다.")
     @Test
     void findByNotExistMember() {
-        final Optional<Member> member = memberRepository.findByUsername("sc0116");
+        final Optional<Member> member = memberRepository.findByGithubId(1L);
 
         assertThat(member).isEmpty();
     }

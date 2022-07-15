@@ -25,7 +25,7 @@ public class AuthControllerTest {
 
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
-    void getToken() throws Exception {
+    void getJwtToken() throws Exception {
         given(authService.createToken("dummy-code")).willReturn(new TokenResponse("dummy-token"));
 
         mockMvc.perform(post("/api/login/token?code=dummy-code"))

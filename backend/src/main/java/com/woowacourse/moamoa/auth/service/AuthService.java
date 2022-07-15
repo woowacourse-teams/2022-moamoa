@@ -33,6 +33,7 @@ public class AuthService {
 
         memberService.saveOrUpdate(githubProfileResponse.toMember());
 
-        return new TokenResponse(accessToken);
+        final String jwtToken = jwtTokenProvider.createToken(githubProfileResponse.getGitgubId());
+        return new TokenResponse(jwtToken);
     }
 }

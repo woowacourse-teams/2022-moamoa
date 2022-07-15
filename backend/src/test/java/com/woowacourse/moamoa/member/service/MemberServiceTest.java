@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,9 @@ class MemberServiceTest {
     void saveMember() {
         memberService.saveOrUpdate(new Member(1L, "sc0116", "https://image", "github.com"));
 
-        final Member member = memberService.findByUsername("sc0116").get();
+        final MemberResponse member = memberService.searchBy(1L);
 
         assertAll(
-                () -> assertThat(member.getId()).isNotNull(),
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),
                 () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
                 () -> assertThat(member.getImageUrl()).isEqualTo("https://image"),
@@ -40,13 +40,12 @@ class MemberServiceTest {
     @Test
     void updateMember() {
         memberService.saveOrUpdate(new Member(1L, "sc0116", "https://image", "github.com"));
-        final Member member = memberService.findByUsername("sc0116").get();
 
-        member.updateProfileImageUrl("jjanggu.image");
-        memberService.saveOrUpdate(member);
+        memberService.saveOrUpdate(new Member(1L, "sc0116", "jjanggu.image", "github.com"));
+
+        final MemberResponse member = memberService.searchBy(1L);
 
         assertAll(
-                () -> assertThat(member.getId()).isNotNull(),
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),
                 () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
                 () -> assertThat(member.getImageUrl()).isEqualTo("jjanggu.image"),

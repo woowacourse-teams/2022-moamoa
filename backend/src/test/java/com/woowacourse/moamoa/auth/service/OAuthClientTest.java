@@ -47,9 +47,9 @@ class OAuthClientTest {
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
 
-    @DisplayName("Authorization code를 받아서 token을 발급한다.")
+    @DisplayName("Authorization code를 받아서 access token을 발급한다.")
     @Test
-    void getToken() throws JsonProcessingException {
+    void getAccessToken() throws JsonProcessingException {
         final OAuthAccessTokenResponse token = new OAuthAccessTokenResponse("jwt-token", "", "");
 
         mockServer.expect(requestTo("https://github.com/login/oauth/access_token"))
