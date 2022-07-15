@@ -26,11 +26,11 @@ public class AcceptanceTest {
     @Test
     void corsTest() {
         RestAssured.given()
-            .header("Origin", "https://xxx.com")
-            .header("Access-Control-Request-Method", "GET")
-            .when()
-            .options("/api/studies")
-            .then()
-            .statusCode(200);
+                .header("Origin", "https://xxx.com")
+                .header("Access-Control-Request-Method", "GET")
+                .when()
+                .options("/api/studies")
+                .then()
+                .statusCode(200);
     }
 }
