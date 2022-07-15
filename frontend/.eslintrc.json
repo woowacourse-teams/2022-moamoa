@@ -42,6 +42,7 @@
         "js": "never",
         "jsx": "never"
       }
-    ]
+    ],
+    "react/prop-types": "off"
   }
 }
