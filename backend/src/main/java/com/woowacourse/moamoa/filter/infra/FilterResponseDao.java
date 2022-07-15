@@ -1,11 +1,14 @@
 package com.woowacourse.moamoa.filter.infra;
 
+import com.woowacourse.moamoa.filter.domain.CategoryId;
 import com.woowacourse.moamoa.filter.infra.response.CategoryResponse;
 import com.woowacourse.moamoa.filter.infra.response.FilterResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,15 +24,30 @@ public class FilterResponseDao {
         return new FilterResponse(filterId, filterName, new CategoryResponse(categoryId, categoryName));
     };
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<FilterResponse> findAll(String name) {
-        final String sql = "SELECT f.id as filter_id, f.name as filter_name, "
+    public List<FilterResponse> queryBy(final String name, final CategoryId categoryId) {
+        return jdbcTemplate.query(sql(categoryId), param(name, categoryId), ROW_MAPPER);
+    }
+
+    private Map<String, Object> param(final String name, final CategoryId categoryId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("name", "%" + name + "%");
+        param.put("categoryId", categoryId.getValue());
+        return param;
+    }
+
+    private String sql(final CategoryId categoryId) {
+        if (categoryId.isEmpty()) {
+            return "SELECT f.id as filter_id, f.name as filter_name, "
+                    + "c.id as category_id, c.name as category_name "
+                    + "FROM filter as f JOIN category as c ON f.category_id = c.id "
+                    + "WHERE UPPER(f.name) LIKE UPPER(:name)";
+        }
+
+        return "SELECT f.id as filter_id, f.name as filter_name, "
                 + "c.id as category_id, c.name as category_name "
                 + "FROM filter as f JOIN category as c ON f.category_id = c.id "
-                + "WHERE UPPER(f.name) LIKE UPPER(?)";
-
-        final String likeName = "%" + name + "%";
-        return jdbcTemplate.query(sql, ROW_MAPPER, likeName);
+                + "WHERE UPPER(f.name) LIKE UPPER(:name) and c.id = :categoryId";
     }
 }

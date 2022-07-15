@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.filter.service;
 
+import com.woowacourse.moamoa.filter.domain.CategoryId;
 import com.woowacourse.moamoa.filter.infra.FilterResponseDao;
 import com.woowacourse.moamoa.filter.infra.response.FilterResponse;
 import com.woowacourse.moamoa.filter.service.response.FiltersResponse;
@@ -15,8 +16,9 @@ public class FilterService {
 
     private final FilterResponseDao filterResponseDao;
 
-    public FiltersResponse getFilters(final String name) {
-        final List<FilterResponse> tagsResponse = filterResponseDao.findAll(name.trim());
+    public FiltersResponse getFilters(final String name,
+                                      final CategoryId categoryId) {
+        final List<FilterResponse> tagsResponse = filterResponseDao.queryBy(name.trim(), categoryId);
         return new FiltersResponse(tagsResponse);
     }
 }

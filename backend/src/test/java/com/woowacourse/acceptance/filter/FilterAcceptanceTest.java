@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 
 public class FilterAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("전체 태그 목록을 조회한다.")
+    @DisplayName("전체 필터 목록을 조회한다.")
     @Test
-    void getAllTags() {
+    void getAllFilters() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/filters")
@@ -28,9 +28,9 @@ public class FilterAcceptanceTest extends AcceptanceTest {
                 .body("filters.category.name", contains("TAG", "GENERATION", "AREA", "AREA", "TAG"));
     }
 
-    @DisplayName("공백의 태그 이름일 경우 전체 태그 목록을 조회한다.")
+    @DisplayName("공백의 이름일 경우 전체 필터 목록을 조회한다.")
     @Test
-    void getAllTagsByBlankTagName() {
+    void getAllFiltersByBlankFilterName() {
         RestAssured.given().log().all()
                 .queryParam("name", "  \t  ")
                 .when().log().all()
@@ -44,9 +44,9 @@ public class FilterAcceptanceTest extends AcceptanceTest {
                 .body("filters.category.name", contains("TAG", "GENERATION", "AREA", "AREA", "TAG"));
     }
 
-    @DisplayName("태그 이름을 포함한 태그 목록을 대소문자 구분없이 조회한다.")
+    @DisplayName("이름을 포함한 필터 목록을 대소문자 구분없이 조회한다.")
     @Test
-    void getTagsByTagName() {
+    void getFiltersByFilterName() {
         RestAssured.given().log().all()
                 .queryParam("name", "ja")
                 .when().log().all()
@@ -58,5 +58,22 @@ public class FilterAcceptanceTest extends AcceptanceTest {
                 .body("filters.name", contains("Java"))
                 .body("filters.category.id", contains(3))
                 .body("filters.category.name", contains("TAG"));
+    }
+
+    @DisplayName("카테고리와 이름으로 필터 목록을 조회한다.")
+    @Test
+    void getFiltersByCategory() {
+        RestAssured.given().log().all()
+                .queryParam("name", "a")
+                .queryParam("category", 3L)
+                .when().log().all()
+                .get("/api/filters")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("filters", hasSize(2))
+                .body("filters.id", not(empty()))
+                .body("filters.name", contains("Java", "React"))
+                .body("filters.category.id", contains(3, 3))
+                .body("filters.category.name", contains("TAG", "TAG"));
     }
 }

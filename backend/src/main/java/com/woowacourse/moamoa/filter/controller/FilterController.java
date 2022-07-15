@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.filter.controller;
 
+import com.woowacourse.moamoa.filter.domain.CategoryId;
 import com.woowacourse.moamoa.filter.service.FilterService;
 import com.woowacourse.moamoa.filter.service.response.FiltersResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ public class FilterController {
 
     @GetMapping("/api/filters")
     public ResponseEntity<FiltersResponse> getFilters(
-            @RequestParam(required = false, defaultValue = "") final String name
-    ) {
-        final FiltersResponse filtersResponse = filterService.getFilters(name);
+            @RequestParam(required = false, defaultValue = "") final String name,
+            @RequestParam(value = "category", required = false, defaultValue = "") final CategoryId categoryId) {
+        final FiltersResponse filtersResponse = filterService.getFilters(name, categoryId);
         return ResponseEntity.ok().body(filtersResponse);
     }
 }

@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.filter.infra;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.filter.domain.CategoryId;
 import com.woowacourse.moamoa.filter.infra.response.FilterResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,10 @@ class FilterResponseDaoTest {
     @Autowired
     private FilterResponseDao filterResponseDao;
 
-    @DisplayName("태그 없이 태그 조회시 태그 목록 전체를 조회한다.")
+    @DisplayName("필터 없이 조회시 태그 목록 전체를 조회한다.")
     @Test
     void findAllByBlankTagName() {
-        List<FilterResponse> filterResponses = filterResponseDao.findAll("");
+        List<FilterResponse> filterResponses = filterResponseDao.queryBy("", CategoryId.empty());
 
         assertThat(filterResponses)
                 .hasSize(5)
@@ -37,10 +38,39 @@ class FilterResponseDaoTest {
                 );
     }
 
-    @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
+    @DisplayName("대소문자 구분없이 필터 이름으로 조회한다.")
     @Test
     void findAllByNameContainingIgnoreCase() {
-        List<FilterResponse> filterResponses = filterResponseDao.findAll("ja");
+        List<FilterResponse> filterResponses = filterResponseDao.queryBy("ja", CategoryId.empty());
+
+        assertThat(filterResponses)
+                .hasSize(1)
+                .filteredOn(filter -> filter.getId() != null)
+                .extracting("name", "category.id", "category.name")
+                .containsExactly(
+                        tuple("Java", 3L, "TAG")
+                );
+    }
+
+    @DisplayName("카테고리로 필터를 조회한다.")
+    @Test
+    void findAllByCategory() {
+        List<FilterResponse> filterResponses = filterResponseDao.queryBy("", new CategoryId(3L));
+
+        assertThat(filterResponses)
+                .hasSize(2)
+                .filteredOn(filter -> filter.getId() != null)
+                .extracting("name", "category.id", "category.name")
+                .containsExactly(
+                        tuple("Java", 3L, "TAG"),
+                        tuple("React", 3L, "TAG")
+                );
+    }
+
+    @DisplayName("카테고리와 이름으로 필터를 조회한다.")
+    @Test
+    void findAllByCategoryAndName() {
+        List<FilterResponse> filterResponses = filterResponseDao.queryBy("ja", new CategoryId(3L));
 
         assertThat(filterResponses)
                 .hasSize(1)
