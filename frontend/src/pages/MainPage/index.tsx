@@ -8,10 +8,12 @@ import { getStudyList } from '@api/getStudyList';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import type { FilterInfo } from '@components/FilterSection/FilterSection';
-import FilterSection from '@components/FilterSection/FilterSection';
+import type { FilterInfo } from '@pages/MainPage/FilterSection/FilterSection';
+import FilterSection from '@pages/MainPage/FilterSection/FilterSection';
+
 import InfiniteScroll from '@components/InfiniteScroll/InfiniteScroll';
 import StudyCard from '@components/StudyCard';
+import Wrapper from '@components/Wrapper';
 
 import * as S from './style';
 
@@ -60,27 +62,29 @@ const MainPage: React.FC = () => {
   return (
     <S.Page>
       <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
-      <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
-        {isLoading && <div>Loading...</div>}
-        {isError && <div>{error.message}</div>}
-        {hasSearchResult ? (
-          <S.CardList>
-            {searchedStudies.map(study => (
-              <li key={study.id}>
-                <StudyCard
-                  thumbnailUrl={study.thumbnail}
-                  thumbnailAlt={`${study.title} 스터디 이미지`}
-                  title={study.title}
-                  description={study.excerpt}
-                  isOpen={study.status === 'open'}
-                />
-              </li>
-            ))}
-          </S.CardList>
-        ) : (
-          <div>검색결과가 없습니다</div>
-        )}
-      </InfiniteScroll>
+      <Wrapper>
+        <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
+          {isLoading && <div>Loading...</div>}
+          {isError && <div>{error.message}</div>}
+          {hasSearchResult ? (
+            <S.CardList>
+              {searchedStudies.map(study => (
+                <li key={study.id}>
+                  <StudyCard
+                    thumbnailUrl={study.thumbnail}
+                    thumbnailAlt={`${study.title} 스터디 이미지`}
+                    title={study.title}
+                    description={study.excerpt}
+                    isOpen={study.status === 'open'}
+                  />
+                </li>
+              ))}
+            </S.CardList>
+          ) : (
+            <div>검색결과가 없습니다</div>
+          )}
+        </InfiniteScroll>
+      </Wrapper>
     </S.Page>
   );
 };

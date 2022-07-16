@@ -4,7 +4,6 @@ import MainPage from '@pages/MainPage';
 
 import Footer from '@components/Footer';
 import Header from '@components/Header';
-import Wrapper from '@components/Wrapper';
 
 const App = () => {
   return (
@@ -24,9 +23,7 @@ const App = () => {
           min-height: calc(100vh - 80px);
         `}
       >
-        <Wrapper>
-          <MainPage />
-        </Wrapper>
+        <MainPage />
       </main>
       <Footer />
     </div>

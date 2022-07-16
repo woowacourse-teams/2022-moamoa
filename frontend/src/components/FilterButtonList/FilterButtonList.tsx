@@ -1,7 +1,8 @@
 import type { Filter } from '@custom-types/index';
 
+import type { FilterInfo } from '@pages/MainPage/FilterSection/FilterSection';
+
 import FilterButton from '@components/FilterButton/FilterButton';
-import type { FilterInfo } from '@components/FilterSection/FilterSection';
 
 import * as S from './FilterButtonList.style';
 
