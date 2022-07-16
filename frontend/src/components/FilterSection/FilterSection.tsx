@@ -9,7 +9,7 @@ interface FilterInfo {
 
 export interface FilterSectionProps {
   selectedFilters: Array<FilterInfo>;
-  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLElement>;
+  handleFilterButtonClick: (id: number, categoryName: string) => React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const areaFilters = [
