@@ -12,3 +12,17 @@ export type StudyListQueryData = {
   studies: Array<Study>;
   hasNext: boolean;
 };
+
+export type Filter = {
+  id: number;
+  shortName: string;
+  description: string;
+  category: {
+    id: number;
+    name: string;
+  };
+};
+
+export type FilterListQueryData = {
+  filters: Array<Filter>;
+};

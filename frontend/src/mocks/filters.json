@@ -1,0 +1,103 @@
+{
+  "filters": [
+    {
+      "id": 1,
+      "shortName": "FE",
+      "description": "프론트엔드",
+      "category": {
+        "id": 2,
+        "name": "area"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "BE",
+      "description": "백엔드",
+      "category": {
+        "id": 2,
+        "name": "area"
+      }
+    },
+    {
+      "id": 1,
+      "shortName": "4기",
+      "description": "우테코4기",
+      "category": {
+        "id": 1,
+        "name": "generation"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "3기",
+      "description": "우테코3기",
+      "category": {
+        "id": 1,
+        "name": "generation"
+      }
+    },
+    {
+      "id": 1,
+      "shortName": "JS",
+      "description": "자바스크립트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "Java",
+      "description": "자바",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 3,
+      "shortName": "React",
+      "description": "리액트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 4,
+      "shortName": "Spring",
+      "description": "스프링",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 5,
+      "shortName": "CS",
+      "description": "컴퓨터사이언스",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 6,
+      "shortName": "TS",
+      "description": "타입스크립트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 7,
+      "shortName": "Review",
+      "description": "코드리뷰",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    }
+  ]
+}

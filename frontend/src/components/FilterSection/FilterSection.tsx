@@ -1,4 +1,10 @@
-import FilterButton from '@components/FilterButton/FilterButton';
+import { useQuery } from 'react-query';
+
+import type { Filter, FilterListQueryData } from '@custom-types/index';
+
+import { getFilterList } from '@api/getFilterList';
+
+import FilterButtonList from '@components/FilterButtonList/FilterButtonList';
 
 import * as S from './FilterSection.style';
 
@@ -12,126 +18,38 @@ export interface FilterSectionProps {
   handleFilterButtonClick: (id: number, categoryName: string) => React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const areaFilters = [
-  {
-    id: 1,
-    shortName: 'FE',
-    description: '프론트엔드',
-    categoryName: 'area',
-  },
-  {
-    id: 2,
-    shortName: 'BE',
-    description: '백엔드',
-    categoryName: 'area',
-  },
-];
-
-const generationFilters = [
-  {
-    id: 1,
-    shortName: '4기',
-    description: '우테코4기',
-    categoryName: 'generation',
-  },
-  {
-    id: 2,
-    shortName: '3기',
-    description: '우테코3기',
-    categoryName: 'generation',
-  },
-];
-
-const tagFilters = [
-  {
-    id: 1,
-    shortName: 'JS',
-    description: '자바스크립트',
-    categoryName: 'tag',
-  },
-  {
-    id: 2,
-    shortName: 'Java',
-    description: '자바',
-    categoryName: 'tag',
-  },
-  {
-    id: 3,
-    shortName: 'React',
-    description: '리액트',
-    categoryName: 'tag',
-  },
-  {
-    id: 4,
-    shortName: 'Spring',
-    description: '스프링',
-    categoryName: 'tag',
-  },
-  {
-    id: 5,
-    shortName: 'CS',
-    description: '컴퓨터사이언스',
-    categoryName: 'tag',
-  },
-  {
-    id: 6,
-    shortName: 'TS',
-    description: '타입스크립트',
-    categoryName: 'tag',
-  },
-  {
-    id: 7,
-    shortName: 'Review',
-    description: '코드리뷰',
-    categoryName: 'tag',
-  },
-];
-
-const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>
-  selectedFilters.some(filter => filter.id === id && filter.categoryName === categoryName);
+const filterByCategory = (filters: Array<Filter> | undefined, categoryId: number) =>
+  filters?.filter(filter => filter.category.id === categoryId) || [];
 
 const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFilterButtonClick }) => {
+  const { data, isLoading, isError, error } = useQuery<FilterListQueryData, Error>('filters', getFilterList);
+
+  const generationFilters = filterByCategory(data?.filters, 1);
+  const areaFilters = filterByCategory(data?.filters, 2);
+  const tagFilters = filterByCategory(data?.filters, 3);
+
   return (
     <S.FilterSectionContainer>
+      {isLoading && <div>로딩 중...</div>}
+      {isError && <div>{error.message}</div>}
       <S.FilterSectionHeader>필터</S.FilterSectionHeader>
-      <S.FilterButtons>
-        {areaFilters.map(({ id, shortName, description, categoryName }) => (
-          <li key={id}>
-            <FilterButton
-              shortTitle={shortName}
-              description={description}
-              isChecked={isSelected(id, categoryName, selectedFilters)}
-              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
-            />
-          </li>
-        ))}
-      </S.FilterButtons>
+      <FilterButtonList
+        filters={areaFilters}
+        selectedFilters={selectedFilters}
+        handleFilterButtonClick={handleFilterButtonClick}
+      />
       <S.VerticalLine />
-      <S.FilterButtons>
-        {generationFilters.map(({ id, shortName, description, categoryName }) => (
-          <li key={id}>
-            <FilterButton
-              shortTitle={shortName}
-              description={description}
-              isChecked={isSelected(id, categoryName, selectedFilters)}
-              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
-            />
-          </li>
-        ))}
-      </S.FilterButtons>
+      <FilterButtonList
+        filters={generationFilters}
+        selectedFilters={selectedFilters}
+        handleFilterButtonClick={handleFilterButtonClick}
+      />
       <S.VerticalLine />
-      <S.FilterButtons>
-        {tagFilters.map(({ id, shortName, description, categoryName }) => (
-          <li key={id}>
-            <FilterButton
-              shortTitle={shortName}
-              description={description}
-              isChecked={isSelected(id, categoryName, selectedFilters)}
-              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
-            />
-          </li>
-        ))}
-      </S.FilterButtons>
+      <FilterButtonList
+        filters={tagFilters}
+        selectedFilters={selectedFilters}
+        handleFilterButtonClick={handleFilterButtonClick}
+      />
     </S.FilterSectionContainer>
   );
 };
