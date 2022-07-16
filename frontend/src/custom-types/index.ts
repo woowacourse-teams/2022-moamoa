@@ -3,7 +3,7 @@ export type StudyStatus = 'open' | 'close';
 export type Study = {
   id: number;
   title: string;
-  description: string;
+  excerpt: string;
   thumbnail: string;
   status: StudyStatus;
 };

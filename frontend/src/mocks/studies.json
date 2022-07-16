@@ -3,385 +3,385 @@
     {
       "id": 1,
       "title": "Study Title - 1",
-      "description": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
+      "excerpt": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
       "thumbnail": "https://images.unsplash.com/photo-1564865878688-9a244444042a?ixlib=rb-1.2.1&ixid=MnwxM[…]8MXx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 2,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?ixlib=rb-1.2.1&ixid=MnwxM[…]8Mnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 3,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?ixlib=rb-1.2.1&ixid=MnwxM[…]8Nnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 4,
       "title": "이것은 스터디 제목입니다. 자바 스터디 입니다.",
-      "description": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
+      "excerpt": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
       "thumbnail": "https://images.unsplash.com/photo-1522252234503-e356532cafd5?ixlib=rb-1.2.1&ixid=MnwxM[…]8N3x8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 5,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8MXx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 6,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8NHx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 7,
       "title": "이것은 모던 자바스크립트 딥다이브 및 코어 자바스크립트 및 MDN스터디 입니다",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 8,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1532153955177-f59af40d6472?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 9,
       "title": "모던 자바스크립트 딥다이브 스터디 입니다",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 10,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1564865878688-9a244444042a?ixlib=rb-1.2.1&ixid=MnwxM[…]8MXx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 11,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?ixlib=rb-1.2.1&ixid=MnwxM[…]8Mnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 12,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?ixlib=rb-1.2.1&ixid=MnwxM[…]8Nnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 13,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1522252234503-e356532cafd5?ixlib=rb-1.2.1&ixid=MnwxM[…]8N3x8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 14,
       "title": "쟈     스",
-      "description": "쟈   스      스       터     디디디      설 ㄹ   명",
+      "excerpt": "쟈   스      스       터     디디디      설 ㄹ   명",
       "thumbnail": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8MXx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 15,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8NHx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 16,
       "title": "JS",
-      "description": "THIS IS JS STUDY",
+      "excerpt": "THIS IS JS STUDY",
       "thumbnail": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 17,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1532153955177-f59af40d6472?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 18,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 19,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 20,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 21,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 22,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 23,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 24,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 25,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 26,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 27,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 28,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 29,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 30,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 31,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 32,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 33,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 34,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 35,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 36,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 37,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 38,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 39,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 40,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 41,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 42,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 43,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 44,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 45,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 46,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 47,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 48,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 49,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 50,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 51,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 52,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 53,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 54,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     },
     {
       "id": 55,
       "title": "Study Title - 1",
-      "description": "This is Study Description - 1",
+      "excerpt": "This is Study Description - 1",
       "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       "status": "open"
     }
