@@ -2,7 +2,7 @@ import FilterButton from '@components/FilterButton/FilterButton';
 
 import * as S from './FilterSection.style';
 
-interface FilterInfo {
+export interface FilterInfo {
   id: number;
   categoryName: string;
 }
