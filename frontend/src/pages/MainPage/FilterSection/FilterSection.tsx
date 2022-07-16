@@ -20,7 +20,7 @@ export interface FilterSectionProps {
   handleFilterButtonClick: (id: number, categoryName: string) => React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const SCROLL_DIST = 80;
+const SCROLL_DIST = 100;
 
 const filterByCategory = (filters: Array<Filter> | undefined, categoryId: number) =>
   filters?.filter(filter => filter.category.id === categoryId) || [];
@@ -38,10 +38,23 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
     if (!sliderRef.current) {
       return;
     }
+
+    const slider = sliderRef.current;
+    if (slider.scrollLeft === 0) {
+      sliderRef.current.scrollLeft = slider.scrollWidth - slider.clientWidth;
+      return;
+    }
     sliderRef.current.scrollLeft -= SCROLL_DIST;
   };
+
   const handleRightSlideButtonClick = () => {
     if (!sliderRef.current) {
+      return;
+    }
+
+    const slider = sliderRef.current;
+    if (slider.scrollLeft === slider.scrollWidth - slider.clientWidth) {
+      sliderRef.current.scrollLeft = 0;
       return;
     }
     sliderRef.current.scrollLeft += SCROLL_DIST;

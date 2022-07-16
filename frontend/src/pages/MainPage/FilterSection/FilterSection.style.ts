@@ -37,7 +37,7 @@ export const RightButtonContainer = styled.div`
 `;
 
 export const LeftButtonContainer = styled(RightButtonContainer)`
-  right: calc(100% - 20px - 20px);
+  right: calc(100% - 20px - 24px);
 `;
 
 export const FilterSection = styled.section`
@@ -46,6 +46,7 @@ export const FilterSection = styled.section`
   gap: 32px;
 
   padding: 16px auto 4px;
+  margin: 0 20px 0 12px;
   overflow-x: auto;
   scroll-behavior: smooth;
 
