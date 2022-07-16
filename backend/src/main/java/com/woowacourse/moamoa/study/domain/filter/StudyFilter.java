@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyfilter.domain;
+package com.woowacourse.moamoa.study.domain.filter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;

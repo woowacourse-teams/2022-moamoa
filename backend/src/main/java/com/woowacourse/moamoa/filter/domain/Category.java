@@ -26,4 +26,9 @@ public class Category {
     @OneToMany
     @JoinColumn(name = "filter_id")
     private List<Filter> filters = new ArrayList<>();
+
+    public Category(final Long id, final String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

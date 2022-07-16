@@ -5,10 +5,13 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.woowacourse.moamoa.filter.domain.repository.FilterRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
+import com.woowacourse.moamoa.study.domain.filter.repository.StudyFilterRepository;
+import com.woowacourse.moamoa.study.service.StudyFilterService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,12 +26,16 @@ import org.springframework.http.ResponseEntity;
 public class StudyControllerTest {
 
     private StudyRepository studyRepository;
+    private StudyFilterRepository studyFilterRepository;
+    private FilterRepository filterRepository;
 
     private StudyController studyController;
 
     @BeforeEach
     void setUp() {
         studyRepository = Mockito.mock(StudyRepository.class);
+        studyFilterRepository = Mockito.mock(StudyFilterRepository.class);
+        filterRepository = Mockito.mock(FilterRepository.class);
 
         when(studyRepository.findAll(PageRequest.of(0, 3)))
                 .thenReturn(
@@ -55,7 +62,8 @@ public class StudyControllerTest {
                         ), Pageable.unpaged(), true)
                 );
 
-        studyController = new StudyController(new StudyService(studyRepository));
+        studyController = new StudyController(new StudyService(studyRepository),
+                new StudyFilterService(studyFilterRepository, studyRepository, filterRepository));
     }
 
     @DisplayName("페이징 정보로 스터디 목록 조회")
@@ -81,7 +89,7 @@ public class StudyControllerTest {
     @DisplayName("빈 문자열로 검색시 전체 스터디 목록에서 조회")
     @Test
     void searchByBlankKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController.searchStudies("", PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = studyController.searchStudies("", null, PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -101,7 +109,8 @@ public class StudyControllerTest {
     @DisplayName("문자열로 검색시 해당되는 스터디 목록에서 조회")
     @Test
     void searchByKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController.searchStudies("Java 스터디", PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = studyController.searchStudies("Java 스터디", null,
+                PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -118,7 +127,7 @@ public class StudyControllerTest {
     @Test
     void searchWithTrimKeyword() {
         ResponseEntity<StudiesResponse> response = studyController
-                .searchStudies("   Java 스터디   ", PageRequest.of(0, 3));
+                .searchStudies("   Java 스터디   ", null, PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
