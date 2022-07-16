@@ -3,16 +3,20 @@ package com.woowacourse.moamoa.study.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.studyfilter.domain.StudyFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Study {
@@ -38,23 +42,20 @@ public class Study {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Study study = (Study) o;
+        return Objects.equals(id, study.id);
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getExcerpt() {
-        return excerpt;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getStatus() {
-        return status;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
