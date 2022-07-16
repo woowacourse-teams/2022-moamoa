@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import * as S from './FilterButton.style';
 
 export interface FilterButtonProps {
@@ -9,12 +11,14 @@ export interface FilterButtonProps {
 
 const FilterButton: React.FC<FilterButtonProps> = ({ shortTitle, description, isChecked, handleFilterButtonClick }) => {
   return (
-    <S.CheckBoxLabel isChecked={isChecked}>
-      <S.ShortTitle>{shortTitle}</S.ShortTitle>
-      <S.Description>{description}</S.Description>
-      <S.CheckboxInput type="checkbox" onClick={handleFilterButtonClick} checked={isChecked} />
-    </S.CheckBoxLabel>
+    <S.FilterButtonContainer>
+      <S.CheckBoxLabel isChecked={isChecked}>
+        <S.ShortTitle>{shortTitle}</S.ShortTitle>
+        <S.Description>{description}</S.Description>
+        <S.CheckboxInput type="checkbox" onClick={handleFilterButtonClick} checked={isChecked} />
+      </S.CheckBoxLabel>
+    </S.FilterButtonContainer>
   );
 };
 
-export default FilterButton;
+export default memo(FilterButton);

@@ -73,6 +73,18 @@ const tagFilters = [
     description: '컴퓨터사이언스',
     categoryName: 'tag',
   },
+  {
+    id: 6,
+    shortName: 'TS',
+    description: '타입스크립트',
+    categoryName: 'tag',
+  },
+  {
+    id: 7,
+    shortName: 'Review',
+    description: '코드리뷰',
+    categoryName: 'tag',
+  },
 ];
 
 const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>

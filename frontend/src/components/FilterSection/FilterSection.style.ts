@@ -2,16 +2,21 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const FilterSectionContainer = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    gap: 32px;
 
-  overflow-x: auto;
+    margin-bottom: 16px;
+    padding: 16px auto 4px;
+    overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    border-bottom: 1px solid ${theme.colors.secondary.dark};
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  `}
 `;
 
 export const FilterSectionHeader = styled.h2`
@@ -20,9 +25,9 @@ export const FilterSectionHeader = styled.h2`
 
 export const FilterButtons = styled.ul`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 24px;
 `;
 
 export const VerticalLine = styled.div`
