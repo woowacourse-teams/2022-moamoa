@@ -2,21 +2,32 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const FilterSectionContainer = styled.section`
-  ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 
-    height: 50px;
-    padding: 16px 0;
-    margin-bottom: 16px;
+  overflow-x: auto;
 
-    border-bottom: 1px solid ${theme.colors.secondary.dark};
-  `}
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-export const FilterChipList = styled.ul`
+export const FilterSectionHeader = styled.h2`
+  display: none;
+`;
+
+export const FilterButtons = styled.ul`
   display: flex;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+`;
+
+export const VerticalLine = styled.div`
+  ${({ theme }) => css`
+    height: 40px;
+    border-right: 1px solid ${theme.colors.secondary.dark};
+  `}
 `;

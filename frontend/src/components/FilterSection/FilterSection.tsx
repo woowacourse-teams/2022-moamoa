@@ -1,85 +1,125 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import FilterButton from '@components/FilterButton/FilterButton';
 
-import { getTagList, getTagListSearchedByTagName } from '@api/getTagList';
-
-import Filter from '@components/Filter/Filter';
-import type { TagItem } from '@components/Filter/Filter';
-import FilterChip from '@components/FilterChip/FilterChip';
-
-// TODO: hooks 폴더 절대 경로 설정
-import { useThrottledValue } from '../../hooks/useThrottledValue';
 import * as S from './FilterSection.style';
 
-export type TagListQueryData = {
-  tags: Array<TagItem>;
-};
+interface FilterInfo {
+  id: number;
+  categoryName: string;
+}
 
-const findTagNameById = (selectedId: number, tags: Array<TagItem> | undefined) =>
-  tags?.find(({ id }) => selectedId === id)?.tagName || '%ERROR%';
+export interface FilterSectionProps {
+  selectedFilters: Array<FilterInfo>;
+  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLElement>;
+}
 
-const FilterSection: React.FC = () => {
-  // TODO: selectedFilters context API로 관리
-  const [selectedFilters, setSelectedFilters] = useState<Array<{ id: number }>>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchedTag, setSearchedTag] = useState('');
+const areaFilters = [
+  {
+    id: 1,
+    shortName: 'FE',
+    description: '프론트엔드',
+    categoryName: 'area',
+  },
+  {
+    id: 2,
+    shortName: 'BE',
+    description: '백엔드',
+    categoryName: 'area',
+  },
+];
 
-  const [throttledTag] = useThrottledValue(searchedTag);
+const generationFilters = [
+  {
+    id: 1,
+    shortName: '4기',
+    description: '우테코4기',
+    categoryName: 'generation',
+  },
+  {
+    id: 2,
+    shortName: '3기',
+    description: '우테코3기',
+    categoryName: 'generation',
+  },
+];
 
-  const { data } = useQuery<unknown, unknown, TagListQueryData>(['filters'], getTagList, {
-    enabled: isOpen,
-  });
-  const { data: searchedData } = useQuery<unknown, unknown, TagListQueryData>(
-    ['searched-filters', throttledTag],
-    () => getTagListSearchedByTagName(searchedTag),
-    {
-      enabled: !!searchedTag,
-    },
-  );
+const tagFilters = [
+  {
+    id: 1,
+    shortName: 'JS',
+    description: '자바스크립트',
+    categoryName: 'tag',
+  },
+  {
+    id: 2,
+    shortName: 'Java',
+    description: '자바',
+    categoryName: 'tag',
+  },
+  {
+    id: 3,
+    shortName: 'React',
+    description: '리액트',
+    categoryName: 'tag',
+  },
+  {
+    id: 4,
+    shortName: 'Spring',
+    description: '스프링',
+    categoryName: 'tag',
+  },
+  {
+    id: 5,
+    shortName: 'CS',
+    description: '컴퓨터사이언스',
+    categoryName: 'tag',
+  },
+];
 
-  const filters = searchedTag.length ? searchedData?.tags : data?.tags;
+const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>
+  selectedFilters.some(filter => filter.id === id && filter.categoryName === categoryName);
 
-  const handlePlusButtonClick = () => {
-    setIsOpen(prev => !prev);
-  };
-
-  const handleFilterItemClick = (selectedId: number) => () => {
-    setSelectedFilters(prev => {
-      if (prev.some(({ id }) => selectedId === id)) {
-        return prev.filter(({ id }) => selectedId !== id);
-      }
-      return [...prev, { id: selectedId }];
-    });
-  };
-
-  const handleChipCloseButtonClick = (selectedId: number) => () => {
-    setSelectedFilters(prev => prev.filter(({ id }) => selectedId !== id));
-  };
-
-  const handleSearchedTagChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchedTag(target.value);
-  };
-
+const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFilterButtonClick }) => {
   return (
     <S.FilterSectionContainer>
-      <Filter
-        filters={filters}
-        selectedFilters={selectedFilters}
-        isOpen={isOpen}
-        searchInputValue={searchedTag}
-        handleFilterItemClick={handleFilterItemClick}
-        handlePlusButtonClick={handlePlusButtonClick}
-        handleSearchInputChange={handleSearchedTagChange}
-      />
-      <S.FilterChipList>
-        {selectedFilters.map(({ id }) => (
+      <S.FilterSectionHeader>필터</S.FilterSectionHeader>
+      <S.FilterButtons>
+        {areaFilters.map(({ id, shortName, description, categoryName }) => (
           <li key={id}>
-            <FilterChip handleCloseButtonClick={handleChipCloseButtonClick(id)}>
-              {findTagNameById(id, data?.tags)}
-            </FilterChip>
+            <FilterButton
+              shortTitle={shortName}
+              description={description}
+              isChecked={isSelected(id, categoryName, selectedFilters)}
+              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
+            />
           </li>
         ))}
-      </S.FilterChipList>
+      </S.FilterButtons>
+      <S.VerticalLine />
+      <S.FilterButtons>
+        {generationFilters.map(({ id, shortName, description, categoryName }) => (
+          <li key={id}>
+            <FilterButton
+              shortTitle={shortName}
+              description={description}
+              isChecked={isSelected(id, categoryName, selectedFilters)}
+              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
+            />
+          </li>
+        ))}
+      </S.FilterButtons>
+      <S.VerticalLine />
+      <S.FilterButtons>
+        {tagFilters.map(({ id, shortName, description, categoryName }) => (
+          <li key={id}>
+            <FilterButton
+              shortTitle={shortName}
+              description={description}
+              isChecked={isSelected(id, categoryName, selectedFilters)}
+              handleFilterButtonClick={handleFilterButtonClick(id, categoryName)}
+            />
+          </li>
+        ))}
+      </S.FilterButtons>
     </S.FilterSectionContainer>
   );
 };
