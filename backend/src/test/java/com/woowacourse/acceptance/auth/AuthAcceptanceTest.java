@@ -1,9 +1,9 @@
 package com.woowacourse.acceptance.auth;
 
-import com.woowacourse.acceptance.AcceptanceTest;
-import io.restassured.RestAssured;
 import static org.hamcrest.Matchers.notNullValue;
 
+import com.woowacourse.acceptance.AcceptanceTest;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void getJwtToken() {
         RestAssured.given().log().all()
-                .param("code", "code")
+                .param("code", "Authorization code")
                 .when()
                 .post("/api/fake/login/token")
                 .then().log().all()
