@@ -3,7 +3,9 @@ package com.woowacourse.moamoa.auth.config;
 import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
 import java.util.List;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,5 +32,10 @@ public class AuthConfiguration implements WebMvcConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
                 .excludePathPatterns("/**");
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
