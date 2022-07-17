@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.moamoa.filter.domain.Filter;
 import com.woowacourse.moamoa.filter.domain.repository.FilterRepository;
+import com.woowacourse.moamoa.filter.exception.FilterNotExistException;
 import com.woowacourse.moamoa.study.controller.request.FilterRequest;
 import com.woowacourse.moamoa.study.domain.study.Study;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
@@ -58,7 +59,7 @@ public class StudyFilterService {
 
         for (String filterName : filterNames) {
             final Filter filter = filterRepository.findByName(filterName)
-                    .orElseThrow(IllegalArgumentException::new);
+                    .orElseThrow(FilterNotExistException::new);
             filters.add(filter);
         }
 

@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.domain.studyfilter.repository;
 
 import static com.woowacourse.moamoa.filter.domain.QFilter.filter;
-import static com.woowacourse.moamoa.study.domain.QStudy.study;
+import static com.woowacourse.moamoa.study.domain.study.QStudy.study;
 import static com.woowacourse.moamoa.study.domain.studyfilter.QStudyFilter.studyFilter;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.StringUtils.hasText;
