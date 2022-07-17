@@ -1,14 +1,13 @@
-package com.woowacourse.moamoa.studyfilter.domain.repository;
+package com.woowacourse.moamoa.study.domain.studyfilter.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.filter.domain.Filter;
 import com.woowacourse.moamoa.filter.domain.repository.FilterRepository;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.filter.StudySearchCondition;
-import com.woowacourse.moamoa.study.domain.filter.StudySlice;
-import com.woowacourse.moamoa.study.domain.filter.repository.StudyFilterRepository;
+import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.studyfilter.StudySearchCondition;
+import com.woowacourse.moamoa.study.domain.studyfilter.StudySlice;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

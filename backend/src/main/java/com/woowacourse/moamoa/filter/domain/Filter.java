@@ -4,7 +4,7 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.study.domain.filter.StudyFilter;
+import com.woowacourse.moamoa.study.domain.studyfilter.StudyFilter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;

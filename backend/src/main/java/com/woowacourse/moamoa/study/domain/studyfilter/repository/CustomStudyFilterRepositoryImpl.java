@@ -1,8 +1,8 @@
-package com.woowacourse.moamoa.study.domain.filter.repository;
+package com.woowacourse.moamoa.study.domain.studyfilter.repository;
 
 import static com.woowacourse.moamoa.filter.domain.QFilter.filter;
 import static com.woowacourse.moamoa.study.domain.QStudy.study;
-import static com.woowacourse.moamoa.studyfilter.domain.QStudyFilter.studyFilter;
+import static com.woowacourse.moamoa.study.domain.studyfilter.QStudyFilter.studyFilter;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -11,9 +11,9 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.woowacourse.moamoa.filter.domain.Category;
 import com.woowacourse.moamoa.filter.domain.Filter;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.filter.StudySearchCondition;
-import com.woowacourse.moamoa.study.domain.filter.StudySlice;
+import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.studyfilter.StudySearchCondition;
+import com.woowacourse.moamoa.study.domain.studyfilter.StudySlice;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.study.domain.filter;
+package com.woowacourse.moamoa.study.domain.studyfilter;
 
-import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.study.Study;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

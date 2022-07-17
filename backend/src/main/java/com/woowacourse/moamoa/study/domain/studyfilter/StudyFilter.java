@@ -1,10 +1,10 @@
-package com.woowacourse.moamoa.study.domain.filter;
+package com.woowacourse.moamoa.study.domain.studyfilter;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.filter.domain.Filter;
-import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.study.Study;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

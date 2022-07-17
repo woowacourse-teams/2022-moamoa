@@ -6,11 +6,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.woowacourse.moamoa.filter.domain.repository.FilterRepository;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.study.domain.filter.repository.StudyFilterRepository;
+import com.woowacourse.moamoa.study.domain.studyfilter.repository.StudyFilterRepository;
 import com.woowacourse.moamoa.study.service.StudyFilterService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.domain.filter;
+package com.woowacourse.moamoa.study.domain.studyfilter;
 
 import com.woowacourse.moamoa.filter.domain.Filter;
 import java.util.List;
