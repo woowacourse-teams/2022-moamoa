@@ -1,6 +1,6 @@
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
-import * as S from '@components/slide-button/SlideButton.style';
+import * as S from '@components/arrow-button/ArrowButton.style';
 
 export interface SlideButtonProps {
   rightDirection: boolean;

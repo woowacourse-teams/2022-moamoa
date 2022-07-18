@@ -8,7 +8,7 @@ import { getFilterList } from '@api/getFilterList';
 import * as S from '@pages/main-page/filter-section/FilterSection.style';
 import FilterButtonList from '@pages/main-page/filter-section/filter-button-list/FilterButtonList';
 
-import SlideButton from '@components/slide-button/SlideButton';
+import ArrowButton from '@components/arrow-button/ArrowButton';
 
 export interface FilterInfo {
   id: number;
@@ -63,7 +63,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
   return (
     <S.FilterSectionContainer>
       <S.LeftButtonContainer>
-        <SlideButton rightDirection={false} handleSlideButtonClick={handleLeftSlideButtonClick} />
+        <ArrowButton rightDirection={false} handleSlideButtonClick={handleLeftSlideButtonClick} />
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
@@ -88,7 +88,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
         />
       </S.FilterSection>
       <S.RightButtonContainer>
-        <SlideButton rightDirection handleSlideButtonClick={handleRightSlideButtonClick} />
+        <ArrowButton rightDirection handleSlideButtonClick={handleRightSlideButtonClick} />
       </S.RightButtonContainer>
     </S.FilterSectionContainer>
   );
