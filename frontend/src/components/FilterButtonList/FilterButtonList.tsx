@@ -9,7 +9,7 @@ import * as S from './FilterButtonList.style';
 export interface FilterButtonListProps {
   filters: Array<Filter>;
   selectedFilters: Array<FilterInfo>;
-  handleFilterButtonClick: (id: number, categoryName: string) => React.ChangeEventHandler<HTMLInputElement>;
+  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>

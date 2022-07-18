@@ -17,7 +17,7 @@ export interface FilterInfo {
 
 export interface FilterSectionProps {
   selectedFilters: Array<FilterInfo>;
-  handleFilterButtonClick: (id: number, categoryName: string) => React.ChangeEventHandler<HTMLInputElement>;
+  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const SCROLL_DIST = 100;

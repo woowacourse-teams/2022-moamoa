@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface CheckBoxLabelProps {
+interface CheckBoxButtonProps {
   isChecked: boolean;
 }
 
@@ -12,7 +12,7 @@ export const FilterButtonContainer = styled.div`
   height: 70px;
 `;
 
-export const CheckBoxLabel = styled.label<CheckBoxLabelProps>`
+export const CheckBoxButton = styled.button<CheckBoxButtonProps>`
   ${({ theme, isChecked }) => css`
     display: flex;
     flex-direction: column;
@@ -24,33 +24,25 @@ export const CheckBoxLabel = styled.label<CheckBoxLabelProps>`
     width: 80px;
     padding-bottom: 8px;
 
+    border: none;
     border-bottom: 2px solid ${isChecked ? theme.colors.primary.dark : 'none'};
     background-color: transparent;
-    cursor: pointer;
 
     &:hover {
       border-bottom: 2px solid ${isChecked ? theme.colors.primary.dark : theme.colors.secondary.base};
     }
 
-    & > span {
+    & > p {
       color: ${isChecked ? theme.colors.primary.dark : theme.colors.primary.base};
     }
   `}
 `;
 
-export const CheckboxInput = styled.input`
-  position: absolute;
-  width: 0;
-  height: 0;
-
-  opacity: 0;
-`;
-
-export const ShortName = styled.span`
+export const ShortName = styled.p`
   font-size: 20px;
   font-weight: 700;
 `;
 
-export const FullName = styled.span`
+export const FullName = styled.p`
   font-size: 12px;
 `;

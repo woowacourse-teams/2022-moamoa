@@ -85,6 +85,7 @@ const GlobalStyles = () => {
         }
 
         button {
+          font-family: inherit;
           cursor: pointer;
         }
 
@@ -93,6 +94,7 @@ const GlobalStyles = () => {
         }
 
         input {
+          font-family: inherit;
           background-color: ${theme.colors.white};
           &::placeholder {
             color: ${theme.colors.secondary.dark};
