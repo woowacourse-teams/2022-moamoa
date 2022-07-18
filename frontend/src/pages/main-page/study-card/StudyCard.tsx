@@ -9,13 +9,13 @@ export type StudyCardProps = {
   isOpen: boolean;
 } & Omit<CardProps, 'extraChips'>;
 
-const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, description, isOpen }) => {
+const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, isOpen }) => {
   return (
     <Card
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={thumbnailAlt}
       title={title}
-      description={description}
+      excerpt={excerpt}
       extraChips={[<StudyChip key={0} isOpen={isOpen} />]}
     />
   );

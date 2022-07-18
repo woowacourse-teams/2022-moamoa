@@ -48,9 +48,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
   };
 
   const handleRightSlideButtonClick = () => {
-    if (!sliderRef.current) {
-      return;
-    }
+    if (!sliderRef.current) return;
 
     const slider = sliderRef.current;
     if (slider.scrollLeft === slider.scrollWidth - slider.clientWidth) {
@@ -68,7 +66,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
         {isError && <div>{error.message}</div>}
-        <S.FilterSectionHeader>필터</S.FilterSectionHeader>
         <FilterButtonList
           filters={areaFilters}
           selectedFilters={selectedFilters}

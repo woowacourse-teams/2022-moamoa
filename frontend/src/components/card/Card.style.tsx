@@ -60,7 +60,7 @@ export const Title = styled.h4`
   ${onelineEllipsis};
 `;
 
-export const Description = styled.p`
+export const Excerpt = styled.p`
   width: 100%;
   margin-bottom: 20px;
 

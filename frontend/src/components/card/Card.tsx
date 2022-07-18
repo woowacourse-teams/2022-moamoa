@@ -6,11 +6,11 @@ export interface CardProps {
   thumbnailUrl: string;
   thumbnailAlt: string;
   title: string;
-  description: string;
+  excerpt: string;
   extraChips: Array<ReactNode>;
 }
 
-const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, description, extraChips }) => {
+const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, extraChips }) => {
   return (
     <S.Card>
       <S.ImageContainer>
@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, descript
       </S.ImageContainer>
       <S.Contents>
         <S.Title>{title}</S.Title>
-        <S.Description>{description}</S.Description>
+        <S.Excerpt>{excerpt}</S.Excerpt>
         <S.Extra>{extraChips}</S.Extra>
       </S.Contents>
     </S.Card>

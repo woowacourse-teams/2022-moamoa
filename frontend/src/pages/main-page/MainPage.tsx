@@ -73,7 +73,7 @@ const MainPage: React.FC = () => {
                     thumbnailUrl={study.thumbnail}
                     thumbnailAlt={`${study.title} 스터디 이미지`}
                     title={study.title}
-                    description={study.excerpt}
+                    excerpt={study.excerpt}
                     isOpen={study.status === 'open'}
                   />
                 </li>
