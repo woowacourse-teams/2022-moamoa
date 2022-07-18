@@ -5,8 +5,9 @@ export const FilterSectionContainer = styled.div`
   ${({ theme }) => css`
     position: sticky;
     top: 85px;
+    max-width: 1280px;
     height: fit-content;
-    margin-bottom: 16px;
+    margin: 0 auto 16px;
     padding: 16px 20px 0;
 
     background-color: ${theme.colors.secondary.light};
@@ -57,13 +58,6 @@ export const FilterSection = styled.section`
 
 export const FilterSectionHeader = styled.h2`
   display: none;
-`;
-
-export const FilterButtons = styled.ul`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
 `;
 
 export const VerticalLine = styled.div`
