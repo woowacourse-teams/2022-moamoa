@@ -38,4 +38,5 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    systemProperties = System.getProperties()
 }
