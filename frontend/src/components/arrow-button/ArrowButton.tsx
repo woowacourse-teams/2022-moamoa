@@ -3,14 +3,14 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import * as S from '@components/arrow-button/ArrowButton.style';
 
 export interface SlideButtonProps {
-  rightDirection: boolean;
+  direction: 'right' | 'left';
   handleSlideButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const SlideButton: React.FC<SlideButtonProps> = ({ rightDirection, handleSlideButtonClick }) => {
+const SlideButton: React.FC<SlideButtonProps> = ({ direction, handleSlideButtonClick }) => {
   return (
     <S.Button type="button" onClick={handleSlideButtonClick}>
-      {rightDirection ? <BsChevronRight /> : <BsChevronLeft />}
+      {direction === 'right' ? <BsChevronRight /> : <BsChevronLeft />}
     </S.Button>
   );
 };

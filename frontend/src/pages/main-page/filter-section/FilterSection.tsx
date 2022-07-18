@@ -63,7 +63,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
   return (
     <S.FilterSectionContainer>
       <S.LeftButtonContainer>
-        <ArrowButton rightDirection={false} handleSlideButtonClick={handleLeftSlideButtonClick} />
+        <ArrowButton direction="left" handleSlideButtonClick={handleLeftSlideButtonClick} />
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
@@ -88,7 +88,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
         />
       </S.FilterSection>
       <S.RightButtonContainer>
-        <ArrowButton rightDirection handleSlideButtonClick={handleRightSlideButtonClick} />
+        <ArrowButton direction="right" handleSlideButtonClick={handleRightSlideButtonClick} />
       </S.RightButtonContainer>
     </S.FilterSectionContainer>
   );

@@ -6,7 +6,7 @@ export default {
   title: 'Components/SlideButton',
   component: SlideButton,
   argTypes: {
-    rightDirection: { controls: 'boolean' },
+    direction: { controls: 'text' },
   },
 };
 
@@ -18,5 +18,5 @@ const Template: Story<SlideButtonProps> = props => (
 
 export const Default = Template.bind({});
 Default.args = {
-  rightDirection: false,
+  direction: 'right',
 };
