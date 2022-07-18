@@ -18,7 +18,7 @@ export const CheckBoxLabel = styled.label<CheckBoxLabelProps>`
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 8px;
+    row-gap: 8px;
 
     position: relative;
     width: 80px;

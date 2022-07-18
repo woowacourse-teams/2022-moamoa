@@ -16,7 +16,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({ handleContentLoad, obse
           handleContentLoad();
         }
       }),
-    [],
+    [handleContentLoad],
   );
 
   useEffect(() => {

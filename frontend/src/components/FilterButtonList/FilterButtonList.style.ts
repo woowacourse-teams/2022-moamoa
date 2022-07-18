@@ -4,5 +4,5 @@ export const FilterButtons = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  column-gap: 24px;
 `;

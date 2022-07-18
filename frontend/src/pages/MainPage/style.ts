@@ -4,7 +4,7 @@ export const CardList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, minmax(auto, 1fr));
   grid-template-rows: 1fr;
-  grid-gap: 32px;
+  gap: 32px;
   place-items: center;
 
   & > li {

@@ -19,7 +19,7 @@ export const Row = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    column-gap: 20px;
 
     position: relative;
 
