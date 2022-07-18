@@ -17,7 +17,7 @@ public class SearchingTagController {
 
     @GetMapping("/api/tags")
     public ResponseEntity<TagsResponse> searchTags(
-            @RequestParam(required = false, defaultValue = "") final String tagShortName,
+            @RequestParam(value = "name", required = false, defaultValue = "") final String tagShortName,
             @RequestParam(value = "category", required = false, defaultValue = "") final CategoryId categoryId) {
         final String trimmedTagShortName = tagShortName.trim();
         final TagsResponse tagsResponse = tagsSearcher.searchBy(trimmedTagShortName, categoryId);
