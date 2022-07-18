@@ -31,4 +31,9 @@ jobs:
         run: ./gradlew build --exclude-task test
 
       - name: Test  
-        run: ./gradlew test -Doauth2.github.client-id=${{ secrets.CLIENT_ID }} -Doauth2.github.client-secret=${{ secrets.CLIENT_SECRET }} -Dsecurity.jwt.token.secret-key=${{ secrets.JWT_SECRET_KEY }} -Dsecurity.jwt.token.expire-length=${{ secrets.JWT_EXPIRE_LENGTH }}
+        env: 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+        run: ./gradlew test -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
