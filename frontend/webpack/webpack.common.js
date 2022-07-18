@@ -45,6 +45,7 @@ module.exports = {
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
+      '@layout': resolve(__dirname, '../src/layout'),
     },
   },
 };
