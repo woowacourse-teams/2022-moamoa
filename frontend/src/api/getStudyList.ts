@@ -10,9 +10,10 @@ export const getStudyList = async (
   selectedFilters: Array<{ id: number; categoryName: string }>,
 ) => {
   const filterParams = selectedFilters.map(({ id, categoryName }) => `&${categoryName}=${id}`).join('');
+  const titleParams = title && `&title=${title}`;
 
   const response = await axiosInstance.get(
-    `/api/studies/search?page=${page}&size=${size}&title=${title}&${filterParams}`,
+    `/api/studies/search?page=${page}&size=${size}${titleParams}${filterParams}`,
   );
   return response.data;
 };
