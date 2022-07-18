@@ -126,4 +126,65 @@ class CustomStudyFilterRepositoryTest {
                 .contains(tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
         assertThat(hasNext).isFalse();
     }
+
+    @DisplayName("같은 종류의 필터는 OR, 다른 종류의 필터는 AND 조건으로 목록을 조회한다.")
+    @Test
+    public void searchByFilters() {
+        // given
+        Filter filter_4기 = filterRepository.findByName("4기").orElseThrow();
+        Filter filter_BE = filterRepository.findByName("BE").orElseThrow();
+        Filter filter_FE = filterRepository.findByName("FE").orElseThrow();
+
+        final PageRequest pageRequest = PageRequest.of(0, 5);
+        final StudySearchCondition searchCondition = new StudySearchCondition("",
+                List.of(filter_4기, filter_BE, filter_FE));
+
+        // when
+        final StudySlice studySlice = studyFilterRepository.searchBy(searchCondition, pageRequest);
+
+        // then
+        final List<Study> studies = studySlice.getStudies();
+        final boolean hasNext = studySlice.isHasNext();
+
+        assertThat(studies).hasSize(5)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "excerpt", "thumbnail", "status")
+                .contains(
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                        tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"),
+                        tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
+                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE")
+                );
+        assertThat(hasNext).isFalse();
+    }
+
+    @DisplayName("같은 종류의 필터는 OR, 다른 종류의 필터는 AND 조건으로 목록을 조회한다.")
+    @Test
+    public void searchByFiltersWithTitle() {
+        // given
+        Filter filter_4기 = filterRepository.findByName("4기").orElseThrow();
+        Filter filter_BE = filterRepository.findByName("BE").orElseThrow();
+        Filter filter_FE = filterRepository.findByName("FE").orElseThrow();
+
+        final PageRequest pageRequest = PageRequest.of(0, 5);
+        final StudySearchCondition searchCondition = new StudySearchCondition("java",
+                List.of(filter_4기, filter_BE, filter_FE));
+
+        // when
+        final StudySlice studySlice = studyFilterRepository.searchBy(searchCondition, pageRequest);
+
+        // then
+        final List<Study> studies = studySlice.getStudies();
+        final boolean hasNext = studySlice.isHasNext();
+
+        assertThat(studies).hasSize(2)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "excerpt", "thumbnail", "status")
+                .contains(
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN")
+                );
+        assertThat(hasNext).isFalse();
+    }
 }
