@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import Avatar from '@components/Avatar';
-import type { AvatarProps } from '@components/Avatar';
+import Avatar from '@components/avatar/Avatar';
+import type { AvatarProps } from '@components/avatar/Avatar';
 
 export default {
   title: 'Components/Avatar',
