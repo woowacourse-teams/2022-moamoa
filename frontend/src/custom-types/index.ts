@@ -3,7 +3,7 @@ export type StudyStatus = 'open' | 'close';
 export type Study = {
   id: number;
   title: string;
-  description: string;
+  excerpt: string;
   thumbnail: string;
   status: StudyStatus;
 };
@@ -11,4 +11,18 @@ export type Study = {
 export type StudyListQueryData = {
   studies: Array<Study>;
   hasNext: boolean;
+};
+
+export type Filter = {
+  id: number;
+  shortName: string;
+  fullName: string;
+  category: {
+    id: number;
+    name: string;
+  };
+};
+
+export type FilterListQueryData = {
+  filters: Array<Filter>;
 };

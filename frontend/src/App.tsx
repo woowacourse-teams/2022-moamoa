@@ -1,10 +1,9 @@
 import { css } from '@emotion/react';
 
-import MainPage from '@pages/MainPage';
+import Footer from '@layout/footer/Footer';
+import Header from '@layout/header/Header';
 
-import Footer from '@components/Footer';
-import Header from '@components/Header';
-import Wrapper from '@components/Wrapper';
+import MainPage from '@pages/main-page/MainPage';
 
 const App = () => {
   return (
@@ -24,9 +23,7 @@ const App = () => {
           min-height: calc(100vh - 80px);
         `}
       >
-        <Wrapper>
-          <MainPage />
-        </Wrapper>
+        <MainPage />
       </main>
       <Footer />
     </div>

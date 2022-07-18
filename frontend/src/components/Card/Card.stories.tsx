@@ -1,8 +1,8 @@
 import { Story } from '@storybook/react';
 
-import type { CardProps } from '@components/Card';
-import Card from '@components/Card';
-import Chip from '@components/Chip';
+import type { CardProps } from '@components/card/Card';
+import Card from '@components/card/Card';
+import Chip from '@components/chip/Chip';
 
 export default {
   title: 'Components/Card',
