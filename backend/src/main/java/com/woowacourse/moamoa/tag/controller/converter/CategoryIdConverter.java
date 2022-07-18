@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.filter.controller.converter;
+package com.woowacourse.moamoa.tag.controller.converter;
 
-import com.woowacourse.moamoa.filter.domain.CategoryId;
+import com.woowacourse.moamoa.tag.domain.CategoryId;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

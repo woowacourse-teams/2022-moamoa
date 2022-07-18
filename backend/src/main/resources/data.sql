@@ -15,10 +15,10 @@ VALUES ('알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 
 
 INSERT INTO category(id, name) VALUES (1, 'GENERATION');
 INSERT INTO category(id, name) VALUES (2, 'AREA');
-INSERT INTO category(id, name) VALUES (3, 'TAG');
+INSERT INTO category(id, name) VALUES (3, 'SUBJECT');
 
-INSERT INTO filter(name, category_id) VALUES ('Java', 3);
-INSERT INTO filter(name, category_id) VALUES ('4기', 1);
-INSERT INTO filter(name, category_id) VALUES ('BE', 2);
-INSERT INTO filter(name, category_id) VALUES ('FE', 2);
-INSERT INTO filter(name, category_id) VALUES ('React', 3);
+INSERT INTO tag(short_name, full_name, category_id) VALUES ('Java', '자바', 3);
+INSERT INTO tag(short_name, full_name, category_id) VALUES ('4기', '우테코4기', 1);
+INSERT INTO tag(short_name, full_name, category_id) VALUES ('BE', '백엔드', 2);
+INSERT INTO tag(short_name, full_name, category_id) VALUES ('FE', '프론트엔드', 2);
+INSERT INTO tag(short_name, full_name, category_id) VALUES ('React', '리액트', 3);

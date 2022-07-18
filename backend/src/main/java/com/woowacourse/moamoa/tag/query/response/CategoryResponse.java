@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.filter.infra.response;
+package com.woowacourse.moamoa.tag.query.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
