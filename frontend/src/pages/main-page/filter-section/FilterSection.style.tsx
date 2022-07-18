@@ -6,7 +6,6 @@ export const FilterSectionContainer = styled.div`
     position: sticky;
     top: 85px;
     max-width: 1280px;
-    height: fit-content;
     margin: 0 auto 16px;
     padding: 16px 20px 0;
 
@@ -54,10 +53,6 @@ export const FilterSection = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-export const FilterSectionHeader = styled.h2`
-  display: none;
 `;
 
 export const VerticalLine = styled.div`
