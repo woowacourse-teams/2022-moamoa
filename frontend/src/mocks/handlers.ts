@@ -40,9 +40,9 @@ export const handlers = [
     const page = req.url.searchParams.get('page');
     const size = req.url.searchParams.get('size');
 
-    const generation = req.url.searchParams.getAll('generation');
-    const area = req.url.searchParams.getAll('area');
-    const tag = req.url.searchParams.getAll('tag');
+    const generations = req.url.searchParams.getAll('generation');
+    const areas = req.url.searchParams.getAll('area');
+    const tags = req.url.searchParams.getAll('tag');
 
     if ((size === null && page !== null) || (size !== null && page === null)) {
       return res(ctx.status(400), ctx.json({ message: 'size혹은 page가 없습니다' }));
