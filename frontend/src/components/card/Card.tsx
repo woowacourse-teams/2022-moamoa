@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import * as S from './Card.style';
+import * as S from '@components/card/Card.style';
 
 export interface CardProps {
   thumbnailUrl: string;

@@ -5,11 +5,10 @@ import type { Filter, FilterListQueryData } from '@custom-types/index';
 
 import { getFilterList } from '@api/getFilterList';
 
+import * as S from '@pages/main-page/filter-section/FilterSection.style';
 import FilterButtonList from '@pages/main-page/filter-section/filter-button-list/FilterButtonList';
 
 import SlideButton from '@components/slide-button/SlideButton';
-
-import * as S from './FilterSection.style';
 
 export interface FilterInfo {
   id: number;

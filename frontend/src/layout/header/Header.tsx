@@ -4,12 +4,11 @@ import { SerializedStyles } from '@emotion/react';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
+import * as S from '@layout/header/Header.style';
 import Logo from '@layout/header/logo/Logo';
 import SearchBar from '@layout/header/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
-
-import * as S from './Header.style';
 
 type HeaderProps = {
   className?: string;

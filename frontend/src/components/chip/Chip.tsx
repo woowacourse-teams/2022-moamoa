@@ -1,6 +1,6 @@
 import { MakeOptional } from '@custom-types/index';
 
-import { StyledChip } from './Chip.style';
+import { StyledChip } from '@components/chip/Chip.style';
 
 export interface ChipProps {
   children: string;

@@ -1,4 +1,4 @@
-import * as S from './Avatar.style';
+import * as S from '@components/avatar/Avatar.style';
 
 export interface AvatarProps {
   profileImg: string;

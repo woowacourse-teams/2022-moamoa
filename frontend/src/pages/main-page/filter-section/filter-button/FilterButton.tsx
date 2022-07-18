@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import * as S from './FilterButton.style';
+import * as S from '@pages/main-page/filter-section/filter-button/FilterButton.style';
 
 export interface FilterButtonProps {
   shortName: string;

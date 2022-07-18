@@ -8,14 +8,13 @@ import { getStudyList } from '@api/getStudyList';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
+import * as S from '@pages/main-page/MainPage.style';
 import type { FilterInfo } from '@pages/main-page/filter-section/FilterSection';
 import FilterSection from '@pages/main-page/filter-section/FilterSection';
 import StudyCard from '@pages/main-page/study-card/StudyCard';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
-
-import * as S from './MainPage.style';
 
 type PageParam = {
   page: number;

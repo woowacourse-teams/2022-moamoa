@@ -1,9 +1,8 @@
 import type { Filter } from '@custom-types/index';
 
 import type { FilterInfo } from '@pages/main-page/filter-section/FilterSection';
+import * as S from '@pages/main-page/filter-section/filter-button-list/FilterButtonList.style';
 import FilterButton from '@pages/main-page/filter-section/filter-button/FilterButton';
-
-import * as S from './FilterButtonList.style';
 
 export interface FilterButtonListProps {
   filters: Array<Filter>;
