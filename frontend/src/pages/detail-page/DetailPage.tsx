@@ -1,137 +1,38 @@
-import { useEffect, useRef } from 'react';
+import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 
-import { Member, StudyReview } from '@custom-types/index';
+import { mqDown } from '@utils/media-query';
 
-import Avatar from '@components/Avatar';
 import Chip from '@components/Chip';
 import MarkdownRender from '@components/MarkdownRender/MarkdownRender';
 import StudyChip from '@components/StudyChip';
+import Divider from '@components/divider/Divider';
 
+import MoreButton from '@detail-page/components/more-button/MoreButton';
+import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
+
+import StudyMemberList from './components/study-member-list/StudyMemberList';
+import StudyReviewList from './components/study-review-list/StudyReviewList';
 import useFetchDetail from './hooks/useFetchDetail';
 import useFetchStudyReviews from './hooks/useFetchStudyReviews';
 
-const Divider = styled.div`
-  height: 1px;
-  background-color: black;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const StudyMemberList = ({ members }: { members: Array<Member> }) => {
-  return (
-    <div>
-      <h1>스터디원</h1>
-      <div
-        css={css`
-          display: grid;
-          grid-template-columns: repeat(6, minmax(auto, 1fr));
-          grid-column-gap: 30px;
-          grid-row-gap: 15px;
-        `}
-      >
-        {members.map(({ id, username, profileImage, profileUrl }) => (
-          <a
-            key={id}
-            href={profileUrl}
-            css={css`
-              padding: 10px;
-              border-radius: 20px;
-              border: 1px solid black;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-            `}
-          >
-            <Avatar profileImg={profileImage} profileAlt="프로필 이미지" />
-            <div className="name">{username}</div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-type ReviewCardProps = {
-  profileImageUrl: string;
-  username: string;
-  reviewDate: string;
-  review: string;
-};
-
-const ReviewCard: React.FC<ReviewCardProps> = ({ profileImageUrl, username, reviewDate, review }) => {
-  return (
-    <div>
-      <div
-        css={css`
-          display: flex;
-          margin-bottom: 10px;
-        `}
-      >
-        <Avatar profileImg={profileImageUrl} profileAlt="프로필 이미지" />
-        <div>
-          <div>{username}</div>
-          <div>{reviewDate}</div>
-        </div>
-      </div>
-      <div>{review}</div>
-    </div>
-  );
-};
-
-const StudyReviews: React.FC<{ reviews: Array<StudyReview> }> = ({ reviews }) => {
-  return (
-    <div
-      css={css`
-        display: grid;
-        grid-template-columns: repeat(2, minmax(auto, 1fr));
-        grid-template-rows: 1fr;
-        row-gap: 32px;
-        column-gap: 60px;
-        place-items: center;
-      `}
-    >
-      {reviews.map(review => {
-        return (
-          <ReviewCard
-            key={review.id}
-            profileImageUrl={review.member.profileImage}
-            username={review.member.username}
-            reviewDate={review.createdAt}
-            review={review.content}
-          />
-        );
-      })}
-    </div>
-  );
-};
-
 const DetailPage = () => {
   const { studyId } = useParams();
+  const [isVisibleLoadAllReviewsBtn, setIsVisibleLoadAllReviewsBtn] = useState<boolean>(true);
+  const shouldLoadAll = !isVisibleLoadAllReviewsBtn;
   const studyDetailQueryResult = useFetchDetail(studyId!);
-  const studyReviewsQueryResult = useFetchStudyReviews(studyId!);
+  const studyReviewsQueryResult = useFetchStudyReviews(studyId!, DEFAULT_LOAD_STUDY_REVIEW_COUNT, shouldLoadAll);
 
-  const entranceRef = useRef<HTMLDivElement | null>(null);
+  const handleClickRegisterBtn = () => {
+    alert('스터디에 가입했습니다!');
+  };
 
-  useEffect(() => {
-    if (!entranceRef.current) return;
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          console.log('entries : ', entries);
-        }
-      },
-      {
-        rootMargin: '-200px',
-      },
-    );
-    observer.observe(entranceRef.current);
-    return () => observer.disconnect();
-  }, [studyDetailQueryResult.isSuccess]);
+  const handleClickLoadAllReviewsBtn = () => {
+    setIsVisibleLoadAllReviewsBtn(false);
+  };
 
   const render = () => {
     if (!studyDetailQueryResult.data) return <div>No Data...</div>;
@@ -157,12 +58,18 @@ const DetailPage = () => {
           <div
             css={css`
               display: flex;
+              column-gap: 20px;
+              margin-bottom: 20px;
             `}
           >
             <h1>{title}</h1>
             <StudyChip isOpen={status === 'open'} />
           </div>
-          <div>
+          <div
+            css={css`
+              margin-bottom: 20px;
+            `}
+          >
             <span
               css={css`
                 margin-right: 20px;
@@ -172,7 +79,13 @@ const DetailPage = () => {
             </span>
             <span>{`${startDate} ~ ${endDate}`}</span>
           </div>
-          <h1>{excerpt}</h1>
+          <h3
+            css={css`
+              margin-bottom: 20px;
+            `}
+          >
+            {excerpt}
+          </h3>
           <div
             css={css`
               display: flex;
@@ -186,78 +99,78 @@ const DetailPage = () => {
             ))}
           </div>
         </div>
-        <Divider />
+        <Divider space={2} />
         <div
           css={css`
             display: flex;
+            column-gap: 80px;
           `}
         >
-          <div className="left">
+          <div
+            className="left"
+            css={css`
+              width: 100%;
+              min-width: 0;
+            `}
+          >
             <MarkdownRender markdownContent={description} />
-            <Divider />
+            <Divider space={2} />
             <StudyMemberList members={members} />
           </div>
           <div
             className="right"
             css={css`
-              min-width: 300px;
+              min-width: 25%;
+              ${mqDown('lg')} {
+                display: none;
+              }
             `}
           >
             <div
-              ref={entranceRef}
               css={css`
-                border: 1px solid black;
-                border-radius: 20px;
-                padding: 20px;
                 position: sticky;
-                top: 0;
+                top: 100px;
+                padding-bottom: 20px;
               `}
             >
-              <div
-                css={css`
-                  margin-bottom: 10px;
-                `}
-              >
-                <div>
-                  <strong>2월 10일</strong>까지 가입 가능
-                </div>
-                <div
-                  css={css`
-                    display: flex;
-                    justify-content: space-between;
-                  `}
-                >
-                  <span>모집인원</span>
-                  <span>0 / 10</span>
-                </div>
-                <div
-                  css={css`
-                    display: flex;
-                    justify-content: space-between;
-                  `}
-                >
-                  <span>스터디장</span>
-                  <span>airman5573</span>
-                </div>
-              </div>
-              <button
-                css={css`
-                  width: 100%;
-                  padding: 12px;
-                `}
-              >
-                스터디 방 가입하기
-              </button>
+              <StudyFloatBox
+                studyId={id}
+                owner={owner}
+                currentMemberCount={currentMemberCount}
+                maxMemberCount={maxMemberCount}
+                deadline={deadline}
+                onClickRegisterBtn={handleClickRegisterBtn}
+              />
             </div>
           </div>
         </div>
-        <Divider />
+        <Divider space={2} />
         <div>
-          <h1>
-            {studyReviewsQueryResult.data ? `후기 ${studyReviewsQueryResult.data.reviews.length}개` : 'loading...'}
+          <h1
+            css={css`
+              margin-bottom: 30px;
+            `}
+          >
+            {studyReviewsQueryResult.data ? `후기 ${studyReviewsQueryResult.data.totalResults}개` : 'loading...'}
           </h1>
           {studyReviewsQueryResult.data?.reviews ? (
-            <StudyReviews reviews={studyReviewsQueryResult.data.reviews} />
+            <>
+              <StudyReviewList reviews={studyReviewsQueryResult.data.reviews} />
+              <div
+                css={css`
+                  text-align: center;
+                `}
+              >
+                {isVisibleLoadAllReviewsBtn && (
+                  <MoreButton
+                    status={'fold'}
+                    onClick={handleClickLoadAllReviewsBtn}
+                    foldText="- 접기"
+                    unfoldText="+ 더보기"
+                  />
+                )}
+              </div>
+            </>
           ) : (
             <div>loading...</div>
           )}

@@ -9,7 +9,7 @@ export const COLORS = {
   GRAY300: '#9ea7aa',
   WHITE: '#ffffff',
   BLACK: '#000000',
-};
+} as const;
 
 export const theme = {
   colors: {
@@ -27,3 +27,5 @@ export const theme = {
     black: COLORS.BLACK,
   },
 };
+
+export type ThemeColor = typeof COLORS[keyof typeof COLORS];

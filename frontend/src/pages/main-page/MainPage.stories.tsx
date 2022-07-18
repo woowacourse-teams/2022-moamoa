@@ -1,6 +1,6 @@
 import { Story } from '@storybook/react';
 
-import MainPage from '@pages/MainPage';
+import MainPage from '@pages/main-page/MainPage';
 
 import Wrapper from '@components/Wrapper';
 

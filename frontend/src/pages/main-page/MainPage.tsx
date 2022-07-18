@@ -28,7 +28,7 @@ const defaultParam = {
 const MainPage: React.FC = () => {
   const { keyword } = useContext(SearchContext);
 
-  const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
+  const getStudyListWithPage = async ({ pageParam = defaultParam }: any) => {
     const { page, size } = pageParam;
     const data = await getStudyList(page, size);
     return { ...data, page: page + 1 };
@@ -49,7 +49,7 @@ const MainPage: React.FC = () => {
       getNextPageParam: lastPage => {
         if (!lastPage) return;
         if (!lastPage.hasNext) return;
-        return { page: lastPage.page };
+        return { page: lastPage.page, test: 'hoho' };
       },
     },
   );
