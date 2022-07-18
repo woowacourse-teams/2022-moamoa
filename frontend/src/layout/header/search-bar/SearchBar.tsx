@@ -12,7 +12,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }
     <S.Container>
       <form onSubmit={e => onSubmit(e, inputName)}>
         <S.Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
-        <S.Button>
+        <S.Button aria-label="검색하기">
           <FiSearch />
         </S.Button>
       </form>

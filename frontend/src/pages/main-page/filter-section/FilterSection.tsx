@@ -61,7 +61,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
   return (
     <S.FilterSectionContainer>
       <S.LeftButtonContainer>
-        <ArrowButton direction="left" handleSlideButtonClick={handleLeftSlideButtonClick} />
+        <ArrowButton direction="left" ariaLabel="왼쪽으로 스크롤" handleSlideButtonClick={handleLeftSlideButtonClick} />
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
@@ -85,7 +85,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
         />
       </S.FilterSection>
       <S.RightButtonContainer>
-        <ArrowButton direction="right" handleSlideButtonClick={handleRightSlideButtonClick} />
+        <ArrowButton
+          direction="right"
+          ariaLabel="오른쪽으로 스크롤"
+          handleSlideButtonClick={handleRightSlideButtonClick}
+        />
       </S.RightButtonContainer>
     </S.FilterSectionContainer>
   );
