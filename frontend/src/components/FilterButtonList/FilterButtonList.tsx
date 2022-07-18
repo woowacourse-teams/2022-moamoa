@@ -18,11 +18,11 @@ const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ i
 const FilterButtonList: React.FC<FilterButtonListProps> = ({ filters, selectedFilters, handleFilterButtonClick }) => {
   return (
     <S.FilterButtons>
-      {filters.map(({ id, shortName, description, category: { name } }) => (
+      {filters.map(({ id, shortName, fullName, category: { name } }) => (
         <li key={id}>
           <FilterButton
-            shortTitle={shortName}
-            description={description}
+            shortName={shortName}
+            fullName={fullName}
             isChecked={isSelected(id, name, selectedFilters)}
             handleFilterButtonClick={handleFilterButtonClick(id, name)}
           />

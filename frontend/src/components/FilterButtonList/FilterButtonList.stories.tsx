@@ -13,7 +13,7 @@ const filters = [
   {
     id: 1,
     shortName: 'JS',
-    description: '자바스크립트',
+    fullName: '자바스크립트',
     category: {
       id: 3,
       name: 'tag',
@@ -22,7 +22,7 @@ const filters = [
   {
     id: 2,
     shortName: 'Java',
-    description: '자바',
+    fullName: '자바',
     category: {
       id: 3,
       name: 'tag',
@@ -31,7 +31,7 @@ const filters = [
   {
     id: 3,
     shortName: 'React',
-    description: '리액트',
+    fullName: '리액트',
     category: {
       id: 3,
       name: 'tag',
@@ -40,7 +40,7 @@ const filters = [
   {
     id: 4,
     shortName: 'Spring',
-    description: '스프링',
+    fullName: '스프링',
     category: {
       id: 3,
       name: 'tag',
@@ -49,7 +49,7 @@ const filters = [
   {
     id: 5,
     shortName: 'CS',
-    description: '컴퓨터사이언스',
+    fullName: '컴퓨터사이언스',
     category: {
       id: 3,
       name: 'tag',
@@ -58,7 +58,7 @@ const filters = [
   {
     id: 6,
     shortName: 'TS',
-    description: '타입스크립트',
+    fullName: '타입스크립트',
     category: {
       id: 3,
       name: 'tag',
@@ -67,7 +67,7 @@ const filters = [
   {
     id: 7,
     shortName: 'Review',
-    description: '코드리뷰',
+    fullName: '코드리뷰',
     category: {
       id: 3,
       name: 'tag',

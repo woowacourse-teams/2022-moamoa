@@ -46,11 +46,11 @@ export const CheckboxInput = styled.input`
   opacity: 0;
 `;
 
-export const ShortTitle = styled.span`
+export const ShortName = styled.span`
   font-size: 20px;
   font-weight: 700;
 `;
 
-export const Description = styled.span`
+export const FullName = styled.span`
   font-size: 12px;
 `;

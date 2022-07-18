@@ -16,7 +16,7 @@ export type StudyListQueryData = {
 export type Filter = {
   id: number;
   shortName: string;
-  description: string;
+  fullName: string;
   category: {
     id: number;
     name: string;
