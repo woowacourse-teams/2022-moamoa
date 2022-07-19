@@ -1,7 +1,9 @@
 import { rest } from 'msw';
 
 import detailStudyHandlers from './detail-study-handlers';
+import { filterHandlers } from './filterHandlers';
 import studyJSON from './studies.json';
+import { tokenHandlers } from './tokenHandlers';
 
 export const handlers = [
   rest.get('/api/studies', (req, res, ctx) => {
@@ -85,4 +87,6 @@ export const handlers = [
     );
   }),
   ...detailStudyHandlers,
+  ...filterHandlers,
+  ...tokenHandlers,
 ];
