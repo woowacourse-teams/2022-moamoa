@@ -4,7 +4,7 @@ import reviewJSON from './reviews.json';
 import studiesJSON from './studies.json';
 
 const detailStudyHandlers = [
-  rest.get('/api/study', (req, res, ctx) => {
+  rest.get('/api/studies', (req, res, ctx) => {
     const studyId = req.url.searchParams.get('study-id');
 
     const study = studiesJSON.studies.find(study => String(study.id) === studyId);
@@ -16,7 +16,7 @@ const detailStudyHandlers = [
     );
   }),
 
-  rest.get('/api/studies/:studyId/review', (req, res, ctx) => {
+  rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {
     const size = req.url.searchParams.get('size');
     if (size) {
       const sizeNum = Number(size);
