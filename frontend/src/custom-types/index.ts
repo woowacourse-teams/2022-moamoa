@@ -1,6 +1,7 @@
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type StudyStatus = 'open' | 'close';
+
 export type Study = {
   id: string;
   title: string;
@@ -8,13 +9,16 @@ export type Study = {
   thumbnail: string;
   status: StudyStatus;
 };
+
 export type Member = {
   id: string;
   username: string;
   profileImage: string;
   profileUrl: string;
 };
+
 export type Tag = { id: string; tagName: string };
+
 export type StudyDetail = {
   id: string;
   title: string;
