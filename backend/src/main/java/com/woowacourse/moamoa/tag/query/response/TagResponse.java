@@ -10,7 +10,7 @@ import lombok.ToString;
 public class TagResponse {
 
     private final Long id;
-    private final String shortName;
-    private final String fullName;
+    private final String name;
+    private final String description;
     private final CategoryResponse category;
 }

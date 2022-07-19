@@ -17,8 +17,8 @@ INSERT INTO category(id, name) VALUES (1, 'GENERATION');
 INSERT INTO category(id, name) VALUES (2, 'AREA');
 INSERT INTO category(id, name) VALUES (3, 'SUBJECT');
 
-INSERT INTO tag(short_name, full_name, category_id) VALUES ('Java', '자바', 3);
-INSERT INTO tag(short_name, full_name, category_id) VALUES ('4기', '우테코4기', 1);
-INSERT INTO tag(short_name, full_name, category_id) VALUES ('BE', '백엔드', 2);
-INSERT INTO tag(short_name, full_name, category_id) VALUES ('FE', '프론트엔드', 2);
-INSERT INTO tag(short_name, full_name, category_id) VALUES ('React', '리액트', 3);
+INSERT INTO tag(name, description, category_id) VALUES ('Java', '자바', 3);
+INSERT INTO tag(name, description, category_id) VALUES ('4기', '우테코4기', 1);
+INSERT INTO tag(name, description, category_id) VALUES ('BE', '백엔드', 2);
+INSERT INTO tag(name, description, category_id) VALUES ('FE', '프론트엔드', 2);
+INSERT INTO tag(name, description, category_id) VALUES ('React', '리액트', 3);

@@ -35,13 +35,13 @@ class SearchingTagControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getTags())
-                .extracting("id", "shortName", "fullName", "category.id", "category.name")
+                .extracting("id", "name", "description", "category.id", "category.name")
                 .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "SUBJECT"),
-                        tuple(2L, "4기", "우테코4기", 1L, "GENERATION"),
-                        tuple(3L, "BE", "백엔드", 2L, "AREA"),
-                        tuple(4L, "FE", "프론트엔드", 2L, "AREA"),
-                        tuple(5L, "React", "리액트", 3L, "SUBJECT")
+                        tuple(1L, "Java", "자바", 3L, "subject"),
+                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
+                        tuple(3L, "BE", "백엔드", 2L, "area"),
+                        tuple(4L, "FE", "프론트엔드", 2L, "area"),
+                        tuple(5L, "React", "리액트", 3L, "subject")
                 );
     }
 
@@ -53,9 +53,9 @@ class SearchingTagControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getTags())
-                .extracting("id", "shortName", "fullName", "category.id", "category.name")
+                .extracting("id", "name", "description", "category.id", "category.name")
                 .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "SUBJECT")
+                        tuple(1L, "Java", "자바", 3L, "subject")
                 );
     }
 
@@ -66,10 +66,10 @@ class SearchingTagControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getTags())
-                .extracting("id", "shortName", "fullName", "category.id", "category.name")
+                .extracting("id", "name", "description", "category.id", "category.name")
                 .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "SUBJECT"),
-                        tuple(5L, "React", "리액트", 3L, "SUBJECT")
+                        tuple(1L, "Java", "자바", 3L, "subject"),
+                        tuple(5L, "React", "리액트", 3L, "subject")
                 );
     }
 }

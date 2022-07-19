@@ -30,8 +30,8 @@ CREATE TABLE category
 CREATE TABLE tag
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    short_name VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES category(id)
 );

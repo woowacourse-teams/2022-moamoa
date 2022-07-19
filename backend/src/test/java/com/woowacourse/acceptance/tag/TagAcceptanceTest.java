@@ -23,10 +23,10 @@ public class TagAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("tags", hasSize(5))
                 .body("tags.id", not(empty()))
-                .body("tags.shortName", contains("Java", "4기", "BE", "FE", "React"))
-                .body("tags.fullName", contains("자바", "우테코4기", "백엔드", "프론트엔드", "리액트"))
+                .body("tags.name", contains("Java", "4기", "BE", "FE", "React"))
+                .body("tags.description", contains("자바", "우테코4기", "백엔드", "프론트엔드", "리액트"))
                 .body("tags.category.id", contains(3, 1, 2, 2, 3))
-                .body("tags.category.name", contains("SUBJECT", "GENERATION", "AREA", "AREA", "SUBJECT"));
+                .body("tags.category.name", contains("subject", "generation", "area", "area", "subject"));
     }
 
     @DisplayName("공백의 이름일 경우 전체 필터 목록을 조회한다.")
@@ -40,10 +40,10 @@ public class TagAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("tags", hasSize(5))
                 .body("tags.id", not(empty()))
-                .body("tags.shortName", contains("Java", "4기", "BE", "FE", "React"))
-                .body("tags.fullName", contains("자바", "우테코4기", "백엔드", "프론트엔드", "리액트"))
+                .body("tags.name", contains("Java", "4기", "BE", "FE", "React"))
+                .body("tags.description", contains("자바", "우테코4기", "백엔드", "프론트엔드", "리액트"))
                 .body("tags.category.id", contains(3, 1, 2, 2, 3))
-                .body("tags.category.name", contains("SUBJECT", "GENERATION", "AREA", "AREA", "SUBJECT"));
+                .body("tags.category.name", contains("subject", "generation", "area", "area", "subject"));
     }
 
     @DisplayName("이름을 포함한 필터 목록을 대소문자 구분없이 조회한다.")
@@ -57,10 +57,10 @@ public class TagAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("tags", hasSize(1))
                 .body("tags.id", not(empty()))
-                .body("tags.shortName", contains("Java"))
-                .body("tags.fullName", contains("자바"))
+                .body("tags.name", contains("Java"))
+                .body("tags.description", contains("자바"))
                 .body("tags.category.id", contains(3))
-                .body("tags.category.name", contains("SUBJECT"));
+                .body("tags.category.name", contains("subject"));
     }
 
     @DisplayName("카테고리와 이름으로 필터 목록을 조회한다.")
@@ -75,9 +75,9 @@ public class TagAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("tags", hasSize(2))
                 .body("tags.id", not(empty()))
-                .body("tags.shortName", contains("Java", "React"))
-                .body("tags.fullName", contains("자바", "리액트"))
+                .body("tags.name", contains("Java", "React"))
+                .body("tags.description", contains("자바", "리액트"))
                 .body("tags.category.id", contains(3, 3))
-                .body("tags.category.name", contains("SUBJECT", "SUBJECT"));
+                .body("tags.category.name", contains("subject", "subject"));
     }
 }
