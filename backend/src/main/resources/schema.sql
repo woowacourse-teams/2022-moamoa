@@ -35,13 +35,13 @@ CREATE TABLE tag
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
-CREATE TABLE study_filter
+CREATE TABLE study_tag
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id BIGINT,
-    filter_id BIGINT,
+    tag_id BIGINT,
     FOREIGN KEY (study_id) REFERENCES study (id),
-    FOREIGN KEY (filter_id) REFERENCES tag (id)
+    FOREIGN KEY (tag_id) REFERENCES tag (id)
 );
 
 CREATE TABLE member
