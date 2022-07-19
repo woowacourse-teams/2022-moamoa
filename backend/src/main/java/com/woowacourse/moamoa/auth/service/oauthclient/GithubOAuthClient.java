@@ -1,4 +1,5 @@
 package com.woowacourse.moamoa.auth.service.oauthclient;
+import com.woowacourse.moamoa.auth.service.oauthclient.exception.InvalidMemberException;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.OAuthAccessTokenResponse;
@@ -43,7 +44,7 @@ public class GithubOAuthClient implements OAuthClient {
         ).getBody();
 
         if (Objects.isNull(accessTokenResponse)) {
-            throw new IllegalStateException("Access Token을 가져올 수 없습니다.");
+            throw new InvalidMemberException("Access Token을 가져올 수 없습니다.");
         }
         return accessTokenResponse.getAccessToken();
     }

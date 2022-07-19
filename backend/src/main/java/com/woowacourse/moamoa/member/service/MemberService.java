@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.member.service;
 
+import com.woowacourse.moamoa.auth.service.oauthclient.exception.InvalidMemberException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
@@ -23,7 +24,7 @@ public class MemberService {
 
     public MemberResponse searchBy(final Long githubId) {
         final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new InvalidMemberException("사용자를 찾을 수 없습니다."));
         return MemberResponse.from(member);
     }
 }
