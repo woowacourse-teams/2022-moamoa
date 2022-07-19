@@ -23,6 +23,7 @@ module.exports = {
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
       '@layout': resolve(__dirname, '../src/layout'),
+      '@hooks': resolve(__dirname, '../src/hooks'),
     };
 
     config.module.rules[0].use[0].options.presets = [
