@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.service.response;
 
-import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.study.Study;
 
 public class StudyResponse {
 

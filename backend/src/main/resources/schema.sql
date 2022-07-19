@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS study_tag;
+DROP TABLE IF EXISTS study_filter;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS category;

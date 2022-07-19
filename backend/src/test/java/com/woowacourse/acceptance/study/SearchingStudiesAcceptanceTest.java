@@ -120,4 +120,95 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.thumbnail", contains("java thumbnail"))
                 .body("studies.status", contains("OPEN"));
     }
+
+    @DisplayName("필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByFilter() {
+        RestAssured.given().log().all()
+                .param("title", "")
+                .param("area", "BE")
+                .param("page", 0)
+                .param("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(3))
+                .body("studies.id", contains(notNullValue(), notNullValue(), notNullValue()))
+                .body("studies.title", contains("Java 스터디", "HTTP 스터디", "알고리즘 스터디"))
+                .body("studies.excerpt", contains("자바 설명", "HTTP 설명", "알고리즘 설명"))
+                .body("studies.thumbnail", contains("java thumbnail", "http thumbnail", "algorithm thumbnail"))
+                .body("studies.status", contains("OPEN", "CLOSE", "CLOSE"));
+    }
+
+    @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByFilterAndTitle() {
+        RestAssured.given().log().all()
+                .param("title", "ja")
+                .param("area", "BE")
+                .param("page", 0)
+                .param("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(1))
+                .body("studies.id", contains(notNullValue()))
+                .body("studies.title", contains("Java 스터디"))
+                .body("studies.excerpt", contains("자바 설명"))
+                .body("studies.thumbnail", contains("java thumbnail"))
+                .body("studies.status", contains("OPEN"));
+    }
+
+    @DisplayName("같은 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesBySameCategoryFilter() {
+        RestAssured.given().log().all()
+                .param("title", "")
+                .param("area", "BE")
+                .param("area", "FE")
+                .param("page", 0)
+                .param("size", 5)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(5))
+                .body("studies.id", contains(
+                        notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
+                .body("studies.title", contains(
+                        "Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디", "알고리즘 스터디"))
+                .body("studies.excerpt", contains(
+                        "자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명", "알고리즘 설명"))
+                .body("studies.thumbnail", contains(
+                        "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
+                        "algorithm thumbnail"))
+                .body("studies.status", contains("OPEN", "OPEN", "OPEN", "CLOSE", "CLOSE"));
+    }
+
+    @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByAnotherCategoryFilter() {
+        RestAssured.given().log().all()
+                .param("title", "")
+                .param("area", "BE")
+                .param("tag", "Java")
+                .param("page", 0)
+                .param("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(1))
+                .body("studies.id", contains(notNullValue()))
+                .body("studies.title", contains("Java 스터디"))
+                .body("studies.excerpt", contains("자바 설명"))
+                .body("studies.thumbnail", contains("java thumbnail"))
+                .body("studies.status", contains("OPEN"));
+    }
 }
