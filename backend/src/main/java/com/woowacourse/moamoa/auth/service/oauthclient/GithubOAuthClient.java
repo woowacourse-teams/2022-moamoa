@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.auth.service.oauthclient;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.OAuthAccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.OAuthAccessTokenResponse;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

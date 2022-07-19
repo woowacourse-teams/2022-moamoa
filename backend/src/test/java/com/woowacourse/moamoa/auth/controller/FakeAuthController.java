@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.OAuthAccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.OAuthAccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.OAuthAccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.OAuthAccessTokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

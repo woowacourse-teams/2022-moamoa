@@ -1,6 +1,0 @@
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: none
-  profiles:
-    include: security
