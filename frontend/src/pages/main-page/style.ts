@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { mqDown } from '@utils/media-query';
+
 export const CardList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, minmax(auto, 1fr));
@@ -11,13 +13,13 @@ export const CardList = styled.ul`
     cursor: pointer;
   }
 
-  @media (max-width: 1100px) {
+  ${mqDown('lg')} {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media (max-width: 800px) {
+  ${mqDown('md')} {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 500px) {
+  ${mqDown('sm')} {
     grid-template-columns: repeat(1, 256px);
     place-content: center;
   }
