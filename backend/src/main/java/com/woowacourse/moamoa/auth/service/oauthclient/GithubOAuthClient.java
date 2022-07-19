@@ -57,7 +57,12 @@ public class GithubOAuthClient implements OAuthClient {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(PROFILE_URL, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
-                .getBody();
+        final GithubProfileResponse githubProfileResponse = restTemplate.exchange(PROFILE_URL, HttpMethod.GET, httpEntity,
+                        GithubProfileResponse.class).getBody();
+
+        if (Objects.isNull(githubProfileResponse)) {
+            throw new InvalidMemberException("사용자 프로필 정보를 가져올 수 없습니다.");
+        }
+        return githubProfileResponse;
     }
 }
