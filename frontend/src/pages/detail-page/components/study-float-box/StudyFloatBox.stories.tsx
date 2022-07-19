@@ -2,8 +2,8 @@ import { Story } from '@storybook/react';
 
 import { css } from '@emotion/react';
 
-import StudyFloatBox from './StudyFloatBox';
-import type { StudyFloatBoxProps } from './StudyFloatBox';
+import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
+import type { StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';
 
 export default {
   title: 'Components/StudyFloatBox',

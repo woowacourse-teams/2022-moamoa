@@ -1,18 +1,16 @@
-import { css } from '@emotion/react';
-
 import yyyymmddTommdd from '@utils/yyyymmddTommdd';
 
 import Button from '@components/button/Button';
 
-import * as S from './StudyFloatBox.style';
+import * as S from '@detail-page/components/study-float-box/StudyFloatBox.style';
 
 export type StudyFloatBoxProps = {
-  studyId: string;
+  studyId: number;
   deadline: string;
   currentMemberCount: number;
   maxMemberCount: number;
   owner: string;
-  onClickRegisterBtn: (studyId: string) => void;
+  onClickRegisterBtn: (studyId: number) => void;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({

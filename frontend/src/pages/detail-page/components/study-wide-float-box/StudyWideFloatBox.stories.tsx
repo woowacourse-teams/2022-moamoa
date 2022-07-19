@@ -2,10 +2,8 @@ import { Story } from '@storybook/react';
 
 import { css } from '@emotion/react';
 
-import * as S from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
-
-import StudyWideFloatBox from './StudyWideFloatBox';
-import type { StudyWideFloatBoxProps } from './StudyWideFloatBox';
+import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
+import type { StudyWideFloatBoxProps } from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 export default {
   title: 'Components/StudyFloatBox',

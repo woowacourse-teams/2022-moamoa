@@ -2,8 +2,8 @@ import { Story } from '@storybook/react';
 
 import { css } from '@emotion/react';
 
-import StudyMemberCard from './StudyMemberCard';
-import type { StudyMemberCardProp } from './StudyMemberCard';
+import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
+import type { StudyMemberCardProp } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export default {
   title: 'Components/StudyMemberCard',

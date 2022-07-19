@@ -1,6 +1,6 @@
 import { MakeOptional } from '@custom-types/index';
 
-import * as S from './Avatar.style';
+import * as S from '@components/avatar/Avatar.style';
 
 export type AvatarProps = {
   className?: string;

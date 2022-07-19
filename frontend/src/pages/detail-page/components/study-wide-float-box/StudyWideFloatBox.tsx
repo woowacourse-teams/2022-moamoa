@@ -4,15 +4,15 @@ import yyyymmddTommdd from '@utils/yyyymmddTommdd';
 
 import Button from '@components/button/Button';
 
-import * as S from './StudyWideFloatBox.style';
+import * as S from '@detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
 
 export type StudyWideFloatBoxProps = {
-  studyId: string;
+  studyId: number;
   deadline: string;
   currentMemberCount: number;
   maxMemberCount: number;
   owner: string;
-  onClickRegisterBtn: (studyId: string) => void;
+  onClickRegisterBtn: (studyId: number) => void;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({

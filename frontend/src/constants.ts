@@ -17,5 +17,3 @@ export const BREAK_POINTS = {
   xl: 1280,
   xxl: 1400,
 };
-
-// export const API_BASE_URL = API_URL;

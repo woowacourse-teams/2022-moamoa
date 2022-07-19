@@ -2,7 +2,7 @@ import { noop } from '@utils/index';
 
 import { MakeOptional } from '@custom-types/index';
 
-import * as S from './Button.style';
+import * as S from '@components/button/Button.style';
 
 export type ButtonProp = {
   className?: string;

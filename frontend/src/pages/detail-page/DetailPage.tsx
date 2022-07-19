@@ -21,8 +21,9 @@ const DetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
   const [isVisibleLoadAllReviewsBtn, setIsVisibleLoadAllReviewsBtn] = useState<boolean>(true);
   const shouldLoadAll = !isVisibleLoadAllReviewsBtn;
-  const studyDetailQueryResult = useFetchDetail(studyId);
-  const studyReviewsQueryResult = useFetchStudyReviews(studyId, DEFAULT_LOAD_STUDY_REVIEW_COUNT, shouldLoadAll);
+  const studyDetailQueryResult = useFetchDetail(Number(studyId));
+  const size = shouldLoadAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
+  const studyReviewsQueryResult = useFetchStudyReviews(Number(studyId), size);
 
   const handleClickRegisterBtn = () => {
     alert('스터디에 가입했습니다!');
