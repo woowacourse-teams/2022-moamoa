@@ -40,4 +40,3 @@ INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3);
 
 INSERT INTO study_tag(study_id, tag_id) VALUES (5, 2);
 INSERT INTO study_tag(study_id, tag_id) VALUES (5, 3);
->>>>>>> 9400ca3b287ae5ecbe4fbb59b0bad3012f545004
