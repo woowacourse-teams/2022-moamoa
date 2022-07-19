@@ -22,6 +22,11 @@ const LoginRedirectPage: React.FC = () => {
     },
   );
 
+  if (!codeParam) {
+    alert('잘못된 접근입니다.');
+    return <Navigate to="/" replace={true} />;
+  }
+
   if (isSuccess) {
     login(data.token);
     return <Navigate to="/" replace={true} />;
