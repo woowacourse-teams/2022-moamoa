@@ -1,9 +1,7 @@
-import { css } from '@emotion/react';
-
 import type { StudyDetail } from '@custom-types/index';
 
-import Chip from '@components/chip/Chip';
 import StudyChip from '@components/study-chip/StudyChip';
+import TagChip from '@components/tag-chip/TagChip';
 
 import * as S from '@detail-page/components/head/Head.style';
 
@@ -16,7 +14,7 @@ const Head: React.FC<HeadProps> = ({ title, status, countOfReviews, startDate, e
     <S.Head>
       <div className="title-container">
         <h1>{title}</h1>
-        <StudyChip isOpen={status === 'open'} />
+        <StudyChip className="chip" isOpen={status === 'open'} />
       </div>
       <div className="extra-info-container">
         <span className="review-count">{countOfReviews ? `후기 ${countOfReviews}개` : 'loading...'}</span>
@@ -25,9 +23,9 @@ const Head: React.FC<HeadProps> = ({ title, status, countOfReviews, startDate, e
       <h3 className="excerpt">{excerpt}</h3>
       <div className="tag-container">
         {tags.map(({ id, tagName }) => (
-          <Chip key={id} disabled>
+          <TagChip key={id} className="chip">
             {tagName}
-          </Chip>
+          </TagChip>
         ))}
       </div>
     </S.Head>

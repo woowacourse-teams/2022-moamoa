@@ -1,9 +1,8 @@
 import { memo } from 'react';
 
-import StudyChip from '@pages/main-page/study-chip/StudyChip';
-
 import Card from '@components/card/Card';
 import type { CardProps } from '@components/card/Card';
+import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {
   isOpen: boolean;

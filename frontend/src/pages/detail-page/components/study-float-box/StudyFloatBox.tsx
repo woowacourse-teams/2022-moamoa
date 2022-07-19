@@ -29,13 +29,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     <S.StudyFloatBox>
       <div className="top">
         <div className="deadline">
-          <strong
-            css={css`
-              font-size: 24px;
-            `}
-          >
-            {yyyymmddTommdd(deadline)}
-          </strong>
+          <strong>{yyyymmddTommdd(deadline)}</strong>
           까지 가입 가능
         </div>
         <div className="seating-capacity">

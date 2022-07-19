@@ -4,14 +4,14 @@ import { mqDown } from '@utils/media-query';
 
 export const Main = styled.div`
   display: flex;
-  column-gap: 80px;
+  column-gap: 40px;
 
   & > .left {
     width: 100%;
     min-width: 0;
   }
   & > .right {
-    min-width: 25%;
+    min-width: 30%;
     ${mqDown('lg')} {
       display: none;
     }
@@ -23,8 +23,6 @@ export const Main = styled.div`
     }
   }
 `;
-
-export const MainLeft = styled.div``;
 
 export const ExtraInfo = styled.div`
   & > .title {
