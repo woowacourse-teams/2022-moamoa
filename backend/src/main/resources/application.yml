@@ -13,3 +13,5 @@ spring:
     username: sa
     password:
     url: jdbc:h2:~/moamoa;MODE=MYSQL
+  profiles:
+    include: security
