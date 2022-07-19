@@ -24,7 +24,8 @@
       "@assets/*": ["assets/*"],
       "@constants": ["constants.ts"],
       "@api/*": ["api/*"],
-      "@context/*": ["context/*"]
+      "@context/*": ["context/*"],
+      "@layout/*": ["layout/*"]
     },
     "typeRoots": ["src/custom-types"]
   },

@@ -1,0 +1,112 @@
+{
+  "filters": [
+    {
+      "id": 1,
+      "shortName": "FE",
+      "fullName": "프론트엔드",
+      "category": {
+        "id": 2,
+        "name": "area"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "BE",
+      "fullName": "백엔드",
+      "category": {
+        "id": 2,
+        "name": "area"
+      }
+    },
+    {
+      "id": 1,
+      "shortName": "4기",
+      "fullName": "우테코4기",
+      "category": {
+        "id": 1,
+        "name": "generation"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "3기",
+      "fullName": "우테코3기",
+      "category": {
+        "id": 1,
+        "name": "generation"
+      }
+    },
+    {
+      "id": 1,
+      "shortName": "JS",
+      "fullName": "자바스크립트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 2,
+      "shortName": "Java",
+      "fullName": "자바",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 3,
+      "shortName": "React",
+      "fullName": "리액트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 4,
+      "shortName": "Spring",
+      "fullName": "스프링",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 5,
+      "shortName": "Network",
+      "fullName": "네트워크",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 6,
+      "shortName": "TS",
+      "fullName": "타입스크립트",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 7,
+      "shortName": "Review",
+      "fullName": "코드리뷰",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    },
+    {
+      "id": 8,
+      "shortName": "Alg",
+      "fullName": "알고리즘",
+      "category": {
+        "id": 3,
+        "name": "tag"
+      }
+    }
+  ]
+}
