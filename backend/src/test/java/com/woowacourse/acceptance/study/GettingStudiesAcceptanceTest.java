@@ -103,8 +103,8 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
 
     private ValidatableResponse 페이징을_통한_스터디_목록_조회(Object page, Object size) {
         return RestAssured.given().log().all()
-                .param("page", page)
-                .param("size", size)
+                .queryParam("page", page)
+                .queryParam("size", size)
                 .when().log().all()
                 .get("/api/studies")
                 .then().log().all();
