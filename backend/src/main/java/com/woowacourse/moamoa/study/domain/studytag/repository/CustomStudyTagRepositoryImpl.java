@@ -1,19 +1,19 @@
 package com.woowacourse.moamoa.study.domain.studytag.repository;
 
-import static com.woowacourse.moamoa.tag.domain.QFilter.filter;
 import static com.woowacourse.moamoa.study.domain.study.QStudy.study;
-import static com.woowacourse.moamoa.study.domain.studytag.QStudyFilter.studyFilter;
+import static com.woowacourse.moamoa.study.domain.studytag.QStudyTag.studyTag;
+import static com.woowacourse.moamoa.tag.domain.QTag.tag;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.woowacourse.moamoa.tag.domain.Category;
-import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.study.domain.study.Study;
 import com.woowacourse.moamoa.study.domain.studytag.StudySearchCondition;
 import com.woowacourse.moamoa.study.domain.studytag.StudySlice;
+import com.woowacourse.moamoa.tag.domain.Category;
+import com.woowacourse.moamoa.tag.domain.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +28,11 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
     public StudySlice searchBy(StudySearchCondition condition, Pageable pageable) {
         final List<Study> studies = queryFactory
                 .select(study)
-                .from(studyFilter)
+                .from(studyTag)
                 .where(studyTitleEq(condition.getTitle()),
-                        studyFilter.study.in(findFilteredStudy(condition.getTags())))
-                .join(studyFilter.study, study)
-                .join(studyFilter.filter, filter)
+                        studyTag.study.in(findFilteredStudy(condition.getTags())))
+                .join(studyTag.study, study)
+                .join(studyTag.tag, tag)
                 .distinct()
                 .offset(pageable.getOffset()).limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -44,7 +44,7 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
     }
 
     private Predicate studyTitleEq(final String title) {
-        return hasText(title) ? studyFilter.study.title.containsIgnoreCase(title) : null;
+        return hasText(title) ? studyTag.study.title.containsIgnoreCase(title) : null;
     }
 
     private List<Study> findFilteredStudy(final List<Tag> tags) {
@@ -71,9 +71,9 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
 
     private List<Study> findStudyWithFilter(final List<Tag> tags) {
         return queryFactory.select(study)
-                .from(studyFilter)
+                .from(studyTag)
                 .where(categorizedFilterEq(tags))
-                .join(studyFilter.study, study)
+                .join(studyTag.study, study)
                 .fetch();
     }
 
@@ -94,7 +94,7 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
     private BooleanBuilder categorizedFilterEq(final List<Tag> tags) {
         final BooleanBuilder booleanBuilder = new BooleanBuilder();
         for (Tag tag : tags) {
-            booleanBuilder.or(studyFilter.filter.eq(tag));
+            booleanBuilder.or(studyTag.tag.eq(tag));
         }
 
         return booleanBuilder;
