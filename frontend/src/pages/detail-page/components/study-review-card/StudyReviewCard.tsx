@@ -4,6 +4,8 @@ import { css } from '@emotion/react';
 
 import Avatar from '@components/avatar/Avatar';
 
+import * as S from '@detail-page/components/study-review-card/StudyReviewCard.style';
+
 type StudyReviewCardProps = {
   className?: string;
   profileImageUrl: string;
@@ -20,51 +22,16 @@ const StudyReviewCard: React.FC<StudyReviewCardProps> = ({
   review,
 }) => {
   return (
-    <div className={className}>
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-        `}
-      >
-        <Avatar size="md" profileImg={profileImageUrl} profileAlt="프로필 이미지" />
-        <div
-          css={css`
-            padding-left: 12px;
-          `}
-        >
-          <div
-            css={css`
-              margin-bottom: 4px;
-            `}
-          >
-            {username}
-          </div>
-          <div
-            css={css`
-              color: #717171;
-              font-size: 14px;
-            `}
-          >
-            {reviewDate}
-          </div>
+    <S.StudyReviewCard className={className}>
+      <div className="author">
+        <Avatar className="left" size="md" profileImg={profileImageUrl} profileAlt="프로필 이미지" />
+        <div className="right">
+          <div className="username">{username}</div>
+          <div className="review-date">{reviewDate}</div>
         </div>
       </div>
-      <div
-        css={css`
-          display: -webkit-box;
-          line-height: 24px;
-          -webkit-line-clamp: 3;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -webkit-box-orient: vertical;
-          margin-bottom: 40px;
-        `}
-      >
-        {review}
-      </div>
-    </div>
+      <div className="review">{review}</div>
+    </S.StudyReviewCard>
   );
 };
 

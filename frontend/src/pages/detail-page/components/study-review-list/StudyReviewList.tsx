@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 
-import { mqDown } from '@utils/media-query';
-
 import { StudyReview } from '@custom-types/index';
 
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';

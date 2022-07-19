@@ -1,7 +1,7 @@
 import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { AvatarProps } from './Avatar';
+import type { AvatarProps } from './Avatar.tsx';
 
 const dynamicSize = {
   sm: css`

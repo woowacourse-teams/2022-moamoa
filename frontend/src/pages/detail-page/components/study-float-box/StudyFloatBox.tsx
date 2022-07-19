@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import yyyymmddTommdd from '@utils/yyyymmddTommdd';
+
 import Button from '@components/button/Button';
 
 import * as S from './StudyFloatBox.style';
@@ -25,44 +27,24 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
   return (
     <S.StudyFloatBox>
-      <div
-        css={css`
-          margin-bottom: 30px;
-        `}
-      >
-        <div
-          css={css`
-            margin-bottom: 20px;
-          `}
-        >
+      <div className="top">
+        <div className="deadline">
           <strong
             css={css`
               font-size: 24px;
             `}
           >
-            {deadline}
+            {yyyymmddTommdd(deadline)}
           </strong>
           까지 가입 가능
         </div>
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-          `}
-        >
+        <div className="seating-capacity">
           <span>모집인원</span>
           <span>
             {currentMemberCount} / {maxMemberCount}
           </span>
         </div>
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-          `}
-        >
+        <div className="owner">
           <span>스터디장</span>
           <span>{owner}</span>
         </div>

@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import yyyymmddTommdd from '@utils/yyyymmddTommdd';
+
 import Button from '@components/button/Button';
 
 import * as S from './StudyWideFloatBox.style';
@@ -27,7 +29,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     <S.StudyWideFloatBox>
       <div className="left">
         <div className="deadline">
-          <strong>{deadline}</strong>
+          <strong>{yyyymmddTommdd(deadline)}</strong>
           까지 가입 가능
         </div>
         <div className="member-count">
