@@ -16,9 +16,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler
-    ) throws Exception {
-
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
         if (isPreflight(request)) {
             return true;
         }
@@ -28,7 +26,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         request.setAttribute("payload", jwtTokenProvider.getPayload(token));
 
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+        return true;
     }
 
     private boolean isPreflight(HttpServletRequest request) {
