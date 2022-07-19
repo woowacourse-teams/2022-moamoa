@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS study_filter;
 DROP TABLE IF EXISTS study_member;
-DROP TABLE IF EXISTS filter;
+DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS study;
@@ -27,7 +27,7 @@ CREATE TABLE category
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE filter
+CREATE TABLE tag
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE study_filter
     study_id BIGINT,
     filter_id BIGINT,
     FOREIGN KEY (study_id) REFERENCES study (id),
-    FOREIGN KEY (filter_id) REFERENCES filter (id)
+    FOREIGN KEY (filter_id) REFERENCES tag (id)
 );
 
 CREATE TABLE member

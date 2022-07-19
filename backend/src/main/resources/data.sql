@@ -15,28 +15,28 @@ VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail
 
 INSERT INTO category(id, name) VALUES (1, 'generation');
 INSERT INTO category(id, name) VALUES (2, 'area');
-INSERT INTO category(id, name) VALUES (3, 'tag');
+INSERT INTO category(id, name) VALUES (3, 'subject');
 
-INSERT INTO filter(id, name, category_id) VALUES (1, 'Java', 3);
-INSERT INTO filter(id, name, category_id) VALUES (2, '4기', 1);
-INSERT INTO filter(id, name, category_id) VALUES (3, 'BE', 2);
-INSERT INTO filter(id, name, category_id) VALUES (4, 'FE', 2);
-INSERT INTO filter(id, name, category_id) VALUES (5, 'React', 3);
+INSERT INTO tag(id, name, category_id) VALUES (1, 'Java', 3);
+INSERT INTO tag(id, name, category_id) VALUES (2, '4기', 1);
+INSERT INTO tag(id, name, category_id) VALUES (3, 'BE', 2);
+INSERT INTO tag(id, name, category_id) VALUES (4, 'FE', 2);
+INSERT INTO tag(id, name, category_id) VALUES (5, 'React', 3);
 
-INSERT INTO study_filter(study_id, filter_id) VALUES (1, 1);
-INSERT INTO study_filter(study_id, filter_id) VALUES (1, 2);
-INSERT INTO study_filter(study_id, filter_id) VALUES (1, 3);
+INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1);
+INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2);
+INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3);
 
-INSERT INTO study_filter(study_id, filter_id) VALUES (2, 2);
-INSERT INTO study_filter(study_id, filter_id) VALUES (2, 4);
-INSERT INTO study_filter(study_id, filter_id) VALUES (2, 5);
+INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2);
+INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4);
+INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5);
 
 
-INSERT INTO study_filter(study_id, filter_id) VALUES (3, 2);
-INSERT INTO study_filter(study_id, filter_id) VALUES (3, 4);
+INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2);
+INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4);
 
-INSERT INTO study_filter(study_id, filter_id) VALUES (4, 2);
-INSERT INTO study_filter(study_id, filter_id) VALUES (4, 3);
+INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2);
+INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3);
 
-INSERT INTO study_filter(study_id, filter_id) VALUES (5, 2);
-INSERT INTO study_filter(study_id, filter_id) VALUES (5, 3);
+INSERT INTO study_tag(study_id, tag_id) VALUES (5, 2);
+INSERT INTO study_tag(study_id, tag_id) VALUES (5, 3);

@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.woowacourse.moamoa.filter.domain.repository.FilterRepository;
+import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.study.domain.study.Study;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.study.domain.studyfilter.repository.StudyFilterRepository;
-import com.woowacourse.moamoa.study.service.StudyFilterService;
+import com.woowacourse.moamoa.study.domain.studytag.repository.StudyTagRepository;
+import com.woowacourse.moamoa.study.service.StudyTagService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,16 +26,16 @@ import org.springframework.http.ResponseEntity;
 public class StudyControllerTest {
 
     private StudyRepository studyRepository;
-    private StudyFilterRepository studyFilterRepository;
-    private FilterRepository filterRepository;
+    private StudyTagRepository studyTagRepository;
+    private TagRepository tagRepository;
 
     private StudyController studyController;
 
     @BeforeEach
     void setUp() {
         studyRepository = Mockito.mock(StudyRepository.class);
-        studyFilterRepository = Mockito.mock(StudyFilterRepository.class);
-        filterRepository = Mockito.mock(FilterRepository.class);
+        studyTagRepository = Mockito.mock(StudyTagRepository.class);
+        tagRepository = Mockito.mock(TagRepository.class);
 
         when(studyRepository.findAll(PageRequest.of(0, 3)))
                 .thenReturn(
@@ -63,7 +63,7 @@ public class StudyControllerTest {
                 );
 
         studyController = new StudyController(new StudyService(studyRepository),
-                new StudyFilterService(studyFilterRepository, studyRepository, filterRepository));
+                new StudyTagService(studyTagRepository, studyRepository, tagRepository));
     }
 
     @DisplayName("페이징 정보로 스터디 목록 조회")

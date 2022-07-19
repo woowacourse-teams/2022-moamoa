@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.study.domain.study;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.study.domain.studyfilter.StudyFilter;
+import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class Study {
     private String status;
 
     @OneToMany(mappedBy = "study")
-    private List<StudyFilter> studyFilters = new ArrayList<>();
+    private List<StudyTag> studyTags = new ArrayList<>();
 
     public Study(final Long id, final String title, final String excerpt,
                  final String thumbnail, final String status

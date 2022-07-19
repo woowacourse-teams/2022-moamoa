@@ -2,8 +2,8 @@ package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.study.controller.request.FilterRequest;
-import com.woowacourse.moamoa.study.service.StudyFilterService;
+import com.woowacourse.moamoa.study.controller.request.TagRequest;
+import com.woowacourse.moamoa.study.service.StudyTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudyController {
 
     private final StudyService studyService;
-    private final StudyFilterService studyFilterService;
+    private final StudyTagService studyTagService;
 
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
@@ -33,10 +33,10 @@ public class StudyController {
     @GetMapping("/search")
     public ResponseEntity<StudiesResponse> searchStudies(
             @RequestParam(required = false, defaultValue = "") final String title,
-            @ModelAttribute FilterRequest filterRequest,
+            @ModelAttribute TagRequest tagRequest,
             @PageableDefault(size = 5) final Pageable pageable
     ) {
-        final StudiesResponse studiesResponse = studyFilterService.searchBy(title, filterRequest, pageable);
+        final StudiesResponse studiesResponse = studyTagService.searchBy(title, tagRequest, pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
 }
