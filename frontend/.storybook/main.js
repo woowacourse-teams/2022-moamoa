@@ -17,9 +17,12 @@ module.exports = {
       '@types': resolve(__dirname, '../src/types'),
       '@pages': resolve(__dirname, '../src/pages'),
       '@assets': resolve(__dirname, '../src/assets'),
+      '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
+      '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
+      '@layout': resolve(__dirname, '../src/layout'),
     };
 
     config.module.rules[0].use[0].options.presets = [
