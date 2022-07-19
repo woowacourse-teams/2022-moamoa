@@ -34,7 +34,7 @@ class MemberRepositoryTest {
     @Test
     void updateMember() {
         final Member member = memberRepository.save(new Member(1L, "sc0116", "https://image", "github.com"));
-        member.updateProfileImageUrl("jjanggu.image");
+        member.update("sc0116", "jjanggu.image", "github.com");
         memberRepository.save(member);
 
         assertAll(

@@ -18,7 +18,7 @@ public class MemberService {
     @Transactional
     public void saveOrUpdate(final Member member) {
         memberRepository.findByGithubId(member.getGithubId())
-                .ifPresentOrElse(findMember -> findMember.updateProfileImageUrl(member.getImageUrl()),
+                .ifPresentOrElse(findMember -> findMember.update(member.getUsername(), member.getImageUrl(), member.getProfileUrl()),
         () -> memberRepository.save(member));
     }
 

@@ -38,7 +38,9 @@ public class Member {
         this.profileUrl = profileUrl;
     }
 
-    public void updateProfileImageUrl(final String imageUrl) {
+    public void update(final String username, final String imageUrl, final String profileUrl) {
+        this.username = username;
         this.imageUrl = imageUrl;
+        this.profileUrl = profileUrl;
     }
 }
