@@ -21,7 +21,9 @@ const dynamicSize = {
   `,
 };
 
-const dynamicImageContainer: (props: Pick<AvatarProps, 'size'>) => SerializedStyles = props => css`
+type DynamicImageContainerFn = (props: Pick<AvatarProps, 'size'>) => SerializedStyles;
+
+const dynamicImageContainer: DynamicImageContainerFn = props => css`
   ${dynamicSize[props.size]}
 `;
 
