@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
-DROP TABLE IF EXISTS study;
 DROP TABLE IF EXISTS tag;
+DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS study;
 
 CREATE TABLE study
 (
@@ -20,10 +21,19 @@ CREATE TABLE study
     owner VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE category
+(
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE tag
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tag_name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    category_id BIGINT,
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 CREATE TABLE study_tag
