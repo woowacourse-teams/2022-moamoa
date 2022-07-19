@@ -22,9 +22,12 @@
       "@custom-types/*": ["custom-types/*"],
       "@pages/*": ["pages/*"],
       "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
       "@constants": ["constants.ts"],
       "@api/*": ["api/*"],
       "@context/*": ["context/*"],
+      "@main-page/*": ["pages/main-page/*"],
+      "@detail-page/*": ["pages/detail-page/*"],
       "@layout/*": ["layout/*"]
     },
     "typeRoots": ["src/custom-types"]

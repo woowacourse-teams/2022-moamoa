@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { mqDown } from '@utils/media-query';
+
 export const FilterSectionContainer = styled.div`
   ${({ theme }) => css`
     position: sticky;
@@ -30,7 +32,7 @@ export const RightButtonContainer = styled.div`
     background-color: ${theme.colors.secondary.light}cc;
     z-index: 2;
 
-    @media (max-width: 800px) {
+    ${mqDown('md')} {
       display: none;
     }
   `}

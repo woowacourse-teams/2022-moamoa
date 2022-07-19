@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 
-import { SerializedStyles } from '@emotion/react';
-
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@layout/header/Header.style';
@@ -12,7 +10,6 @@ import Avatar from '@components/avatar/Avatar';
 
 type HeaderProps = {
   className?: string;
-  css?: SerializedStyles;
 };
 
 const Header: React.FC<HeaderProps> = ({ className }) => {

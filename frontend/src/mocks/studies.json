@@ -1,389 +1,2879 @@
 {
   "studies": [
     {
-      "id": 1,
-      "title": "Study Title - 1",
-      "excerpt": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
-      "thumbnail": "https://images.unsplash.com/photo-1564865878688-9a244444042a?ixlib=rb-1.2.1&ixid=MnwxM[…]8MXx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 82056397,
+      "title": "2022-daily-planner",
+      "excerpt": "데일리 프래너입니다",
+      "thumbnail": "https://picsum.photos/id/28/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 28,
+      "maxMemberCount": 33,
+      "deadline": "2022-07-10",
+      "startDate": "2022-07-03",
+      "endDate": "2022-08-07",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 9640683,
+          "username": "KRlzeg",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 753744,
+          "username": "UJPqG7",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3556702,
+          "username": "BtAv_0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3761959,
+          "username": "G6Ul2n",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5579984,
+          "username": "bqQNzB",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6340085,
+          "username": "MpyBSk",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3639124,
+          "username": "Xe5KS1",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7768553,
+          "username": "QO_j7i",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7809398,
+          "username": "_r_Sd4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6813815,
+          "username": "7lzhVG",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3692005,
+          "username": "pdPBWa",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6073472,
+          "username": "3gthUz",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3609135,
+          "username": "XGxHdI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2277054,
+          "username": "8k3mPM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7293076,
+          "username": "pWgiCC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 926147,
+          "username": "uG3H8e",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3437447,
+          "username": "WLA_RK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4552009,
+          "username": "PXhHRf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4793154,
+          "username": "pgs9qt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2433711,
+          "username": "kssB0h",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5314582,
+          "username": "nbE0_H",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8282461,
+          "username": "9H9iFG",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1845701,
+          "username": "z9_GIo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9627364,
+          "username": "tep0HD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1957057,
+          "username": "zg_G_1",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8747519,
+          "username": "YvKgnH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1655692,
+          "username": "X1XnHa",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6562384,
+          "username": "Iiz9oD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "aDNG", "tagName": "algorithm" },
+        { "id": "0c72", "tagName": "cs" },
+        { "id": "s-L_", "tagName": "effective-java" },
+        { "id": "ba98", "tagName": "운동" },
+        { "id": "CQhC", "tagName": "spring" },
+        { "id": "RqLF", "tagName": "typescript" },
+        { "id": "alF_", "tagName": "react" }
+      ]
     },
     {
-      "id": 2,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?ixlib=rb-1.2.1&ixid=MnwxM[…]8Mnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 3264181,
+      "title": "2022-lv3-algorithm-study",
+      "excerpt": "2022 코딩테스트 대비용 BE 알고리즘 스터디",
+      "thumbnail": "https://picsum.photos/id/27/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 8,
+      "maxMemberCount": 19,
+      "deadline": "2022-07-03",
+      "startDate": "2022-07-03",
+      "endDate": "2022-08-26",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 7776787,
+          "username": "BeRqgB",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2288695,
+          "username": "KEZQq6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3698416,
+          "username": "-usbgE",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1300860,
+          "username": "ikTqPY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8496252,
+          "username": "bq0H6O",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1002478,
+          "username": "G3bpIc",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7655197,
+          "username": "7Wv4lt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9203587,
+          "username": "nNrpcO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "APZu", "tagName": "algorithm" },
+        { "id": "vg8H", "tagName": "typescript" },
+        { "id": "08tT", "tagName": "cs" },
+        { "id": "D029", "tagName": "java" },
+        { "id": "gMbb", "tagName": "react" }
+      ]
     },
     {
-      "id": 3,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?ixlib=rb-1.2.1&ixid=MnwxM[…]8Nnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 58949133,
+      "title": "2022-woowahan-bansanghwe",
+      "excerpt": "메타인지 향상을 위한 우아한 반상회입니다",
+      "thumbnail": "https://picsum.photos/id/35/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 31,
+      "maxMemberCount": 39,
+      "deadline": "2022-07-29",
+      "startDate": "2022-07-07",
+      "endDate": "2022-08-05",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 564870,
+          "username": "R8okSn",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4824649,
+          "username": "7wSupb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7895163,
+          "username": "C8KAmC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4892290,
+          "username": "BfNUhg",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4092591,
+          "username": "iIWsxr",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3208516,
+          "username": "r65lEn",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9231376,
+          "username": "ao0CXj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5504280,
+          "username": "GOYY6V",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1717803,
+          "username": "i6Y44R",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2250646,
+          "username": "z2yUca",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2581598,
+          "username": "tSIsMj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3340321,
+          "username": "UdY0Du",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9928797,
+          "username": "C7Igy6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6589873,
+          "username": "oAmEYt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 451458,
+          "username": "mvvWxv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7963252,
+          "username": "SEzqr_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1000605,
+          "username": "mGv_PC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9543368,
+          "username": "msH4up",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2592619,
+          "username": "BSlgKv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3388561,
+          "username": "d21f_e",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5471538,
+          "username": "IEmskL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9154622,
+          "username": "x-K-Ls",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2466364,
+          "username": "TzBFlM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6005995,
+          "username": "JqFAoX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7289812,
+          "username": "3Ub8j2",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3005739,
+          "username": "wMwUH1",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6168638,
+          "username": "4oRkMD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 694920,
+          "username": "5_AatM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9958349,
+          "username": "kwG0qK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3879793,
+          "username": "S_MZFJ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8891737,
+          "username": "DeDsRP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "eqER", "tagName": "cs" },
+        { "id": "RxIZ", "tagName": "javascript" },
+        { "id": "ERPF", "tagName": "react" },
+        { "id": "XFL4", "tagName": "spring" },
+        { "id": "QibQ", "tagName": "typescript" },
+        { "id": "1bd3", "tagName": "network" },
+        { "id": "QXI7", "tagName": "jpa" }
+      ]
     },
     {
-      "id": 4,
-      "title": "이것은 스터디 제목입니다. 자바 스터디 입니다.",
-      "excerpt": "이것은 스터디의 설명 입니다. 우리 스터디 짱이에요~~!!",
-      "thumbnail": "https://images.unsplash.com/photo-1522252234503-e356532cafd5?ixlib=rb-1.2.1&ixid=MnwxM[…]8N3x8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 19388057,
+      "title": "2022-gugu-spring-study",
+      "excerpt": "레벨1 구구조의 제로가 이끄는 스프링 스터디",
+      "thumbnail": "https://picsum.photos/id/31/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 23,
+      "maxMemberCount": 23,
+      "deadline": "2022-07-12",
+      "startDate": "2022-07-31",
+      "endDate": "2022-08-23",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 941088,
+          "username": "-2BkT9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3437643,
+          "username": "sjVxBh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5342447,
+          "username": "hbd83c",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1109056,
+          "username": "8V_QRp",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5080931,
+          "username": "9KXe1Y",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5546175,
+          "username": "wzQeYH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2939182,
+          "username": "irKSvq",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5751419,
+          "username": "Cn4HQU",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8173769,
+          "username": "KkstDr",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4442735,
+          "username": "gsvSn7",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6363420,
+          "username": "F-YJCZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5576763,
+          "username": "-xhr5H",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9728073,
+          "username": "FjRepx",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1938551,
+          "username": "YN0elH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8014366,
+          "username": "yckoIv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 47704,
+          "username": "oGGrKs",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2119028,
+          "username": "D1xfZa",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2601790,
+          "username": "yJDmAb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7228052,
+          "username": "quAjrP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5674472,
+          "username": "au6LLM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1713452,
+          "username": "rZbhkX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 389305,
+          "username": "qIK8jm",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5129229,
+          "username": "OfqLjo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "vmLa", "tagName": "운동" },
+        { "id": "SQak", "tagName": "cs" },
+        { "id": "DTvC", "tagName": "redux" },
+        { "id": "gY-Q", "tagName": "algorithm" }
+      ]
     },
     {
-      "id": 5,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8MXx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 17980764,
+      "title": "2022-ConquerCS",
+      "excerpt": "CS 정복하기🇰🇷",
+      "thumbnail": "https://picsum.photos/id/83/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 12,
+      "maxMemberCount": 37,
+      "deadline": "2022-07-27",
+      "startDate": "2022-07-18",
+      "endDate": "2022-08-01",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 9662288,
+          "username": "4yZYmB",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7439371,
+          "username": "hiM8XM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2713780,
+          "username": "RSE6rs",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 517837,
+          "username": "rZ5OFz",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7841217,
+          "username": "5xwX5p",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7947109,
+          "username": "lDEwQT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9585919,
+          "username": "PXntno",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4161430,
+          "username": "39A1J5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8465733,
+          "username": "-sV3J4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3654194,
+          "username": "NQ2sXo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4259017,
+          "username": "LdN8b7",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4915608,
+          "username": "Gre4Pf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "pcgh", "tagName": "typescript" },
+        { "id": "hOEc", "tagName": "spring" },
+        { "id": "z_CG", "tagName": "rtk" },
+        { "id": "ITSy", "tagName": "cs" },
+        { "id": "cZOz", "tagName": "jpa" }
+      ]
     },
     {
-      "id": 6,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8NHx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 63108339,
+      "title": "2022-looking-for-the-sound-of-an-object",
+      "excerpt": "객체의 소리를 찾아서 ",
+      "thumbnail": "https://picsum.photos/id/25/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 25,
+      "maxMemberCount": 36,
+      "deadline": "2022-07-28",
+      "startDate": "2022-07-21",
+      "endDate": "2022-08-14",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 7012515,
+          "username": "KYMywX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3317403,
+          "username": "jY0VFI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5838208,
+          "username": "xRw4S7",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1687143,
+          "username": "Y6bkz1",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 672721,
+          "username": "eAxO-B",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1394979,
+          "username": "0JOFyT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4712361,
+          "username": "BWDHW8",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8873979,
+          "username": "gHPesX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5221252,
+          "username": "d2Tva9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3691791,
+          "username": "xc8O8Y",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5403311,
+          "username": "l996NO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2290719,
+          "username": "N41QL-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4767733,
+          "username": "YNp_oF",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2480105,
+          "username": "akz_WY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8829835,
+          "username": "89bhJO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 645510,
+          "username": "MHQRMh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2855359,
+          "username": "7_oarL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2859668,
+          "username": "bxEKqW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4164840,
+          "username": "5u4BbQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 701115,
+          "username": "v8wziv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7505365,
+          "username": "paxmRT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5468273,
+          "username": "UxO10C",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8439445,
+          "username": "MjXDm_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1227747,
+          "username": "H9N6-N",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7337638,
+          "username": "KqeFMK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "AEMT", "tagName": "java" },
+        { "id": "JSWl", "tagName": "운동" },
+        { "id": "qsV3", "tagName": "algorithm" },
+        { "id": "14pi", "tagName": "rtk" },
+        { "id": "Eefg", "tagName": "effective-java" },
+        { "id": "8UqY", "tagName": "독서" },
+        { "id": "UR1R", "tagName": "react" },
+        { "id": "2Slh", "tagName": "javascript" },
+        { "id": "0xFZ", "tagName": "cs" }
+      ]
     },
     {
-      "id": 7,
-      "title": "이것은 모던 자바스크립트 딥다이브 및 코어 자바스크립트 및 MDN스터디 입니다",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 26837292,
+      "title": "2022-kotudy",
+      "excerpt": "우아한테크코스 4기 😋 코틀린 스터디",
+      "thumbnail": "https://picsum.photos/id/60/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 12,
+      "maxMemberCount": 39,
+      "deadline": "2022-07-17",
+      "startDate": "2022-07-23",
+      "endDate": "2022-08-03",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 6141072,
+          "username": "Ehz8F5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2497060,
+          "username": "8JoDXE",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6314887,
+          "username": "PCU-t6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6912333,
+          "username": "QZstRf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8405254,
+          "username": "BoLOF6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4301674,
+          "username": "E6YHuL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 802629,
+          "username": "xe44CU",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4249654,
+          "username": "LBcZfS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6216994,
+          "username": "zuCfEP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1277464,
+          "username": "ETD8ma",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 643346,
+          "username": "0blGvW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4199666,
+          "username": "ZNzRIi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": []
     },
     {
-      "id": 8,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1532153955177-f59af40d6472?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 19813495,
+      "title": "2022-no-posting-you-die",
+      "excerpt": "'강제 블로그 포스팅 연합' 스터디입니다",
+      "thumbnail": "https://picsum.photos/id/56/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 10,
+      "maxMemberCount": 40,
+      "deadline": "2022-07-02",
+      "startDate": "2022-07-26",
+      "endDate": "2022-08-20",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 8071708,
+          "username": "ovpHHz",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1031440,
+          "username": "Q5daej",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6444229,
+          "username": "EoTBBv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2197859,
+          "username": "Vtl-kF",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1087295,
+          "username": "ot5x04",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4207499,
+          "username": "QDBDwT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7742896,
+          "username": "7XvI1B",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1832108,
+          "username": "vq6rCS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8535330,
+          "username": "YU4xmI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6904488,
+          "username": "2ninBL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "7dsV", "tagName": "typescript" },
+        { "id": "Aewe", "tagName": "redux" },
+        { "id": "xSbp", "tagName": "effective-java" },
+        { "id": "qDL5", "tagName": "jpa" }
+      ]
     },
     {
-      "id": 9,
-      "title": "모던 자바스크립트 딥다이브 스터디 입니다",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 36741048,
+      "title": "2022-Real-MySQL",
+      "excerpt": "⚡️토르⚡️의 짜릿한 Real MySQL 뽀개기 🔨",
+      "thumbnail": "https://picsum.photos/id/41/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 38,
+      "maxMemberCount": 38,
+      "deadline": "2022-07-18",
+      "startDate": "2022-07-14",
+      "endDate": "2022-08-21",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 4580721,
+          "username": "qcpVdi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6238420,
+          "username": "oomqF0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9121327,
+          "username": "pOCVWY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 479339,
+          "username": "Gzzwhe",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2443452,
+          "username": "TPE-Jy",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1034475,
+          "username": "7pg1MW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7531672,
+          "username": "2gVe6Z",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1591649,
+          "username": "dzh1Ih",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9888385,
+          "username": "qMNJ3-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 959227,
+          "username": "fq9hLk",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3515351,
+          "username": "y7CVae",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5881926,
+          "username": "VdcEWA",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5439250,
+          "username": "1cqYN2",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1579668,
+          "username": "0DptZ2",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8722746,
+          "username": "sfSXQj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 889520,
+          "username": "otf-F0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 598494,
+          "username": "YYprza",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2955812,
+          "username": "GTZQp8",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4629797,
+          "username": "GK4VXM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7071477,
+          "username": "M1dsoc",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7437831,
+          "username": "MTE7Z9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8182432,
+          "username": "HtL2kb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6529411,
+          "username": "p9b_hI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6665749,
+          "username": "0Lqwf-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5823724,
+          "username": "hqH2rX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1249419,
+          "username": "Er6lN6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5287002,
+          "username": "mKzUdT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3409285,
+          "username": "62DYOH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2754495,
+          "username": "rcK8LO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1487028,
+          "username": "froMkT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7643282,
+          "username": "CXMHEX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5076436,
+          "username": "Hbkpgk",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2685093,
+          "username": "N715Fi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2954905,
+          "username": "QE0IbS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3271491,
+          "username": "xy2X7f",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5961327,
+          "username": "z-YKYd",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9418590,
+          "username": "KV0rbi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3963935,
+          "username": "IFyzQZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "PM10", "tagName": "algorithm" },
+        { "id": "zdN2", "tagName": "typescript" },
+        { "id": "8Kp2", "tagName": "rtk" },
+        { "id": "42W3", "tagName": "독서" },
+        { "id": "IAA2", "tagName": "network" },
+        { "id": "NKPg", "tagName": "spring" }
+      ]
     },
     {
-      "id": 10,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1564865878688-9a244444042a?ixlib=rb-1.2.1&ixid=MnwxM[…]8MXx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 91074895,
+      "title": "2022-weekly-log",
+      "excerpt": "👻 chalee's weekly-log challenge 👻",
+      "thumbnail": "https://picsum.photos/id/91/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 14,
+      "maxMemberCount": 25,
+      "deadline": "2022-07-05",
+      "startDate": "2022-07-19",
+      "endDate": "2022-08-24",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 2610310,
+          "username": "9AIPON",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8861732,
+          "username": "nb1n5E",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4618279,
+          "username": "d3ob1B",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8284171,
+          "username": "bNTwEK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 701615,
+          "username": "H98iZv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7464851,
+          "username": "su0WhA",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5524961,
+          "username": "HRpPx4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8676612,
+          "username": "c6-o8F",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2811925,
+          "username": "uDmmX2",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6539700,
+          "username": "it8rx3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6301548,
+          "username": "dLiYso",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2908734,
+          "username": "ryfYwt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3647899,
+          "username": "rgykXM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 366632,
+          "username": "ZHXkXs",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "f_VD", "tagName": "java" },
+        { "id": "xaze", "tagName": "typescript" },
+        { "id": "nKwn", "tagName": "독서" },
+        { "id": "hmKL", "tagName": "redux" },
+        { "id": "eXfI", "tagName": "rtk" },
+        { "id": "zTAO", "tagName": "jpa" },
+        { "id": "kLpt", "tagName": "react" },
+        { "id": "iCtz", "tagName": "spring" }
+      ]
     },
     {
-      "id": 11,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?ixlib=rb-1.2.1&ixid=MnwxM[…]8Mnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 18139680,
+      "title": "2022-spring-study",
+      "excerpt": "찐들의 스프링 스터디",
+      "thumbnail": "https://picsum.photos/id/71/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 19,
+      "maxMemberCount": 28,
+      "deadline": "2022-07-23",
+      "startDate": "2022-07-25",
+      "endDate": "2022-08-31",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 9462039,
+          "username": "IPphWh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6387961,
+          "username": "Td4e3c",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6190552,
+          "username": "wISPdk",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5155635,
+          "username": "d63Y8d",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4407203,
+          "username": "BkfEKk",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2920699,
+          "username": "l2ADmz",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8072556,
+          "username": "PidR1f",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5281091,
+          "username": "JlYfCv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8032074,
+          "username": "5Rej4O",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7022473,
+          "username": "L-kOaz",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6064756,
+          "username": "MlmW9v",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8197818,
+          "username": "VkCJjL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5384954,
+          "username": "LgqQUj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2099225,
+          "username": "iInyVB",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1882896,
+          "username": "K5hF7b",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1542021,
+          "username": "RoVfKD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2652851,
+          "username": "e_KGvA",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8092206,
+          "username": "BLUwz9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 144759,
+          "username": "tQ6AdO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "TIjS", "tagName": "java" },
+        { "id": "hncG", "tagName": "react" },
+        { "id": "9n_F", "tagName": "javascript" },
+        { "id": "d4dJ", "tagName": "typescript" }
+      ]
     },
     {
-      "id": 12,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?ixlib=rb-1.2.1&ixid=MnwxM[…]8Nnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 14135558,
+      "title": "http-network-basic-level2-study",
+      "excerpt": "4기 Level2 http network basic 스터디",
+      "thumbnail": "https://picsum.photos/id/35/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 25,
+      "maxMemberCount": 35,
+      "deadline": "2022-07-31",
+      "startDate": "2022-07-30",
+      "endDate": "2022-08-24",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 3113803,
+          "username": "ch-VVj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6218764,
+          "username": "foHZd_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 221591,
+          "username": "CLPl9j",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9967712,
+          "username": "oudM-q",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9211498,
+          "username": "R1xXUQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4882422,
+          "username": "k7ieDC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3773540,
+          "username": "NXBsVB",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2767005,
+          "username": "mnDQ4Q",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4312180,
+          "username": "2MV7q5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6943855,
+          "username": "4lHMiU",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4999404,
+          "username": "ou1SoK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4021213,
+          "username": "9IyKeO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6952678,
+          "username": "ALQ3j_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6575984,
+          "username": "5zeEJC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7806809,
+          "username": "mLRkt3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5441264,
+          "username": "1ZP0Bv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7061809,
+          "username": "I92VE5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1026375,
+          "username": "8-CEOx",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6128149,
+          "username": "-z65Ux",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2080937,
+          "username": "xjQpTR",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3904826,
+          "username": "_EeWBD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4333597,
+          "username": "BeESFo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3858675,
+          "username": "hK9v3_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3455115,
+          "username": "8ZFniO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9107725,
+          "username": "b9BW5-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [{ "id": "ATD9", "tagName": "react" }]
     },
     {
-      "id": 13,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1522252234503-e356532cafd5?ixlib=rb-1.2.1&ixid=MnwxM[…]8N3x8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 57118139,
+      "title": "2022-code-review-study-2",
+      "excerpt": "우아한테크코스 프론트엔드 미션 코드리뷰 피드백 정리",
+      "thumbnail": "https://picsum.photos/id/16/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 25,
+      "maxMemberCount": 40,
+      "deadline": "2022-07-20",
+      "startDate": "2022-07-14",
+      "endDate": "2022-08-18",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 6607039,
+          "username": "pyyhcT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9632393,
+          "username": "LmfY1c",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3862921,
+          "username": "lM3yxv",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5305089,
+          "username": "xvs71U",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9037654,
+          "username": "AbVLn9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 179834,
+          "username": "80LwPr",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2234576,
+          "username": "QhQ7NI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2961209,
+          "username": "DF_0-0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1599390,
+          "username": "8bgkTu",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9983048,
+          "username": "sEKPqd",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6217193,
+          "username": "jfgNrK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9833940,
+          "username": "f4ZsFe",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6121994,
+          "username": "9-IbFQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5487801,
+          "username": "yCTy8W",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1215917,
+          "username": "HtM6Nj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9729092,
+          "username": "jVtE01",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9897146,
+          "username": "rggHJh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3456412,
+          "username": "XTxdKg",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 884564,
+          "username": "yUn9fy",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 70626,
+          "username": "SMa2xV",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6790435,
+          "username": "h3T9uU",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7733590,
+          "username": "P4S2uj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1115959,
+          "username": "Pvqz6F",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 342616,
+          "username": "zOqa8N",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 690022,
+          "username": "Tc9vEg",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "oFUY", "tagName": "javascript" },
+        { "id": "-MYT", "tagName": "운동" },
+        { "id": "Paa4", "tagName": "독서" },
+        { "id": "p_cu", "tagName": "rtk" },
+        { "id": "5_Bp", "tagName": "redux" },
+        { "id": "WDdn", "tagName": "java" },
+        { "id": "TCIW", "tagName": "effective-java" },
+        { "id": "IRj4", "tagName": "algorithm" }
+      ]
     },
     {
-      "id": 14,
-      "title": "쟈     스",
-      "excerpt": "쟈   스      스       터     디디디      설 ㄹ   명",
-      "thumbnail": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8MXx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 74526443,
+      "title": "2022-http-web-basic-for-all-developer",
+      "excerpt": "모든 개발자를 위한 HTTP 웹 기본 지식 익히기",
+      "thumbnail": "https://picsum.photos/id/65/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 11,
+      "maxMemberCount": 37,
+      "deadline": "2022-07-06",
+      "startDate": "2022-07-06",
+      "endDate": "2022-08-19",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 6020845,
+          "username": "Udvwra",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8098820,
+          "username": "xXU_N_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1275307,
+          "username": "s6sMVf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1367419,
+          "username": "SOWJUA",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1353366,
+          "username": "XDy9Gy",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9793771,
+          "username": "fdtsZi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6808959,
+          "username": "c6S_CY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4061892,
+          "username": "-rhWu5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7050426,
+          "username": "PLXSkP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 174294,
+          "username": "2tBIjR",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7691287,
+          "username": "tfCNXJ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "qJAX", "tagName": "javascript" },
+        { "id": "ijbR", "tagName": "cs" },
+        { "id": "0cyR", "tagName": "독서" },
+        { "id": "dGnC", "tagName": "rtk" },
+        { "id": "pdfW", "tagName": "java" },
+        { "id": "Llvz", "tagName": "react" },
+        { "id": "JVB-", "tagName": "운동" },
+        { "id": "3D5D", "tagName": "effective-java" }
+      ]
     },
     {
-      "id": 15,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?ixlib=rb-1.2.1&ixid=MnwxM[…]2h8NHx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 99884362,
+      "title": "2022-woowa-retrospect",
+      "excerpt": "우아한테크코스 4기 프론트엔드 과정 회고",
+      "thumbnail": "https://picsum.photos/id/93/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 14,
+      "maxMemberCount": 23,
+      "deadline": "2022-07-24",
+      "startDate": "2022-07-04",
+      "endDate": "2022-08-00",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 8007427,
+          "username": "dwTUCm",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3792747,
+          "username": "jWQUZQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8889259,
+          "username": "0YeoEt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1359761,
+          "username": "uGii94",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5668651,
+          "username": "36ldsP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1523557,
+          "username": "eKCjEa",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 974530,
+          "username": "1MOKBc",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1706275,
+          "username": "RCorDw",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7194149,
+          "username": "6DznoS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6720534,
+          "username": "LzYbTo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3259434,
+          "username": "Uln1t4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5143207,
+          "username": "RiZH4p",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9963431,
+          "username": "MeCdBY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 376839,
+          "username": "jLL32X",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "BvS3", "tagName": "cs" },
+        { "id": "g3fX", "tagName": "typescript" },
+        { "id": "4aVw", "tagName": "redux" },
+        { "id": "QwIs", "tagName": "독서" },
+        { "id": "UUQi", "tagName": "jpa" },
+        { "id": "N8i_", "tagName": "javascript" },
+        { "id": "dcaO", "tagName": "react" },
+        { "id": "x73f", "tagName": "운동" },
+        { "id": "vlu1", "tagName": "network" }
+      ]
     },
     {
-      "id": 16,
-      "title": "JS",
-      "excerpt": "THIS IS JS STUDY",
-      "thumbnail": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 64966375,
+      "title": "2022-http-network-basic-study",
+      "excerpt": "우아한테크코스 4기 Http&Network Basic 스터디",
+      "thumbnail": "https://picsum.photos/id/94/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 37,
+      "maxMemberCount": 40,
+      "deadline": "2022-07-27",
+      "startDate": "2022-07-01",
+      "endDate": "2022-08-29",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 9965571,
+          "username": "2cUnLS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 189669,
+          "username": "S6yWfb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5916637,
+          "username": "gJD0j0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5461546,
+          "username": "FR5Yrl",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7673816,
+          "username": "1Uyozy",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6196033,
+          "username": "PL8uxR",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7984357,
+          "username": "oLMfy0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1073763,
+          "username": "O-6LI-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8137985,
+          "username": "kitZIS",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8391510,
+          "username": "Pa4lIe",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8511135,
+          "username": "3IzKhw",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5809348,
+          "username": "TmS1WG",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7264586,
+          "username": "CKVpzV",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5834083,
+          "username": "OpXnaT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3671745,
+          "username": "FlvOI_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 743893,
+          "username": "2YDcUO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6947281,
+          "username": "sUadRp",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3869430,
+          "username": "o7s41A",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1966839,
+          "username": "n_iDzY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3029752,
+          "username": "ohg_iO",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9317118,
+          "username": "uKaODZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2411708,
+          "username": "8W6pLb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8580964,
+          "username": "yTe5g5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 448096,
+          "username": "ytZn6P",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5110684,
+          "username": "fzVJB3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1255522,
+          "username": "XEoLUM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1834763,
+          "username": "4A6_L5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2331103,
+          "username": "XNNgwE",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5138345,
+          "username": "nRLLra",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1520145,
+          "username": "GMlr21",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1293226,
+          "username": "2Oz0id",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2130606,
+          "username": "q5H8Jf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5913923,
+          "username": "Ez2huo",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9608967,
+          "username": "NEx9q3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4081653,
+          "username": "2G-lKQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9475131,
+          "username": "UPSlIr",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2327831,
+          "username": "q7Kl4z",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "1KrM", "tagName": "rtk" },
+        { "id": "6tA4", "tagName": "typescript" },
+        { "id": "DyrJ", "tagName": "cs" },
+        { "id": "MzwN", "tagName": "redux" },
+        { "id": "Qj3i", "tagName": "독서" },
+        { "id": "zoGv", "tagName": "운동" },
+        { "id": "NM1j", "tagName": "java" },
+        { "id": "ntAR", "tagName": "react" },
+        { "id": "KeS8", "tagName": "network" }
+      ]
     },
     {
-      "id": 17,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1532153955177-f59af40d6472?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 87589110,
+      "title": "2022-lv2-effective-java-interview",
+      "excerpt": "2022 우아한테크코스 BE Level2 이펙티브자바 인터뷰 스터디",
+      "thumbnail": "https://picsum.photos/id/5/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 10,
+      "maxMemberCount": 22,
+      "deadline": "2022-07-03",
+      "startDate": "2022-07-13",
+      "endDate": "2022-08-19",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 3658055,
+          "username": "HLnt8A",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4669631,
+          "username": "PPyysQ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9394974,
+          "username": "l73_Kh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5844256,
+          "username": "LavjYV",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9974365,
+          "username": "EXfkS4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3847943,
+          "username": "RmUi6F",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6726548,
+          "username": "dQ_oiW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2353205,
+          "username": "iiDkzm",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4381005,
+          "username": "8M06sq",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1223027,
+          "username": "9MSrW6",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "CFGy", "tagName": "algorithm" },
+        { "id": "Pj1z", "tagName": "rtk" },
+        { "id": "-xyN", "tagName": "독서" },
+        { "id": "pUsh", "tagName": "redux" },
+        { "id": "nlKa", "tagName": "운동" }
+      ]
     },
     {
-      "id": 18,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 85288055,
+      "title": "2022-book-muscle",
+      "excerpt": "프론트엔드 독서 클럽",
+      "thumbnail": "https://picsum.photos/id/26/200/300",
+      "status": "close",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 31,
+      "maxMemberCount": 38,
+      "deadline": "2022-07-04",
+      "startDate": "2022-07-30",
+      "endDate": "2022-08-30",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 9523051,
+          "username": "v9_dyD",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5949293,
+          "username": "hC__AZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7716339,
+          "username": "8pRNC0",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 96667,
+          "username": "gXGq6H",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1290807,
+          "username": "5FBe7A",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7904144,
+          "username": "mqIam9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5794537,
+          "username": "9tUThe",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7141266,
+          "username": "NfRWRt",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5712850,
+          "username": "WtyZAW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8810585,
+          "username": "pcp5lh",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2225486,
+          "username": "EDpKcY",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4157491,
+          "username": "oHORxH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9997568,
+          "username": "NMYfN_",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 638686,
+          "username": "wa0Jdc",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 929832,
+          "username": "o9vasK",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 618622,
+          "username": "SJozUT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6702571,
+          "username": "xajAOE",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1720314,
+          "username": "Nbhlsp",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7053183,
+          "username": "scWZcZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1252614,
+          "username": "x_9RVL",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9762916,
+          "username": "Ev-syM",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1933352,
+          "username": "yR5f_-",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6178951,
+          "username": "sZKmIj",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9069463,
+          "username": "gg6Gd9",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1913926,
+          "username": "a--QdP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4909012,
+          "username": "wCooBb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8465137,
+          "username": "TaRFfP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5519351,
+          "username": "Qizvi3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8986780,
+          "username": "o5ZqQl",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5652154,
+          "username": "D5SEV5",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 847358,
+          "username": "7sCBFu",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [{ "id": "xQ_5", "tagName": "cs" }]
     },
     {
-      "id": 19,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 20,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 21,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 22,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 23,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 24,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 25,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 26,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 27,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 28,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 29,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 30,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 31,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 32,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 33,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 34,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 35,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 36,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 37,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 38,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 39,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 40,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 41,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 42,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 43,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 44,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 45,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 46,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 47,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 48,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 49,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 50,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 51,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 52,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 53,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 54,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
-    },
-    {
-      "id": 55,
-      "title": "Study Title - 1",
-      "excerpt": "This is Study Description - 1",
-      "thumbnail": "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?ixlib=rb-1.2.1&ixid=MnwxM[…]HN0dWR5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      "status": "open"
+      "id": 57659798,
+      "title": "2022-woowahan-everybook",
+      "excerpt": "안녕하세요 '리버'네 독서천국입니다😊",
+      "thumbnail": "https://picsum.photos/id/17/200/300",
+      "status": "open",
+      "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
+      "currentMemberCount": 32,
+      "maxMemberCount": 37,
+      "deadline": "2022-07-05",
+      "startDate": "2022-07-07",
+      "endDate": "2022-08-13",
+      "owner": "owner",
+      "members": [
+        {
+          "id": 5103026,
+          "username": "g6L1Ty",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 6492880,
+          "username": "KpDXRV",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8719904,
+          "username": "KeNjvP",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3837002,
+          "username": "q4N5WH",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2641000,
+          "username": "-sQ1Un",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7835790,
+          "username": "coOBOd",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5175126,
+          "username": "92-yHr",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9297972,
+          "username": "GsuK8t",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7551059,
+          "username": "qWcQaw",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2059704,
+          "username": "mdFUSI",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2404459,
+          "username": "EWjciV",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5243613,
+          "username": "0AB6Hx",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4765345,
+          "username": "5VR8FN",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 356873,
+          "username": "WLYWiU",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3684493,
+          "username": "B44FiT",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8477478,
+          "username": "rr9KSi",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2007524,
+          "username": "w9_fzw",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 995090,
+          "username": "FKqGw3",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 179195,
+          "username": "MWhL4Z",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 3419096,
+          "username": "-p1NhZ",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 2687543,
+          "username": "cmzrmm",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4204144,
+          "username": "FIBcr4",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9977137,
+          "username": "fFCXDp",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4974857,
+          "username": "ISMahC",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 7842500,
+          "username": "SA-V7W",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 8404780,
+          "username": "cddA9z",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5386473,
+          "username": "TcWXEW",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 5552612,
+          "username": "ZmdnJ8",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1194047,
+          "username": "U5cHLX",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 9142098,
+          "username": "FDJhPb",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 4194746,
+          "username": "EylEzl",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        },
+        {
+          "id": 1432734,
+          "username": "AUh5gf",
+          "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+          "profileUrl": "https://github.com/airman5573"
+        }
+      ],
+      "tags": [
+        { "id": "GAKV", "tagName": "react" },
+        { "id": "gDJ7", "tagName": "java" },
+        { "id": "D9RV", "tagName": "network" },
+        { "id": "ov6P", "tagName": "독서" },
+        { "id": "Ai5Y", "tagName": "spring" },
+        { "id": "RUS1", "tagName": "effective-java" },
+        { "id": "emkx", "tagName": "cs" },
+        { "id": "JaKt", "tagName": "typescript" }
+      ]
     }
   ]
 }

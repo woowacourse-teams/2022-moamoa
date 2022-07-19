@@ -1,7 +1,33 @@
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const ImageContainer = styled.div`
+import type { AvatarProps } from '@components/avatar/Avatar';
+
+const dynamicSize = {
+  sm: css`
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+  `,
+  md: css`
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+  `,
+  lg: css`
+    width: 65px;
+    min-width: 65px;
+    height: 65px;
+  `,
+};
+
+type DynamicImageContainerFn = (props: Pick<AvatarProps, 'size'>) => SerializedStyles;
+
+const dynamicImageContainer: DynamicImageContainerFn = props => css`
+  ${dynamicSize[props.size]}
+`;
+
+export const Avatar = styled.div`
   ${({ theme }) => css`
     width: 36px;
     min-width: 36px;
@@ -16,6 +42,8 @@ export const ImageContainer = styled.div`
       opacity: 0.9;
     }
   `}
+
+  ${dynamicImageContainer}
 `;
 
 export const Image = styled.img`

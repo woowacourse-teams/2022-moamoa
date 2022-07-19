@@ -80,10 +80,6 @@ const GlobalStyles = () => {
           font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
         }
 
-        li {
-          list-style: none;
-        }
-
         button {
           font-family: inherit;
           cursor: pointer;
@@ -99,6 +95,10 @@ const GlobalStyles = () => {
           &::placeholder {
             color: ${theme.colors.secondary.dark};
           }
+        }
+
+        li {
+          list-style: none;
         }
       `}
     />

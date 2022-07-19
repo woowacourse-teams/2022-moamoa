@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { mqDown } from '@utils/media-query';
+
 import * as Logo from '@layout/header/logo/Logo.style';
 import * as SearchBar from '@layout/header/search-bar/SearchBar.style';
 
@@ -28,7 +30,7 @@ export const Row = styled.header`
     background-color: ${theme.colors.secondary.light};
     border-bottom: 1px solid ${theme.colors.secondary.dark};
 
-    @media (max-width: 1100px) {
+    ${mqDown('lg')} {
       ${Logo.ImageContainer} {
         margin-right: 0;
       }
@@ -43,14 +45,14 @@ export const Row = styled.header`
       }
     }
 
-    @media (max-width: 800px) {
+    ${mqDown('md')} {
       padding: 16px 24px;
       ${SearchBar.Input} {
         font-size: 18px;
       }
     }
 
-    @media (max-width: 500px) {
+    ${mqDown('sm')} {
       padding: 10px 12px;
       ${SearchBar.Input} {
         font-size: 16px;

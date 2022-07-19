@@ -1,6 +1,7 @@
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import type { Study, StudyListQueryData } from '@custom-types/index';
 
@@ -69,13 +70,15 @@ const MainPage: React.FC = () => {
             <S.CardList>
               {searchedStudies.map(study => (
                 <li key={study.id}>
-                  <StudyCard
-                    thumbnailUrl={study.thumbnail}
-                    thumbnailAlt={`${study.title} 스터디 이미지`}
-                    title={study.title}
-                    excerpt={study.excerpt}
-                    isOpen={study.status === 'open'}
-                  />
+                  <Link to={`study/${study.id}`}>
+                    <StudyCard
+                      thumbnailUrl={study.thumbnail}
+                      thumbnailAlt={`${study.title} 스터디 이미지`}
+                      title={study.title}
+                      excerpt={study.excerpt}
+                      isOpen={study.status === 'open'}
+                    />
+                  </Link>
                 </li>
               ))}
             </S.CardList>
