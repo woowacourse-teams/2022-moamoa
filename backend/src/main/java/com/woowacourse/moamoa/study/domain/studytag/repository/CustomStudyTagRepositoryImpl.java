@@ -16,13 +16,16 @@ import com.woowacourse.moamoa.tag.domain.Category;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import javax.persistence.EntityManager;
 import org.springframework.data.domain.Pageable;
 
-@RequiredArgsConstructor
 public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    public CustomStudyTagRepositoryImpl(final EntityManager entityManager) {
+        this.queryFactory = new JPAQueryFactory(entityManager);
+    }
 
     @Override
     public StudySlice searchBy(StudySearchCondition condition, Pageable pageable) {
