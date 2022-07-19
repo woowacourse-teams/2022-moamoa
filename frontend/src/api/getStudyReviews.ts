@@ -8,7 +8,7 @@ export type StudyReviewResponse = {
 };
 
 const getStudyReviews = async (studyId: number, size?: number): Promise<StudyReviewResponse> => {
-  const url = size ? `/api/studies/${studyId}/reviews` : `/api/studies/${studyId}/reviews?size=${size}`;
+  const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
   const response = await axiosInstance.get<StudyReviewResponse>(url);
   return response.data;
 };

@@ -5,7 +5,7 @@ import getStudyReviews from '@api/getStudyReviews';
 import type { StudyReviewResponse } from '@api/getStudyReviews';
 
 const useFetchStudyReviews = (studyId: number, size?: number) => {
-  const queryKey = size ? [QK_FETCH_STUDY_REVIEWS, studyId, 'all'] : [QK_FETCH_STUDY_REVIEWS, studyId];
+  const queryKey = size ? [QK_FETCH_STUDY_REVIEWS, studyId] : [QK_FETCH_STUDY_REVIEWS, studyId, 'all'];
   return useQuery<StudyReviewResponse, unknown>(queryKey, () => getStudyReviews(studyId, size));
 };
 
