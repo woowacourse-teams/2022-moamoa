@@ -13,15 +13,15 @@ VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'jjanggu'
 INSERT INTO study(id, title, excerpt, thumbnail, status, owner)
 VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'whitedog');
 
-INSERT INTO category(id, name) VALUES (1, 'generation');
-INSERT INTO category(id, name) VALUES (2, 'area');
-INSERT INTO category(id, name) VALUES (3, 'subject');
+INSERT INTO category(id, name) VALUES (1, 'GENERATION');
+INSERT INTO category(id, name) VALUES (2, 'AREA');
+INSERT INTO category(id, name) VALUES (3, 'SUBJECT');
 
-INSERT INTO tag(id, name, category_id) VALUES (1, 'Java', 3);
-INSERT INTO tag(id, name, category_id) VALUES (2, '4기', 1);
-INSERT INTO tag(id, name, category_id) VALUES (3, 'BE', 2);
-INSERT INTO tag(id, name, category_id) VALUES (4, 'FE', 2);
-INSERT INTO tag(id, name, category_id) VALUES (5, 'React', 3);
+INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3);
+INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1);
+INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2);
+INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2);
+INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3);
 
 INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1);
 INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2);
@@ -30,7 +30,6 @@ INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3);
 INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2);
 INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4);
 INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5);
-
 
 INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2);
 INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4);

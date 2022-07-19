@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.tag.service.response;
+package com.woowacourse.moamoa.tag.query.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class TagsResponse {
 
-    private List<TagResponse> tags;
+    private final List<TagResponse> tags;
 }
