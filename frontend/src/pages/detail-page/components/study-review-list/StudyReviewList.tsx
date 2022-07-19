@@ -8,25 +8,7 @@ import StudyReviewCard from '@detail-page/components/study-review-card/StudyRevi
 
 const StudyReviewList: React.FC<{ reviews: Array<StudyReview> }> = ({ reviews }) => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: 60px;
-
-        .study-review-card {
-          width: calc(50% - 30px);
-        }
-
-        ${mqDown('md')} {
-          flex-direction: column;
-          row-gap: 30px;
-          .study-review-card {
-            width: 100%;
-          }
-        }
-      `}
-    >
+    <div css={css``}>
       {reviews.map(review => {
         return (
           <StudyReviewCard
