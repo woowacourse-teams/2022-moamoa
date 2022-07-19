@@ -19,6 +19,7 @@
     "^@styles/(.*)$",
     "^@api/(.*)$",
     "^@context/(.*)$",
+    "^@layout/(.*)$",
     "^@pages/(.*)$",
     "^@components/(.*)$",
     "^@main-page/(.*)$",

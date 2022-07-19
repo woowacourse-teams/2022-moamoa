@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
-import MarkdownRender from '@components/MarkdownRender/MarkdownRender';
 import Divider from '@components/divider/Divider';
+import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
@@ -55,7 +56,7 @@ const DetailPage = () => {
   const countOfReviews = studyReviewsQueryResult?.data?.totalResults;
 
   return (
-    <div>
+    <Wrapper>
       <Head
         title={title}
         status={status}
@@ -131,7 +132,7 @@ const DetailPage = () => {
           onClickRegisterBtn={handleClickRegisterBtn}
         />
       </S.FixedBottomContainer>
-    </div>
+    </Wrapper>
   );
 };
 

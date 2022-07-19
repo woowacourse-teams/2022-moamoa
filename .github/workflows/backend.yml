@@ -31,14 +31,9 @@ jobs:
         run: ./gradlew build --exclude-task test
 
       - name: Test  
-        run: ./gradlew test
-
-      - name: Notify To Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          author_name: Github Actions Report
-          fields: commit,author,eventName,workflow,took,pullRequest
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
+        env: 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+        run: ./gradlew test -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}

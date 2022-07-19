@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import type { ChipProps } from '@components/Chip';
-import Chip from '@components/Chip';
+import type { ChipProps } from '@components/chip/Chip';
+import Chip from '@components/chip/Chip';
 
 export default {
   title: 'Components/Chip',

@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 
 import type { StudyDetail } from '@custom-types/index';
 
-import Chip from '@components/Chip';
-import StudyChip from '@components/StudyChip';
+import Chip from '@components/chip/Chip';
+import StudyChip from '@components/study-chip/StudyChip';
 
 type HeadProps = Pick<StudyDetail, 'title' | 'status' | 'startDate' | 'endDate' | 'excerpt' | 'tags'> & {
   countOfReviews?: number;

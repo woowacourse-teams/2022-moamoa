@@ -2,7 +2,7 @@ import { Story } from '@storybook/react';
 
 import MainPage from '@pages/main-page/MainPage';
 
-import Wrapper from '@components/Wrapper';
+import Wrapper from '@components/wrapper/Wrapper';
 
 export default {
   title: 'Pages/MainPage',

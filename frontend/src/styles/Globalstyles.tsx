@@ -1,6 +1,6 @@
 import { Global, css } from '@emotion/react';
 
-import { theme } from './theme';
+import { theme } from '@styles/theme';
 
 const GlobalStyles = () => {
   return (
@@ -81,6 +81,7 @@ const GlobalStyles = () => {
         }
 
         button {
+          font-family: inherit;
           cursor: pointer;
         }
 
@@ -89,6 +90,7 @@ const GlobalStyles = () => {
         }
 
         input {
+          font-family: inherit;
           background-color: ${theme.colors.white};
           &::placeholder {
             color: ${theme.colors.secondary.dark};

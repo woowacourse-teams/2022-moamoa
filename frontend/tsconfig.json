@@ -27,7 +27,8 @@
       "@api/*": ["api/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
-      "@detail-page/*": ["pages/detail-page/*"]
+      "@detail-page/*": ["pages/detail-page/*"],
+      "@layout/*": ["layout/*"]
     },
     "typeRoots": ["src/custom-types"]
   },

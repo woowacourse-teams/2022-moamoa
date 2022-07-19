@@ -22,6 +22,7 @@ module.exports = {
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
+      '@layout': resolve(__dirname, '../src/layout'),
     };
 
     config.module.rules[0].use[0].options.presets = [

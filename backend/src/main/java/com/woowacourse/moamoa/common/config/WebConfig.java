@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.common.config;
 
 import java.util.List;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -21,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/api/**")
-            .allowedMethods(ALLOW_METHODS)
-            .exposedHeaders(HttpHeaders.LOCATION);
+                .allowedMethods(ALLOW_METHODS)
+                .exposedHeaders(HttpHeaders.LOCATION);
     }
 }

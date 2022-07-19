@@ -2,11 +2,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
-import MainPage from '@pages/main-page/MainPage';
+import Footer from '@layout/footer/Footer';
+import Header from '@layout/header/Header';
 
-import Footer from '@components/Footer';
-import Header from '@components/Header';
-import Wrapper from '@components/Wrapper';
+import MainPage from '@pages/main-page/MainPage';
 
 import DetailPage from '@detail-page/DetailPage';
 
@@ -29,22 +28,8 @@ const App = () => {
         `}
       >
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Wrapper>
-                <MainPage />
-              </Wrapper>
-            }
-          />
-          <Route
-            path="/study/:studyId"
-            element={
-              <Wrapper>
-                <DetailPage />
-              </Wrapper>
-            }
-          />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/study/:studyId" element={<DetailPage />} />
         </Routes>
       </main>
       <Footer />
