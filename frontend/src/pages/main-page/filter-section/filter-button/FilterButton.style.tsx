@@ -38,11 +38,11 @@ export const CheckBoxButton = styled.button<CheckBoxButtonProps>`
   `}
 `;
 
-export const ShortName = styled.p`
+export const Name = styled.p`
   font-size: 20px;
   font-weight: 700;
 `;
 
-export const FullName = styled.p`
+export const Description = styled.p`
   font-size: 12px;
 `;

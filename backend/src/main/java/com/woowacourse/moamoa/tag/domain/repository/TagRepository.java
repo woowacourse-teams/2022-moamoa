@@ -7,5 +7,6 @@ import java.util.Optional;
 public interface TagRepository {
 
     List<Tag> findAllByNameContainingIgnoreCase(String name);
-    Optional<Tag> findByName(String name);
+
+    Optional<Tag> findById(Long id);
 }
