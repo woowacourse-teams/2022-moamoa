@@ -14,7 +14,7 @@ type OptionalAvatarProps = MakeOptional<AvatarProps, 'size'>;
 const Avatar: React.FC<OptionalAvatarProps> = ({ className, size = 'sm', profileImg, profileAlt }) => {
   return (
     <S.Avatar className={className} size={size}>
-      <S.Image src={profileImg} alt={profileAlt} />
+      <S.AvatarImage src={profileImg} alt={profileAlt} />
     </S.Avatar>
   );
 };
