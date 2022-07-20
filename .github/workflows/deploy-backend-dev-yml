@@ -1,0 +1,40 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Deploy Backend Dev
+
+on:
+  push:   
+    branches : develop
+
+defaults:
+  run:
+    working-directory: backend                        
+
+jobs:
+  build:
+    runs-on: ubuntu-latest                            
+    steps:                                            
+      - name: Checkout
+        uses: actions/checkout@v3                     
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3                   
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          
+      - name: Build
+        run: ./gradlew build --exclude-task test
+
+      - name: Test  
+        run: ./gradlew test
+      
+      - name : Deploy
+        run: |
+          curl ${{ DEPLOY_REQUEST_URL }}
+          
