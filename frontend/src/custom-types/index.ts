@@ -62,3 +62,7 @@ export type Filter = {
 export type FilterListQueryData = {
   filters: Array<Filter>;
 };
+
+export type TokenQueryData = {
+  token: string;
+};

@@ -6,6 +6,7 @@ import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
 
+import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
 
 import App from './App';
@@ -29,10 +30,12 @@ if ($root) {
   root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <SearchProvider>
-          <GlobalStyles />
-          <App />
-        </SearchProvider>
+        <LoginProvider>
+          <SearchProvider>
+            <GlobalStyles />
+            <App />
+          </SearchProvider>
+        </LoginProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );

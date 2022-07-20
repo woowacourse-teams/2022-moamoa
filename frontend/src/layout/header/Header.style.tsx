@@ -60,3 +60,30 @@ export const Row = styled.header`
     }
   `}
 `;
+
+export const Nav = styled.nav`
+  display: flex;
+`;
+
+export const NavButton = styled.button`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4px;
+
+    padding: 8px 4px;
+
+    color: ${theme.colors.primary.base};
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      border-bottom: 1px solid ${theme.colors.secondary.base};
+    }
+
+    & > svg {
+      fill: ${theme.colors.primary.base};
+    }
+  `}
+`;
