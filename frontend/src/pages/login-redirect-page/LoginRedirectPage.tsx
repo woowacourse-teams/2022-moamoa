@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { Navigate, useSearchParams } from 'react-router-dom';
 
 import type { TokenQueryData } from '@custom-types/index';
@@ -16,14 +16,11 @@ const LoginRedirectPage: React.FC = () => {
 
   const { login } = useAuth();
 
-  const { data, isSuccess, isError, error } = useQuery<TokenQueryData, Error>(
-    ['redirect', codeParam],
-    () => getAccessToken(codeParam),
-    {
-      enabled: !!codeParam,
-      cacheTime: 0,
-    },
-  );
+  const { data, mutate, isSuccess, isError, error } = useMutation<TokenQueryData, Error, string>(getAccessToken);
+
+  useEffect(() => {
+    mutate(codeParam);
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {
