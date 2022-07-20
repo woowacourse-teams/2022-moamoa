@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.domain;
+package com.woowacourse.moamoa.study.domain.studytag;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AttachedTag {
 
-    @Column(nullable = false)
+    @Column(name = "tag_id", nullable = false)
     private Long tagId;
 }

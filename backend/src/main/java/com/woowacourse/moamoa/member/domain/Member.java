@@ -1,24 +1,25 @@
 package com.woowacourse.moamoa.member.domain;
 
-import com.woowacourse.moamoa.study.domain.Study;
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
+
+import com.woowacourse.moamoa.study.domain.study.Study;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private Long githubId;
@@ -29,7 +30,7 @@ public class Member {
 
     private String profileUrl;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "owner")
     private List<Study> establishedStudies = new ArrayList<>();
 
     public Member(final Long githubId, final String username, final String imageUrl, final String profileUrl) {
