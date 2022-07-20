@@ -18,7 +18,8 @@ CREATE TABLE study
     deadline DATETIME,
     start_date DATETIME,
     end_date DATETIME,
-    owner VARCHAR(255) NOT NULL
+    owner_id BIGINT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES member (id)
 );
 
 CREATE TABLE category
