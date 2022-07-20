@@ -23,9 +23,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
     public void response400WhenRequestByInvalidPagingInfo(String page, String size) {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("page", page)
-                .param("size", size)
+                .queryParam("title", "java")
+                .queryParam("page", page)
+                .queryParam("size", size)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -37,8 +37,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByDefaultPage() {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("size", 5)
+                .queryParam("title", "java")
+                .queryParam("size", 5)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -50,8 +50,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByDefaultSize() {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("page", 0)
+                .queryParam("title", "java")
+                .queryParam("page", 0)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -85,9 +85,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     void getStudiesByTrimKeyword() {
         RestAssured.given().log().all()
-                .param("title", "   java   ")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "   java   ")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -105,9 +105,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     void getStudiesByHasSpaceKeyword() {
         RestAssured.given().log().all()
-                .param("title", "Java 스터디")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "Java 스터디")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -125,10 +125,10 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByFilter() {
         RestAssured.given().log().all()
-                .param("title", "")
-                .param("area", "BE")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "")
+                .queryParam("area", "BE")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -146,10 +146,10 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByFilterAndTitle() {
         RestAssured.given().log().all()
-                .param("title", "ja")
-                .param("area", "BE")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "ja")
+                .queryParam("area", "BE")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -167,11 +167,11 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesBySameCategoryFilter() {
         RestAssured.given().log().all()
-                .param("title", "")
-                .param("area", "BE")
-                .param("area", "FE")
-                .param("page", 0)
-                .param("size", 5)
+                .queryParam("title", "")
+                .queryParam("area", "BE")
+                .queryParam("area", "FE")
+                .queryParam("page", 0)
+                .queryParam("size", 5)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -194,11 +194,11 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByAnotherCategoryFilter() {
         RestAssured.given().log().all()
-                .param("title", "")
-                .param("area", "BE")
-                .param("tag", "Java")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "")
+                .queryParam("area", "BE")
+                .queryParam("tag", "Java")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
