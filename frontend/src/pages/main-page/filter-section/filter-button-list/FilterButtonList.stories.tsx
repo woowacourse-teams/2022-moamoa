@@ -12,8 +12,8 @@ export default {
 const filters = [
   {
     id: 1,
-    shortName: 'JS',
-    fullName: '자바스크립트',
+    name: 'JS',
+    description: '자바스크립트',
     category: {
       id: 3,
       name: 'tag',
@@ -21,8 +21,8 @@ const filters = [
   },
   {
     id: 2,
-    shortName: 'Java',
-    fullName: '자바',
+    name: 'Java',
+    description: '자바',
     category: {
       id: 3,
       name: 'tag',
@@ -30,8 +30,8 @@ const filters = [
   },
   {
     id: 3,
-    shortName: 'React',
-    fullName: '리액트',
+    name: 'React',
+    description: '리액트',
     category: {
       id: 3,
       name: 'tag',
@@ -39,8 +39,8 @@ const filters = [
   },
   {
     id: 4,
-    shortName: 'Spring',
-    fullName: '스프링',
+    name: 'Spring',
+    description: '스프링',
     category: {
       id: 3,
       name: 'tag',
@@ -48,8 +48,8 @@ const filters = [
   },
   {
     id: 5,
-    shortName: 'CS',
-    fullName: '컴퓨터사이언스',
+    name: 'CS',
+    description: '컴퓨터사이언스',
     category: {
       id: 3,
       name: 'tag',
@@ -57,8 +57,8 @@ const filters = [
   },
   {
     id: 6,
-    shortName: 'TS',
-    fullName: '타입스크립트',
+    name: 'TS',
+    description: '타입스크립트',
     category: {
       id: 3,
       name: 'tag',
@@ -66,8 +66,8 @@ const filters = [
   },
   {
     id: 7,
-    shortName: 'Review',
-    fullName: '코드리뷰',
+    name: 'Review',
+    description: '코드리뷰',
     category: {
       id: 3,
       name: 'tag',

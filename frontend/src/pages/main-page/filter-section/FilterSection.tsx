@@ -1,38 +1,33 @@
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
-import type { Filter, FilterListQueryData } from '@custom-types/index';
+import type { Tag, TagInfo, TagListQueryData } from '@custom-types/index';
 
-import { getFilterList } from '@api/getFilterList';
+import { getTagList } from '@api/getTagList';
 
 import * as S from '@pages/main-page/filter-section/FilterSection.style';
 import FilterButtonList from '@pages/main-page/filter-section/filter-button-list/FilterButtonList';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 
-export interface FilterInfo {
-  id: number;
-  categoryName: string;
-}
-
 export interface FilterSectionProps {
-  selectedFilters: Array<FilterInfo>;
+  selectedFilters: Array<TagInfo>;
   handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const SCROLL_DIST = 100;
 
-const filterByCategory = (filters: Array<Filter> | undefined, categoryId: number) =>
-  filters?.filter(filter => filter.category.id === categoryId) || [];
+const filterByCategory = (tags: Array<Tag> | undefined, categoryId: number) =>
+  tags?.filter(tag => tag.category.id === categoryId) || [];
 
 const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFilterButtonClick }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery<FilterListQueryData, Error>('filters', getFilterList);
+  const { data, isLoading, isError, error } = useQuery<TagListQueryData, Error>('filters', getTagList);
 
-  const generationFilters = filterByCategory(data?.filters, 1);
-  const areaFilters = filterByCategory(data?.filters, 2);
-  const tagFilters = filterByCategory(data?.filters, 3);
+  const generationTags = filterByCategory(data?.tags, 1);
+  const areaTags = filterByCategory(data?.tags, 2);
+  const subjectTags = filterByCategory(data?.tags, 3);
 
   const handleLeftSlideButtonClick = () => {
     if (!sliderRef.current) {
@@ -67,19 +62,19 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
         {isLoading && <div>로딩 중...</div>}
         {isError && <div>{error.message}</div>}
         <FilterButtonList
-          filters={areaFilters}
+          filters={areaTags}
           selectedFilters={selectedFilters}
           handleFilterButtonClick={handleFilterButtonClick}
         />
         <S.VerticalLine />
         <FilterButtonList
-          filters={generationFilters}
+          filters={generationTags}
           selectedFilters={selectedFilters}
           handleFilterButtonClick={handleFilterButtonClick}
         />
         <S.VerticalLine />
         <FilterButtonList
-          filters={tagFilters}
+          filters={subjectTags}
           selectedFilters={selectedFilters}
           handleFilterButtonClick={handleFilterButtonClick}
         />

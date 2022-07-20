@@ -1,9 +1,9 @@
 {
-  "filters": [
+  "tags": [
     {
       "id": 1,
-      "shortName": "FE",
-      "fullName": "프론트엔드",
+      "name": "FE",
+      "description": "프론트엔드",
       "category": {
         "id": 2,
         "name": "area"
@@ -11,8 +11,8 @@
     },
     {
       "id": 2,
-      "shortName": "BE",
-      "fullName": "백엔드",
+      "name": "BE",
+      "description": "백엔드",
       "category": {
         "id": 2,
         "name": "area"
@@ -20,8 +20,8 @@
     },
     {
       "id": 1,
-      "shortName": "4기",
-      "fullName": "우테코4기",
+      "name": "4기",
+      "description": "우테코4기",
       "category": {
         "id": 1,
         "name": "generation"
@@ -29,8 +29,8 @@
     },
     {
       "id": 2,
-      "shortName": "3기",
-      "fullName": "우테코3기",
+      "name": "3기",
+      "description": "우테코3기",
       "category": {
         "id": 1,
         "name": "generation"
@@ -38,74 +38,74 @@
     },
     {
       "id": 1,
-      "shortName": "JS",
-      "fullName": "자바스크립트",
+      "name": "JS",
+      "description": "자바스크립트",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 2,
-      "shortName": "Java",
-      "fullName": "자바",
+      "name": "Java",
+      "description": "자바",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 3,
-      "shortName": "React",
-      "fullName": "리액트",
+      "name": "React",
+      "description": "리액트",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 4,
-      "shortName": "Spring",
-      "fullName": "스프링",
+      "name": "Spring",
+      "description": "스프링",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 5,
-      "shortName": "Network",
-      "fullName": "네트워크",
+      "name": "Network",
+      "description": "네트워크",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 6,
-      "shortName": "TS",
-      "fullName": "타입스크립트",
+      "name": "TS",
+      "description": "타입스크립트",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 7,
-      "shortName": "Review",
-      "fullName": "코드리뷰",
+      "name": "Review",
+      "description": "코드리뷰",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     },
     {
       "id": 8,
-      "shortName": "Alg",
-      "fullName": "알고리즘",
+      "name": "Alg",
+      "description": "알고리즘",
       "category": {
         "id": 3,
-        "name": "tag"
+        "name": "subject"
       }
     }
   ]
