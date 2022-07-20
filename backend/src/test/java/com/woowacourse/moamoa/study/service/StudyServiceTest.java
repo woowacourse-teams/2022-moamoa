@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
@@ -14,12 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@DataJpaTest
+@RepositoryTest
 class StudyServiceTest {
+
+    private StudyService studyService;
 
     @Autowired
     private StudyRepository studyRepository;
@@ -29,8 +31,6 @@ class StudyServiceTest {
 
     @Autowired
     private TagRepository tagRepository;
-
-    private StudyService studyService;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +55,14 @@ class StudyServiceTest {
         assertThat(owner).extracting("githubId", "username", "imageUrl", "profileUrl")
                 .containsExactly(2L, "greenlawn", "https://image", "github.com");
 
-        assertThat(members).hasSize(0);
+        assertThat(members)
+                .hasSize(2)
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .containsExactly(
+                        tuple(3L, "dwoo", "https://image", "github.com"),
+                        tuple(4L, "verus", "https://image", "github.com")
+                );
+
         assertThat(tags)
                 .hasSize(3)
                 .filteredOn(tag -> tag.getId() != null)

@@ -37,7 +37,10 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("owner.username", is("greenlawn"))
                 .body("owner.imageUrl", is("https://image"))
                 .body("owner.profileUrl", is("github.com"))
-                .body("members.id", is(empty()))
+                .body("members.id", not(empty()))
+                .body("members.username", contains("dwoo", "verus"))
+                .body("members.imageUrl", contains("https://image", "https://image"))
+                .body("members.profileUrl", contains("github.com", "github.com"))
                 .body("tags.id", not(empty()))
                 .body("tags.name", contains("Java", "4기", "BE"));
     }

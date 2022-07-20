@@ -48,3 +48,13 @@ INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3);
 
 INSERT INTO study_tag(study_id, tag_id) VALUES (5, 2);
 INSERT INTO study_tag(study_id, tag_id) VALUES (5, 3);
+
+INSERT INTO study_member(study_id, member_id) VALUES (1, 3);
+INSERT INTO study_member(study_id, member_id) VALUES (1, 4);
+
+INSERT INTO study_member(study_id, member_id) VALUES (2, 1);
+INSERT INTO study_member(study_id, member_id) VALUES (2, 2);
+INSERT INTO study_member(study_id, member_id) VALUES (2, 4);
+
+INSERT INTO study_member(study_id, member_id) VALUES (3, 3);
+INSERT INTO study_member(study_id, member_id) VALUES (3, 4);
