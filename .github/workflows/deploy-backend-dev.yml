@@ -36,5 +36,5 @@ jobs:
       
       - name : Deploy
         run: |
-          curl ${{ DEPLOY_REQUEST_URL }}
+          curl ${{ secrets.DEPLOY_REQUEST_URL }}
           
