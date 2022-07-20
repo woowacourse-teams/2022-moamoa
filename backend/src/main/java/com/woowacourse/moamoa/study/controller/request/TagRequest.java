@@ -10,26 +10,26 @@ import lombok.ToString;
 @ToString
 public class TagRequest {
 
-    private final List<String> generation;
-    private final List<String> area;
-    private final List<String> tag;
+    private final List<Long> generation;
+    private final List<Long> area;
+    private final List<Long> tag;
 
-    public TagRequest(final List<String> generation, final List<String> area, final List<String> tag) {
+    public TagRequest(final List<Long> generation, final List<Long> area, final List<Long> tag) {
         this.generation = Objects.requireNonNullElseGet(generation, ArrayList::new);
         this.area = Objects.requireNonNullElseGet(area, ArrayList::new);
         this.tag = Objects.requireNonNullElseGet(tag, ArrayList::new);
     }
 
-    public List<String> getFilterNames() {
-        List<String> filterNames = new ArrayList<>();
-        filterNames.addAll(generation);
-        filterNames.addAll(area);
-        filterNames.addAll(tag);
+    public List<Long> getFilterIds() {
+        List<Long> filterIds = new ArrayList<>();
+        filterIds.addAll(generation);
+        filterIds.addAll(area);
+        filterIds.addAll(tag);
 
-        return filterNames;
+        return filterIds;
     }
 
     public boolean isEmpty() {
-        return getFilterNames().isEmpty();
+        return getFilterIds().isEmpty();
     }
 }

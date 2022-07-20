@@ -126,7 +126,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     public void getStudiesByFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
-                .queryParam("area", "BE")
+                .queryParam("area", 3)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .when().log().all()
@@ -147,7 +147,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     public void getStudiesByFilterAndTitle() {
         RestAssured.given().log().all()
                 .queryParam("title", "ja")
-                .queryParam("area", "BE")
+                .queryParam("area", 3)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .when().log().all()
@@ -168,8 +168,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     public void getStudiesBySameCategoryFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
-                .queryParam("area", "BE")
-                .queryParam("area", "FE")
+                .queryParam("area", 3)
+                .queryParam("area", 4)
                 .queryParam("page", 0)
                 .queryParam("size", 5)
                 .when().log().all()
@@ -195,8 +195,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     public void getStudiesByAnotherCategoryFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
-                .queryParam("area", "BE")
-                .queryParam("tag", "Java")
+                .queryParam("area", 3)
+                .queryParam("tag", 1)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .when().log().all()
