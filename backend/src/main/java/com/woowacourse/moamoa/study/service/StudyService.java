@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyResponse;
 import java.util.List;
@@ -22,14 +22,6 @@ public class StudyService {
 
     public StudiesResponse getStudies(final Pageable pageable) {
         final Slice<Study> slice = studyRepository.findAll(pageable);
-        final List<StudyResponse> studies = slice
-                .map(StudyResponse::new)
-                .getContent();
-        return new StudiesResponse(studies, slice.hasNext());
-    }
-
-    public StudiesResponse searchBy(final String title, final Pageable pageable) {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase(title.trim(), pageable);
         final List<StudyResponse> studies = slice
                 .map(StudyResponse::new)
                 .getContent();
