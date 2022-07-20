@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.controller.request.TagRequest;
 import com.woowacourse.moamoa.study.service.StudyTagService;
+import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -42,9 +43,8 @@ public class StudyController {
     }
 
     @GetMapping("/{study-id}")
-    public ResponseEntity<Void> getStudyDetails(@PathVariable(name = "study-id") Long studyId) {
-        studyService.getStudyDetails(studyId);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<StudyDetailResponse> getStudyDetails(@PathVariable(name = "study-id") Long studyId) {
+        final StudyDetailResponse response = studyService.getStudyDetails(studyId);
+        return ResponseEntity.ok().body(response);
     }
 }

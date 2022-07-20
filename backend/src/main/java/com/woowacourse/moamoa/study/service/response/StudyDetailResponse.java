@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
 @ToString
+@NoArgsConstructor
 public class StudyDetailResponse {
 
     private Long id;
@@ -41,7 +43,7 @@ public class StudyDetailResponse {
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
         this.maxMemberCount = study.getMaxMemberCount();
-        this.createdAt = study.getCreatedAt().toLocalDate().toString();
+        this.createdAt = getNullableDate(study.getCreatedAt());
         this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
         this.startDate = getNullableDate(study.getStartDate());
         this.endDate = getNullableDate(study.getEndDate());
@@ -50,7 +52,7 @@ public class StudyDetailResponse {
         this.tags = attachedTags;
     }
 
-    private String getNullableDate(final LocalDateTime study) {
-        return Optional.ofNullable(study).map(date -> date.toLocalDate().toString()).orElse("");
+    private String getNullableDate(final LocalDateTime localDateTime) {
+        return Optional.ofNullable(localDateTime).map(date -> date.toLocalDate().toString()).orElse("");
     }
 }

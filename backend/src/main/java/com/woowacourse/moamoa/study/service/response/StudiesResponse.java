@@ -1,25 +1,15 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudiesResponse {
 
     private List<StudyResponse> studies;
     private boolean hasNext;
-
-    public StudiesResponse(final List<StudyResponse> studies, final boolean hasNext) {
-        this.studies = studies;
-        this.hasNext = hasNext;
-    }
-
-    public StudiesResponse() {
-    }
-
-    public List<StudyResponse> getStudies() {
-        return studies;
-    }
-
-    public boolean isHasNext() {
-        return hasNext;
-    }
 }
