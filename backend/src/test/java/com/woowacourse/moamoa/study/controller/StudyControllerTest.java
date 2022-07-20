@@ -12,7 +12,6 @@ import com.woowacourse.moamoa.study.domain.studytag.repository.StudyTagRepositor
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.StudyTagService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.tag.domain.repository.JpaTagRepository;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
