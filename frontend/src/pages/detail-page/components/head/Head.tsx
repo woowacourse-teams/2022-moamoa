@@ -14,7 +14,7 @@ const Head: React.FC<HeadProps> = ({ title, status, countOfReviews, startDate, e
     <S.Head>
       <div className="title-container">
         <h1>{title}</h1>
-        <StudyChip className="chip" isOpen={status === 'open'} />
+        <StudyChip className="chip" isOpen={status === 'OPEN'} />
       </div>
       <div className="extra-info-container">
         <span className="review-count">{countOfReviews ? `후기 ${countOfReviews}개` : 'loading...'}</span>
