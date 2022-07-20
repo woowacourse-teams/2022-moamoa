@@ -54,10 +54,10 @@ public class StudyTagService {
     }
 
     private List<Tag> getFilterFromName(final TagRequest tagRequest) {
-        final List<Long> filterIds = tagRequest.getFilterIds();
+        final List<Long> tagIds = tagRequest.getTagIds();
         final List<Tag> tags = new ArrayList<>();
 
-        for (Long filterId : filterIds) {
+        for (Long filterId : tagIds) {
             final Tag tag = tagRepository.findById(filterId)
                     .orElseThrow(TagNotExistException::new);
             tags.add(tag);
