@@ -196,6 +196,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
         RestAssured.given().log().all()
                 .queryParam("title", "")
                 .queryParam("area", 3)
+                .queryParam("subject", 1)
                 .queryParam("tag", 1)
                 .queryParam("page", 0)
                 .queryParam("size", 3)

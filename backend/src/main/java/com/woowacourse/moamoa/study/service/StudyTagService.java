@@ -34,7 +34,7 @@ public class StudyTagService {
         if (tagRequest == null || tagRequest.isEmpty()) {
             return searchWithoutFilter(title, pageable);
         }
-        final List<Tag> tags = getFilterFromName(tagRequest);
+        final List<Tag> tags = getTagFromId(tagRequest);
 
         final StudySearchCondition condition = new StudySearchCondition(title, tags);
         final StudySlice studySlice = studyTagRepository.searchBy(condition, pageable);
@@ -53,12 +53,12 @@ public class StudyTagService {
         return new StudiesResponse(studies, slice.hasNext());
     }
 
-    private List<Tag> getFilterFromName(final TagRequest tagRequest) {
-        final List<Long> filterIds = tagRequest.getFilterIds();
+    private List<Tag> getTagFromId(final TagRequest tagRequest) {
+        final List<Long> tagIds = tagRequest.getTagIds();
         final List<Tag> tags = new ArrayList<>();
 
-        for (Long filterId : filterIds) {
-            final Tag tag = tagRepository.findById(filterId)
+        for (Long tagId : tagIds) {
+            final Tag tag = tagRepository.findById(tagId)
                     .orElseThrow(TagNotExistException::new);
             tags.add(tag);
         }

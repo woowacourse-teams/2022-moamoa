@@ -12,24 +12,24 @@ public class TagRequest {
 
     private final List<Long> generation;
     private final List<Long> area;
-    private final List<Long> tag;
+    private final List<Long> subject;
 
-    public TagRequest(final List<Long> generation, final List<Long> area, final List<Long> tag) {
+    public TagRequest(final List<Long> generation, final List<Long> area, final List<Long> subject) {
         this.generation = Objects.requireNonNullElseGet(generation, ArrayList::new);
         this.area = Objects.requireNonNullElseGet(area, ArrayList::new);
-        this.tag = Objects.requireNonNullElseGet(tag, ArrayList::new);
+        this.subject = Objects.requireNonNullElseGet(subject, ArrayList::new);
     }
 
-    public List<Long> getFilterIds() {
-        List<Long> filterIds = new ArrayList<>();
-        filterIds.addAll(generation);
-        filterIds.addAll(area);
-        filterIds.addAll(tag);
+    public List<Long> getTagIds() {
+        List<Long> tagIds = new ArrayList<>();
+        tagIds.addAll(generation);
+        tagIds.addAll(area);
+        tagIds.addAll(subject);
 
-        return filterIds;
+        return tagIds;
     }
 
     public boolean isEmpty() {
-        return getFilterIds().isEmpty();
+        return getTagIds().isEmpty();
     }
 }
