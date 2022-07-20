@@ -8,7 +8,5 @@ public interface TagRepository {
 
     List<Tag> findAllByNameContainingIgnoreCase(String name);
 
-    Optional<Tag> findByName(String name);
-
-    List<Tag> findAllById(Iterable<Long> ids);
+    Optional<Tag> findById(Long id);
 }

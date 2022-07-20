@@ -18,6 +18,7 @@
     "^@custom-types/(.*)$",
     "^@styles/(.*)$",
     "^@api/(.*)$",
+    "^@hooks/(.*)$",
     "^@context/(.*)$",
     "^@layout/(.*)$",
     "^@pages/(.*)$",

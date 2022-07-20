@@ -3,14 +3,13 @@ import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import type { Study, StudyListQueryData } from '@custom-types/index';
+import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
 import { getStudyList } from '@api/getStudyList';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@pages/main-page/MainPage.style';
-import type { FilterInfo } from '@pages/main-page/filter-section/FilterSection';
 import FilterSection from '@pages/main-page/filter-section/FilterSection';
 import StudyCard from '@pages/main-page/study-card/StudyCard';
 
@@ -29,7 +28,7 @@ const defaultParam = {
 
 const MainPage: React.FC = () => {
   const { keyword } = useContext(SearchContext);
-  const [selectedFilters, setSelectedFilters] = useState<Array<FilterInfo>>([]);
+  const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
 
   const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;

@@ -17,7 +17,7 @@ export type Member = {
   profileUrl: string;
 };
 
-export type Tag = { id: number; tagName: string };
+export type StudyTag = { id: number; tagName: string };
 
 export type StudyDetail = {
   id: number;
@@ -33,7 +33,7 @@ export type StudyDetail = {
   endDate: string;
   owner: string;
   members: Array<Member>;
-  tags: Array<Tag>;
+  tags: Array<StudyTag>;
 } & Study;
 
 export type StudyListQueryData = {
@@ -49,16 +49,25 @@ export type StudyReview = {
   content: string;
 };
 
-export type Filter = {
+export interface TagInfo {
   id: number;
-  shortName: string;
-  fullName: string;
+  categoryName: string;
+}
+
+export type Tag = {
+  id: number;
+  name: string;
+  description: string;
   category: {
     id: number;
     name: string;
   };
 };
 
-export type FilterListQueryData = {
-  filters: Array<Filter>;
+export type TagListQueryData = {
+  tags: Array<Tag>;
+};
+
+export type TokenQueryData = {
+  token: string;
 };

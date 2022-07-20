@@ -131,9 +131,9 @@ class CustomStudyTagRepositoryTest {
     @Test
     public void searchByFilters() {
         // given
-        Tag tag_4기 = tagRepository.findByName("4기").orElseThrow();
-        Tag tag_BE = tagRepository.findByName("BE").orElseThrow();
-        Tag tag_FE = tagRepository.findByName("FE").orElseThrow();
+        Tag tag_4기 = tagRepository.findById(2L).orElseThrow();
+        Tag tag_BE = tagRepository.findById(3L).orElseThrow();
+        Tag tag_FE = tagRepository.findById(4L).orElseThrow();
 
         final PageRequest pageRequest = PageRequest.of(0, 5);
         final StudySearchCondition searchCondition = new StudySearchCondition("",
@@ -163,9 +163,9 @@ class CustomStudyTagRepositoryTest {
     @Test
     public void searchByFiltersWithTitle() {
         // given
-        Tag tag_4기 = tagRepository.findByName("4기").orElseThrow();
-        Tag tag_BE = tagRepository.findByName("BE").orElseThrow();
-        Tag tag_FE = tagRepository.findByName("FE").orElseThrow();
+        Tag tag_4기 = tagRepository.findById(2L).orElseThrow();
+        Tag tag_BE = tagRepository.findById(3L).orElseThrow();
+        Tag tag_FE = tagRepository.findById(4L).orElseThrow();
 
         final PageRequest pageRequest = PageRequest.of(0, 5);
         final StudySearchCondition searchCondition = new StudySearchCondition("java",
