@@ -8,6 +8,7 @@ import { LoginContext } from '@context/login/LoginProvider';
 import Footer from '@layout/footer/Footer';
 import Header from '@layout/header/Header';
 
+import CreateStudyPage from '@pages/create-study-page/CreateStudyPage';
 import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
 import MainPage from '@pages/main-page/MainPage';
 
@@ -36,6 +37,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/study/:studyId" element={<DetailPage />} />
+          <Route path="/study/new" element={<CreateStudyPage />} />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
           <Route path="*" element={<div>에러 페이지</div>} />
         </Routes>

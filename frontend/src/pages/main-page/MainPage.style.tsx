@@ -11,6 +11,7 @@ export const CardList = styled.ul`
 
   & > li {
     cursor: pointer;
+    width: 100%;
   }
 
   ${mqDown('lg')} {
