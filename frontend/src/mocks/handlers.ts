@@ -1,8 +1,8 @@
 import { rest } from 'msw';
 
 import detailStudyHandlers from './detail-study-handlers';
-import { filterHandlers } from './filterHandlers';
 import studyJSON from './studies.json';
+import { tagHandlers } from './tagHandlers';
 import { tokenHandlers } from './tokenHandlers';
 
 export const handlers = [
@@ -87,6 +87,6 @@ export const handlers = [
     );
   }),
   ...detailStudyHandlers,
-  ...filterHandlers,
+  ...tagHandlers,
   ...tokenHandlers,
 ];
