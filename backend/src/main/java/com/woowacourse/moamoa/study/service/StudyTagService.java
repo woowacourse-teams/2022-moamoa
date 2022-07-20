@@ -53,21 +53,12 @@ public class StudyTagService {
         return new StudiesResponse(studies, slice.hasNext());
     }
 
-<<<<<<< HEAD
     private List<Tag> getTagFromId(final TagRequest tagRequest) {
         final List<Long> tagIds = tagRequest.getTagIds();
         final List<Tag> tags = new ArrayList<>();
 
         for (Long tagId : tagIds) {
             final Tag tag = tagRepository.findById(tagId)
-=======
-    private List<Tag> getFilterFromName(final TagRequest tagRequest) {
-        final List<Long> filterIds = tagRequest.getFilterIds();
-        final List<Tag> tags = new ArrayList<>();
-
-        for (Long filterId : filterIds) {
-            final Tag tag = tagRepository.findById(filterId)
->>>>>>> 8b63d80289f2b8b1703255683f3785c6c83d810f
                     .orElseThrow(TagNotExistException::new);
             tags.add(tag);
         }
