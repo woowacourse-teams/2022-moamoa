@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 import type { TokenQueryData } from '@custom-types/index';
 
@@ -10,7 +10,8 @@ import { useAuth } from '@hooks/useAuth';
 import Wrapper from '@components/wrapper/Wrapper';
 
 const LoginRedirectPage: React.FC = () => {
-  const { code: codeParam } = useParams() as { code: string };
+  const [searchParams] = useSearchParams();
+  const codeParam = searchParams.get('code') as string;
   const { login } = useAuth();
 
   const { data, isSuccess, isError, error } = useQuery<TokenQueryData, Error>(

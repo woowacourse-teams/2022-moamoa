@@ -1,5 +1,7 @@
 import { ReactNode, createContext, useState } from 'react';
 
+import noop from '@utils/noop';
+
 interface LoginProviderProps {
   children: ReactNode;
 }
@@ -9,12 +11,14 @@ interface ContextType {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const hasAccessToken = !!window.localStorage.getItem('accessToken');
+
 export const LoginContext = createContext<ContextType>({
-  isLoggedIn: !!localStorage.getItem('accessToken'),
-  setIsLoggedIn: () => {},
+  isLoggedIn: false,
+  setIsLoggedIn: noop,
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(hasAccessToken);
   return <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>{children}</LoginContext.Provider>;
 };
