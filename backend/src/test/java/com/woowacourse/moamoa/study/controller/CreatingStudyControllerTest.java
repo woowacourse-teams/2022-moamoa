@@ -12,7 +12,6 @@ import com.woowacourse.moamoa.study.domain.study.Study;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.CreateStudyService;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -40,9 +39,9 @@ public class CreatingStudyControllerTest {
                 .excerpt("java excerpt")
                 .thumbnail("java image")
                 .description("자바 스터디 상세설명 입니다.")
-                .startDate(LocalDate.of(2022, 7, 10))
-                .endDate(LocalDate.of(2022, 10, 10))
-                .enrollmentEndDate(LocalDate.of(2022, 8, 10))
+                .startDate(LocalDate.now().plusDays(3))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
                 .maxMemberCount(10)
                 .tagIds(List.of(1L, 2L))
                 .build();
@@ -61,9 +60,7 @@ public class CreatingStudyControllerTest {
         assertThat(study.get().getOwner().getGithubId()).isEqualTo(1L);
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
-                new Period(LocalDateTime.of(2022, 8, 10, 0, 0),
-                        LocalDateTime.of(2022, 7, 10, 0, 0),
-                        LocalDateTime.of(2022, 10, 10, 0, 0)));
+                new Period(openStudyRequest.getEnrollmentEndDateTime(), openStudyRequest.getStartDateTime(), openStudyRequest.getEndDateTime()));
         assertThat(study.get().getAttachedTags())
                 .extracting("tagId").containsAnyElementsOf(openStudyRequest.getTagIds());
     }

@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +135,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
-                        "description", "스터디 상세 설명입니다.", "startDate", "2022-07-12", "endDate", ""))
+                        "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()

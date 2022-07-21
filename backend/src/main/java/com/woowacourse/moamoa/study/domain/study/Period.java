@@ -20,7 +20,7 @@ public class Period {
     }
 
     public Period(final LocalDateTime enrollmentEndDate, final LocalDateTime startDate, final LocalDateTime endDate) {
-        if (startDate.isAfter(endDate) || enrollmentEndDate.isAfter(endDate)) {
+        if ((endDate != null && startDate.isAfter(endDate)) || (enrollmentEndDate != null && enrollmentEndDate.isAfter(endDate))) {
             throw new InvalidPeriodException();
         }
         this.enrollmentEndDate = enrollmentEndDate;
@@ -29,7 +29,7 @@ public class Period {
     }
 
     public boolean isBefore(final LocalDateTime createAt) {
-        return startDate.isBefore(createAt) || enrollmentEndDate.isBefore(createAt);
+        return startDate.isBefore(createAt) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(createAt));
     }
 
     public LocalDateTime getEnrollmentEndDate() {
