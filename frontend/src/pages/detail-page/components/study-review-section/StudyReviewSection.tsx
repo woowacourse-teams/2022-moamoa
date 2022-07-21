@@ -32,7 +32,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
             {data.reviews.map(review => (
               <S.ReviewListItem key={review.id}>
                 <StudyReviewCard
-                  profileImageUrl={review.member.profileImage}
+                  imageUrl={review.member.imageUrl}
                   username={review.member.username}
                   reviewDate={review.createdAt}
                   review={review.content}

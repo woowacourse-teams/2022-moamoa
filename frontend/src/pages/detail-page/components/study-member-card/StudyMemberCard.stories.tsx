@@ -16,6 +16,6 @@ const Template: Story<StudyMemberCardProp> = props => (
 
 export const Default = Template.bind({});
 Default.args = {
-  profileImage: 'https://picsum.photos/id/186/200/200',
+  imageUrl: 'https://picsum.photos/id/186/200/200',
   username: 'airman5573',
 };

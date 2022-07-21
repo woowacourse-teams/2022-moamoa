@@ -26,22 +26,20 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ members }) => {
       </S.Title>
       <S.MemberList>
         {showAll
-          ? members.map(({ id, username, profileImage, profileUrl }) => (
+          ? members.map(({ id, username, imageUrl, profileUrl }) => (
               <li key={id}>
                 <a href={profileUrl}>
-                  <StudyMemberCard username={username} profileImage={profileImage} />
+                  <StudyMemberCard username={username} imageUrl={imageUrl} />
                 </a>
               </li>
             ))
-          : members
-              .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT)
-              .map(({ id, username, profileImage, profileUrl }) => (
-                <li key={id}>
-                  <a href={profileUrl}>
-                    <StudyMemberCard username={username} profileImage={profileImage} />
-                  </a>
-                </li>
-              ))}
+          : members.slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT).map(({ id, username, imageUrl, profileUrl }) => (
+              <li key={id}>
+                <a href={profileUrl}>
+                  <StudyMemberCard username={username} imageUrl={imageUrl} />
+                </a>
+              </li>
+            ))}
       </S.MemberList>
       {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <S.MoreButtonContainer>

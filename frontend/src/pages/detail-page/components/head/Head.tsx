@@ -19,8 +19,8 @@ const Head: React.FC<HeadProps> = ({ title, status, startDate, endDate, excerpt,
       </S.ExtraInfoContainer>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
       <S.TagContainer>
-        {tags.map(({ id, tagName }) => (
-          <TagChip key={id}>{tagName}</TagChip>
+        {tags.map(({ id, name }) => (
+          <TagChip key={id}>{name}</TagChip>
         ))}
       </S.TagContainer>
     </S.Head>

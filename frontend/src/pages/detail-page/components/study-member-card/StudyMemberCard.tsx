@@ -5,20 +5,20 @@ import * as S from '@detail-page/components/study-member-card/StudyMemberCard.st
 // TODO: studyCount, startDate api 명세에 필요
 export type StudyMemberCardProp = {
   username: string;
-  profileImage: string;
+  imageUrl: string;
   studyCount?: number;
   startDate?: string;
 };
 
 const StudyMemberCard: React.FC<StudyMemberCardProp> = ({
   username,
-  profileImage,
+  imageUrl,
   studyCount = 12,
   startDate = '2022.07.02',
 }) => {
   return (
     <S.StudyMemberCard>
-      <Avatar profileImg={profileImage} profileAlt={`${username} 프로필 이미지`} size="sm" />
+      <Avatar profileImg={imageUrl} profileAlt={`${username} 프로필 이미지`} size="sm" />
       <S.MemberDescription>
         <S.Username>{username}</S.Username>
         <S.UserStudyInfo>
