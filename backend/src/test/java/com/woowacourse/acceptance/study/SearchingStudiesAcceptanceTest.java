@@ -2,7 +2,6 @@ package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -212,27 +211,5 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.excerpt", contains("자바 설명"))
                 .body("studies.thumbnail", contains("java thumbnail"))
                 .body("studies.status", contains("OPEN"));
-    }
-
-    @DisplayName("기수와 주제로 필터링하여 스터디 목록을 조회한다.")
-    @Test
-    public void getStudiesByGenerationAndSubject() {
-        RestAssured.given().log().all()
-                .queryParam("title", "")
-                .queryParam("generation", 6)
-                .queryParam("subject", 1)
-                .queryParam("page", 0)
-                .queryParam("size", 3)
-                .when().log().all()
-                .get("/api/studies/search")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("hasNext", is(false))
-                .body("studies", hasSize(0))
-                .body("studies.id", empty())
-                .body("studies.title", empty())
-                .body("studies.excerpt", empty())
-                .body("studies.thumbnail", empty())
-                .body("studies.status", empty());
     }
 }
