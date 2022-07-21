@@ -1,17 +1,17 @@
 import { Story } from '@storybook/react';
 
-import MainPage from '@pages/main-page/MainPage';
+import ErrorPage from '@pages/error-page/ErrorPage';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
 export default {
-  title: 'Pages/MainPage',
-  component: MainPage,
+  title: 'Pages/ErrorPage',
+  component: ErrorPage,
 };
 
 const Template: Story = () => (
   <Wrapper>
-    <MainPage />
+    <ErrorPage />
   </Wrapper>
 );
 

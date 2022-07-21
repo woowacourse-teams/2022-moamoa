@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt,
   return (
     <S.Card>
       <S.ImageContainer>
-        <S.Image src={thumbnailUrl} alt={thumbnailAlt} />
+        <S.CardImage src={thumbnailUrl} alt={thumbnailAlt} />
       </S.ImageContainer>
       <S.Contents>
         <S.Title>{title}</S.Title>

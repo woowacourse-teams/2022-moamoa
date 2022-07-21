@@ -5,29 +5,24 @@ import TagChip from '@components/tag-chip/TagChip';
 
 import * as S from '@detail-page/components/head/Head.style';
 
-type HeadProps = Pick<StudyDetail, 'title' | 'status' | 'startDate' | 'endDate' | 'excerpt' | 'tags'> & {
-  countOfReviews?: number;
-};
+export type HeadProps = Pick<StudyDetail, 'title' | 'status' | 'startDate' | 'endDate' | 'excerpt' | 'tags'>;
 
-const Head: React.FC<HeadProps> = ({ title, status, countOfReviews, startDate, endDate, excerpt, tags }) => {
+const Head: React.FC<HeadProps> = ({ title, status, startDate, endDate, excerpt, tags }) => {
   return (
     <S.Head>
-      <div className="title-container">
-        <h1>{title}</h1>
-        <StudyChip className="chip" isOpen={status === 'open'} />
-      </div>
-      <div className="extra-info-container">
-        <span className="review-count">{countOfReviews ? `후기 ${countOfReviews}개` : 'loading...'}</span>
-        <span>{`${startDate} ~ ${endDate}`}</span>
-      </div>
-      <h3 className="excerpt">{excerpt}</h3>
-      <div className="tag-container">
-        {tags.map(({ id, tagName }) => (
-          <TagChip key={id} className="chip">
-            {tagName}
-          </TagChip>
+      <S.TitleContainer>
+        <S.StudyTitle>{title}</S.StudyTitle>
+        <StudyChip isOpen={status === 'OPEN'} />
+      </S.TitleContainer>
+      <S.ExtraInfoContainer>
+        <span>시작일: {startDate}</span> ~ <span>종료일: {endDate || '없음'}</span>
+      </S.ExtraInfoContainer>
+      <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
+      <S.TagContainer>
+        {tags.map(({ id, name }) => (
+          <TagChip key={id}>{name}</TagChip>
         ))}
-      </div>
+      </S.TagContainer>
     </S.Head>
   );
 };

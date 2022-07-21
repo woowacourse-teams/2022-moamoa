@@ -2,6 +2,7 @@ import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { AvatarProps } from '@components/avatar/Avatar';
+import Image from '@components/image/Image';
 
 const dynamicSize = {
   sm: css`
@@ -33,7 +34,7 @@ export const Avatar = styled.div`
     min-width: 36px;
     height: 36px;
     border-radius: 50%;
-    box-shadow: 0px 1px 5px 0px ${theme.colors.secondary.dark};
+    box-shadow: 0 1px 5px 0 ${theme.colors.secondary.dark};
     overflow: hidden;
     transition: opacity 0.2s ease;
 
@@ -46,7 +47,7 @@ export const Avatar = styled.div`
   ${dynamicImageContainer}
 `;
 
-export const Image = styled.img`
+export const AvatarImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;

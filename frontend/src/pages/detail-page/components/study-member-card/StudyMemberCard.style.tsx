@@ -4,24 +4,41 @@ import styled from '@emotion/styled';
 export const StudyMemberCard = styled.div`
   ${({ theme }) => css`
     display: flex;
-    padding: 12px;
-    background: ${theme.colors.secondary.light};
-    box-shadow: 0px 0px 2px 1px ${theme.colors.secondary.base};
-    border-radius: 15px;
     align-items: center;
 
-    & > .right {
-      display: flex;
-      flex-direction: column;
-      padding-left: 12px;
-      font-size: 12px;
+    padding: 12px;
 
-      .username {
-        font-size: 18px;
-      }
-      .study-count {
-        margin-right: 12px;
-      }
+    background: ${theme.colors.secondary.light};
+    box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
+    border-radius: 15px;
+  `}
+`;
+
+export const MemberDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  row-gap: 4px;
+
+  padding-left: 12px;
+
+  font-size: 12px;
+`;
+
+export const Username = styled.p`
+  font-size: 20px;
+  font-weight: 700;
+`;
+
+export const UserStudyInfo = styled.p`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+
+    & > span {
+      font-size: 16px;
+      color: ${theme.colors.secondary.dark};
     }
   `}
 `;

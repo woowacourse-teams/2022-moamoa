@@ -1,7 +1,5 @@
 import { Story } from '@storybook/react';
 
-import { css } from '@emotion/react';
-
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
 import type { StudyMemberCardProp } from '@detail-page/components/study-member-card/StudyMemberCard';
 
@@ -11,16 +9,13 @@ export default {
 };
 
 const Template: Story<StudyMemberCardProp> = props => (
-  <StudyMemberCard
-    css={css`
-      max-width: 300px;
-    `}
-    {...props}
-  />
+  <div style={{ maxWidth: '350px', minWidth: 'fit-content' }}>
+    <StudyMemberCard {...props} />
+  </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  profileImage: 'https://picsum.photos/id/186/200/200',
+  imageUrl: 'https://picsum.photos/id/186/200/200',
   username: 'airman5573',
 };

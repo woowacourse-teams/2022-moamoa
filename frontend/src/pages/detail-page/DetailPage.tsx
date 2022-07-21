@@ -1,7 +1,6 @@
-import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 import Divider from '@components/divider/Divider';
@@ -10,33 +9,24 @@ import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
-import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
-import StudyMemberList from '@detail-page/components/study-member-list/StudyMemberList';
-import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
+import StudyReviewSection from '@detail-page/components/study-review-section/StudyReviewSection';
 import useFetchDetail from '@detail-page/hooks/useFetchDetail';
-import useFetchStudyReviews from '@detail-page/hooks/useFetchStudyReviews';
 
 const DetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
-  const [isVisibleLoadAllReviewsBtn, setIsVisibleLoadAllReviewsBtn] = useState<boolean>(true);
-  const shouldLoadAll = !isVisibleLoadAllReviewsBtn;
+
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
-  const size = shouldLoadAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
-  const studyReviewsQueryResult = useFetchStudyReviews(Number(studyId), size);
 
-  const handleClickRegisterBtn = () => {
+  const handleRegisterBtnClick = (studyId: number) => () => {
     alert('스터디에 가입했습니다!');
-  };
-
-  const handleClickLoadAllReviewsBtn = () => {
-    setIsVisibleLoadAllReviewsBtn(false);
   };
 
   if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
 
-  if (!studyDetailQueryResult.data) return <div>No Data...</div>;
+  if (!studyDetailQueryResult.data) return <div>No Data</div>;
 
+  // TODO: background에 thumbnail 이미지 사용
   const {
     id,
     title,
@@ -46,7 +36,7 @@ const DetailPage = () => {
     description,
     currentMemberCount,
     maxMemberCount,
-    deadline,
+    enrollmentEndDate,
     startDate,
     endDate,
     owner,
@@ -54,83 +44,41 @@ const DetailPage = () => {
     tags,
   } = studyDetailQueryResult.data.study;
 
-  const countOfReviews = studyReviewsQueryResult?.data?.totalResults;
-
   return (
     <Wrapper>
-      <Head
-        title={title}
-        status={status}
-        excerpt={excerpt}
-        startDate={startDate}
-        endDate={endDate}
-        tags={tags}
-        countOfReviews={countOfReviews}
-      />
+      <Head title={title} status={status} excerpt={excerpt} startDate={startDate} endDate={endDate} tags={tags} />
       <Divider space={2} />
       <S.Main>
-        <div className="left">
-          <MarkdownRender markdownContent={description} />
+        <S.MainDescription>
+          <S.MarkDownContainer>
+            <MarkdownRender markdownContent={description} />
+          </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberList members={members} />
-        </div>
-        <div className="right">
-          <div className="sticky">
+          <StudyMemberSection members={members} />
+        </S.MainDescription>
+        <S.FloatButtonContainer>
+          <S.StickyContainer>
             <StudyFloatBox
               studyId={id}
-              owner={owner}
+              owner={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
-              deadline={deadline}
-              onClickRegisterBtn={handleClickRegisterBtn}
+              deadline={enrollmentEndDate}
+              handleRegisterBtnClick={handleRegisterBtnClick}
             />
-          </div>
-        </div>
+          </S.StickyContainer>
+        </S.FloatButtonContainer>
       </S.Main>
       <Divider space={2} />
-      <S.ExtraInfo>
-        <h1 className="title">
-          {studyReviewsQueryResult.data ? `후기 ${studyReviewsQueryResult.data.totalResults}개` : 'loading...'}
-        </h1>
-        {studyReviewsQueryResult.data?.reviews ? (
-          <>
-            <ul className="review-list">
-              {studyReviewsQueryResult.data.reviews.map(review => {
-                return (
-                  <li key={review.id} className="review">
-                    <StudyReviewCard
-                      profileImageUrl={review.member.profileImage}
-                      username={review.member.username}
-                      reviewDate={review.createdAt}
-                      review={review.content}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="load-all-reviews-button">
-              {isVisibleLoadAllReviewsBtn && (
-                <MoreButton
-                  status={'fold'}
-                  onClick={handleClickLoadAllReviewsBtn}
-                  foldText="- 접기"
-                  unfoldText="+ 더보기"
-                />
-              )}
-            </div>
-          </>
-        ) : (
-          <div>loading...</div>
-        )}
-      </S.ExtraInfo>
+      <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          owner={owner}
+          owner={owner.username}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
-          deadline={deadline}
-          onClickRegisterBtn={handleClickRegisterBtn}
+          deadline={enrollmentEndDate}
+          handleRegisterBtnClick={handleRegisterBtnClick}
         />
       </S.FixedBottomContainer>
     </Wrapper>
