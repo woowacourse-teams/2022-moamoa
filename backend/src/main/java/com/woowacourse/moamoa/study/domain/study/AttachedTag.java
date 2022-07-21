@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.domain.studytag;
+package com.woowacourse.moamoa.study.domain.study;
 
 import static lombok.AccessLevel.PROTECTED;
 

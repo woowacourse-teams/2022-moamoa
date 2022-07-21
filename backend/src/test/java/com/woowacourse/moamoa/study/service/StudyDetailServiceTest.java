@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @RepositoryTest
-class StudyServiceTest {
+class StudyDetailServiceTest {
 
-    private StudyService studyService;
+    private StudyDetailService studyDetailService;
 
     @Autowired
     private StudyRepository studyRepository;
@@ -34,13 +34,13 @@ class StudyServiceTest {
 
     @BeforeEach
     void setUp() {
-        studyService = new StudyService(studyRepository, memberRepository, tagRepository);
+        studyDetailService = new StudyDetailService(studyRepository, memberRepository, tagRepository);
     }
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
     public void getStudyDetails() {
-        final StudyDetailResponse studyDetails = studyService.getStudyDetails(1L);
+        final StudyDetailResponse studyDetails = studyDetailService.getStudyDetails(1L);
 
         final MemberResponse owner = studyDetails.getOwner();
         final List<MemberResponse> members = studyDetails.getMembers();

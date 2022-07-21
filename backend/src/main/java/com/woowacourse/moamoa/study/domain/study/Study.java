@@ -5,7 +5,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.member.domain.Member;
-import com.woowacourse.moamoa.study.domain.studytag.AttachedTag;
 import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

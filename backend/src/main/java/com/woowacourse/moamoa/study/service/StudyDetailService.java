@@ -8,45 +8,25 @@ import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.study.domain.study.Participant;
 import com.woowacourse.moamoa.study.domain.study.Study;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
-import com.woowacourse.moamoa.study.domain.studytag.AttachedTag;
+import com.woowacourse.moamoa.study.domain.study.AttachedTag;
 import com.woowacourse.moamoa.study.exception.StudyNotExistException;
-import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
-import com.woowacourse.moamoa.study.service.response.StudyResponse;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.tag.query.response.TagResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class StudyService {
+public class StudyDetailService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
-
-    public StudiesResponse getStudies(final Pageable pageable) {
-        final Slice<Study> slice = studyRepository.findAll(pageable);
-        final List<StudyResponse> studies = slice
-                .map(StudyResponse::new)
-                .getContent();
-        return new StudiesResponse(studies, slice.hasNext());
-    }
-
-    public StudiesResponse searchBy(final String title, final Pageable pageable) {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase(title.trim(), pageable);
-        final List<StudyResponse> studies = slice
-                .map(StudyResponse::new)
-                .getContent();
-        return new StudiesResponse(studies, slice.hasNext());
-    }
 
     public StudyDetailResponse getStudyDetails(final Long studyId) {
         final Study study = studyRepository.findById(studyId)
