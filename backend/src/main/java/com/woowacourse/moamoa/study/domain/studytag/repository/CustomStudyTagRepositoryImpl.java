@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.tag.domain.Category;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import org.springframework.data.domain.Pageable;
 
@@ -57,13 +58,18 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
         for (Category category : categories) {
             final List<Tag> categorizedTags = makeCategorizedFilters(tags, category);
             final List<Study> studies = findStudyWithFilter(categorizedTags);
-            if (result.isEmpty()) {
+            if (isFirstCategory(categories, result, category)) {
                 result.addAll(studies);
             }
             result.removeIf(finalStudy -> !studies.contains(finalStudy));
         }
 
         return result;
+    }
+
+    private boolean isFirstCategory(final List<Category> categories, final List<Study> result,
+                                    final Category category) {
+        return result.isEmpty() && Objects.equals(categories.get(0).getId(), category.getId());
     }
 
     private List<Category> findCategories(final List<Tag> tags) {
