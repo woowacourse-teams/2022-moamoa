@@ -36,7 +36,7 @@ const DetailPage = () => {
     description,
     currentMemberCount,
     maxMemberCount,
-    deadline,
+    enrollmentEndDate,
     startDate,
     endDate,
     owner,
@@ -60,10 +60,10 @@ const DetailPage = () => {
           <S.StickyContainer>
             <StudyFloatBox
               studyId={id}
-              owner={owner}
+              owner={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
-              deadline={deadline}
+              deadline={enrollmentEndDate}
               handleRegisterBtnClick={handleRegisterBtnClick}
             />
           </S.StickyContainer>
@@ -74,10 +74,10 @@ const DetailPage = () => {
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          owner={owner}
+          owner={owner.username}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
-          deadline={deadline}
+          deadline={enrollmentEndDate}
           handleRegisterBtnClick={handleRegisterBtnClick}
         />
       </S.FixedBottomContainer>
