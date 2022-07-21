@@ -62,7 +62,7 @@ class MemberRepositoryTest {
     @DisplayName("존재하지 않는 사용자를 조회한다.")
     @Test
     void findByNotExistMember() {
-        final Optional<Member> member = memberRepository.findByGithubId(-1L);
+        final Optional<Member> member = memberRepository.findByGithubId(111L);  // DB 없는 ID : 111L
 
         assertThat(member).isEmpty();
     }
