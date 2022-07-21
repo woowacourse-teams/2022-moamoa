@@ -15,7 +15,7 @@ const Head: React.FC<HeadProps> = ({ title, status, startDate, endDate, excerpt,
         <StudyChip isOpen={status === 'OPEN'} />
       </S.TitleContainer>
       <S.ExtraInfoContainer>
-        <span>시작일: {startDate}</span> ~ <span>종료일: {endDate}</span>
+        <span>시작일: {startDate}</span> ~ <span>종료일: {endDate || '없음'}</span>
       </S.ExtraInfoContainer>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
       <S.TagContainer>
