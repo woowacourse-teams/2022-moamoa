@@ -4,15 +4,15 @@ import { useState } from 'react';
 import { Member } from '@custom-types/index';
 
 import StudyMemberCard from '@pages/detail-page/components/study-member-card/StudyMemberCard';
+import * as S from '@pages/detail-page/components/study-member-section/StudyMemberSection.style';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
-import * as S from '@detail-page/components/study-member-list/StudyMemberList.style';
 
-export interface StudyMemberListProps {
+export interface StudyMemberSectionProps {
   members: Array<Member>;
 }
 
-const StudyMemberList: React.FC<StudyMemberListProps> = ({ members }) => {
+const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ members }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
 
   const handleShowMoreBtnClick = () => {
@@ -57,4 +57,4 @@ const StudyMemberList: React.FC<StudyMemberListProps> = ({ members }) => {
   );
 };
 
-export default StudyMemberList;
+export default StudyMemberSection;

@@ -1,7 +1,6 @@
-import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 import Divider from '@components/divider/Divider';
@@ -11,25 +10,13 @@ import Wrapper from '@components/wrapper/Wrapper';
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
-import StudyMemberList from '@detail-page/components/study-member-list/StudyMemberList';
+import StudyReviewSection from '@detail-page/components/study-review-section/StudyReviewSection';
 import useFetchDetail from '@detail-page/hooks/useFetchDetail';
-import useFetchStudyReviews from '@detail-page/hooks/useFetchStudyReviews';
-
-import StudyReviewList from './components/study-review-list/StudyReviewList';
 
 const DetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
 
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
-
-  const [isVisibleLoadAllReviewsBtn, setIsVisibleLoadAllReviewsBtn] = useState<boolean>(true);
-  const shouldLoadAll = !isVisibleLoadAllReviewsBtn;
-  const size = shouldLoadAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
-  const studyReviewsQueryResult = useFetchStudyReviews(Number(studyId), size);
-
-  const handleClickLoadAllReviewsBtn = () => {
-    setIsVisibleLoadAllReviewsBtn(prev => !prev);
-  };
 
   const handleRegisterBtnClick = (studyId: number) => () => {
     alert('스터디에 가입했습니다!');
@@ -37,12 +24,9 @@ const DetailPage = () => {
 
   if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
 
-  if (!studyDetailQueryResult.data) return <div>No Data...</div>;
+  if (!studyDetailQueryResult.data) return <div>No Data</div>;
 
-  if (studyReviewsQueryResult.isFetching) return <div>Loading...</div>;
-
-  if (!studyReviewsQueryResult.data) return <div>No Data...</div>;
-
+  // TODO: background에 thumbnail 이미지 사용
   const {
     id,
     title,
@@ -60,19 +44,9 @@ const DetailPage = () => {
     tags,
   } = studyDetailQueryResult.data.study;
 
-  const { totalResults: reviewCount, reviews } = studyReviewsQueryResult.data;
-
   return (
     <Wrapper>
-      <Head
-        title={title}
-        status={status}
-        excerpt={excerpt}
-        startDate={startDate}
-        endDate={endDate}
-        tags={tags}
-        reviewCount={reviewCount}
-      />
+      <Head title={title} status={status} excerpt={excerpt} startDate={startDate} endDate={endDate} tags={tags} />
       <Divider space={2} />
       <S.Main>
         <S.MainDescription>
@@ -80,7 +54,7 @@ const DetailPage = () => {
             <MarkdownRender markdownContent={description} />
           </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberList members={members} />
+          <StudyMemberSection members={members} />
         </S.MainDescription>
         <S.FloatButtonContainer>
           <S.StickyContainer>
@@ -96,12 +70,7 @@ const DetailPage = () => {
         </S.FloatButtonContainer>
       </S.Main>
       <Divider space={2} />
-      <StudyReviewList
-        reviews={reviews}
-        reviewCount={reviewCount}
-        showAll={isVisibleLoadAllReviewsBtn}
-        handleMoreBtnClick={handleClickLoadAllReviewsBtn}
-      />
+      <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}

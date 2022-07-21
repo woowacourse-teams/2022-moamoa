@@ -1,11 +1,11 @@
 import { Story } from '@storybook/react';
 
-import StudyMemberList from '@detail-page/components/study-member-list/StudyMemberList';
-import type { StudyMemberListProps } from '@detail-page/components/study-member-list/StudyMemberList';
+import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
+import type { StudyMemberSectionProps } from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 
 export default {
-  title: 'Components/StudyMemberList',
-  component: StudyMemberList,
+  title: 'Components/StudyMemberSection',
+  component: StudyMemberSection,
 };
 
 const members = [
@@ -95,9 +95,9 @@ const members = [
   },
 ];
 
-const Template: Story<StudyMemberListProps> = props => (
+const Template: Story<StudyMemberSectionProps> = props => (
   <div style={{ maxWidth: '400px', minWidth: 'fit-content' }}>
-    <StudyMemberList {...props} />
+    <StudyMemberSection {...props} />
   </div>
 );
 

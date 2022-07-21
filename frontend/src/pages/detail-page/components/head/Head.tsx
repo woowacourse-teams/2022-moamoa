@@ -5,11 +5,9 @@ import TagChip from '@components/tag-chip/TagChip';
 
 import * as S from '@detail-page/components/head/Head.style';
 
-export type HeadProps = Pick<StudyDetail, 'title' | 'status' | 'startDate' | 'endDate' | 'excerpt' | 'tags'> & {
-  reviewCount: number;
-};
+export type HeadProps = Pick<StudyDetail, 'title' | 'status' | 'startDate' | 'endDate' | 'excerpt' | 'tags'>;
 
-const Head: React.FC<HeadProps> = ({ title, status, reviewCount, startDate, endDate, excerpt, tags }) => {
+const Head: React.FC<HeadProps> = ({ title, status, startDate, endDate, excerpt, tags }) => {
   return (
     <S.Head>
       <S.TitleContainer>
@@ -17,8 +15,9 @@ const Head: React.FC<HeadProps> = ({ title, status, reviewCount, startDate, endD
         <StudyChip isOpen={status === 'OPEN'} />
       </S.TitleContainer>
       <S.ExtraInfoContainer>
-        <span>{`후기 ${reviewCount}개`}</span>
-        <span>{`${startDate} - ${endDate}`}</span>
+        <span>
+          {startDate} ~ {endDate}
+        </span>
       </S.ExtraInfoContainer>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
       <S.TagContainer>
