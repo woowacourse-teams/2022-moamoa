@@ -42,7 +42,7 @@ const DetailPage = () => {
     owner,
     members,
     tags,
-  } = studyDetailQueryResult.data.study;
+  } = studyDetailQueryResult.data;
 
   return (
     <Wrapper>
