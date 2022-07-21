@@ -18,16 +18,16 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
     public void getStudyDetails() {
         RestAssured.given().log().all()
                 .when().log().all()
-                .get("/api/studies/1/reviews")
+                .get("/api/studies/1/reviews?size=6")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("reviews.id", not(empty()))
                 .body("reviews.member.id", not(empty()))
-                .body("reviews.member.username", contains("jjanggu", "greenlawn"))
-                .body("reviews.member.imageUrl", contains("https://image", "https://image"))
-                .body("reviews.member.profileUrl", contains("github.com", "github.com"))
-                .body("reviews.createdDate", contains("2021-11-08", "2021-11-08"))
-                .body("reviews.lastModifiedDate", contains("2021-11-08", "2021-11-08"))
-                .body("totalResults", is(2));
+                .body("reviews.member.username", contains("jjanggu", "greenlawn", "dwoo", "verus", "jjanggu", "greenlawn"))
+                .body("reviews.member.imageUrl", contains("https://image", "https://image", "https://image", "https://image", "https://image", "https://image"))
+                .body("reviews.member.profileUrl", contains("github.com", "github.com", "github.com", "github.com", "github.com", "github.com"))
+                .body("reviews.createdDate", contains("2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08"))
+                .body("reviews.lastModifiedDate", contains("2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08", "2021-11-08"))
+                .body("totalResults", is(7));
     }
 }

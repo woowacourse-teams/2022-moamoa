@@ -19,19 +19,23 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public ReviewsResponse getReviewsByStudy(Long studyId) {
+    public ReviewsResponse getReviewsByStudy(Long studyId, Integer size) {
         final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
 
         final List<Review> reviews = reviewRepository.findAllByAssociatedStudy(associatedStudy);
 
-        return makeReviewsResponse(reviews);
+        if (size != null) {
+            return makeReviewsResponse(reviews.subList(0, size), reviews.size());
+        }
+
+        return makeReviewsResponse(reviews, reviews.size());
     }
 
-    private ReviewsResponse makeReviewsResponse(final List<Review> reviews) {
+    private ReviewsResponse makeReviewsResponse(final List<Review> reviews, final int totalCount) {
         final List<ReviewResponse> reviewResponses = reviews.stream()
-                .map(review -> new ReviewResponse(review))
+                .map(ReviewResponse::new)
                 .collect(toList());
 
-        return new ReviewsResponse(reviewResponses, reviews.size());
+        return new ReviewsResponse(reviewResponses, totalCount);
     }
 }

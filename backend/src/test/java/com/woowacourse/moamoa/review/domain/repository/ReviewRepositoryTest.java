@@ -23,9 +23,9 @@ class ReviewRepositoryTest {
         final AssociatedStudy associatedStudy = new AssociatedStudy(1L);
         final List<Review> reviews = reviewRepository.findAllByAssociatedStudy(associatedStudy);
 
-        assertThat(reviews).hasSize(2)
+        assertThat(reviews).hasSize(7)
                 .extracting("content")
-                .contains("리뷰 내용1", "리뷰 내용2");
+                .contains("리뷰 내용1", "리뷰 내용2", "리뷰 내용3", "리뷰 내용4", "리뷰 내용5", "리뷰 내용6", "리뷰 내용7");
     }
 
     @DisplayName("스터디에서 조회한 리뷰로부터 Member를 조회한다.")
