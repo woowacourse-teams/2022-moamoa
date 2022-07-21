@@ -13,7 +13,12 @@
       "enrollmentEndDate": "2022-07-10",
       "startDate": "2022-07-03",
       "endDate": "2022-08-07",
-      "owner": "owner",
+      "owner": {
+        "id" : 1,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 9640683,
@@ -207,7 +212,12 @@
       "enrollmentEndDate": "2022-07-03",
       "startDate": "2022-07-03",
       "endDate": "2022-08-26",
-      "owner": "owner",
+      "owner": {
+        "id" : 2,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 7776787,
@@ -279,7 +289,12 @@
       "enrollmentEndDate": "2022-07-29",
       "startDate": "2022-07-07",
       "endDate": "2022-08-05",
-      "owner": "owner",
+      "owner": {
+        "id" : 3,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 564870,
@@ -491,7 +506,12 @@
       "enrollmentEndDate": "2022-07-12",
       "startDate": "2022-07-31",
       "endDate": "2022-08-23",
-      "owner": "owner",
+      "owner": {
+        "id" : 4,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 941088,
@@ -651,7 +671,12 @@
       "enrollmentEndDate": "2022-07-27",
       "startDate": "2022-07-18",
       "endDate": "2022-08-01",
-      "owner": "owner",
+      "owner": {
+        "id" : 5,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 9662288,
@@ -746,7 +771,12 @@
       "enrollmentEndDate": "2022-07-28",
       "startDate": "2022-07-21",
       "endDate": "2022-08-14",
-      "owner": "owner",
+      "owner": {
+        "id" : 6,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 7012515,
@@ -922,7 +952,12 @@
       "enrollmentEndDate": "2022-07-17",
       "startDate": "2022-07-23",
       "endDate": "2022-08-03",
-      "owner": "owner",
+      "owner": {
+        "id" : 7,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 6141072,
@@ -1012,7 +1047,12 @@
       "enrollmentEndDate": "2022-07-02",
       "startDate": "2022-07-26",
       "endDate": "2022-08-20",
-      "owner": "owner",
+      "owner": {
+        "id" : 8,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 8071708,
@@ -1095,7 +1135,12 @@
       "enrollmentEndDate": "2022-07-18",
       "startDate": "2022-07-14",
       "endDate": "2022-08-21",
-      "owner": "owner",
+      "owner": {
+        "id" : 9,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 4580721,
@@ -1348,7 +1393,12 @@
       "enrollmentEndDate": "2022-07-05",
       "startDate": "2022-07-19",
       "endDate": "2022-08-24",
-      "owner": "owner",
+      "owner": {
+        "id" : 10,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 2610310,
@@ -1459,7 +1509,12 @@
       "enrollmentEndDate": "2022-07-23",
       "startDate": "2022-07-25",
       "endDate": "2022-08-31",
-      "owner": "owner",
+      "owner": {
+        "id" : 11,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 9462039,
@@ -1596,7 +1651,12 @@
       "enrollmentEndDate": "2022-07-31",
       "startDate": "2022-07-30",
       "endDate": "2022-08-24",
-      "owner": "owner",
+      "owner": {
+        "id" : 12,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 3113803,
@@ -1764,7 +1824,12 @@
       "enrollmentEndDate": "2022-07-20",
       "startDate": "2022-07-14",
       "endDate": "2022-08-18",
-      "owner": "owner",
+      "owner": {
+        "id" : 13,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 6607039,
@@ -1941,7 +2006,12 @@
       "enrollmentEndDate": "2022-07-06",
       "startDate": "2022-07-06",
       "endDate": "2022-08-19",
-      "owner": "owner",
+      "owner": {
+        "id" : 14,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 6020845,
@@ -2034,7 +2104,12 @@
       "enrollmentEndDate": "2022-07-24",
       "startDate": "2022-07-04",
       "endDate": "2022-08-00",
-      "owner": "owner",
+      "owner": {
+        "id" : 15,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 8007427,
@@ -2146,7 +2221,12 @@
       "enrollmentEndDate": "2022-07-27",
       "startDate": "2022-07-01",
       "endDate": "2022-08-29",
-      "owner": "owner",
+      "owner": {
+        "id" : 16,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 9965571,
@@ -2396,7 +2476,12 @@
       "enrollmentEndDate": "2022-07-03",
       "startDate": "2022-07-13",
       "endDate": "2022-08-19",
-      "owner": "owner",
+      "owner": {
+        "id" : 17,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 3658055,
@@ -2480,7 +2565,12 @@
       "enrollmentEndDate": "2022-07-04",
       "startDate": "2022-07-30",
       "endDate": "2022-08-30",
-      "owner": "owner",
+      "owner": {
+        "id" : 18,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 9523051,
@@ -2684,7 +2774,12 @@
       "enrollmentEndDate": "2022-07-05",
       "startDate": "2022-07-07",
       "endDate": "2022-08-13",
-      "owner": "owner",
+      "owner": {
+        "id" : 19,
+        "username" : "jaejae-yoo",
+        "imageUrl" : "images/123",
+        "profileUrl" : "https://github.com/user/jaejae-yoo"
+      },
       "members": [
         {
           "id": 5103026,
