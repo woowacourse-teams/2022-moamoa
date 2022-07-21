@@ -31,6 +31,7 @@ INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테�
 INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2);
 INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2);
 INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3);
+INSERT INTO tag(id, name, description, category_id) VALUES (6, '3기', '우테코3기', 1);
 
 INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1);
 INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2);
