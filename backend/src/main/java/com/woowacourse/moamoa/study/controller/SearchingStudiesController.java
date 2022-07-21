@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/studies")
 @RequiredArgsConstructor
-public class StudyController {
+public class SearchingStudiesController {
 
     private final StudyDetailService studyDetailService;
     private final StudyTagService studyTagService;

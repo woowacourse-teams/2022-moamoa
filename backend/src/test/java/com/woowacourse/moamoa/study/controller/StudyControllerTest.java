@@ -32,11 +32,11 @@ public class StudyControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private StudyController studyController;
+    private SearchingStudiesController studyController;
 
     @BeforeEach
     void setUp() {
-        studyController = new StudyController(new StudyDetailService(studyRepository, memberRepository, tagRepository),
+        studyController = new SearchingStudiesController(new StudyDetailService(studyRepository, memberRepository, tagRepository),
                 new StudyTagService(studyTagRepository, studyRepository, tagRepository));
     }
 

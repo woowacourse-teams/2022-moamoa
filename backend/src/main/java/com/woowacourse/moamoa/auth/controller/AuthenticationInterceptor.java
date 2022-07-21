@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String token = AuthenticationExtractor.extract(request);
-        validateToken(token);
+        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies")) {
+            String token = AuthenticationExtractor.extract(request);
+            validateToken(token);
 
-        request.setAttribute("payload", jwtTokenProvider.getPayload(token));
+            request.setAttribute("payload", jwtTokenProvider.getPayload(token));
+        }
 
         return true;
     }
@@ -34,8 +37,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     }
 
     private void validateToken(String token) {
-        if (token == null || token.isEmpty()) {
-            throw new IllegalStateException("토큰이 존재하지 않습니다.");
+        if (token == null || !jwtTokenProvider.validateToken(token)) {
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
     }
 }
