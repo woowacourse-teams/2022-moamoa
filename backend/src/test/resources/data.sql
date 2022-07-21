@@ -58,3 +58,9 @@ INSERT INTO study_member(study_id, member_id) VALUES (2, 4);
 
 INSERT INTO study_member(study_id, member_id) VALUES (3, 3);
 INSERT INTO study_member(study_id, member_id) VALUES (3, 4);
+
+INSERT INTO review(study_id, member_id, content, created_date, last_modified_date)
+VALUES (1, 1, '리뷰 내용1', '2021-11-08T11:58:20.551705', '2021-11-08T11:58:20.551705');
+
+INSERT INTO review(study_id, member_id, content, created_date, last_modified_date)
+VALUES (1, 2, '리뷰 내용2', '2021-11-08T11:58:20.551705', '2021-11-08T11:58:20.551705');
