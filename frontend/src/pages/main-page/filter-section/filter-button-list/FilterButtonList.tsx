@@ -1,12 +1,11 @@
-import type { Filter } from '@custom-types/index';
+import type { Tag, TagInfo } from '@custom-types/index';
 
-import type { FilterInfo } from '@pages/main-page/filter-section/FilterSection';
 import * as S from '@pages/main-page/filter-section/filter-button-list/FilterButtonList.style';
 import FilterButton from '@pages/main-page/filter-section/filter-button/FilterButton';
 
 export interface FilterButtonListProps {
-  filters: Array<Filter>;
-  selectedFilters: Array<FilterInfo>;
+  filters: Array<Tag>;
+  selectedFilters: Array<TagInfo>;
   handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -16,13 +15,13 @@ const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ i
 const FilterButtonList: React.FC<FilterButtonListProps> = ({ filters, selectedFilters, handleFilterButtonClick }) => {
   return (
     <S.FilterButtons>
-      {filters.map(({ id, shortName, fullName, category: { name } }) => (
+      {filters.map(({ id, name, description, category }) => (
         <li key={id}>
           <FilterButton
-            shortName={shortName}
-            fullName={fullName}
-            isChecked={isSelected(id, name, selectedFilters)}
-            handleFilterButtonClick={handleFilterButtonClick(id, name)}
+            name={name}
+            description={description}
+            isChecked={isSelected(id, category.name, selectedFilters)}
+            handleFilterButtonClick={handleFilterButtonClick(id, category.name)}
           />
         </li>
       ))}

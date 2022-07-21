@@ -2,8 +2,17 @@ DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS study;
+DROP TABLE IF EXISTS member;
+
+CREATE TABLE member
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    github_id BIGINT NOT NULL UNIQUE,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    image_url VARCHAR(255),
+    profile_url VARCHAR(255)
+);
 
 CREATE TABLE study
 (
@@ -15,10 +24,12 @@ CREATE TABLE study
     description MEDIUMTEXT,
     current_member_count INTEGER DEFAULT 1,
     max_member_count INTEGER,
-    deadline DATETIME,
+    created_at DATETIME not null,
+    enrollment_end_date DATETIME,
     start_date DATETIME,
     end_date DATETIME,
-    owner VARCHAR(255) NOT NULL
+    owner_id BIGINT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES member (id)
 );
 
 CREATE TABLE category
@@ -43,15 +54,6 @@ CREATE TABLE study_tag
     tag_id BIGINT,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (tag_id) REFERENCES tag (id)
-);
-
-CREATE TABLE member
-(
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    github_id BIGINT NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    image_url VARCHAR(255),
-    profile_url VARCHAR(255)
 );
 
 CREATE TABLE study_member

@@ -1,33 +1,37 @@
 import styled from '@emotion/styled';
 
 export const Head = styled.div`
-  & > .title-container {
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    margin-bottom: 20px;
-    h1 {
-      font-size: 40px;
-    }
-    .chip {
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+`;
 
-  & > .extra-info-container {
-    font-size: 20px;
-    margin-bottom: 20px;
-    & > .review-count {
-      margin-right: 20px;
-    }
-  }
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+`;
 
-  & > .excerpt {
-    margin-bottom: 20px;
-    font-size: 28px;
-  }
+export const StudyTitle = styled.h2`
+  font-size: 40px;
+  font-weight: 700;
+`;
 
-  & > .tag-container {
-    display: flex;
-    column-gap: 15px;
-  }
+export const ExtraInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+
+  font-weight: 300;
+`;
+
+export const Excerpt = styled.p`
+  padding: 8px 0 16px;
+
+  font-size: 28px;
+`;
+
+export const TagContainer = styled.div`
+  display: flex;
+  column-gap: 16px;
 `;

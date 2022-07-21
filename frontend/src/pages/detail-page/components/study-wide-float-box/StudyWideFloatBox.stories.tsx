@@ -1,28 +1,28 @@
 import { Story } from '@storybook/react';
 
-import { css } from '@emotion/react';
+import noop from '@utils/noop';
 
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import type { StudyWideFloatBoxProps } from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 export default {
-  title: 'Components/StudyFloatBox',
+  title: 'Components/StudyWideFloatBox',
   component: StudyWideFloatBox,
 };
 
 const Template: Story<StudyWideFloatBoxProps> = props => (
   <div
-    css={css`
-      max-width: 400px;
-    `}
+    style={{
+      width: '700px',
+    }}
   >
-    <StudyWideFloatBox {...props} />
+    <StudyWideFloatBox {...props} handleRegisterBtnClick={() => noop} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  studyId: '_3f41',
+  studyId: 123,
   deadline: '2022-07-28',
   currentMemberCount: 8,
   maxMemberCount: 14,

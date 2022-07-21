@@ -1,15 +1,18 @@
 package com.woowacourse.moamoa.study.controller;
 
-import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.controller.request.TagRequest;
+import com.woowacourse.moamoa.study.service.StudyDetailService;
 import com.woowacourse.moamoa.study.service.StudyTagService;
+import com.woowacourse.moamoa.study.service.response.StudiesResponse;
+import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StudyController {
 
-    private final StudyService studyService;
+    private final StudyDetailService studyDetailService;
     private final StudyTagService studyTagService;
 
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
             @PageableDefault(size = 5) final Pageable pageable
     ) {
-        final StudiesResponse studiesResponse = studyService.getStudies(pageable);
+        final StudiesResponse studiesResponse = studyTagService.searchBy("",
+                new TagRequest(List.of(), List.of(), List.of()), pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
 
@@ -38,5 +42,11 @@ public class StudyController {
     ) {
         final StudiesResponse studiesResponse = studyTagService.searchBy(title, tagRequest, pageable);
         return ResponseEntity.ok().body(studiesResponse);
+    }
+
+    @GetMapping("/{study-id}")
+    public ResponseEntity<StudyDetailResponse> getStudyDetails(@PathVariable(name = "study-id") Long studyId) {
+        final StudyDetailResponse response = studyDetailService.getStudyDetails(studyId);
+        return ResponseEntity.ok().body(response);
     }
 }

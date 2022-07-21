@@ -10,7 +10,7 @@ export type StudyFloatBoxProps = {
   currentMemberCount: number;
   maxMemberCount: number;
   owner: string;
-  onClickRegisterBtn: (studyId: number) => void;
+  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
@@ -19,29 +19,27 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   currentMemberCount,
   maxMemberCount,
   owner,
-  onClickRegisterBtn,
+  handleRegisterBtnClick,
 }) => {
-  const handleClickRegisterBtn = () => onClickRegisterBtn(studyId);
-
   return (
     <S.StudyFloatBox>
-      <div className="top">
-        <div className="deadline">
-          <strong>{yyyymmddTommdd(deadline)}</strong>
+      <S.StudyInfo>
+        <S.Deadline>
+          <span>{yyyymmddTommdd(deadline)}</span>
           까지 가입 가능
-        </div>
-        <div className="seating-capacity">
+        </S.Deadline>
+        <S.MemberCount>
           <span>모집인원</span>
           <span>
             {currentMemberCount} / {maxMemberCount}
           </span>
-        </div>
-        <div className="owner">
+        </S.MemberCount>
+        <S.Owner>
           <span>스터디장</span>
           <span>{owner}</span>
-        </div>
-      </div>
-      <Button onClick={handleClickRegisterBtn}>스터디 방 가입하기</Button>
+        </S.Owner>
+      </S.StudyInfo>
+      <Button onClick={handleRegisterBtnClick(studyId)}>스터디 방 가입하기</Button>
     </S.StudyFloatBox>
   );
 };
