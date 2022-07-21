@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils/media-query';
 
-export const StudyMemberSection = styled.section`
+export const ExtraInfo = styled.section`
   padding: 16px;
 
   border-radius: 15px;
 `;
 
-export const Title = styled.h3`
+export const ReviewTitle = styled.h3`
   margin-bottom: 30px;
 
   font-size: 24px;
@@ -19,21 +19,26 @@ export const Title = styled.h3`
   }
 `;
 
-export const MemberList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(auto, 1fr));
-  grid-column-gap: 30px;
-  grid-row-gap: 20px;
+export const ReviewList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 60px;
 
   ${mqDown('md')} {
-    display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 30px;
+    & > .review {
+      width: 100%;
+    }
   }
 `;
 
+export const ReviewListItem = styled.li`
+  width: calc(50% - 30px);
+`;
+
 export const MoreButtonContainer = styled.div`
-  padding: 15px 0;
+  padding: 16px 0;
 
   text-align: right;
 `;

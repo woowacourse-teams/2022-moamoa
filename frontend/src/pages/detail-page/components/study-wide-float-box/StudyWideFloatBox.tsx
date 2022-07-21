@@ -12,7 +12,7 @@ export type StudyWideFloatBoxProps = {
   currentMemberCount: number;
   maxMemberCount: number;
   owner: string;
-  onClickRegisterBtn: (studyId: number) => void;
+  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
@@ -21,34 +21,38 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   currentMemberCount,
   maxMemberCount,
   owner,
-  onClickRegisterBtn,
+  handleRegisterBtnClick,
 }) => {
-  const handleClickRegisterBtn = () => onClickRegisterBtn(studyId);
-
   return (
     <S.StudyWideFloatBox>
-      <div className="left">
-        <div className="deadline">
-          <strong>{yyyymmddTommdd(deadline)}</strong>
+      <S.StudyInfo>
+        <S.Deadline>
+          <span>{yyyymmddTommdd(deadline)}</span>
           까지 가입 가능
-        </div>
-        <div className="member-count">
-          <span>모집인원</span>
-          <span>
-            {currentMemberCount} / {maxMemberCount}
-          </span>
-        </div>
-      </div>
-      <div className="right">
+        </S.Deadline>
+        <S.ExtraInfo>
+          <S.MemberCount>
+            <span>모집인원</span>
+            <span>
+              {currentMemberCount} / {maxMemberCount}
+            </span>
+          </S.MemberCount>
+          <S.Owner>
+            <span>스터디장</span>
+            <span>{owner}</span>
+          </S.Owner>
+        </S.ExtraInfo>
+      </S.StudyInfo>
+      <div>
         <Button
           css={css`
             height: 100%;
             padding: 0 20px;
           `}
           fluid={false}
-          onClick={handleClickRegisterBtn}
+          onClick={handleRegisterBtnClick(studyId)}
         >
-          가입
+          스터디 방 가입하기
         </Button>
       </div>
     </S.StudyWideFloatBox>

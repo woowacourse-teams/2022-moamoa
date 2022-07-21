@@ -7,8 +7,9 @@ export const Button = styled.button<ButtonProp>`
   ${({ fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 20px 10px;
-    text-align: center;
 
+    text-align: center;
+    font-size: 24px;
     border: none;
     border-radius: 10px;
     background: #1a237e;

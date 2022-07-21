@@ -85,5 +85,9 @@ export const NavButton = styled.button`
     & > svg {
       fill: ${theme.colors.primary.base};
     }
+
+    & > span {
+      color: ${theme.colors.primary.base};
+    }
   `}
 `;

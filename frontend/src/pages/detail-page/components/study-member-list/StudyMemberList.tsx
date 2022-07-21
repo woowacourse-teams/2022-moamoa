@@ -8,41 +8,52 @@ import StudyMemberCard from '@pages/detail-page/components/study-member-card/Stu
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import * as S from '@detail-page/components/study-member-list/StudyMemberList.style';
 
-const StudyMemberList = ({ members }: { members: Array<Member> }) => {
+export interface StudyMemberListProps {
+  members: Array<Member>;
+}
+
+const StudyMemberList: React.FC<StudyMemberListProps> = ({ members }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
 
   const handleShowMoreBtnClick = () => {
     setShowAll(prev => !prev);
   };
+
   return (
-    <S.StudyMemberList>
-      <h1 className="title">스터디원 {members.length}명</h1>
-      <div className="member-list">
+    <S.StudyMemberSection>
+      <S.Title>
+        스터디원 <span>{members.length}명</span>
+      </S.Title>
+      <S.MemberList>
         {showAll
           ? members.map(({ id, username, profileImage, profileUrl }) => (
-              <a key={id} href={profileUrl}>
-                <StudyMemberCard username={username} profileImage={profileImage} />
-              </a>
+              <li key={id}>
+                <a href={profileUrl}>
+                  <StudyMemberCard username={username} profileImage={profileImage} />
+                </a>
+              </li>
             ))
           : members
               .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT)
               .map(({ id, username, profileImage, profileUrl }) => (
-                <a key={id} href={profileUrl}>
-                  <StudyMemberCard username={username} profileImage={profileImage} />
-                </a>
+                <li key={id}>
+                  <a href={profileUrl}>
+                    <StudyMemberCard username={username} profileImage={profileImage} />
+                  </a>
+                </li>
               ))}
-      </div>
+      </S.MemberList>
       {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
-        <div className="more-button-container">
+        <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}
             onClick={handleShowMoreBtnClick}
             foldText="- 접기"
             unfoldText="+ 더보기"
           />
-        </div>
+        </S.MoreButtonContainer>
       )}
-    </S.StudyMemberList>
+    </S.StudyMemberSection>
   );
 };
 

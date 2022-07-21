@@ -1,7 +1,7 @@
 import * as S from '@detail-page/components/more-button/MoreButton.style';
 
 export type MoreButtonProp = {
-  onClick: () => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
   status: 'fold' | 'unfold';
   foldText: string;
   unfoldText: string;

@@ -8,7 +8,7 @@ export type ButtonProp = {
   className?: string;
   children: string;
   fluid: boolean;
-  onClick: () => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick'>;

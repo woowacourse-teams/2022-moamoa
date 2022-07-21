@@ -1,6 +1,6 @@
 import { Story } from '@storybook/react';
 
-import { css } from '@emotion/react';
+import noop from '@utils/noop';
 
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
 import type { StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';
@@ -11,18 +11,14 @@ export default {
 };
 
 const Template: Story<StudyFloatBoxProps> = props => (
-  <div
-    css={css`
-      max-width: 400px;
-    `}
-  >
-    <StudyFloatBox {...props} />
+  <div style={{ width: '400px' }}>
+    <StudyFloatBox {...props} handleRegisterBtnClick={() => noop} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  studyId: '_3f41',
+  studyId: 232,
   deadline: '2022-07-28',
   currentMemberCount: 8,
   maxMemberCount: 14,
