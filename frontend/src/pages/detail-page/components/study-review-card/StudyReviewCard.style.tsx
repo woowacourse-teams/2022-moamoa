@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 export const StudyReviewCard = styled.div`
   ${({ theme }) => css`
+    height: 100%;
+    max-height: 150px;
     padding: 16px;
 
     border-radius: 15px;
@@ -39,7 +41,7 @@ export const Review = styled.p`
   display: -webkit-box;
 
   line-height: 24px;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;

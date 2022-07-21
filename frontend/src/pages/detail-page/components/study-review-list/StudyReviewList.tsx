@@ -15,7 +15,7 @@ export interface StudyReviewListProps {
 
 const StudyReviewList: React.FC<StudyReviewListProps> = ({ reviews, reviewCount, showAll, handleMoreBtnClick }) => {
   return (
-    <S.ExtraInfo>
+    <S.ReviewSection>
       <S.ReviewTitle>
         후기 <span>{reviewCount}개</span>
       </S.ReviewTitle>
@@ -41,7 +41,7 @@ const StudyReviewList: React.FC<StudyReviewListProps> = ({ reviews, reviewCount,
           />
         </S.MoreButtonContainer>
       )}
-    </S.ExtraInfo>
+    </S.ReviewSection>
   );
 };
 

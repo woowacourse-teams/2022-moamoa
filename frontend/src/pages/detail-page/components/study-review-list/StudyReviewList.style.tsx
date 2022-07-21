@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils/media-query';
 
-export const ExtraInfo = styled.section`
+export const ReviewSection = styled.section`
   padding: 16px;
 
   border-radius: 15px;
@@ -22,7 +22,7 @@ export const ReviewTitle = styled.h3`
 export const ReviewList = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  column-gap: 60px;
+  gap: 16px 60px;
 
   ${mqDown('md')} {
     flex-direction: column;
