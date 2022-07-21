@@ -8,7 +8,6 @@ export const Card = styled.div`
     display: flex;
     flex-direction: column;
 
-    width: 100%;
     height: 350px;
     overflow: hidden;
 
@@ -23,8 +22,6 @@ export const Card = styled.div`
 `;
 
 export const ImageContainer = styled.div`
-  width: 100%;
-
   flex-grow: 1;
 
   overflow: hidden;

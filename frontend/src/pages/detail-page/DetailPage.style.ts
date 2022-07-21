@@ -46,7 +46,7 @@ export const FixedBottomContainer = styled.div`
   }
 `;
 
-export const MarkDownContainer = styled.div`
+export const MarkDownContainer = styled.section`
   ${({ theme }) => css`
     padding: 16px;
 
