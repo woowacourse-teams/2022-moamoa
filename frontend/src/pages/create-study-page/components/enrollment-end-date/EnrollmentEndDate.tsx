@@ -3,11 +3,15 @@ import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 import { css } from '@emotion/react';
 
+import { useFormContext } from '@hooks/useForm';
+
 type PeriodProps = {
   className?: string;
 };
 
 const EnrollmentEndDate = ({ className }: PeriodProps) => {
+  const { register } = useFormContext();
+
   return (
     <S.EnrollmentEndDate className={className}>
       <MetaBox>
@@ -25,10 +29,10 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
             <input
               type="date"
               id="enrollment-end-date"
-              name="enrollment-end-date"
               defaultValue="2022-07-20"
               min="2022-07-20"
               max="2030-07-20"
+              {...register('enrollment-end-date')}
             ></input>
           </div>
         </MetaBox.Content>

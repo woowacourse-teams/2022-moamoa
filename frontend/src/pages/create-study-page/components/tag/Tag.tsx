@@ -3,21 +3,25 @@ import * as S from '@create-study-page/components/tag/Tag.style';
 
 import { css } from '@emotion/react';
 
+import { useFormContext } from '@hooks/useForm';
+
 type TagProps = {
   className?: string;
 };
 
 const Tag = ({ className }: TagProps) => {
+  const { register } = useFormContext();
+
   return (
     <S.Tag className={className}>
       <MetaBox>
         <MetaBox.Title>태그</MetaBox.Title>
         <MetaBox.Content>
           <select
-            defaultValue={'4기'}
             css={css`
               width: 100%;
             `}
+            {...register('tag')}
           >
             <option value="js">JS</option>
             <option value="java">Java</option>

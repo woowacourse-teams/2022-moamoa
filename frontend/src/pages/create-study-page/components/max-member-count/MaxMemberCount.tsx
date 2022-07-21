@@ -1,13 +1,21 @@
 import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import { useState } from 'react';
 
 import { css } from '@emotion/react';
+
+import { useFormContext } from '@hooks/useForm';
+
+import PositiveNumberInput from '@components/positive-number-input/PositiveNumberInput';
 
 type MaxMemberCountProps = {
   className?: string;
 };
 
 const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
+  const [count, setCount] = useState<number>(0);
+  const { register } = useFormContext();
+
   return (
     <S.MaxMemberCount className={className}>
       <MetaBox>
@@ -22,7 +30,14 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
           >
             최대 인원 :{' '}
           </label>
-          <input id="max-member-count" type="number" placeholder="최대 인원" />
+          <PositiveNumberInput
+            id="max-member-count"
+            placeholder="최대 인원"
+            value={count}
+            max={200}
+            onChange={newValue => setCount(newValue)}
+            {...register('max-member-count')}
+          ></PositiveNumberInput>
         </MetaBox.Content>
       </MetaBox>
     </S.MaxMemberCount>

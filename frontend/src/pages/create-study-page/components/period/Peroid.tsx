@@ -3,11 +3,15 @@ import * as S from '@create-study-page/components/period/Period.style';
 
 import { css } from '@emotion/react';
 
+import { useFormContext } from '@hooks/useForm';
+
 type PeriodProps = {
   className?: string;
 };
 
 const Period = ({ className }: PeriodProps) => {
+  const { register } = useFormContext();
+
   return (
     <S.Period className={className}>
       <MetaBox>
@@ -29,10 +33,10 @@ const Period = ({ className }: PeriodProps) => {
             <input
               type="date"
               id="start-date"
-              name="start-date"
               min="2022-07-20"
               max="2030-07-20"
               defaultValue="2022-07-20"
+              {...register('start-date')}
             ></input>
           </div>
           <div>
@@ -47,10 +51,10 @@ const Period = ({ className }: PeriodProps) => {
             <input
               type="date"
               id="end-date"
-              name="end-date"
               defaultValue="2022-07-20"
               min="2022-07-20"
               max="2030-07-20"
+              {...register('end-date')}
             ></input>
           </div>
         </MetaBox.Content>

@@ -3,11 +3,15 @@ import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 import { css } from '@emotion/react';
 
+import { useFormContext } from '@hooks/useForm';
+
 type CategoryProps = {
   className?: string;
 };
 
 const Category = ({ className }: CategoryProps) => {
+  const { register } = useFormContext();
+
   return (
     <S.Category className={className}>
       <MetaBox>
@@ -27,7 +31,7 @@ const Category = ({ className }: CategoryProps) => {
             >
               기수 :
             </label>
-            <select defaultValue={'4기'}>
+            <select defaultValue={'4기'} {...register('generation')}>
               <option value="4기">4기</option>
               <option value="3기">3기</option>
               <option value="2기">2기</option>
@@ -58,8 +62,7 @@ const Category = ({ className }: CategoryProps) => {
                 `}
                 type="checkbox"
                 id="area-fe"
-                name="area"
-                value="fe"
+                {...register('area-fe')}
               />
               <label htmlFor="area-fe">FE</label>
             </div>
@@ -75,8 +78,7 @@ const Category = ({ className }: CategoryProps) => {
                 `}
                 type="checkbox"
                 id="area-be"
-                name="area"
-                value="be"
+                {...register('area-be')}
               />
               <label htmlFor="area-be">BE</label>
             </div>

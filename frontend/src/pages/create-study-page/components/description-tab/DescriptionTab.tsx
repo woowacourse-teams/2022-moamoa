@@ -1,6 +1,8 @@
 import * as S from '@create-study-page/components/description-tab/DescriptionTab.style';
 import cn from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useFormContext } from '@hooks/useForm';
 
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 
@@ -12,7 +14,8 @@ const studyDescriptionTabIds = {
 type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds];
 
 const DescriptionTab = () => {
-  const markdownTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { register, getField } = useFormContext();
+
   const [markdownText, setMarkdownText] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
@@ -22,10 +25,11 @@ const DescriptionTab = () => {
   };
 
   useEffect(() => {
-    if (!markdownTextAreaRef.current) return;
+    const field = getField('markdown');
+    if (!field) return;
     if (activeTab !== studyDescriptionTabIds.preview) return;
 
-    const markdownText = markdownTextAreaRef.current.value;
+    const markdownText = field._ref.value;
     setMarkdownText(markdownText);
   }, [activeTab]);
 
@@ -57,7 +61,7 @@ const DescriptionTab = () => {
         <div className="tab-panels">
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.write })}>
             <div className="tab-content">
-              <textarea ref={markdownTextAreaRef}></textarea>
+              <textarea {...register('markdown')}></textarea>
             </div>
           </div>
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.preview })}>

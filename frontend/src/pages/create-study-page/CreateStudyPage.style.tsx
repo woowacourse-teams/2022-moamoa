@@ -39,36 +39,38 @@ export const CreateStudyPage = styled.div`
     resize: vertical;
   }
 
-  & > .title {
-    margin-bottom: 20px;
-  }
-  & > .inner {
-    display: flex;
-    column-gap: 40px;
-    & > .main {
-      flex-grow: 1;
-      max-width: calc(100% - ${mainGabSidebar}px - ${sidebarWidth}px);
-      .title-input {
-        display: block;
-        width: 100%;
-        font-size: 24px;
-        line-height: 24px;
-
-        border-radius: 4px;
-        border: 1px solid #8c8f94;
-        background-color: #fff;
-        color: #2c3338;
-
-        padding: 6px 12px;
-
-        margin-bottom: 20px;
-      }
-      ${DescriptionTab} {
-        margin-bottom: 15px;
-      }
+  & > form {
+    & > .title {
+      margin-bottom: 20px;
     }
-    & > .sidebar {
-      min-width: 280px;
+    & > .inner {
+      display: flex;
+      column-gap: 40px;
+      & > .main {
+        flex-grow: 1;
+        max-width: calc(100% - ${mainGabSidebar}px - ${sidebarWidth}px);
+        .title-input {
+          display: block;
+          width: 100%;
+          font-size: 24px;
+          line-height: 24px;
+
+          border-radius: 4px;
+          border: 1px solid #8c8f94;
+          background-color: #fff;
+          color: #2c3338;
+
+          padding: 6px 12px;
+
+          margin-bottom: 20px;
+        }
+        ${DescriptionTab} {
+          margin-bottom: 15px;
+        }
+      }
+      & > .sidebar {
+        min-width: 280px;
+      }
     }
   }
 `;
