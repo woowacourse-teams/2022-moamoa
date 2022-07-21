@@ -15,16 +15,12 @@ const Head: React.FC<HeadProps> = ({ title, status, startDate, endDate, excerpt,
         <StudyChip isOpen={status === 'OPEN'} />
       </S.TitleContainer>
       <S.ExtraInfoContainer>
-        <span>
-          {startDate} ~ {endDate}
-        </span>
+        <span>시작일: {startDate}</span> ~ <span>종료일: {endDate}</span>
       </S.ExtraInfoContainer>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
       <S.TagContainer>
         {tags.map(({ id, tagName }) => (
-          <TagChip key={id} className="chip">
-            {tagName}
-          </TagChip>
+          <TagChip key={id}>{tagName}</TagChip>
         ))}
       </S.TagContainer>
     </S.Head>

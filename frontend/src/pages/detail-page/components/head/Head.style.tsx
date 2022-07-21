@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Head = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 12px;
 `;
 
 export const TitleContainer = styled.div`
@@ -20,7 +20,9 @@ export const StudyTitle = styled.h2`
 export const ExtraInfoContainer = styled.div`
   display: flex;
   align-items: center;
-  column-gap: 32px;
+  column-gap: 16px;
+
+  font-weight: 300;
 `;
 
 export const Excerpt = styled.p`

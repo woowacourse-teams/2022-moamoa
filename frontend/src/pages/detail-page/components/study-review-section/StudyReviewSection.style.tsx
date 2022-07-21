@@ -27,9 +27,6 @@ export const ReviewList = styled.ul`
   ${mqDown('md')} {
     flex-direction: column;
     row-gap: 30px;
-    & > .review {
-      width: 100%;
-    }
   }
 `;
 
