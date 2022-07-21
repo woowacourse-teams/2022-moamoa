@@ -33,6 +33,8 @@ public class Tag {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private String description;
+
     @OneToMany(mappedBy = "tag")
     private List<StudyTag> studyTags = new ArrayList<>();
 
