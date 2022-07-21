@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.common.advice;
 
-import com.woowacourse.moamoa.auth.service.oauthclient.exception.UnauthorizedException;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
 import org.springframework.http.HttpStatus;

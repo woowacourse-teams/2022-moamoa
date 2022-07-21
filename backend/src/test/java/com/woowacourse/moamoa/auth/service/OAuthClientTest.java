@@ -9,8 +9,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
-import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.OAuthAccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,19 +48,19 @@ class OAuthClientTest {
     @DisplayName("Authorization code를 받아서 access token을 발급한다.")
     @Test
     void getAccessToken() throws JsonProcessingException {
-        final OAuthAccessTokenResponse token = new OAuthAccessTokenResponse("jwt-token", "", "");
+        final Map<String, String> accessTokenResponse = Map.of("access_token", "access-token", "token_type", "bearer", "scope", "");
 
         mockServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(token)));
+                        .body(objectMapper.writeValueAsString(accessTokenResponse)));
 
         final String accessToken = oAuthClient.getAccessToken("code");
 
         mockServer.verify();
 
-        assertThat(token.getAccessToken()).isEqualTo(accessToken);
+        assertThat(accessTokenResponse.get("access_token")).isEqualTo(accessToken);
     }
 
     @DisplayName("token을 받아서 사용자 프로필을 조회한다.")

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.service.response;
+package com.woowacourse.moamoa.auth.service.oauthclient.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.moamoa.member.domain.Member;
