@@ -17,7 +17,7 @@ public class StudyResponse {
     private String status;
 
     public StudyResponse(final Study study) {
-        this(study.getId(), study.getTitle(), study.getExcerpt(), study.getThumbnail(),
-                study.getStatus());
+        this(study.getId(), study.getDetails().getTitle(), study.getDetails().getExcerpt(), study.getDetails().getThumbnail(),
+                study.getDetails().getStatus());
     }
 }

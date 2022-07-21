@@ -46,7 +46,7 @@ public class StudyTagService {
     }
 
     private StudiesResponse searchWithoutFilter(final String title, final Pageable pageable) {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase(title.trim(), pageable);
+        final Slice<Study> slice = studyRepository.findByDetailsTitleContainingIgnoreCase(title.trim(), pageable);
         final List<StudyResponse> studies = slice
                 .map(StudyResponse::new)
                 .getContent();

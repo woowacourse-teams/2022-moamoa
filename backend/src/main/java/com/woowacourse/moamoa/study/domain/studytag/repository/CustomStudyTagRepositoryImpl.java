@@ -48,7 +48,7 @@ public class CustomStudyTagRepositoryImpl implements CustomStudyTagRepository {
     }
 
     private Predicate studyTitleEq(final String title) {
-        return hasText(title) ? studyTag.study.title.containsIgnoreCase(title) : null;
+        return hasText(title) ? studyTag.study.details.title.containsIgnoreCase(title) : null;
     }
 
     private List<Study> findFilteredStudy(final List<Tag> tags) {

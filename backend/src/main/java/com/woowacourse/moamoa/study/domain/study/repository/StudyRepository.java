@@ -7,9 +7,11 @@ import org.springframework.data.domain.Slice;
 
 public interface StudyRepository {
 
+    Study save(Study study);
+
     Slice<Study> findAll(Pageable pageable);
 
-    Slice<Study> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+    Slice<Study> findByDetailsTitleContainingIgnoreCase(String title, Pageable pageable);
 
     Optional<Study> findById(Long id);
 }

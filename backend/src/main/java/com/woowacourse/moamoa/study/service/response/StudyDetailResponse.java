@@ -36,17 +36,17 @@ public class StudyDetailResponse {
     public StudyDetailResponse(final Study study, final MemberResponse owner, final List<MemberResponse> membersResponse,
                                final List<TagResponse> attachedTags) {
         this.id = study.getId();
-        this.title = study.getTitle();
-        this.excerpt = study.getExcerpt();
-        this.thumbnail = study.getThumbnail();
-        this.status = study.getStatus();
-        this.description = study.getDescription();
-        this.currentMemberCount = study.getCurrentMemberCount();
-        this.maxMemberCount = study.getMaxMemberCount();
+        this.title = study.getDetails().getTitle();
+        this.excerpt = study.getDetails().getExcerpt();
+        this.thumbnail = study.getDetails().getThumbnail();
+        this.status = study.getDetails().getStatus();
+        this.description = study.getDetails().getDescription();
+        this.currentMemberCount = study.getParticipants().getSize();
+        this.maxMemberCount = study.getParticipants().getMax();
         this.createdAt = getNullableDate(study.getCreatedAt());
-        this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
-        this.startDate = getNullableDate(study.getStartDate());
-        this.endDate = getNullableDate(study.getEndDate());
+        this.enrollmentEndDate = getNullableDate(study.getPeriod().getEnrollmentEndDate());
+        this.startDate = getNullableDate(study.getPeriod().getStartDate());
+        this.endDate = getNullableDate(study.getPeriod().getEndDate());
         this.owner = owner;
         this.members = membersResponse;
         this.tags = attachedTags;

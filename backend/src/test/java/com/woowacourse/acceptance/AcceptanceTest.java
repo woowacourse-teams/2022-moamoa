@@ -23,6 +23,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
         webEnvironment = WebEnvironment.RANDOM_PORT,
         classes = {MoamoaApplication.class}
 )
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class AcceptanceTest {
     @LocalServerPort
     protected int port;

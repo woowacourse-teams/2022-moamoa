@@ -5,12 +5,12 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
 import com.woowacourse.moamoa.study.domain.studytag.repository.StudyTagRepository;
 import com.woowacourse.moamoa.study.service.StudyDetailService;
 import com.woowacourse.moamoa.study.service.StudyTagService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

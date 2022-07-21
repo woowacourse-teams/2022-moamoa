@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain.studytag.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.study.domain.study.Details;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.study.domain.study.Study;
@@ -42,11 +43,11 @@ class CustomStudyTagRepositoryTest {
 
         assertThat(studies).hasSize(3)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details")
                 .contains(
-                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
-                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE")
+                        new Details("Java 스터디", "자바 설명", "java thumbnail", "OPEN", "그린론의 우당탕탕 자바 스터디입니다."),
+                        new Details("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE", "디우의 HTTP 정복하기"),
+                        new Details("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE", "알고리즘을 TDD로 풀자의 베루스입니다.")
                 );
         assertThat(hasNext).isFalse();
     }
@@ -71,7 +72,7 @@ class CustomStudyTagRepositoryTest {
         assertThat(hasNext).isFalse();
         assertThat(studies).hasSize(5)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .contains(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
@@ -99,7 +100,7 @@ class CustomStudyTagRepositoryTest {
 
         assertThat(studies).hasSize(1)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .contains(tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
         assertThat(hasNext).isFalse();
     }
@@ -122,7 +123,7 @@ class CustomStudyTagRepositoryTest {
 
         assertThat(studies).hasSize(1)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .contains(tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
         assertThat(hasNext).isFalse();
     }
@@ -148,7 +149,7 @@ class CustomStudyTagRepositoryTest {
 
         assertThat(studies).hasSize(5)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .contains(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
@@ -180,7 +181,7 @@ class CustomStudyTagRepositoryTest {
 
         assertThat(studies).hasSize(2)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .contains(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN")

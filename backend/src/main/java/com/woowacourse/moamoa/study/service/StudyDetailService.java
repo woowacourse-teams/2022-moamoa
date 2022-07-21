@@ -49,7 +49,7 @@ public class StudyDetailService {
     }
 
     private List<Long> getParticipantIds(final Study study) {
-        final List<Participant> participants = study.getParticipants();
+        final List<Participant> participants = study.getParticipants().getParticipants();
         return participants.stream()
                 .map(Participant::getMemberId)
                 .collect(toList());
