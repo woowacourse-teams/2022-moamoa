@@ -45,7 +45,7 @@ public class FakeAuthController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(objectMapper.writeValueAsString(accessToken)));
 
-        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "sc0116", "https://image", "github.com");
+        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com");
 
         mockServer.expect(requestTo("https://api.github.com/user"))
                 .andExpect(method(HttpMethod.GET))

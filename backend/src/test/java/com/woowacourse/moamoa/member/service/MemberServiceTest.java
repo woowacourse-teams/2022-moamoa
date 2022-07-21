@@ -1,25 +1,29 @@
 package com.woowacourse.moamoa.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.moamoa.MoamoaApplication;
+import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@SpringBootTest(
-        webEnvironment = WebEnvironment.RANDOM_PORT,
-        classes = MoamoaApplication.class
-)
+@RepositoryTest
 class MemberServiceTest {
 
     @Autowired
+    private MemberRepository memberRepository;
+
     private MemberService memberService;
+
+    @BeforeEach
+    void setUp() {
+        memberService = new MemberService(memberRepository);
+    }
 
     @DisplayName("신규 사용자일 경우 사용자 정보를 저장한다.")
     @Test
