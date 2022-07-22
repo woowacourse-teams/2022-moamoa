@@ -40,7 +40,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
               </S.ReviewListItem>
             ))}
           </S.ReviewList>
-          {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
+          {data.reviews.length && (
             <S.MoreButtonContainer>
               <MoreButton
                 status={showAll ? 'unfold' : 'fold'}
