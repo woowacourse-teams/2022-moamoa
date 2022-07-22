@@ -3,10 +3,10 @@ package com.woowacourse.moamoa.study.domain.studytag.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.study.domain.study.Details;
+import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.studytag.StudySearchCondition;
 import com.woowacourse.moamoa.study.domain.studytag.StudySlice;
 import java.util.List;

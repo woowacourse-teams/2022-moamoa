@@ -1,9 +1,9 @@
-package com.woowacourse.moamoa.study.domain.study.repository;
+package com.woowacourse.moamoa.study.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.groups.Tuple;

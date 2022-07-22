@@ -7,8 +7,8 @@ VALUES (3L, 'dwoo', 'https://image', 'github.com');
 INSERT INTO member(github_id, username, image_url, profile_url)
 VALUES (4L, 'verus', 'https://image', 'github.com');
 
-INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, owner_id)
-VALUES (null, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', 2);
+INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, start_date, owner_id)
+VALUES (null, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2);
 
 INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id)
 VALUES (null, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', '디우의 뤼액트 스터디입니다.', 4, 5, '2021-11-08T11:58:20.551705', '2021-11-09T11:58:20.551705', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3);

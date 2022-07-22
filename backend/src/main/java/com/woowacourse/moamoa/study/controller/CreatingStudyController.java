@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.service.CreateStudyService;
 import java.net.URI;
 import javax.validation.Valid;

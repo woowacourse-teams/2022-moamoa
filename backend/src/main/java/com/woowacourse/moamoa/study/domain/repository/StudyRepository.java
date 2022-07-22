@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.study.domain.study.repository;
+package com.woowacourse.moamoa.study.domain.repository;
 
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

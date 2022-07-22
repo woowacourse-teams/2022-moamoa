@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.domain.study;
+package com.woowacourse.moamoa.study.domain;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDateTime;

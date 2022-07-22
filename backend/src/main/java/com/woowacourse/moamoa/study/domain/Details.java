@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.domain.study;
+package com.woowacourse.moamoa.study.domain;
 
 import java.util.Objects;
 import javax.persistence.Column;

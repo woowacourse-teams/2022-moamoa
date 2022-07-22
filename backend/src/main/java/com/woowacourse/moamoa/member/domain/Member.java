@@ -6,7 +6,7 @@ import static lombok.AccessLevel.PROTECTED;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.OneToMany;

@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.tag.query.response.TagResponse;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,9 +44,9 @@ public class StudyDetailResponse {
         this.currentMemberCount = study.getParticipants().getSize();
         this.maxMemberCount = study.getParticipants().getMax();
         this.createdAt = getNullableDate(study.getCreatedAt());
-        this.enrollmentEndDate = getNullableDate(study.getPeriod().getEnrollmentEndDate());
+        this.enrollmentEndDate = getNullableDate(study.getPeriod() == null ? null : study.getPeriod().getEnrollmentEndDate());
         this.startDate = getNullableDate(study.getPeriod().getStartDate());
-        this.endDate = getNullableDate(study.getPeriod().getEndDate());
+        this.endDate = getNullableDate(study.getPeriod().getEndDate() == null ? null : study.getPeriod().getEndDate());
         this.owner = owner;
         this.members = membersResponse;
         this.tags = attachedTags;

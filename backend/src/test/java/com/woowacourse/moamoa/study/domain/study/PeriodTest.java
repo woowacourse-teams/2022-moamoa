@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain.study;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;

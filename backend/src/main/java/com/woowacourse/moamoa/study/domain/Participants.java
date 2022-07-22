@@ -1,6 +1,5 @@
-package com.woowacourse.moamoa.study.domain.study;
+package com.woowacourse.moamoa.study.domain;
 
-import com.woowacourse.moamoa.study.domain.Participant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

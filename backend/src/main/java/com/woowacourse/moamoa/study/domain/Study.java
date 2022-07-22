@@ -1,11 +1,10 @@
-package com.woowacourse.moamoa.study.domain.study;
+package com.woowacourse.moamoa.study.domain;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import com.woowacourse.moamoa.study.domain.studytag.AttachedTag;
 import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
-import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.tag.query.response.TagResponse;
@@ -50,7 +50,7 @@ class StudyDetailServiceTest {
                 .extracting("title", "excerpt", "thumbnail", "status", "description", "currentMemberCount",
                         "maxMemberCount", "createdAt", "enrollmentEndDate", "startDate", "endDate")
                 .containsExactly("Java 스터디", "자바 설명", "java thumbnail", "OPEN", "그린론의 우당탕탕 자바 스터디입니다.", 3, 10,
-                        "2021-11-08", "", "", "");
+                        "2021-11-08", "", "2021-12-08", "");
 
         assertThat(owner).extracting("githubId", "username", "imageUrl", "profileUrl")
                 .containsExactly(2L, "greenlawn", "https://image", "github.com");

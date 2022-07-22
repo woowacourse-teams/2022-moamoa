@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.domain.studytag.repository;
 
-import static com.woowacourse.moamoa.study.domain.study.QStudy.study;
+import static com.woowacourse.moamoa.study.domain.QStudy.study;
 import static com.woowacourse.moamoa.study.domain.studytag.QStudyTag.studyTag;
 import static com.woowacourse.moamoa.tag.domain.QTag.tag;
 import static java.util.stream.Collectors.toList;
@@ -9,7 +9,7 @@ import static org.springframework.util.StringUtils.hasText;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.studytag.StudySearchCondition;
 import com.woowacourse.moamoa.study.domain.studytag.StudySlice;
 import com.woowacourse.moamoa.tag.domain.Category;
