@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
 DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS study;
 DROP TABLE IF EXISTS member;
 
@@ -30,6 +31,18 @@ CREATE TABLE study
     end_date DATETIME,
     owner_id BIGINT NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES member (id)
+);
+
+CREATE TABLE review
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    study_id BIGINT NOT NULL,
+    member_id BIGINT NOT NULL,
+    content MEDIUMTEXT,
+    created_date DATETIME not null,
+    last_modified_date DATETIME  not null,
+    FOREIGN KEY (study_id) REFERENCES study (id),
+    FOREIGN KEY (member_id) REFERENCES member (id)
 );
 
 CREATE TABLE category
