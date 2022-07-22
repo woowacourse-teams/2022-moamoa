@@ -38,7 +38,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/study/:studyId" element={<DetailPage />} />
-          <Route path="/study/new" element={<CreateStudyPage />} />
+          <Route path="/study/new" element={isLoggedIn ? <CreateStudyPage /> : <Navigate to="/" replace={true} />} />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
