@@ -1,7 +1,7 @@
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
@@ -16,6 +16,8 @@ import StudyCard from '@pages/main-page/study-card/StudyCard';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
+import CreateNewStudyButton from './create-new-study-button/CreateNewStudyButton';
+
 type PageParam = {
   page: number;
   size: number;
@@ -29,6 +31,7 @@ const defaultParam = {
 const MainPage: React.FC = () => {
   const { keyword } = useContext(SearchContext);
   const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
+  const navigate = useNavigate();
 
   const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;
@@ -56,6 +59,11 @@ const MainPage: React.FC = () => {
       }
       return [...prev, { id, categoryName }];
     });
+  };
+
+  const handleCreateNewStudyButtonClick = () => {
+    window.scrollTo(0, 0);
+    navigate('/study/new');
   };
 
   return (
@@ -86,6 +94,7 @@ const MainPage: React.FC = () => {
           )}
         </InfiniteScroll>
       </Wrapper>
+      <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </S.Page>
   );
 };

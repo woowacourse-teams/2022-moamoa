@@ -1,7 +1,10 @@
 import * as S from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import { useMemo } from 'react';
 
 import { css } from '@emotion/react';
+
+import getToday from '@utils/getToday';
 
 import { useFormContext } from '@hooks/useForm';
 
@@ -11,6 +14,7 @@ type PeriodProps = {
 
 const EnrollmentEndDate = ({ className }: PeriodProps) => {
   const { register } = useFormContext();
+  const today = useMemo(() => getToday(), []);
 
   return (
     <S.EnrollmentEndDate className={className}>
@@ -29,8 +33,7 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
             <input
               type="date"
               id="enrollment-end-date"
-              defaultValue="2022-07-20"
-              min="2022-07-20"
+              min={today}
               max="2030-07-20"
               {...register('enrollment-end-date')}
             ></input>

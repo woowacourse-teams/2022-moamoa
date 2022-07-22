@@ -25,7 +25,7 @@ export type UseFormSubmitResult = {
 };
 
 type UseFormHandleSubmit = (
-  onSubmit: (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>,
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any> | undefined,
 ) => (event: React.FormEvent<HTMLFormElement>) => void;
 
 type UseFormState = {
@@ -118,8 +118,9 @@ export const useForm: UseForm = () => {
     const values = [..._fields.current.keys()].reduce((acc, name) => {
       const field = getField(name);
       if (!field) return acc;
+      const { _ref } = field;
 
-      acc[name] = field._ref.value;
+      acc[name] = _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
       return acc;
     }, {} as Record<string, string>);
 
@@ -134,25 +135,37 @@ export const useForm: UseForm = () => {
       }
     });
 
-    onSubmit(event, { isValid, values, errors })
-      .then(() => {
-        setFormState(prev => ({
-          errors: {},
-          isSubmitting: false,
-          isSubmitted: true,
-          isSubmitSuccessful: true,
-          isValid,
-        }));
-      })
-      .catch((e: any) => {
-        setFormState(prev => ({
-          errors: {}, // TODO: 이래도 되나 싶다
-          isSubmitting: false,
-          isSubmitted: true,
-          isSubmitSuccessful: false,
-          isValid: false,
-        }));
-      });
+    const result = onSubmit(event, { isValid, values, errors });
+    if (result) {
+      result
+        .then(() => {
+          setFormState(prev => ({
+            errors: {},
+            isSubmitting: false,
+            isSubmitted: true,
+            isSubmitSuccessful: true,
+            isValid,
+          }));
+        })
+        .catch((e: any) => {
+          setFormState(prev => ({
+            errors: {}, // TODO: 이래도 되나 싶다
+            isSubmitting: false,
+            isSubmitted: true,
+            isSubmitSuccessful: false,
+            isValid: false,
+          }));
+        })
+        .finally(() => {
+          setFormState(prev => ({
+            errors: {},
+            isSubmitting: false,
+            isSubmitted: false,
+            isSubmitSuccessful: false,
+            isValid: false,
+          }));
+        });
+    }
   };
 
   const register: UseFormRegister = (name, options) => {

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { mqDown } from '@utils/media-query';
+
 import { DescriptionTab } from './components/description-tab/DescriptionTab.style';
 
 const sidebarWidth = 280;
@@ -70,6 +72,18 @@ export const CreateStudyPage = styled.div`
       }
       & > .sidebar {
         min-width: 280px;
+      }
+
+      ${mqDown('md')} {
+        flex-direction: column;
+        column-gap: 0;
+        & > .main {
+          max-width: 100%;
+          margin-bottom: 15px;
+        }
+        & > .sidebar {
+          min-width: 100%;
+        }
       }
     }
   }

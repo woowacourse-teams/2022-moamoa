@@ -1,6 +1,10 @@
 import * as S from '@create-study-page/CreateStudyPage.style';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
+
+import { StudyDetailPostData } from '@api/postNewStudy';
 
 import { FormProvider, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
@@ -15,15 +19,72 @@ import MaxMemberCount from './components/max-member-count/MaxMemberCount';
 import Period from './components/period/Peroid';
 import Publish from './components/publish/Publish';
 import Tag from './components/tag/Tag';
+import usePostNewStudy from './hooks/usePostNewStudy';
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const CreateStudyPage: React.FC = () => {
   const formMethods = useForm();
+  const navigate = useNavigate();
+  const { mutateAsync } = usePostNewStudy();
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
-    return new Promise((resolve, reject) => {
-      console.log('values : ', submitResult.values);
-    });
+  const getAreaTagId = () => {
+    const areaFeField = formMethods.getField('area-fe')?._ref;
+    const areaBeField = formMethods.getField('area-be')?._ref;
+    const feTagId = areaFeField?.getAttribute('data-tagid');
+    const beTagId = areaBeField?.getAttribute('data-tagid');
+    return {
+      feTagId,
+      beTagId,
+    };
   };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+    if (!submitResult.values) return;
+
+    const { values } = submitResult;
+    const { feTagId, beTagId } = getAreaTagId();
+    const tagIds = [
+      values['area-fe'] === 'checked' ? feTagId : undefined,
+      values['area-be'] === 'checked' ? beTagId : undefined,
+      values['generation'],
+      values['subject'],
+    ]
+      .filter(val => val === 0 || !!val)
+      .map(Number);
+
+    const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
+
+    console.log('values : ', values);
+
+    const postData: StudyDetailPostData = {
+      title: values['title'],
+      excerpt: values['excerpt'],
+      thumbnail,
+      description: values['description'],
+      maxMemberCount: values['max-member-count'],
+      enrollmentEndDate: values['enrollment-end-date'], // nullable
+      startDate: values['start-date'],
+      endDate: values['end-date'], // nullable
+      tagIds,
+    };
+
+    console.log('postData : ', postData);
+
+    return mutateAsync(postData);
+  };
+
+  useEffect(() => {
+    const hasAccessToken = !!window.localStorage.getItem('accessToken');
+    if (!hasAccessToken) {
+      alert('로그인 후 이용해 주세요');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Wrapper>

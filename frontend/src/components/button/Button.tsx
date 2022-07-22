@@ -9,22 +9,39 @@ export type ButtonProp = {
   children: string;
   fluid: boolean;
   outline: boolean;
+  isLoading?: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick' | 'outline'>;
+
+const LoadingIndicator: React.FC = () => {
+  return (
+    <S.LoadingIndicator>
+      <div className="spinning-loader">
+        <div className="dot"></div>
+      </div>
+    </S.LoadingIndicator>
+  );
+};
 
 const Button: React.FC<OptionalButtonProp> = ({
   className,
   children,
   fluid = true,
   outline = false,
+  isLoading = false,
   onClick = noop,
 }) => {
   return (
-    <S.Button className={className} fluid={fluid} outline={outline} onClick={onClick}>
-      {children}
-    </S.Button>
+    <S.ButtonContainer>
+      <S.Button className={className} fluid={fluid} outline={outline} onClick={onClick}>
+        {/* isLoading상태에 관계 없이 children을 뿌려준다. 높이를 유지하기 위함이다.
+        대신 color를 background-color와 동일하게 맞춘다 */}
+        {children}
+      </S.Button>
+      {isLoading && <LoadingIndicator />}
+    </S.ButtonContainer>
   );
 };
 

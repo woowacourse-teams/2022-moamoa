@@ -16,7 +16,7 @@ type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds]
 const DescriptionTab = () => {
   const { register, getField } = useFormContext();
 
-  const [markdownText, setMarkdownText] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
 
@@ -25,12 +25,12 @@ const DescriptionTab = () => {
   };
 
   useEffect(() => {
-    const field = getField('markdown');
+    const field = getField('description');
     if (!field) return;
     if (activeTab !== studyDescriptionTabIds.preview) return;
 
-    const markdownText = field._ref.value;
-    setMarkdownText(markdownText);
+    const description = field._ref.value;
+    setDescription(description);
   }, [activeTab]);
 
   return (
@@ -61,12 +61,12 @@ const DescriptionTab = () => {
         <div className="tab-panels">
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.write })}>
             <div className="tab-content">
-              <textarea {...register('markdown')}></textarea>
+              <textarea {...register('description')}></textarea>
             </div>
           </div>
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.preview })}>
             <div className="tab-content">
-              <MarkdownRender markdownContent={markdownText} />
+              <MarkdownRender markdownContent={description} />
             </div>
           </div>
         </div>
