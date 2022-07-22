@@ -14,7 +14,11 @@ const studyDescriptionTabIds = {
 type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds];
 
 const DescriptionTab = () => {
-  const { register, getField } = useFormContext();
+  const {
+    formState: { errors },
+    register,
+    getField,
+  } = useFormContext();
 
   const [description, setDescription] = useState<string>('');
 
@@ -61,7 +65,17 @@ const DescriptionTab = () => {
         <div className="tab-panels">
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.write })}>
             <div className="tab-content">
-              <textarea {...register('description')}></textarea>
+              <textarea
+                className={cn({ invalid: errors['description'] })}
+                {...register('description', {
+                  validate: (val: string) => {
+                    if (!val || val.length === 0) {
+                      return '스터디 상세 설명을 작성해 주세요';
+                    }
+                    return true;
+                  },
+                })}
+              ></textarea>
             </div>
           </div>
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.preview })}>

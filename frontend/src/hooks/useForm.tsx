@@ -112,7 +112,7 @@ export const useForm: UseForm = () => {
       isSubmitting: true,
       isSubmitted: false,
       isSubmitSuccessful: false,
-      isValid: false,
+      isValid: true,
     }));
 
     const values = [..._fields.current.keys()].reduce((acc, name) => {
@@ -129,11 +129,23 @@ export const useForm: UseForm = () => {
     let isValid = true;
     Object.keys(values).forEach(name => {
       const errorMessage = validateField(name);
+      console.log('errorMessage : ', errorMessage);
       if (errorMessage) {
         isValid = false;
         errors[name] = errorMessage;
       }
     });
+
+    if (!isValid) {
+      setFormState(prev => ({
+        errors,
+        isSubmitting: false,
+        isSubmitted: false,
+        isSubmitSuccessful: false,
+        isValid: false,
+      }));
+      return;
+    }
 
     const result = onSubmit(event, { isValid, values, errors });
     if (result) {

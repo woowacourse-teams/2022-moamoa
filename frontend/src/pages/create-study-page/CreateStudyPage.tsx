@@ -1,4 +1,5 @@
 import * as S from '@create-study-page/CreateStudyPage.style';
+import cn from 'classnames';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +30,12 @@ function getRandomInt(min: number, max: number) {
 
 const CreateStudyPage: React.FC = () => {
   const formMethods = useForm();
+  const { formState } = formMethods;
+  const { isValid, errors } = formState;
+
+  console.log('errors : ', errors);
+  console.log('isValid : ', isValid);
+
   const navigate = useNavigate();
   const { mutateAsync } = usePostNewStudy();
 
@@ -75,7 +82,16 @@ const CreateStudyPage: React.FC = () => {
 
     console.log('postData : ', postData);
 
-    return mutateAsync(postData);
+    // TODO: DetailPage로 Redirect하기
+    return mutateAsync(postData, {
+      onSuccess: () => {
+        alert('스터디를 생성했습니다');
+        window.location.href = '/';
+      },
+      onError: () => {
+        alert('에러가 발생했습니다');
+      },
+    });
   };
 
   useEffect(() => {
@@ -95,10 +111,17 @@ const CreateStudyPage: React.FC = () => {
             <div className="inner">
               <div className="main">
                 <input
-                  className="title-input"
+                  className={cn('title-input', { invalid: errors['title'] })}
                   type="text"
                   placeholder="스터디 이름"
-                  {...formMethods.register('title')}
+                  {...formMethods.register('title', {
+                    validate: (val: string) => {
+                      if (!val || val.length === 0) {
+                        return '스터디 이름을 입력해 주세요';
+                      }
+                      return true;
+                    },
+                  })}
                 />
                 <DescriptionTab />
                 <Excerpt />

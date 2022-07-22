@@ -41,6 +41,11 @@ export const CreateStudyPage = styled.div`
     resize: vertical;
   }
 
+  input.invalid,
+  textarea.invalid {
+    border: 2px solid red !important;
+  }
+
   & > form {
     & > .title {
       margin-bottom: 20px;
