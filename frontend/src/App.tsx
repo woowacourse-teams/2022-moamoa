@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
@@ -19,7 +19,7 @@ const App = () => {
   const { isLoggedIn } = useContext(LoginContext);
 
   return (
-    <BrowserRouter>
+    <div>
       <Header
         css={css`
           position: fixed;
@@ -43,8 +43,8 @@ const App = () => {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
-      <Footer />
-    </BrowserRouter>
+      <Footer marginBottom={'0'} />
+    </div>
   );
 };
 

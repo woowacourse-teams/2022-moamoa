@@ -12,8 +12,6 @@ export const StudyWideFloatBox = styled.div`
     line-height: 24px;
     font-size: 24px;
     background: ${theme.colors.white};
-    border: 3px solid ${theme.colors.primary.base};
-    box-shadow: 8px 8px 0 ${theme.colors.secondary.dark};
     border-radius: 25px;
   `}
 `;
@@ -42,8 +40,6 @@ export const MemberCount = styled.p`
   display: flex;
   justify-content: space-between;
 
-  margin-bottom: 20px;
-
   & > span {
     font-size: 20px;
   }
@@ -52,8 +48,6 @@ export const MemberCount = styled.p`
 export const Owner = styled.p`
   display: flex;
   justify-content: space-between;
-
-  margin-bottom: 20px;
 
   font-size: 20px;
 `;

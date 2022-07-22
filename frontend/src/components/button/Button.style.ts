@@ -74,6 +74,7 @@ export const Button = styled.button<ButtonProp>`
 
 export const ButtonContainer = styled.div`
   position: relative;
+  height: 100%;
 
   ${LoadingIndicator} {
     position: absolute;

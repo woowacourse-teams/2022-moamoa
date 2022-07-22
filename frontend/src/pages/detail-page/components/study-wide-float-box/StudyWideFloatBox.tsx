@@ -37,10 +37,6 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
               {currentMemberCount} / {maxMemberCount}
             </span>
           </S.MemberCount>
-          <S.Owner>
-            <span>스터디장</span>
-            <span>{owner}</span>
-          </S.Owner>
         </S.ExtraInfo>
       </S.StudyInfo>
       <div>
@@ -49,7 +45,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             height: 100%;
             padding: 0 20px;
           `}
-          fluid={false}
+          fluid={true}
           onClick={handleRegisterBtnClick(studyId)}
         >
           스터디 방 가입하기
