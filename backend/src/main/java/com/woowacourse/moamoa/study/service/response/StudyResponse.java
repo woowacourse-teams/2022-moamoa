@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.service.response;
 
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class StudyResponse {
     private String status;
 
     public StudyResponse(final Study study) {
-        this(study.getId(), study.getTitle(), study.getExcerpt(), study.getThumbnail(),
-                study.getStatus());
+        this(study.getId(), study.getDetails().getTitle(), study.getDetails().getExcerpt(), study.getDetails().getThumbnail(),
+                study.getDetails().getStatus());
     }
 }

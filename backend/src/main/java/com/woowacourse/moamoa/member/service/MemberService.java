@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.member.service;
 
-import com.woowacourse.moamoa.auth.service.oauthclient.exception.InvalidMemberException;
+import com.woowacourse.moamoa.member.service.exception.InvalidMemberException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;

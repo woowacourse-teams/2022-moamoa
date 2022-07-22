@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.auth.service;
 
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
-import com.woowacourse.moamoa.auth.service.response.GithubProfileResponse;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import com.woowacourse.moamoa.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

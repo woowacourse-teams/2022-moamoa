@@ -5,10 +5,10 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
-import com.woowacourse.moamoa.study.domain.study.Participant;
-import com.woowacourse.moamoa.study.domain.study.Study;
-import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
-import com.woowacourse.moamoa.study.domain.study.AttachedTag;
+import com.woowacourse.moamoa.study.domain.Participant;
+import com.woowacourse.moamoa.study.domain.AttachedTag;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.exception.StudyNotExistException;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.domain.Tag;
@@ -49,7 +49,7 @@ public class StudyDetailService {
     }
 
     private List<Long> getParticipantIds(final Study study) {
-        final List<Participant> participants = study.getParticipants();
+        final List<Participant> participants = study.getParticipants().getParticipants();
         return participants.stream()
                 .map(Participant::getMemberId)
                 .collect(toList());

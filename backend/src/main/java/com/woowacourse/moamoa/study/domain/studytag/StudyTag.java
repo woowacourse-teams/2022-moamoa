@@ -4,7 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.tag.domain.Tag;
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

@@ -1,9 +1,9 @@
-package com.woowacourse.moamoa.study.domain.study.repository;
+package com.woowacourse.moamoa.study.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.study.domain.study.Study;
+import com.woowacourse.moamoa.study.domain.Study;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.groups.Tuple;
@@ -35,20 +35,20 @@ public class StudyRepositoryTest {
         assertThat(slice.getContent())
                 .hasSize(expectedTuples.size())
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .containsExactlyElementsOf(expectedTuples);
     }
 
     @DisplayName("키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
     public void findByTitleContaining() {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase("java", PageRequest.of(0, 3));
+        final Slice<Study> slice = studyRepository.findByDetailsTitleContainingIgnoreCase("java", PageRequest.of(0, 3));
 
         assertThat(slice.hasNext()).isFalse();
         assertThat(slice.getContent())
                 .hasSize(2)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .containsExactly(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"));
@@ -57,13 +57,13 @@ public class StudyRepositoryTest {
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
     public void findByBlankTitle() {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase("", PageRequest.of(0, 5));
+        final Slice<Study> slice = studyRepository.findByDetailsTitleContainingIgnoreCase("", PageRequest.of(0, 5));
 
         assertThat(slice.hasNext()).isFalse();
         assertThat(slice.getContent())
                 .hasSize(5)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "status")
+                .extracting("details.title", "details.excerpt", "details.thumbnail", "details.status")
                 .containsExactly(
                         tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                         tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),

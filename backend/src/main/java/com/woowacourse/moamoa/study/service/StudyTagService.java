@@ -6,8 +6,8 @@ import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.tag.exception.TagNotExistException;
 import com.woowacourse.moamoa.study.controller.request.TagRequest;
-import com.woowacourse.moamoa.study.domain.study.Study;
-import com.woowacourse.moamoa.study.domain.study.repository.StudyRepository;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyResponse;
 import com.woowacourse.moamoa.study.domain.studytag.StudySearchCondition;
@@ -46,7 +46,7 @@ public class StudyTagService {
     }
 
     private StudiesResponse searchWithoutFilter(final String title, final Pageable pageable) {
-        final Slice<Study> slice = studyRepository.findByTitleContainingIgnoreCase(title.trim(), pageable);
+        final Slice<Study> slice = studyRepository.findByDetailsTitleContainingIgnoreCase(title.trim(), pageable);
         final List<StudyResponse> studies = slice
                 .map(StudyResponse::new)
                 .getContent();

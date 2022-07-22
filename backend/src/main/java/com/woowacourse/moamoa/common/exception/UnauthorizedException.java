@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.service.oauthclient.exception;
+package com.woowacourse.moamoa.common.exception;
 
 public class UnauthorizedException extends RuntimeException {
 
