@@ -5,8 +5,9 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.tag.domain.CategoryId;
-import com.woowacourse.moamoa.tag.query.TagsSearcher;
-import com.woowacourse.moamoa.tag.query.response.TagsResponse;
+import com.woowacourse.moamoa.tag.query.TagDao;
+import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import com.woowacourse.moamoa.tag.service.SearchingTagService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,18 +19,18 @@ import org.springframework.http.ResponseEntity;
 class SearchingTagControllerTest {
 
     @Autowired
-    private TagsSearcher tagsSearcher;
+    private TagDao tagDao;
 
     private SearchingTagController searchingTagController;
 
     @BeforeEach
     void setUp() {
-        searchingTagController = new SearchingTagController(tagsSearcher);
+        searchingTagController = new SearchingTagController(new SearchingTagService(tagDao));
     }
 
-    @DisplayName("필터 목록 전체를 조회한다.")
+    @DisplayName("태그 목록 전체를 조회한다.")
     @Test
-    void getFilters() {
+    void searchAllTags() {
         ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", CategoryId.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -45,9 +46,9 @@ class SearchingTagControllerTest {
                 );
     }
 
-    @DisplayName("필터 이름을 대소문자 구분없이 앞뒤 공백을 제거해 필터 목록을 조회한다.")
+    @DisplayName("태그의 짧은 이름을 대소문자 구분없이 앞뒤 공백을 제거해 태그 목록을 조회한다.")
     @Test
-    void getFiltersByName() {
+    void searchTagsByShortName() {
         ResponseEntity<TagsResponse> response = searchingTagController.searchTags("   ja  \t ", CategoryId.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -59,8 +60,9 @@ class SearchingTagControllerTest {
                 );
     }
 
+    @DisplayName("카테고리 ID로 태그 목록을 조회한다.")
     @Test
-    void getFiltersByCategoryId() {
+    void searchTagsByCategoryId() {
         ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", new CategoryId(3L));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -19,8 +19,8 @@ VALUES (null, 'javaScript 스터디', '자바스크립트 설명', 'javascript t
 INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id)
 VALUES (null, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', '디우의 HTTP 정복하기', 5, '2021-11-08T11:58:20.551705', 3);
 
-INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id)
-VALUES (null, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', '알고리즘을 TDD로 풀자의 베루스입니다.', 2, '2021-11-08T11:58:20.551705', 4);
+INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id, start_date)
+VALUES (null, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', '알고리즘을 TDD로 풀자의 베루스입니다.', 2, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567');
 
 INSERT INTO category(id, name) VALUES (1, 'generation');
 INSERT INTO category(id, name) VALUES (2, 'area');
