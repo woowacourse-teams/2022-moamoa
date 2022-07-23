@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.study.domain.Study;
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,7 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
-@DataJpaTest
+@RepositoryTest
 public class StudyRepositoryTest {
 
     @Autowired

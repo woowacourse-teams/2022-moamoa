@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain.studytag.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.tag.domain.Tag;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 
-@DataJpaTest
+@RepositoryTest
 class CustomStudyTagRepositoryTest {
 
     @Autowired
