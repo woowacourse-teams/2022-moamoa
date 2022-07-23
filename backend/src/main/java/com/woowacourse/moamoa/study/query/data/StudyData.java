@@ -2,11 +2,11 @@ package com.woowacourse.moamoa.study.query.data;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import java.time.LocalDateTime;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
-@Builder
 public class StudyData {
 
     private final Long id;

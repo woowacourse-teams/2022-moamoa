@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.study.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyData;
-import com.woowacourse.moamoa.study.query.data.StudyData.StudyDataBuilder;
+import com.woowacourse.moamoa.study.query.data.StudyDataBuilder;
 import com.woowacourse.moamoa.study.service.exception.StudyNotExistException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +36,7 @@ public class StudyDao {
         private final StudyDataBuilder builder;
 
         public StudyContentExtractor() {
-            builder = StudyData.builder();
+            builder = new StudyDataBuilder();
         }
 
         @Override
@@ -56,8 +56,8 @@ public class StudyDao {
             String thumbnail = rs.getString("thumbnail");
             String status = rs.getString("status");
             String description = rs.getString("description");
-            Integer currentMaxCount = rs.getInt("current_member_count");
-            Integer maxMemberCount = rs.getInt("max_member_count");
+            int currentMaxCount = rs.getInt("current_member_count");
+            int maxMemberCount = rs.getInt("max_member_count");
             LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
             LocalDateTime enrollmentEndDDate = rs.getObject("enrollment_end_date", LocalDateTime.class);
             LocalDateTime startDate = rs.getObject("start_date", LocalDateTime.class);
