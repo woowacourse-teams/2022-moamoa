@@ -30,9 +30,6 @@ public class Member {
 
     private String profileUrl;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Study> establishedStudies = new ArrayList<>();
-
     public Member(final Long githubId, final String username, final String imageUrl, final String profileUrl) {
         this(null, githubId, username, imageUrl, profileUrl);
     }

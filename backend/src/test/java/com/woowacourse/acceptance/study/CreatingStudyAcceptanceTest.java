@@ -131,7 +131,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
         final String jwtToken = getBearerJwtToken(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
-        final String locationHeader = RestAssured.given().log().all()
+        final String location = RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
@@ -143,7 +143,11 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().header(HttpHeaders.LOCATION);
 
-        assertThat(locationHeader).matches(Pattern.compile("/api/studies/\\d+"));
+        RestAssured.given().log().all()
+                .when().log().all()
+                .get(location)
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 
 }

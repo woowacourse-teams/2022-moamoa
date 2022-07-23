@@ -5,6 +5,8 @@ import static lombok.AccessLevel.PROTECTED;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -21,14 +23,6 @@ public class Category {
     @Id
     private Long id;
 
-    private String name;
-
-    @OneToMany
-    @JoinColumn(name = "filter_id")
-    private List<Tag> tags = new ArrayList<>();
-
-    public Category(final Long id, final String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @Enumerated(value = EnumType.STRING)
+    private CategoryName name;
 }

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class MemberServiceTest {
     void saveMember() {
         memberService.saveOrUpdate(new Member(1L, "sc0116", "https://image", "github.com"));
 
-        final MemberResponse member = memberService.searchBy(1L);
+        final MemberData member = memberService.searchBy(1L);
 
         assertAll(
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),
@@ -47,7 +47,7 @@ class MemberServiceTest {
 
         memberService.saveOrUpdate(new Member(1L, "sc0116", "jjanggu.image", "github.com"));
 
-        final MemberResponse member = memberService.searchBy(1L);
+        final MemberData member = memberService.searchBy(1L);
 
         assertAll(
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),

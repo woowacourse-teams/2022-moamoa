@@ -5,7 +5,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -48,14 +46,6 @@ public class Study {
     @ElementCollection
     @CollectionTable(name = "study_tag", joinColumns = @JoinColumn(name = "study_id"))
     private List<AttachedTag> attachedTags = new ArrayList<>();
-
-    @OneToMany(mappedBy = "study")
-    private List<StudyTag> studyTags = new ArrayList<>();
-
-    public Study(final Long id, final Details details) {
-        this.id = id;
-        this.details = details;
-    }
 
     public Study(final Details details, final Participants participants, final Member owner,
                  final Period period, final List<AttachedTag> attachedTags) {

@@ -4,15 +4,11 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +30,6 @@ public class Tag {
     private Category category;
 
     private String description;
-
-    @OneToMany(mappedBy = "tag")
-    private List<StudyTag> studyTags = new ArrayList<>();
 
     public Tag(final Long id, final String name) {
         this.id = id;

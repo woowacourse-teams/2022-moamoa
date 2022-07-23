@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
@@ -35,7 +35,7 @@ class ReviewServiceTest {
 
         final Integer totalResults = reviewsResponse.getTotalResults();
         final List<ReviewResponse> reviews = reviewsResponse.getReviews();
-        final List<MemberResponse> members = reviews.stream()
+        final List<MemberData> members = reviews.stream()
                 .map(ReviewResponse::getMember)
                 .collect(toList());
 
@@ -73,7 +73,7 @@ class ReviewServiceTest {
 
         final Integer totalResults = reviewsResponse.getTotalResults();
         final List<ReviewResponse> reviews = reviewsResponse.getReviews();
-        final List<MemberResponse> members = reviews.stream()
+        final List<MemberData> members = reviews.stream()
                 .map(ReviewResponse::getMember)
                 .collect(toList());
 
