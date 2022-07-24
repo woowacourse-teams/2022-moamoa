@@ -45,12 +45,13 @@ public class StudySummaryDaoTest {
                 tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
                 tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"),
                 tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
-                tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE"));
+                tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE"),
+                tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "CLOSE"));
 
         return Stream.of(
                 Arguments.of(PageRequest.of(0, 3), tuples.subList(0, 3), true),
                 Arguments.of(PageRequest.of(1, 2), tuples.subList(2, 4), true),
-                Arguments.of(PageRequest.of(1, 3), tuples.subList(3, 5), false)
+                Arguments.of(PageRequest.of(1, 3), tuples.subList(3, 6), false)
         );
     }
 
@@ -75,7 +76,7 @@ public class StudySummaryDaoTest {
     public void findByBlankTitle() {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(), PageRequest.of(0, 5));
 
-        assertThat(response.hasNext()).isFalse();
+        assertThat(response.hasNext()).isTrue();
         assertThat(response.getContent())
                 .hasSize(5)
                 .filteredOn(study -> study.getId() != null)

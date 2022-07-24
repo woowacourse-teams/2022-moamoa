@@ -2,6 +2,7 @@ package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -40,12 +41,12 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
         페이징을_통한_스터디_목록_조회(1, 3)
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(false))
-                .body("studies", hasSize(2))
-                .body("studies.id", contains(notNullValue(), notNullValue()))
-                .body("studies.title", contains("HTTP 스터디", "알고리즘 스터디"))
-                .body("studies.excerpt", contains("HTTP 설명", "알고리즘 설명"))
-                .body("studies.thumbnail", contains("http thumbnail", "algorithm thumbnail"))
-                .body("studies.status", contains("CLOSE", "CLOSE"));
+                .body("studies", hasSize(3))
+                .body("studies.id", not(empty()))
+                .body("studies.title", contains("HTTP 스터디", "알고리즘 스터디", "Linux 스터디"))
+                .body("studies.excerpt", contains("HTTP 설명", "알고리즘 설명", "리눅스 설명"))
+                .body("studies.thumbnail", contains("http thumbnail", "algorithm thumbnail", "linux thumbnail"))
+                .body("studies.status", contains("CLOSE", "CLOSE", "CLOSE"));
     }
 
     @DisplayName("잘못된 페이징 정보로 목록을 조회시 400에러를 응답한다.")
@@ -87,7 +88,7 @@ public class GettingStudiesAcceptanceTest extends AcceptanceTest {
                 .get("/api/studies")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("hasNext", is(false))
+                .body("hasNext", is(true))
                 .body("studies", hasSize(5))
                 .body("studies.id", contains(
                         notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))

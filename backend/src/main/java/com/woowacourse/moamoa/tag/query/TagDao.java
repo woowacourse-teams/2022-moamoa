@@ -1,11 +1,11 @@
 package com.woowacourse.moamoa.tag.query;
 
-import com.woowacourse.moamoa.tag.domain.CategoryId;
 import com.woowacourse.moamoa.tag.query.response.CategoryData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -28,7 +28,7 @@ public class TagDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<TagData> getBy(Long studyId) {
+    public List<TagData> getAttachedTagsFrom(Long studyId) {
         String sql = "SELECT t.id as tag_id, t.name as tag_name, t.description as tag_description, "
                 + "c.id as category_id, c.name as category_name "
                 + "FROM tag as t JOIN category as c ON t.category_id = c.id "
@@ -37,11 +37,13 @@ public class TagDao {
         return jdbcTemplate.query(sql, Map.of("studyId", studyId), ROW_MAPPER);
     }
 
-    public List<TagData> getBy(final String tagShortName, final CategoryId categoryId) {
-        return jdbcTemplate.query(sql(categoryId), params(tagShortName, categoryId), ROW_MAPPER);
+    public List<TagData> searchBy(final String tagShortName, final Optional<Long> categoryId) {
+        final String sql = sqlForSearchByCategoryAndShortName(categoryId);
+        final Map<String, Object> params = paramsForSearchByCategoryAndShortName(tagShortName, categoryId);
+        return jdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
-    private String sql(final CategoryId categoryId) {
+    private String sqlForSearchByCategoryAndShortName(final Optional<Long> categoryId) {
         String sql = "SELECT t.id as tag_id, t.name as tag_name, t.description as tag_description, "
                 + "c.id as category_id, c.name as category_name "
                 + "FROM tag as t JOIN category as c ON t.category_id = c.id "
@@ -53,10 +55,10 @@ public class TagDao {
         return sql + " AND c.id = :categoryId";
     }
 
-    private Map<String, Object> params(final String name, final CategoryId categoryId) {
+    private Map<String, Object> paramsForSearchByCategoryAndShortName(final String name, final Optional<Long> categoryId) {
         Map<String, Object> param = new HashMap<>();
         param.put("name", "%" + name + "%");
-        param.put("categoryId", categoryId.getValue());
+        param.put("categoryId", categoryId.orElse(null));
         return param;
     }
 }

@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.tag.controller;
 
-import com.woowacourse.moamoa.tag.domain.CategoryId;
-import com.woowacourse.moamoa.tag.service.response.TagsResponse;
 import com.woowacourse.moamoa.tag.service.SearchingTagService;
+import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class SearchingTagController {
     @GetMapping("/api/tags")
     public ResponseEntity<TagsResponse> searchTags(
             @RequestParam(value = "name", required = false, defaultValue = "") final String tagShortName,
-            @RequestParam(value = "category", required = false, defaultValue = "") final CategoryId categoryId) {
+            @RequestParam(value = "category", required = false, defaultValue = "") final Optional<Long> categoryId) {
         final TagsResponse tagsResponse = searchingTagService.getBy(tagShortName, categoryId);
         return ResponseEntity.ok().body(tagsResponse);
     }

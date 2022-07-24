@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.query.MemberDao;
-import com.woowacourse.moamoa.study.query.StudyDao;
+import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
@@ -21,15 +21,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class StudyControllerTest {
+public class SearchingStudyControllerTest {
 
-    private SearchingStudyController searchingStudyController;
+    private SearchingStudyController sut;
 
     @Autowired
     private StudySummaryDao studySummaryDao;
 
     @Autowired
-    private StudyDao studyDao;
+    private StudyDetailsDao studyDetailsDao;
 
     @Autowired
     private MemberDao memberDao;
@@ -39,14 +39,14 @@ public class StudyControllerTest {
 
     @BeforeEach
     void setUp() {
-        searchingStudyController = new SearchingStudyController(
-                new SearchingStudyService(studySummaryDao, studyDao, memberDao, tagDao));
+        sut = new SearchingStudyController(
+                new SearchingStudyService(studySummaryDao, studyDetailsDao, memberDao, tagDao));
     }
 
     @DisplayName("페이징 정보로 스터디 목록 조회")
     @Test
     public void getStudies() {
-        ResponseEntity<StudiesResponse> response = searchingStudyController.getStudies(PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = sut.getStudies(PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -64,7 +64,7 @@ public class StudyControllerTest {
     @DisplayName("빈 문자열로 검색시 전체 스터디 목록에서 조회")
     @Test
     void searchByBlankKeyword() {
-        ResponseEntity<StudiesResponse> response = searchingStudyController
+        ResponseEntity<StudiesResponse> response = sut
                 .searchStudies("", emptyList(), emptyList(), emptyList(),
                         PageRequest.of(0, 3)
                 );
@@ -85,7 +85,7 @@ public class StudyControllerTest {
     @DisplayName("문자열로 검색시 해당되는 스터디 목록에서 조회")
     @Test
     void searchByKeyword() {
-        ResponseEntity<StudiesResponse> response = searchingStudyController
+        ResponseEntity<StudiesResponse> response = sut
                 .searchStudies("Java 스터디", emptyList(), emptyList(), emptyList(),
                         PageRequest.of(0, 3)
                 );
@@ -102,7 +102,7 @@ public class StudyControllerTest {
     @DisplayName("앞뒤 공백을 제거한 문자열로 스터디 목록 조회")
     @Test
     void searchWithTrimKeyword() {
-        ResponseEntity<StudiesResponse> response = searchingStudyController
+        ResponseEntity<StudiesResponse> response = sut
                 .searchStudies("   Java 스터디   ", emptyList(), emptyList(), emptyList(), PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -120,7 +120,7 @@ public class StudyControllerTest {
         List<Long> tags = List.of(5L); // React
         List<Long> areas = List.of(3L); // BE
 
-        ResponseEntity<StudiesResponse> response = searchingStudyController
+        ResponseEntity<StudiesResponse> response = sut
                 .searchStudies("", emptyList(), areas, tags, PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -135,7 +135,7 @@ public class StudyControllerTest {
         List<Long> generationIds = List.of(2L); // 4기
         List<Long> areaIds = List.of(3L, 4L); // BE, FE
         List<Long> tagIds = List.of(1L, 5L); // Java, React
-        ResponseEntity<StudiesResponse> response = searchingStudyController
+        ResponseEntity<StudiesResponse> response = sut
                 .searchStudies("", generationIds, areaIds, tagIds, PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

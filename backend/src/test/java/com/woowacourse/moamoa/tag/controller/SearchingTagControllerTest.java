@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.tag.domain.CategoryId;
 import com.woowacourse.moamoa.tag.query.TagDao;
-import com.woowacourse.moamoa.tag.service.response.TagsResponse;
 import com.woowacourse.moamoa.tag.service.SearchingTagService;
+import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class SearchingTagControllerTest {
     @DisplayName("태그 목록 전체를 조회한다.")
     @Test
     void searchAllTags() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", CategoryId.empty());
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", Optional.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -49,7 +49,7 @@ class SearchingTagControllerTest {
     @DisplayName("태그의 짧은 이름을 대소문자 구분없이 앞뒤 공백을 제거해 태그 목록을 조회한다.")
     @Test
     void searchTagsByShortName() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("   ja  \t ", CategoryId.empty());
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("   ja  \t ", Optional.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -63,7 +63,7 @@ class SearchingTagControllerTest {
     @DisplayName("카테고리 ID로 태그 목록을 조회한다.")
     @Test
     void searchTagsByCategoryId() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", new CategoryId(3L));
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", Optional.of(3L));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();

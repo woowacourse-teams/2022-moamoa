@@ -22,6 +22,9 @@ VALUES (null, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', '디�
 INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id, start_date)
 VALUES (null, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', '알고리즘을 TDD로 풀자의 베루스입니다.', 2, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567');
 
+INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date)
+VALUES (null, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'Linux를 공부하자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567');
+
 INSERT INTO category(id, name) VALUES (1, 'generation');
 INSERT INTO category(id, name) VALUES (2, 'area');
 INSERT INTO category(id, name) VALUES (3, 'subject');

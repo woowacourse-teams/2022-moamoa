@@ -21,7 +21,10 @@ public class Participants {
     @Column(name = "max_member_count")
     private Integer max;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
+    @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
     private List<Participant> participants = new ArrayList<>();
 
@@ -29,26 +32,19 @@ public class Participants {
     }
 
     public Participants(final Integer size, final Integer max,
-                        final List<Participant> participants) {
+                        final List<Participant> participants, Long ownerId) {
         this.size = size;
         this.max = max;
         this.participants = participants;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getMax() {
-        return max;
+        this.ownerId = ownerId;
     }
 
     public List<Participant> getParticipants() {
         return new ArrayList<>(participants);
     }
 
-    public static Participants createByMaxSize(final Integer maxSize) {
-        return new Participants(1, maxSize, new ArrayList<>());
+    public static Participants createByMaxSize(final Integer maxSize, Long id) {
+        return new Participants(1, maxSize, new ArrayList<>(), id);
     }
 
     @Override
@@ -60,12 +56,12 @@ public class Participants {
             return false;
         }
         final Participants that = (Participants) o;
-        return size == that.size && Objects.equals(max, that.max) && Objects.equals(getParticipants(),
-                that.getParticipants());
+        return size == that.size && Objects.equals(max, that.max) && Objects.equals(ownerId, that.ownerId) &&
+                Objects.equals(getParticipants(), that.getParticipants());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(size, max, participants);
+        return Objects.hash(size, max, ownerId, participants);
     }
 }

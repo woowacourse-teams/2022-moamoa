@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
 import com.woowacourse.moamoa.study.domain.AttachedTag;
+import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
@@ -35,14 +36,15 @@ public class CreateStudyService {
                 .collect(Collectors.toList());
 
         final Member member = memberRepository.findByGithubId(githubId).orElseThrow(() -> new UnauthorizedException(""));
-        final Participants participants = Participants.createByMaxSize(openStudyRequest.getMaxMemberCount());
+        final Participants participants = Participants.createByMaxSize(openStudyRequest.getMaxMemberCount(),
+                member.getId());
         final Details details = new Details(openStudyRequest.getTitle(), openStudyRequest.getExcerpt(),
                 openStudyRequest.getThumbnail(), "OPEN", openStudyRequest.getDescription());
         final Period period = new Period(openStudyRequest.getEnrollmentEndDateTime(),
                 openStudyRequest.getStartDateTime(),
                 openStudyRequest.getEndDateTime());
 
-        return studyRepository.save(new Study(details, participants, member, period, attachedTags));
+        return studyRepository.save(new Study(details, participants, period, new AttachedTags(attachedTags)));
     }
 
 }

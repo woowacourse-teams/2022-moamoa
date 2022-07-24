@@ -1,13 +1,14 @@
 package com.woowacourse.moamoa.study.query.data;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter
-public class StudyData {
+public class StudyDetailsData {
 
     private final Long id;
     private final String title;
@@ -15,11 +16,15 @@ public class StudyData {
     private final String thumbnail;
     private final String status;
     private final String description;
+    private final LocalDate createdAt;
     private final MemberData owner;
     private final Integer currentMemberCount;
     private final Integer maxMemberCount;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime enrollmentEndDate;
-    private final LocalDateTime startDate;
-    private final LocalDateTime endDate;
+    private final LocalDate enrollmentEndDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+
+    public static StudyDetailsDataBuilder builder() {
+        return new StudyDetailsDataBuilder();
+    }
 }

@@ -67,7 +67,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .get("/api/studies/search")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("hasNext", is(false))
+                .body("hasNext", is(true))
                 .body("studies", hasSize(5))
                 .body("studies.id", contains(
                         notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))

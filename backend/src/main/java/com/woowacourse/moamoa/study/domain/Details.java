@@ -34,26 +34,6 @@ public class Details {
         this.description = description;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getExcerpt() {
-        return excerpt;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

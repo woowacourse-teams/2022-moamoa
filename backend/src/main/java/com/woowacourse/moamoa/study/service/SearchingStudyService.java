@@ -3,9 +3,9 @@ package com.woowacourse.moamoa.study.service;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.SearchingTags;
-import com.woowacourse.moamoa.study.query.StudyDao;
+import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
-import com.woowacourse.moamoa.study.query.data.StudyData;
+import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
@@ -22,17 +22,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class SearchingStudyService {
 
     private final StudySummaryDao studySummaryDao;
-    private final StudyDao studyDao;
+    private final StudyDetailsDao studyDetailsDao;
     private final MemberDao memberDao;
     private final TagDao tagDao;
 
     public SearchingStudyService(final StudySummaryDao studySummaryDao,
-                                 final StudyDao studyDao,
+                                 final StudyDetailsDao studyDetailsDao,
                                  final MemberDao memberDao,
                                  final TagDao tagDao
     ) {
         this.studySummaryDao = studySummaryDao;
-        this.studyDao = studyDao;
+        this.studyDetailsDao = studyDetailsDao;
         this.memberDao = memberDao;
         this.tagDao = tagDao;
     }
@@ -43,9 +43,9 @@ public class SearchingStudyService {
     }
 
     public StudyDetailResponse getStudyDetails(final Long studyId) {
-        final StudyData content = studyDao.getById(studyId);
+        final StudyDetailsData content = studyDetailsDao.getById(studyId);
         final List<MemberData> participants = memberDao.getByStudyId(studyId);
-        final List<TagData> attachedTags = tagDao.getBy(studyId);
+        final List<TagData> attachedTags = tagDao.getAttachedTagsFrom(studyId);
         return new StudyDetailResponse(content, participants, attachedTags);
     }
 }

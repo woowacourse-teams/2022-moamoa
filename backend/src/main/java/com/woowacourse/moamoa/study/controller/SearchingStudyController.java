@@ -1,15 +1,12 @@
 package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.study.query.SearchingTags;
-import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
-import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

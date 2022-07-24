@@ -1,8 +1,9 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.study.query.data.StudyData;
+import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class StudyDetailResponse {
     private List<MemberData> members;
     private List<TagData> tags;
 
-    public StudyDetailResponse(final StudyData study,
+    public StudyDetailResponse(final StudyDetailsData study,
                                final List<MemberData> participants,
                                final List<TagData> attachedTags) {
         this.id = study.getId();
@@ -44,7 +45,7 @@ public class StudyDetailResponse {
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
         this.maxMemberCount = study.getMaxMemberCount();
-        this.createdAt = getNullableDate(study.getCreatedAt());
+        this.createdAt = study.getCreatedAt().toString();
         this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
         this.startDate = getNullableDate(study.getStartDate());
         this.endDate = getNullableDate(study.getEndDate());
@@ -53,7 +54,10 @@ public class StudyDetailResponse {
         this.tags = attachedTags;
     }
 
-    private String getNullableDate(final LocalDateTime localDateTime) {
-        return Optional.ofNullable(localDateTime).map(date -> date.toLocalDate().toString()).orElse("");
+    private String getNullableDate(final LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        return localDate.toString();
     }
 }

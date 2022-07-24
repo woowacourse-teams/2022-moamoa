@@ -59,12 +59,12 @@ public class CreatingStudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(study).isNotEmpty();
         assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "자바 스터디 상세설명 입니다."));
-        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSize(10));
-        assertThat(study.get().getOwner().getGithubId()).isEqualTo(1L);
+        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSize(10,
+                memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
                 new Period(openStudyRequest.getEnrollmentEndDateTime(), openStudyRequest.getStartDateTime(), openStudyRequest.getEndDateTime()));
-        assertThat(study.get().getAttachedTags())
+        assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(openStudyRequest.getTagIds());
     }
 

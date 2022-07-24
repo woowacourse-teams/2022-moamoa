@@ -32,18 +32,6 @@ public class Period {
         return startDate.isBefore(createAt) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(createAt));
     }
 
-    public LocalDateTime getEnrollmentEndDate() {
-        return enrollmentEndDate;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

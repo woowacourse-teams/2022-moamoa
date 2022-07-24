@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.study.query.StudyDao;
+import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
@@ -26,7 +26,7 @@ class SearchingStudyServiceTest {
     private StudySummaryDao studySummaryDao;
 
     @Autowired
-    private StudyDao studyDao;
+    private StudyDetailsDao studyDetailsDao;
 
     @Autowired
     private MemberDao memberDao;
@@ -36,7 +36,7 @@ class SearchingStudyServiceTest {
 
     @BeforeEach
     void setUp() {
-        searchingStudyService = new SearchingStudyService(studySummaryDao, studyDao, memberDao, tagDao);
+        searchingStudyService = new SearchingStudyService(studySummaryDao, studyDetailsDao, memberDao, tagDao);
     }
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")

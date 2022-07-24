@@ -1,7 +1,5 @@
 package com.woowacourse.acceptance.study;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
@@ -10,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
