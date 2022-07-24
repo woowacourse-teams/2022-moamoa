@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
-import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.service.CreateStudyService;
 import java.net.URI;
@@ -23,9 +23,9 @@ public class CreatingStudyController {
     @PostMapping("/api/studies")
     public ResponseEntity<Void> createStudy(
             @AuthenticationPrincipal final Long githubId,
-            @Valid @RequestBody(required = false) final OpenStudyRequest openStudyRequest
+            @Valid @RequestBody(required = false) final CreateStudyRequest createStudyRequest
     ) {
-        final Study study = createStudyService.createStudy(githubId, openStudyRequest);
+        final Study study = createStudyService.createStudy(githubId, createStudyRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + study.getId())).build();
     }
 }

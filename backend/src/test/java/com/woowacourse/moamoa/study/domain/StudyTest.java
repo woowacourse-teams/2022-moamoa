@@ -1,10 +1,11 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +19,8 @@ public class StudyTest {
         final Participants participants = Participants.createByMaxSize(10, member.getId());
 
         assertThatThrownBy(() -> new Study(details, participants,
-                new Period(LocalDateTime.now().plusDays(10), LocalDateTime.now().minusDays(1),
-                        LocalDateTime.now().plusDays(20)), AttachedTags.empty()))
+                new Period(LocalDate.now().plusDays(10), LocalDate.now().minusDays(1),
+                        LocalDate.now().plusDays(20)), AttachedTags.empty()))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -31,8 +32,20 @@ public class StudyTest {
         final Participants participants = Participants.createByMaxSize(10, member.getId());
 
         assertThatThrownBy(() -> new Study(details, participants,
-                new Period(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(4),
-                        LocalDateTime.now().plusDays(20)), AttachedTags.empty()))
+                new Period(LocalDate.now().minusDays(1), LocalDate.now().plusDays(4),
+                        LocalDate.now().plusDays(20)), AttachedTags.empty()))
                 .isInstanceOf(InvalidPeriodException.class);
+    }
+
+    @Test
+    @DisplayName("생성일자는 시작, 모집 종료, 종료 일자와 동일할 수 있다.")
+    void createdAtCanSameWithStartAndEndAndEnrollmentDate() {
+        final Details details = new Details("title", "excerpt", "thumbnail", "OPEN", "description");
+        final Member member = new Member(1L, "username", "image", "profile");
+        final Participants participants = Participants.createByMaxSize(10, member.getId());
+
+        assertThatCode(() -> new Study(details, participants,
+                new Period(LocalDate.now(), LocalDate.now(), LocalDate.now()), AttachedTags.empty()))
+                .doesNotThrowAnyException();
     }
 }

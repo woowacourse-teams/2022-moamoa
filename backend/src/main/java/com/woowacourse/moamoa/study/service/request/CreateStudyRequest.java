@@ -1,9 +1,13 @@
-package com.woowacourse.moamoa.study.controller.request;
+package com.woowacourse.moamoa.study.service.request;
 
+import com.woowacourse.moamoa.study.domain.AttachedTag;
+import com.woowacourse.moamoa.study.domain.AttachedTags;
+import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Participants;
+import com.woowacourse.moamoa.study.domain.Period;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @Getter
 @Builder
-public class OpenStudyRequest {
+public class CreateStudyRequest {
 
     @NotBlank
     private String title;
@@ -44,7 +48,7 @@ public class OpenStudyRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    private List<Long> tagIds = List.of();
+    private List<Long> tagIds;
 
     public List<Long> getTagIds() {
         return tagIds == null ? List.of() : tagIds;
@@ -62,21 +66,22 @@ public class OpenStudyRequest {
         return enrollmentEndDate == null ? "" : enrollmentEndDate.toString();
     }
 
-    public LocalDateTime getStartDateTime() {
-        return LocalDateTime.of(startDate, LocalTime.of(0, 0));
+    public Period mapToPeriod() {
+        return new Period(enrollmentEndDate, startDate, endDate);
     }
 
-    public LocalDateTime getEnrollmentEndDateTime() {
-        if (enrollmentEndDate == null) {
-            return null;
-        }
-        return LocalDateTime.of(enrollmentEndDate, LocalTime.of(0, 0));
+    public Details mapToDetails() {
+        return new Details(title, excerpt, thumbnail, "OPEN", description);
     }
 
-    public LocalDateTime getEndDateTime() {
-        if (endDate == null) {
-            return null;
-        }
-        return LocalDateTime.of(endDate, LocalTime.of(0, 0));
+    public Participants mapToParticipants(Long ownerId) {
+        return Participants.createByMaxSize(maxMemberCount, ownerId);
+    }
+
+    public AttachedTags mapToAttachedTags() {
+        final List<AttachedTag> attachedTags = getTagIds().stream()
+                .map(AttachedTag::new)
+                .collect(Collectors.toList());
+        return new AttachedTags(attachedTags);
     }
 }

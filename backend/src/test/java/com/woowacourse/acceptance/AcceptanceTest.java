@@ -11,9 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
-import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import io.restassured.RestAssured;
-import java.util.HashMap;
 import java.util.Map;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -96,7 +95,7 @@ public class AcceptanceTest {
     }
 
     @SneakyThrows
-    protected long createStudy(String jwtToken, OpenStudyRequest request) {
+    protected long createStudy(String jwtToken, CreateStudyRequest request) {
         final String location = RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

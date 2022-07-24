@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
 
 public class GettingReviewsAcceptanceTest extends AcceptanceTest {
 
@@ -30,7 +29,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
         getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
-        final OpenStudyRequest request = OpenStudyRequest.builder()
+        final CreateStudyRequest request = CreateStudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
                 .description("짱구의 우당탕탕 자바 스터디입니다.").startDate(LocalDate.now().plusDays(1))
                 .build();

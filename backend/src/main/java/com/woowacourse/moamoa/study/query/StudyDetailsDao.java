@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.study.query;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsDataBuilder;
-import com.woowacourse.moamoa.study.service.exception.StudyNotExistException;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -47,7 +47,7 @@ public class StudyDetailsDao {
                 appendParticipants(resultSet);
                 return builder.build();
             }
-            throw new StudyNotExistException();
+            throw new StudyNotFoundException();
         }
 
         private void appendStudyContent(final ResultSet rs) throws SQLException {

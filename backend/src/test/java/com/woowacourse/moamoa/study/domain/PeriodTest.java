@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,34 +17,34 @@ public class PeriodTest {
     @DisplayName("시작일자는 종료일자보다 클 수 없다.")
     @Test
     void startDateMustBeforeEndDate() {
-        assertThatThrownBy(() -> new Period(LocalDateTime.of(2022, 7, 7, 0, 0),
-                LocalDateTime.of(2022, 7, 10, 0, 0),
-                LocalDateTime.of(2022, 7, 9, 0, 0)))
+        assertThatThrownBy(() -> new Period(LocalDate.of(2022, 7, 7),
+                LocalDate.of(2022, 7, 10),
+                LocalDate.of(2022, 7, 9)))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("모집완료는 종료일자보다 클 수 없다.")
     @Test
     void enrollmentDateMustBeforeEndDate() {
-        assertThatThrownBy(() -> new Period(LocalDateTime.of(2022, 7, 10, 0, 0),
-                LocalDateTime.of(2022, 7, 8, 0, 0),
-                LocalDateTime.of(2022, 7, 9, 0, 0)))
+        assertThatThrownBy(() -> new Period(LocalDate.of(2022, 7, 10),
+                LocalDate.of(2022, 7, 8),
+                LocalDate.of(2022, 7, 9)))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("모집완료는 시작일자와 연관된 조건이 없다.")
     @ParameterizedTest
     @MethodSource("provideEnrollmentEndDateAndStartDate")
-    void enrollmentEndDateAndStartDateNotHasRelatedConditions(LocalDateTime enrollmentEndDate, LocalDateTime startDate) {
+    void enrollmentEndDateAndStartDateNotHasRelatedConditions(LocalDate enrollmentEndDate, LocalDate startDate) {
         assertThatNoException().isThrownBy(() -> new Period(enrollmentEndDate, startDate,
-                LocalDateTime.of(2022, 7, 15, 0, 0)));
+                LocalDate.of(2022, 7, 15)));
     }
 
     private static Stream<Arguments> provideEnrollmentEndDateAndStartDate() {
         return Stream.of(
-                Arguments.of(LocalDateTime.of(2022, 7, 10, 0, 0), LocalDateTime.of(2022, 7, 9, 0, 0)),
-                Arguments.of(LocalDateTime.of(2022, 7, 10, 0, 0), LocalDateTime.of(2022, 7, 10, 0, 0)),
-                Arguments.of(LocalDateTime.of(2022, 7, 10, 0, 0), LocalDateTime.of(2022, 7, 11, 0, 0))
+                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 9)),
+                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 10)),
+                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 11))
         );
     }
 }

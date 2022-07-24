@@ -7,8 +7,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.MemberService;
-import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
@@ -25,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class CreatingStudyControllerTest {
@@ -39,9 +37,6 @@ public class CreatingStudyControllerTest {
     @BeforeEach
     void initDataBase() {
         memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
     }
 
     @DisplayName("스터디를 생성하여 저장한다.")
@@ -49,7 +44,7 @@ public class CreatingStudyControllerTest {
     void openStudy() {
         // given
         CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
-        final OpenStudyRequest openStudyRequest = OpenStudyRequest.builder()
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -62,7 +57,7 @@ public class CreatingStudyControllerTest {
                 .build();
 
         // when
-        final ResponseEntity<Void> response = sut.createStudy(1L, openStudyRequest);
+        final ResponseEntity<Void> response = sut.createStudy(1L, createStudyRequest);
 
         // then
         final String id = response.getHeaders().getLocation().getPath().replace("/api/studies/", "");
@@ -75,16 +70,17 @@ public class CreatingStudyControllerTest {
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
-                new Period(openStudyRequest.getEnrollmentEndDateTime(), openStudyRequest.getStartDateTime(), openStudyRequest.getEndDateTime()));
+                new Period(LocalDate.parse(createStudyRequest.getEnrollmentEndDate()),
+                        createStudyRequest.getStartDate(), LocalDate.parse(createStudyRequest.getEndDate())));
         assertThat(study.get().getAttachedTags().getValue())
-                .extracting("tagId").containsAnyElementsOf(openStudyRequest.getTagIds());
+                .extracting("tagId").containsAnyElementsOf(createStudyRequest.getTagIds());
     }
 
     @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
     void createStudyByInvalidPeriod() {
         CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
-        final OpenStudyRequest openStudyRequest = OpenStudyRequest.builder()
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -97,7 +93,7 @@ public class CreatingStudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(1L, openStudyRequest))
+        assertThatThrownBy(() -> sut.createStudy(1L, createStudyRequest))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -105,7 +101,7 @@ public class CreatingStudyControllerTest {
     @Test
     void createStudyByNotFoundUser() {
         CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
-        final OpenStudyRequest openStudyRequest = OpenStudyRequest.builder()
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -118,7 +114,7 @@ public class CreatingStudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(100L, openStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
+        assertThatThrownBy(() -> sut.createStudy(100L, createStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
                 .isInstanceOf(UnauthorizedException.class);
     }
 }

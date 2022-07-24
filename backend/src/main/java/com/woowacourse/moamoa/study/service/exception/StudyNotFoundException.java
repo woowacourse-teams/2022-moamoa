@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.study.service.exception;
 
-public class StudyNotExistException extends RuntimeException {
+public class StudyNotFoundException extends RuntimeException {
 
-    public StudyNotExistException() {
+    public StudyNotFoundException() {
         super("스터디가 존재하지 않습니다.");
     }
 }
