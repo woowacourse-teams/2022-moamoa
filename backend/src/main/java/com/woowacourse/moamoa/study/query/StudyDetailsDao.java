@@ -21,7 +21,7 @@ public class StudyDetailsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public StudyDetailsData getById(Long studyId) {
+    public StudyDetailsData getBy(Long studyId) {
         String sql = "SELECT study.id, title, excerpt, thumbnail, status, description, current_member_count, "
                 + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
                 + "member.github_id as owner_github_id, member.username as owner_username, "

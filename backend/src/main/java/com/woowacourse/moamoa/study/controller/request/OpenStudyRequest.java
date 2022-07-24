@@ -46,6 +46,22 @@ public class OpenStudyRequest {
 
     private List<Long> tagIds = List.of();
 
+    public List<Long> getTagIds() {
+        return tagIds == null ? List.of() : tagIds;
+    }
+
+    public String getEndDate() {
+        return endDate == null ? "" : endDate.toString();
+    }
+
+    public String getMaxMemberCount() {
+        return maxMemberCount == null ? "" : String.valueOf(maxMemberCount);
+    }
+
+    public String getEnrollmentEndDate() {
+        return enrollmentEndDate == null ? "" : enrollmentEndDate.toString();
+    }
+
     public LocalDateTime getStartDateTime() {
         return LocalDateTime.of(startDate, LocalTime.of(0, 0));
     }

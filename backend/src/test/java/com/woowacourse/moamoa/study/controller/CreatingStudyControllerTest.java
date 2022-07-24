@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.MemberService;
 import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -17,11 +19,13 @@ import com.woowacourse.moamoa.study.service.CreateStudyService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class CreatingStudyControllerTest {
@@ -31,6 +35,14 @@ public class CreatingStudyControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @BeforeEach
+    void initDataBase() {
+        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
+        memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
+        memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
+        memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+    }
 
     @DisplayName("스터디를 생성하여 저장한다.")
     @Test

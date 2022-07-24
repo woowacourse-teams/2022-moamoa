@@ -7,11 +7,31 @@ import static org.hamcrest.Matchers.not;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 
 public class TagAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void initDataBase() {
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+    }
 
     @DisplayName("전체 필터 목록을 조회한다.")
     @Test

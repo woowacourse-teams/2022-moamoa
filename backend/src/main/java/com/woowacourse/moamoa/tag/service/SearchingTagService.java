@@ -19,7 +19,7 @@ public class SearchingTagService {
     }
 
     public TagsResponse getBy(String shortName, Optional<Long> categoryId) {
-        final List<TagData> tagsResponse = tagDao.searchBy(shortName.trim(), categoryId);
+        final List<TagData> tagsResponse = tagDao.searchByShortNameAndCategoryId(shortName.trim(), categoryId);
         return new TagsResponse(tagsResponse);
     }
 }

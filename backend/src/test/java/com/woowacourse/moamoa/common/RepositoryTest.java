@@ -13,6 +13,5 @@ import org.springframework.test.context.jdbc.Sql;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @DataJpaTest(includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Repository.class))
-@Sql("/init.sql")
 public @interface RepositoryTest {
 }

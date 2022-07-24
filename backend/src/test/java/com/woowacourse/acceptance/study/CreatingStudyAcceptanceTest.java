@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,6 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class CreatingStudyAcceptanceTest extends AcceptanceTest {
+
+    @BeforeEach
+    void initDataBase() {
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "greenlawn", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+    }
 
     @DisplayName("유효하지 않은 토큰으로 스터디 개설 시 401을 반환한다.")
     @ParameterizedTest
@@ -49,7 +58,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     @ParameterizedTest
     @MethodSource("provideBlankForRequiredFields")
     void get400WhenSetBlankToRequiredField(Map<String, String> param) {
-        final String jwtToken = getBearerJwtToken(
+        final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
         RestAssured
@@ -93,7 +102,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     @ParameterizedTest
     @MethodSource("provideInvalidFormatForOptionalFields")
     void get400WhenSetInvalidFormatToOptionalFields(Map<String, String> optionalBody) {
-        final String jwtToken = getBearerJwtToken(
+        final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
         Map<String, String> requiredBody = Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디",
@@ -125,7 +134,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("정상적인 스터디 생성")
     void createStudy() {
-        final String jwtToken = getBearerJwtToken(
+        final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
         final String location = RestAssured.given().log().all()

@@ -23,7 +23,7 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<MemberData> getByStudyId(Long studyId) {
+    public List<MemberData> getParticipantsBy(Long studyId) {
         String sql = "SELECT github_id, username, image_url, profile_url "
                 + "FROM member JOIN study_member ON member.id = study_member.member_id "
                 + "WHERE study_member.study_id = ?";

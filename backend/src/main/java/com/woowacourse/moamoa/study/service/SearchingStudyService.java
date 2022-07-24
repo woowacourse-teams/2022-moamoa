@@ -43,9 +43,9 @@ public class SearchingStudyService {
     }
 
     public StudyDetailResponse getStudyDetails(final Long studyId) {
-        final StudyDetailsData content = studyDetailsDao.getById(studyId);
-        final List<MemberData> participants = memberDao.getByStudyId(studyId);
-        final List<TagData> attachedTags = tagDao.getAttachedTagsFrom(studyId);
+        final StudyDetailsData content = studyDetailsDao.getBy(studyId);
+        final List<MemberData> participants = memberDao.getParticipantsBy(studyId);
+        final List<TagData> attachedTags = tagDao.getAttachedTagsByStudyId(studyId);
         return new StudyDetailResponse(content, participants, attachedTags);
     }
 }

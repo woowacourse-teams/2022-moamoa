@@ -25,7 +25,7 @@ public class StudyDetailResponse {
     private String status;
     private String description;
     private Integer currentMemberCount;
-    private Integer maxMemberCount;
+    private String maxMemberCount;
     private String createdAt;
     private String enrollmentEndDate;
     private String startDate;
@@ -44,20 +44,20 @@ public class StudyDetailResponse {
         this.status = study.getStatus();
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
-        this.maxMemberCount = study.getMaxMemberCount();
+        this.maxMemberCount = getNullableDate(study.getMaxMemberCount());
         this.createdAt = study.getCreatedAt().toString();
         this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
-        this.startDate = getNullableDate(study.getStartDate());
+        this.startDate = study.getStartDate().toString();
         this.endDate = getNullableDate(study.getEndDate());
         this.owner = study.getOwner();
         this.members = participants;
         this.tags = attachedTags;
     }
 
-    private String getNullableDate(final LocalDate localDate) {
-        if (localDate == null) {
+    private String getNullableDate(final Object value) {
+        if (value == null) {
             return "";
         }
-        return localDate.toString();
+        return value.toString();
     }
 }

@@ -36,8 +36,15 @@ public class CreateStudyService {
                 .collect(Collectors.toList());
 
         final Member member = memberRepository.findByGithubId(githubId).orElseThrow(() -> new UnauthorizedException(""));
-        final Participants participants = Participants.createByMaxSize(openStudyRequest.getMaxMemberCount(),
-                member.getId());
+
+        Participants participants;
+        if (openStudyRequest.getMaxMemberCount().isBlank()) {
+            participants = Participants.createByMaxSize(null, member.getId());
+        } else {
+            participants = Participants
+                    .createByMaxSize(Integer.parseInt(openStudyRequest.getMaxMemberCount()), member.getId());
+        }
+
         final Details details = new Details(openStudyRequest.getTitle(), openStudyRequest.getExcerpt(),
                 openStudyRequest.getThumbnail(), "OPEN", openStudyRequest.getDescription());
         final Period period = new Period(openStudyRequest.getEnrollmentEndDateTime(),

@@ -28,7 +28,7 @@ public class TagDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<TagData> getAttachedTagsFrom(Long studyId) {
+    public List<TagData> getAttachedTagsByStudyId(Long studyId) {
         String sql = "SELECT t.id as tag_id, t.name as tag_name, t.description as tag_description, "
                 + "c.id as category_id, c.name as category_name "
                 + "FROM tag as t JOIN category as c ON t.category_id = c.id "
@@ -37,7 +37,7 @@ public class TagDao {
         return jdbcTemplate.query(sql, Map.of("studyId", studyId), ROW_MAPPER);
     }
 
-    public List<TagData> searchBy(final String tagShortName, final Optional<Long> categoryId) {
+    public List<TagData> searchByShortNameAndCategoryId(final String tagShortName, final Optional<Long> categoryId) {
         final String sql = sqlForSearchByCategoryAndShortName(categoryId);
         final Map<String, Object> params = paramsForSearchByCategoryAndShortName(tagShortName, categoryId);
         return jdbcTemplate.query(sql, params, ROW_MAPPER);

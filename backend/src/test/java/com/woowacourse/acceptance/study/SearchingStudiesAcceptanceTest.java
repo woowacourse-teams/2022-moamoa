@@ -2,21 +2,69 @@ package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 
 @DisplayName("키워드 검색 인수 테스트")
 public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void initDataBase() {
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "greenlawn", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, start_date, owner_id) VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', '디우의 뤼액트 스터디입니다.', 4, 5, '2021-11-08T11:58:20.551705', '2021-11-09T11:58:20.551705', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, max_member_count, created_at, owner_id) VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'OPEN', '그린론의 자바스크립트 접해보기', 3, 20, '2021-11-08T11:58:20.551705', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id) VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', '디우의 HTTP 정복하기', 5, '2021-11-08T11:58:20.551705', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'Linux를 공부하자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567')");
+
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
+
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5)");
+
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+    }
 
     @DisplayName("잘못된 페이징 정보로 목록을 검색시 400에러를 응답한다.")
     @ParameterizedTest
@@ -134,12 +182,12 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(false))
-                .body("studies", hasSize(3))
-                .body("studies.id", contains(notNullValue(), notNullValue(), notNullValue()))
-                .body("studies.title", contains("Java 스터디", "HTTP 스터디", "알고리즘 스터디"))
-                .body("studies.excerpt", contains("자바 설명", "HTTP 설명", "알고리즘 설명"))
-                .body("studies.thumbnail", contains("java thumbnail", "http thumbnail", "algorithm thumbnail"))
-                .body("studies.status", contains("OPEN", "CLOSE", "CLOSE"));
+                .body("studies", hasSize(2))
+                .body("studies.id", not(empty()))
+                .body("studies.title", contains("Java 스터디", "HTTP 스터디"))
+                .body("studies.excerpt", contains("자바 설명", "HTTP 설명"))
+                .body("studies.thumbnail", contains("java thumbnail", "http thumbnail"))
+                .body("studies.status", contains("OPEN", "CLOSE"));
     }
 
     @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
@@ -177,17 +225,13 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(false))
-                .body("studies", hasSize(5))
-                .body("studies.id", contains(
-                        notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
-                .body("studies.title", contains(
-                        "Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디", "알고리즘 스터디"))
-                .body("studies.excerpt", contains(
-                        "자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명", "알고리즘 설명"))
-                .body("studies.thumbnail", contains(
-                        "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
-                        "algorithm thumbnail"))
-                .body("studies.status", contains("OPEN", "OPEN", "OPEN", "CLOSE", "CLOSE"));
+                .body("studies", hasSize(4))
+                .body("studies.id", not(empty()))
+                .body("studies.title", contains("Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디"))
+                .body("studies.excerpt", contains("자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명"))
+                .body("studies.thumbnail",
+                        contains("java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail"))
+                .body("studies.status", contains("OPEN", "OPEN", "OPEN", "CLOSE"));
     }
 
     @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")

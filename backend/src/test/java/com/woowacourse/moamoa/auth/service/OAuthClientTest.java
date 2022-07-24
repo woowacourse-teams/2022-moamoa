@@ -28,7 +28,6 @@ import org.springframework.web.client.RestTemplate;
         webEnvironment = WebEnvironment.RANDOM_PORT,
         classes = {MoamoaApplication.class}
 )
-@Sql("/init.sql")
 class OAuthClientTest {
 
     private MockRestServiceServer mockServer;
