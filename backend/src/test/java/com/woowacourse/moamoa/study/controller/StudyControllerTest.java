@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.study.domain.query.StudyDao;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.domain.studytag.repository.StudyTagRepository;
 import com.woowacourse.moamoa.study.service.StudyDetailService;
 import com.woowacourse.moamoa.study.service.StudyTagService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
@@ -25,10 +25,13 @@ public class StudyControllerTest {
 
     @Autowired
     private StudyRepository studyRepository;
+
     @Autowired
-    private StudyTagRepository studyTagRepository;
+    private StudyDao studyDao;
+
     @Autowired
     private TagRepository tagRepository;
+
     @Autowired
     private MemberRepository memberRepository;
 
@@ -37,7 +40,7 @@ public class StudyControllerTest {
     @BeforeEach
     void setUp() {
         studyController = new SearchingStudiesController(new StudyDetailService(studyRepository, memberRepository, tagRepository),
-                new StudyTagService(studyTagRepository, studyRepository, tagRepository));
+                new StudyTagService(studyDao, studyRepository, tagRepository));
     }
 
     @DisplayName("페이징 정보로 스터디 목록 조회")
