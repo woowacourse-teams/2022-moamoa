@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.auth.service;
 
-import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenProvider tokenProvider;
     private final OAuthClient oAuthClient;
 
     @Transactional
@@ -25,7 +25,7 @@ public class AuthService {
 
         memberService.saveOrUpdate(githubProfileResponse.toMember());
 
-        final String jwtToken = jwtTokenProvider.createToken(githubProfileResponse.getGitgubId());
+        final String jwtToken = tokenProvider.createToken(githubProfileResponse.getGitgubId());
         return new TokenResponse(jwtToken);
     }
 }
