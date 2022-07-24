@@ -94,18 +94,22 @@ public class AcceptanceTest {
         return "bearer " + token;
     }
 
-    @SneakyThrows
     protected long createStudy(String jwtToken, CreateStudyRequest request) {
-        final String location = RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(objectMapper.writeValueAsString(request))
-                .when().log().all()
-                .post("/api/studies")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract().header(HttpHeaders.LOCATION);
-        return Long.parseLong(location.replaceAll("/api/studies/", ""));
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(objectMapper.writeValueAsString(request))
+                    .when().log().all()
+                    .post("/api/studies")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/", ""));
+        } catch (Exception e) {
+            Assertions.fail("스터디 생성 실패");
+            return -1;
+        }
     }
 
     private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
