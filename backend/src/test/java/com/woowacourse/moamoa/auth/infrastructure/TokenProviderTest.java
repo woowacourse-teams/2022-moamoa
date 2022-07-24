@@ -46,19 +46,39 @@ class TokenProviderTest {
         assertThat(tokenProvider.validateToken(token)).isFalse();
     }
 
-    @DisplayName("JwtToken 유효한 토큰 검증")
+    @DisplayName("유효한 토큰을 검증한다.")
     @Test
-    void isAvailableToken() {
+    void validateTokenByValidToken() {
         String token = tokenProvider.createToken(1L);
 
         assertThat(tokenProvider.validateToken(token)).isTrue();
     }
 
-    @DisplayName("JwtToken payload 검증")
+    @DisplayName("유효하지 않은 토큰을 검증한다.")
     @Test
-    void getPayload() {
+    void validateTokenByInvalidToken() {
+        String token = tokenProvider.createToken(1L);
+
+        String invalidToken = token + "dummy";
+
+        assertThat(tokenProvider.validateToken(invalidToken)).isFalse();
+    }
+
+    @DisplayName("JwtToken payload 검증한다.")
+    @Test
+    void validatePayload() {
         String token = tokenProvider.createToken(1L);
 
         assertThat(tokenProvider.getPayload(token)).isEqualTo("1");
+    }
+    
+    @DisplayName("JwtToken 형식을 검증한다.")
+    @Test
+    void validateJwtTokenFormat() {
+        String token = tokenProvider.createToken(1L);
+
+        final String[] parts = token.split("\\.");
+
+        assertThat(parts.length).isEqualTo(3);
     }
 }
