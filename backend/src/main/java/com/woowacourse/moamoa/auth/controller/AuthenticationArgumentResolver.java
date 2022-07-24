@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.auth.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -29,6 +30,10 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         final String token = AuthenticationExtractor.extract(request);
+        if (token == null) {
+            throw new UnauthorizedException("인증 타입이 올바르지 않습니다.");
+        }
+
         return Long.valueOf(tokenProvider.getPayload(token));
     }
 }
