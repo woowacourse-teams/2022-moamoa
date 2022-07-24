@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.study.controller.request.TagRequest;
 import com.woowacourse.moamoa.study.service.StudyDetailService;
-import com.woowacourse.moamoa.study.service.StudyTagService;
+import com.woowacourse.moamoa.study.service.StudySearchingService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import java.util.List;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchingStudiesController {
 
     private final StudyDetailService studyDetailService;
-    private final StudyTagService studyTagService;
+    private final StudySearchingService studySearchingService;
 
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
             @PageableDefault(size = 5) final Pageable pageable
     ) {
-        final StudiesResponse studiesResponse = studyTagService.searchBy("",
+        final StudiesResponse studiesResponse = studySearchingService.searchBy("",
                 new TagRequest(List.of(), List.of(), List.of()), pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
@@ -40,7 +40,7 @@ public class SearchingStudiesController {
             @ModelAttribute TagRequest tagRequest,
             @PageableDefault(size = 5) final Pageable pageable
     ) {
-        final StudiesResponse studiesResponse = studyTagService.searchBy(title, tagRequest, pageable);
+        final StudiesResponse studiesResponse = studySearchingService.searchBy(title, tagRequest, pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
 

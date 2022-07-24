@@ -9,7 +9,7 @@ import com.woowacourse.moamoa.study.domain.query.StudyDao;
 import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyDetailService;
-import com.woowacourse.moamoa.study.service.StudyTagService;
+import com.woowacourse.moamoa.study.service.StudySearchingService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ public class StudyControllerTest {
     @BeforeEach
     void setUp() {
         studyController = new SearchingStudiesController(new StudyDetailService(studyRepository, memberRepository, tagRepository),
-                new StudyTagService(studyDao, studyRepository, tagRepository));
+                new StudySearchingService(studyDao, studyRepository));
     }
 
     @DisplayName("페이징 정보로 스터디 목록 조회")

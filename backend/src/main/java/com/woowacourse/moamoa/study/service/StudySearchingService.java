@@ -7,7 +7,6 @@ import com.woowacourse.moamoa.study.domain.query.StudySearchCondition;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyResponse;
-import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class StudyTagService {
+public class StudySearchingService {
 
     private final StudyDao studyDao;
     private final StudyRepository studyRepository;
-    private final TagRepository tagRepository;
 
     public StudiesResponse searchBy(final String title, final TagRequest tagRequest, final Pageable pageable) {
         if (tagRequest == null || tagRequest.isEmpty()) {
