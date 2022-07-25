@@ -12,8 +12,7 @@ type NumberInputProps = {
 };
 
 const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ value, onChange }, ref) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { target } = e;
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { selectionStart } = target;
     if (selectionStart === null) return;
 
