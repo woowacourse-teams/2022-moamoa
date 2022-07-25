@@ -14,7 +14,6 @@ import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import io.restassured.RestAssured;
 import java.util.Map;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
