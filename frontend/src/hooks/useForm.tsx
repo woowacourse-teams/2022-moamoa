@@ -81,25 +81,22 @@ export const useForm: UseForm = () => {
 
   const validateField = (name: string): ErrorMessage | null => {
     const field = getField(name);
-    if (!field) return null;
+    if (!field) return null; // Field가 없는것도 문제인데 null을 리턴한다?
 
     const { _ref, validate } = field;
     const input = _ref as HTMLInputElement;
     const { value } = input;
 
-    if (validate) {
-      const result = validate(value);
-      let errorMessage: null | string = null;
-      if (result === false) {
-        errorMessage = '다시 확인해주세요';
-      } else if (isString(result)) {
-        errorMessage = result;
-      }
-      return errorMessage;
-    }
+    if (!validate) return null;
 
-    // 문제가 없는 경우
-    return null;
+    const result = validate(value);
+    let errorMessage: null | string = null;
+    if (result === false) {
+      errorMessage = '다시 확인해주세요';
+    } else if (isString(result)) {
+      errorMessage = result;
+    }
+    return errorMessage;
   };
 
   const handleSubmit: UseFormHandleSubmit = onSubmit => (event: any) => {
