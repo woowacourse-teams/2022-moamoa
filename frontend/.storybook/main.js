@@ -22,6 +22,7 @@ module.exports = {
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
+      '@main-page': resolve(__dirname, '../src/pages/main-page'),
       '@create-study-page': resolve(__dirname, '../src/pages/create-study-page'),
       '@layout': resolve(__dirname, '../src/layout'),
       '@hooks': resolve(__dirname, '../src/hooks'),
