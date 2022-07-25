@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ public class AuthControllerTest {
     private AuthService authService;
 
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private TokenProvider tokenProvider;
 
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
