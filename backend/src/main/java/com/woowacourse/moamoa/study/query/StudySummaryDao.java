@@ -19,21 +19,13 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class StudySummaryDao {
 
-    private static final RowMapper<StudySummaryData> ROW_MAPPER = (rs, rn) -> {
-        final Long id = rs.getLong("id");
-        final String title = rs.getString("title");
-        final String excerpt = rs.getString("excerpt");
-        final String thumbnail = rs.getString("thumbnail");
-        final String status = rs.getString("status");
-        return new StudySummaryData(id, title, excerpt, thumbnail, status);
-    };
+    private static final RowMapper<StudySummaryData> STUDY_ROW_MAPPER = createStudyRowMapper();
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags,
-                                            final Pageable pageable) {
+    public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
         final List<StudySummaryData> data = namedParameterJdbcTemplate
-                .query(sql(searchingTags), params(title, searchingTags, pageable), ROW_MAPPER);
+                .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
 
     }
@@ -89,5 +81,18 @@ public class StudySummaryDao {
 
     private boolean hasNext(final List<StudySummaryData> studies, final Pageable pageable) {
         return studies.size() > pageable.getPageSize();
+    }
+
+    private static RowMapper<StudySummaryData> createStudyRowMapper() {
+        return (resultSet, rowNum) -> {
+            final Long id = resultSet.getLong("id");
+
+            final String title = resultSet.getString("title");
+            final String excerpt = resultSet.getString("excerpt");
+            final String thumbnail = resultSet.getString("thumbnail");
+            final String status = resultSet.getString("status");
+
+            return new StudySummaryData(id, title, excerpt, thumbnail, status);
+        };
     }
 }

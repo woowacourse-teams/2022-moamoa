@@ -1,20 +1,26 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
+
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Study {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Embedded
@@ -40,42 +46,19 @@ public class Study {
 
     public Study(final Long id, final Details details, final Participants participants,
                  final Period period, final AttachedTags attachedTags) {
+        validatePeriod(period);
+
         this.id = id;
         this.details = details;
         this.participants = participants;
         this.period = period;
         this.createdAt = LocalDateTime.now();
         this.attachedTags = attachedTags;
+    }
 
+    private void validatePeriod(final Period period) {
         if (period.isBefore(createdAt)) {
             throw new InvalidPeriodException();
         }
-    }
-
-    protected Study() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Details getDetails() {
-        return details;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public Period getPeriod() {
-        return period;
-    }
-
-    public Participants getParticipants() {
-        return participants;
-    }
-
-    public AttachedTags getAttachedTags() {
-        return attachedTags;
     }
 }
