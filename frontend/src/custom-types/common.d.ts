@@ -6,5 +6,6 @@ declare module '*.json';
 declare namespace NodeJS {
   export interface ProcessEnv {
     API_URL: string;
+    CLIENT_ID: string;
   }
 }

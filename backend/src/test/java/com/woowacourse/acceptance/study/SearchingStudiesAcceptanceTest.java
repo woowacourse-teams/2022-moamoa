@@ -23,9 +23,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
     public void response400WhenRequestByInvalidPagingInfo(String page, String size) {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("page", page)
-                .param("size", size)
+                .queryParam("title", "java")
+                .queryParam("page", page)
+                .queryParam("size", size)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -37,8 +37,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByDefaultPage() {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("size", 5)
+                .queryParam("title", "java")
+                .queryParam("size", 5)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -50,8 +50,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     public void getStudiesByDefaultSize() {
         RestAssured.given().log().all()
-                .param("title", "java")
-                .param("page", 0)
+                .queryParam("title", "java")
+                .queryParam("page", 0)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -85,9 +85,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     void getStudiesByTrimKeyword() {
         RestAssured.given().log().all()
-                .param("title", "   java   ")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "   java   ")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -105,9 +105,101 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     void getStudiesByHasSpaceKeyword() {
         RestAssured.given().log().all()
-                .param("title", "Java 스터디")
-                .param("page", 0)
-                .param("size", 3)
+                .queryParam("title", "Java 스터디")
+                .queryParam("page", 0)
+                .queryParam("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(1))
+                .body("studies.id", contains(notNullValue()))
+                .body("studies.title", contains("Java 스터디"))
+                .body("studies.excerpt", contains("자바 설명"))
+                .body("studies.thumbnail", contains("java thumbnail"))
+                .body("studies.status", contains("OPEN"));
+    }
+
+    @DisplayName("필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByFilter() {
+        RestAssured.given().log().all()
+                .queryParam("title", "")
+                .queryParam("area", 3)
+                .queryParam("page", 0)
+                .queryParam("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(3))
+                .body("studies.id", contains(notNullValue(), notNullValue(), notNullValue()))
+                .body("studies.title", contains("Java 스터디", "HTTP 스터디", "알고리즘 스터디"))
+                .body("studies.excerpt", contains("자바 설명", "HTTP 설명", "알고리즘 설명"))
+                .body("studies.thumbnail", contains("java thumbnail", "http thumbnail", "algorithm thumbnail"))
+                .body("studies.status", contains("OPEN", "CLOSE", "CLOSE"));
+    }
+
+    @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByFilterAndTitle() {
+        RestAssured.given().log().all()
+                .queryParam("title", "ja")
+                .queryParam("area", 3)
+                .queryParam("page", 0)
+                .queryParam("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(1))
+                .body("studies.id", contains(notNullValue()))
+                .body("studies.title", contains("Java 스터디"))
+                .body("studies.excerpt", contains("자바 설명"))
+                .body("studies.thumbnail", contains("java thumbnail"))
+                .body("studies.status", contains("OPEN"));
+    }
+
+    @DisplayName("같은 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesBySameCategoryFilter() {
+        RestAssured.given().log().all()
+                .queryParam("title", "")
+                .queryParam("area", 3)
+                .queryParam("area", 4)
+                .queryParam("page", 0)
+                .queryParam("size", 5)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasNext", is(false))
+                .body("studies", hasSize(5))
+                .body("studies.id", contains(
+                        notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
+                .body("studies.title", contains(
+                        "Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디", "알고리즘 스터디"))
+                .body("studies.excerpt", contains(
+                        "자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명", "알고리즘 설명"))
+                .body("studies.thumbnail", contains(
+                        "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
+                        "algorithm thumbnail"))
+                .body("studies.status", contains("OPEN", "OPEN", "OPEN", "CLOSE", "CLOSE"));
+    }
+
+    @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
+    @Test
+    public void getStudiesByAnotherCategoryFilter() {
+        RestAssured.given().log().all()
+                .queryParam("title", "")
+                .queryParam("area", 3)
+                .queryParam("subject", 1)
+                .queryParam("tag", 1)
+                .queryParam("page", 0)
+                .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()

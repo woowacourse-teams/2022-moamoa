@@ -11,6 +11,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: join(__dirname, '../dist'),
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -42,9 +43,14 @@ module.exports = {
       '@custom-types': resolve(__dirname, '../src/custom-types'),
       '@pages': resolve(__dirname, '../src/pages'),
       '@assets': resolve(__dirname, '../src/assets'),
+      '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
+      '@main-page': resolve(__dirname, '../src/pages/main-page'),
+      '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
+      '@layout': resolve(__dirname, '../src/layout'),
+      '@hooks': resolve(__dirname, '../src/hooks'),
     },
   },
 };

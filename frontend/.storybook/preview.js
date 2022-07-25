@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
 
@@ -20,12 +21,14 @@ export const parameters = {
 export const decorators = [
   (Story, context) => {
     return (
-      <ThemeProvider theme={theme}>
-        <SearchProvider>
-          <GlobalStyles />
-          <Story {...context} />
-        </SearchProvider>
-      </ThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <SearchProvider>
+            <GlobalStyles />
+            <Story {...context} />
+          </SearchProvider>
+        </ThemeProvider>
+      </BrowserRouter>
     );
   },
 ];

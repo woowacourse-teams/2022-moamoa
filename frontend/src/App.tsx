@@ -1,14 +1,24 @@
+import { useContext } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
 import { css } from '@emotion/react';
 
-import MainPage from '@pages/MainPage';
+import { LoginContext } from '@context/login/LoginProvider';
 
-import Footer from '@components/Footer';
-import Header from '@components/Header';
-import Wrapper from '@components/Wrapper';
+import Footer from '@layout/footer/Footer';
+import Header from '@layout/header/Header';
+
+import ErrorPage from '@pages/error-page/ErrorPage';
+import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
+import MainPage from '@pages/main-page/MainPage';
+
+import DetailPage from '@detail-page/DetailPage';
 
 const App = () => {
+  const { isLoggedIn } = useContext(LoginContext);
+
   return (
-    <div>
+    <BrowserRouter>
       <Header
         css={css`
           position: fixed;
@@ -24,12 +34,15 @@ const App = () => {
           min-height: calc(100vh - 80px);
         `}
       >
-        <Wrapper>
-          <MainPage />
-        </Wrapper>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/study/:studyId" element={<DetailPage />} />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       </main>
       <Footer />
-    </div>
+    </BrowserRouter>
   );
 };
 

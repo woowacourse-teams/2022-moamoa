@@ -6,11 +6,13 @@ import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
 
+import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
 
 import App from './App';
 
 if (process.env.NODE_ENV == 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { worker } = require('./mocks/browser');
   worker.start();
 }
@@ -28,10 +30,12 @@ if ($root) {
   root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <SearchProvider>
-          <GlobalStyles />
-          <App />
-        </SearchProvider>
+        <LoginProvider>
+          <SearchProvider>
+            <GlobalStyles />
+            <App />
+          </SearchProvider>
+        </LoginProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );
