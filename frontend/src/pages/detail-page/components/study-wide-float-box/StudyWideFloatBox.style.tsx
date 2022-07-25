@@ -7,7 +7,7 @@ export const StudyWideFloatBox = styled.div`
     justify-content: space-between;
     column-gap: 16px;
 
-    padding: 40px 40px 30px 40px;
+    padding: 15px;
 
     line-height: 24px;
     font-size: 24px;
@@ -24,7 +24,7 @@ export const ExtraInfo = styled.div`
 `;
 
 export const Deadline = styled.p`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   font-size: 20px;
 
