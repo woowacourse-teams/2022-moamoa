@@ -7,19 +7,17 @@ import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class StudyDetailsDao {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public StudyDetailsDao(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public StudyDetailsData findBy(Long studyId) {
         String sql = "SELECT study.id, title, excerpt, thumbnail, status, description, current_member_count, "

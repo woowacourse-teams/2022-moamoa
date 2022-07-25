@@ -34,6 +34,7 @@ public class CreateStudyService {
         final Details details = request.mapToDetails();
         final Period period = request.mapToPeriod();
         final AttachedTags attachedTags = request.mapToAttachedTags();
+
         return studyRepository.save(new Study(details, participants, period, attachedTags));
     }
 
