@@ -34,3 +34,6 @@ jobs:
     
     - name: Build
       run: npm run build
+      
+    - name: Deploy
+      run: curl ${{ secrets.FE_DEPLOY_REQUEST_URL }}
