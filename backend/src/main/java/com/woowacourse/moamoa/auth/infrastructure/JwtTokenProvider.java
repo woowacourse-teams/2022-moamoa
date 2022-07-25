@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
 
     private final SecretKey key;
     private final long validityInMilliseconds;
@@ -26,6 +26,7 @@ public class JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
+    @Override
     public String createToken(final Long payload) {
         final Date now = new Date();
         final Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -38,6 +39,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    @Override
     public String getPayload(final String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -47,6 +49,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    @Override
     public boolean validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()

@@ -11,12 +11,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class AuthConfiguration implements WebMvcConfigurer {
+public class AuthConfig implements WebMvcConfigurer {
 
     private final AuthenticationInterceptor authenticationInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
-    public AuthConfiguration(
+    public AuthConfig(
             final AuthenticationInterceptor authenticationInterceptor,
             final AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.authenticationInterceptor = authenticationInterceptor;
