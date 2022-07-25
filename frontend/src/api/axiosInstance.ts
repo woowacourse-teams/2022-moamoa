@@ -21,7 +21,6 @@ axiosInstance.interceptors.response.use(response => response, handleAxiosError);
 axiosInstance.interceptors.request.use(
   config => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log('accessToken', accessToken);
     if (!accessToken) return config;
     if (!config.headers) {
       config.headers = {

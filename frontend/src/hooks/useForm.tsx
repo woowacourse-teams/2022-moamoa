@@ -107,7 +107,7 @@ export const useForm: UseForm = () => {
     if (!_fields.current) return;
 
     // 초기화를 한다
-    setFormState(prev => ({
+    setFormState(() => ({
       errors: {},
       isSubmitting: true,
       isSubmitted: false,
@@ -129,7 +129,6 @@ export const useForm: UseForm = () => {
     let isValid = true;
     Object.keys(values).forEach(name => {
       const errorMessage = validateField(name);
-      console.log('errorMessage : ', errorMessage);
       if (errorMessage) {
         isValid = false;
         errors[name] = errorMessage;
@@ -137,7 +136,7 @@ export const useForm: UseForm = () => {
     });
 
     if (!isValid) {
-      setFormState(prev => ({
+      setFormState(() => ({
         errors,
         isSubmitting: false,
         isSubmitted: false,
@@ -151,7 +150,7 @@ export const useForm: UseForm = () => {
     if (result) {
       result
         .then(() => {
-          setFormState(prev => ({
+          setFormState(() => ({
             errors: {},
             isSubmitting: false,
             isSubmitted: true,
@@ -159,8 +158,8 @@ export const useForm: UseForm = () => {
             isValid,
           }));
         })
-        .catch((e: any) => {
-          setFormState(prev => ({
+        .catch(() => {
+          setFormState(() => ({
             errors: {}, // TODO: 이래도 되나 싶다
             isSubmitting: false,
             isSubmitted: true,
@@ -169,7 +168,7 @@ export const useForm: UseForm = () => {
           }));
         })
         .finally(() => {
-          setFormState(prev => ({
+          setFormState(() => ({
             errors: {},
             isSubmitting: false,
             isSubmitted: false,

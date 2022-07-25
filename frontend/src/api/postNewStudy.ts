@@ -15,7 +15,6 @@ export type StudyDetailPostData = {
 
 const postNewStudy = async (data: StudyDetailPostData) => {
   const response = await axiosInstance.post<any, any, StudyDetailPostData>(`/api/studies`, data);
-  console.log('response', response);
   return response;
 };
 

@@ -30,10 +30,7 @@ function getRandomInt(min: number, max: number) {
 const CreateStudyPage: React.FC = () => {
   const formMethods = useForm();
   const { formState } = formMethods;
-  const { isValid, errors } = formState;
-
-  console.log('errors : ', errors);
-  console.log('isValid : ', isValid);
+  const { errors } = formState;
 
   const navigate = useNavigate();
   const { mutateAsync } = usePostNewStudy();
@@ -65,8 +62,6 @@ const CreateStudyPage: React.FC = () => {
 
     const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
 
-    console.log('values : ', values);
-
     const postData: StudyDetailPostData = {
       title: values['title'],
       excerpt: values['excerpt'],
@@ -78,8 +73,6 @@ const CreateStudyPage: React.FC = () => {
       endDate: values['end-date'], // nullable
       tagIds,
     };
-
-    console.log('postData : ', postData);
 
     // TODO: DetailPage로 Redirect하기
     return mutateAsync(postData, {
@@ -99,7 +92,7 @@ const CreateStudyPage: React.FC = () => {
       alert('로그인 후 이용해 주세요');
       navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <Wrapper>
