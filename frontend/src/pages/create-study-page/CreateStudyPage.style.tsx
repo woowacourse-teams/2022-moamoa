@@ -1,8 +1,8 @@
+import { DescriptionTab } from '@create-study-page/components/description-tab/DescriptionTab.style';
+
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils/media-query';
-
-import { DescriptionTab } from './components/description-tab/DescriptionTab.style';
 
 const sidebarWidth = 280;
 const mainGabSidebar = 40;

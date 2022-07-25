@@ -17,7 +17,7 @@ import StudyCard from '@pages/main-page/study-card/StudyCard';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import CreateNewStudyButton from './create-new-study-button/CreateNewStudyButton';
+import CreateNewStudyButton from '@main-page/create-new-study-button/CreateNewStudyButton';
 
 type PageParam = {
   page: number;

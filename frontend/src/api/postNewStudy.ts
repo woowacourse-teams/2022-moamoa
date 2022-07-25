@@ -1,6 +1,6 @@
 import type { MakeOptional, StudyDetail } from '@custom-types/index';
 
-import axiosInstance from './axiosInstance';
+import axiosInstance from '@api/axiosInstance';
 
 export type StudyDetailPostData = {
   tagIds: Array<number>;
