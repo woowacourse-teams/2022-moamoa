@@ -48,7 +48,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           fluid={true}
           onClick={handleRegisterBtnClick(studyId)}
         >
-          스터디 방 가입하기
+          가입
         </Button>
       </div>
     </S.StudyWideFloatBox>
