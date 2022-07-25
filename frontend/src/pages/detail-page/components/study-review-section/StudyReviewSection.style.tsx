@@ -32,6 +32,10 @@ export const ReviewList = styled.ul`
 
 export const ReviewListItem = styled.li`
   width: calc(50% - 30px);
+
+  ${mqDown('md')} {
+    width: 100%;
+  }
 `;
 
 export const MoreButtonContainer = styled.div`
