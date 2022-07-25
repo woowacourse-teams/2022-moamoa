@@ -4,33 +4,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.tag.domain.CategoryId;
-import com.woowacourse.moamoa.tag.query.TagsSearcher;
-import com.woowacourse.moamoa.tag.query.response.TagsResponse;
+import com.woowacourse.moamoa.tag.query.TagDao;
+import com.woowacourse.moamoa.tag.service.SearchingTagService;
+import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 class SearchingTagControllerTest {
 
     @Autowired
-    private TagsSearcher tagsSearcher;
+    private TagDao tagDao;
 
     private SearchingTagController searchingTagController;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @BeforeEach
-    void setUp() {
-        searchingTagController = new SearchingTagController(tagsSearcher);
+    void initDataBase() {
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
     }
 
-    @DisplayName("필터 목록 전체를 조회한다.")
+    @BeforeEach
+    void setUp() {
+        searchingTagController = new SearchingTagController(new SearchingTagService(tagDao));
+    }
+
+    @DisplayName("태그 목록 전체를 조회한다.")
     @Test
-    void getFilters() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", CategoryId.empty());
+    void searchAllTags() {
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", Optional.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -45,10 +63,10 @@ class SearchingTagControllerTest {
                 );
     }
 
-    @DisplayName("필터 이름을 대소문자 구분없이 앞뒤 공백을 제거해 필터 목록을 조회한다.")
+    @DisplayName("태그의 짧은 이름을 대소문자 구분없이 앞뒤 공백을 제거해 태그 목록을 조회한다.")
     @Test
-    void getFiltersByName() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("   ja  \t ", CategoryId.empty());
+    void searchTagsByShortName() {
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("   ja  \t ", Optional.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -59,9 +77,10 @@ class SearchingTagControllerTest {
                 );
     }
 
+    @DisplayName("카테고리 ID로 태그 목록을 조회한다.")
     @Test
-    void getFiltersByCategoryId() {
-        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", new CategoryId(3L));
+    void searchTagsByCategoryId() {
+        ResponseEntity<TagsResponse> response = searchingTagController.searchTags("", Optional.of(3L));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();

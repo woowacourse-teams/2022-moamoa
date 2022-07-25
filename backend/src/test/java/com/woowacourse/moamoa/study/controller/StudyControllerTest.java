@@ -1,22 +1,27 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.tag.domain.repository.TagRepository;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Participants;
+import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.domain.studytag.repository.StudyTagRepository;
-import com.woowacourse.moamoa.study.service.StudyDetailService;
-import com.woowacourse.moamoa.study.service.StudyTagService;
-import com.woowacourse.moamoa.study.service.response.StudiesResponse;
+import com.woowacourse.moamoa.study.service.CreateStudyService;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,84 +30,91 @@ public class StudyControllerTest {
 
     @Autowired
     private StudyRepository studyRepository;
-    @Autowired
-    private StudyTagRepository studyTagRepository;
-    @Autowired
-    private TagRepository tagRepository;
+
     @Autowired
     private MemberRepository memberRepository;
 
-    private SearchingStudiesController studyController;
-
     @BeforeEach
-    void setUp() {
-        studyController = new SearchingStudiesController(new StudyDetailService(studyRepository, memberRepository, tagRepository),
-                new StudyTagService(studyTagRepository, studyRepository, tagRepository));
+    void initDataBase() {
+        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
     }
 
-    @DisplayName("페이징 정보로 스터디 목록 조회")
+    @DisplayName("스터디를 생성하여 저장한다.")
     @Test
-    public void getStudies() {
-        ResponseEntity<StudiesResponse> response = studyController.getStudies(PageRequest.of(0, 3));
+    void openStudy() {
+        // given
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now().plusDays(3))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(10)
+                .tagIds(List.of(1L, 2L))
+                .build();
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().isHasNext()).isTrue();
-        assertThat(response.getBody().getStudies())
-                .hasSize(3)
-                .extracting("id", "title", "excerpt", "thumbnail", "status")
-                .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"))
-                );
+        // when
+        final ResponseEntity<Void> response = sut.createStudy(1L, createStudyRequest);
+
+        // then
+        final String id = response.getHeaders().getLocation().getPath().replace("/api/studies/", "");
+        Long studyId = Long.valueOf(id);
+        Optional<Study> study = studyRepository.findById(studyId);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(study).isNotEmpty();
+        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "자바 스터디 상세설명 입니다."));
+        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
+                memberRepository.findByGithubId(1L).get().getId()));
+        assertThat(study.get().getCreatedAt()).isNotNull();
+        assertThat(study.get().getPeriod()).isEqualTo(
+                new Period(LocalDate.parse(createStudyRequest.getEnrollmentEndDate()),
+                        createStudyRequest.getStartDate(), LocalDate.parse(createStudyRequest.getEndDate())));
+        assertThat(study.get().getAttachedTags().getValue())
+                .extracting("tagId").containsAnyElementsOf(createStudyRequest.getTagIds());
     }
 
-    @DisplayName("빈 문자열로 검색시 전체 스터디 목록에서 조회")
+    @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
-    void searchByBlankKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController.searchStudies("", null, PageRequest.of(0, 3));
+    void createStudyByInvalidPeriod() {
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now().minusDays(1))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(10)
+                .tagIds(List.of(1L, 2L))
+                .build();
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().isHasNext()).isTrue();
-        assertThat(response.getBody().getStudies())
-                .hasSize(3)
-                .extracting("id", "title", "excerpt", "thumbnail", "status")
-                .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"))
-                );
+        // when
+        assertThatThrownBy(() -> sut.createStudy(1L, createStudyRequest))
+                .isInstanceOf(InvalidPeriodException.class);
     }
 
-    @DisplayName("문자열로 검색시 해당되는 스터디 목록에서 조회")
+    @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
     @Test
-    void searchByKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController.searchStudies("Java 스터디", null,
-                PageRequest.of(0, 3));
+    void createStudyByNotFoundUser() {
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(10)
+                .tagIds(List.of(1L, 2L))
+                .build();
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().isHasNext()).isFalse();
-        assertThat(response.getBody().getStudies())
-                .hasSize(1)
-                .extracting("id", "title", "excerpt", "thumbnail", "status")
-                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
-    }
-
-    @DisplayName("앞뒤 공백을 제거한 문자열로 스터디 목록 조회")
-    @Test
-    void searchWithTrimKeyword() {
-        ResponseEntity<StudiesResponse> response = studyController
-                .searchStudies("   Java 스터디   ", null, PageRequest.of(0, 3));
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().isHasNext()).isFalse();
-        assertThat(response.getBody().getStudies())
-                .hasSize(1)
-                .extracting("id", "title", "excerpt", "thumbnail", "status")
-                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
+        // when
+        assertThatThrownBy(() -> sut.createStudy(100L, createStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
+                .isInstanceOf(UnauthorizedException.class);
     }
 }

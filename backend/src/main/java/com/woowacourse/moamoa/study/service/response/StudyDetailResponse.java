@@ -1,8 +1,9 @@
 package com.woowacourse.moamoa.study.service.response;
 
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.tag.query.response.TagResponse;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
+import com.woowacourse.moamoa.tag.query.response.TagData;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,35 +25,39 @@ public class StudyDetailResponse {
     private String status;
     private String description;
     private Integer currentMemberCount;
-    private Integer maxMemberCount;
+    private String maxMemberCount;
     private String createdAt;
     private String enrollmentEndDate;
     private String startDate;
     private String endDate;
-    private MemberResponse owner;
-    private List<MemberResponse> members;
-    private List<TagResponse> tags;
+    private MemberData owner;
+    private List<MemberData> members;
+    private List<TagData> tags;
 
-    public StudyDetailResponse(final Study study, final MemberResponse owner, final List<MemberResponse> membersResponse,
-                               final List<TagResponse> attachedTags) {
+    public StudyDetailResponse(final StudyDetailsData study,
+                               final List<MemberData> participants,
+                               final List<TagData> attachedTags) {
         this.id = study.getId();
-        this.title = study.getDetails().getTitle();
-        this.excerpt = study.getDetails().getExcerpt();
-        this.thumbnail = study.getDetails().getThumbnail();
-        this.status = study.getDetails().getStatus();
-        this.description = study.getDetails().getDescription();
-        this.currentMemberCount = study.getParticipants().getSize();
-        this.maxMemberCount = study.getParticipants().getMax();
-        this.createdAt = getNullableDate(study.getCreatedAt());
-        this.enrollmentEndDate = getNullableDate(study.getPeriod() == null ? null : study.getPeriod().getEnrollmentEndDate());
-        this.startDate = getNullableDate(study.getPeriod().getStartDate());
-        this.endDate = getNullableDate(study.getPeriod().getEndDate() == null ? null : study.getPeriod().getEndDate());
-        this.owner = owner;
-        this.members = membersResponse;
+        this.title = study.getTitle();
+        this.excerpt = study.getExcerpt();
+        this.thumbnail = study.getThumbnail();
+        this.status = study.getStatus();
+        this.description = study.getDescription();
+        this.currentMemberCount = study.getCurrentMemberCount();
+        this.maxMemberCount = getNullableDate(study.getMaxMemberCount());
+        this.createdAt = study.getCreatedAt().toString();
+        this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
+        this.startDate = study.getStartDate().toString();
+        this.endDate = getNullableDate(study.getEndDate());
+        this.owner = study.getOwner();
+        this.members = participants;
         this.tags = attachedTags;
     }
 
-    private String getNullableDate(final LocalDateTime localDateTime) {
-        return Optional.ofNullable(localDateTime).map(date -> date.toLocalDate().toString()).orElse("");
+    private String getNullableDate(final Object value) {
+        if (value == null) {
+            return "";
+        }
+        return value.toString();
     }
 }

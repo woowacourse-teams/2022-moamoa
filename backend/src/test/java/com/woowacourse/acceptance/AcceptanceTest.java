@@ -11,8 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import io.restassured.RestAssured;
 import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,10 +34,12 @@ import org.springframework.web.client.RestTemplate;
         webEnvironment = WebEnvironment.RANDOM_PORT,
         classes = {MoamoaApplication.class}
 )
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class AcceptanceTest {
     @LocalServerPort
     protected int port;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -61,7 +65,21 @@ public class AcceptanceTest {
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
 
-    protected String getBearerJwtToken(GithubProfileResponse response) {
+    @AfterEach
+    void tearDown() {
+        jdbcTemplate.update("DELETE FROM study_tag");
+        jdbcTemplate.update("DELETE FROM study_member");
+        jdbcTemplate.update("DELETE FROM tag");
+        jdbcTemplate.update("DELETE FROM category");
+        jdbcTemplate.update("DELETE FROM review");
+        jdbcTemplate.update("DELETE FROM study");
+        jdbcTemplate.update("DELETE FROM member");
+
+        jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
+        jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
+    }
+
+    protected String getBearerTokenBySignInOrUp(GithubProfileResponse response) {
         final String authorizationCode = "Authorization Code";
         mockingGithubServer(authorizationCode, response);
         final String token = RestAssured.given().log().all()
@@ -75,7 +93,25 @@ public class AcceptanceTest {
         return "bearer " + token;
     }
 
-    protected void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
+    protected long createStudy(String jwtToken, CreateStudyRequest request) {
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(objectMapper.writeValueAsString(request))
+                    .when().log().all()
+                    .post("/api/studies")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/", ""));
+        } catch (Exception e) {
+            Assertions.fail("스터디 생성 실패");
+            return -1;
+        }
+    }
+
+    private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
             mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
                     "token_type", "bearer",

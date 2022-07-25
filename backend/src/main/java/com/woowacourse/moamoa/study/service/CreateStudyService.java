@@ -3,15 +3,13 @@ package com.woowacourse.moamoa.study.service;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.controller.request.OpenStudyRequest;
-import com.woowacourse.moamoa.study.domain.AttachedTag;
+import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,21 +26,15 @@ public class CreateStudyService {
         this.studyRepository = studyRepository;
     }
 
-    public Study createStudy(final Long githubId, final OpenStudyRequest openStudyRequest) {
-        final List<AttachedTag> attachedTags = openStudyRequest.getTagIds()
-                .stream()
-                .map(AttachedTag::new)
-                .collect(Collectors.toList());
+    public Study createStudy(final Long githubId, final CreateStudyRequest request) {
+        final Member owner = memberRepository.findByGithubId(githubId)
+                .orElseThrow(() -> new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId)));
 
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(() -> new UnauthorizedException(""));
-        final Participants participants = Participants.createByMaxSize(openStudyRequest.getMaxMemberCount());
-        final Details details = new Details(openStudyRequest.getTitle(), openStudyRequest.getExcerpt(),
-                openStudyRequest.getThumbnail(), "OPEN", openStudyRequest.getDescription());
-        final Period period = new Period(openStudyRequest.getEnrollmentEndDateTime(),
-                openStudyRequest.getStartDateTime(),
-                openStudyRequest.getEndDateTime());
-
-        return studyRepository.save(new Study(details, participants, member, period, attachedTags));
+        final Participants participants = request.mapToParticipants(owner.getId());
+        final Details details = request.mapToDetails();
+        final Period period = request.mapToPeriod();
+        final AttachedTags attachedTags = request.mapToAttachedTags();
+        return studyRepository.save(new Study(details, participants, period, attachedTags));
     }
 
 }

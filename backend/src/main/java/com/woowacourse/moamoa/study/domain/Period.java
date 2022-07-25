@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.domain;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -9,18 +10,18 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Period {
 
-    private LocalDateTime enrollmentEndDate;
+    private LocalDate enrollmentEndDate;
 
     @Column(nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     public Period() {
     }
 
-    public Period(final LocalDateTime enrollmentEndDate, final LocalDateTime startDate, final LocalDateTime endDate) {
-        if ((endDate != null && startDate.isAfter(endDate)) || (enrollmentEndDate != null && enrollmentEndDate.isAfter(endDate))) {
+    public Period(final LocalDate enrollmentEndDate, final LocalDate startDate, final LocalDate endDate) {
+        if ((endDate != null && startDate.isAfter(endDate)) || (enrollmentEndDate != null && endDate != null && enrollmentEndDate.isAfter(endDate))) {
             throw new InvalidPeriodException();
         }
         this.enrollmentEndDate = enrollmentEndDate;
@@ -29,19 +30,7 @@ public class Period {
     }
 
     public boolean isBefore(final LocalDateTime createAt) {
-        return startDate.isBefore(createAt) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(createAt));
-    }
-
-    public LocalDateTime getEnrollmentEndDate() {
-        return enrollmentEndDate;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
+        return startDate.isBefore(createAt.toLocalDate()) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(createAt.toLocalDate()));
     }
 
     @Override
