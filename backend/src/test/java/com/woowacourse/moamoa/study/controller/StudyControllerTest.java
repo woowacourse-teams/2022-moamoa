@@ -26,7 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class CreatingStudyControllerTest {
+public class StudyControllerTest {
 
     @Autowired
     private StudyRepository studyRepository;
@@ -43,7 +43,7 @@ public class CreatingStudyControllerTest {
     @Test
     void openStudy() {
         // given
-        CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
         final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -66,7 +66,7 @@ public class CreatingStudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(study).isNotEmpty();
         assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "자바 스터디 상세설명 입니다."));
-        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSize(10,
+        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
@@ -79,7 +79,7 @@ public class CreatingStudyControllerTest {
     @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
     void createStudyByInvalidPeriod() {
-        CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
         final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -100,7 +100,7 @@ public class CreatingStudyControllerTest {
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
     @Test
     void createStudyByNotFoundUser() {
-        CreatingStudyController sut = new CreatingStudyController(new CreateStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
         final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")

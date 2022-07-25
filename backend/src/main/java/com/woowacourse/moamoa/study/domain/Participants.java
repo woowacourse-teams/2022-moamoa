@@ -43,7 +43,7 @@ public class Participants {
         return new ArrayList<>(participants);
     }
 
-    public static Participants createByMaxSize(final Integer maxSize, Long id) {
+    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {
         return new Participants(1, maxSize, new ArrayList<>(), id);
     }
 

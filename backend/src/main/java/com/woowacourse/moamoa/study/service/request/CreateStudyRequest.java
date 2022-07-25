@@ -75,7 +75,7 @@ public class CreateStudyRequest {
     }
 
     public Participants mapToParticipants(Long ownerId) {
-        return Participants.createByMaxSize(maxMemberCount, ownerId);
+        return Participants.createByMaxSizeAndOwnerId(maxMemberCount, ownerId);
     }
 
     public AttachedTags mapToAttachedTags() {

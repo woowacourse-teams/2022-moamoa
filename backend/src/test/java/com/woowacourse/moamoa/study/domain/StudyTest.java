@@ -16,7 +16,7 @@ public class StudyTest {
     void createdAtMustBeforeStartDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", "OPEN", "description");
         final Member member = new Member(1L, "username", "image", "profile");
-        final Participants participants = Participants.createByMaxSize(10, member.getId());
+        final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
 
         assertThatThrownBy(() -> new Study(details, participants,
                 new Period(LocalDate.now().plusDays(10), LocalDate.now().minusDays(1),
@@ -29,7 +29,7 @@ public class StudyTest {
     void createdAtMustBeforeEnrollmentEndDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", "OPEN", "description");
         final Member member = new Member(1L, "username", "image", "profile");
-        final Participants participants = Participants.createByMaxSize(10, member.getId());
+        final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
 
         assertThatThrownBy(() -> new Study(details, participants,
                 new Period(LocalDate.now().minusDays(1), LocalDate.now().plusDays(4),
@@ -42,7 +42,7 @@ public class StudyTest {
     void createdAtCanSameWithStartAndEndAndEnrollmentDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", "OPEN", "description");
         final Member member = new Member(1L, "username", "image", "profile");
-        final Participants participants = Participants.createByMaxSize(10, member.getId());
+        final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
 
         assertThatCode(() -> new Study(details, participants,
                 new Period(LocalDate.now(), LocalDate.now(), LocalDate.now()), AttachedTags.empty()))

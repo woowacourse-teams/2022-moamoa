@@ -15,9 +15,7 @@ public class AttachedTags {
     @CollectionTable(name = "study_tag", joinColumns = @JoinColumn(name = "study_id"))
     private List<AttachedTag> attachedTags = new ArrayList<>();
 
-    protected AttachedTags() {
-
-    }
+    protected AttachedTags() { }
 
     public AttachedTags(final List<AttachedTag> attachedTags) {
         this.attachedTags = attachedTags;
@@ -40,7 +38,7 @@ public class AttachedTags {
             return false;
         }
         final AttachedTags that = (AttachedTags) o;
-        return Objects.equals(attachedTags, that.attachedTags);
+        return Objects.equals(getValue(), that.getValue());
     }
 
     @Override

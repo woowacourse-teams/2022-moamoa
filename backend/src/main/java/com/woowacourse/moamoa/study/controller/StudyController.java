@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Getter
-public class CreatingStudyController {
+public class StudyController {
 
     private final CreateStudyService createStudyService;
 
