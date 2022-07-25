@@ -122,7 +122,7 @@ class TagDaoTest {
     @Test
     void getAttachedTagsByStudyId() {
         // Java 스터디에 부착된 태그 : Java, 4기, BE
-        final List<TagData> attachedTags = tagDao.getAttachedTagsByStudyId(1L);
+        final List<TagData> attachedTags = tagDao.findTagsByStudyId(1L);
 
         assertThat(attachedTags)
                 .hasSize(3)
@@ -137,7 +137,7 @@ class TagDaoTest {
     @DisplayName("스터디에 부여된 태그가 없는 경우 빈 목록을 조회한다.")
     @Test
     void getEmptyAttachedTagsByStudyId() {
-        final List<TagData> attachedTags = tagDao.getAttachedTagsByStudyId(6L);
+        final List<TagData> attachedTags = tagDao.findTagsByStudyId(6L);
 
         assertThat(attachedTags).isEmpty();
     }

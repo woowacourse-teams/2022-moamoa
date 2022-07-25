@@ -21,9 +21,7 @@ public class StudyDetailsDataBuilder {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    StudyDetailsDataBuilder() {
-
-    }
+    StudyDetailsDataBuilder() { }
 
     public StudyDetailsDataBuilder id(Long id) {
         this.id = id;

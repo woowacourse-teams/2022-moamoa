@@ -75,7 +75,7 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasEnrollmentEndDateAndEndDateStudyDetails() {
         // 알고리즘 스터디는 모집 기간과 스터디 종료일자가 없음
-        final StudyDetailsData actual = sut.getBy(5L);
+        final StudyDetailsData actual = sut.findBy(5L);
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
@@ -97,7 +97,7 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasMaxMemberCountStudyDetails() {
         // Linux 스터디는 최대 인원 정보가 없음
-        final StudyDetailsData actual = sut.getBy(6L);
+        final StudyDetailsData actual = sut.findBy(6L);
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
