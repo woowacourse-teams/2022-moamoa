@@ -59,14 +59,14 @@ public class StudyDao {
 
     private Map<String, Object> params(final StudySearchCondition condition,
                                        final Pageable pageable) {
-        final Map<String, Object> filterIds = Stream.of(CategoryName.values())
+        final Map<String, Object> tagIds = Stream.of(CategoryName.values())
                 .collect(Collectors.toMap(Enum::name, condition::getTagIdsBy));
 
         Map<String, Object> param = new HashMap<>();
         param.put("title", "%" + condition.getTitle() + "%");
         param.put("limit", pageable.getPageSize() + 1);
         param.put("offset", pageable.getOffset());
-        param.putAll(filterIds);
+        param.putAll(tagIds);
         return param;
     }
 
