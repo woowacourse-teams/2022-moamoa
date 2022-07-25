@@ -11,40 +11,30 @@ type NumberInputProps = {
   onChange: (val: number) => void;
 };
 
-const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  ({ className, value, max, onChange }, ref) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { target } = e;
-      const { selectionStart } = target;
-      if (selectionStart === null) return;
+const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ value, onChange }, ref) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    const { selectionStart } = target;
+    if (selectionStart === null) return;
 
-      let cursor = Math.max(0, selectionStart);
-      const newValueStr = target.value.replace(/[^0-9]/g, '');
-      const newValueNum = Number(newValueStr);
+    let cursor = Math.max(0, selectionStart);
+    const newValueStr = target.value.replace(/[^0-9]/g, '');
+    const newValueNum = Number(newValueStr);
 
-      // 숫자만 입력 했는지 검사
-      if (newValueStr.length < target.value.length) {
-        cursor = Math.max(0, selectionStart - 1);
-      }
+    // 숫자만 입력 했는지 검사
+    if (newValueStr.length < target.value.length) {
+      cursor = Math.max(0, selectionStart - 1);
+    }
 
-      queueMicrotask(() => {
-        target.setSelectionRange(cursor, cursor);
-      });
+    queueMicrotask(() => {
+      target.setSelectionRange(cursor, cursor);
+    });
 
-      onChange(newValueNum);
-    };
+    onChange(newValueNum);
+  };
 
-    return (
-      <S.NumberInput
-        className={className}
-        type="text"
-        onChange={handleChange}
-        value={value === 0 ? '' : value}
-        ref={ref}
-      />
-    );
-  },
-);
+  return <S.NumberInput type="text" onChange={handleChange} value={value === 0 ? '' : value} ref={ref} />;
+});
 
 PositiveNumberInput.displayName = 'PositiveNumberInput';
 
