@@ -14,7 +14,7 @@ import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.CreatingStudyService;
+import com.woowacourse.moamoa.study.service.StudyService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +43,7 @@ public class StudyControllerTest {
     @Test
     void openStudy() {
         // given
-        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new StudyService(memberRepository, studyRepository));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -79,7 +79,7 @@ public class StudyControllerTest {
     @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
     void createStudyByInvalidPeriod() {
-        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new StudyService(memberRepository, studyRepository));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -100,7 +100,7 @@ public class StudyControllerTest {
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
     @Test
     void createStudyByNotFoundUser() {
-        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        StudyController sut = new StudyController(new StudyService(memberRepository, studyRepository));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")

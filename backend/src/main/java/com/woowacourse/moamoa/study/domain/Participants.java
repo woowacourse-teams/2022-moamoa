@@ -1,5 +1,8 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static lombok.AccessLevel.PROTECTED;
+
+import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,12 +10,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Embeddable
 @ToString
+@NoArgsConstructor(access = PROTECTED)
 public class Participants {
 
     @Column(name = "current_member_count")
@@ -28,9 +32,6 @@ public class Participants {
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
     private List<Participant> participants = new ArrayList<>();
 
-    protected Participants() {
-    }
-
     public Participants(final Integer size, final Integer max,
                         final List<Participant> participants, Long ownerId) {
         this.size = size;
@@ -41,6 +42,16 @@ public class Participants {
 
     public List<Participant> getParticipants() {
         return new ArrayList<>(participants);
+    }
+
+    public void checkStudyParticipating(Long memberId) {
+        if (max == null || max <= size) {
+            throw new InvalidParticipationStudyException();
+        }
+
+        if (Objects.equals(memberId, ownerId) || participants.contains(memberId)) {
+            throw new InvalidParticipationStudyException();
+        }
     }
 
     public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {

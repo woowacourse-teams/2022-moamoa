@@ -46,14 +46,19 @@ public class Study {
 
     public Study(final Long id, final Details details, final Participants participants,
                  final Period period, final AttachedTags attachedTags) {
-        validatePeriod(period);
-
         this.id = id;
         this.details = details;
         this.participants = participants;
         this.period = period;
         this.createdAt = LocalDateTime.now();
         this.attachedTags = attachedTags;
+
+        validatePeriod(period);
+    }
+
+    public void checkStudyParticipating(Long memberId) {
+        period.checkParticipatingPeriod();
+        participants.checkStudyParticipating(memberId);
     }
 
     private void validatePeriod(final Period period) {
