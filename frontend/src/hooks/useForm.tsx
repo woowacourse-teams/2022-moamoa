@@ -1,7 +1,5 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
-import { isString } from '@utils/type-check';
-
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
@@ -59,6 +57,11 @@ type UseFormReturn = {
 };
 
 type UseForm = () => UseFormReturn;
+
+export const makeValidationResult = (hasError: boolean, errorMessage?: string) => ({
+  hasError,
+  errorMessage,
+});
 
 export const useForm: UseForm = () => {
   const [formState, setFormState] = useState<UseFormState>({

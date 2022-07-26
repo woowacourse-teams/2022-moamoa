@@ -16,7 +16,7 @@ import { css } from '@emotion/react';
 
 import { StudyDetailPostData } from '@api/postNewStudy';
 
-import { FormProvider, useForm } from '@hooks/useForm';
+import { FormProvider, makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
@@ -36,8 +36,8 @@ const CreateStudyPage: React.FC = () => {
   const { mutateAsync } = usePostNewStudy();
 
   const getAreaTagId = () => {
-    const areaFeField = formMethods.getField('area-fe')?._ref;
-    const areaBeField = formMethods.getField('area-be')?._ref;
+    const areaFeField = formMethods.getField('area-fe')?.fieldElement;
+    const areaBeField = formMethods.getField('area-be')?.fieldElement;
     const feTagId = areaFeField?.getAttribute('data-tagid');
     const beTagId = areaBeField?.getAttribute('data-tagid');
     return {
@@ -108,10 +108,10 @@ const CreateStudyPage: React.FC = () => {
                   placeholder="스터디 이름"
                   {...formMethods.register('title', {
                     validate: (val: string) => {
-                      if (!val || val.length === 0) {
-                        return '스터디 이름을 입력해 주세요';
+                      if (val.length === 0) {
+                        return makeValidationResult(true, '스터디 이름을 입력해 주세요');
                       }
-                      return true;
+                      return makeValidationResult(false);
                     },
                   })}
                 />

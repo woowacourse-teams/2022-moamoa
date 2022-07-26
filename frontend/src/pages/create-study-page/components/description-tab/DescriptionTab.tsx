@@ -2,7 +2,7 @@ import * as S from '@create-study-page/components/description-tab/DescriptionTab
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
-import { useFormContext } from '@hooks/useForm';
+import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 
@@ -33,7 +33,7 @@ const DescriptionTab = () => {
     if (!field) return;
     if (activeTab !== studyDescriptionTabIds.preview) return;
 
-    const description = field._ref.value;
+    const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
@@ -69,10 +69,10 @@ const DescriptionTab = () => {
                 className={cn({ invalid: errors['description'] })}
                 {...register('description', {
                   validate: (val: string) => {
-                    if (!val || val.length === 0) {
-                      return '스터디 상세 설명을 작성해 주세요';
+                    if (val.length === 0) {
+                      return makeValidationResult(true, '스터디 상세 설명을 작성해 주세요');
                     }
-                    return true;
+                    return makeValidationResult(false);
                   },
                 })}
               ></textarea>

@@ -44,7 +44,7 @@
       }
     ],
     "react/prop-types": "off",
-    "no-console": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "@typescript-eslint/no-explicit-any": "off"
   }
 }
