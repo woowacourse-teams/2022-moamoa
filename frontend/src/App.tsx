@@ -7,6 +7,7 @@ import { LoginContext } from '@context/login/LoginProvider';
 
 import Footer from '@layout/footer/Footer';
 import Header from '@layout/header/Header';
+import Main from '@layout/main/Main';
 
 import ErrorPage from '@pages/error-page/ErrorPage';
 import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
@@ -28,19 +29,14 @@ const App = () => {
           z-index: 2;
         `}
       />
-      <main
-        css={css`
-          padding: 120px 0 80px;
-          min-height: calc(100vh - 80px);
-        `}
-      >
+      <Main>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/study/:studyId" element={<DetailPage />} />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-      </main>
+      </Main>
       <Footer />
     </BrowserRouter>
   );

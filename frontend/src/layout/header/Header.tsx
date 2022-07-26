@@ -42,8 +42,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       </S.SearchBarContainer>
       {isLoggedIn ? (
         <S.Nav>
-          <S.NavButton onClick={logout}>
-            <MdOutlineLogout />
+          <S.NavButton onClick={logout} aria-label="로그아웃">
+            <MdOutlineLogout size={20} />
             <span>로그아웃</span>
           </S.NavButton>
           <Avatar
@@ -54,8 +54,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         </S.Nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-          <S.NavButton>
-            <MdOutlineLogin />
+          <S.NavButton aria-label="로그인">
+            <MdOutlineLogin size={20} />
             <span>로그인</span>
           </S.NavButton>
         </a>
