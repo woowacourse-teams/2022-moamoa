@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import { css } from '@emotion/react';
 
-import getToday from '@utils/getToday';
+import { getNextYear, getToday } from '@utils/dates';
 
 import { useFormContext } from '@hooks/useForm';
 
@@ -14,7 +14,8 @@ type PeriodProps = {
 
 const EnrollmentEndDate = ({ className }: PeriodProps) => {
   const { register } = useFormContext();
-  const today = useMemo(() => getToday(), []);
+  const today = useMemo(() => getToday('-'), []);
+  const nextYear = getNextYear(today, '-');
 
   return (
     <S.EnrollmentEndDate className={className}>
@@ -34,7 +35,7 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
               type="date"
               id="enrollment-end-date"
               min={today}
-              max="2030-07-20"
+              max={nextYear}
               {...register('enrollment-end-date')}
             ></input>
           </div>
