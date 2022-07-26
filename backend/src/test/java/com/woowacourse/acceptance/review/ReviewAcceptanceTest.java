@@ -10,13 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @DisplayName("리뷰 인수 테스트")
 public class ReviewAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("필수 데이터인 후기 내용이 없는 경우 400을 반환한다.")
+    @DisplayName("필수 데이터인 후기 내용이 없는 경우 401을 반환한다.")
     @Test
     void get400WhenSetBlankToRequiredField() {
         final String jwtToken = getBearerTokenBySignInOrUp(
@@ -25,7 +26,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
                         DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", "");
 
-        final String location = requestCreateStudy(jwtToken, studyRequest);
+        final String location = requestCreateStudy(jwtToken, studyRequest).replaceAll("/api/studies/", "");
         final Map<String, String> reviewRequest = Map.of("content", "");
 
         requestWriteReview(jwtToken, location, reviewRequest);
@@ -33,8 +34,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
     public static void requestWriteReview(final String jwtToken, final String location, final Map<String, String> reviewRequest) {
         RestAssured.given().log().all()
-                .auth().oauth2(jwtToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(reviewRequest)
                 .when().log().all()
                 .post("/api/studies/" + location + "/reviews")
