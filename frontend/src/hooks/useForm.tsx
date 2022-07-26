@@ -2,7 +2,6 @@ import { createContext, useContext, useRef, useState } from 'react';
 
 import { isString } from '@utils/type-check';
 
-// Field Types
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
@@ -10,14 +9,14 @@ type FieldErrors = Record<FieldName, FieldValidationResult>;
 type FieldValidationResult = { hasError: boolean; errorMessage?: string };
 type ValidateHandler = (val: any) => FieldValidationResult;
 type ChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 type Field = {
-  _ref: HTMLInputElement;
+  fieldElement: FieldElement;
   validate?: ValidateHandler;
   onChange?: ChangeHandler;
 };
 
-// Form
 export type UseFormSubmitResult = {
   isValid: boolean;
   values?: FieldValues;
@@ -41,7 +40,7 @@ type UseFormRegisterOption = Partial<{
   onChange: ChangeHandler;
 }>;
 
-type RefCallBack = (instance: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => void;
+type RefCallBack = (element: FieldElement | null) => void;
 
 type UseFormRegisterReturn = {
   ref: RefCallBack;
@@ -70,17 +69,24 @@ export const useForm: UseForm = () => {
     isValid: false,
   });
 
-  const _fields = useRef<Map<string, Field>>();
-  !_fields.current && (_fields.current = new Map<string, Field>());
+  const fieldsRef = useRef<Map<string, Field>>();
+  if (!fieldsRef.current) {
+    fieldsRef.current = new Map<string, Field>();
+  }
 
   const getField: GetFieldFn = name => {
-    if (!_fields.current) return null;
-    const field = _fields.current.get(name);
+    if (!fieldsRef.current) return null;
+    const field = fieldsRef.current.get(name);
     return field ?? null;
   };
 
-  const getFieldValue = ({ _ref }: Field) => {
-    return _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
+  const getFieldValue = ({ fieldElement }: Field) => {
+    if (fieldElement instanceof HTMLInputElement) {
+      if (fieldElement.type === 'checkbox') {
+        return fieldElement.checked ? 'checked' : 'unchecked';
+      }
+    }
+    return fieldElement.value;
   };
 
   const getFieldValues = (fields: Map<string, Field>) => {
@@ -95,7 +101,6 @@ export const useForm: UseForm = () => {
   };
 
   const getFieldErrors = (fields: Map<string, Field>): Record<string, FieldValidationResult> => {
-    // validation
     const errors: FieldErrors = [...fields.keys()].reduce((acc, name) => {
       const field = getField(name);
       if (!field) return acc;
@@ -115,9 +120,8 @@ export const useForm: UseForm = () => {
 
   const handleSubmit: UseFormHandleSubmit = onSubmit => (event: any) => {
     event.preventDefault();
-    if (!_fields.current) return;
+    if (!fieldsRef.current) return;
 
-    // 초기화를 한다
     setFormState(() => ({
       errors: {},
       isSubmitting: true,
@@ -126,8 +130,7 @@ export const useForm: UseForm = () => {
       isValid: true,
     }));
 
-    const values = getFieldValues(_fields.current);
-    const errors = getFieldErrors(_fields.current);
+    const errors = getFieldErrors(fieldsRef.current);
     const isValid = Object.keys(errors).length > 0;
 
     if (!isValid) {
@@ -141,6 +144,7 @@ export const useForm: UseForm = () => {
       return;
     }
 
+    const values = getFieldValues(fieldsRef.current);
     const result = onSubmit(event, { isValid, values, errors });
     if (result) {
       result
@@ -155,18 +159,9 @@ export const useForm: UseForm = () => {
         })
         .catch(() => {
           setFormState(() => ({
-            errors: {}, // TODO: 이래도 되나 싶다
-            isSubmitting: false,
-            isSubmitted: true,
-            isSubmitSuccessful: false,
-            isValid: false,
-          }));
-        })
-        .finally(() => {
-          setFormState(() => ({
             errors: {},
             isSubmitting: false,
-            isSubmitted: false,
+            isSubmitted: true,
             isSubmitSuccessful: false,
             isValid: false,
           }));
@@ -176,12 +171,12 @@ export const useForm: UseForm = () => {
 
   const register: UseFormRegister = (name, options) => {
     return {
-      ref: (ref: any) => {
-        if (!ref) return;
-        if (!_fields.current) return;
+      ref: (element: FieldElement | null) => {
+        if (!element) return;
+        if (!fieldsRef.current) return;
 
-        _fields.current.set(name, {
-          _ref: ref,
+        fieldsRef.current.set(name, {
+          fieldElement: element,
           validate: options?.validate,
         });
       },
@@ -197,7 +192,6 @@ export const useForm: UseForm = () => {
   };
 };
 
-// Context
 export type FormProviderProps = {
   children: React.ReactNode;
 } & UseFormReturn;
@@ -205,7 +199,9 @@ export type FormProviderProps = {
 const FormContext = createContext<UseFormReturn | null>(null);
 FormContext.displayName = 'HookFormContext';
 
-export const useFormContext = (): UseFormReturn => useContext(FormContext) as unknown as UseFormReturn;
+export const useFormContext = (): UseFormReturn => {
+  return useContext(FormContext) as UseFormReturn;
+};
 
 export const FormProvider = (props: FormProviderProps) => {
   const { children, ...data } = props;
