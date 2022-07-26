@@ -16,12 +16,14 @@ import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Review extends BaseTime {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,9 +42,29 @@ public class Review extends BaseTime {
     @Column(nullable = false)
     private String content;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+
+    public Review(final AssociatedStudy associatedStudy, final Member member, final String content) {
+        this(null, associatedStudy, member, content);
+    }
+
+    public Review(final Long id, final AssociatedStudy associatedStudy, final Member member, final String content) {
+        this.id = id;
+        this.associatedStudy = associatedStudy;
+        this.member = member;
+        this.content = content;
+        this.createdDate = LocalDateTime.now();
+        this.lastModifiedDate = LocalDateTime.now();
+    }
+
     public void writeable(final LocalDateTime studyStartDate) {
-        final LocalDateTime now = LocalDateTime.now();
-        if (now.isBefore(studyStartDate)) {
+        if (createdDate.isBefore(studyStartDate)) {
             throw new BadRequestException();
         }
     }
