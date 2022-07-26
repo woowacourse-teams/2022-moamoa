@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class StudyService {
 
-    private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
+    private final MemberRepository memberRepository;
 
     public Study createStudy(final Long githubId, final CreatingStudyRequest request) {
         final Member owner = findMemberBy(githubId);
@@ -34,12 +34,11 @@ public class StudyService {
         return studyRepository.save(new Study(details, participants, period, attachedTags));
     }
 
-    @Transactional
     public void participantStudy(final Long githubId, final Long studyId) {
         final Member member = findMemberBy(githubId);
         final Study study = findStudyBy(studyId);
 
-        study.checkStudyParticipating(member.getId());
+        study.participate(member);
     }
 
     private Study findStudyBy(final Long studyId) {
