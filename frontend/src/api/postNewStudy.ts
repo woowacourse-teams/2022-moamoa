@@ -1,4 +1,6 @@
-import type { MakeOptional, StudyDetail } from '@custom-types/index';
+import { AxiosResponse } from 'axios';
+
+import type { EmptyObject, MakeOptional, StudyDetail } from '@custom-types/index';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -14,7 +16,10 @@ export type StudyDetailPostData = {
 >;
 
 const postNewStudy = async (data: StudyDetailPostData) => {
-  const response = await axiosInstance.post<any, any, StudyDetailPostData>(`/api/studies`, data);
+  const response = await axiosInstance.post<EmptyObject, AxiosResponse<EmptyObject>, StudyDetailPostData>(
+    `/api/studies`,
+    data,
+  );
   return response;
 };
 
