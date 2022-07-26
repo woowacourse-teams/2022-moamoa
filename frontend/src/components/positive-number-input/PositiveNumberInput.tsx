@@ -8,7 +8,7 @@ type NumberInputProps = {
   className?: string;
   value: number;
   max?: number;
-  onChange: (val: number | '') => void;
+  onChange: (val: string) => void;
 };
 
 const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ value, onChange }, ref) => {
@@ -23,8 +23,6 @@ const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ va
       return;
     }
 
-    const newValueNum = Number(newValueStr);
-
     // 숫자만 입력 했는지 검사
     if (newValueStr.length < target.value.length) {
       cursor = Math.max(0, selectionStart - 1);
@@ -34,7 +32,7 @@ const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ va
       target.setSelectionRange(cursor, cursor);
     });
 
-    onChange(newValueNum);
+    onChange(newValueStr);
   };
 
   return <S.NumberInput type="text" onChange={handleChange} value={value} ref={ref} />;
