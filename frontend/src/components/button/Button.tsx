@@ -8,14 +8,21 @@ export type ButtonProp = {
   className?: string;
   children: string;
   fluid: boolean;
+  disabled?: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick'>;
 
-const Button: React.FC<OptionalButtonProp> = ({ className, children, onClick = noop, fluid = true }) => {
+const Button: React.FC<OptionalButtonProp> = ({
+  className,
+  children,
+  fluid = true,
+  disabled = false,
+  onClick = noop,
+}) => {
   return (
-    <S.Button className={className} fluid={fluid} onClick={onClick}>
+    <S.Button className={className} fluid={fluid} disabled={disabled} onClick={onClick}>
       {children}
     </S.Button>
   );

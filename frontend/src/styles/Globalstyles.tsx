@@ -83,6 +83,10 @@ const GlobalStyles = () => {
         button {
           font-family: inherit;
           cursor: pointer;
+
+          &:disabled {
+            cursor: default;
+          }
         }
 
         a {

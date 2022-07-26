@@ -63,6 +63,7 @@ const DetailPage = () => {
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
               deadline={enrollmentEndDate}
+              status={status}
               handleRegisterBtnClick={handleRegisterBtnClick}
             />
           </S.StickyContainer>
@@ -73,10 +74,10 @@ const DetailPage = () => {
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          owner={owner.username}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
           deadline={enrollmentEndDate}
+          status={status}
           handleRegisterBtnClick={handleRegisterBtnClick}
         />
       </S.FixedBottomContainer>

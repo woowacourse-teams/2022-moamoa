@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import type { ButtonProp } from '@components/button/Button';
 
 export const Button = styled.button<ButtonProp>`
-  ${({ fluid }) => css`
+  ${({ theme, fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 20px 10px;
 
@@ -16,5 +16,10 @@ export const Button = styled.button<ButtonProp>`
     color: white;
 
     white-space: nowrap;
+
+    &:disabled {
+      background-color: ${theme.colors.secondary.base};
+      color: ${theme.colors.black};
+    }
   `}
 `;
