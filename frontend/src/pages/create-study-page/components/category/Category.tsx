@@ -30,7 +30,7 @@ const Category = ({ className }: CategoryProps) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useFetchTagList();
 
-  const render = () => {
+  const renderContent = () => {
     if (isLoading) return <div>loading...</div>;
 
     if (!isSuccess || isError) return <div>Error!</div>;
@@ -120,7 +120,7 @@ const Category = ({ className }: CategoryProps) => {
     <S.Category className={className}>
       <MetaBox>
         <MetaBox.Title>스터디 분류</MetaBox.Title>
-        <MetaBox.Content>{render()}</MetaBox.Content>
+        <MetaBox.Content>{renderContent()}</MetaBox.Content>
       </MetaBox>
     </S.Category>
   );
