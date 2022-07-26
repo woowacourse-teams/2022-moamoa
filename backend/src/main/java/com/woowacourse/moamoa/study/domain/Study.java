@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -56,9 +57,17 @@ public class Study {
         validatePeriod(period);
     }
 
-    public void checkStudyParticipating(Long memberId) {
+    public void participate(final Member member) {
+        checkStudyParticipating(member.getId());
+
+        final Participant participant = new Participant(member.getId());
+        participants.participate(participant);
+    }
+
+    private void checkStudyParticipating(Long memberId) {
+        details.checkStudyStatus();
         period.checkParticipatingPeriod();
-        participants.checkStudyParticipating(memberId);
+        participants.checkParticipating(memberId);
     }
 
     private void validatePeriod(final Period period) {
