@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import org.hibernate.annotations.ColumnDefault;
 
 @Embeddable
 public class Details {
@@ -17,7 +18,10 @@ public class Details {
     private String thumbnail;
 
     @Column(nullable = false)
-    private String status;
+    private String recruitStatus;
+
+    @Column(nullable = false)
+    private String studyStatus;
 
     @Column(nullable = false)
     private String description;
@@ -25,12 +29,14 @@ public class Details {
     protected Details() {
     }
 
-    public Details(final String title, final String excerpt, final String thumbnail, final String status,
+    public Details(final String title, final String excerpt, final String thumbnail, final String recruit_status,
+                   final String study_status,
                    final String description) {
         this.title = title;
         this.excerpt = excerpt;
         this.thumbnail = thumbnail;
-        this.status = status;
+        this.recruitStatus = recruit_status;
+        this.studyStatus = study_status;
         this.description = description;
     }
 
@@ -44,12 +50,13 @@ public class Details {
         }
         final Details details = (Details) o;
         return Objects.equals(title, details.title) && Objects.equals(excerpt, details.excerpt)
-                && Objects.equals(thumbnail, details.thumbnail) && Objects.equals(status,
-                details.status) && Objects.equals(description, details.description);
+                && Objects.equals(thumbnail, details.thumbnail) && Objects.equals(recruitStatus,
+                details.recruitStatus) && Objects.equals(studyStatus, details.studyStatus)
+                && Objects.equals(description, details.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, excerpt, thumbnail, status, description);
+        return Objects.hash(title, excerpt, thumbnail, recruitStatus, studyStatus, description);
     }
 }

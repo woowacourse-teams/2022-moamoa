@@ -71,7 +71,7 @@ public class CreateStudyRequest {
     }
 
     public Details mapToDetails() {
-        return new Details(title, excerpt, thumbnail, "OPEN", description);
+        return new Details(title, excerpt, thumbnail, "OPEN", "PREPARE", description);
     }
 
     public Participants mapToParticipants(Long ownerId) {

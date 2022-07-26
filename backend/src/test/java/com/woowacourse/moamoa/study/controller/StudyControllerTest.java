@@ -65,7 +65,7 @@ public class StudyControllerTest {
         Optional<Study> study = studyRepository.findById(studyId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(study).isNotEmpty();
-        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "자바 스터디 상세설명 입니다."));
+        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "PREPARE", "자바 스터디 상세설명 입니다."));
         assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
