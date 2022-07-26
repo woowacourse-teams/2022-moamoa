@@ -7,14 +7,14 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.CreateStudyService;
+import com.woowacourse.moamoa.study.service.CreatingStudyService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +43,8 @@ public class StudyControllerTest {
     @Test
     void openStudy() {
         // given
-        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
-        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -57,7 +57,7 @@ public class StudyControllerTest {
                 .build();
 
         // when
-        final ResponseEntity<Void> response = sut.createStudy(1L, createStudyRequest);
+        final ResponseEntity<Void> response = sut.createStudy(1L, creatingStudyRequest);
 
         // then
         final String id = response.getHeaders().getLocation().getPath().replace("/api/studies/", "");
@@ -70,17 +70,17 @@ public class StudyControllerTest {
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
-                new Period(LocalDate.parse(createStudyRequest.getEnrollmentEndDate()),
-                        createStudyRequest.getStartDate(), LocalDate.parse(createStudyRequest.getEndDate())));
+                new Period(LocalDate.parse(creatingStudyRequest.getEnrollmentEndDate()),
+                        creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate())));
         assertThat(study.get().getAttachedTags().getValue())
-                .extracting("tagId").containsAnyElementsOf(createStudyRequest.getTagIds());
+                .extracting("tagId").containsAnyElementsOf(creatingStudyRequest.getTagIds());
     }
 
     @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
     void createStudyByInvalidPeriod() {
-        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
-        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -93,15 +93,15 @@ public class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(1L, createStudyRequest))
+        assertThatThrownBy(() -> sut.createStudy(1L, creatingStudyRequest))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
     @Test
     void createStudyByNotFoundUser() {
-        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
-        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+        StudyController sut = new StudyController(new CreatingStudyService(memberRepository, studyRepository));
+        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -114,7 +114,7 @@ public class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(100L, createStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
+        assertThatThrownBy(() -> sut.createStudy(100L, creatingStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
                 .isInstanceOf(UnauthorizedException.class);
     }
 }
