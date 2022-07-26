@@ -19,7 +19,7 @@ const DetailPage = () => {
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
 
   const handleRegisterBtnClick = (studyId: number) => () => {
-    alert('스터디에 가입했습니다!');
+    alert('아직 준비중입니다 :D');
   };
 
   if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;

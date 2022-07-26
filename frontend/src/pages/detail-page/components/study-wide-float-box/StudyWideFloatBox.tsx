@@ -51,7 +51,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             height: 100%;
             padding: 0 20px;
           `}
-          fluid={false}
+          fluid={true}
           disabled={!isOpen}
           onClick={handleRegisterBtnClick(studyId)}
         >
