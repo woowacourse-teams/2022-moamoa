@@ -44,18 +44,27 @@ public class Participants {
         return new ArrayList<>(participants);
     }
 
-    public void checkStudyParticipating(Long memberId) {
-        if (max == null || max <= size) {
-            throw new InvalidParticipationStudyException();
-        }
+    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {
+        return new Participants(1, maxSize, new ArrayList<>(), id);
+    }
 
-        if (Objects.equals(memberId, ownerId) || participants.contains(memberId)) {
+    protected void participate(final Participant participant) {
+        participants.add(participant);
+        this.size = this.size + 1;
+    }
+
+    protected void checkParticipating(Long memberId) {
+        if (isInvalidMemberSize() || isAlreadyParticipation(memberId)) {
             throw new InvalidParticipationStudyException();
         }
     }
 
-    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {
-        return new Participants(1, maxSize, new ArrayList<>(), id);
+    private boolean isInvalidMemberSize() {
+        return max == null || max <= size;
+    }
+
+    private boolean isAlreadyParticipation(final Long memberId) {
+        return Objects.equals(memberId, ownerId) || participants.contains(memberId);
     }
 
     @Override
@@ -72,7 +81,7 @@ public class Participants {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()  {
         return Objects.hash(size, max, ownerId, participants);
     }
 }
