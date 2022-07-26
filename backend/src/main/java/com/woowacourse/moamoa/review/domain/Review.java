@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.review.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.member.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -15,14 +16,12 @@ import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Review {
+public class Review extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -35,14 +34,16 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
+//    @Embedded
+//    private Reviewer reviewer;
+
     @Column(nullable = false)
     private String content;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime lastModifiedDate;
+    public void writeable(final LocalDateTime studyStartDate) {
+        final LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(studyStartDate)) {
+            throw new BadRequestException();
+        }
+    }
 }

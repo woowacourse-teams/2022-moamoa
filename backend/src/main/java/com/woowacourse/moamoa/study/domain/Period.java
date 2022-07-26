@@ -6,8 +6,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class Period {
 
     private LocalDate enrollmentEndDate;
