@@ -3,6 +3,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
+import { PATH } from '@constants';
+
 import { LoginContext } from '@context/login/LoginProvider';
 
 import Footer from '@layout/footer/Footer';
@@ -31,9 +33,9 @@ const App = () => {
       />
       <Main>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/study/:studyId" element={<DetailPage />} />
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
+          <Route path={PATH.MAIN} element={<MainPage />} />
+          <Route path={PATH.STUDY_DETAIL()} element={<DetailPage />} />
+          <Route path={PATH.LOGIN} element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Main>

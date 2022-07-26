@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -33,14 +35,14 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       return;
     }
     setKeyword(value);
-    navigate('/');
+    navigate(PATH.MAIN);
   };
 
   return (
     <S.Row className={className}>
-      <a href="/">
+      <Link to={PATH.MAIN}>
         <Logo />
-      </a>
+      </Link>
       <S.SearchBarContainer>
         <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>

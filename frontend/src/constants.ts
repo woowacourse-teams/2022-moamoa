@@ -1,3 +1,9 @@
+export const PATH = {
+  MAIN: '/',
+  STUDY_DETAIL: (studyId = ':studyId') => `/study/${studyId}`,
+  LOGIN: '/login',
+};
+
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,
