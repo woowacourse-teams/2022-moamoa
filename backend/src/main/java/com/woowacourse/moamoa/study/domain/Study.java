@@ -46,17 +46,19 @@ public class Study {
 
     public Study(final Long id, final Details details, final Participants participants,
                  final Period period, final AttachedTags attachedTags) {
+        final LocalDateTime createdAt = LocalDateTime.now();
+        validatePeriod(period, createdAt);
+
         this.id = id;
         this.details = details;
         this.participants = participants;
         this.period = period;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
         this.attachedTags = attachedTags;
 
-        validatePeriod(period);
     }
 
-    private void validatePeriod(final Period period) {
+    private void validatePeriod(final Period period, final LocalDateTime createdAt) {
         if (period.isBefore(createdAt)) {
             throw new InvalidPeriodException();
         }
