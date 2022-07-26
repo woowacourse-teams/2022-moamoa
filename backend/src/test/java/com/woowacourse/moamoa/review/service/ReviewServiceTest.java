@@ -2,13 +2,21 @@ package com.woowacourse.moamoa.review.service;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.groups.Tuple.tuple;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.exception.BadRequestException;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
+import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +31,15 @@ class ReviewServiceTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private StudyDetailsDao studyDetailsDao;
+
+    @Autowired
+    private MemberDao memberDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -40,6 +57,11 @@ class ReviewServiceTest {
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, max_member_count, created_at, owner_id) VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', '디우의 HTTP 정복하기', 5, '2021-11-08T11:58:20.551705', 3)");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567')");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'Linux를 공부하자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (7, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', '짱구입니다.', 1, '2021-11-08T11:58:20.551705', 4, '9999-12-31T11:56:32.123567')");
+
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (7, 1)");
 
         jdbcTemplate.update("INSERT INTO review(study_id, member_id, content, created_date, last_modified_date) VALUES (1, 1, '리뷰 내용1', '2021-11-08T11:58:20.551705', '2021-11-08T11:58:20.551705')");
         jdbcTemplate.update("INSERT INTO review(study_id, member_id, content, created_date, last_modified_date) VALUES (1, 2, '리뷰 내용2', '2021-11-08T11:58:20.551705', '2021-11-08T11:58:20.551705')");
@@ -52,7 +74,7 @@ class ReviewServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.reviewService = new ReviewService(reviewRepository);
+        this.reviewService = new ReviewService(reviewRepository, memberRepository, studyDetailsDao, memberDao);
     }
 
     @DisplayName("Study로 Review들을 전체 조회할 수 있다.")
@@ -128,5 +150,32 @@ class ReviewServiceTest {
                         tuple(1L, "jjanggu", "https://image", "github.com"),
                         tuple(2L, "greenlawn", "https://image", "github.com")
                 );
+    }
+
+    @DisplayName("스터디가 시작하기 전에 후기를 작성하려 하면 예외를 반환한다.")
+    @Test
+    void createReviewBeforeTheStudyStarts() {
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("content");
+
+        // 7번 스터디의 시작일자는 9999년 12월 31일
+        assertThatThrownBy(() -> reviewService.writeReview(1L, 7L, writeReviewRequest))
+                .isInstanceOf(BadRequestException.class);
+    }
+
+    @DisplayName("스터디에 참여하지 않은 회원이 후기를 작성하려 하면 예외를 반환한다.")
+    @Test
+    void createReviewDidNotParticipateMember() {
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("content");
+
+        assertThatThrownBy(() -> reviewService.writeReview(2L, 1L, writeReviewRequest))
+                .isInstanceOf(UnauthorizedException.class);
+    }
+
+    @DisplayName("진행중인 스터디에 참여한 회원은 정상적으로 후기를 작성할 수 있다.")
+    @Test
+    void writeReview() {
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("content");
+
+        assertDoesNotThrow(() -> reviewService.writeReview(1L, 1L, writeReviewRequest));
     }
 }

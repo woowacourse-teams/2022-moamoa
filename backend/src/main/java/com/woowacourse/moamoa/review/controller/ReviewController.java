@@ -2,13 +2,16 @@ package com.woowacourse.moamoa.review.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.review.service.ReviewService;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
+import java.net.URI;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ public class ReviewController {
 
     @GetMapping("/{study-id}/reviews")
     public ResponseEntity<ReviewsResponse> getReviews(
+            @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "study-id") final Long studyId,
             @RequestParam(required = false) final Integer size
     ) {
@@ -31,10 +35,12 @@ public class ReviewController {
     }
 
     @PostMapping("/{study-id}/reviews")
-    public ResponseEntity<?> writeReview(
+    public ResponseEntity<Void> writeReview(
             @AuthenticationPrincipal final Long githubId,
-            @PathVariable(name = "study-id") final Long studyId
+            @PathVariable(name = "study-id") final Long studyId,
+            @Valid @RequestBody final WriteReviewRequest writeReviewRequest
     ) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).build();
+        final Long id = reviewService.writeReview(githubId, studyId, writeReviewRequest);
+        return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reviews/" + id)).build();
     }
 }
