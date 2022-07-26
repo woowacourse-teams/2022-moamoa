@@ -79,20 +79,19 @@ export const useForm: UseForm = () => {
     return field ?? null;
   };
 
+  const getFieldValue = ({ _ref }: Field) => {
+    return _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
+  };
+
   const getFieldValues = (fields: Map<string, Field>) => {
     const values = [...fields.keys()].reduce((acc, name) => {
       const field = getField(name);
       if (!field) return acc;
-      const { _ref } = field;
 
-      acc[name] = _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
+      acc[name] = getFieldValue(field);
       return acc;
     }, {} as Record<string, string>);
     return values;
-  };
-
-  const getFieldValue = ({ _ref }: Field) => {
-    return _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
   };
 
   const getFieldErrors = (fields: Map<string, Field>): Record<string, FieldValidationResult> => {
