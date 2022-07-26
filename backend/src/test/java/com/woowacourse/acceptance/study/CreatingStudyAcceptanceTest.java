@@ -136,19 +136,29 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     void createStudy() {
         final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        final Map<String, String> studyRequest = Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
+                "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", "");
 
-        final String location = RestAssured.given().log().all()
+        final String location = requestCreateStudy(jwtToken, studyRequest);
+
+        confirmCreateStudy(location);
+    }
+
+    public static String requestCreateStudy(final String jwtToken, final Map<String, String> studyRequest) {
+        return RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
-                        "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
+                .body(studyRequest)
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
-                .extract().header(HttpHeaders.LOCATION);
+                .extract()
+                .header(HttpHeaders.LOCATION);
+    }
 
+    public static void confirmCreateStudy(final String location) {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get(location)
