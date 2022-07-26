@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
@@ -8,6 +8,7 @@ import { LoginContext } from '@context/login/LoginProvider';
 import Footer from '@layout/footer/Footer';
 import Header from '@layout/header/Header';
 
+import CreateStudyPage from '@pages/create-study-page/CreateStudyPage';
 import ErrorPage from '@pages/error-page/ErrorPage';
 import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
 import MainPage from '@pages/main-page/MainPage';
@@ -18,7 +19,7 @@ const App = () => {
   const { isLoggedIn } = useContext(LoginContext);
 
   return (
-    <BrowserRouter>
+    <div>
       <Header
         css={css`
           position: fixed;
@@ -37,12 +38,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/study/:studyId" element={<DetailPage />} />
+          <Route path="/study/new" element={isLoggedIn ? <CreateStudyPage /> : <Navigate to="/" replace={true} />} />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
-      <Footer />
-    </BrowserRouter>
+      <Footer marginBottom={'0'} />
+    </div>
   );
 };
 

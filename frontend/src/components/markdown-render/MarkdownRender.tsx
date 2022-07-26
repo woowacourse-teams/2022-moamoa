@@ -17,15 +17,22 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
     if (!contentRef.current) return;
     const cleanHtml = DOMPurify.sanitize(marked.parse(markdownContent));
     contentRef.current.innerHTML = cleanHtml;
-  }, [contentRef]);
+  }, [contentRef, markdownContent]);
 
   return (
     <div
       css={css`
-        ${markdown}
+        overflow-y: scroll;
+        height: 100%;
       `}
-      ref={contentRef}
-    ></div>
+    >
+      <div
+        css={css`
+          ${markdown}
+        `}
+        ref={contentRef}
+      ></div>
+    </div>
   );
 };
 

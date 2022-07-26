@@ -43,6 +43,8 @@
         "jsx": "never"
       }
     ],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

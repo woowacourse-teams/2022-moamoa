@@ -1,3 +1,5 @@
+export type EmptyObject = Record<string, never>;
+
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type StudyStatus = 'OPEN' | 'CLOSE';

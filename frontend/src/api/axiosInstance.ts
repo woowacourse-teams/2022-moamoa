@@ -18,4 +18,22 @@ const handleAxiosError = (error: AxiosError) => {
 
 axiosInstance.interceptors.response.use(response => response, handleAxiosError);
 
+axiosInstance.interceptors.request.use(
+  config => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) return config;
+    if (!config.headers) {
+      config.headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      return config;
+    }
+    config.headers['Authorization'] = `Bearer ${accessToken}`;
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;
