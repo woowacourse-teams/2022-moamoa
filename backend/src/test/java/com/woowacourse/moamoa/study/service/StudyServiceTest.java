@@ -59,8 +59,6 @@ class StudyServiceTest {
                 LocalDate.now().plusDays(1), List.of());
 
         assertDoesNotThrow(() -> studyService.createStudy(member.getGithubId(), creatingStudyRequest));
-        final Study study = studyRepository.findById(1L).get();
-        assertThat(study.getParticipants().getParticipants().size()).isEqualTo(1);
     }
 
     @DisplayName("아직 참여하지 않았고 모집기간이 마감되지 않은 열려있는 스터디에 대해서 회원은 스터디에 참여할 수 있다.")
