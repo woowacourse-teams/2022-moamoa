@@ -1,11 +1,9 @@
-import { SerializedStyles, Theme, css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { ButtonProp } from '@components/button/Button';
 
-type OutlineButtonStyleFn = ({ theme, isLoading }: { theme: Theme; isLoading?: boolean }) => SerializedStyles;
-
-const outlineButtonStyleFn: OutlineButtonStyleFn = ({ theme, isLoading }) => css`
+const applyOutlineButtonStyle = ({ theme, isLoading }: { theme: Theme; isLoading?: boolean }) => css`
   transition: 0.3s;
   background-color: transparent;
   border: 1px solid ${theme.colors.primary.base};
@@ -68,7 +66,7 @@ export const Button = styled.button<ButtonProp>`
 
     white-space: nowrap;
 
-    ${outline && outlineButtonStyleFn({ theme, isLoading })}
+    ${outline && applyOutlineButtonStyle({ theme, isLoading })}
   `}
 `;
 
