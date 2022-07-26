@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,5 +47,17 @@ public class PeriodTest {
                 Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 10)),
                 Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 11))
         );
+    }
+
+    @DisplayName("모집 상태의 기간인지를 확인한다.")
+    @Test
+    public void checkParticipatingPeriod() {
+        final LocalDate enrollmentEndDate = LocalDate.now().plusDays(1);
+        final LocalDate startDate = LocalDate.now().plusDays(1);
+        final LocalDate endDate = LocalDate.now().plusDays(1);
+
+        final Period period = new Period(enrollmentEndDate, startDate, endDate);
+
+        Assertions.assertDoesNotThrow(period::checkParticipatingPeriod);
     }
 }
