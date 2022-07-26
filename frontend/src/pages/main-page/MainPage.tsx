@@ -1,7 +1,8 @@
-import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+
+import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
 import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 

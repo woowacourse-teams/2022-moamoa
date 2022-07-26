@@ -1,5 +1,6 @@
-import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 import { useState } from 'react';
+
+import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
 import * as S from '@pages/detail-page/components/study-review-section/StudyReviewSection.style';
 import useFetchStudyReviews from '@pages/detail-page/hooks/useFetchStudyReviews';

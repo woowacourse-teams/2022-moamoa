@@ -13,7 +13,7 @@
   "importOrder": [
     "^@emotion",
     "^@assets/(.*)$",
-    "^@constants/(.*)$",
+    "^@constants$",
     "^@utils/(.*)$",
     "^@custom-types/(.*)$",
     "^@styles/(.*)$",
