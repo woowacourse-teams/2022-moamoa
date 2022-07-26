@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -20,6 +21,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const { isLoggedIn } = useContext(LoginContext);
   const { setKeyword } = useContext(SearchContext);
 
+  const navigate = useNavigate();
+
   const { logout } = useAuth();
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
@@ -30,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       return;
     }
     setKeyword(value);
+    navigate('/');
   };
 
   return (

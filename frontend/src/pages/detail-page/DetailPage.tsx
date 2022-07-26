@@ -43,7 +43,6 @@ const DetailPage = () => {
     members,
     tags,
   } = studyDetailQueryResult.data;
-
   return (
     <Wrapper>
       <Head title={title} status={status} excerpt={excerpt} startDate={startDate} endDate={endDate} tags={tags} />
