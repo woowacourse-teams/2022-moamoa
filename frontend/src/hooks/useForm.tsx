@@ -5,10 +5,10 @@ import { isString } from '@utils/type-check';
 // Field Types
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
-type FieldErrors = Record<FieldName, ErrorMessage>;
-type ErrorMessage = string;
+type FieldErrors = Record<FieldName, FieldValidationResult>;
 
-type ValidateHandler = (val: any) => string | boolean;
+type FieldValidationResult = { hasError: boolean; errorMessage?: string };
+type ValidateHandler = (val: any) => FieldValidationResult;
 type ChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
 
 type Field = {
@@ -79,24 +79,39 @@ export const useForm: UseForm = () => {
     return field ?? null;
   };
 
-  const validateField = (name: string): ErrorMessage | null => {
-    const field = getField(name);
-    if (!field) return null; // Field가 없는것도 문제인데 null을 리턴한다?
+  const getFieldValues = (fields: Map<string, Field>) => {
+    const values = [...fields.keys()].reduce((acc, name) => {
+      const field = getField(name);
+      if (!field) return acc;
+      const { _ref } = field;
 
-    const { _ref, validate } = field;
-    const input = _ref as HTMLInputElement;
-    const { value } = input;
+      acc[name] = _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
+      return acc;
+    }, {} as Record<string, string>);
+    return values;
+  };
 
-    if (!validate) return null;
+  const getFieldValue = ({ _ref }: Field) => {
+    return _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
+  };
 
-    const result = validate(value);
-    let errorMessage: null | string = null;
-    if (result === false) {
-      errorMessage = '다시 확인해주세요';
-    } else if (isString(result)) {
-      errorMessage = result;
-    }
-    return errorMessage;
+  const getFieldErrors = (fields: Map<string, Field>): Record<string, FieldValidationResult> => {
+    // validation
+    const errors: FieldErrors = [...fields.keys()].reduce((acc, name) => {
+      const field = getField(name);
+      if (!field) return acc;
+
+      const { validate } = field;
+      if (!validate) return acc;
+
+      const value = getFieldValue(field);
+      const validationResult = validate(value);
+      acc[name] = validationResult;
+
+      return acc;
+    }, {} as Record<string, FieldValidationResult>);
+
+    return errors;
   };
 
   const handleSubmit: UseFormHandleSubmit = onSubmit => (event: any) => {
@@ -112,25 +127,9 @@ export const useForm: UseForm = () => {
       isValid: true,
     }));
 
-    const values = [..._fields.current.keys()].reduce((acc, name) => {
-      const field = getField(name);
-      if (!field) return acc;
-      const { _ref } = field;
-
-      acc[name] = _ref.type === 'checkbox' ? (_ref.checked ? 'checked' : '') : _ref.value;
-      return acc;
-    }, {} as Record<string, string>);
-
-    // validation
-    const errors: FieldErrors = {};
-    let isValid = true;
-    Object.keys(values).forEach(name => {
-      const errorMessage = validateField(name);
-      if (errorMessage) {
-        isValid = false;
-        errors[name] = errorMessage;
-      }
-    });
+    const values = getFieldValues(_fields.current);
+    const errors = getFieldErrors(_fields.current);
+    const isValid = Object.keys(errors).length > 0;
 
     if (!isValid) {
       setFormState(() => ({
