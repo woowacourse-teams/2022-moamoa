@@ -1,10 +1,11 @@
 package com.woowacourse.moamoa.member.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -44,5 +45,10 @@ public class MemberDao {
                 + "WHERE study.id IN (:ids)";
 
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
+    }
+
+    public boolean isExistByGithubId(Long id) {
+        final String sql = "SELECT EXISTS(SELECT github_id FROM member where github_id = :id) ";
+        return jdbcTemplate.queryForObject(sql, Map.of("id", id), Boolean.class);
     }
 }
