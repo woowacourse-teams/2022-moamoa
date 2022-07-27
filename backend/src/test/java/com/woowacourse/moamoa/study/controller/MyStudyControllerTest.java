@@ -40,7 +40,7 @@ class MyStudyControllerTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void getMyStudies() throws Exception {
-        String token = "Bearer " + tokenProvider.createToken(2L);
+        String token = "Bearer " + tokenProvider.createToken(1L);
 
         given(myStudyService.getStudies(1L)).willReturn(new MyStudiesResponse(
                 List.of(

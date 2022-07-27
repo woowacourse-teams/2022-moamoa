@@ -1,27 +1,45 @@
-package com.woowacourse.acceptance.study;
+package com.woowacourse.moamoa.study.service;
 
-import static org.hamcrest.Matchers.is;
+import static java.util.stream.Collectors.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.member.query.MemberDao;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.query.data.MyStudyData;
+import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
+import com.woowacourse.moamoa.tag.query.TagDao;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import io.restassured.RestAssured;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
+@RepositoryTest
+class MyStudyServiceTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private MyStudyDao myStudyDao;
+
+    @Autowired
+    private MemberDao memberDao;
+
+    @Autowired
+    private TagDao tagDao;
+
+    private MyStudyService myStudyService;
+
     @BeforeEach
-    void initDatabase() {
+    void setUp() {
+        myStudyService = new MyStudyService(myStudyDao, memberDao, tagDao);
+
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
@@ -68,34 +86,44 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (7, 2)");
     }
 
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
-    void getMyStudies() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+    void findMyStudies() {
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(2L);
 
-        RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .when().log().all()
-                .get("/api/my/studies")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("studies[0].id", is(2))
-                .body("studies[0].title", is("React 스터디"))
-                .body("studies[0].studyStatus", is("PREPARE"))
-                .body("studies[0].currentMemberCount", is(4))
-                .body("studies[0].maxMemberCount", is(5))
-                .body("studies[0].startDate", is("2021-11-10 11:58:20.551705"))
-                .body("studies[0].endDate", is("2021-12-08 11:58:20.551705"))
-                .body("studies[0].owner.username", is("dwoo"))
-                .body("studies[0].owner.imageUrl", is("https://image"))
-                .body("studies[0].owner.profileUrl", is("github.com"))
-                .body("studies[0].tags[0].id", is(2))
-                .body("studies[0].tags[0].name", is("4기"))
-                .body("studies[0].tags[1].id", is(4))
-                .body("studies[0].tags[1].name", is("FE"))
-                .body("studies[0].tags[2].id", is(5))
-                .body("studies[0].tags[2].name", is("React"));
+        final List<MemberData> owners = myStudiesResponse.getStudies()
+                .stream()
+                .map(MyStudyData::getOwner)
+                .collect(toList());
+
+        final List<List<TagSummaryData>> tags = myStudiesResponse.getStudies()
+                .stream()
+                .map(MyStudyData::getTags)
+                .collect(toList());
+
+        final List<MyStudyData> studies = myStudiesResponse.getStudies();
+
+        assertThat(studies)
+                .hasSize(2)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
+                .contains(
+                        tuple("React 스터디", "PREPARE", 4, 5),
+                        tuple("OS 스터디", "PREPARE", 1, 6)
+                );
+
+        assertThat(owners)
+                .hasSize(2)
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .contains(
+                        tuple(3L, "dwoo", "https://image", "github.com"),
+                        tuple(4L, "verus", "https://image", "github.com")
+                );
+
+        assertThat(tags).hasSize(2);
     }
 }
