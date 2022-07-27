@@ -36,7 +36,7 @@ public class Period {
     }
 
     protected void checkParticipatingPeriod() {
-        if (!enrollmentEndDate.isAfter(LocalDate.now())) {
+        if (enrollmentEndDate != null && !enrollmentEndDate.isAfter(LocalDate.now())) {
             throw new InvalidParticipationStudyException();
         }
     }
