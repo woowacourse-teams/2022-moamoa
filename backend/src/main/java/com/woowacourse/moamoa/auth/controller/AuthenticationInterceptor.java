@@ -22,7 +22,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies")) {
+        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies") ||
+                request.getMethod().equals("GET") && request.getServletPath().equals("/api/my/studies")) {
             String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
