@@ -17,6 +17,6 @@ public class WriteReviewRequest {
     private String content;
 
     public Review toReview(final AssociatedStudy associatedStudy, final Member member) {
-        return Review.createByAssociatedStudyAndReviewer(associatedStudy, member, content);
+        return Review.of(associatedStudy, member, content);
     }
 }

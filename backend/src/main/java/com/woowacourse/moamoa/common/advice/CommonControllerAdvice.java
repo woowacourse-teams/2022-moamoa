@@ -23,8 +23,10 @@ public class CommonControllerAdvice {
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler
-    public ResponseEntity<Void> handleUnauthorized(final UnauthorizedException e) {
+    @ExceptionHandler({
+            UnauthorizedException.class
+    })
+    public ResponseEntity<Void> handleUnauthorized(final Exception e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

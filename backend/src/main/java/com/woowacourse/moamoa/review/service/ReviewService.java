@@ -2,11 +2,11 @@ package com.woowacourse.moamoa.review.service;
 
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.domain.repository.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.member.query.MemberDao;
+import com.woowacourse.moamoa.member.service.exception.InvalidMemberException;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.review.domain.Review;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
@@ -52,22 +52,23 @@ public class ReviewService {
         return new ReviewsResponse(reviewResponses, totalCount);
     }
 
+    @Transactional
     public Long writeReview(final Long githubId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
         final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
         final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(MemberNotFoundException::new);
-
+                .orElseThrow(InvalidMemberException::new);
         checkParticipate(studyId, member.getId());
+
         final Review review = writeReviewRequest.toReview(associatedStudy, member);
         final StudyDetailsData studyDetailsData = studyDetailsDao.findBy(studyId);
-
         review.writeable(LocalDateTime.of(studyDetailsData.getStartDate(), LocalTime.MIDNIGHT));
+
         return reviewRepository.save(review).getId();
     }
 
     private void checkParticipate(final Long studyId, final Long memberId) {
         if (!memberDao.existsByStudyIdAndMemberId(studyId, memberId)) {
-            throw new UnauthorizedException("스터디에 참여한 회원만 후기를 작성할 수 있습니다.");
+            throw new NotParticipatedMemberException();
         }
     }
 }

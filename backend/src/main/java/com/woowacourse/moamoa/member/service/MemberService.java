@@ -24,7 +24,7 @@ public class MemberService {
 
     public MemberData searchBy(final Long githubId) {
         final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(() -> new InvalidMemberException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(InvalidMemberException::new);
         return new MemberData(member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl());
     }
 }
