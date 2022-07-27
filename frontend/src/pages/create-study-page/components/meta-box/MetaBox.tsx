@@ -2,12 +2,12 @@ import * as S from '@create-study-page/components/meta-box/MetaBox.style';
 import cn from 'classnames';
 import { ReactNode } from 'react';
 
-const MetaBoxTitle = ({ className, children }: { className?: string; children: string }) => {
+const MetaBoxTitle = ({ className, children }: { className?: string; children: ReactNode }) => {
   return <h2 className={cn('title', className)}>{children}</h2>;
 };
 
 const MetaBoxContent = ({ className, children }: { className?: string; children: ReactNode }) => {
-  return <div className={cn('title', className)}>{children}</div>;
+  return <div className={cn('content', className)}>{children}</div>;
 };
 
 const MetaBox = ({ className, children }: { className?: string; children: ReactNode }) => {

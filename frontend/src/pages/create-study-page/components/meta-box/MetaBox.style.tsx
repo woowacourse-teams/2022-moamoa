@@ -17,7 +17,6 @@ export const MetaBox = styled.div`
   }
 
   & > .content {
-    margin: 11px 0;
-    padding: 0 12px 12px;
+    padding: 8px 12px;
   }
 `;

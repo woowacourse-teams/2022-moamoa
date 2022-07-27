@@ -2,6 +2,10 @@ import * as S from '@create-study-page/components/description-tab/DescriptionTab
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
+import { css } from '@emotion/react';
+
+import { DESCRIPTION_LENGTH } from '@constants';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
@@ -65,15 +69,33 @@ const DescriptionTab = () => {
         <div className="tab-panels">
           <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.write })}>
             <div className="tab-content">
+              <label // TODO: HiddenLabel Component 생성
+                htmlFor="description"
+                css={css`
+                  display: block;
+
+                  height: 0;
+                  width: 0;
+
+                  visibility: hidden;
+                `}
+              >
+                소개글
+              </label>
               <textarea
+                id="description"
+                placeholder="(20000자 제한)"
                 className={cn({ invalid: errors['description'] })}
                 {...register('description', {
                   validate: (val: string) => {
-                    if (val.length === 0) {
-                      return makeValidationResult(true, '스터디 상세 설명을 작성해 주세요');
+                    if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+                      return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
                     }
                     return makeValidationResult(false);
                   },
+                  validationMode: 'change',
+                  minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+                  maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
                 })}
               ></textarea>
             </div>

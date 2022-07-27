@@ -52,11 +52,11 @@ const Category = ({ className }: CategoryProps) => {
             css={css`
               margin-right: 10px;
             `}
-            htmlFor="max-member-count"
+            htmlFor="generation"
           >
             기수 :
           </label>
-          <select {...register('generation')}>
+          <select id="generation" {...register('generation')}>
             {generations.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}

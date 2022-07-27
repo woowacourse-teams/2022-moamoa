@@ -28,7 +28,7 @@ const Period = ({ className }: PeriodProps) => {
             `}
           >
             <label
-              htmlFor="state-date"
+              htmlFor="start-date"
               css={css`
                 margin-right: 10px;
               `}

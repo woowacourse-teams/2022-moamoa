@@ -26,6 +26,7 @@ const Tag = ({ className }: TagProps) => {
 
       return (
         <select
+          id="tag-list"
           css={css`
             width: 100%;
           `}
@@ -44,7 +45,9 @@ const Tag = ({ className }: TagProps) => {
   return (
     <S.Tag className={className}>
       <MetaBox>
-        <MetaBox.Title>태그</MetaBox.Title>
+        <MetaBox.Title>
+          <label htmlFor="tag-list">태그</label>
+        </MetaBox.Title>
         <MetaBox.Content>{render()}</MetaBox.Content>
       </MetaBox>
     </S.Tag>

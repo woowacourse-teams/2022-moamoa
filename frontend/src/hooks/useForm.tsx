@@ -1,19 +1,20 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
+import { MakeRequired } from '@custom-types/index';
+
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
 
 type FieldValidationResult = { hasError: boolean; errorMessage?: string };
 type ValidateHandler = (val: any) => FieldValidationResult;
-type ChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+type ChangeHandler = React.ChangeEventHandler<FieldElement>;
 type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+type ValidationMode = 'change' | 'submit';
 
 type Field = {
   fieldElement: FieldElement;
-  validate?: ValidateHandler;
-  onChange?: ChangeHandler;
-};
+} & UseFormRegisterOption;
 
 export type UseFormSubmitResult = {
   isValid: boolean;
@@ -35,7 +36,10 @@ type UseFormState = {
 
 type UseFormRegisterOption = Partial<{
   validate: ValidateHandler;
+  validationMode: ValidationMode;
   onChange: ChangeHandler;
+  minLength: number;
+  maxLength: number;
 }>;
 
 type RefCallBack = (element: FieldElement | null) => void;
@@ -63,14 +67,16 @@ export const makeValidationResult = (hasError: boolean, errorMessage?: string) =
   errorMessage,
 });
 
+const initialFormState = {
+  errors: {},
+  isSubmitting: false,
+  isSubmitted: false,
+  isSubmitSuccessful: false,
+  isValid: true,
+};
+
 export const useForm: UseForm = () => {
-  const [formState, setFormState] = useState<UseFormState>({
-    isSubmitted: false,
-    isSubmitting: false,
-    isSubmitSuccessful: false,
-    errors: {},
-    isValid: false,
-  });
+  const [formState, setFormState] = useState<UseFormState>({ ...initialFormState });
 
   const fieldsRef = useRef<Map<string, Field>>();
   if (!fieldsRef.current) {
@@ -121,6 +127,54 @@ export const useForm: UseForm = () => {
     return errors;
   };
 
+  const removeError = (prev: UseFormState, name: FieldName): UseFormState => {
+    const errors = { ...prev.errors };
+    delete errors[name];
+    return {
+      ...prev,
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    };
+  };
+
+  const setError = (prev: UseFormState, error: Record<FieldName, FieldValidationResult>): UseFormState => {
+    const errors = { ...prev.errors, ...error };
+    return {
+      ...prev,
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    };
+  };
+
+  const validateFieldOnChange = (field: Field) => {
+    const {
+      validate,
+      fieldElement: { name, value },
+    } = field;
+    if (!validate) return;
+
+    const validationResult = validate(value);
+    const error = { [name]: validationResult };
+    if (!validationResult.hasError) {
+      setFormState(prev => removeError(prev, name));
+      return;
+    }
+
+    setFormState(prev => setError(prev, error));
+  };
+
+  const handleChange = (e: React.ChangeEvent<FieldElement>) => {
+    const {
+      target: { name },
+    } = e;
+    const field = getField(name);
+    if (!field) return;
+
+    if (field.onChange) field.onChange(e);
+
+    validateFieldOnChange(field);
+  };
+
   const handleSubmit: UseFormHandleSubmit = onSubmit => (event: any) => {
     event.preventDefault();
     if (!fieldsRef.current) return;
@@ -137,13 +191,11 @@ export const useForm: UseForm = () => {
     const isValid = Object.keys(errors).length === 0;
 
     if (!isValid) {
-      setFormState(() => ({
+      setFormState({
+        ...initialFormState,
         errors,
-        isSubmitting: false,
-        isSubmitted: false,
-        isSubmitSuccessful: false,
         isValid: false,
-      }));
+      });
       return;
     }
 
@@ -152,22 +204,18 @@ export const useForm: UseForm = () => {
     if (result) {
       result
         .then(() => {
-          setFormState(() => ({
-            errors: {},
-            isSubmitting: false,
+          setFormState({
+            ...initialFormState,
             isSubmitted: true,
             isSubmitSuccessful: true,
-            isValid,
-          }));
+          });
         })
         .catch(() => {
-          setFormState(() => ({
-            errors: {},
-            isSubmitting: false,
+          setFormState({
+            ...initialFormState,
             isSubmitted: true,
-            isSubmitSuccessful: false,
             isValid: false,
-          }));
+          });
         });
     }
   };
@@ -180,10 +228,15 @@ export const useForm: UseForm = () => {
 
         fieldsRef.current.set(name, {
           fieldElement: element,
+          onChange: options?.onChange,
           validate: options?.validate,
+          validationMode: options?.validationMode,
         });
       },
       name,
+      onChange: handleChange,
+      maxLength: options?.maxLength,
+      minLength: options?.minLength,
     };
   };
 
