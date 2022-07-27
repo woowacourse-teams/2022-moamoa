@@ -4,8 +4,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -30,10 +32,10 @@ public class Participants {
 
     @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
-    private List<Participant> participants = new ArrayList<>();
+    private Set<Participant> participants = new HashSet<>();
 
     public Participants(final Integer size, final Integer max,
-                        final List<Participant> participants, Long ownerId) {
+                        final Set<Participant> participants, Long ownerId) {
         this.size = size;
         this.max = max;
         this.participants = participants;
@@ -45,7 +47,7 @@ public class Participants {
     }
 
     public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
-        return new Participants(1, maxSize, new ArrayList<>(List.of(new Participant(ownerId))), ownerId);
+        return new Participants(1, maxSize, new HashSet<>(List.of(new Participant(ownerId))), ownerId);
     }
 
     protected void participate(final Participant participant) {
@@ -64,7 +66,8 @@ public class Participants {
     }
 
     private boolean isAlreadyParticipation(final Long memberId) {
-        return Objects.equals(memberId, ownerId) || participants.contains(memberId);
+        final Participant participant = new Participant(memberId);
+        return Objects.equals(memberId, ownerId) || participants.contains(participant);
     }
 
     @Override

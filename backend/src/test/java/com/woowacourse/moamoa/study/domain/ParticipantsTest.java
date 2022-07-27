@@ -4,14 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ParticipantsTest {
 
-    private static final List<Participant> PARTICIPANTS = new ArrayList<>(
+    private static final Set<Participant> PARTICIPANTS = new HashSet<>(
             List.of(new Participant(2L), new Participant(3L), new Participant(4L))
     );
 
