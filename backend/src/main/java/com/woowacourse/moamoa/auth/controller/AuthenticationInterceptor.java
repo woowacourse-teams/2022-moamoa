@@ -44,6 +44,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private boolean validatePath(final HttpServletRequest request) {
         return request.getServletPath().equals("/api/studies") ||
-                request.getServletPath().equals("/api/studies/*/reviews");
+                request.getServletPath().matches("/api/studies/\\d*/reviews");
     }
 }

@@ -43,12 +43,12 @@ public class Review {
     private String content;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+    private LocalDateTime lastModifiedDate;
 
     public Review(final AssociatedStudy associatedStudy, final Member member, final String content) {
         this(null, associatedStudy, member, content);
@@ -65,7 +65,7 @@ public class Review {
 
     public void writeable(final LocalDateTime studyStartDate) {
         if (createdDate.isBefore(studyStartDate)) {
-            throw new BadRequestException();
+            throw new BadRequestException("");
         }
     }
 }

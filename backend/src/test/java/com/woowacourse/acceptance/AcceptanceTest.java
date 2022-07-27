@@ -57,7 +57,7 @@ public class AcceptanceTest {
     private MockRestServiceServer mockServer;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         RestAssured.port = port;
     }
 
@@ -112,7 +112,7 @@ public class AcceptanceTest {
         }
     }
 
-    protected long createdReview(String jwtToken, Long studyId, WriteReviewRequest request) {
+    protected long createReview(String jwtToken, Long studyId, WriteReviewRequest request) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(HttpHeaders.AUTHORIZATION, jwtToken)
@@ -123,7 +123,7 @@ public class AcceptanceTest {
                     .then().log().all()
                     .statusCode(HttpStatus.CREATED.value())
                     .extract().header(HttpHeaders.LOCATION);
-            return Long.parseLong(location.replaceAll("/api/studies" + studyId + "/", ""));
+            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reviews/", ""));
         } catch (Exception e) {
             Assertions.fail("리뷰 작성 실패");
             return -1;

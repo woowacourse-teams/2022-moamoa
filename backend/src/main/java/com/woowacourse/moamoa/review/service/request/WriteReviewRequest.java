@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class WriteReviewRequest {
 
-    @NotBlank
+    @NotBlank(message = "내용을 입력해 주세요.")
     private String content;
 
     public Review createByStudyAndMember(final AssociatedStudy associatedStudy, final Member member) {
