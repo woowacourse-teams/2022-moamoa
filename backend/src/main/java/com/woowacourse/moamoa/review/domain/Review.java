@@ -50,6 +50,12 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    public static Review createByAssociatedStudyAndReviewer(
+            final AssociatedStudy associatedStudy, final Member member, final String content
+    ) {
+        return new Review(associatedStudy, member, content);
+    }
+
     public Review(final AssociatedStudy associatedStudy, final Member member, final String content) {
         this(null, associatedStudy, member, content);
     }
@@ -65,7 +71,7 @@ public class Review {
 
     public void writeable(final LocalDateTime studyStartDate) {
         if (createdDate.isBefore(studyStartDate)) {
-            throw new BadRequestException("");
+            throw new BadRequestException("스터디 시작 전 후기를 작성할 수 없습니다.");
         }
     }
 }

@@ -16,7 +16,7 @@ public class WriteReviewRequest {
     @NotBlank(message = "내용을 입력해 주세요.")
     private String content;
 
-    public Review createByStudyAndMember(final AssociatedStudy associatedStudy, final Member member) {
-        return new Review(null, associatedStudy, member, content);
+    public Review toReview(final AssociatedStudy associatedStudy, final Member member) {
+        return Review.createByAssociatedStudyAndReviewer(associatedStudy, member, content);
     }
 }

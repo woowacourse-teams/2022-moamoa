@@ -17,23 +17,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/studies")
+@RequestMapping("/api/studies/{study-id}/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/{study-id}/reviews")
+    @GetMapping
     public ResponseEntity<ReviewsResponse> getReviews(
             @PathVariable(name = "study-id") final Long studyId,
             @RequestParam(required = false) final Integer size
     ) {
         final ReviewsResponse reviewsResponse = reviewService.getReviewsByStudy(studyId, size);
-
         return ResponseEntity.ok(reviewsResponse);
     }
 
-    @PostMapping("/{study-id}/reviews")
+    @PostMapping
     public ResponseEntity<Void> writeReview(
             @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "study-id") final Long studyId,

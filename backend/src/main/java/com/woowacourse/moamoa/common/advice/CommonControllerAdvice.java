@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.common.advice;
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
 import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
+import com.woowacourse.moamoa.common.exception.NotFoundException;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import org.springframework.http.HttpStatus;
@@ -25,5 +26,12 @@ public class CommonControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<Void> handleUnauthorized(final UnauthorizedException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler({
+            NotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleNotFound(final Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(e.getMessage()));
     }
 }

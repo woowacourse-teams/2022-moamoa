@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.domain.repository.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.review.domain.Review;
@@ -54,10 +55,10 @@ public class ReviewService {
     public Long writeReview(final Long githubId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
         final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
         final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(() -> new UnauthorizedException(""));
+                .orElseThrow(MemberNotFoundException::new);
 
         checkParticipate(studyId, member.getId());
-        final Review review = writeReviewRequest.createByStudyAndMember(associatedStudy, member);
+        final Review review = writeReviewRequest.toReview(associatedStudy, member);
         final StudyDetailsData studyDetailsData = studyDetailsDao.findBy(studyId);
 
         review.writeable(LocalDateTime.of(studyDetailsData.getStartDate(), LocalTime.MIDNIGHT));
@@ -66,7 +67,7 @@ public class ReviewService {
 
     private void checkParticipate(final Long studyId, final Long memberId) {
         if (!memberDao.existsByStudyIdAndMemberId(studyId, memberId)) {
-            throw new UnauthorizedException("");
+            throw new UnauthorizedException("스터디에 참여한 회원만 후기를 작성할 수 있습니다.");
         }
     }
 }
