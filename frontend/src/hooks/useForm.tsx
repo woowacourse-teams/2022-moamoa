@@ -40,6 +40,8 @@ type UseFormRegisterOption = Partial<{
   onChange: ChangeHandler;
   minLength: number;
   maxLength: number;
+  min: number;
+  max: number;
 }>;
 
 type RefCallBack = (element: FieldElement | null) => void;
@@ -150,9 +152,14 @@ export const useForm: UseForm = () => {
     const {
       validate,
       fieldElement: { name, value },
+      min,
+      max,
+      minLength,
+      maxLength,
     } = field;
-    if (!validate) return;
 
+    // Custom Validation
+    if (!validate) return;
     const validationResult = validate(value);
     const error = { [name]: validationResult };
     if (!validationResult.hasError) {
@@ -237,6 +244,8 @@ export const useForm: UseForm = () => {
       onChange: handleChange,
       maxLength: options?.maxLength,
       minLength: options?.minLength,
+      max: options?.max,
+      min: options?.min,
     };
   };
 

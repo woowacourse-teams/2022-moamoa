@@ -28,15 +28,19 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
               margin-right: 10px;
             `}
           >
-            최대 인원 :{' '}
+            최대 인원 :
           </label>
           <PositiveNumberInput
+            {...register('max-member-count', {
+              min: 1,
+              max: 100,
+            })}
             id="max-member-count"
             placeholder="최대 인원"
             value={count}
-            max={200}
-            onChange={newValue => setCount(newValue)}
-            {...register('max-member-count')}
+            onChange={value => {
+              setCount(Number(value));
+            }}
           ></PositiveNumberInput>
         </MetaBox.Content>
       </MetaBox>

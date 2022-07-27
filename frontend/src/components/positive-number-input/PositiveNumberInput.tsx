@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 import * as S from '@components/positive-number-input/PositiveNumberInput.style';
 
@@ -8,34 +8,40 @@ type NumberInputProps = {
   className?: string;
   value: number;
   max?: number;
-  onChange: (val: string) => void;
+  onChange: (val: number | '') => void;
 };
 
-const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ id, value, onChange }, ref) => {
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    const { selectionStart } = target;
-    if (selectionStart === null) return;
+const nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const arrows = ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp'];
 
-    let cursor = Math.max(0, selectionStart);
-    const newValueStr = target.value.replace(/[^0-9]/g, '');
-    if (newValueStr === '') {
+const PositiveNumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({ id, value, onChange, ...props }, ref) => {
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    if (target.value === '') {
       onChange('');
       return;
     }
-
-    // 숫자만 입력 했는지 검사
-    if (newValueStr.length < target.value.length) {
-      cursor = Math.max(0, selectionStart - 1);
-    }
-
-    queueMicrotask(() => {
-      target.setSelectionRange(cursor, cursor);
-    });
-
-    onChange(newValueStr);
+    onChange(Number(target.value));
   };
 
-  return <S.NumberInput id={id} type="text" onChange={handleChange} value={value} ref={ref} />;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key } = e;
+    if (key !== 'Backspace' && !nums.includes(key) && !arrows.includes(key)) {
+      e.preventDefault();
+      return;
+    }
+  };
+
+  return (
+    <S.NumberInput
+      {...props}
+      id={id}
+      type="number"
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      value={value.toString()}
+      ref={ref}
+    />
+  );
 });
 
 PositiveNumberInput.displayName = 'PositiveNumberInput';
