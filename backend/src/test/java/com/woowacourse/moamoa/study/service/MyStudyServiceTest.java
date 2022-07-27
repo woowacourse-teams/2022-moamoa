@@ -2,9 +2,11 @@ package com.woowacourse.moamoa.study.service;
 
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
@@ -125,5 +127,13 @@ class MyStudyServiceTest {
                 );
 
         assertThat(tags).hasSize(2);
+    }
+
+    @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")
+    @Test
+    void getMyStudyNotExistUser() {
+        assertThatThrownBy(() -> myStudyService.getStudies(5L))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessageContaining("5의 githubId를 가진 사용자는 없습니다.");
     }
 }
