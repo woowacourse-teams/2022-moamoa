@@ -43,19 +43,15 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
                         + "VALUES (4, 'Java 스터디', '자바 설명', 'java thumbnail', 'CLOSE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 3, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 2)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 3)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 2)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 2)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
     }
 

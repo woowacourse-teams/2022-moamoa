@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class ParticipantsTest {
 
     private static final Set<Participant> PARTICIPANTS = new HashSet<>(
-            List.of(new Participant(1L), new Participant(2L), new Participant(3L))
+            List.of(new Participant(2L), new Participant(3L))
     );
 
     @DisplayName("스터디장은 이미 스터디에 참여한 것이므로 검사 시에 예외가 발생한다.")
@@ -55,7 +55,7 @@ class ParticipantsTest {
 
         participants.participate(new Participant(4L));
 
-        assertThat(participants.getParticipants().size()).isEqualTo(4);
+        assertThat(participants.getCurrentMemberSize()).isEqualTo(4);
         assertThatThrownBy(() -> participants.checkParticipating(4L));
     }
 }

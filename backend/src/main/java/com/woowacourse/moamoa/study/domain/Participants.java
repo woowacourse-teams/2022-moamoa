@@ -55,6 +55,10 @@ public class Participants {
         this.size = this.size + 1;
     }
 
+    public int getCurrentMemberSize() {
+        return size;
+    }
+
     protected void checkParticipating(Long memberId) {
         if (isInvalidMemberSize() || isAlreadyParticipation(memberId)) {
             throw new InvalidParticipationStudyException();
