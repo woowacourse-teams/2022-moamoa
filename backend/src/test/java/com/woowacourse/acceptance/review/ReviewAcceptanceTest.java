@@ -25,25 +25,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     protected void setUp() {
         super.setUp();
         getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02T11:56:32.123567')");
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "jjanga", "https://image", "github.com"));
+        jdbcTemplate.update(
+                "INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02T11:56:32.123567')");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
-    }
-
-    @DisplayName("필수 데이터인 후기 내용이 없는 경우 400을 반환한다.")
-    @Test
-    void get400WhenSetBlankToRequiredField() {
-        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest(null);
-        final String jwtToken = getBearerTokenBySignInOrUp(
-                new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-
-        RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .pathParams("study-id", 1L)
-                .body(writeReviewRequest)
-                .when().post("/api/studies/{study-id}/reviews")
-                .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @DisplayName("정상적으로 리뷰를 작성한다.")
@@ -55,5 +40,22 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         final Long reviewId = createReview(jwtToken, 1L, writeReviewRequest);
         assertThat(reviewId).isNotNull();
+    }
+
+    @DisplayName("참여하지 않은 스터디에 리뷰를 작성하려는 경우 401 에러를 반환한다.")
+    @Test
+    void writeReviewByNonParticipateStudy() {
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("후기 내용입니다.");
+        final String jwtToken = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(2L, "jjanga", "https://image", "github.com"));
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParams("study-id", 1L)
+                .body(writeReviewRequest)
+                .when().post("/api/studies/{study-id}/reviews")
+                .then().log().all()
+                .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
 }
