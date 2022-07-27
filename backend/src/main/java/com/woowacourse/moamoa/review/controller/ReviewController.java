@@ -25,7 +25,6 @@ public class ReviewController {
 
     @GetMapping("/{study-id}/reviews")
     public ResponseEntity<ReviewsResponse> getReviews(
-            @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "study-id") final Long studyId,
             @RequestParam(required = false) final Integer size
     ) {

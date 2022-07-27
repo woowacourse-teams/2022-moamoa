@@ -22,7 +22,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies")) {
+        if (request.getMethod().equals("POST") && validatePath(request)) {
             String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
@@ -40,5 +40,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (token == null || !tokenProvider.validateToken(token)) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
+    }
+
+    private boolean validatePath(final HttpServletRequest request) {
+        return request.getServletPath().equals("/api/studies") ||
+                request.getServletPath().equals("/api/studies/*/reviews");
     }
 }
