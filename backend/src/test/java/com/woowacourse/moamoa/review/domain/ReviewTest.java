@@ -9,8 +9,6 @@ import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +31,6 @@ class ReviewTest {
         final Review review = new Review(null, associatedStudy, member, "content");
 
         // then
-        assertThatThrownBy(() -> review.writeable(LocalDateTime.of(study.getPeriod().getStartDate(), LocalTime.MIDNIGHT)));
+        assertThatThrownBy(() -> review.writeable(study));
     }
 }

@@ -1,8 +1,11 @@
 package com.woowacourse.moamoa.study.domain.repository;
 
 import com.woowacourse.moamoa.study.domain.Study;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface StudyRepository extends JpaRepository<Study, Long> {
+public interface StudyRepository {
 
+    Study save(Study study);
+
+    Optional<Study> findById(Long id);
 }

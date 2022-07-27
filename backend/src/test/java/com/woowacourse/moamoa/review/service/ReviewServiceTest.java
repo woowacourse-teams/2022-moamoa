@@ -16,7 +16,7 @@ import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
-import com.woowacourse.moamoa.study.query.StudyDetailsDao;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,7 @@ class ReviewServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private StudyDetailsDao studyDetailsDao;
+    private StudyRepository studyRepository;
 
     @Autowired
     private MemberDao memberDao;
@@ -74,7 +74,7 @@ class ReviewServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.reviewService = new ReviewService(reviewRepository, memberRepository, studyDetailsDao, memberDao);
+        this.reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository, memberDao);
     }
 
     @DisplayName("Study로 Review들을 전체 조회할 수 있다.")

@@ -13,10 +13,9 @@ import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
-import com.woowacourse.moamoa.study.query.StudyDetailsDao;
-import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final StudyDetailsDao studyDetailsDao;
+    private final StudyRepository studyRepository;
     private final MemberDao memberDao;
 
     public ReviewsResponse getReviewsByStudy(Long studyId, Integer size) {
@@ -60,8 +59,9 @@ public class ReviewService {
         checkParticipate(studyId, member.getId());
 
         final Review review = writeReviewRequest.toReview(associatedStudy, member);
-        final StudyDetailsData studyDetailsData = studyDetailsDao.findBy(studyId);
-        review.writeable(LocalDateTime.of(studyDetailsData.getStartDate(), LocalTime.MIDNIGHT));
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+        review.writeable(study);
 
         return reviewRepository.save(review).getId();
     }

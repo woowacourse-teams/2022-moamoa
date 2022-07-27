@@ -3,8 +3,10 @@ package com.woowacourse.moamoa.review.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.review.domain.exception.InvalidReviewException;
+import com.woowacourse.moamoa.study.domain.Study;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -67,9 +69,12 @@ public class Review {
         this.lastModifiedDate = LocalDateTime.now();
     }
 
-    public void writeable(final LocalDateTime studyStartDate) {
+    public void writeable(final Study study) {
+        final LocalDate createdDate = this.createdDate.toLocalDate();
+        final LocalDate studyStartDate = study.getPeriod().getStartDate();
+
         if (createdDate.isBefore(studyStartDate)) {
-            throw new BadRequestException("스터디 시작 전 후기를 작성할 수 없습니다.");
+            throw new InvalidReviewException();
         }
     }
 }
