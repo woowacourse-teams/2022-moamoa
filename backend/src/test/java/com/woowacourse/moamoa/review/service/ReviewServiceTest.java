@@ -29,6 +29,8 @@ class ReviewServiceTest {
 
     private ReviewService reviewService;
 
+    private SearchingReviewService searchingReviewService;
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -74,13 +76,14 @@ class ReviewServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository, memberDao);
+        this.reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
+        this.searchingReviewService = new SearchingReviewService(reviewRepository);
     }
 
     @DisplayName("Study로 Review들을 전체 조회할 수 있다.")
     @Test
     public void getReviewsByStudyWithSize() {
-        final ReviewsResponse reviewsResponse = reviewService.getReviewsByStudy(1L, null);
+        final ReviewsResponse reviewsResponse = searchingReviewService.getReviewsByStudy(1L, null);
 
         final Integer totalResults = reviewsResponse.getTotalResults();
         final List<ReviewResponse> reviews = reviewsResponse.getReviews();
@@ -118,7 +121,7 @@ class ReviewServiceTest {
     @DisplayName("Study로 Review들을 조회할 수 있다.")
     @Test
     public void getReviewsByStudy() {
-        final ReviewsResponse reviewsResponse = reviewService.getReviewsByStudy(1L, 6);
+        final ReviewsResponse reviewsResponse = searchingReviewService.getReviewsByStudy(1L, 6);
 
         final Integer totalResults = reviewsResponse.getTotalResults();
         final List<ReviewResponse> reviews = reviewsResponse.getReviews();
