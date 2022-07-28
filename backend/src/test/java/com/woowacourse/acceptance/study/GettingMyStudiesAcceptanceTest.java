@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.study;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -91,11 +92,7 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies[0].owner.username", is("dwoo"))
                 .body("studies[0].owner.imageUrl", is("https://image"))
                 .body("studies[0].owner.profileUrl", is("github.com"))
-                .body("studies[0].tags[0].id", is(2))
-                .body("studies[0].tags[0].name", is("4기"))
-                .body("studies[0].tags[1].id", is(4))
-                .body("studies[0].tags[1].name", is("FE"))
-                .body("studies[0].tags[2].id", is(5))
-                .body("studies[0].tags[2].name", is("React"));
+                .body("studies[0].tags.id", contains(2, 4, 5))
+                .body("studies[0].tags.name", contains("4기", "FE", "React"));
     }
 }

@@ -37,8 +37,11 @@ public class MemberDao {
     }
 
     public List<MemberData> findOwnerByStudyIds(List<Long> studyIds) {
-        List<String> temp = studyIds.stream().map(Object::toString).collect(Collectors.toList());;
-        SqlParameterSource parameters = new MapSqlParameterSource("ids", temp);
+        List<String> ids = studyIds.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", ids);
 
         String sql = "SELECT member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM study JOIN member ON member.id = study.owner_id "
