@@ -65,7 +65,7 @@ public class Study {
     }
 
     private void checkStudyParticipating(Long memberId) {
-        details.checkStudyStatus();
+        details.checkClosingRecruitment();
         period.checkParticipatingPeriod();
         participants.checkParticipating(memberId);
     }

@@ -15,7 +15,7 @@ class DetailsTest {
     public void checkStudyStatus() {
         final Details details = new Details("title", "excerpt", "thumbnail", CLOSE, "description");
 
-        assertThatThrownBy(details::checkStudyStatus)
+        assertThatThrownBy(details::checkClosingRecruitment)
                 .isInstanceOf(InvalidParticipationStudyException.class);
     }
 }

@@ -38,7 +38,7 @@ public class Details {
         this.description = description;
     }
 
-    protected void checkStudyStatus() {
+    protected void checkClosingRecruitment() {
         if (status.equals(CLOSE)) {
             throw new InvalidParticipationStudyException();
         }
