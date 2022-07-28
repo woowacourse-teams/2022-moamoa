@@ -82,9 +82,7 @@ class StudyServiceTest {
 
         // then
         final Study result = studyRepository.findById(foundStudy.getId()).get();
-        assertThat(result.getParticipants().getParticipants().size()).isEqualTo(2);
+        assertThat(result.getParticipants().getCurrentMemberSize()).isEqualTo(2);
         assertThat(result.getParticipants().getParticipants().contains(new Participant(2L))).isTrue();
     }
 }
-
-
