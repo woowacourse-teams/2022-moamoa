@@ -56,8 +56,13 @@ public class Participants {
 
     protected void participate(final Participant participant) {
         checkParticipating(participant.getMemberId());
+
         participants.add(participant);
-        this.size = this.size + 1;
+        increaseCurrentMemberSize();
+    }
+
+    private void increaseCurrentMemberSize() {
+        size = size + 1;
     }
 
     private void checkParticipating(Long memberId) {
@@ -72,7 +77,9 @@ public class Participants {
 
     private boolean isAlreadyParticipation(final Long memberId) {
         final Participant participant = new Participant(memberId);
-        return isOwner(memberId) || isParticipant(participant);
+        final boolean b = isOwner(memberId) || isParticipant(participant);
+        System.out.println("b = " + b);
+        return b;
     }
 
     private boolean isOwner(final Long memberId) {

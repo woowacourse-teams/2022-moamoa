@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -60,13 +61,13 @@ public class Study {
     public void participate(final Member member) {
         checkStudyParticipating();
 
-        final Participant participant = new Participant(member.getId());
-        participants.participate(participant);
+        participants.participate(new Participant(member.getId()));
     }
 
     private void checkStudyParticipating() {
-        details.checkClosingRecruitment();
-        period.checkParticipatingPeriod();
+        if (details.isCloseStatus() || period.isCloseEnrollment()) {
+            throw new InvalidParticipationStudyException();
+        }
     }
 
     private void validatePeriod(final Period period) {

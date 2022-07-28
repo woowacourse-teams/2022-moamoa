@@ -1,12 +1,12 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,6 +58,6 @@ public class PeriodTest {
 
         final Period period = new Period(enrollmentEndDate, startDate, endDate);
 
-        Assertions.assertDoesNotThrow(period::checkParticipatingPeriod);
+        assertThat(period.isCloseEnrollment()).isFalse();
     }
 }

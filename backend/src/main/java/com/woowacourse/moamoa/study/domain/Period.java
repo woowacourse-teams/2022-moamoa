@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.study.domain;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,10 +34,8 @@ public class Period {
                 createAt.toLocalDate()));
     }
 
-    protected void checkParticipatingPeriod() {
-        if (enrollmentEndDate != null && enrollmentEndDate.isBefore(LocalDate.now())) {
-            throw new InvalidParticipationStudyException();
-        }
+    public boolean isCloseEnrollment() {
+        return enrollmentEndDate != null && enrollmentEndDate.isBefore(LocalDate.now());
     }
 
     @Override

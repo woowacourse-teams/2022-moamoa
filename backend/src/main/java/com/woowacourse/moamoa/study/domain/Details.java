@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.study.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -38,10 +37,8 @@ public class Details {
         this.description = description;
     }
 
-    protected void checkClosingRecruitment() {
-        if (status.equals(CLOSE)) {
-            throw new InvalidParticipationStudyException();
-        }
+    public boolean isCloseStatus() {
+        return status.equals(CLOSE);
     }
 
     @Override
