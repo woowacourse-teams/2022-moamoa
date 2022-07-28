@@ -129,4 +129,19 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
+
+    @DisplayName("스터디장(owner)은 스터디에 참여할 수 없다.")
+    @Test
+    public void participateOwner() {
+        final String jwtToken = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(2L, "greenlawn", "https://image", "github.com"));
+
+        RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, jwtToken)
+                .when().log().all()
+                .post("/api/studies/1")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
 }
