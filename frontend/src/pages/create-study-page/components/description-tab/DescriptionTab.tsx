@@ -85,7 +85,7 @@ const DescriptionTab = () => {
               <textarea
                 id="description"
                 placeholder="(20000자 제한)"
-                className={cn({ invalid: errors['description'] })}
+                className={cn({ invalid: !!errors['description']?.hasError })}
                 {...register('description', {
                   validate: (val: string) => {
                     if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {

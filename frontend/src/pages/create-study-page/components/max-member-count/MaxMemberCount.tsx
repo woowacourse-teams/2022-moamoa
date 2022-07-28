@@ -21,7 +21,6 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
       <MetaBox>
         <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
         <MetaBox.Content>
-          {/* TODO: Perfect Number Input사용하기  */}
           <label
             htmlFor="max-member-count"
             css={css`

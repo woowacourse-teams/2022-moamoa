@@ -47,7 +47,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
             </div>
             <textarea
               placeholder="한줄소개를 입력해주세요"
-              className={cn({ invalid: errors['excerpt'] })}
+              className={cn({ invalid: !!errors['excerpt']?.hasError })}
               {...register('excerpt', {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {

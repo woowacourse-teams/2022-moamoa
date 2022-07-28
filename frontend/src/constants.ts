@@ -56,7 +56,7 @@ export const TITLE_LENGTH = {
     },
   },
   MAX: {
-    VALUE: 20,
+    VALUE: 30,
     get MESSAGE() {
       return `${this.VALUE}글자까지 입력할 수 있습니다`;
     },

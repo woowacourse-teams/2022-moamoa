@@ -1,7 +1,5 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
-import { MakeRequired } from '@custom-types/index';
-
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
@@ -131,11 +129,14 @@ export const useForm: UseForm = () => {
 
   const removeError = (prev: UseFormState, name: FieldName): UseFormState => {
     const errors = { ...prev.errors };
-    delete errors[name];
+    if (errors[name]) {
+      errors[name].hasError = false;
+    }
+
     return {
       ...prev,
       errors,
-      isValid: Object.keys(errors).length === 0,
+      isValid: !Object.values(errors).some(error => error.hasError),
     };
   };
 
@@ -144,7 +145,7 @@ export const useForm: UseForm = () => {
     return {
       ...prev,
       errors,
-      isValid: Object.keys(errors).length === 0,
+      isValid: !Object.values(errors).some(error => error.hasError),
     };
   };
 
@@ -195,7 +196,7 @@ export const useForm: UseForm = () => {
     }));
 
     const errors = getFieldErrors(fieldsRef.current);
-    const isValid = Object.keys(errors).length === 0;
+    const isValid = !Object.values(errors).some(error => error.hasError);
 
     if (!isValid) {
       setFormState({
