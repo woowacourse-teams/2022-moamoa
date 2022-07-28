@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { css } from '@emotion/react';
 
+import { MEMBER_COUNT } from '@constants';
+
 import { useFormContext } from '@hooks/useForm';
 
 import PositiveNumberInput from '@components/positive-number-input/PositiveNumberInput';
@@ -21,22 +23,25 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
       <MetaBox>
         <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
         <MetaBox.Content>
-          {/* TODO: Perfect Number Input사용하기  */}
           <label
             htmlFor="max-member-count"
             css={css`
               margin-right: 10px;
             `}
           >
-            최대 인원 :{' '}
+            최대 인원 :
           </label>
           <PositiveNumberInput
+            {...register('max-member-count', {
+              min: MEMBER_COUNT.MIN.VALUE,
+              max: MEMBER_COUNT.MAX.VALUE,
+            })}
             id="max-member-count"
             placeholder="최대 인원"
             value={count}
-            max={200}
-            onChange={newValue => setCount(newValue)}
-            {...register('max-member-count')}
+            onChange={value => {
+              setCount(Number(value));
+            }}
           ></PositiveNumberInput>
         </MetaBox.Content>
       </MetaBox>

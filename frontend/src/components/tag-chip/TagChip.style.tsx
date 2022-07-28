@@ -15,6 +15,6 @@ export const TagChip = styled.div`
 
     border-radius: 25px;
     border: 2px solid ${theme.colors.primary.base};
-    background-color: white;
+    background-color: ${theme.colors.white};
   `}
 `;

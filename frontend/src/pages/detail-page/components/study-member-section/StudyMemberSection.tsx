@@ -1,5 +1,6 @@
-import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 import { useState } from 'react';
+
+import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { Member } from '@custom-types/index';
 

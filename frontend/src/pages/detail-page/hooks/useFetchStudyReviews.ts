@@ -1,5 +1,6 @@
-import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 import { useQuery } from 'react-query';
+
+import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
 import getStudyReviews from '@api/getStudyReviews';
 import type { StudyReviewResponse } from '@api/getStudyReviews';

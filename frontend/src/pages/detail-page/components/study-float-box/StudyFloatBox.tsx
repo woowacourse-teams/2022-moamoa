@@ -10,6 +10,7 @@ export type StudyFloatBoxProps = {
   currentMemberCount: number;
   maxMemberCount: number;
   owner: string;
+  status: 'OPEN' | 'CLOSE'; // TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
   handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -19,14 +20,23 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   currentMemberCount,
   maxMemberCount,
   owner,
+  status,
   handleRegisterBtnClick,
 }) => {
+  const isOpen = status === 'OPEN';
+
   return (
     <S.StudyFloatBox>
       <S.StudyInfo>
         <S.Deadline>
-          <span>{yyyymmddTommdd(deadline)}</span>
-          까지 가입 가능
+          {isOpen ? (
+            <>
+              <span>{yyyymmddTommdd(deadline)}</span>
+              까지 가입 가능
+            </>
+          ) : (
+            <span>모집 마감</span>
+          )}
         </S.Deadline>
         <S.MemberCount>
           <span>모집인원</span>
@@ -39,7 +49,9 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           <span>{owner}</span>
         </S.Owner>
       </S.StudyInfo>
-      <Button onClick={handleRegisterBtnClick(studyId)}>스터디 방 가입하기</Button>
+      <Button disabled={!isOpen} onClick={handleRegisterBtnClick(studyId)}>
+        {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+      </Button>
     </S.StudyFloatBox>
   );
 };

@@ -28,18 +28,20 @@ export const StickyContainer = styled.div`
 `;
 
 export const FixedBottomContainer = styled.div`
-  display: none;
+  ${({ theme }) => css`
+    display: none;
 
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: white;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: ${theme.colors.white};
 
-  padding: 16px 24px;
+    padding: 16px 24px;
 
-  background-color: rgb(255, 255, 255);
-  border-top: 1px solid rgb(221, 221, 221);
+    background-color: ${theme.colors.white};
+    border-top: 1px solid ${theme.colors.secondary.light};
+  `}
 
   ${mqDown('lg')} {
     display: block;

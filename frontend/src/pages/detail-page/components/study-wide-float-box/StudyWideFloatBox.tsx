@@ -11,7 +11,7 @@ export type StudyWideFloatBoxProps = {
   deadline: string;
   currentMemberCount: number;
   maxMemberCount: number;
-  owner: string;
+  status: 'OPEN' | 'CLOSE'; // TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
   handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -20,24 +20,30 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   deadline,
   currentMemberCount,
   maxMemberCount,
-  owner,
+  status,
   handleRegisterBtnClick,
 }) => {
+  const isOpen = status === 'OPEN';
+
   return (
     <S.StudyWideFloatBox>
       <S.StudyInfo>
         <S.Deadline>
-          <span>{yyyymmddTommdd(deadline)}</span>
-          까지 가입 가능
+          {isOpen ? (
+            <>
+              <span>{yyyymmddTommdd(deadline)}</span>
+              까지 가입 가능
+            </>
+          ) : (
+            <span>모집 마감</span>
+          )}
         </S.Deadline>
-        <S.ExtraInfo>
-          <S.MemberCount>
-            <span>모집인원</span>
-            <span>
-              {currentMemberCount} / {maxMemberCount}
-            </span>
-          </S.MemberCount>
-        </S.ExtraInfo>
+        <S.MemberCount>
+          <span>모집인원</span>
+          <span>
+            {currentMemberCount} / {maxMemberCount}
+          </span>
+        </S.MemberCount>
       </S.StudyInfo>
       <div>
         <Button
@@ -46,9 +52,10 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             padding: 0 20px;
           `}
           fluid={true}
+          disabled={!isOpen}
           onClick={handleRegisterBtnClick(studyId)}
         >
-          가입
+          {isOpen ? '가입하기' : '모집 마감'}
         </Button>
       </div>
     </S.StudyWideFloatBox>

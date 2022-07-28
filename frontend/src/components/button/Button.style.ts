@@ -12,7 +12,7 @@ const applyOutlineButtonStyle = ({ theme, isLoading }: { theme: Theme; isLoading
   &:hover {
     background-color: ${theme.colors.primary.base};
     border: 1px solid transparent;
-    color: white;
+    color: ${theme.colors.white};
   }
 `;
 
@@ -58,13 +58,18 @@ export const Button = styled.button<ButtonProp>`
     padding: 20px 10px;
 
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     border: none;
     border-radius: 10px;
     background-color: ${theme.colors.primary.base};
     color: ${isLoading ? theme.colors.primary.base : 'white'};
 
     white-space: nowrap;
+
+    &:disabled {
+      background-color: ${theme.colors.secondary.base};
+      color: ${theme.colors.black};
+    }
 
     ${outline && applyOutlineButtonStyle({ theme, isLoading })}
   `}

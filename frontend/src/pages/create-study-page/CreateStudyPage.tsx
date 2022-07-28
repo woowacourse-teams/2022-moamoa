@@ -7,16 +7,18 @@ import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMe
 import Period from '@create-study-page/components/period/Peroid';
 import Publish from '@create-study-page/components/publish/Publish';
 import Tag from '@create-study-page/components/tag/Tag';
+import Title from '@create-study-page/components/title/Title';
 import usePostNewStudy from '@create-study-page/hooks/usePostNewStudy';
-import cn from 'classnames';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
+import { ACCESS_TOKEN_KEY, PATH } from '@constants';
+
 import { StudyDetailPostData } from '@api/postNewStudy';
 
-import { FormProvider, makeValidationResult, useForm } from '@hooks/useForm';
+import { FormProvider, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
@@ -29,8 +31,6 @@ function getRandomInt(min: number, max: number) {
 
 const CreateStudyPage: React.FC = () => {
   const formMethods = useForm();
-  const { formState } = formMethods;
-  const { errors } = formState;
 
   const navigate = useNavigate();
   const { mutateAsync } = usePostNewStudy();
@@ -46,7 +46,7 @@ const CreateStudyPage: React.FC = () => {
     };
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) return;
 
     const { values } = submitResult;
@@ -78,19 +78,19 @@ const CreateStudyPage: React.FC = () => {
     return mutateAsync(postData, {
       onSuccess: () => {
         alert('스터디를 생성했습니다');
-        window.location.href = '/';
+        navigate(PATH.MAIN);
       },
       onError: () => {
-        alert('에러가 발생했습니다');
+        alert('스터디 생성 에러가 발생했습니다');
       },
     });
   };
 
   useEffect(() => {
-    const hasAccessToken = !!window.localStorage.getItem('accessToken');
+    const hasAccessToken = !!window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
     if (!hasAccessToken) {
       alert('로그인 후 이용해 주세요');
-      navigate('/');
+      navigate(PATH.MAIN);
     }
   }, [navigate]);
 
@@ -102,19 +102,7 @@ const CreateStudyPage: React.FC = () => {
             <h1 className="title">스터디 개설하기</h1>
             <div className="inner">
               <div className="main">
-                <input
-                  className={cn('title-input', { invalid: errors['title'] })}
-                  type="text"
-                  placeholder="스터디 이름"
-                  {...formMethods.register('title', {
-                    validate: (val: string) => {
-                      if (val.length === 0) {
-                        return makeValidationResult(true, '스터디 이름을 입력해 주세요');
-                      }
-                      return makeValidationResult(false);
-                    },
-                  })}
-                />
+                <Title />
                 <DescriptionTab />
                 <Excerpt />
               </div>

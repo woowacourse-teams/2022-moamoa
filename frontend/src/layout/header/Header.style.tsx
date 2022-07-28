@@ -90,4 +90,10 @@ export const NavButton = styled.button`
       color: ${theme.colors.primary.base};
     }
   `}
+
+  ${mqDown('md')} {
+    & > span {
+      display: none;
+    }
+  }
 `;

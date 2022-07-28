@@ -1,3 +1,11 @@
+export const PATH = {
+  MAIN: '/',
+  STUDY_DETAIL: (studyId = ':studyId') => `/study/${studyId}`,
+  LOGIN: '/login',
+};
+
+export const ACCESS_TOKEN_KEY = 'accessToken';
+
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,
@@ -16,4 +24,73 @@ export const BREAK_POINTS = {
   lg: 992,
   xl: 1280,
   xxl: 1400,
+};
+
+export const VALIDATIONS = {
+  EXCERPT: {
+    LENGTH: {
+      MIN: 1,
+      MAX: 50,
+    },
+  },
+};
+
+export const EXCERPT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 50,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const TITLE_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 30,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const DESCRIPTION_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 20000,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const MEMBER_COUNT = {
+  MIN: {
+    VALUE: 0,
+    get MESSAGE() {
+      return `${this.VALUE}명 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 100,
+    get MESSAGE() {
+      return `${this.VALUE}명까지 입력할 수 있습니다`;
+    },
+  },
 };

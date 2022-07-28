@@ -24,7 +24,7 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
         <MetaBox.Content>
           <div>
             <label
-              htmlFor="state-date"
+              htmlFor="enrollment-end-date"
               css={css`
                 margin-right: 10px;
               `}

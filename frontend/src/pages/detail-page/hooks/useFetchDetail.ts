@@ -1,5 +1,6 @@
-import { QK_FETCH_STUDY_DETAIL } from '@constants';
 import { useQuery } from 'react-query';
+
+import { QK_FETCH_STUDY_DETAIL } from '@constants';
 
 import { StudyDetail } from '@custom-types/index';
 

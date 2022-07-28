@@ -38,12 +38,12 @@ export const CreateStudyPage = styled.div`
   textarea {
     overflow: auto;
     padding: 8px 10px;
-    resize: vertical;
   }
 
   input.invalid,
   textarea.invalid {
-    border: 2px solid red !important;
+    border: none !important;
+    outline: 2px solid red !important;
   }
 
   & > form {
