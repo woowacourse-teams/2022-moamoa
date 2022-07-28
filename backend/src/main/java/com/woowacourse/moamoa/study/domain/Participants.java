@@ -71,7 +71,15 @@ public class Participants {
 
     private boolean isAlreadyParticipation(final Long memberId) {
         final Participant participant = new Participant(memberId);
-        return Objects.equals(memberId, ownerId) || participants.contains(participant);
+        return isOwner(memberId) || isParticipant(participant);
+    }
+
+    private boolean isOwner(final Long memberId) {
+        return Objects.equals(memberId, ownerId);
+    }
+
+    private boolean isParticipant(final Participant participant) {
+        return participants.contains(participant);
     }
 
     @Override
