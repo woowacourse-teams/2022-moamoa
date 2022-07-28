@@ -22,7 +22,8 @@ class ParticipantsTest {
     public void checkParticipatingAboutOwner() {
         final Participants participants = new Participants(3, 10, PARTICIPANTS, 1L);
 
-        assertThatThrownBy(() -> participants.checkParticipating(1L))
+        final Participant participant = new Participant(1L);
+        assertThatThrownBy(() -> participants.participate(participant))
                 .isInstanceOf(InvalidParticipationStudyException.class);
     }
 
@@ -31,7 +32,8 @@ class ParticipantsTest {
     public void checkAlreadyParticipating() {
         final Participants participants = new Participants(3, 10, PARTICIPANTS, 1L);
 
-        assertThatThrownBy(() -> participants.checkParticipating(2L))
+        final Participant participant = new Participant(2L);
+        assertThatThrownBy(() -> participants.participate(participant))
                 .isInstanceOf(InvalidParticipationStudyException.class);
     }
 
@@ -40,7 +42,8 @@ class ParticipantsTest {
     public void checkStudyMemberCountLessThanMaxCount() {
         final Participants participants = new Participants(3, 4, PARTICIPANTS, 1L);
 
-        assertDoesNotThrow(() -> participants.checkParticipating(4L));
+        final Participant participant = new Participant(4L);
+        assertDoesNotThrow(() -> participants.participate(participant));
     }
 
     @DisplayName("스터디 회원 수가 꽉 찬 경우 예외가 발생한다.")
@@ -48,7 +51,8 @@ class ParticipantsTest {
     public void checkStudyMemberCount() {
         final Participants participants = new Participants(3, 3, PARTICIPANTS, 1L);
 
-        assertThatThrownBy(() -> participants.checkParticipating(4L))
+        final Participant participant = new Participant(4L);
+        assertThatThrownBy(() -> participants.participate(participant))
                 .isInstanceOf(InvalidParticipationStudyException.class);
     }
     
@@ -56,11 +60,12 @@ class ParticipantsTest {
     @Test
     public void IncreaseCurrentMemberCount() {
         final Participants participants = new Participants(3, 4, PARTICIPANTS, 1L);
+        final Participant participant = new Participant(4L);
 
-        participants.participate(new Participant(4L));
+        participants.participate(participant);
 
         assertThat(participants.getCurrentMemberSize()).isEqualTo(4);
-        assertThatThrownBy(() -> participants.checkParticipating(4L))
+        assertThatThrownBy(() -> participants.participate(participant))
                 .isInstanceOf(InvalidParticipationStudyException.class);
     }
 }

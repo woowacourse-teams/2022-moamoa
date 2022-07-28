@@ -58,16 +58,15 @@ public class Study {
     }
 
     public void participate(final Member member) {
-        checkStudyParticipating(member.getId());
+        checkStudyParticipating();
 
         final Participant participant = new Participant(member.getId());
         participants.participate(participant);
     }
 
-    private void checkStudyParticipating(Long memberId) {
+    private void checkStudyParticipating() {
         details.checkClosingRecruitment();
         period.checkParticipatingPeriod();
-        participants.checkParticipating(memberId);
     }
 
     private void validatePeriod(final Period period) {

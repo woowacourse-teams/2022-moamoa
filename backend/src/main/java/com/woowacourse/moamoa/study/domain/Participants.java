@@ -50,16 +50,17 @@ public class Participants {
         return new Participants(1, maxSize, new HashSet<>(), ownerId);
     }
 
-    protected void participate(final Participant participant) {
-        participants.add(participant);
-        this.size = this.size + 1;
-    }
-
     public int getCurrentMemberSize() {
         return size;
     }
 
-    protected void checkParticipating(Long memberId) {
+    protected void participate(final Participant participant) {
+        checkParticipating(participant.getMemberId());
+        participants.add(participant);
+        this.size = this.size + 1;
+    }
+
+    private void checkParticipating(Long memberId) {
         if (isInvalidMemberSize() || isAlreadyParticipation(memberId)) {
             throw new InvalidParticipationStudyException();
         }
