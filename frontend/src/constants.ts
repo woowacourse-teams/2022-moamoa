@@ -4,6 +4,8 @@ export const PATH = {
   LOGIN: '/login',
 };
 
+export const ACCESS_TOKEN_KEY = 'accessToken';
+
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,
@@ -74,6 +76,21 @@ export const DESCRIPTION_LENGTH = {
     VALUE: 20000,
     get MESSAGE() {
       return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const MEMBER_COUNT = {
+  MIN: {
+    VALUE: 0,
+    get MESSAGE() {
+      return `${this.VALUE}명 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 100,
+    get MESSAGE() {
+      return `${this.VALUE}명까지 입력할 수 있습니다`;
     },
   },
 };

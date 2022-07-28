@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { css } from '@emotion/react';
 
+import { MEMBER_COUNT } from '@constants';
+
 import { useFormContext } from '@hooks/useForm';
 
 import PositiveNumberInput from '@components/positive-number-input/PositiveNumberInput';
@@ -31,8 +33,8 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
           </label>
           <PositiveNumberInput
             {...register('max-member-count', {
-              min: 1,
-              max: 100,
+              min: MEMBER_COUNT.MIN.VALUE,
+              max: MEMBER_COUNT.MAX.VALUE,
             })}
             id="max-member-count"
             placeholder="최대 인원"

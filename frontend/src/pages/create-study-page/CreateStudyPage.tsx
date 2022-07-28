@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
-import { PATH } from '@constants';
+import { ACCESS_TOKEN_KEY, PATH } from '@constants';
 
 import { StudyDetailPostData } from '@api/postNewStudy';
 
@@ -87,7 +87,7 @@ const CreateStudyPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const hasAccessToken = !!window.sessionStorage.getItem('accessToken');
+    const hasAccessToken = !!window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
     if (!hasAccessToken) {
       alert('로그인 후 이용해 주세요');
       navigate(PATH.MAIN);

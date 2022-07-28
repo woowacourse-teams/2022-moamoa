@@ -1,5 +1,7 @@
 import { ReactNode, createContext, useState } from 'react';
 
+import { ACCESS_TOKEN_KEY } from '@constants';
+
 import noop from '@utils/noop';
 
 interface LoginProviderProps {
@@ -11,7 +13,7 @@ interface ContextType {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const hasAccessToken = !!window.sessionStorage.getItem('accessToken');
+const hasAccessToken = !!window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
 
 export const LoginContext = createContext<ContextType>({
   isLoggedIn: false,
