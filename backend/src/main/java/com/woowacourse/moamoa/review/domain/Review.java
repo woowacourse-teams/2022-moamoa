@@ -52,21 +52,12 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    public static Review of(final AssociatedStudy associatedStudy, final Member member, final String content) {
-        return new Review(associatedStudy, member, content);
-    }
-
     public Review(final AssociatedStudy associatedStudy, final Member member, final String content) {
         this(null, associatedStudy, member, content);
     }
 
     public Review(final Long id, final AssociatedStudy associatedStudy, final Member member, final String content) {
-        this.id = id;
-        this.associatedStudy = associatedStudy;
-        this.member = member;
-        this.content = content;
-        this.createdDate = LocalDateTime.now();
-        this.lastModifiedDate = LocalDateTime.now();
+        this(id, associatedStudy, member, content, LocalDateTime.now(), LocalDateTime.now());
     }
 
     public void writeable(final Study study) {
