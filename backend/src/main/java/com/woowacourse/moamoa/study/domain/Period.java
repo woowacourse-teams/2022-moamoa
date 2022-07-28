@@ -35,6 +35,10 @@ public class Period {
         return startDate.isBefore(createAt.toLocalDate()) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(createAt.toLocalDate()));
     }
 
+    public boolean isBeforeThanStartDate(final LocalDate reviewCreatedDate) {
+        return startDate.isAfter(reviewCreatedDate);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

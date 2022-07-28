@@ -23,16 +23,12 @@ public class CommonControllerAdvice {
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler({
-            UnauthorizedException.class
-    })
+    @ExceptionHandler({UnauthorizedException.class})
     public ResponseEntity<Void> handleUnauthorized(final Exception e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @ExceptionHandler({
-            NotFoundException.class
-    })
+    @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<ErrorResponse> handleNotFound(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(e.getMessage()));
     }

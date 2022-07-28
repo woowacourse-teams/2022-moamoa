@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.member.service;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.member.service.exception.InvalidMemberException;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class MemberService {
 
     public MemberData searchBy(final Long githubId) {
         final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(InvalidMemberException::new);
+                .orElseThrow(MemberNotFoundException::new);
         return new MemberData(member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl());
     }
 }

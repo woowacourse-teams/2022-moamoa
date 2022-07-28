@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -66,7 +67,11 @@ public class Study {
         }
     }
 
-    public boolean isParticipant(final Participant participant) {
+    public boolean isParticipated(final Participant participant) {
         return participants.contains(participant);
+    }
+
+    public boolean isBeforeThanStudyStartDate(final LocalDate reviewCreatedDate) {
+        return period.isBeforeThanStartDate(reviewCreatedDate);
     }
 }

@@ -4,9 +4,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.member.domain.Member;
-import com.woowacourse.moamoa.review.domain.exception.InvalidReviewException;
-import com.woowacourse.moamoa.study.domain.Study;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -38,9 +35,6 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
-//    @Embedded
-//    private Reviewer reviewer;
-
     @Column(nullable = false)
     private String content;
 
@@ -52,20 +46,10 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    public Review(final AssociatedStudy associatedStudy, final Member member, final String content) {
-        this(null, associatedStudy, member, content);
-    }
-
-    public Review(final Long id, final AssociatedStudy associatedStudy, final Member member, final String content) {
-        this(id, associatedStudy, member, content, LocalDateTime.now(), LocalDateTime.now());
-    }
-
-    public void writeable(final Study study) {
-        final LocalDate createdDate = this.createdDate.toLocalDate();
-        final LocalDate studyStartDate = study.getPeriod().getStartDate();
-
-        if (createdDate.isBefore(studyStartDate)) {
-            throw new InvalidReviewException();
-        }
+    public Review(
+            final AssociatedStudy associatedStudy, final Member member, final String content,
+            final LocalDateTime createdDate, final LocalDateTime lastModifiedDate
+    ) {
+        this(null, associatedStudy, member, content, createdDate, lastModifiedDate);
     }
 }
