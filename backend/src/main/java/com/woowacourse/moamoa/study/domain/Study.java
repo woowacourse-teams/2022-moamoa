@@ -65,4 +65,8 @@ public class Study {
             throw new InvalidPeriodException();
         }
     }
+
+    public boolean isParticipant(final Participant participant) {
+        return participants.contains(participant);
+    }
 }

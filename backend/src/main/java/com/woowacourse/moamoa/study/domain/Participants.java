@@ -7,7 +7,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import lombok.ToString;
 
@@ -45,6 +44,10 @@ public class Participants {
 
     public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {
         return new Participants(1, maxSize, new ArrayList<>(), id);
+    }
+
+    public boolean contains(final Participant participant) {
+        return participants.contains(participant);
     }
 
     @Override
