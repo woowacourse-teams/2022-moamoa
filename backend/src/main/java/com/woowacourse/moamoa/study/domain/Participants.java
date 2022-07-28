@@ -66,7 +66,7 @@ public class Participants {
     }
 
     private boolean isInvalidMemberSize() {
-        return max == null || max <= size;
+        return max != null && max <= size;
     }
 
     private boolean isAlreadyParticipation(final Long memberId) {
