@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.study.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ class DetailsTest {
     public void checkStudyStatus() {
         final Details details = new Details("title", "excerpt", "thumbnail", CLOSE, "description");
 
-        assertThatThrownBy(() -> details.checkStudyStatus());
+        assertThatThrownBy(details::checkStudyStatus)
+                .isInstanceOf(InvalidParticipationStudyException.class);
     }
 }
