@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils/index';
 
 export const Main = styled.div`
   display: flex;

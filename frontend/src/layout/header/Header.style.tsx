@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils/index';
 
 import * as Logo from '@layout/header/logo/Logo.style';
 import * as SearchBar from '@layout/header/search-bar/SearchBar.style';

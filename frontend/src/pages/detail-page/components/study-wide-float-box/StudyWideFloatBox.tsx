@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import yyyymmddTommdd from '@utils/yyyymmddTommdd';
+import { yyyymmddTommdd } from '@utils/index';
 
 import Button from '@components/button/Button';
 

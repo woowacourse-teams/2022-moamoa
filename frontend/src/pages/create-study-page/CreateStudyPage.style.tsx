@@ -2,7 +2,7 @@ import { DescriptionTab } from '@create-study-page/components/description-tab/De
 
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils/index';
 
 const sidebarWidth = 280;
 const mainGabSidebar = 40;
