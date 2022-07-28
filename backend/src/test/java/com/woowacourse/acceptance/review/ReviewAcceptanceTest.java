@@ -22,10 +22,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
-    protected void setUp() {
-        super.setUp();
+    protected void setRestAssuredPort() {
+        super.setRestAssuredPort();
         getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "jjanga", "https://image", "github.com"));
+        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
         jdbcTemplate.update(
                 "INSERT INTO study(id, title, excerpt, thumbnail, status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02T11:56:32.123567')");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
@@ -47,7 +47,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     void writeReviewByNonParticipateStudy() {
         final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("후기 내용입니다.");
         final String jwtToken = getBearerTokenBySignInOrUp(
-                new GithubProfileResponse(2L, "jjanga", "https://image", "github.com"));
+                new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)

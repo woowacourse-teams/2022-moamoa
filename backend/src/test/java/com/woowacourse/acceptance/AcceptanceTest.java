@@ -36,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
         classes = {MoamoaApplication.class}
 )
 public class AcceptanceTest {
+
     @LocalServerPort
     protected int port;
 
@@ -57,7 +58,7 @@ public class AcceptanceTest {
     private MockRestServiceServer mockServer;
 
     @BeforeEach
-    protected void setUp() {
+    protected void setRestAssuredPort() {
         RestAssured.port = port;
     }
 
