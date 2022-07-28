@@ -12,7 +12,7 @@ const applyOutlineButtonStyle = ({ theme, isLoading }: { theme: Theme; isLoading
   &:hover {
     background-color: ${theme.colors.primary.base};
     border: 1px solid transparent;
-    color: white;
+    color: ${theme.colors.white};
   }
 `;
 
