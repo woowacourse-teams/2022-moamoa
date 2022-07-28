@@ -47,7 +47,7 @@ public class Participants {
     }
 
     public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
-        return new Participants(1, maxSize, new HashSet<>(List.of(new Participant(ownerId))), ownerId);
+        return new Participants(1, maxSize, new HashSet<>(), ownerId);
     }
 
     protected void participate(final Participant participant) {
