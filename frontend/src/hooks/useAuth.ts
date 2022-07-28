@@ -6,12 +6,12 @@ export const useAuth = () => {
   const { setIsLoggedIn } = useContext(LoginContext);
 
   const login = (accesssToken: string) => {
-    localStorage.setItem('accessToken', accesssToken);
+    window.sessionStorage.setItem('accessToken', accesssToken);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
+    window.sessionStorage.removeItem('accessToken');
     setIsLoggedIn(false);
   };
 

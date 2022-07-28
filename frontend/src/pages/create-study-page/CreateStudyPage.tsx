@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
+import { PATH } from '@constants';
+
 import { StudyDetailPostData } from '@api/postNewStudy';
 
 import { FormProvider, useForm } from '@hooks/useForm';
@@ -76,19 +78,19 @@ const CreateStudyPage: React.FC = () => {
     return mutateAsync(postData, {
       onSuccess: () => {
         alert('스터디를 생성했습니다');
-        window.location.href = '/';
+        navigate(PATH.MAIN);
       },
       onError: () => {
-        alert('에러가 발생했습니다');
+        alert('스터디 생성 에러가 발생했습니다');
       },
     });
   };
 
   useEffect(() => {
-    const hasAccessToken = !!window.localStorage.getItem('accessToken');
+    const hasAccessToken = !!window.sessionStorage.getItem('accessToken');
     if (!hasAccessToken) {
       alert('로그인 후 이용해 주세요');
-      navigate('/');
+      navigate(PATH.MAIN);
     }
   }, [navigate]);
 

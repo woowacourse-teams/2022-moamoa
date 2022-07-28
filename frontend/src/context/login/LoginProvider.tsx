@@ -11,7 +11,7 @@ interface ContextType {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const hasAccessToken = !!window.localStorage.getItem('accessToken');
+const hasAccessToken = !!window.sessionStorage.getItem('accessToken');
 
 export const LoginContext = createContext<ContextType>({
   isLoggedIn: false,
