@@ -36,11 +36,11 @@ public class BadRequestReviewWebMvcTest {
     @MockBean
     private ReviewService reviewService;
 
-    @DisplayName("필수 데이터인 후기 내용이 없는 경우 400을 반환한다.")
+    @DisplayName("필수 데이터인 후기 내용이 비어있는 경우 400을 반환한다.")
     @Test
-    void requestByEmptyContent() throws Exception {
+    void requestByBlankContent() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L);
-        final String content = objectMapper.writeValueAsString(new WriteReviewRequest(null));
+        final String content = objectMapper.writeValueAsString(new WriteReviewRequest(""));
 
         mockMvc.perform(post("/api/studies/1/reviews")
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -52,7 +52,7 @@ public class BadRequestReviewWebMvcTest {
 
     @DisplayName("필수 데이터인 후기 내용이 없는 경우 400을 반환한다.")
     @Test
-    void requestByEmptyBody() throws Exception {
+    void requestByEmptyContent() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L);
 
         mockMvc.perform(post("/api/studies/1/reviews")
