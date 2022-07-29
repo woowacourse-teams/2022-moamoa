@@ -80,17 +80,31 @@ const GlobalStyles = () => {
           font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
         }
 
-        button {
+        button,
+        input,
+        textarea,
+        select,
+        option {
           font-family: inherit;
+        }
+
+        button {
           cursor: pointer;
+
+          &:disabled {
+            cursor: default;
+          }
         }
 
         a {
           text-decoration: none;
         }
 
+        textarea {
+          resize: none;
+        }
+
         input {
-          font-family: inherit;
           background-color: ${theme.colors.white};
           &::placeholder {
             color: ${theme.colors.secondary.dark};

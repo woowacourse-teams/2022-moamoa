@@ -10,8 +10,8 @@ import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.CreateStudyService;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.StudyService;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -61,14 +61,14 @@ class ReviewDaoTest {
         final Member verus = memberRepository.save(toMember(VERUS));
 
         // 스터디 생성
-        CreateStudyService createStudyService = new CreateStudyService(memberRepository, studyRepository);
+        StudyService createStudyService = new StudyService(studyRepository, memberRepository);
 
         final LocalDate startDate = LocalDate.now();
-        CreateStudyRequest javaStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
                 .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
                 .startDate(startDate)
                 .build();
-        CreateStudyRequest reactStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
                 .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
                 .startDate(startDate)
                 .build();

@@ -4,14 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
-import com.woowacourse.moamoa.study.service.CreateStudyService;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
@@ -42,11 +39,11 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
         getBearerTokenBySignInOrUp(toGithubProfileResponse(VERUS));
 
         final LocalDate startDate = LocalDate.now();
-        CreateStudyRequest javaStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
                 .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
                 .startDate(startDate)
                 .build();
-        CreateStudyRequest reactStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
                 .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
                 .startDate(startDate)
                 .build();

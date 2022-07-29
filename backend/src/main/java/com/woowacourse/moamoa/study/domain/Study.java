@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -60,5 +61,13 @@ public class Study {
         if (period.isBefore(createdAt)) {
             throw new InvalidPeriodException();
         }
+    }
+
+    public void participate(final Long memberId) {
+        if (details.isCloseStatus() || period.isCloseEnrollment() || participants.isImpossibleParticipation(memberId)) {
+            throw new FailureParticipationException();
+        }
+
+        participants.participate(new Participant(memberId));
     }
 }

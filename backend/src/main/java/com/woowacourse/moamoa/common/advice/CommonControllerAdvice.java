@@ -1,9 +1,13 @@
 package com.woowacourse.moamoa.common.advice;
 
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,7 +20,8 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler({
             InvalidFormatException.class,
-            InvalidPeriodException.class
+            InvalidPeriodException.class,
+            FailureParticipationException.class
     })
     public ResponseEntity<ErrorResponse> handleBadRequest(final Exception e) {
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
@@ -32,12 +37,12 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<Void> handleUnauthorized(final UnauthorizedException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(UNAUTHORIZED).build();
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleInternalServerError(RuntimeException e) {
         e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("요청을 처리할 수 없습니다."));
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ErrorResponse("요청을 처리할 수 없습니다."));
     }
 }

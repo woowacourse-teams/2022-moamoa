@@ -1,12 +1,14 @@
-import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
 import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
 import { getStudyList } from '@api/getStudyList';
 
+import { LoginContext } from '@context/login/LoginProvider';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@pages/main-page/MainPage.style';
@@ -15,6 +17,8 @@ import StudyCard from '@pages/main-page/study-card/StudyCard';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
+
+import CreateNewStudyButton from '@main-page/create-new-study-button/CreateNewStudyButton';
 
 type PageParam = {
   page: number;
@@ -27,8 +31,10 @@ const defaultParam = {
 };
 
 const MainPage: React.FC = () => {
+  const { isLoggedIn } = useContext(LoginContext);
   const { keyword } = useContext(SearchContext);
   const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
+  const navigate = useNavigate();
 
   const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;
@@ -36,7 +42,7 @@ const MainPage: React.FC = () => {
     return { ...data, page: page + 1 };
   };
 
-  const { data, isLoading, isError, error, fetchNextPage } = useInfiniteQuery<
+  const { data, isFetching, isError, error, fetchNextPage, isFetched } = useInfiniteQuery<
     StudyListQueryData & { page: number },
     Error
   >(['infinite-scroll-searched-study-list', keyword, selectedFilters], getStudyListWithPage, {
@@ -47,7 +53,7 @@ const MainPage: React.FC = () => {
   });
 
   const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) || [];
-  const hasSearchResult = searchedStudies.length > 0;
+  const hasSearchResult = isFetched && searchedStudies.length > 0;
 
   const handleFilterButtonClick = (id: number, categoryName: string) => () => {
     setSelectedFilters(prev => {
@@ -58,12 +64,21 @@ const MainPage: React.FC = () => {
     });
   };
 
+  const handleCreateNewStudyButtonClick = () => {
+    if (!isLoggedIn) {
+      alert('로그인이 필요합니다');
+      return;
+    }
+    window.scrollTo(0, 0);
+    navigate('/study/new');
+  };
+
   return (
     <S.Page>
       <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
       <Wrapper>
         <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
-          {isLoading && <div>Loading...</div>}
+          {isFetching && <div>Loading...</div>}
           {isError && <div>{error.message}</div>}
           {hasSearchResult ? (
             <S.CardList>
@@ -82,10 +97,11 @@ const MainPage: React.FC = () => {
               ))}
             </S.CardList>
           ) : (
-            <div>검색결과가 없습니다</div>
+            isFetched && <div>검색결과가 없습니다</div>
           )}
         </InfiniteScroll>
       </Wrapper>
+      <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </S.Page>
   );
 };

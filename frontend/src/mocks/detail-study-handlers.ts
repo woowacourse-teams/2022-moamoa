@@ -8,12 +8,8 @@ const detailStudyHandlers = [
     const studyId = req.params.studyId;
 
     const study = studiesJSON.studies.find(study => String(study.id) === studyId);
-    return res(
-      ctx.status(200),
-      ctx.json({
-        study,
-      }),
-    );
+
+    return res(ctx.status(200), ctx.json(study));
   }),
 
   rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {

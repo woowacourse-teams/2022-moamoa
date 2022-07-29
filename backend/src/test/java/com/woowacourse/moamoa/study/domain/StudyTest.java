@@ -48,4 +48,24 @@ public class StudyTest {
                 new Period(LocalDate.now(), LocalDate.now(), LocalDate.now()), AttachedTags.empty()))
                 .doesNotThrowAnyException();
     }
+
+    @DisplayName("스터디 참여가 가능한 조건(날짜, 가입 가능 수, 가입여부)이면 스터디에 참여할 수 있다.")
+    @Test
+    public void participate() {
+        final Details details = new Details("title", "excerpt", "thumbnail", "OPEN", "description");
+        final Member member = new Member(1L, 1L, "username", "image", "profile");
+        final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
+
+        final LocalDate enrollmentEndDate = LocalDate.now().plusDays(1);
+        final LocalDate startDate = LocalDate.now().plusDays(1);
+        final LocalDate endDate = LocalDate.now().plusDays(1);
+
+        final Period period = new Period(enrollmentEndDate, startDate, endDate);
+
+        final Study study = new Study(details, participants, period, AttachedTags.empty());
+
+        final Member participant = new Member(2L, 2L, "username", "image", "profile");
+
+        assertThatCode(() -> study.participate(participant.getId())).doesNotThrowAnyException();
+    }
 }

@@ -1,5 +1,8 @@
-import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 import { useState } from 'react';
+
+import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
+
+import { changeDateSeperator } from '@utils/dates';
 
 import { Member } from '@custom-types/index';
 
@@ -29,14 +32,24 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ members }) => {
           ? members.map(({ id, username, imageUrl, profileUrl }) => (
               <li key={id}>
                 <a href={profileUrl}>
-                  <StudyMemberCard username={username} imageUrl={imageUrl} />
+                  <StudyMemberCard
+                    username={username}
+                    imageUrl={imageUrl}
+                    startDate={changeDateSeperator('2022-07-15')}
+                    studyCount={10}
+                  />
                 </a>
               </li>
             ))
           : members.slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT).map(({ id, username, imageUrl, profileUrl }) => (
               <li key={id}>
                 <a href={profileUrl}>
-                  <StudyMemberCard username={username} imageUrl={imageUrl} />
+                  <StudyMemberCard
+                    username={username}
+                    imageUrl={imageUrl}
+                    startDate={changeDateSeperator('2022-07-15')}
+                    studyCount={10}
+                  />
                 </a>
               </li>
             ))}

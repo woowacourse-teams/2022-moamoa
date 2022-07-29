@@ -1,0 +1,23 @@
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import { Story } from '@storybook/react';
+
+import { css } from '@emotion/react';
+
+export default {
+  title: 'Components/MetaBox',
+  component: MetaBox,
+};
+
+const Template: Story = props => (
+  <MetaBox
+    css={css`
+      max-width: 300px;
+    `}
+  >
+    <MetaBox.Title>스터디 인원</MetaBox.Title>
+    <MetaBox.Content>Content입니다</MetaBox.Content>
+  </MetaBox>
+);
+
+export const Default = Template.bind({});
+Default.args = {};

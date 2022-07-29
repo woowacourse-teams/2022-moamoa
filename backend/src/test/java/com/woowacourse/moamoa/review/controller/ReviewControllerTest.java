@@ -7,7 +7,6 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.ReviewDao;
-import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.request.SizeRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
@@ -15,11 +14,10 @@ import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.CreateStudyService;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.StudyService;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -69,20 +67,20 @@ class ReviewControllerTest {
         final Member verus = memberRepository.save(toMember(VERUS));
 
         // 스터디 생성
-        CreateStudyService createStudyService = new CreateStudyService(memberRepository, studyRepository);
+        StudyService studyService = new StudyService(studyRepository, memberRepository);
 
         final LocalDate startDate = LocalDate.now();
-        CreateStudyRequest javaStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
                 .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
                 .startDate(startDate)
                 .build();
-        CreateStudyRequest reactStudyRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
                 .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
                 .startDate(startDate)
                 .build();
 
-        javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
-        final Study reactStudy = createStudyService.createStudy(1L, reactStudyRequest);
+        javaStudy = studyService.createStudy(1L, javaStudyRequest);
+        final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);
 
         final LocalDate createdAt = startDate.plusDays(1);
         final LocalDate lastModifiedDate = startDate.plusDays(2);
