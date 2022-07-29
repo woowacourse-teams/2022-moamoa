@@ -20,21 +20,12 @@ public class ReviewResponse {
 
     private Long id;
     private WriterResponse member;
-    private String createdDate;
-    private String lastModifiedDate;
+    private LocalDate createdDate;
+    private LocalDate lastModifiedDate;
     private String content;
 
     public ReviewResponse(final ReviewData reviewData) {
         this(reviewData.getId(), new WriterResponse(reviewData.getMember()), reviewData.getCreatedDate(),
                 reviewData.getLastModifiedDate(), reviewData.getContent());
-    }
-
-    public ReviewResponse(final Long id, final WriterResponse member, final LocalDate createdDate,
-                          final LocalDate lastModifiedDate, final String content) {
-        this.id = id;
-        this.member = member;
-        this.createdDate = createdDate.toString();
-        this.lastModifiedDate = lastModifiedDate.toString();
-        this.content = content;
     }
 }
