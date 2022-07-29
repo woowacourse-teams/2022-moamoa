@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +65,7 @@ class TagDaoTest {
     @DisplayName("필터 없이 조회시 태그 목록 전체를 조회한다.")
     @Test
     void findAllByBlankTagName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", Optional.empty());
+        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", CategoryIdRequest.empty());
 
         assertThat(tagData)
                 .hasSize(5)
@@ -81,7 +82,7 @@ class TagDaoTest {
     @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
     @Test
     void findAllByNameContainingIgnoreCase() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", Optional.empty());
+        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", CategoryIdRequest.empty());
 
         assertThat(tagData)
                 .hasSize(1)
@@ -94,7 +95,7 @@ class TagDaoTest {
     @DisplayName("카테고리로 태그를 조회한다.")
     @Test
     void findAllByCategory() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", Optional.of(3L));
+        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", new CategoryIdRequest(3L));
 
         assertThat(tagData)
                 .hasSize(2)
@@ -108,7 +109,7 @@ class TagDaoTest {
     @DisplayName("카테고리와 이름으로 태그를 조회한다.")
     @Test
     void findAllByCategoryAndName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", Optional.of(3L));
+        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", new CategoryIdRequest(3L));
 
         assertThat(tagData)
                 .hasSize(1)
