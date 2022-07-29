@@ -27,7 +27,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02T11:56:32.123567')");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02')");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
     }
 
