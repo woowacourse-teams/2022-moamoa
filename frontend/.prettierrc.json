@@ -13,6 +13,7 @@
   "importOrder": [
     "^@emotion",
     "^@assets/(.*)$",
+    "^@mocks/(.*)$",
     "^@constants$",
     "^@utils/(.*)$",
     "^@custom-types/(.*)$",
@@ -25,6 +26,8 @@
     "^@components/(.*)$",
     "^@main-page/(.*)$",
     "^@detail-page/(.*)$",
+    "^@create-study-page/(.*)$",
+    "^@my-study-page/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
