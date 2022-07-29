@@ -17,10 +17,10 @@ public class ReviewDao {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<ReviewData> findAllByStudyId(final Long studyId) {
-        String sql = "SELECT r.id, r.content, r.created_date, r.last_modified_date, "
-                + "m.github_id, m.username, m.image_url, m.profile_url "
-                + "FROM review r JOIN member m ON r.member_id = m.id "
-                + "WHERE r.study_id = :studyId";
+        String sql = "SELECT review.id, review.content, review.created_date, review.last_modified_date, "
+                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "FROM review JOIN member ON review.member_id = member.id "
+                + "WHERE review.study_id = :studyId";
 
         return namedParameterJdbcTemplate.query(sql, Map.of("studyId", studyId), rowMapper());
     }
