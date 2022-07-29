@@ -19,7 +19,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
 @Getter
 public class Study {
 
@@ -28,7 +27,7 @@ public class Study {
     private Long id;
 
     @Embedded
-    private Details details;
+    private Content content;
 
     @Embedded
     private Participants participants;
@@ -37,51 +36,52 @@ public class Study {
     private RecruitPlanner recruitPlanner;
 
     @Embedded
-    private AttachedTags attachedTags;
+    private StudyPlanner studyPlanner;
 
     @Embedded
-    private Period period;
+    private AttachedTags attachedTags;
 
-    @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Study(final Details details, final Participants participants, final RecruitPlanner recruitPlanner,
-                 final Period period, final AttachedTags attachedTags, LocalDateTime createdAt
+    public Study(final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
+                 final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
     ) {
-        this(null, details, participants, recruitPlanner, period, attachedTags, createdAt);
+        this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    private Study(final Long id, final Details details, final Participants participants,
-                  final RecruitPlanner recruitPlanner,
-                  final Period period, final AttachedTags attachedTags, final LocalDateTime createdAt
+    private Study(final Long id, final Content content, final Participants participants,
+                  final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+                  final LocalDateTime createdAt
     ) {
-        if (isRecruitingBeforeStartStudy(recruitPlanner, period) ||
-                isRecruitingOrStartStudyBeforeCreatedAt(recruitPlanner, period, createdAt)) {
+        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
+                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidPeriodException();
         }
 
         this.id = id;
-        this.details = details;
+        this.content = content;
         this.participants = participants;
         this.recruitPlanner = recruitPlanner;
-        this.period = period;
+        this.studyPlanner = studyPlanner;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
     }
 
-    private boolean isRecruitingBeforeStartStudy(final RecruitPlanner recruitPlanner, final Period period) {
-        return recruitPlanner.hasEnrollmentEndDate() && period.isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
+    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
+        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
+                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
     }
 
-    private boolean isRecruitingOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner, final Period period,
-                                                            final LocalDateTime createdAt) {
-        return period.isStartBeforeThan(createdAt.toLocalDate()) ||
-                recruitPlanner.isRecruitingBeforeThan(createdAt.toLocalDate());
+    private boolean isRecruitedOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner,
+                                                           final StudyPlanner studyPlanner,
+                                                           final LocalDateTime createdAt) {
+        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
     public boolean isWritableReviews(final Long memberId) {
-        return participants.isAlreadyParticipated(memberId) && !details.isPreparingStudy();
+        return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
     }
 
     public void participate(final Long memberId) {

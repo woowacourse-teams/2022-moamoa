@@ -27,7 +27,7 @@ public class RecruitPlanner {
         return enrollmentEndDate != null;
     }
 
-    boolean isRecruitingBeforeThan(LocalDate date) {
+    boolean isRecruitedBeforeThan(LocalDate date) {
         if (!hasEnrollmentEndDate()) {
             return false;
         }
@@ -39,7 +39,7 @@ public class RecruitPlanner {
     }
 
     boolean isNeedToCloseRecruiting(final LocalDate now) {
-        return recruitStatus.equals(RecruitStatus.OPEN) && enrollmentEndDate != null && enrollmentEndDate.isBefore(now);
+        return recruitStatus.equals(RecruitStatus.OPEN) && isRecruitedBeforeThan(now);
     }
 
     public LocalDate getEnrollmentEndDate() {

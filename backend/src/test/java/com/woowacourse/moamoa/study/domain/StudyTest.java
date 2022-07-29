@@ -23,12 +23,12 @@ public class StudyTest {
     @DisplayName("생성일자는 스터디 시작일자보다 클 수 없다.")
     @Test
     void createdAtMustBeforeStartDate() {
-        final Details details = new Details("title", "excerpt", "thumbnail", PREPARE, "description");
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(10, 1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now().plusDays(10));
 
-        assertThatThrownBy(() -> new Study(details, participants, recruitPlanner,
-                new Period(LocalDate.now().minusDays(1), LocalDate.now().plusDays(20)),
+        assertThatThrownBy(() -> new Study(content, participants, recruitPlanner,
+                new StudyPlanner(LocalDate.now().minusDays(1), LocalDate.now().plusDays(20), PREPARE),
                 AttachedTags.empty(), LocalDateTime.now()))
                 .isInstanceOf(InvalidPeriodException.class);
     }
@@ -36,14 +36,14 @@ public class StudyTest {
     @DisplayName("생성일자는 모집완료일자보다 클 수 없다.")
     @Test
     void createdAtMustBeforeEnrollmentEndDate() {
-        final Details details = new Details("title", "excerpt", "thumbnail",
-                PREPARE, "description");
+        final Content content = new Content("title", "excerpt", "thumbnail",
+                "description");
         final Participants participants = Participants.createBy(10, 1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now().minusDays(1));
 
-        assertThatThrownBy(() -> new Study(details, participants,
-                recruitPlanner, new Period(LocalDate.now().plusDays(4),
-                        LocalDate.now().plusDays(20)), AttachedTags.empty(), LocalDateTime.now()
+        assertThatThrownBy(() -> new Study(content, participants,
+                recruitPlanner, new StudyPlanner(LocalDate.now().plusDays(4), LocalDate.now().plusDays(20), PREPARE),
+                AttachedTags.empty(), LocalDateTime.now()
         ))
                 .isInstanceOf(InvalidPeriodException.class);
     }
@@ -51,13 +51,13 @@ public class StudyTest {
     @Test
     @DisplayName("생성일자는 시작, 모집 종료, 종료 일자와 동일할 수 있다.")
     void createdAtCanSameWithStartAndEndAndEnrollmentDate() {
-        final Details details = new Details("title", "excerpt", "thumbnail",
-                PREPARE, "description");
+        final Content content = new Content("title", "excerpt", "thumbnail",
+                "description");
         final Participants participants = Participants.createBy(10, 1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
 
-        assertThatCode(() -> new Study(details, participants,
-                recruitPlanner, new Period(LocalDate.now(), LocalDate.now()), AttachedTags.empty(),
+        assertThatCode(() -> new Study(content, participants,
+                recruitPlanner, new StudyPlanner(LocalDate.now(), LocalDate.now(), PREPARE), AttachedTags.empty(),
                 LocalDateTime.now()))
                 .doesNotThrowAnyException();
     }
@@ -65,12 +65,12 @@ public class StudyTest {
     @Test
     @DisplayName("모집 기간은 스터디 종료 일자보다 전이여야 된다.")
     void enrollmentEndDateIsBeforeEndDate() {
-        final Details details = new Details("title", "excerpt", "thumbnail", PREPARE, "description");
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(10,1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now().plusDays(1));
 
-        assertThatCode(() -> new Study(details, participants,
-                recruitPlanner, new Period(LocalDate.now(), LocalDate.now()), AttachedTags.empty(),
+        assertThatCode(() -> new Study(content, participants,
+                recruitPlanner, new StudyPlanner(LocalDate.now(), LocalDate.now(), PREPARE), AttachedTags.empty(),
                 LocalDateTime.now()))
                 .isInstanceOf(InvalidPeriodException.class);
     }
@@ -78,7 +78,7 @@ public class StudyTest {
     @DisplayName("스터디 참여가 가능한 조건(날짜, 가입 가능 수, 가입여부)이면 스터디에 참여할 수 있다.")
     @Test
     public void participate() {
-        final Details details = new Details("title", "excerpt", "thumbnail", PREPARE,
+        final Content content = new Content("title", "excerpt", "thumbnail",
                 "description");
         final Member member = new Member(1L, 1L, "username", "image", "profile");
         final LocalDate enrollmentEndDate = LocalDate.now().plusDays(1);
@@ -87,9 +87,9 @@ public class StudyTest {
         final LocalDate startDate = LocalDate.now().plusDays(1);
         final LocalDate endDate = LocalDate.now().plusDays(1);
 
-        final Period period = new Period(startDate, endDate);
+        final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
 
-        final Study study = new Study(details, participants, recruitPlanner, period, AttachedTags.empty(), LocalDateTime.now()
+        final Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), LocalDateTime.now()
         );
 
         final Member participant = new Member(2L, 2L, "username", "image", "profile");
@@ -101,13 +101,13 @@ public class StudyTest {
     @ParameterizedTest
     @MethodSource("provideStudyPeriod")
     void writeReviewAfterStartDate(StudyStatus studyStatus, boolean isWritable) {
-        final Details details = new Details("title", "excerpt", "thumbnail", studyStatus,
+        final Content content = new Content("title", "excerpt", "thumbnail",
                 "description");
         final Participants participants = Participants.createBy(10, 1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
 
-        final Period period = new Period(LocalDate.now(), LocalDate.now().plusDays(3));
-        final Study sut = new Study(details, participants, recruitPlanner, period, AttachedTags.empty(), LocalDateTime.now()
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(3), studyStatus);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), LocalDateTime.now()
         );
 
         assertThat(sut.isWritableReviews(1L)).isEqualTo(isWritable);

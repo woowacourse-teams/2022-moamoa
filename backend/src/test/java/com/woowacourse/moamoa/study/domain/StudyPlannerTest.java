@@ -8,14 +8,14 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PeriodTest {
+public class StudyPlannerTest {
 
     @DisplayName("시작일자는 종료일자보다 클 수 없다.")
     @Test
     void startDateMustBeforeEndDate() {
-        assertThatThrownBy(() -> new Period(
+        assertThatThrownBy(() -> new StudyPlanner(
                 LocalDate.of(2022, 7, 10),
-                LocalDate.of(2022, 7, 9)))
+                LocalDate.of(2022, 7, 9), StudyStatus.PREPARE))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 

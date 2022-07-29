@@ -11,9 +11,9 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 
 import com.woowacourse.moamoa.study.domain.StudyStatus;
-import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -71,14 +71,14 @@ public class StudyControllerTest {
         Optional<Study> study = studyRepository.findById(studyId);
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
         assertThat(study).isNotEmpty();
-        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt",
-                "java image", StudyStatus.PREPARE, "자바 스터디 상세설명 입니다."));
+        assertThat(study.get().getContent()).isEqualTo(new Content("Java", "java excerpt",
+                "java image", "자바 스터디 상세설명 입니다."));
         assertThat(study.get().getParticipants()).isEqualTo(Participants.createBy(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
-        assertThat(study.get().getPeriod()).isEqualTo(
-                new Period(
-                        creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate())));
+        assertThat(study.get().getStudyPlanner()).isEqualTo(
+                new StudyPlanner(
+                        creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate()), StudyStatus.PREPARE));
         assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(creatingStudyRequest.getTagIds());
     }
@@ -132,7 +132,7 @@ public class StudyControllerTest {
         Optional<Study> study = studyRepository.findById(studyId);
 
         assertThat(study.get()
-                .getDetails()
+                .getStudyPlanner()
                 .getStudyStatus())
                 .isEqualTo(StudyStatus.IN_PROGRESS);
     }

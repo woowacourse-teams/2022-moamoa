@@ -5,12 +5,11 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 
 import com.woowacourse.moamoa.study.domain.AttachedTag;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
-import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.RecruitStatus;
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,19 +71,15 @@ public class CreatingStudyRequest {
         return enrollmentEndDate == null ? "" : enrollmentEndDate.toString();
     }
 
-    public Period mapToPeriod() {
-        return new Period(startDate, endDate);
-    }
-
-    public Details mapToDetails(LocalDate now) {
+    public StudyPlanner mapToStudyPlanner(final LocalDate now) {
         if (startDate.equals(now)) {
-            return new Details(title, excerpt, thumbnail, IN_PROGRESS, description);
+            return new StudyPlanner(startDate, endDate, IN_PROGRESS);
         }
-        return new Details(title, excerpt, thumbnail, PREPARE, description);
+        return new StudyPlanner(startDate, endDate, PREPARE);
     }
 
-    public Details mapToDetails(StudyStatus studyStatus) {
-        return new Details(title, excerpt, thumbnail, studyStatus, description);
+    public Content mapToContent() {
+        return new Content(title, excerpt, thumbnail, description);
     }
 
     public Participants mapToParticipants(Long ownerId) {

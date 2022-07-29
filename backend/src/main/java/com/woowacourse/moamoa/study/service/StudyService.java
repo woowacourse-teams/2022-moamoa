@@ -4,9 +4,9 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
-import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -41,11 +41,11 @@ public class StudyService {
 
         final Participants participants = request.mapToParticipants(owner.getId());
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        final Period period = request.mapToPeriod();
+        final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
-        final Details details = request.mapToDetails(createdAt.toLocalDate());
+        final Content content = request.mapToContent();
 
-        return studyRepository.save(new Study(details, participants, recruitPlanner, period, attachedTags, createdAt));
+        return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
     }
 
     public void participateStudy(final Long githubId, final Long studyId) {
