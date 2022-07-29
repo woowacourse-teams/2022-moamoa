@@ -7,12 +7,12 @@ import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudyData;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
-import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,6 @@ public class MyStudyService {
 
     private final MyStudyDao myStudyDao;
     private final MemberDao memberDao;
-    private final TagDao tagDao;
 
     public MyStudiesResponse getStudies(final Long githubId) {
         if (!memberDao.isExistByGithubId(githubId)) {
@@ -39,19 +38,22 @@ public class MyStudyService {
                 .map(MyStudySummaryData::getId)
                 .collect(Collectors.toList());
 
-        final List<MemberData> owners = memberDao.findOwnerByStudyIds(studyIds);
+        final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags = myStudyDao.findStudyOwnerWithTags(studyIds);
 
-        final List<List<TagSummaryData>> tags = studyIds.stream()
-                .map(tagDao::findTagsByStudyId)
-                .map(tagsData -> tagsData.stream().map(
-                                tagData -> new TagSummaryData(tagData.getId(), tagData.getName()))
-                        .collect(Collectors.toList())
-                )
-                .collect(Collectors.toList());
+        return new MyStudiesResponse(mapToResponse(myStudySummaryData, ownerWithStudyTags));
+    }
 
-        return new MyStudiesResponse(IntStream.range(0, myStudySummaryData.size())
-                .boxed()
-                .map(idx -> new MyStudyData(myStudySummaryData.get(idx), owners.get(idx), tags.get(idx)))
-                .collect(Collectors.toList()));
+    private List<MyStudyData> mapToResponse(final List<MyStudySummaryData> myStudySummaryData,
+                                             final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags) {
+
+        List<MyStudyData> myStudyData = new ArrayList<>();
+        for (MyStudySummaryData studyData : myStudySummaryData) {
+            final Map<MemberData, List<TagSummaryData>> ownerWithTag = ownerWithStudyTags.get(studyData.getId());
+
+            for (MemberData owner : ownerWithTag.keySet()) {
+                myStudyData.add(new MyStudyData(studyData, owner, ownerWithTag.get(owner)));
+            }
+        }
+        return myStudyData;
     }
 }

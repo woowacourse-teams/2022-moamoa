@@ -1,18 +1,15 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudyData;
 import com.woowacourse.moamoa.study.service.MyStudyService;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
-import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
 import java.util.stream.Collectors;
@@ -35,16 +32,13 @@ class MyStudyControllerTest {
     private MemberDao memberDao;
 
     @Autowired
-    private TagDao tagDao;
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private MyStudyController myStudyController;
 
     @BeforeEach
     void setUp() {
-        myStudyController = new MyStudyController(new MyStudyService(myStudyDao, memberDao, tagDao));
+        myStudyController = new MyStudyController(new MyStudyService(myStudyDao, memberDao));
 
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");

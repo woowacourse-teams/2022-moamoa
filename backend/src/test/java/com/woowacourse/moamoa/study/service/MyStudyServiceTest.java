@@ -12,7 +12,6 @@ import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudyData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
-import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,14 +32,11 @@ class MyStudyServiceTest {
     @Autowired
     private MemberDao memberDao;
 
-    @Autowired
-    private TagDao tagDao;
-
     private MyStudyService myStudyService;
 
     @BeforeEach
     void setUp() {
-        myStudyService = new MyStudyService(myStudyDao, memberDao, tagDao);
+        myStudyService = new MyStudyService(myStudyDao, memberDao);
 
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
@@ -78,6 +74,8 @@ class MyStudyServiceTest {
 
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+
+        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (7, 2)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
