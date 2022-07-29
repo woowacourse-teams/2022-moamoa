@@ -5,11 +5,10 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import java.time.LocalDate;
@@ -34,37 +33,37 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
     void initDataBase() {
         String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
-        CreateStudyRequest javaRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest javaRequest = CreatingStudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
                 .description("그린론의 우당탕탕 자바 스터디입니다.").startDate(LocalDate.now().plusDays(1))
                 .build();
         javaStudyId = (int) createStudy(token, javaRequest);
 
-        CreateStudyRequest reactRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest reactRequest = CreatingStudyRequest.builder()
                 .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
                 .description("디우의 뤼액트 스터디입니다.").startDate(LocalDate.now().plusDays(2))
                 .build();
         reactStudyId = (int) createStudy(token, reactRequest);
 
-        CreateStudyRequest javascriptRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest javascriptRequest = CreatingStudyRequest.builder()
                 .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
                 .description("그린론의 자바스크립트 접해보기").startDate(LocalDate.now().plusDays(3))
                 .build();
         javascriptStudyId = (int) createStudy(token, javascriptRequest);
 
-        CreateStudyRequest httpRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest httpRequest = CreatingStudyRequest.builder()
                 .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail")
                 .description("디우의 HTTP 정복하기").startDate(LocalDate.now().plusDays(3))
                 .build();
         httpStudyId = (int) createStudy(token, httpRequest);
 
-        CreateStudyRequest algorithmRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest algorithmRequest = CreatingStudyRequest.builder()
                 .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
                 .description("알고리즘을 TDD로 풀자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
                 .build();
         algorithmStudyId = (int) createStudy(token, algorithmRequest);
 
-        CreateStudyRequest linuxRequest = CreateStudyRequest.builder()
+        CreatingStudyRequest linuxRequest = CreatingStudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
                 .description("Linux를 공부하자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
                 .build();

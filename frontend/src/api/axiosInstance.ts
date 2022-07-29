@@ -1,5 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
+import { ACCESS_TOKEN_KEY } from '@constants';
+
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,
   headers: {
@@ -17,5 +19,25 @@ const handleAxiosError = (error: AxiosError) => {
 };
 
 axiosInstance.interceptors.response.use(response => response, handleAxiosError);
+
+axiosInstance.interceptors.request.use(
+  config => {
+    const accessToken = window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
+
+    if (!accessToken) return config;
+    if (!config.headers) {
+      config.headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      return config;
+    }
+    config.headers['Authorization'] = `Bearer ${accessToken}`;
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
 
 export default axiosInstance;

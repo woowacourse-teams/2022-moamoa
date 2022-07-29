@@ -1,5 +1,8 @@
 import { useContext } from 'react';
 import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -20,6 +23,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const { isLoggedIn } = useContext(LoginContext);
   const { setKeyword } = useContext(SearchContext);
 
+  const navigate = useNavigate();
+
   const { logout } = useAuth();
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
@@ -30,20 +35,21 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       return;
     }
     setKeyword(value);
+    navigate(PATH.MAIN);
   };
 
   return (
     <S.Row className={className}>
-      <a href="/">
+      <Link to={PATH.MAIN}>
         <Logo />
-      </a>
+      </Link>
       <S.SearchBarContainer>
         <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>
       {isLoggedIn ? (
         <S.Nav>
-          <S.NavButton onClick={logout}>
-            <MdOutlineLogout />
+          <S.NavButton onClick={logout} aria-label="로그아웃">
+            <MdOutlineLogout size={20} />
             <span>로그아웃</span>
           </S.NavButton>
           <Avatar
@@ -54,8 +60,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         </S.Nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-          <S.NavButton>
-            <MdOutlineLogin />
+          <S.NavButton aria-label="로그인">
+            <MdOutlineLogin size={20} />
             <span>로그인</span>
           </S.NavButton>
         </a>

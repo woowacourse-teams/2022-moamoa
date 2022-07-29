@@ -1,5 +1,7 @@
 import { useParams } from 'react-router-dom';
 
+import { changeDateSeperator } from '@utils/dates';
+
 import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
@@ -19,7 +21,7 @@ const DetailPage = () => {
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
 
   const handleRegisterBtnClick = (studyId: number) => () => {
-    alert('스터디에 가입했습니다!');
+    alert('아직 준비중입니다 :D');
   };
 
   if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
@@ -43,10 +45,16 @@ const DetailPage = () => {
     members,
     tags,
   } = studyDetailQueryResult.data;
-
   return (
     <Wrapper>
-      <Head title={title} status={status} excerpt={excerpt} startDate={startDate} endDate={endDate} tags={tags} />
+      <Head
+        title={title}
+        status={status}
+        excerpt={excerpt}
+        startDate={changeDateSeperator(startDate)}
+        endDate={changeDateSeperator(endDate)}
+        tags={tags}
+      />
       <Divider space={2} />
       <S.Main>
         <S.MainDescription>
@@ -64,6 +72,7 @@ const DetailPage = () => {
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
               deadline={enrollmentEndDate}
+              status={status}
               handleRegisterBtnClick={handleRegisterBtnClick}
             />
           </S.StickyContainer>
@@ -74,10 +83,10 @@ const DetailPage = () => {
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          owner={owner.username}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
           deadline={enrollmentEndDate}
+          status={status}
           handleRegisterBtnClick={handleRegisterBtnClick}
         />
       </S.FixedBottomContainer>

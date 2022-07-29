@@ -1,14 +1,23 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static javax.persistence.EnumType.*;
+import static lombok.AccessLevel.PROTECTED;
+
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Embeddable
 @Getter
+@NoArgsConstructor(access = PROTECTED)
 public class Details {
+
+    private static final String CLOSE = "CLOSE";
 
     @Column(nullable = false)
     private String title;
@@ -22,24 +31,25 @@ public class Details {
     @Column(nullable = false)
     private String recruitStatus;
 
+    @Enumerated(value = STRING)
     @Column(nullable = false)
     private StudyStatus studyStatus;
 
     @Column(nullable = false)
     private String description;
 
-    protected Details() {
-    }
-
     public Details(final String title, final String excerpt, final String thumbnail, final String recruit_status,
-                   final StudyStatus study_status,
-                   final String description) {
+                   final StudyStatus study_status, final String description) {
         this.title = title;
         this.excerpt = excerpt;
         this.thumbnail = thumbnail;
         this.recruitStatus = recruit_status;
         this.studyStatus = study_status;
         this.description = description;
+    }
+
+    public boolean isCloseStatus() {
+        return recruitStatus.equals(CLOSE);
     }
 
     @Override

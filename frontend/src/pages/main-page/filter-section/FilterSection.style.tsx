@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils/index';
 
 export const FilterSectionContainer = styled.div`
   ${({ theme }) => css`
@@ -15,6 +15,15 @@ export const FilterSectionContainer = styled.div`
     border-bottom: 1px solid ${theme.colors.secondary.dark};
     z-index: 1;
   `}
+
+  ${mqDown('md')} {
+    top: 70px;
+  }
+
+  ${mqDown('sm')} {
+    top: 60px;
+    padding: 16px 5px 0;
+  }
 `;
 
 export const RightButtonContainer = styled.div`
@@ -45,7 +54,7 @@ export const LeftButtonContainer = styled(RightButtonContainer)`
 export const FilterSection = styled.section`
   display: flex;
   align-items: center;
-  gap: 32px;
+  column-gap: 32px;
 
   padding: 16px auto 4px;
   margin: 0 20px 0 12px;
@@ -55,6 +64,10 @@ export const FilterSection = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  ${mqDown('sm')} {
+    column-gap: 16px;
+  }
 `;
 
 export const VerticalLine = styled.div`
@@ -62,4 +75,8 @@ export const VerticalLine = styled.div`
     height: 40px;
     border-right: 1px solid ${theme.colors.secondary.dark};
   `}
+
+  ${mqDown('sm')} {
+    display: none;
+  }
 `;
