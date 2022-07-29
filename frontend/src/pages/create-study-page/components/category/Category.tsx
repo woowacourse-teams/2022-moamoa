@@ -1,6 +1,3 @@
-import * as S from '@create-study-page/components/category/Category.style';
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-
 import { css } from '@emotion/react';
 
 import type { Tag } from '@custom-types/index';
@@ -9,7 +6,10 @@ import { useFormContext } from '@hooks/useForm';
 
 import useFetchTagList from '@pages/create-study-page/hooks/useFetchTagList';
 
-type CategoryProps = {
+import * as S from '@create-study-page/components/category/Category.style';
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+
+export type CategoryProps = {
   className?: string;
 };
 
