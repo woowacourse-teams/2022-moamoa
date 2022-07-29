@@ -68,14 +68,14 @@ public class Participants {
 
     private boolean isAlreadyParticipation(final Long memberId) {
         final Participant participant = new Participant(memberId);
-        return isOwner(memberId) || isParticipant(participant);
+        return isOwner(memberId) || isParticipated(participant);
     }
 
     private boolean isOwner(final Long memberId) {
         return Objects.equals(memberId, ownerId);
     }
 
-    private boolean isParticipant(final Participant participant) {
+    private boolean isParticipated(final Participant participant) {
         return participants.contains(participant);
     }
 
