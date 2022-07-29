@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -9,8 +11,6 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
@@ -70,7 +70,7 @@ public class StudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
         assertThat(study).isNotEmpty();
         assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt",
-                "java image", "OPEN", StudyStatus.PREPARE, "자바 스터디 상세설명 입니다."));
+                "java image", PREPARE, "자바 스터디 상세설명 입니다."));
         assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
@@ -130,7 +130,7 @@ public class StudyControllerTest {
         assertThat(study.get()
                 .getDetails()
                 .getStudyStatus())
-                .isEqualTo(StudyStatus.IN_PROGRESS);
+                .isEqualTo(IN_PROGRESS);
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")

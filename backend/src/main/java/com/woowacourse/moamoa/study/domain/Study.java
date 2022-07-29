@@ -77,7 +77,7 @@ public class Study {
 
     }
     public void participate(final Long memberId) {
-        if (details.isCloseStatus() || period.isCloseEnrollment() || participants.isImpossibleParticipation(memberId)) {
+        if (period.isCloseEnrollment() || participants.isImpossibleParticipation(memberId)) {
             throw new FailureParticipationException();
         }
 

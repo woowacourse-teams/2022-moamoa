@@ -1,5 +1,8 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.CLOSE;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.OPEN;
+import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -29,37 +33,53 @@ public class Participants {
     @Column(name = "owner_id", nullable = false)
     private Long ownerId;
 
+    @Enumerated(value = STRING)
+    @Column(nullable = false)
+    private RecruitStatus recruitStatus;
+
     @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
     private Set<Participant> participants = new HashSet<>();
 
     public Participants(final Integer size, final Integer max,
-                        final Set<Participant> participants, Long ownerId) {
+                        final Set<Participant> participants, Long ownerId, RecruitStatus recruitStatus) {
         this.size = size;
         this.max = max;
         this.participants = participants;
         this.ownerId = ownerId;
+        this.recruitStatus = recruitStatus;
+    }
+
+    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
+        return new Participants(1, maxSize, new HashSet<>(), ownerId, OPEN);
     }
 
     public List<Participant> getParticipants() {
         return new ArrayList<>(participants);
     }
 
-    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
-        return new Participants(1, maxSize, new HashSet<>(), ownerId);
-    }
-
     public int getCurrentMemberSize() {
         return size;
+    }
+
+    public RecruitStatus getRecruitStatus() {
+        return recruitStatus;
     }
 
     void participate(final Participant participant) {
         participants.add(participant);
         size = size + 1;
+        closeRecruitStatus();
+    }
+
+    private void closeRecruitStatus() {
+        if (size == max) {
+            this.recruitStatus = CLOSE;
+        }
     }
 
     boolean isImpossibleParticipation(Long memberId) {
-        return isInvalidMemberSize() || isAlreadyParticipation(memberId);
+        return isInvalidMemberSize() || isAlreadyParticipation(memberId) || isCloseStatus();
     }
 
     private boolean isInvalidMemberSize() {
@@ -69,6 +89,10 @@ public class Participants {
     private boolean isAlreadyParticipation(final Long memberId) {
         final Participant participant = new Participant(memberId);
         return isOwner(memberId) || isParticipated(participant);
+    }
+
+    private boolean isCloseStatus() {
+        return recruitStatus.equals(CLOSE);
     }
 
     private boolean isOwner(final Long memberId) {
