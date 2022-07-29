@@ -19,9 +19,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
+@Getter
 public class Review {
 
     @Id
@@ -39,10 +39,17 @@ public class Review {
     private String content;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
+
+    public Review(
+            final AssociatedStudy associatedStudy, final Member member, final String content,
+            final LocalDateTime createdDate, final LocalDateTime lastModifiedDate
+    ) {
+        this(null, associatedStudy, member, content, createdDate, lastModifiedDate);
+    }
 }

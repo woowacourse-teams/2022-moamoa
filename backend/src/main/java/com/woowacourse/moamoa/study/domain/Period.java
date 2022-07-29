@@ -53,6 +53,10 @@ public class Period {
         return enrollmentEndDate != null && enrollmentEndDate.isBefore(LocalDate.now());
     }
 
+    public boolean isBeforeThanStartDate(final LocalDate reviewCreatedDate) {
+        return startDate.isAfter(reviewCreatedDate);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

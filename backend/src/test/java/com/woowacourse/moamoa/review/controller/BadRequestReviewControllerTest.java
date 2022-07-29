@@ -1,12 +1,11 @@
 package com.woowacourse.moamoa.review.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
-import com.woowacourse.moamoa.review.service.ReviewService;
+import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = ReviewController.class)
+@WebMvcTest(controllers = SearchingReviewController.class)
 @Import({JwtTokenProvider.class})
 public class BadRequestReviewControllerTest {
 
@@ -23,7 +22,7 @@ public class BadRequestReviewControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ReviewService reviewService;
+    private SearchingReviewService searchingReviewService;
 
     @DisplayName("size 파라미터의 형식이 잘못된 경우 400을 반환한다.")
     @Test

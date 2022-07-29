@@ -79,6 +79,10 @@ public class Participants {
         return participants.contains(participant);
     }
 
+    public boolean contains(final Participant participant) {
+        return participants.contains(participant) || ownerId.equals(participant.getMemberId());
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

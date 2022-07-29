@@ -17,14 +17,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final TokenProvider tokenProvider;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+                             final Object handler) {
         if (isPreflight(request)) {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies") ||
-                request.getMethod().equals("GET") && request.getServletPath().equals("/api/my/studies")) {
-            String token = AuthenticationExtractor.extract(request);
+        if (request.getMethod().equals("POST") && validatePostPath(request) ||
+                request.getMethod().equals("GET") && validateGetPath(request)) {
+            final String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
             request.setAttribute("payload", tokenProvider.getPayload(token));
@@ -41,5 +42,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (token == null || !tokenProvider.validateToken(token)) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
+    }
+
+    private boolean validatePostPath(final HttpServletRequest request) {
+        return request.getServletPath().equals("/api/studies") ||
+                request.getServletPath().matches("/api/studies/\\d+/reviews");
+    }
+
+    private boolean validateGetPath(final HttpServletRequest request) {
+        return request.getServletPath().equals("/api/my/studies");
     }
 }

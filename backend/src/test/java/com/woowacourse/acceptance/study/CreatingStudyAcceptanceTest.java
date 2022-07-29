@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.study;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.LOCATION;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -152,11 +154,6 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().header(LOCATION);
 
-        RestAssured.given().log().all()
-                .when().log().all()
-                .get(location)
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+        assertThat(location).matches(Pattern.compile("/api/studies/\\d+"));
     }
-
 }

@@ -20,6 +20,24 @@ class ParticipantsTest {
         );
     }
 
+    @DisplayName("참가자가 아니라면 거짓을 반환한다.")
+    @Test
+    void getFalseByNotParticipatedMember() {
+        final Participant participant = new Participant(1L);
+        final Participants participants = new Participants(1, 3, Set.of(), 10L);
+
+        assertThat(participants.contains(participant)).isFalse();
+    }
+
+    @DisplayName("참가자라면 참을 반환한다.")
+    @Test
+    void getTrueByParticipatedMember() {
+        final Participant participant = new Participant(1L);
+        final Participants participants = new Participants(1, 3, Set.of(participant), 10L);
+
+        assertThat(participants.contains(participant)).isTrue();
+    }
+
     @DisplayName("스터디장은 이미 스터디에 참여한 것이므로 검사 시에 예외가 발생한다.")
     @Test
     public void checkParticipatingAboutOwner() {
@@ -51,7 +69,7 @@ class ParticipantsTest {
 
         assertThat(participants.isImpossibleParticipation(4L)).isTrue();
     }
-    
+
     @DisplayName("스터디 참여 이후에는 현재 스터디원 수가 증가한다.")
     @Test
     public void IncreaseCurrentMemberCount() {

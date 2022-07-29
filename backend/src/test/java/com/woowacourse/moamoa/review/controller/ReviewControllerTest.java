@@ -7,7 +7,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.ReviewDao;
-import com.woowacourse.moamoa.review.service.ReviewService;
+import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import com.woowacourse.moamoa.review.service.request.SizeRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
@@ -50,7 +50,7 @@ class ReviewControllerTest {
     @Autowired
     private ReviewDao reviewDao;
 
-    private ReviewController sut;
+    private SearchingReviewController sut;
 
     private Study javaStudy;
 
@@ -58,7 +58,7 @@ class ReviewControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new ReviewController(new ReviewService(reviewDao));
+        sut = new SearchingReviewController(new SearchingReviewService(reviewDao));
 
         // 사용자 추가
         final Member jjanggu = memberRepository.save(toMember(JJANGGU));

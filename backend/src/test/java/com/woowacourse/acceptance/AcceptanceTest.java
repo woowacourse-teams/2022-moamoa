@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
         classes = {MoamoaApplication.class}
 )
 public class AcceptanceTest {
+
     @LocalServerPort
     protected int port;
 
@@ -56,7 +58,7 @@ public class AcceptanceTest {
     private MockRestServiceServer mockServer;
 
     @BeforeEach
-    void setUp() {
+    protected void setRestAssuredPort() {
         RestAssured.port = port;
     }
 
@@ -90,7 +92,7 @@ public class AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().jsonPath().getString("token");
         mockServer.reset();
-        return "bearer " + token;
+        return "Bearer " + token;
     }
 
     protected long createStudy(String jwtToken, CreatingStudyRequest request) {
@@ -107,6 +109,24 @@ public class AcceptanceTest {
             return Long.parseLong(location.replaceAll("/api/studies/", ""));
         } catch (Exception e) {
             Assertions.fail("스터디 생성 실패");
+            return -1;
+        }
+    }
+
+    protected long createReview(String jwtToken, Long studyId, WriteReviewRequest request) {
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .pathParams("study-id", studyId)
+                    .body(objectMapper.writeValueAsString(request))
+                    .when().post("/api/studies/{study-id}/reviews")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reviews/", ""));
+        } catch (Exception e) {
+            Assertions.fail("리뷰 작성 실패");
             return -1;
         }
     }

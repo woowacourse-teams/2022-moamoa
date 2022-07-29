@@ -1,10 +1,11 @@
 package com.woowacourse.moamoa.common.advice;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
+import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
+import com.woowacourse.moamoa.common.exception.NotFoundException;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
@@ -19,15 +20,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class CommonControllerAdvice {
 
     @ExceptionHandler({
-            InvalidFormatException.class,
-            InvalidPeriodException.class,
-            FailureParticipationException.class
-    })
-    public ResponseEntity<ErrorResponse> handleBadRequest(final Exception e) {
-        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-    }
-
-    @ExceptionHandler({
             MethodArgumentTypeMismatchException.class,
             HttpMessageNotReadableException.class
     })
@@ -35,9 +27,24 @@ public class CommonControllerAdvice {
         return ResponseEntity.badRequest().body(new ErrorResponse("잘못된 요청 형식입니다."));
     }
 
-    @ExceptionHandler
-    public ResponseEntity<Void> handleUnauthorized(final UnauthorizedException e) {
-        return ResponseEntity.status(UNAUTHORIZED).build();
+    @ExceptionHandler({
+            InvalidFormatException.class,
+            InvalidPeriodException.class,
+            BadRequestException.class,
+            FailureParticipationException.class
+    })
+    public ResponseEntity<ErrorResponse> handleBadRequest(final Exception e) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler({UnauthorizedException.class})
+    public ResponseEntity<Void> handleUnauthorized(final Exception e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleNotFound(final Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(e.getMessage()));
     }
 
     @ExceptionHandler(RuntimeException.class)

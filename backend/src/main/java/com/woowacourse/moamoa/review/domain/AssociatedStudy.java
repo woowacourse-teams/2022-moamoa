@@ -9,9 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @Getter
-@NoArgsConstructor(access = PROTECTED)
 public class AssociatedStudy {
 
     @Column(name = "study_id", nullable = false)
