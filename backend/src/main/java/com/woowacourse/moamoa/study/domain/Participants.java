@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.study.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,46 +42,36 @@ public class Participants {
         this.ownerId = ownerId;
     }
 
-    public List<Participant> getParticipants() {
-        return new ArrayList<>(participants);
+    boolean isNotParticipable(final Long memberId) {
+        return isFullOfMember() || isParticipated(new Participant(memberId));
     }
 
-    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
-        return new Participants(1, maxSize, new HashSet<>(), ownerId);
+    boolean isFullOfMember() {
+        return max != null && max <= size;
     }
 
-    public int getCurrentMemberSize() {
-        return size;
+    boolean isParticipated(final Participant participant) {
+        return participants.contains(participant) || ownerId.equals(participant.getMemberId());
     }
 
     void participate(final Participant participant) {
+        if (isNotParticipable(participant.getMemberId())) {
+            throw new FailureParticipationException();
+        }
         participants.add(participant);
         size = size + 1;
     }
 
-    boolean isImpossibleParticipation(Long memberId) {
-        return isInvalidMemberSize() || isAlreadyParticipation(memberId);
+    public List<Participant> getParticipants() {
+        return new ArrayList<>(participants);
     }
 
-    private boolean isInvalidMemberSize() {
-        return max != null && max <= size;
+    public int getSize() {
+        return size;
     }
 
-    private boolean isAlreadyParticipation(final Long memberId) {
-        final Participant participant = new Participant(memberId);
-        return isOwner(memberId) || isParticipated(participant);
-    }
-
-    private boolean isOwner(final Long memberId) {
-        return Objects.equals(memberId, ownerId);
-    }
-
-    private boolean isParticipated(final Participant participant) {
-        return participants.contains(participant);
-    }
-
-    public boolean contains(final Participant participant) {
-        return participants.contains(participant) || ownerId.equals(participant.getMemberId());
+    public static Participants createBy(final Integer maxSize, Long ownerId) {
+        return new Participants(1, maxSize, new HashSet<>(), ownerId);
     }
 
     @Override

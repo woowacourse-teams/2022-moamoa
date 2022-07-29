@@ -21,24 +21,30 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private String jjangguToken;
+    private String verusToken;
+
     @BeforeEach
     protected void setRestAssuredPort() {
         super.setRestAssuredPort();
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
+        jjangguToken = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        verusToken = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02T11:56:32.123567')");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디1', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'IN_PROGRESS', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2020-01-02T11:56:32.123567')");
+
+        jdbcTemplate.update(
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (2, '짱구 스터디2', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2030-01-02T11:56:32.123567')");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 2)");
     }
 
     @DisplayName("정상적으로 리뷰를 작성한다.")
     @Test
     void writeReview() {
         final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("후기 내용입니다.");
-        final String jwtToken = getBearerTokenBySignInOrUp(
-                new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-
-        final Long reviewId = createReview(jwtToken, 1L, writeReviewRequest);
+        final Long reviewId = createReview(jjangguToken, 1L, writeReviewRequest);
         assertThat(reviewId).isNotNull();
     }
 
@@ -46,16 +52,29 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void writeReviewByNonParticipateStudy() {
         final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("후기 내용입니다.");
-        final String jwtToken = getBearerTokenBySignInOrUp(
-                new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
 
         RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(HttpHeaders.AUTHORIZATION, verusToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .pathParams("study-id", 1L)
+                .pathParams("study-id", 2L)
                 .body(writeReviewRequest)
                 .when().post("/api/studies/{study-id}/reviews")
                 .then().log().all()
-                .statusCode(HttpStatus.UNAUTHORIZED.value());
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @DisplayName("준비중인 스터디에는 후기를 작성할 수 없다.")
+    @Test
+    void canNotWriteReviewToPreparingStudy() {
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("후기 내용입니다.");
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, jjangguToken)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParams("study-id", 2L)
+                .body(writeReviewRequest)
+                .when().post("/api/studies/{study-id}/reviews")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

@@ -52,4 +52,8 @@ public class Review {
     ) {
         this(null, associatedStudy, member, content, createdDate, lastModifiedDate);
     }
+
+    public static Review writeNewReview(Long studyId, Member member, String content, LocalDateTime createdDate) {
+        return new Review(new AssociatedStudy(studyId), member, content, createdDate, createdDate);
+    }
 }

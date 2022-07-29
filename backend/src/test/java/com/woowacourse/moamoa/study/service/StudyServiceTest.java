@@ -46,7 +46,7 @@ class StudyServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.studyService = new StudyService(studyRepository, memberRepository);
+        this.studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
     }
 
     @DisplayName("회원은 스터디를 생성할 수 있다.")
@@ -82,7 +82,7 @@ class StudyServiceTest {
 
         // then
         final Study result = studyRepository.findById(foundStudy.getId()).get();
-        assertThat(result.getParticipants().getCurrentMemberSize()).isEqualTo(2);
+        assertThat(result.getParticipants().getSize()).isEqualTo(2);
         assertThat(result.getParticipants().getParticipants().contains(new Participant(2L))).isTrue();
     }
 }

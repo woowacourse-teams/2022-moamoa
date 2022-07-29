@@ -14,6 +14,7 @@ import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -67,7 +68,7 @@ class ReviewControllerTest {
         final Member verus = memberRepository.save(toMember(VERUS));
 
         // 스터디 생성
-        StudyService studyService = new StudyService(studyRepository, memberRepository);
+        StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
         CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()

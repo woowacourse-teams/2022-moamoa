@@ -17,6 +17,7 @@ import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -47,7 +48,8 @@ public class StudyControllerTest {
     @Test
     void openStudy() {
         // given
-        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
+        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -70,12 +72,12 @@ public class StudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
         assertThat(study).isNotEmpty();
         assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt",
-                "java image", "OPEN", StudyStatus.PREPARE, "자바 스터디 상세설명 입니다."));
-        assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
+                "java image", StudyStatus.PREPARE, "자바 스터디 상세설명 입니다."));
+        assertThat(study.get().getParticipants()).isEqualTo(Participants.createBy(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
-                new Period(LocalDate.parse(creatingStudyRequest.getEnrollmentEndDate()),
+                new Period(
                         creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate())));
         assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(creatingStudyRequest.getTagIds());
@@ -84,7 +86,8 @@ public class StudyControllerTest {
     @DisplayName("유효하지 않은 스터디 기간으로 생성 시 예외 발생")
     @Test
     void createStudyByInvalidPeriod() {
-        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
+        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -105,7 +108,8 @@ public class StudyControllerTest {
     @DisplayName("스터디 생성 날짜와 스터디 시작 날짜가 같은 경우 IN_PROGRESS로 설정한다.")
     @Test
     void checkStudyStatusIfCreateDateSameStartDate() {
-        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
+        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
         final CreatingStudyRequest createStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -136,7 +140,8 @@ public class StudyControllerTest {
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
     @Test
     void createStudyByNotFoundUser() {
-        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
+        StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -158,7 +163,8 @@ public class StudyControllerTest {
     @Test
     public void participateStudy() {
         // given
-        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository));
+        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
         final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")

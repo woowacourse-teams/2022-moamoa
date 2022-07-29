@@ -32,7 +32,7 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
 
         jdbcTemplate.update(
                 "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
-                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '2021-11-08T11:58:20.551705', '1999-01-01T00:00:00', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3)");
+                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'CLOSE', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '1998-11-08T11:58:20.551705', '1999-01-01T00:00:00', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3)");
 
         jdbcTemplate.update(
                 "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "

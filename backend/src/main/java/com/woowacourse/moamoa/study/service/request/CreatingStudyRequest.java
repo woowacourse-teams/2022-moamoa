@@ -1,10 +1,15 @@
 package com.woowacourse.moamoa.study.service.request;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
+
 import com.woowacourse.moamoa.study.domain.AttachedTag;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.RecruitPlan;
+import com.woowacourse.moamoa.study.domain.RecruitStatus;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import java.time.LocalDate;
 import java.util.List;
@@ -68,15 +73,26 @@ public class CreatingStudyRequest {
     }
 
     public Period mapToPeriod() {
-        return new Period(enrollmentEndDate, startDate, endDate);
+        return new Period(startDate, endDate);
+    }
+
+    public Details mapToDetails(LocalDate now) {
+        if (startDate.equals(now)) {
+            return new Details(title, excerpt, thumbnail, IN_PROGRESS, description);
+        }
+        return new Details(title, excerpt, thumbnail, PREPARE, description);
     }
 
     public Details mapToDetails(StudyStatus studyStatus) {
-        return new Details(title, excerpt, thumbnail, "OPEN", studyStatus, description);
+        return new Details(title, excerpt, thumbnail, studyStatus, description);
     }
 
     public Participants mapToParticipants(Long ownerId) {
-        return Participants.createByMaxSizeAndOwnerId(maxMemberCount, ownerId);
+        return Participants.createBy(maxMemberCount, ownerId);
+    }
+
+    public RecruitPlan mapToRecruitPlan() {
+        return new RecruitPlan(RecruitStatus.OPEN, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {
