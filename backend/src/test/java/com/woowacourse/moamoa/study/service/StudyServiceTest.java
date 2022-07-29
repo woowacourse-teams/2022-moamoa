@@ -77,7 +77,7 @@ class StudyServiceTest {
         final Study foundStudy = studyRepository.findById(createdStudy.getId()).get();
         final Member participant = memberRepository.findByGithubId(2L).get();
 
-        studyService.participantStudy(participant.getGithubId(), foundStudy.getId());
+        studyService.participateStudy(participant.getGithubId(), foundStudy.getId());
         entityManager.flush();
 
         // then

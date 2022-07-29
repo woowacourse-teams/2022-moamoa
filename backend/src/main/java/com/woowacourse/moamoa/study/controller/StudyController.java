@@ -34,7 +34,7 @@ public class StudyController {
     public ResponseEntity<Void> participateStudy(@AuthenticationPrincipal final Long githubId,
                                                  @PathVariable("study-id") final Long studyId
     ) {
-        studyService.participantStudy(githubId, studyId);
+        studyService.participateStudy(githubId, studyId);
         return ResponseEntity.ok().build();
     }
 }

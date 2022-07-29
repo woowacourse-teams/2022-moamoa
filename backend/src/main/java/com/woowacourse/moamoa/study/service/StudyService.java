@@ -34,7 +34,7 @@ public class StudyService {
         return studyRepository.save(new Study(details, participants, period, attachedTags));
     }
 
-    public void participantStudy(final Long githubId, final Long studyId) {
+    public void participateStudy(final Long githubId, final Long studyId) {
         final Member member = findMemberBy(githubId);
         final Study study = findStudyBy(studyId);
 
