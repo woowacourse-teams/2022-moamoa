@@ -32,9 +32,4 @@ public class MemberDao {
                 + "WHERE study_member.study_id = :id";
         return jdbcTemplate.query(sql, Map.of("id", studyId), ROW_MAPPER);
     }
-
-    public boolean isExistByGithubId(Long id) {
-        final String sql = "SELECT EXISTS(SELECT github_id FROM member where github_id = :id) ";
-        return jdbcTemplate.queryForObject(sql, Map.of("id", id), Boolean.class);
-    }
 }

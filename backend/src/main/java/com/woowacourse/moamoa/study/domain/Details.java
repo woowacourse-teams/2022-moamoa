@@ -6,11 +6,9 @@ import static lombok.AccessLevel.PROTECTED;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Embeddable
 @Getter
@@ -38,13 +36,13 @@ public class Details {
     @Column(nullable = false)
     private String description;
 
-    public Details(final String title, final String excerpt, final String thumbnail, final String recruit_status,
-                   final StudyStatus study_status, final String description) {
+    public Details(final String title, final String excerpt, final String thumbnail, final String recruitStatus,
+                   final StudyStatus studyStatus, final String description) {
         this.title = title;
         this.excerpt = excerpt;
         this.thumbnail = thumbnail;
-        this.recruitStatus = recruit_status;
-        this.studyStatus = study_status;
+        this.recruitStatus = recruitStatus;
+        this.studyStatus = studyStatus;
         this.description = description;
     }
 
