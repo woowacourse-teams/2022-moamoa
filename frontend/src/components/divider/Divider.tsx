@@ -11,7 +11,7 @@ type DividerProps = {
 };
 
 const Divider = styled.div<MakeOptional<DividerProps, 'space' | 'color'>>(({ space = 1, color, theme }) => {
-  const defaultColor = theme.colors.secondary.base;
+  const defaultColor = theme.colors.secondary.dark;
   return css`
     height: 1px;
     background-color: ${color ? color : defaultColor};
