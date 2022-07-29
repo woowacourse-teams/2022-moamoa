@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -14,6 +15,7 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
 import java.util.stream.Collectors;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -98,9 +100,9 @@ class MyStudyControllerTest {
                 .hasSize(3)
                 .extracting("id", "title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java 스터디", "PREPARE", 3, 10),
-                        tuple(2L, "React 스터디", "PREPARE", 4, 5),
-                        tuple(3L, "javaScript 스터디", "PREPARE", 3, 20))
+                        tuple(1L, "Java 스터디", PREPARE, 3, 10),
+                        tuple(2L, "React 스터디", PREPARE, 4, 5),
+                        tuple(3L, "javaScript 스터디", PREPARE, 3, 20))
                 );
 
         final List<MemberData> owners = myStudies.getBody()

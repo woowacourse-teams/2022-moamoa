@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.service;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.*;
 import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -9,6 +10,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
@@ -112,8 +114,8 @@ class MyStudyServiceTest {
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
-                        tuple("React 스터디", "PREPARE", 4, 5),
-                        tuple("OS 스터디", "PREPARE", 1, 6)
+                        tuple("React 스터디", PREPARE, 4, 5),
+                        tuple("OS 스터디", PREPARE, 1, 6)
                 );
 
         assertThat(owners)

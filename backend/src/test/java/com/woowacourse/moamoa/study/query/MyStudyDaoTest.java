@@ -1,9 +1,11 @@
 package com.woowacourse.moamoa.study.query;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,7 +81,7 @@ class MyStudyDaoTest {
                 .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
                 .contains(
-                        tuple("React 스터디", "PREPARE", 4, 5, "2021-11-10 11:58:20.551705", "2021-12-08 11:58:20.551705")
+                        tuple("React 스터디", PREPARE, 4, 5, "2021-11-10 11:58:20.551705", "2021-12-08 11:58:20.551705")
                 );
     }
 }

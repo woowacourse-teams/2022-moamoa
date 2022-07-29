@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.query.data;
 
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ public class MyStudySummaryData {
 
     private Long id;
     private String title;
-    private String studyStatus;
+    private StudyStatus studyStatus;
     private Integer currentMemberCount;
     private Integer maxMemberCount;
     private String startDate;

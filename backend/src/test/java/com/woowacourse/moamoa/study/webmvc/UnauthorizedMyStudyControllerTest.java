@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.controller.MyStudyController;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.MyStudyService;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
@@ -36,7 +37,7 @@ class UnauthorizedMyStudyControllerTest {
     void getMyStudiesWithoutAuthorization() throws Exception {
         given(myStudyService.getStudies(1L)).willReturn(new MyStudiesResponse(
                 List.of(
-                        new MyStudyResponse(1L, "Java 스터디", "IN_PROGRESS", 3, 10,
+                        new MyStudyResponse(1L, "Java 스터디", StudyStatus.IN_PROGRESS, 3, 10,
                                 "2022-07-26", "2022-08-26",
                                 new MemberData(2L, "jaejae-yoo", "images/123", "https://github.com/user/jaejae-yoo"),
                                 List.of(new TagSummaryData(1L, "BE"), new TagSummaryData(5L, "Java"))

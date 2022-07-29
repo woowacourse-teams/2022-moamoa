@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
@@ -15,7 +16,7 @@ public class MyStudyResponse {
 
     private Long id;
     private String title;
-    private String studyStatus;
+    private StudyStatus studyStatus;
     private Integer currentMemberCount;
     private Integer maxMemberCount;
     private String startDate;

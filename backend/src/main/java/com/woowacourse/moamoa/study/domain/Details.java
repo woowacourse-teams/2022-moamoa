@@ -3,9 +3,11 @@ package com.woowacourse.moamoa.study.domain;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Embeddable
+@Getter
 public class Details {
 
     @Column(nullable = false)
@@ -21,7 +23,7 @@ public class Details {
     private String recruitStatus;
 
     @Column(nullable = false)
-    private String studyStatus;
+    private StudyStatus studyStatus;
 
     @Column(nullable = false)
     private String description;
@@ -30,7 +32,7 @@ public class Details {
     }
 
     public Details(final String title, final String excerpt, final String thumbnail, final String recruit_status,
-                   final String study_status,
+                   final StudyStatus study_status,
                    final String description) {
         this.title = title;
         this.excerpt = excerpt;

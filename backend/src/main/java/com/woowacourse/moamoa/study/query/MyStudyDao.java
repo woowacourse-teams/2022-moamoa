@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class MyStudyDao {
         final String startDate = rs.getString("start_date");
         final String endDate = rs.getString("end_date");
 
-        return new MyStudySummaryData(id, title, studyStatus, currentMemberCount, maxMemberCount, startDate, endDate);
+        return new MyStudySummaryData(id, title, StudyStatus.find(studyStatus),
+                currentMemberCount, maxMemberCount, startDate, endDate);
     };
 
     private static final RowMapper<Map<Long, Map<MemberData, List<TagSummaryData>>>> OWNER_WITH_TAG_ROW_MAPPER = (rs, rn) -> {
