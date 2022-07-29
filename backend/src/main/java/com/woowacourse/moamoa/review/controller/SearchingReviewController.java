@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.review.controller;
 
 import com.woowacourse.moamoa.review.service.SearchingReviewService;
+import com.woowacourse.moamoa.review.service.request.SizeRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,10 @@ public class SearchingReviewController {
 
     @GetMapping
     public ResponseEntity<ReviewsResponse> getReviews(
-            @PathVariable(name = "study-id") final Long studyId,
-            @RequestParam(required = false) final Integer size
+            @PathVariable(name = "study-id") Long studyId,
+            @RequestParam(name = "size", required = false, defaultValue = "") SizeRequest sizeRequest
     ) {
-        final ReviewsResponse reviewsResponse = searchingReviewService.getReviewsByStudy(studyId, size);
+        final ReviewsResponse reviewsResponse = searchingReviewService.getReviewsByStudy(studyId, sizeRequest);
         return ResponseEntity.ok(reviewsResponse);
     }
 }

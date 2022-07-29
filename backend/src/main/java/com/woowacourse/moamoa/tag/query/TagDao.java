@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.tag.query;
 
+import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
 import com.woowacourse.moamoa.tag.query.response.CategoryData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.util.HashMap;
@@ -8,7 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -37,13 +40,13 @@ public class TagDao {
         return jdbcTemplate.query(sql, Map.of("studyId", studyId), ROW_MAPPER);
     }
 
-    public List<TagData> searchByShortNameAndCategoryId(final String tagShortName, final Optional<Long> categoryId) {
+    public List<TagData> searchByShortNameAndCategoryId(final String tagShortName, final CategoryIdRequest categoryId) {
         final String sql = sqlForSearchByCategoryAndShortName(categoryId);
         final Map<String, Object> params = paramsForSearchByCategoryAndShortName(tagShortName, categoryId);
         return jdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
-    private String sqlForSearchByCategoryAndShortName(final Optional<Long> categoryId) {
+    private String sqlForSearchByCategoryAndShortName(final CategoryIdRequest categoryId) {
         String sql = "SELECT t.id as tag_id, t.name as tag_name, t.description as tag_description, "
                 + "c.id as category_id, c.name as category_name "
                 + "FROM tag as t JOIN category as c ON t.category_id = c.id "
@@ -55,10 +58,10 @@ public class TagDao {
         return sql + " AND c.id = :categoryId";
     }
 
-    private Map<String, Object> paramsForSearchByCategoryAndShortName(final String name, final Optional<Long> categoryId) {
+    private Map<String, Object> paramsForSearchByCategoryAndShortName(final String name, final CategoryIdRequest categoryId) {
         Map<String, Object> param = new HashMap<>();
         param.put("name", "%" + name + "%");
-        param.put("categoryId", categoryId.orElse(null));
+        param.put("categoryId", categoryId.getValue());
         return param;
     }
 }

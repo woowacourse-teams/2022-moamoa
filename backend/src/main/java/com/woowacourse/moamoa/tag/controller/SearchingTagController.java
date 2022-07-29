@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.tag.controller;
 
+import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
 import com.woowacourse.moamoa.tag.service.SearchingTagService;
 import com.woowacourse.moamoa.tag.service.response.TagsResponse;
 import java.util.Optional;
@@ -18,8 +19,8 @@ public class SearchingTagController {
     @GetMapping("/api/tags")
     public ResponseEntity<TagsResponse> searchTags(
             @RequestParam(value = "name", required = false, defaultValue = "") final String tagShortName,
-            @RequestParam(value = "category", required = false, defaultValue = "") final Optional<Long> categoryId) {
-        final TagsResponse tagsResponse = searchingTagService.getBy(tagShortName, categoryId);
+            @RequestParam(value = "category", required = false, defaultValue = "") final CategoryIdRequest categoryIdRequest) {
+        final TagsResponse tagsResponse = searchingTagService.getBy(tagShortName, categoryIdRequest);
         return ResponseEntity.ok().body(tagsResponse);
     }
 }

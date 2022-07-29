@@ -17,13 +17,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final TokenProvider tokenProvider;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+                             final Object handler) {
         if (isPreflight(request)) {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && validatePath(request)) {
-            String token = AuthenticationExtractor.extract(request);
+        if (request.getMethod().equals("POST") && validatePostPath(request) ||
+                request.getMethod().equals("GET") && validateGetPath(request)) {
+            final String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
             request.setAttribute("payload", tokenProvider.getPayload(token));
@@ -42,8 +44,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
     }
 
-    private boolean validatePath(final HttpServletRequest request) {
+    private boolean validatePostPath(final HttpServletRequest request) {
         return request.getServletPath().equals("/api/studies") ||
                 request.getServletPath().matches("/api/studies/\\d+/reviews");
+    }
+
+    private boolean validateGetPath(final HttpServletRequest request) {
+        return request.getServletPath().equals("/api/my/studies");
     }
 }
