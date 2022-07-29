@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.study.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.study.service.exception.InvalidParticipationStudyException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,21 +53,13 @@ public class Participants {
         return size;
     }
 
-    protected void participate(final Participant participant) {
-        checkParticipating(participant.getMemberId());
-
+    void participate(final Participant participant) {
         participants.add(participant);
-        increaseCurrentMemberSize();
-    }
-
-    private void increaseCurrentMemberSize() {
         size = size + 1;
     }
 
-    private void checkParticipating(Long memberId) {
-        if (isInvalidMemberSize() || isAlreadyParticipation(memberId)) {
-            throw new InvalidParticipationStudyException();
-        }
+    boolean isImpossibleParticipation(Long memberId) {
+        return isInvalidMemberSize() || isAlreadyParticipation(memberId);
     }
 
     private boolean isInvalidMemberSize() {
@@ -77,9 +68,7 @@ public class Participants {
 
     private boolean isAlreadyParticipation(final Long memberId) {
         final Participant participant = new Participant(memberId);
-        final boolean b = isOwner(memberId) || isParticipant(participant);
-        System.out.println("b = " + b);
-        return b;
+        return isOwner(memberId) || isParticipant(participant);
     }
 
     private boolean isOwner(final Long memberId) {
