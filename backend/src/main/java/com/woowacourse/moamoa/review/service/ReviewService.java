@@ -40,7 +40,7 @@ public class ReviewService {
             throw new WritingReviewBadRequestException();
         }
 
-        final Review review = Review.writeNewReview(study.getId(), member, content, reviewCreatedDate);
+        final Review review = Review.writeNewReview(study.getId(), member.getId(), content, reviewCreatedDate);
 
         return reviewRepository.save(review).getId();
     }

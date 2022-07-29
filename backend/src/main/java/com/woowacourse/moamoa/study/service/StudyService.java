@@ -7,9 +7,8 @@ import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
-import com.woowacourse.moamoa.study.domain.RecruitPlan;
+import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
@@ -41,12 +40,12 @@ public class StudyService {
         final Member owner = findMemberBy(githubId);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlan recruitPlan = request.mapToRecruitPlan();
+        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
         final Period period = request.mapToPeriod();
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Details details = request.mapToDetails(createdAt.toLocalDate());
 
-        return studyRepository.save(new Study(details, participants, recruitPlan, period, attachedTags, createdAt));
+        return studyRepository.save(new Study(details, participants, recruitPlanner, period, attachedTags, createdAt));
     }
 
     public void participateStudy(final Long githubId, final Long studyId) {

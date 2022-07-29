@@ -34,7 +34,7 @@ public class Study {
     private Participants participants;
 
     @Embedded
-    private RecruitPlan recruitPlan;
+    private RecruitPlanner recruitPlanner;
 
     @Embedded
     private AttachedTags attachedTags;
@@ -46,58 +46,65 @@ public class Study {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Study(final Details details, final Participants participants, final RecruitPlan recruitPlan,
+    public Study(final Details details, final Participants participants, final RecruitPlanner recruitPlanner,
                  final Period period, final AttachedTags attachedTags, LocalDateTime createdAt
     ) {
-        this(null, details, participants, recruitPlan, period, attachedTags, createdAt);
+        this(null, details, participants, recruitPlanner, period, attachedTags, createdAt);
     }
 
-    private Study(final Long id, final Details details, final Participants participants, final RecruitPlan recruitPlan,
+    private Study(final Long id, final Details details, final Participants participants,
+                  final RecruitPlanner recruitPlanner,
                   final Period period, final AttachedTags attachedTags, final LocalDateTime createdAt
     ) {
-        if (recruitPlan.hasEnrollmentEndDate() && period.isEndBeforeThan(recruitPlan.getEnrollmentEndDate())) {
-            throw new InvalidPeriodException();
-        }
-
-        if (period.isStartBeforeThan(createdAt.toLocalDate()) ||
-                recruitPlan.isRecruitingBeforeThan(createdAt.toLocalDate())) {
+        if (isRecruitingBeforeStartStudy(recruitPlanner, period) ||
+                isRecruitingOrStartStudyBeforeCreatedAt(recruitPlanner, period, createdAt)) {
             throw new InvalidPeriodException();
         }
 
         this.id = id;
         this.details = details;
         this.participants = participants;
-        this.recruitPlan = recruitPlan;
+        this.recruitPlanner = recruitPlanner;
         this.period = period;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
     }
 
+    private boolean isRecruitingBeforeStartStudy(final RecruitPlanner recruitPlanner, final Period period) {
+        return recruitPlanner.hasEnrollmentEndDate() && period.isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
+    }
+
+    private boolean isRecruitingOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner, final Period period,
+                                                            final LocalDateTime createdAt) {
+        return period.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitingBeforeThan(createdAt.toLocalDate());
+    }
+
     public boolean isWritableReviews(final Long memberId) {
-        return participants.isParticipated(new Participant(memberId)) && !details.isPreparingStudy();
+        return participants.isAlreadyParticipated(memberId) && !details.isPreparingStudy();
     }
 
     public void participate(final Long memberId) {
-        if (recruitPlan.isCloseEnrollment() || participants.isNotParticipable(memberId)) {
+        if (recruitPlanner.isCloseEnrollment() || participants.isNotParticipable(memberId)) {
             throw new FailureParticipationException();
         }
 
         participants.participate(new Participant(memberId));
 
         if (participants.isFullOfMember()) {
-            recruitPlan.closeRecruiting();
+            recruitPlanner.closeRecruiting();
         }
     }
 
     public boolean isNeedToCloseRecruiting(LocalDate now) {
-        return recruitPlan.isNeedToCloseRecruiting(now);
+        return recruitPlanner.isNeedToCloseRecruiting(now);
     }
 
     public void closeEnrollment() {
-        recruitPlan.closeRecruiting();
+        recruitPlanner.closeRecruiting();
     }
 
     public boolean isCloseEnrollment() {
-        return recruitPlan.isCloseEnrollment();
+        return recruitPlanner.isCloseEnrollment();
     }
 }

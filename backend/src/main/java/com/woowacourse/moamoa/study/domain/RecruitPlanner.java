@@ -7,7 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Embeddable
-public class RecruitPlan {
+public class RecruitPlanner {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "recruit_status")
@@ -15,22 +15,23 @@ public class RecruitPlan {
 
     private LocalDate enrollmentEndDate;
 
-    protected RecruitPlan() {}
+    protected RecruitPlanner() {
+    }
 
-    public RecruitPlan(final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
+    public RecruitPlanner(final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
         this.recruitStatus = recruitStatus;
         this.enrollmentEndDate = enrollmentEndDate;
     }
 
     boolean hasEnrollmentEndDate() {
-        return getEnrollmentEndDate() != null;
+        return enrollmentEndDate != null;
     }
 
     boolean isRecruitingBeforeThan(LocalDate date) {
         if (!hasEnrollmentEndDate()) {
             return false;
         }
-        return getEnrollmentEndDate().isBefore(date);
+        return enrollmentEndDate.isBefore(date);
     }
 
     void closeRecruiting() {
@@ -38,12 +39,7 @@ public class RecruitPlan {
     }
 
     boolean isNeedToCloseRecruiting(final LocalDate now) {
-        return getRecruitStatus().equals(RecruitStatus.OPEN) && getEnrollmentEndDate() != null
-                && getEnrollmentEndDate().isBefore(now);
-    }
-
-    public RecruitStatus getRecruitStatus() {
-        return recruitStatus;
+        return recruitStatus.equals(RecruitStatus.OPEN) && enrollmentEndDate != null && enrollmentEndDate.isBefore(now);
     }
 
     public LocalDate getEnrollmentEndDate() {

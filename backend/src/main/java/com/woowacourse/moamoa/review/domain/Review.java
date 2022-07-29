@@ -3,17 +3,13 @@ package com.woowacourse.moamoa.review.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.member.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,7 +17,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-@Getter
 public class Review {
 
     @Id
@@ -31,9 +26,8 @@ public class Review {
     @Embedded
     private AssociatedStudy associatedStudy;
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Embedded
+    private Reviewer reviewer;
 
     @Column(nullable = false)
     private String content;
@@ -47,13 +41,37 @@ public class Review {
     private LocalDateTime lastModifiedDate;
 
     public Review(
-            final AssociatedStudy associatedStudy, final Member member, final String content,
+            final AssociatedStudy associatedStudy, final Reviewer reviewer, final String content,
             final LocalDateTime createdDate, final LocalDateTime lastModifiedDate
     ) {
-        this(null, associatedStudy, member, content, createdDate, lastModifiedDate);
+        this(null, associatedStudy, reviewer, content, createdDate, lastModifiedDate);
     }
 
-    public static Review writeNewReview(Long studyId, Member member, String content, LocalDateTime createdDate) {
-        return new Review(new AssociatedStudy(studyId), member, content, createdDate, createdDate);
+    public Long getId() {
+        return id;
+    }
+
+    public AssociatedStudy getAssociatedStudy() {
+        return associatedStudy;
+    }
+
+    public Reviewer getReviewer() {
+        return reviewer;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public static Review writeNewReview(Long studyId, Long memberId, String content, LocalDateTime createdDate) {
+        return new Review(new AssociatedStudy(studyId), new Reviewer(memberId), content, createdDate, createdDate);
     }
 }

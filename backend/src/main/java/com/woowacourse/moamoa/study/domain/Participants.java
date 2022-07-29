@@ -43,15 +43,15 @@ public class Participants {
     }
 
     boolean isNotParticipable(final Long memberId) {
-        return isFullOfMember() || isParticipated(new Participant(memberId));
+        return isFullOfMember() || isAlreadyParticipated(memberId);
     }
 
     boolean isFullOfMember() {
         return max != null && max <= size;
     }
 
-    boolean isParticipated(final Participant participant) {
-        return participants.contains(participant) || ownerId.equals(participant.getMemberId());
+    boolean isAlreadyParticipated(Long memberId) {
+        return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
     }
 
     void participate(final Participant participant) {

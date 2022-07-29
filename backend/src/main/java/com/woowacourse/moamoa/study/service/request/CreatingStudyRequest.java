@@ -8,7 +8,7 @@ import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
-import com.woowacourse.moamoa.study.domain.RecruitPlan;
+import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.RecruitStatus;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import java.time.LocalDate;
@@ -91,8 +91,8 @@ public class CreatingStudyRequest {
         return Participants.createBy(maxMemberCount, ownerId);
     }
 
-    public RecruitPlan mapToRecruitPlan() {
-        return new RecruitPlan(RecruitStatus.OPEN, enrollmentEndDate);
+    public RecruitPlanner mapToRecruitPlan() {
+        return new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {
