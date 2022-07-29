@@ -13,5 +13,5 @@ public class StudySummaryData {
     private String title;
     private String excerpt;
     private String thumbnail;
-    private String status;
+    private String recruitStatus;
 }

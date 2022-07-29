@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,8 +71,8 @@ public class CreatingStudyRequest {
         return new Period(enrollmentEndDate, startDate, endDate);
     }
 
-    public Details mapToDetails() {
-        return new Details(title, excerpt, thumbnail, "OPEN", description);
+    public Details mapToDetails(StudyStatus studyStatus) {
+        return new Details(title, excerpt, thumbnail, "OPEN", studyStatus, description);
     }
 
     public Participants mapToParticipants(Long ownerId) {

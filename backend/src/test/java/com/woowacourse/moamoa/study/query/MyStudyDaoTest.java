@@ -1,13 +1,13 @@
-package com.woowacourse.moamoa.tag.query;
+package com.woowacourse.moamoa.study.query;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
-import com.woowacourse.moamoa.tag.query.response.TagData;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
+import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-class TagDaoTest {
+class MyStudyDaoTest {
 
     @Autowired
-    private TagDao tagDao;
+    private MyStudyDao myStudyDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -60,86 +60,28 @@ class TagDaoTest {
 
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
     }
 
-    @DisplayName("필터 없이 조회시 태그 목록 전체를 조회한다.")
+    @DisplayName("내가 참여한 스터디 목록을 조회한다.")
     @Test
-    void findAllByBlankTagName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", CategoryIdRequest.empty());
+    void getMyStudies() {
+        final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByGithubId(2L);
 
-        assertThat(tagData)
-                .hasSize(5)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area"),
-                        tuple(4L, "FE", "프론트엔드", 2L, "area"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
+        assertThat(studySummaryData)
+                .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
+                .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
+                .contains(
+                        tuple("React 스터디", PREPARE, 4, 5, "2021-11-10 11:58:20.551705", "2021-12-08 11:58:20.551705")
                 );
-    }
-
-    @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
-    @Test
-    void findAllByNameContainingIgnoreCase() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", CategoryIdRequest.empty());
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리로 태그를 조회한다.")
-    @Test
-    void findAllByCategory() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(2)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리와 이름으로 태그를 조회한다.")
-    @Test
-    void findAllByCategoryAndName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("스터디에 부여된 태그 목록을 조회한다.")
-    @Test
-    void getAttachedTagsByStudyId() {
-        // Java 스터디에 부착된 태그 : Java, 4기, BE
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(1L);
-
-        assertThat(attachedTags)
-                .hasSize(3)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactlyInAnyOrder(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area")
-                );
-    }
-
-    @DisplayName("스터디에 부여된 태그가 없는 경우 빈 목록을 조회한다.")
-    @Test
-    void getEmptyAttachedTagsByStudyId() {
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(6L);
-
-        assertThat(attachedTags).isEmpty();
     }
 }

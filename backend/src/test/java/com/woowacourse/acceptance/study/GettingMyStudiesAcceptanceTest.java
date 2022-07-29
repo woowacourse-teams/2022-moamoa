@@ -1,30 +1,28 @@
-package com.woowacourse.moamoa.tag.query;
+package com.woowacourse.acceptance.study;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 
-import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
-import com.woowacourse.moamoa.tag.query.response.TagData;
-import java.util.List;
-import java.util.Optional;
+import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import io.restassured.RestAssured;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@RepositoryTest
-class TagDaoTest {
-
-    @Autowired
-    private TagDao tagDao;
+public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
-    void initDataBase() {
+    void initDatabase() {
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
@@ -36,6 +34,7 @@ class TagDaoTest {
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, max_member_count, created_at, owner_id) VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'PREPARE', '디우의 HTTP 정복하기', 5, '2021-11-08T11:58:20.551705', 3)");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567')");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) VALUES (7, 'OS 스터디', 'OS 설명', 'os thumbnail', 'CLOSE', 'PREPARE', 'OS를 공부하자의 베루스입니다.', 1, 6, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567')");
 
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
@@ -60,86 +59,40 @@ class TagDaoTest {
 
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
     }
 
-    @DisplayName("필터 없이 조회시 태그 목록 전체를 조회한다.")
+    @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
-    void findAllByBlankTagName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", CategoryIdRequest.empty());
+    void getMyStudies() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
-        assertThat(tagData)
-                .hasSize(5)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area"),
-                        tuple(4L, "FE", "프론트엔드", 2L, "area"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
-                );
-    }
-
-    @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
-    @Test
-    void findAllByNameContainingIgnoreCase() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", CategoryIdRequest.empty());
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리로 태그를 조회한다.")
-    @Test
-    void findAllByCategory() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(2)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리와 이름으로 태그를 조회한다.")
-    @Test
-    void findAllByCategoryAndName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("스터디에 부여된 태그 목록을 조회한다.")
-    @Test
-    void getAttachedTagsByStudyId() {
-        // Java 스터디에 부착된 태그 : Java, 4기, BE
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(1L);
-
-        assertThat(attachedTags)
-                .hasSize(3)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactlyInAnyOrder(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area")
-                );
-    }
-
-    @DisplayName("스터디에 부여된 태그가 없는 경우 빈 목록을 조회한다.")
-    @Test
-    void getEmptyAttachedTagsByStudyId() {
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(6L);
-
-        assertThat(attachedTags).isEmpty();
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .when().log().all()
+                .get("/api/my/studies")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("studies[0].id", is(2))
+                .body("studies[0].title", is("React 스터디"))
+                .body("studies[0].studyStatus", is("PREPARE"))
+                .body("studies[0].currentMemberCount", is(4))
+                .body("studies[0].maxMemberCount", is(5))
+                .body("studies[0].startDate", is("2021-11-10 11:58:20.551705"))
+                .body("studies[0].endDate", is("2021-12-08 11:58:20.551705"))
+                .body("studies[0].owner.username", is("dwoo"))
+                .body("studies[0].owner.imageUrl", is("https://image"))
+                .body("studies[0].owner.profileUrl", is("github.com"))
+                .body("studies[0].tags.id", contains(2, 4, 5))
+                .body("studies[0].tags.name", contains("4기", "FE", "React"));
     }
 }

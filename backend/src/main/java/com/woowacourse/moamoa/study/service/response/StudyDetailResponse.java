@@ -22,7 +22,7 @@ public class StudyDetailResponse {
     private String title;
     private String excerpt;
     private String thumbnail;
-    private String status;
+    private String recruitStatus;
     private String description;
     private Integer currentMemberCount;
     private String maxMemberCount;
@@ -41,7 +41,7 @@ public class StudyDetailResponse {
         this.title = study.getTitle();
         this.excerpt = study.getExcerpt();
         this.thumbnail = study.getThumbnail();
-        this.status = study.getStatus();
+        this.recruitStatus = study.getRecruitStatus();
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
         this.maxMemberCount = getNullableDate(study.getMaxMemberCount());

@@ -12,7 +12,7 @@ class DetailsTest {
     @DisplayName("Study의 상태가 CLOSE 이면 모집 기간이 아니므로 예외가 발생한다.")
     @Test
     public void checkStudyStatus() {
-        final Details details = new Details("title", "excerpt", "thumbnail", CLOSE, "description");
+        final Details details = new Details("title", "excerpt", "thumbnail", CLOSE, StudyStatus.PREPARE, "description");
 
         assertThat(details.isCloseStatus()).isTrue();
     }

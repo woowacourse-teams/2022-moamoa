@@ -1,30 +1,47 @@
-package com.woowacourse.moamoa.tag.query;
+package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
-import com.woowacourse.moamoa.tag.query.response.TagData;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
+import com.woowacourse.moamoa.study.service.MyStudyService;
+import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+
+import java.util.stream.Collectors;
 import java.util.List;
-import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-class TagDaoTest {
+class MyStudyControllerTest {
 
     @Autowired
-    private TagDao tagDao;
+    private MyStudyDao myStudyDao;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private MyStudyController myStudyController;
+
     @BeforeEach
-    void initDataBase() {
+    void setUp() {
+        myStudyController = new MyStudyController(new MyStudyService(myStudyDao, memberRepository));
+
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
@@ -60,86 +77,75 @@ class TagDaoTest {
 
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
+
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
     }
 
-    @DisplayName("필터 없이 조회시 태그 목록 전체를 조회한다.")
+    @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
-    void findAllByBlankTagName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", CategoryIdRequest.empty());
+    void getMyStudies() {
+        final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(4L);
 
-        assertThat(tagData)
-                .hasSize(5)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area"),
-                        tuple(4L, "FE", "프론트엔드", 2L, "area"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
-                );
-    }
-
-    @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
-    @Test
-    void findAllByNameContainingIgnoreCase() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", CategoryIdRequest.empty());
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리로 태그를 조회한다.")
-    @Test
-    void findAllByCategory() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(2)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(5L, "React", "리액트", 3L, "subject")
-                );
-    }
-
-    @DisplayName("카테고리와 이름으로 태그를 조회한다.")
-    @Test
-    void findAllByCategoryAndName() {
-        List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", new CategoryIdRequest(3L));
-
-        assertThat(tagData)
-                .hasSize(1)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactly(
-                        tuple(1L, "Java", "자바", 3L, "subject")
-                );
-    }
-
-    @DisplayName("스터디에 부여된 태그 목록을 조회한다.")
-    @Test
-    void getAttachedTagsByStudyId() {
-        // Java 스터디에 부착된 태그 : Java, 4기, BE
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(1L);
-
-        assertThat(attachedTags)
+        assertThat(myStudies.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(myStudies.getBody()).isNotNull();
+        assertThat(myStudies.getBody().getStudies())
                 .hasSize(3)
-                .extracting("id", "name", "description", "category.id", "category.name")
-                .containsExactlyInAnyOrder(
-                        tuple(1L, "Java", "자바", 3L, "subject"),
-                        tuple(2L, "4기", "우테코4기", 1L, "generation"),
-                        tuple(3L, "BE", "백엔드", 2L, "area")
+                .extracting("id", "title", "studyStatus", "currentMemberCount", "maxMemberCount")
+                .containsExactlyElementsOf(List.of(
+                        tuple(1L, "Java 스터디", PREPARE, 3, 10),
+                        tuple(2L, "React 스터디", PREPARE, 4, 5),
+                        tuple(3L, "javaScript 스터디", PREPARE, 3, 20))
                 );
-    }
 
-    @DisplayName("스터디에 부여된 태그가 없는 경우 빈 목록을 조회한다.")
-    @Test
-    void getEmptyAttachedTagsByStudyId() {
-        final List<TagData> attachedTags = tagDao.findTagsByStudyId(6L);
+        final List<MemberData> owners = myStudies.getBody()
+                .getStudies()
+                .stream()
+                .map(MyStudyResponse::getOwner)
+                .collect(Collectors.toList());
 
-        assertThat(attachedTags).isEmpty();
+        assertThat(owners)
+                .hasSize(3)
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .containsExactlyElementsOf(List.of(
+                        tuple(2L, "greenlawn", "https://image", "github.com"),
+                        tuple(3L, "dwoo", "https://image", "github.com"),
+                        tuple(2L, "greenlawn", "https://image", "github.com"))
+                );
+
+        final List<List<TagSummaryData>> tags = myStudies.getBody()
+                .getStudies()
+                .stream()
+                .map(MyStudyResponse::getTags)
+                .collect(Collectors.toList());
+
+        assertThat(tags.get(0))
+                .hasSize(3)
+                .extracting("id", "name")
+                .containsExactlyElementsOf(List.of(
+                        tuple(1L, "Java"),
+                        tuple(2L, "4기"),
+                        tuple(3L, "BE"))
+                );
+
+        assertThat(tags.get(1))
+                .hasSize(3)
+                .extracting("id", "name")
+                .contains(tuple(5L, "React"),
+                        tuple(2L, "4기"),
+                        tuple(4L, "FE"));
+
+        assertThat(tags.get(2))
+                .hasSize(2)
+                .extracting("id", "name")
+                .contains(tuple(2L, "4기"),
+                        tuple(4L, "FE"));
     }
 }
