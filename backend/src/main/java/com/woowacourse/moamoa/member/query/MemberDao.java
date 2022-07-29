@@ -29,14 +29,4 @@ public class MemberDao {
                 + "WHERE study_member.study_id = ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, studyId);
     }
-
-    public boolean existsByStudyIdAndMemberId(final Long studyId, final Long memberId) {
-        final String sql = "SELECT EXISTS "
-                + "( "
-                + "SELECT * "
-                + "FROM member JOIN study_member ON member.id = study_member.member_id "
-                + "WHERE study_member.study_id = ? AND study_member.member_id = ? "
-                + ")";
-        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class, studyId, memberId));
-    }
 }
