@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
 import com.woowacourse.moamoa.study.domain.Details;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -65,7 +66,8 @@ public class StudyControllerTest {
         Optional<Study> study = studyRepository.findById(studyId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(study).isNotEmpty();
-        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt", "java image", "OPEN", "PREPARE", "자바 스터디 상세설명 입니다."));
+        assertThat(study.get().getDetails()).isEqualTo(new Details("Java", "java excerpt",
+                "java image", "OPEN", StudyStatus.PREPARE, "자바 스터디 상세설명 입니다."));
         assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
@@ -95,6 +97,37 @@ public class StudyControllerTest {
         // when
         assertThatThrownBy(() -> sut.createStudy(1L, createStudyRequest))
                 .isInstanceOf(InvalidPeriodException.class);
+    }
+
+    @DisplayName("스터디 생성 날짜와 스터디 시작 날짜가 같은 경우 IN_PROGRESS로 설정한다.")
+    @Test
+    void checkStudyStatusIfCreateDateSameStartDate() {
+        StudyController sut = new StudyController(new CreateStudyService(memberRepository, studyRepository));
+        final CreateStudyRequest createStudyRequest = CreateStudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(3))
+                .maxMemberCount(10)
+                .tagIds(List.of(1L, 2L))
+                .build();
+
+        final ResponseEntity<Void> response = sut.createStudy(1L, createStudyRequest);
+        final String id = response.getHeaders()
+                .getLocation()
+                .getPath()
+                .replace("/api/studies/", "");
+
+        Long studyId = Long.valueOf(id);
+        Optional<Study> study = studyRepository.findById(studyId);
+
+        assertThat(study.get()
+                .getDetails()
+                .getStudyStatus())
+                .isEqualTo(StudyStatus.IN_PROGRESS);
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
