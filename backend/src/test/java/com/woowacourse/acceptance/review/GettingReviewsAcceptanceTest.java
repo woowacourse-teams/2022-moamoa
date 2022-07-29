@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
         getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
-        final CreateStudyRequest request = CreateStudyRequest.builder()
+        final CreatingStudyRequest request = CreatingStudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
                 .description("짱구의 우당탕탕 자바 스터디입니다.").startDate(LocalDate.now().plusDays(1))
                 .build();

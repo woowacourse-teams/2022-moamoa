@@ -1,11 +1,17 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor(access = PROTECTED)
 public class Details {
+
+    private static final String CLOSE = "CLOSE";
 
     @Column(nullable = false)
     private String title;
@@ -22,9 +28,6 @@ public class Details {
     @Column(nullable = false)
     private String description;
 
-    protected Details() {
-    }
-
     public Details(final String title, final String excerpt, final String thumbnail, final String status,
                    final String description) {
         this.title = title;
@@ -32,6 +35,10 @@ public class Details {
         this.thumbnail = thumbnail;
         this.status = status;
         this.description = description;
+    }
+
+    public boolean isCloseStatus() {
+        return status.equals(CLOSE);
     }
 
     @Override
