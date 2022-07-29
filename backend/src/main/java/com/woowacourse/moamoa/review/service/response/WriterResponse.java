@@ -1,0 +1,29 @@
+package com.woowacourse.moamoa.review.service.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@EqualsAndHashCode
+public class WriterResponse {
+
+    @JsonProperty("id")
+    private Long githubId;
+
+    private String username;
+
+    private String imageUrl;
+
+    private String profileUrl;
+
+    public WriterResponse(MemberData memberData) {
+        this(memberData.getGithubId(), memberData.getUsername(), memberData.getImageUrl(), memberData.getProfileUrl());
+    }
+}
