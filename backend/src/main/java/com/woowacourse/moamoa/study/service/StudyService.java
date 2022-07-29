@@ -38,7 +38,7 @@ public class StudyService {
         final Member member = findMemberBy(githubId);
         final Study study = findStudyBy(studyId);
 
-        study.participate(member);
+        study.participate(member.getId());
     }
 
     private Study findStudyBy(final Long studyId) {
