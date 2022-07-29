@@ -66,6 +66,6 @@ public class StudyTest {
 
         final Member participant = new Member(2L, 2L, "username", "image", "profile");
 
-        assertThatCode(() -> study.participate(participant)).doesNotThrowAnyException();
+        assertThatCode(() -> study.participate(participant.getId())).doesNotThrowAnyException();
     }
 }
