@@ -170,7 +170,7 @@ class ReviewServiceTest {
     void createReviewDidNotParticipateMember() {
         final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("content");
 
-        assertThatThrownBy(() -> reviewService.writeReview(2L, 1L, writeReviewRequest))
+        assertThatThrownBy(() -> reviewService.writeReview(3L, 1L, writeReviewRequest))
                 .isInstanceOf(UnauthorizedException.class);
     }
 
