@@ -15,6 +15,7 @@ import CreateStudyPage from '@pages/create-study-page/CreateStudyPage';
 import ErrorPage from '@pages/error-page/ErrorPage';
 import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
 import MainPage from '@pages/main-page/MainPage';
+import MyStudyPage from '@pages/my-study-page/MyStudyPage';
 
 import DetailPage from '@detail-page/DetailPage';
 
@@ -36,8 +37,15 @@ const App = () => {
         <Routes>
           <Route path={PATH.MAIN} element={<MainPage />} />
           <Route path={PATH.STUDY_DETAIL()} element={<DetailPage />} />
-          <Route path="/study/new" element={isLoggedIn ? <CreateStudyPage /> : <Navigate to="/" replace={true} />} />
-          <Route path={PATH.LOGIN} element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
+          <Route
+            path={PATH.CREATE_STUDY}
+            element={isLoggedIn ? <CreateStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={PATH.LOGIN}
+            element={isLoggedIn ? <Navigate to={PATH.MAIN} replace={true} /> : <LoginRedirectPage />}
+          />
+          <Route path={PATH.MY_STUDY} element={isLoggedIn ? <MyStudyPage /> : <Navigate to="/" replace={true} />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Main>

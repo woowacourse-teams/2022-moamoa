@@ -1,0 +1,466 @@
+{
+  "studies": [
+    {
+      "id": 53172832,
+      "title": "2022-daily-planner",
+      "studyStatus": "IN_PROGRESS",
+      "currentMemberCount": 5,
+      "maxMemberCount": 23,
+      "startDate": "2022-07-12",
+      "endDate": "2022-08-18",
+      "owner": {
+        "id": 19749913,
+        "username": "xRC3N",
+        "imageUrl": "https://picsum.photos/id/39/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" }
+      ]
+    },
+    {
+      "id": 74198334,
+      "title": "2022-lv3-algorithm-study",
+      "studyStatus": "IN_PROGRESS",
+      "currentMemberCount": 8,
+      "maxMemberCount": 39,
+      "startDate": "2022-07-24",
+      "endDate": "2022-08-08",
+      "owner": {
+        "id": 73846379,
+        "username": "i8ZTZ",
+        "imageUrl": "https://picsum.photos/id/62/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" },
+        { "id": 11, "name": "Network" },
+        { "id": 12, "name": "CS" }
+      ]
+    },
+    {
+      "id": 43942846,
+      "title": "2022-woowahan-bansanghwe",
+      "studyStatus": "PREPARE",
+      "currentMemberCount": 11,
+      "maxMemberCount": 27,
+      "startDate": "2022-07-20",
+      "endDate": "2022-08-31",
+      "owner": {
+        "id": 82157345,
+        "username": "QtbTJ",
+        "imageUrl": "https://picsum.photos/id/36/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" }
+      ]
+    },
+    {
+      "id": 19264566,
+      "title": "2022-gugu-spring-study",
+      "studyStatus": "PREPARE",
+      "currentMemberCount": 36,
+      "maxMemberCount": 37,
+      "startDate": "2022-07-05",
+      "endDate": "2022-08-27",
+      "owner": {
+        "id": 73501209,
+        "username": "xE5Gh",
+        "imageUrl": "https://picsum.photos/id/56/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" }
+      ]
+    },
+    {
+      "id": 26808604,
+      "title": "2022-ConquerCS",
+      "studyStatus": "DONE",
+      "currentMemberCount": 3,
+      "maxMemberCount": 37,
+      "startDate": "2022-07-25",
+      "endDate": "2022-08-18",
+      "owner": {
+        "id": 19148355,
+        "username": "-LBJx",
+        "imageUrl": "https://picsum.photos/id/16/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [{ "id": 1, "name": "JS" }]
+    },
+    {
+      "id": 36977774,
+      "title": "2022-looking-for-the-sound-of-an-object",
+      "studyStatus": "IN_PROGRESS",
+      "currentMemberCount": 40,
+      "maxMemberCount": 40,
+      "startDate": "2022-07-11",
+      "endDate": "2022-08-22",
+      "owner": {
+        "id": 61097544,
+        "username": "50a_j",
+        "imageUrl": "https://picsum.photos/id/12/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" }
+      ]
+    },
+    {
+      "id": 28043313,
+      "title": "2022-kotudy",
+      "studyStatus": "DONE",
+      "currentMemberCount": 5,
+      "maxMemberCount": 36,
+      "startDate": "2022-07-24",
+      "endDate": "2022-08-20",
+      "owner": {
+        "id": 47838157,
+        "username": "-02j_",
+        "imageUrl": "https://picsum.photos/id/48/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" }
+      ]
+    },
+    {
+      "id": 92951646,
+      "title": "2022-no-posting-you-die",
+      "studyStatus": "DONE",
+      "currentMemberCount": 20,
+      "maxMemberCount": 22,
+      "startDate": "2022-07-03",
+      "endDate": "2022-08-11",
+      "owner": {
+        "id": 74007869,
+        "username": "dCMAR",
+        "imageUrl": "https://picsum.photos/id/56/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [{ "id": 1, "name": "JS" }]
+    },
+    {
+      "id": 27364158,
+      "title": "2022-Real-MySQL",
+      "studyStatus": "DONE",
+      "currentMemberCount": 23,
+      "maxMemberCount": 38,
+      "startDate": "2022-07-25",
+      "endDate": "2022-08-02",
+      "owner": {
+        "id": 13018728,
+        "username": "pmnMx",
+        "imageUrl": "https://picsum.photos/id/67/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" },
+        { "id": 11, "name": "Network" }
+      ]
+    },
+    {
+      "id": 87571081,
+      "title": "2022-weekly-log",
+      "studyStatus": "DONE",
+      "currentMemberCount": 16,
+      "maxMemberCount": 31,
+      "startDate": "2022-07-04",
+      "endDate": "2022-08-26",
+      "owner": {
+        "id": 43897221,
+        "username": "cCcfy",
+        "imageUrl": "https://picsum.photos/id/29/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" },
+        { "id": 11, "name": "Network" },
+        { "id": 12, "name": "CS" }
+      ]
+    },
+    {
+      "id": 48700521,
+      "title": "2022-spring-study",
+      "studyStatus": "DONE",
+      "currentMemberCount": 5,
+      "maxMemberCount": 32,
+      "startDate": "2022-07-25",
+      "endDate": "2022-08-06",
+      "owner": {
+        "id": 56121153,
+        "username": "-ShmC",
+        "imageUrl": "https://picsum.photos/id/33/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" }
+      ]
+    },
+    {
+      "id": 37351958,
+      "title": "http-network-basic-level2-study",
+      "studyStatus": "DONE",
+      "currentMemberCount": 17,
+      "maxMemberCount": 31,
+      "startDate": "2022-07-17",
+      "endDate": "2022-08-26",
+      "owner": {
+        "id": 64342856,
+        "username": "udN0b",
+        "imageUrl": "https://picsum.photos/id/62/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" }
+      ]
+    },
+    {
+      "id": 47071629,
+      "title": "2022-code-review-study-2",
+      "studyStatus": "PREPARE",
+      "currentMemberCount": 16,
+      "maxMemberCount": 36,
+      "startDate": "2022-07-06",
+      "endDate": "2022-08-29",
+      "owner": {
+        "id": 16398644,
+        "username": "8yC-b",
+        "imageUrl": "https://picsum.photos/id/28/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" }
+      ]
+    },
+    {
+      "id": 11340744,
+      "title": "2022-http-web-basic-for-all-developer",
+      "studyStatus": "IN_PROGRESS",
+      "currentMemberCount": 39,
+      "maxMemberCount": 39,
+      "startDate": "2022-07-07",
+      "endDate": "2022-08-19",
+      "owner": {
+        "id": 17465872,
+        "username": "qNknz",
+        "imageUrl": "https://picsum.photos/id/93/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [{ "id": 1, "name": "JS" }]
+    },
+    {
+      "id": 37178275,
+      "title": "2022-woowa-retrospect",
+      "studyStatus": "DONE",
+      "currentMemberCount": 26,
+      "maxMemberCount": 38,
+      "startDate": "2022-07-05",
+      "endDate": "2022-08-11",
+      "owner": {
+        "id": 82056531,
+        "username": "XGbcR",
+        "imageUrl": "https://picsum.photos/id/39/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" }
+      ]
+    },
+    {
+      "id": 20176840,
+      "title": "2022-http-network-basic-study",
+      "studyStatus": "DONE",
+      "currentMemberCount": 32,
+      "maxMemberCount": 32,
+      "startDate": "2022-07-05",
+      "endDate": "2022-08-30",
+      "owner": {
+        "id": 68132562,
+        "username": "M9MbV",
+        "imageUrl": "https://picsum.photos/id/84/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" }
+      ]
+    },
+    {
+      "id": 88252874,
+      "title": "2022-lv2-effective-java-interview",
+      "studyStatus": "DONE",
+      "currentMemberCount": 37,
+      "maxMemberCount": 39,
+      "startDate": "2022-07-28",
+      "endDate": "2022-08-06",
+      "owner": {
+        "id": 76714791,
+        "username": "kHuuu",
+        "imageUrl": "https://picsum.photos/id/53/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" },
+        { "id": 11, "name": "Network" }
+      ]
+    },
+    {
+      "id": 35867370,
+      "title": "2022-book-muscle",
+      "studyStatus": "DONE",
+      "currentMemberCount": 10,
+      "maxMemberCount": 21,
+      "startDate": "2022-07-29",
+      "endDate": "2022-08-06",
+      "owner": {
+        "id": 75253381,
+        "username": "N-7qD",
+        "imageUrl": "https://picsum.photos/id/12/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" },
+        { "id": 8, "name": "Alg" },
+        { "id": 9, "name": "Book" },
+        { "id": 10, "name": "Health" },
+        { "id": 11, "name": "Network" }
+      ]
+    },
+    {
+      "id": 95367364,
+      "title": "2022-woowahan-everybook",
+      "studyStatus": "PREPARE",
+      "currentMemberCount": 19,
+      "maxMemberCount": 36,
+      "startDate": "2022-07-29",
+      "endDate": "2022-08-04",
+      "owner": {
+        "id": 98385754,
+        "username": "GwfDt",
+        "imageUrl": "https://picsum.photos/id/56/200/200",
+        "profileUrl": "https://github.com/user/jaejae-yoo"
+      },
+      "tags": [
+        { "id": 1, "name": "JS" },
+        { "id": 2, "name": "Java" },
+        { "id": 3, "name": "React" },
+        { "id": 4, "name": "Spring" },
+        { "id": 5, "name": "TS" },
+        { "id": 6, "name": "JPA" },
+        { "id": 7, "name": "TDD" }
+      ]
+    }
+  ]
+}

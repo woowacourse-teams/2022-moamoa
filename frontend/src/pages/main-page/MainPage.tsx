@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
+import { DEFAULT_STUDY_CARD_QUERY_PARAM, PATH } from '@constants';
 
 import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
@@ -70,7 +70,7 @@ const MainPage: React.FC = () => {
       return;
     }
     window.scrollTo(0, 0);
-    navigate('/study/new');
+    navigate(PATH.CREATE_STUDY);
   };
 
   return (
