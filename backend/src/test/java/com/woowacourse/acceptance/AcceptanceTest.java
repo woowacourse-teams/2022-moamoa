@@ -12,7 +12,7 @@ import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-import com.woowacourse.moamoa.study.service.request.CreateStudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
@@ -95,7 +95,7 @@ public class AcceptanceTest {
         return "Bearer " + token;
     }
 
-    protected long createStudy(String jwtToken, CreateStudyRequest request) {
+    protected long createStudy(String jwtToken, CreatingStudyRequest request) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(HttpHeaders.AUTHORIZATION, jwtToken)

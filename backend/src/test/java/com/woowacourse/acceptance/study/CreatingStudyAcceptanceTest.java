@@ -1,5 +1,11 @@
 package com.woowacourse.acceptance.study;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.LOCATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
@@ -8,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,9 +23,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class CreatingStudyAcceptanceTest extends AcceptanceTest {
 
@@ -36,7 +41,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     void get401WhenUsingInvalidToken(String invalidToken) {
         RestAssured
                 .given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, invalidToken)
+                .header(AUTHORIZATION, invalidToken)
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()
@@ -63,8 +68,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
 
         RestAssured
                 .given().log().all()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, jwtToken)
                 .body(param)
                 .when().log().all()
                 .post("/api/studies")
@@ -112,8 +117,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
 
         RestAssured
                 .given().log().all()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, jwtToken)
                 .body(body)
                 .when().log().all()
                 .post("/api/studies")
@@ -136,34 +141,19 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     void createStudy() {
         final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-        final Map<String, String> studyRequest = Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
-                "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", "");
 
-        final String location = requestCreateStudy(jwtToken, studyRequest);
-
-        confirmCreateStudy(location);
-    }
-
-    public static String requestCreateStudy(final String jwtToken, final Map<String, String> studyRequest) {
-        return RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(studyRequest)
+        final String location = RestAssured.given().log().all()
+                .header(AUTHORIZATION, jwtToken)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
+                        "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .header(HttpHeaders.LOCATION);
-    }
+                .extract().header(LOCATION);
 
-    public static void confirmCreateStudy(final String location) {
-        RestAssured.given().log().all()
-                .when().log().all()
-                .get(location)
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+        assertThat(location).matches(Pattern.compile("/api/studies/\\d+"));
     }
-
 }

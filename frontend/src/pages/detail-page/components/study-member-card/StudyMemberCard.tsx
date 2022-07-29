@@ -6,8 +6,8 @@ import * as S from '@detail-page/components/study-member-card/StudyMemberCard.st
 export type StudyMemberCardProp = {
   username: string;
   imageUrl: string;
-  studyCount?: number;
-  startDate?: string;
+  startDate: string;
+  studyCount: number;
 };
 
 const StudyMemberCard: React.FC<StudyMemberCardProp> = ({

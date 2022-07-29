@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -73,5 +74,13 @@ public class Study {
 
     public boolean isBeforeThanStudyStartDate(final LocalDate reviewCreatedDate) {
         return period.isBeforeThanStartDate(reviewCreatedDate);
+
+    }
+    public void participate(final Long memberId) {
+        if (details.isCloseStatus() || period.isCloseEnrollment() || participants.isImpossibleParticipation(memberId)) {
+            throw new FailureParticipationException();
+        }
+
+        participants.participate(new Participant(memberId));
     }
 }

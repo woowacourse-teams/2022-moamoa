@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils/index';
 
 export const ReviewSection = styled.section`
   padding: 16px;
@@ -32,6 +32,10 @@ export const ReviewList = styled.ul`
 
 export const ReviewListItem = styled.li`
   width: calc(50% - 30px);
+
+  ${mqDown('md')} {
+    width: 100%;
+  }
 `;
 
 export const MoreButtonContainer = styled.div`

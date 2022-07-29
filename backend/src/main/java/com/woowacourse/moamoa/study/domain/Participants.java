@@ -1,17 +1,23 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Embeddable
 @ToString
+@NoArgsConstructor(access = PROTECTED)
 public class Participants {
 
     @Column(name = "current_member_count")
@@ -25,13 +31,10 @@ public class Participants {
 
     @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
-    private List<Participant> participants = new ArrayList<>();
-
-    protected Participants() {
-    }
+    private Set<Participant> participants = new HashSet<>();
 
     public Participants(final Integer size, final Integer max,
-                        final List<Participant> participants, Long ownerId) {
+                        final Set<Participant> participants, Long ownerId) {
         this.size = size;
         this.max = max;
         this.participants = participants;
@@ -42,8 +45,38 @@ public class Participants {
         return new ArrayList<>(participants);
     }
 
-    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long id) {
-        return new Participants(1, maxSize, new ArrayList<>(), id);
+    public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
+        return new Participants(1, maxSize, new HashSet<>(), ownerId);
+    }
+
+    public int getCurrentMemberSize() {
+        return size;
+    }
+
+    void participate(final Participant participant) {
+        participants.add(participant);
+        size = size + 1;
+    }
+
+    boolean isImpossibleParticipation(Long memberId) {
+        return isInvalidMemberSize() || isAlreadyParticipation(memberId);
+    }
+
+    private boolean isInvalidMemberSize() {
+        return max != null && max <= size;
+    }
+
+    private boolean isAlreadyParticipation(final Long memberId) {
+        final Participant participant = new Participant(memberId);
+        return isOwner(memberId) || isParticipated(participant);
+    }
+
+    private boolean isOwner(final Long memberId) {
+        return Objects.equals(memberId, ownerId);
+    }
+
+    private boolean isParticipated(final Participant participant) {
+        return participants.contains(participant);
     }
 
     public boolean contains(final Participant participant) {
@@ -64,7 +97,7 @@ public class Participants {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()  {
         return Objects.hash(size, max, ownerId, participants);
     }
 }

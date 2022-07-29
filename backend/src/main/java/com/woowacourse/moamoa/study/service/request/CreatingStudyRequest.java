@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @Getter
 @Builder
-public class CreateStudyRequest {
+public class CreatingStudyRequest {
 
     @NotBlank
     private String title;
