@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
@@ -25,10 +26,11 @@ import lombok.RequiredArgsConstructor;
 public class MyStudyService {
 
     private final MyStudyDao myStudyDao;
-    private final MemberDao memberDao;
+
+    private final MemberRepository memberRepository;
 
     public MyStudiesResponse getStudies(final Long githubId) {
-        if (!memberDao.isExistByGithubId(githubId)) {
+        if (!memberRepository.existsByGithubId(githubId)) {
             throw new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId));
         }
 
