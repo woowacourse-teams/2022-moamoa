@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import SearchBar from '@layout/header/search-bar/SearchBar';
-import type { SearchBarProps } from '@layout/header/search-bar/SearchBar';
+import SearchBar from '@layout/header/components/search-bar/SearchBar';
+import type { SearchBarProps } from '@layout/header/components/search-bar/SearchBar';
 
 export default {
   title: 'Components/SearchBar',

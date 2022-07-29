@@ -1,6 +1,6 @@
 import { FiSearch } from 'react-icons/fi';
 
-import * as S from '@layout/header/search-bar/SearchBar.style';
+import * as S from '@layout/header/components/search-bar/SearchBar.style';
 
 export type SearchBarProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, inputName: string) => void;

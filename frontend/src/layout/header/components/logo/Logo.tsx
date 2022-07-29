@@ -1,6 +1,6 @@
 import logoImage from '@assets/images/logo.png';
 
-import * as S from '@layout/header/logo/Logo.style';
+import * as S from '@layout/header/components/logo/Logo.style';
 
 import Image from '@components/image/Image';
 
