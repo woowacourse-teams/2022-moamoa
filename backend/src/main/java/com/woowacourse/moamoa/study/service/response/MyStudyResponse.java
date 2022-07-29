@@ -1,6 +1,7 @@
-package com.woowacourse.moamoa.study.query.data;
+package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class MyStudyData {
+public class MyStudyResponse {
 
     private Long id;
     private String title;
@@ -19,12 +20,10 @@ public class MyStudyData {
     private Integer maxMemberCount;
     private String startDate;
     private String endDate;
-
     private MemberData owner;
-
     private List<TagSummaryData> tags;
 
-    public MyStudyData (MyStudySummaryData myStudy, MemberData owner, List<TagSummaryData> tags) {
+    public MyStudyResponse(MyStudySummaryData myStudy, MemberData owner, List<TagSummaryData> tags) {
         this.id = myStudy.getId();
         this.title = myStudy.getTitle();
         this.studyStatus = myStudy.getStudyStatus();

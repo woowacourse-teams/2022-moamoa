@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.query.data;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

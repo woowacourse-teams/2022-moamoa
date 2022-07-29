@@ -5,10 +5,9 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
-import com.woowacourse.moamoa.study.query.data.MyStudyData;
+import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.MyStudyService;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
@@ -107,7 +106,7 @@ class MyStudyControllerTest {
         final List<MemberData> owners = myStudies.getBody()
                 .getStudies()
                 .stream()
-                .map(MyStudyData::getOwner)
+                .map(MyStudyResponse::getOwner)
                 .collect(Collectors.toList());
 
         assertThat(owners)
@@ -122,7 +121,7 @@ class MyStudyControllerTest {
         final List<List<TagSummaryData>> tags = myStudies.getBody()
                 .getStudies()
                 .stream()
-                .map(MyStudyData::getTags)
+                .map(MyStudyResponse::getTags)
                 .collect(Collectors.toList());
 
         assertThat(tags.get(0))

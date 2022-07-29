@@ -8,10 +8,9 @@ import static org.assertj.core.api.Assertions.tuple;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
-import com.woowacourse.moamoa.study.query.data.MyStudyData;
+import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
@@ -98,15 +97,15 @@ class MyStudyServiceTest {
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
-                .map(MyStudyData::getOwner)
+                .map(MyStudyResponse::getOwner)
                 .collect(toList());
 
         final List<List<TagSummaryData>> tags = myStudiesResponse.getStudies()
                 .stream()
-                .map(MyStudyData::getTags)
+                .map(MyStudyResponse::getTags)
                 .collect(toList());
 
-        final List<MyStudyData> studies = myStudiesResponse.getStudies();
+        final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
         assertThat(studies)
                 .hasSize(2)

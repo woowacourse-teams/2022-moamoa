@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.study.service.response;
 
-import com.woowacourse.moamoa.study.query.data.MyStudyData;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class MyStudiesResponse {
 
-    private final List<MyStudyData> studies;
+    private final List<MyStudyResponse> studies;
 }
