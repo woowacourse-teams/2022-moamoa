@@ -1,4 +1,4 @@
-import type { MakeOptional, MyStudyData } from '@custom-types/index';
+import type { MakeOptional, MyStudy } from '@custom-types/index';
 
 import MyStudyCard from '@pages/my-study-page/components/my-study-card/MyStudyCard';
 
@@ -7,7 +7,7 @@ import * as S from '@my-study-page/components/my-study-card-list-section/MyStudy
 export type MyStudyCardListSectionProps = {
   className?: string;
   sectionTitle: string;
-  myStudies: Array<MyStudyData>;
+  myStudies: Array<MyStudy>;
   disabled: boolean;
 };
 
@@ -23,18 +23,22 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
     <S.MyStudyCardListSection className={className}>
       <S.SectionTitle>{sectionTitle}</S.SectionTitle>
       <S.MyStudyList>
-        {myStudies.map(myStudy => (
-          <li key={myStudy.id}>
-            <MyStudyCard
-              title={myStudy.title}
-              ownerName={myStudy.owner.username}
-              tags={myStudy.tags}
-              startDate={myStudy.startDate}
-              endDate={myStudy.endDate}
-              disabled={disabled}
-            />
-          </li>
-        ))}
+        {myStudies.length === 0 ? (
+          <li>해당하는 스터디가 없습니다</li>
+        ) : (
+          myStudies.map(myStudy => (
+            <li key={myStudy.id}>
+              <MyStudyCard
+                title={myStudy.title}
+                ownerName={myStudy.owner.username}
+                tags={myStudy.tags}
+                startDate={myStudy.startDate}
+                endDate={myStudy.endDate}
+                disabled={disabled}
+              />
+            </li>
+          ))
+        )}
       </S.MyStudyList>
     </S.MyStudyCardListSection>
   );
