@@ -7,16 +7,14 @@ import Button from '@components/button/Button';
 import * as S from '@detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
 
 export type StudyWideFloatBoxProps = {
-  studyId: number;
   deadline: string;
   currentMemberCount: number;
   maxMemberCount: number;
   status: 'OPEN' | 'CLOSE'; // TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
-  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
+  handleRegisterBtnClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
-  studyId,
   deadline,
   currentMemberCount,
   maxMemberCount,
@@ -53,7 +51,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           `}
           fluid={true}
           disabled={!isOpen}
-          onClick={handleRegisterBtnClick(studyId)}
+          onClick={handleRegisterBtnClick}
         >
           {isOpen ? '가입하기' : '모집 마감'}
         </Button>
