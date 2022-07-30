@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { BiBookmark } from 'react-icons/bi';
 import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, PROFILE_IMAGE_URL } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -10,18 +11,22 @@ import { LoginContext } from '@context/login/LoginProvider';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@layout/header/Header.style';
-import Logo from '@layout/header/logo/Logo';
-import SearchBar from '@layout/header/search-bar/SearchBar';
+import DropDownBox from '@layout/header/components/drop-down-box/DropDownBox';
+import Logo from '@layout/header/components/logo/Logo';
+import NavButton from '@layout/header/components/nav-button/NavButton';
+import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
 
-type HeaderProps = {
+export type HeaderProps = {
   className?: string;
 };
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const { isLoggedIn } = useContext(LoginContext);
   const { setKeyword } = useContext(SearchContext);
+
+  const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,6 +43,9 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     navigate(PATH.MAIN);
   };
 
+  const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
+  const handleOutsideDropBoxClick = () => setOpenDropDownBox(false);
+
   return (
     <S.Row className={className}>
       <Link to={PATH.MAIN}>
@@ -48,22 +56,34 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       </S.SearchBarContainer>
       {isLoggedIn ? (
         <S.Nav>
-          <S.NavButton onClick={logout} aria-label="로그아웃">
-            <MdOutlineLogout size={20} />
-            <span>로그아웃</span>
-          </S.NavButton>
-          <Avatar
-            // TODO: Context에서 정보를 가져온다
-            profileImg="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            profileAlt="프로필 이미지"
-          />
+          <Link to={PATH.MY_STUDY}>
+            <NavButton ariaLabel="내 스터디">
+              <BiBookmark size={20} />
+              <span>내 스터디</span>
+            </NavButton>
+          </Link>
+          <S.AvatarButton onClick={handleAvatarButtonClick}>
+            <Avatar
+              // TODO: Context에서 정보를 가져온다
+              profileImg={PROFILE_IMAGE_URL}
+              profileAlt="프로필 이미지"
+            />
+          </S.AvatarButton>
+          {openDropDownBox && (
+            <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
+              <NavButton onClick={logout} ariaLabel="로그아웃">
+                <MdOutlineLogout size={20} />
+                <span>로그아웃</span>
+              </NavButton>
+            </DropDownBox>
+          )}
         </S.Nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-          <S.NavButton aria-label="로그인">
+          <NavButton ariaLabel="로그인">
             <MdOutlineLogin size={20} />
             <span>로그인</span>
-          </S.NavButton>
+          </NavButton>
         </a>
       )}
     </S.Row>

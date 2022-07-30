@@ -1,6 +1,6 @@
 import { Story } from '@storybook/react';
 
-import Logo from '@layout/header/logo/Logo';
+import Logo from '@layout/header/components/logo/Logo';
 
 export default {
   title: 'Components/Logo',
