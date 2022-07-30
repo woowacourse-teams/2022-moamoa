@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
-import reviewJSON from './reviews.json';
-import studiesJSON from './studies.json';
+import reviewJSON from '@mocks/reviews.json';
+import studiesJSON from '@mocks/studies.json';
 
 const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {
