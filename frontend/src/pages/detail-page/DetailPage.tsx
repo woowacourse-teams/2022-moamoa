@@ -92,7 +92,7 @@ const DetailPage = () => {
             <MarkdownRender markdownContent={description} />
           </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberSection members={[owner, ...members]} />
+          <StudyMemberSection owner={owner} members={members} />
         </S.MainDescription>
         <S.FloatButtonContainer>
           <S.StickyContainer>
