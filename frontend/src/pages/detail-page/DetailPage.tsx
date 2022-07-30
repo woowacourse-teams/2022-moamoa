@@ -44,6 +44,7 @@ const DetailPage = () => {
       },
       onSuccess: () => {
         alert('가입했습니다 :D');
+        studyDetailQueryResult.refetch();
       },
     });
   };
@@ -91,7 +92,7 @@ const DetailPage = () => {
             <MarkdownRender markdownContent={description} />
           </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberSection members={members} />
+          <StudyMemberSection members={[owner, ...members]} />
         </S.MainDescription>
         <S.FloatButtonContainer>
           <S.StickyContainer>

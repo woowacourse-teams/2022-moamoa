@@ -22,38 +22,46 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ members }) => {
     setShowAll(prev => !prev);
   };
 
+  const renderMembers = () => {
+    if (members.length === 0) {
+      return <li>스터디원이 없습니다</li>;
+    }
+
+    if (showAll) {
+      return members.map(({ id, username, imageUrl, profileUrl }) => (
+        <li key={id}>
+          <a href={profileUrl}>
+            <StudyMemberCard
+              username={username}
+              imageUrl={imageUrl}
+              startDate={changeDateSeperator('2022-07-15')}
+              studyCount={10}
+            />
+          </a>
+        </li>
+      ));
+    }
+
+    return members.slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT).map(({ id, username, imageUrl, profileUrl }) => (
+      <li key={id}>
+        <a href={profileUrl}>
+          <StudyMemberCard
+            username={username}
+            imageUrl={imageUrl}
+            startDate={changeDateSeperator('2022-07-15')}
+            studyCount={10}
+          />
+        </a>
+      </li>
+    ));
+  };
+
   return (
     <S.StudyMemberSection>
       <S.Title>
         스터디원 <span>{members.length}명</span>
       </S.Title>
-      <S.MemberList>
-        {showAll
-          ? members.map(({ id, username, imageUrl, profileUrl }) => (
-              <li key={id}>
-                <a href={profileUrl}>
-                  <StudyMemberCard
-                    username={username}
-                    imageUrl={imageUrl}
-                    startDate={changeDateSeperator('2022-07-15')}
-                    studyCount={10}
-                  />
-                </a>
-              </li>
-            ))
-          : members.slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT).map(({ id, username, imageUrl, profileUrl }) => (
-              <li key={id}>
-                <a href={profileUrl}>
-                  <StudyMemberCard
-                    username={username}
-                    imageUrl={imageUrl}
-                    startDate={changeDateSeperator('2022-07-15')}
-                    studyCount={10}
-                  />
-                </a>
-              </li>
-            ))}
-      </S.MemberList>
+      <S.MemberList>{renderMembers()}</S.MemberList>
       {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <S.MoreButtonContainer>
           <MoreButton
