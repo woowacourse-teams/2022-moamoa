@@ -2,16 +2,22 @@ package com.woowacourse.moamoa.study.query;
 
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.domain.CategoryName;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,15 +25,62 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class StudySummaryDao {
 
-    private static final RowMapper<StudySummaryData> STUDY_ROW_MAPPER = createStudyRowMapper();
+    private static final RowMapper<StudySummaryData> STUDY_ROW_MAPPER = (resultSet, rowNum) -> {
+        final Long id = resultSet.getLong("id");
+        final String title = resultSet.getString("title");
+        final String excerpt = resultSet.getString("excerpt");
+        final String thumbnail = resultSet.getString("thumbnail");
+        final String status = resultSet.getString("recruit_status");
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+        return new StudySummaryData(id, title, excerpt, thumbnail, status);
+    };
+
+    private static final RowMapper<Map<Long, List<TagSummaryData>>> STUDY_WITH_TAG_ROW_MAPPER = (rs, rn) -> {
+        final Map<Long, List<TagSummaryData>> result = new LinkedHashMap<>();
+
+        for (int idx = 0; idx < rs.getRow(); idx++) {
+            final Long studyId = rs.getLong("study_id");
+
+            if (!result.containsKey(studyId)) {
+                result.put(studyId, new ArrayList<>());
+            }
+
+            final Long tagId = rs.getLong("tag_id");
+            final String tagName = rs.getString("tag_name");
+            final TagSummaryData tagSummaryData = new TagSummaryData(tagId, tagName);
+
+            result.get(studyId).add(tagSummaryData);
+            rs.next();
+        }
+        return result;
+    };
+
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
-        final List<StudySummaryData> data = namedParameterJdbcTemplate
+        final List<StudySummaryData> data = jdbcTemplate
                 .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
 
+    }
+
+    public Map<Long, List<TagSummaryData>> findStudyWithTags(final List<Long> studyIds) {
+        final List<String> ids = studyIds.stream()
+                .map(Objects::toString)
+                .collect(Collectors.toList());
+        final MapSqlParameterSource params = new MapSqlParameterSource("ids", ids);
+
+        final String sql = "SELECT t.id tag_id, t.name tag_name, s.id study_id "
+                + "FROM tag t "
+                + "JOIN study_tag st ON t.id = st.tag_id "
+                + "JOIN study s ON st.study_id = s.id "
+                + "WHERE s.id IN (:ids)";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
+        } catch (EmptyResultDataAccessException e) {
+            return Map.of();
+        }
     }
 
     private String sql(final SearchingTags searchingTags) {
@@ -83,16 +136,4 @@ public class StudySummaryDao {
         return studies.size() > pageable.getPageSize();
     }
 
-    private static RowMapper<StudySummaryData> createStudyRowMapper() {
-        return (resultSet, rowNum) -> {
-            final Long id = resultSet.getLong("id");
-
-            final String title = resultSet.getString("title");
-            final String excerpt = resultSet.getString("excerpt");
-            final String thumbnail = resultSet.getString("thumbnail");
-            final String status = resultSet.getString("recruit_status");
-
-            return new StudySummaryData(id, title, excerpt, thumbnail, status);
-        };
-    }
 }
