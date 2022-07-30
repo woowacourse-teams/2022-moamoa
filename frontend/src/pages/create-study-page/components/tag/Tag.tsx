@@ -1,11 +1,11 @@
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/tag/Tag.style';
-
 import { css } from '@emotion/react';
 
 import { useFormContext } from '@hooks/useForm';
 
 import useFetchTagList from '@pages/create-study-page/hooks/useFetchTagList';
+
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import * as S from '@create-study-page/components/tag/Tag.style';
 
 type TagProps = {
   className?: string;

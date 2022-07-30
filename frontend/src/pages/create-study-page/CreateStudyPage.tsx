@@ -1,14 +1,3 @@
-import * as S from '@create-study-page/CreateStudyPage.style';
-import Category from '@create-study-page/components/category/Category';
-import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
-import EnrollmentEndDate from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate';
-import Excerpt from '@create-study-page/components/excerpt/Excerpt';
-import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
-import Period from '@create-study-page/components/period/Peroid';
-import Publish from '@create-study-page/components/publish/Publish';
-import Tag from '@create-study-page/components/tag/Tag';
-import Title from '@create-study-page/components/title/Title';
-import usePostNewStudy from '@create-study-page/hooks/usePostNewStudy';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +11,18 @@ import { FormProvider, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
+
+import * as S from '@create-study-page/CreateStudyPage.style';
+import Category from '@create-study-page/components/category/Category';
+import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
+import EnrollmentEndDate from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate';
+import Excerpt from '@create-study-page/components/excerpt/Excerpt';
+import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
+import Period from '@create-study-page/components/period/Peroid';
+import Publish from '@create-study-page/components/publish/Publish';
+import Tag from '@create-study-page/components/tag/Tag';
+import Title from '@create-study-page/components/title/Title';
+import usePostNewStudy from '@create-study-page/hooks/usePostNewStudy';
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);

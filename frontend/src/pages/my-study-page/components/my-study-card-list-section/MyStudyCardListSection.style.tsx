@@ -16,8 +16,9 @@ export const MyStudyList = styled.ul`
   gap: 20px;
 
   & > li {
-    cursor: pointer;
     width: 100%;
+
+    cursor: pointer;
   }
 
   ${mqDown('lg')} {

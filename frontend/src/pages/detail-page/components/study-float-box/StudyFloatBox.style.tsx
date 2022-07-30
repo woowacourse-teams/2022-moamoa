@@ -14,7 +14,7 @@ export const StudyFloatBox = styled.div`
 
 export const StudyInfo = styled.div``;
 
-export const Deadline = styled.p`
+export const EnrollmentEndDate = styled.p`
   margin-bottom: 20px;
 
   font-size: 20px;
