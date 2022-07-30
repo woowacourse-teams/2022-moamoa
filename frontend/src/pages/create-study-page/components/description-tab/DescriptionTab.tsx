@@ -1,4 +1,3 @@
-import * as S from '@create-study-page/components/description-tab/DescriptionTab.style';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
@@ -9,6 +8,8 @@ import { DESCRIPTION_LENGTH } from '@constants';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
+
+import * as S from '@create-study-page/components/description-tab/DescriptionTab.style';
 
 const studyDescriptionTabIds = {
   write: 'write',

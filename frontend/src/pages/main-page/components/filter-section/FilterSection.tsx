@@ -5,8 +5,8 @@ import type { Tag, TagInfo, TagListQueryData } from '@custom-types/index';
 
 import { getTagList } from '@api/getTagList';
 
-import * as S from '@pages/main-page/filter-section/FilterSection.style';
-import FilterButtonList from '@pages/main-page/filter-section/filter-button-list/FilterButtonList';
+import * as S from '@pages/main-page/components/filter-section/FilterSection.style';
+import FilterButtonList from '@pages/main-page/components/filter-section/filter-button-list/FilterButtonList';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 

@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-const borderColor = '#d0d7de';
-
 export const DescriptionTab = styled.div`
   ${({ theme }) => css`
     border-radius: 6px;

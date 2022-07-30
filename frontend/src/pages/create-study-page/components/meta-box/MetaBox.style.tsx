@@ -5,7 +5,7 @@ export const MetaBox = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.white};
     min-width: 255px;
-    border: 1px solid #d0d7de;
+    border: 1px solid ${theme.colors.secondary.dark};
     box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
     border-radius: 6px;
 

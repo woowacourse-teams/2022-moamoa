@@ -17,7 +17,7 @@ export const StudyWideFloatBox = styled.div`
 
 export const StudyInfo = styled.div``;
 
-export const Deadline = styled.p`
+export const EnrollmentEndDate = styled.p`
   margin-bottom: 8px;
 
   & > span {

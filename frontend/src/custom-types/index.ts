@@ -8,14 +8,14 @@ export type Required<T, K extends keyof T> = T & {
 
 export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<T, K>;
 
-export type StudyStatus = 'OPEN' | 'CLOSE';
+export type RecruitmentStatus = 'RECRUITMENT_START' | 'RECRUITMENT_END';
 
 export type Study = {
   id: number;
   title: string;
   excerpt: string;
   thumbnail: string;
-  status: StudyStatus;
+  recruitmentStatus: RecruitmentStatus;
 };
 
 export type Owner = {
@@ -39,7 +39,7 @@ export type StudyDetail = {
   title: string;
   excerpt: string;
   thumbnail: string;
-  status: StudyStatus;
+  recruitmentStatus: RecruitmentStatus;
   description: string;
   currentMemberCount: number;
   maxMemberCount: number;
@@ -86,4 +86,17 @@ export type TagListQueryData = {
 
 export type TokenQueryData = {
   token: string;
+};
+
+export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
+
+export type MyStudy = Pick<
+  StudyDetail,
+  'id' | 'title' | 'currentMemberCount' | 'maxMemberCount' | 'startDate' | 'endDate' | 'owner' | 'tags'
+> & {
+  studyStatus: StudyStatus;
+};
+
+export type MyStudyQueryData = {
+  studies: Array<MyStudy>;
 };
