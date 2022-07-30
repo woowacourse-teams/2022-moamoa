@@ -1,11 +1,11 @@
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/publish/Publish.style';
-
 import { css } from '@emotion/react';
 
 import { useFormContext } from '@hooks/useForm';
 
 import Button from '@components/button/Button';
+
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import * as S from '@create-study-page/components/publish/Publish.style';
 
 type PublishProps = {
   className?: string;

@@ -1,5 +1,3 @@
-import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import { useState } from 'react';
 
 import { css } from '@emotion/react';
@@ -9,6 +7,9 @@ import { MEMBER_COUNT } from '@constants';
 import { useFormContext } from '@hooks/useForm';
 
 import PositiveNumberInput from '@components/positive-number-input/PositiveNumberInput';
+
+import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 type MaxMemberCountProps = {
   className?: string;
