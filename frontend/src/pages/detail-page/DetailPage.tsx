@@ -34,7 +34,7 @@ const DetailPage = () => {
     title,
     excerpt,
     thumbnail,
-    status,
+    recruitmentStatus,
     description,
     currentMemberCount,
     maxMemberCount,
@@ -49,7 +49,7 @@ const DetailPage = () => {
     <Wrapper>
       <Head
         title={title}
-        status={status}
+        recruitmentStatus={recruitmentStatus}
         excerpt={excerpt}
         startDate={changeDateSeperator(startDate)}
         endDate={changeDateSeperator(endDate)}
@@ -68,11 +68,11 @@ const DetailPage = () => {
           <S.StickyContainer>
             <StudyFloatBox
               studyId={id}
-              owner={owner.username}
+              ownerName={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
-              deadline={enrollmentEndDate}
-              status={status}
+              enrollmentEndDate={enrollmentEndDate}
+              recruitmentStatus={recruitmentStatus}
               handleRegisterBtnClick={handleRegisterBtnClick}
             />
           </S.StickyContainer>
@@ -85,8 +85,8 @@ const DetailPage = () => {
           studyId={id}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
-          deadline={enrollmentEndDate}
-          status={status}
+          enrollmentEndDate={enrollmentEndDate}
+          recruitmentStatus={recruitmentStatus}
           handleRegisterBtnClick={handleRegisterBtnClick}
         />
       </S.FixedBottomContainer>

@@ -12,13 +12,12 @@ import { LoginContext } from '@context/login/LoginProvider';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@pages/main-page/MainPage.style';
-import FilterSection from '@pages/main-page/filter-section/FilterSection';
-import StudyCard from '@pages/main-page/study-card/StudyCard';
+import CreateNewStudyButton from '@pages/main-page/components/create-new-study-button/CreateNewStudyButton';
+import FilterSection from '@pages/main-page/components/filter-section/FilterSection';
+import StudyCard from '@pages/main-page/components/study-card/StudyCard';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
-
-import CreateNewStudyButton from '@main-page/create-new-study-button/CreateNewStudyButton';
 
 type PageParam = {
   page: number;
@@ -90,7 +89,7 @@ const MainPage: React.FC = () => {
                       thumbnailAlt={`${study.title} 스터디 이미지`}
                       title={study.title}
                       excerpt={study.excerpt}
-                      isOpen={study.status === 'OPEN'}
+                      isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
                     />
                   </Link>
                 </li>

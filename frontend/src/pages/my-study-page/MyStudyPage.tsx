@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 
 import type { MyStudyQueryData } from '@custom-types/index';
-import { MyStudyData } from '@custom-types/index';
+import { MyStudy } from '@custom-types/index';
 
 import { getMyStudyList } from '@api/getMyStudyList';
 
@@ -14,7 +14,7 @@ import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@my-study-page/MyStudyPage.style';
 
-const studies: Record<string, Array<MyStudyData>> = {
+const studies: Record<string, Array<MyStudy>> = {
   prepare: [],
   inProgress: [],
   done: [],

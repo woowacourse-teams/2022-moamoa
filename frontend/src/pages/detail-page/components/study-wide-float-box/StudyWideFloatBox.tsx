@@ -2,42 +2,44 @@ import { css } from '@emotion/react';
 
 import { yyyymmddTommdd } from '@utils/index';
 
+import { StudyDetail } from '@custom-types/index';
+
 import Button from '@components/button/Button';
 
 import * as S from '@detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
 
-export type StudyWideFloatBoxProps = {
+// TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
+export type StudyWideFloatBoxProps = Pick<
+  StudyDetail,
+  'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
+> & {
   studyId: number;
-  deadline: string;
-  currentMemberCount: number;
-  maxMemberCount: number;
-  status: 'OPEN' | 'CLOSE'; // TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
   handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   studyId,
-  deadline,
+  enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
-  status,
+  recruitmentStatus,
   handleRegisterBtnClick,
 }) => {
-  const isOpen = status === 'OPEN';
+  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   return (
     <S.StudyWideFloatBox>
       <S.StudyInfo>
-        <S.Deadline>
+        <S.EnrollmentEndDate>
           {isOpen ? (
             <>
-              <span>{yyyymmddTommdd(deadline)}</span>
+              <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
               까지 가입 가능
             </>
           ) : (
             <span>모집 마감</span>
           )}
-        </S.Deadline>
+        </S.EnrollmentEndDate>
         <S.MemberCount>
           <span>모집인원</span>
           <span>

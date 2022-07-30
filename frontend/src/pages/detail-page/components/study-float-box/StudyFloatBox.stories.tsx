@@ -19,8 +19,8 @@ const Template: Story<StudyFloatBoxProps> = props => (
 export const Default = Template.bind({});
 Default.args = {
   studyId: 232,
-  deadline: '2022-07-28',
+  enrollmentEndDate: '2022-07-28',
   currentMemberCount: 8,
   maxMemberCount: 14,
-  owner: 'airman5573',
+  ownerName: 'airman5573',
 };
