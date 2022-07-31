@@ -10,8 +10,13 @@ export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & 
 
 export type RecruitmentStatus = 'RECRUITMENT_START' | 'RECRUITMENT_END';
 
+export type StudyId = number;
+export type TagId = number;
+export type ReviewId = number;
+export type MemberId = number;
+
 export type Study = {
-  id: number;
+  id: StudyId;
   title: string;
   excerpt: string;
   thumbnail: string;
@@ -19,23 +24,23 @@ export type Study = {
 };
 
 export type Owner = {
-  id: number;
+  id: MemberId;
   username: string;
   imageUrl: string;
   profileUrl: string;
 };
 
 export type Member = {
-  id: number;
+  id: MemberId;
   username: string;
   imageUrl: string;
   profileUrl: string;
 };
 
-export type StudyTag = { id: number; name: string };
+export type StudyTag = { id: TagId; name: string };
 
 export type StudyDetail = {
-  id: number;
+  id: StudyId;
   title: string;
   excerpt: string;
   thumbnail: string;
@@ -58,7 +63,7 @@ export type StudyListQueryData = {
 };
 
 export type StudyReview = {
-  id: number;
+  id: ReviewId;
   member: Member;
   createdAt: string;
   updatedAt: string;
@@ -66,12 +71,12 @@ export type StudyReview = {
 };
 
 export interface TagInfo {
-  id: number;
+  id: TagId;
   categoryName: string;
 }
 
 export type Tag = {
-  id: number;
+  id: TagId;
   name: string;
   description: string;
   category: {
