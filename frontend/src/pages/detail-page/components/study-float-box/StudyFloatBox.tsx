@@ -1,6 +1,6 @@
 import { yyyymmddTommdd } from '@utils/index';
 
-import { StudyDetail } from '@custom-types/index';
+import { StudyDetail } from '@custom-types';
 
 import Button from '@components/button/Button';
 

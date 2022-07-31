@@ -1,6 +1,6 @@
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
-import { TagInfo } from '@custom-types/index';
+import { TagInfo } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

@@ -1,4 +1,4 @@
-import { StudyReview } from '@custom-types/index';
+import { StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

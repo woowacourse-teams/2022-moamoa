@@ -40,7 +40,7 @@ module.exports = {
       '@src': resolve(__dirname, '../src'),
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
-      '@custom-types': resolve(__dirname, '../src/custom-types'),
+      '@custom-types': resolve(__dirname, '../src/custom-types/index.ts'),
       '@pages': resolve(__dirname, '../src/pages'),
       '@assets': resolve(__dirname, '../src/assets'),
       '@utils': resolve(__dirname, '../src/utils'),

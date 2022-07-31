@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
-import type { Tag, TagInfo, TagListQueryData } from '@custom-types/index';
+import type { Tag, TagInfo, TagListQueryData } from '@custom-types';
 
 import { getTagList } from '@api/getTagList';
 

@@ -19,7 +19,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
-      "@custom-types/*": ["custom-types/*"],
+      "@custom-types": ["custom-types/index.ts"],
       "@pages/*": ["pages/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],

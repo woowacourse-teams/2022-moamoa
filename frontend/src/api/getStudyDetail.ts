@@ -1,4 +1,4 @@
-import { StudyDetail } from '@custom-types/index';
+import { StudyDetail } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

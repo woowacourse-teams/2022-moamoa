@@ -16,7 +16,7 @@
     "^@mocks/(.*)$",
     "^@constants$",
     "^@utils/(.*)$",
-    "^@custom-types/(.*)$",
+    "^@custom-types",
     "^@styles/(.*)$",
     "^@api/(.*)$",
     "^@hooks/(.*)$",

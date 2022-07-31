@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import type { EmptyObject, MakeOptional, StudyDetail } from '@custom-types/index';
+import type { EmptyObject, MakeOptional, StudyDetail } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

@@ -8,6 +8,13 @@ export type Required<T, K extends keyof T> = T & {
 
 export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<T, K>;
 
+export type oneToNine = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type d = oneToNine | 0;
+export type DD = `0${oneToNine}` | `1${d}` | `2${d}` | `3${0 | 1}`;
+export type MM = `0${oneToNine}` | `1${0 | 1 | 2}`;
+export type YYYY = `20${d}${d}`;
+export type DateYMD = `${YYYY}-${MM}-${DD}`;
+
 export type RecruitmentStatus = 'RECRUITMENT_START' | 'RECRUITMENT_END';
 
 export type StudyId = number;

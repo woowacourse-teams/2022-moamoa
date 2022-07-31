@@ -1,4 +1,4 @@
-import { MakeOptional } from '@custom-types/index';
+import { MakeOptional } from '@custom-types';
 
 import * as S from '@components/chip/Chip.style';
 

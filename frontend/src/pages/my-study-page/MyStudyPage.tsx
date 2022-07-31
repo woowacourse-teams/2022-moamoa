@@ -2,8 +2,8 @@ import { useQuery } from 'react-query';
 
 import { css } from '@emotion/react';
 
-import type { MyStudyQueryData } from '@custom-types/index';
-import { MyStudy } from '@custom-types/index';
+import type { MyStudyQueryData } from '@custom-types';
+import { MyStudy } from '@custom-types';
 
 import { getMyStudyList } from '@api/getMyStudyList';
 

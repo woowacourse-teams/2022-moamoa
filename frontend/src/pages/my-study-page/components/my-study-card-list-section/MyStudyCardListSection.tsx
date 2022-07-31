@@ -1,4 +1,4 @@
-import type { MakeOptional, MyStudy } from '@custom-types/index';
+import type { MakeOptional, MyStudy } from '@custom-types';
 
 import MyStudyCard from '@pages/my-study-page/components/my-study-card/MyStudyCard';
 

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM, PATH } from '@constants';
 
-import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
+import type { Study, StudyListQueryData, TagInfo } from '@custom-types';
 
 import { getStudyList } from '@api/getStudyList';
 

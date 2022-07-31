@@ -4,7 +4,7 @@ import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
 
-import { Member } from '@custom-types/index';
+import { Member } from '@custom-types';
 
 import StudyMemberCard from '@pages/detail-page/components/study-member-card/StudyMemberCard';
 import * as S from '@pages/detail-page/components/study-member-section/StudyMemberSection.style';

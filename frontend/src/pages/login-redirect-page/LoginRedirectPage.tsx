@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Navigate, useSearchParams } from 'react-router-dom';
 
-import type { TokenQueryData } from '@custom-types/index';
+import type { TokenQueryData } from '@custom-types';
 
 import { getAccessToken } from '@api/getAccessToken';
 

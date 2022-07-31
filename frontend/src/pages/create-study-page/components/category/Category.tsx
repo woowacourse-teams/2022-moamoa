@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import type { Tag } from '@custom-types/index';
+import type { Tag } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 

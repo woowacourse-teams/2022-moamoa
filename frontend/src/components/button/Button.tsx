@@ -1,6 +1,6 @@
 import { noop } from '@utils/index';
 
-import { MakeOptional } from '@custom-types/index';
+import { MakeOptional } from '@custom-types';
 
 import * as S from '@components/button/Button.style';
 
