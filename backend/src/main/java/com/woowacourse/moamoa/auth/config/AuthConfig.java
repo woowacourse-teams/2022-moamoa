@@ -2,11 +2,11 @@ package com.woowacourse.moamoa.auth.config;
 
 import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
-import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcherBuilder;
+
 import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -34,13 +34,6 @@ public class AuthConfig implements WebMvcConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/**");
-    }
-
-    @Bean
-    public AuthenticationRequestMatcherBuilder authenticationRequestMatcherBuilder() {
-        return new AuthenticationRequestMatcherBuilder()
-                .setUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews")
-                .setUpAuthenticationPath(HttpMethod.GET, "/api/my/studies");
     }
 
     @Bean

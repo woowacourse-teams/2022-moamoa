@@ -25,4 +25,8 @@ public class AuthenticationRequestMatcherBuilder {
         paths.addAll(List.of(urls));
         return this;
     }
+
+    public AuthenticationRequestMatcher build() {
+        return new AuthenticationRequestMatcher(authenticationPaths);
+    }
 }
