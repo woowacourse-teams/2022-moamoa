@@ -11,7 +11,7 @@ public class StudyDetailsDataBuilder {
     private String title;
     private String excerpt;
     private String thumbnail;
-    private String recruitStatus;
+    private String recruitmentStatus;
     private String description;
     private MemberData owner;
     private Integer currentMemberCount;
@@ -43,8 +43,8 @@ public class StudyDetailsDataBuilder {
         return this;
     }
 
-    public StudyDetailsDataBuilder status(String recruitStatus) {
-        this.recruitStatus = recruitStatus;
+    public StudyDetailsDataBuilder status(String recruitmentStatus) {
+        this.recruitmentStatus = recruitmentStatus;
         return this;
     }
 
@@ -92,7 +92,7 @@ public class StudyDetailsDataBuilder {
         return new StudyDetailsData(
                 // Study Content
                 requireNonNull(id), requireNonNull(title), requireNonNull(excerpt), requireNonNull(thumbnail),
-                requireNonNull(recruitStatus), requireNonNull(description), requireNonNull(createdDate),
+                requireNonNull(recruitmentStatus), requireNonNull(description), requireNonNull(createdDate),
                 // Study Participant
                 requireNonNull(owner), requireNonNull(currentMemberCount), maxMemberCount,
                 // Study Period

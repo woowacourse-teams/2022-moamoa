@@ -31,7 +31,7 @@ public class StudySummaryDao {
     }
 
     private String sql(final SearchingTags searchingTags) {
-        return "SELECT s.id, s.title, s.excerpt, s.thumbnail, s.recruit_status "
+        return "SELECT s.id, s.title, s.excerpt, s.thumbnail, s.recruitment_status "
                 + "FROM study s "
                 + joinTableClause(searchingTags)
                 + "WHERE UPPER(s.title) LIKE UPPER(:title) ESCAPE '\' "
@@ -90,7 +90,7 @@ public class StudySummaryDao {
             final String title = resultSet.getString("title");
             final String excerpt = resultSet.getString("excerpt");
             final String thumbnail = resultSet.getString("thumbnail");
-            final String status = resultSet.getString("recruit_status");
+            final String status = resultSet.getString("recruitment_status");
 
             return new StudySummaryData(id, title, excerpt, thumbnail, status);
         };

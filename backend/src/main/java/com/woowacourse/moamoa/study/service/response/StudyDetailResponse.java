@@ -38,7 +38,7 @@ public class StudyDetailResponse {
         this.title = study.getTitle();
         this.excerpt = study.getExcerpt();
         this.thumbnail = study.getThumbnail();
-        this.recruitStatus = study.getRecruitStatus();
+        this.recruitStatus = study.getRecruitmentStatus();
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
         this.maxMemberCount = getNullableDate(study.getMaxMemberCount());

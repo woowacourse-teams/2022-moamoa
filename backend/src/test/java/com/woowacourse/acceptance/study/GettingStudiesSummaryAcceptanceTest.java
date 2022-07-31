@@ -82,7 +82,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 .body("studies.excerpt", contains("자바 설명", "리액트 설명", "자바스크립트 설명"))
                 .body("studies.thumbnail",
                         contains("java thumbnail", "react thumbnail", "javascript thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN", "OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("마지막 페이지의 스터디 목록을 조회 한다.")
@@ -96,7 +96,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("HTTP 스터디", "알고리즘 스터디", "Linux 스터디"))
                 .body("studies.excerpt", contains("HTTP 설명", "알고리즘 설명", "리눅스 설명"))
                 .body("studies.thumbnail", contains("http thumbnail", "algorithm thumbnail", "linux thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN", "OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("잘못된 페이징 정보로 목록을 조회시 400에러를 응답한다.")
@@ -150,7 +150,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 .body("studies.thumbnail", contains(
                         "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
                         "algorithm thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN", "OPEN", "OPEN", "OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     private ValidatableResponse 페이징을_통한_스터디_목록_조회(Object page, Object size) {

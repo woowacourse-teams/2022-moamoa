@@ -36,18 +36,18 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
         final LocalDateTime now = LocalDateTime.now();
 
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
-                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, enrollment_end_date, start_date, end_date, owner_id) "
-                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'OPEN', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '" + now + "', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, max_member_count, created_date, last_modified_date, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '" + now + "', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
-                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
+                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, enrollment_end_date, start_date, end_date, owner_id) "
+                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, owner_id) "
+                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '" + now + "', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_date, last_modified_date, owner_id) "
+                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '" + now + "', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
+                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date, enrollment_end_date, end_date) "
+                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
 
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
@@ -117,7 +117,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이징 정보 및 키워드가 없는 경우에는 기본페이징 정보를 사용해 전체 스터디 목록에서 조회한다.")
     @Test
-    public void getStudiesByDefaultPagingInfo() {
+    public void mentgetStudiesByDefaultPagingInfo() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies/search")
@@ -134,7 +134,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.thumbnail", contains(
                         "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
                         "algorithm thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN", "OPEN", "CLOSE", "CLOSE"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_END", "RECRUITMENT_END"));
     }
 
     @DisplayName("앞뒤 공백을 제거한 키워드로 스터디 목록을 조회한다.")
@@ -154,7 +154,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("Java 스터디", "javaScript 스터디"))
                 .body("studies.excerpt", contains("자바 설명", "자바스크립트 설명"))
                 .body("studies.thumbnail", contains("java thumbnail", "javascript thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("중간에 공백이 있는 키워드를 사용해 스터디 목록을 조회한다.")
@@ -174,7 +174,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("Java 스터디"))
                 .body("studies.excerpt", contains("자바 설명"))
                 .body("studies.thumbnail", contains("java thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START"));
     }
 
     @DisplayName("필터로 필터링하여 스터디 목록을 조회한다.")
@@ -195,7 +195,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("Java 스터디", "HTTP 스터디"))
                 .body("studies.excerpt", contains("자바 설명", "HTTP 설명"))
                 .body("studies.thumbnail", contains("java thumbnail", "http thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "CLOSE"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_END"));
     }
 
     @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
@@ -216,7 +216,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("Java 스터디"))
                 .body("studies.excerpt", contains("자바 설명"))
                 .body("studies.thumbnail", contains("java thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START"));
     }
 
     @DisplayName("같은 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
@@ -239,7 +239,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.excerpt", contains("자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명"))
                 .body("studies.thumbnail",
                         contains("java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN", "OPEN", "OPEN", "CLOSE"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_END"));
     }
 
     @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
@@ -262,6 +262,6 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.title", contains("Java 스터디"))
                 .body("studies.excerpt", contains("자바 설명"))
                 .body("studies.thumbnail", contains("java thumbnail"))
-                .body("studies.recruitStatus", contains("OPEN"));
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START"));
     }
 }

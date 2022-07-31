@@ -14,7 +14,7 @@ public class StudyDetailsData {
     private final String title;
     private final String excerpt;
     private final String thumbnail;
-    private final String recruitStatus;
+    private final String recruitmentStatus;
     private final String description;
     private final LocalDate createdDate;
     private final MemberData owner;

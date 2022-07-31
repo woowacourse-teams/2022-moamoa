@@ -21,7 +21,7 @@ CREATE TABLE study
     title VARCHAR(30) NOT NULL,
     excerpt VARCHAR(50) NOT NULL,
     thumbnail VARCHAR(255) NOT NULL,
-    recruit_status VARCHAR(255) NOT NULL,
+    recruitment_status VARCHAR(255) NOT NULL,
     study_status VARCHAR(255) NOT NULL,
     description MEDIUMTEXT,
     current_member_count INTEGER DEFAULT 1,

@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.domain;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.CLOSE;
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.OPEN;
+import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_START;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -35,23 +35,23 @@ public class Participants {
 
     @Enumerated(value = STRING)
     @Column(nullable = false)
-    private RecruitStatus recruitStatus;
+    private RecruitmentStatus recruitmentStatus;
 
     @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
     private Set<Participant> participants = new HashSet<>();
 
     public Participants(final Integer size, final Integer max,
-                        final Set<Participant> participants, Long ownerId, RecruitStatus recruitStatus) {
+                        final Set<Participant> participants, Long ownerId, RecruitmentStatus recruitmentStatus) {
         this.size = size;
         this.max = max;
         this.participants = participants;
         this.ownerId = ownerId;
-        this.recruitStatus = recruitStatus;
+        this.recruitmentStatus = recruitmentStatus;
     }
 
     public static Participants createByMaxSizeAndOwnerId(final Integer maxSize, Long ownerId) {
-        return new Participants(1, maxSize, new HashSet<>(), ownerId, OPEN);
+        return new Participants(1, maxSize, new HashSet<>(), ownerId, RECRUITMENT_START);
     }
 
     public List<Participant> getParticipants() {
@@ -62,8 +62,8 @@ public class Participants {
         return size;
     }
 
-    public RecruitStatus getRecruitStatus() {
-        return recruitStatus;
+    public RecruitmentStatus getRecruitmentStatus() {
+        return recruitmentStatus;
     }
 
     void participate(final Participant participant) {
@@ -74,7 +74,7 @@ public class Participants {
 
     private void closeRecruitStatus() {
         if (size == max) {
-            this.recruitStatus = CLOSE;
+            this.recruitmentStatus = RECRUITMENT_END;
         }
     }
 
@@ -92,7 +92,7 @@ public class Participants {
     }
 
     private boolean isCloseStatus() {
-        return recruitStatus.equals(CLOSE);
+        return recruitmentStatus.equals(RECRUITMENT_END);
     }
 
     private boolean isOwner(final Long memberId) {

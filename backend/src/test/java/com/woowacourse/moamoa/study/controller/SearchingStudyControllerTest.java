@@ -60,18 +60,18 @@ public class SearchingStudyControllerTest {
 
         final LocalDateTime now = LocalDateTime.now();
 
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
-                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, enrollment_end_date, start_date, end_date, owner_id) "
-                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'OPEN', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '" + now + "', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, max_member_count, created_date, last_modified_date, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '" + now + "', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
-                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
+                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, enrollment_end_date, start_date, end_date, owner_id) "
+                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, owner_id) "
+                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '" + now + "', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_date, last_modified_date, owner_id) "
+                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '" + now + "', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
+                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date, enrollment_end_date, end_date) "
+                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
 
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
@@ -125,11 +125,11 @@ public class SearchingStudyControllerTest {
         assertThat(response.getBody().isHasNext()).isTrue();
         assertThat(response.getBody().getStudies())
                 .hasSize(3)
-                .extracting("id", "title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("id", "title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"))
+                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"))
                 );
     }
 
@@ -146,11 +146,11 @@ public class SearchingStudyControllerTest {
         assertThat(response.getBody().isHasNext()).isTrue();
         assertThat(response.getBody().getStudies())
                 .hasSize(3)
-                .extracting("id", "title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("id", "title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"))
+                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                        tuple(3L, "javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"))
                 );
     }
 
@@ -167,8 +167,8 @@ public class SearchingStudyControllerTest {
         assertThat(response.getBody().isHasNext()).isFalse();
         assertThat(response.getBody().getStudies())
                 .hasSize(1)
-                .extracting("id", "title", "excerpt", "thumbnail", "recruitStatus")
-                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
+                .extracting("id", "title", "excerpt", "thumbnail", "recruitmentStatus")
+                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"));
     }
 
     @DisplayName("앞뒤 공백을 제거한 문자열로 스터디 목록 조회")
@@ -182,8 +182,8 @@ public class SearchingStudyControllerTest {
         assertThat(response.getBody().isHasNext()).isFalse();
         assertThat(response.getBody().getStudies())
                 .hasSize(1)
-                .extracting("id", "title", "excerpt", "thumbnail", "recruitStatus")
-                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"));
+                .extracting("id", "title", "excerpt", "thumbnail", "recruitmentStatus")
+                .contains(tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"));
     }
 
     @DisplayName("다른 종류의 필터들은 AND 조건으로 스터디 목록을 조회")
@@ -215,20 +215,20 @@ public class SearchingStudyControllerTest {
         assertThat(response.getBody().isHasNext()).isFalse();
         assertThat(response.getBody().getStudies())
                 .hasSize(2)
-                .extracting("id", "title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("id", "title", "excerpt", "thumbnail", "recruitmentStatus")
                 .contains(
-                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "OPEN")
+                        tuple(1L, "Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                        tuple(2L, "React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
                 );
     }
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
-    public void getStudyDetails() {
+    public void mentgetStudyDetails() {
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(1L).title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
-                .status("OPEN").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
+                .status("RECRUITMENT_START").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(3).maxMemberCount(10)
                 .owner(new MemberData(2L, "greenlawn", "https://image", "github.com"))
@@ -263,7 +263,7 @@ public class SearchingStudyControllerTest {
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(2L).title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
-                .status("OPEN").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
+                .status("RECRUITMENT_START").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
                 .owner(new MemberData(3L, "dwoo", "https://image", "github.com"))
@@ -302,7 +302,7 @@ public class SearchingStudyControllerTest {
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(6L).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
-                .status("CLOSE").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
+                .status("RECRUITMENT_END").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(1)
                 .owner(new MemberData(4L, "verus", "https://image", "github.com"))
@@ -331,7 +331,7 @@ public class SearchingStudyControllerTest {
         assertThat(actual.getTitle()).isEqualTo(expect.getTitle());
         assertThat(actual.getExcerpt()).isEqualTo(expect.getExcerpt());
         assertThat(actual.getThumbnail()).isEqualTo(expect.getThumbnail());
-        assertThat(actual.getRecruitStatus()).isEqualTo(expect.getRecruitStatus());
+        assertThat(actual.getRecruitStatus()).isEqualTo(expect.getRecruitmentStatus());
         assertThat(actual.getDescription()).isEqualTo(expect.getDescription());
         assertThat(actual.getCreatedDate()).isEqualTo(expect.getCreatedDate().toString());
     }

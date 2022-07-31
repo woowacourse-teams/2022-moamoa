@@ -30,8 +30,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         final LocalDateTime now = LocalDateTime.now();
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
-                        + "VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '" + now + "', '" + now + "', 1, '2000-01-02')");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
+                        + "VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'RECRUITMENT_START', 'PREPARE', '짱구입니다.', 1, '" + now + "', '" + now + "', 1, '2000-01-02')");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
     }
 
