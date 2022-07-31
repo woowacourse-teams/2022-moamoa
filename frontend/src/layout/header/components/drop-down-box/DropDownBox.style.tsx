@@ -28,8 +28,8 @@ export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 
     z-index: 3;
 
     transform-origin: top;
-    animation: slidein 0.1s ease;
-    @keyframes slidein {
+    animation: slide-down 0.1s ease;
+    @keyframes slide-down {
       0% {
         transform: scale(1, 0);
       }
