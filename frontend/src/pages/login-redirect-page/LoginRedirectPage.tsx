@@ -30,7 +30,7 @@ const LoginRedirectPage: React.FC = () => {
 
     mutate(codeParam, {
       onError: error => {
-        alert(error.message);
+        alert(error.message ?? '로그인에 실패했습니다.');
         navigate(PATH.MAIN, { replace: true });
       },
       onSuccess: data => {
