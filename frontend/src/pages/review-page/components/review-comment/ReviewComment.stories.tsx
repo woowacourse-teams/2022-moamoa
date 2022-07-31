@@ -10,13 +10,13 @@ export default {
 };
 
 const Template: Story<ReviewCommentProps> = props => {
-  console.log('props : ', props);
   return <ReviewComment {...props} />;
 };
 
 export const Default = Template.bind({});
 Default.args = {
   id: 123,
+  studyId: 1,
   author: {
     id: 1,
     username: 'nan-noo',

@@ -1,39 +1,49 @@
-import * as S from '@review-page/components/reivew-form/ReviewForm.style';
+import * as S from '@review-page/components/review-edit-form/ReviewEditForm.style';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { EmptyObject, ReviewQueryData, StudyId } from '@custom-types';
+import { EditReviewQueryData, EmptyObject, ReviewId, StudyId } from '@custom-types';
 
-import { postReview } from '@api/postReview';
+import { editReview } from '@api/editReview';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 
-export type ReviewFormProps = {
+export type ReviewEditFormProps = {
   studyId: StudyId;
+  reviewId: ReviewId;
+  originalContent: string;
   onPostSuccess: () => void;
   onPostError: (e: Error) => void;
+  onCancelEditBtnClick: () => void;
 };
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostError }) => {
-  const [count, setCount] = useState<number>(0);
+const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
+  studyId,
+  reviewId,
+  originalContent,
+  onPostSuccess,
+  onPostError,
+  onCancelEditBtnClick,
+}) => {
+  const [count, setCount] = useState<number>(originalContent.length);
   const maxLength = 200;
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
+  const { mutateAsync } = useMutation<EmptyObject, Error, EditReviewQueryData>(editReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
       return;
     }
 
-    const content = submitResult.values['review'];
+    const content = submitResult.values['review-edit'];
 
     return mutateAsync(
-      { studyId, content },
+      { studyId, reviewId, content },
       {
         onSuccess: () => {
           onPostSuccess();
@@ -46,15 +56,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostE
   };
 
   return (
-    <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
+    <S.ReviewEditForm onSubmit={handleSubmit(onSubmit)}>
       <div className="left">
         <div className="top">
-          <span>후기를 작성해주세요.</span>
-          <LetterCounter count={count} maxCount={maxLength} />
-        </div>
-        <div className="bottom">
           <textarea
-            {...register('review', {
+            defaultValue={originalContent}
+            {...register('review-edit', {
               validate: (val: string) => {
                 if (val.length < REVIEW_LENGTH.MIN.VALUE) {
                   return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
@@ -68,13 +75,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostE
               maxLength: REVIEW_LENGTH.MAX.VALUE,
             })}
           />
+          <LetterCounter count={count} maxCount={maxLength} />
+        </div>
+        <div className="bottom">
+          <button onClick={onCancelEditBtnClick}>취소</button>
         </div>
       </div>
       <div className="right">
-        <button>제출</button>
+        <button>수정</button>
       </div>
-    </S.ReviewForm>
+    </S.ReviewEditForm>
   );
 };
 
-export default ReviewForm;
+export default ReviewEditForm;

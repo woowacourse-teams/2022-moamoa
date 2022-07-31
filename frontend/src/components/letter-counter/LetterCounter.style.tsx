@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
+export const LetterCounter = styled.div`
   ${({ theme }) => css`
     font-size: 12px;
     color: ${theme.colors.secondary.dark};

@@ -1,20 +1,37 @@
 import * as S from '@review-page/components/review-comment/ReviewComment.style';
 import useReviewComment from '@review-page/components/review-comment/useReviewComment';
 
-import type { DateYMD, Member, ReviewId } from '@custom-types';
+import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
+
+import ReviewEditForm from '@pages/review-page/components/review-edit-form/ReviewEditForm';
 
 import Avatar from '@components/avatar/Avatar';
 import DotDotDot from '@components/dotdotdot/DotDotDot';
 
 export type ReviewCommentProps = {
   id: ReviewId;
+  studyId: StudyId;
   author: Member;
   date: DateYMD;
   content: string;
 };
 
-const ReviewComment: React.FC<ReviewCommentProps> = ({ id, author, date, content }) => {
-  const { isOpen, handleDropDownClick, handleEditReviewBtnClick, handleDeleteReviewBtnClick } = useReviewComment(id);
+const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date, content }) => {
+  const {
+    isOpen,
+    isEditing,
+    handleDropDownClick,
+    handleEditReviewBtnClick,
+    handleDeleteReviewBtnClick,
+    handleCancelEditBtnClick,
+  } = useReviewComment(id, studyId);
+
+  const handlePostSuccess = () => {
+    alert('성공적으로 수정했습니다!');
+  };
+  const handlePostError = () => {
+    alert('수정에 에러가 발생했습니다!');
+  };
 
   return (
     <S.ReviewComment>
@@ -41,7 +58,18 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, author, date, content
         </div>
       </div>
       <div className="bottom">
-        <div className="content">{content}</div>
+        {isEditing ? (
+          <ReviewEditForm
+            reviewId={id}
+            studyId={studyId}
+            originalContent={content}
+            onCancelEditBtnClick={handleCancelEditBtnClick}
+            onPostSuccess={handlePostSuccess}
+            onPostError={handlePostError}
+          />
+        ) : (
+          <div className="content">{content}</div>
+        )}
       </div>
     </S.ReviewComment>
   );

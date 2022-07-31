@@ -1,20 +1,40 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
-import { ReviewId } from '@custom-types';
+import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
-const useReviewComment = (id: ReviewId) => {
+import { DeleteReviewQueryData, EmptyObject, ReviewId, StudyId } from '@custom-types';
+
+import { deleteReview } from '@api/deleteReview';
+
+const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { mutateAsync } = useMutation<EmptyObject, Error, DeleteReviewQueryData>(deleteReview);
+  const queryClient = useQueryClient();
 
   const handleDropDownClick = useCallback(() => {
     setIsOpen(prev => !prev);
   }, []);
 
   const handleDeleteReviewBtnClick = () => {
-    alert(`review-${id} 를 삭제했습니다`);
+    alert('리뷰 삭제');
+    mutateAsync({ reviewId: id, studyId })
+      .then(() => {
+        alert('성공적으로 삭제되었습니다');
+        queryClient.refetchQueries([QK_FETCH_STUDY_REVIEWS, studyId]);
+      })
+      .catch(() => {
+        alert('알수없는 에러가 발생했습니다');
+      });
   };
 
   const handleEditReviewBtnClick = () => {
-    alert(`review-${id} 를 수정했습니다`);
+    setIsEditing(true);
+  };
+
+  const handleCancelEditBtnClick = () => {
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -31,10 +51,11 @@ const useReviewComment = (id: ReviewId) => {
 
   return {
     isOpen,
-    setIsOpen,
+    isEditing,
     handleDropDownClick,
     handleDeleteReviewBtnClick,
     handleEditReviewBtnClick,
+    handleCancelEditBtnClick,
   };
 };
 

@@ -7,9 +7,9 @@ export interface LetterCounterProps {
 
 const LetterCounter: React.FC<LetterCounterProps> = ({ count, maxCount }) => {
   return (
-    <S.Container>
+    <S.LetterCounter>
       <span>{Math.min(count, maxCount)}</span>/<span>{maxCount}</span>
-    </S.Container>
+    </S.LetterCounter>
   );
 };
 

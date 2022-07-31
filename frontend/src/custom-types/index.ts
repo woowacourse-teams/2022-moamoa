@@ -105,6 +105,15 @@ export type ReviewQueryData = {
   content: string;
 };
 
+export type EditReviewQueryData = {
+  reviewId: ReviewId;
+} & ReviewQueryData;
+
+export type DeleteReviewQueryData = {
+  studyId: StudyId;
+  reviewId: ReviewId;
+};
+
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
 
 export type MyStudy = Pick<
