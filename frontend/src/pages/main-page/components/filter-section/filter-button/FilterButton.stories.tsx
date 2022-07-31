@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import FilterButton from '@pages/main-page/components/filter-section/filter-button/FilterButton';
-import type { FilterButtonProps } from '@pages/main-page/components/filter-section/filter-button/FilterButton';
+import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
+import type { FilterButtonProps } from '@main-page/components/filter-section/filter-button/FilterButton';
 
 export default {
   title: 'Components/FilterButton',

@@ -45,6 +45,7 @@ const DetailPage = () => {
     members,
     tags,
   } = studyDetailQueryResult.data;
+
   return (
     <Wrapper>
       <Head
