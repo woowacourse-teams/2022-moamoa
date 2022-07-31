@@ -1,50 +1,32 @@
 import * as S from '@review-page/components/review-comment/ReviewComment.style';
-import { useCallback, useEffect, useState } from 'react';
+import useReviewComment from '@review-page/components/review-comment/useReviewComment';
 
-import { PROFILE_IMAGE_URL } from '@constants';
+import type { DateYMD, Member, ReviewId } from '@custom-types';
 
 import Avatar from '@components/avatar/Avatar';
 import DotDotDot from '@components/dotdotdot/DotDotDot';
 
 export type ReviewCommentProps = {
-  id: number;
+  id: ReviewId;
+  author: Member;
+  date: DateYMD;
+  content: string;
 };
 
-const ReviewComment: React.FC<ReviewCommentProps> = ({ id }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const handleDropDownClick = useCallback(() => {
-    setIsOpen(prev => !prev);
-  }, []);
-
-  const handleDeleteReviewBtnClick = () => {
-    alert(`review-${id} 를 삭제했습니다`);
-  };
-
-  const handleEditReviewBtnClick = () => {
-    alert(`review-${id} 를 삭제했습니다`);
-  };
-
-  useEffect(() => {
-    document.removeEventListener('click', handleDropDownClick);
-    if (isOpen) {
-      requestAnimationFrame(() => {
-        document.addEventListener('click', handleDropDownClick);
-      });
-    }
-  }, [isOpen, handleDropDownClick]);
+const ReviewComment: React.FC<ReviewCommentProps> = ({ id, author, date, content }) => {
+  const { isOpen, handleDropDownClick, handleEditReviewBtnClick, handleDeleteReviewBtnClick } = useReviewComment(id);
 
   return (
     <S.ReviewComment>
       <div className="top">
         <div className="left">
           <S.Author>
-            <Avatar profileImg={PROFILE_IMAGE_URL} profileAlt="프로필 이미지" size="sm" />
-            <S.Name>nan-noo</S.Name>
+            <Avatar profileImg={author.profileUrl} profileAlt="프로필 이미지" size="sm" />
+            <S.Name>{author.username}</S.Name>
           </S.Author>
         </div>
         <div className="right">
-          <S.Date>2022.08.13</S.Date>
+          <S.Date>{date}</S.Date>
           <S.DropDown isOpen={isOpen}>
             <DotDotDot onClick={handleDropDownClick} />
             <ul className="menu">
@@ -59,12 +41,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id }) => {
         </div>
       </div>
       <div className="bottom">
-        <div className="content">
-          후기후기 라라라랄라ㅏ abcedfsf rksk가나다라 마바사ㅏ 아자ㅏ 아런아렁날
-          ㅓㅇㄴㄹㄴ아렁나러ㅏㄴ어라먼아러낭ㄹㅇㄴㄹㄴㅇ 낭런아럼;닌아럼;니아런;이ㅏ런일아아아앙 나나나나나나
-          ㅏㅇㄹㅇㄹ알ㅇㄹㅇㄹㅇ ㄴㄹ날가나다라가나다라 가낟 ㄴ안ㅇ란ㅇㄹ ㅇ ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ
-          ㅇㄴㄹㅁㅇㄴㄴㅇㄹㅇㄴㄹ ㄹㅇㄴㄹㅁㄴㅇㄹㄴㅇㄹㄴㅇㄹ ㄹㅇㄴㅁㄴㅇㄹㅁㄴㅇㄹㄴㅇㄹㄴ ㅇㄹㅇ
-        </div>
+        <div className="content">{content}</div>
       </div>
     </S.ReviewComment>
   );
