@@ -9,6 +9,9 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class RecruitPlanner {
 
+    @Column(name = "max_member_count")
+    private Integer max;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "recruit_status")
     private RecruitStatus recruitStatus;
@@ -18,7 +21,8 @@ public class RecruitPlanner {
     protected RecruitPlanner() {
     }
 
-    public RecruitPlanner(final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
+    public RecruitPlanner(final Integer max, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
+        this.max = max;
         this.recruitStatus = recruitStatus;
         this.enrollmentEndDate = enrollmentEndDate;
     }
@@ -34,19 +38,30 @@ public class RecruitPlanner {
         return enrollmentEndDate.isBefore(date);
     }
 
-    void closeRecruiting() {
-        recruitStatus = RecruitStatus.CLOSE;
-    }
-
     boolean isNeedToCloseRecruiting(final LocalDate now) {
         return recruitStatus.equals(RecruitStatus.OPEN) && isRecruitedBeforeThan(now);
     }
 
-    public LocalDate getEnrollmentEndDate() {
+    void closeRecruiting() {
+        recruitStatus = RecruitStatus.CLOSE;
+    }
+
+    LocalDate getEnrollmentEndDate() {
         return enrollmentEndDate;
     }
 
-    public boolean isCloseEnrollment() {
+    boolean isCloseEnrollment() {
         return recruitStatus.equals(RecruitStatus.CLOSE);
+    }
+
+    int getCapacity() {
+        if (hasCapacity()) {
+            return max;
+        }
+        throw new IllegalStateException("최대 인원 정보가 없습니다.");
+    }
+
+    boolean hasCapacity() {
+        return max != null;
     }
 }

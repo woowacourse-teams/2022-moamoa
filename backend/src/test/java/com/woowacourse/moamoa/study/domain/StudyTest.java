@@ -12,6 +12,7 @@ import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,8 @@ public class StudyTest {
         final LocalDate endDate = now.toLocalDate().plusDays(20);
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatThrownBy(() ->
@@ -52,8 +53,8 @@ public class StudyTest {
         final LocalDate endDate = now.toLocalDate().plusDays(20);
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
 
         assertThatThrownBy(() ->
@@ -72,8 +73,8 @@ public class StudyTest {
         final LocalDate endDate = now.toLocalDate();
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatCode(() ->
@@ -92,8 +93,8 @@ public class StudyTest {
         final LocalDate endDate = now.toLocalDate();
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatCode(() ->
@@ -105,16 +106,14 @@ public class StudyTest {
     @Test
     public void participate() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         sut.participate(2L);
 
-        assertThat(sut.getParticipants().getSize()).isEqualTo(2);
-        assertThat(sut.getParticipants().getParticipants())
-                .containsExactlyInAnyOrder(new Participant(2L));
+        assertThat(sut.getParticipants()).isEqualTo(new Participants(1L, Set.of(2L)));
         assertThat(sut.isCloseEnrollment()).isFalse();
     }
 
@@ -122,61 +121,58 @@ public class StudyTest {
     @Test
     public void participateTwice() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         sut.participate(2L);
 
         assertThatThrownBy(() -> sut.participate(2L)).isInstanceOf(FailureParticipationException.class);
-        assertThat(sut.getParticipants().getSize()).isEqualTo(2);
-        assertThat(sut.getParticipants().getParticipants()).containsExactlyInAnyOrder(new Participant(2L));
+        assertThat(sut.getParticipants()).isEqualTo(new Participants(1L, Set.of(2L)));
+
     }
 
     @DisplayName("방장은 스터디에 가입할 수 없다.")
     @Test
     void participateByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         assertThatThrownBy(() -> sut.participate(1L)).isInstanceOf(FailureParticipationException.class);
-        assertThat(sut.getParticipants().getSize()).isEqualTo(1);
-        assertThat(sut.getParticipants().getParticipants()).isEmpty();
+        assertThat(sut.getParticipants()).isEqualTo(Participants.createBy(1L));
     }
 
     @DisplayName("인원이 가득찬 스터디는 가입할 수 없다.")
     @Test
     void participateFullOfMemberStudy() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(2, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         sut.participate(2L);
 
         assertThatThrownBy(() -> sut.participate(3L)).isInstanceOf(FailureParticipationException.class);
-        assertThat(sut.getParticipants().getSize()).isEqualTo(2);
-        assertThat(sut.getParticipants().getParticipants()).containsExactlyInAnyOrder(new Participant(2L));
+        assertThat(sut.getParticipants()).isEqualTo(new Participants(1L, Set.of(2L)));
     }
 
     @DisplayName("마지막 인원이 참여시 스터디 모집은 종료된다.")
     @Test
     public void closeStudyByLastParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(2, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         sut.participate(2L);
 
-        assertThat(sut.getParticipants().getSize()).isEqualTo(2);
-        assertThat(sut.getParticipants().getParticipants()).containsExactlyInAnyOrder(new Participant(2L));
+        assertThat(sut.getParticipants()).isEqualTo(new Participants(1L, Set.of(2L)));
         assertThat(sut.isCloseEnrollment()).isTrue();
     }
 
@@ -188,8 +184,8 @@ public class StudyTest {
             final StudyPlanner studyPlanner, boolean isWritable
     ) {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(10, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 createdAt);
 
@@ -225,8 +221,8 @@ public class StudyTest {
     @Test
     void writeReviewByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(2, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -237,8 +233,8 @@ public class StudyTest {
     @Test
     void writeReviewByParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(2, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -251,8 +247,8 @@ public class StudyTest {
     @Test
     void writeReviewByNotParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(2, 1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(RecruitStatus.OPEN, LocalDate.now());
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 

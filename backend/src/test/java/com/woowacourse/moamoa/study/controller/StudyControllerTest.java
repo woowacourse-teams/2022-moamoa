@@ -73,7 +73,7 @@ public class StudyControllerTest {
         assertThat(study).isNotEmpty();
         assertThat(study.get().getContent()).isEqualTo(new Content("Java", "java excerpt",
                 "java image", "자바 스터디 상세설명 입니다."));
-        assertThat(study.get().getParticipants()).isEqualTo(Participants.createBy(10,
+        assertThat(study.get().getParticipants()).isEqualTo(Participants.createBy(
                 memberRepository.findByGithubId(1L).get().getId()));
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getStudyPlanner()).isEqualTo(

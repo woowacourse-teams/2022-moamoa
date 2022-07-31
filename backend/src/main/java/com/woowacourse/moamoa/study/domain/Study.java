@@ -12,10 +12,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
@@ -85,15 +83,20 @@ public class Study {
     }
 
     public void participate(final Long memberId) {
-        if (recruitPlanner.isCloseEnrollment() || participants.isNotParticipable(memberId)) {
+        if (recruitPlanner.isCloseEnrollment()) {
             throw new FailureParticipationException();
         }
 
-        participants.participate(new Participant(memberId));
+        final Participant participant = new Participant(memberId);
+        participants.participate(participant.getMemberId());
 
-        if (participants.isFullOfMember()) {
+        if (isFullOfCapacity()) {
             recruitPlanner.closeRecruiting();
         }
+    }
+
+    private boolean isFullOfCapacity() {
+        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
     }
 
     public boolean isNeedToCloseRecruiting(LocalDate now) {

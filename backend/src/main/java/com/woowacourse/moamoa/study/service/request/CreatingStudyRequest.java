@@ -83,11 +83,11 @@ public class CreatingStudyRequest {
     }
 
     public Participants mapToParticipants(Long ownerId) {
-        return Participants.createBy(maxMemberCount, ownerId);
+        return Participants.createBy(ownerId);
     }
 
     public RecruitPlanner mapToRecruitPlan() {
-        return new RecruitPlanner(RecruitStatus.OPEN, enrollmentEndDate);
+        return new RecruitPlanner(maxMemberCount, RecruitStatus.OPEN, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {
