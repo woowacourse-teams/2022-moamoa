@@ -8,7 +8,7 @@ export const Name = styled.span`
 
 export const Author = styled.div`
   display: flex;
-  column-gap: 6px;
+  column-gap: 10px;
   align-items: center;
 `;
 
@@ -45,6 +45,7 @@ export const DropDown = styled.div<DropDownProps>`
       position: absolute;
       top: 100%;
       right: 100%;
+      z-index: 3;
 
       display: ${isOpen ? 'flex' : 'none'};
       flex-direction: column;
@@ -83,5 +84,9 @@ export const ReviewComment = styled.div`
       display: flex;
       column-gap: 20px;
     }
+  }
+
+  .content {
+    line-height: 20px;
   }
 `;

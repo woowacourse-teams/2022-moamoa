@@ -14,7 +14,7 @@ const useReviewComment = (id: ReviewId) => {
   };
 
   const handleEditReviewBtnClick = () => {
-    alert(`review-${id} 를 삭제했습니다`);
+    alert(`review-${id} 를 수정했습니다`);
   };
 
   useEffect(() => {
