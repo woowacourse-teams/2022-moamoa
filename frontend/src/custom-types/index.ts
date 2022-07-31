@@ -72,8 +72,8 @@ export type StudyListQueryData = {
 export type StudyReview = {
   id: ReviewId;
   member: Member;
-  createdAt: string;
-  updatedAt: string;
+  createdDate: DateYMD;
+  lastModifiedDate: string;
   content: string;
 };
 
@@ -98,6 +98,11 @@ export type TagListQueryData = {
 
 export type TokenQueryData = {
   token: string;
+};
+
+export type ReviewQueryData = {
+  studyId: StudyId;
+  content: string;
 };
 
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
