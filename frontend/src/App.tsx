@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
@@ -16,6 +16,7 @@ import ErrorPage from '@pages/error-page/ErrorPage';
 import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
 import MainPage from '@pages/main-page/MainPage';
 import MyStudyPage from '@pages/my-study-page/MyStudyPage';
+import ReviewPage from '@pages/review-page/ReviewPage';
 
 import DetailPage from '@detail-page/DetailPage';
 
@@ -46,6 +47,7 @@ const App = () => {
             element={isLoggedIn ? <Navigate to={PATH.MAIN} replace={true} /> : <LoginRedirectPage />}
           />
           <Route path={PATH.MY_STUDY} element={isLoggedIn ? <MyStudyPage /> : <Navigate to="/" replace={true} />} />
+          <Route path={PATH.REVIEW()} element={isLoggedIn ? <ReviewPage /> : <Navigate to="/" replace={true} />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Main>
