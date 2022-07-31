@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { PATH } from '@constants';
 
 import type { TokenQueryData } from '@custom-types/index';
 
@@ -13,34 +15,30 @@ import Wrapper from '@components/wrapper/Wrapper';
 const LoginRedirectPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const codeParam = searchParams.get('code') as string;
+  const navigate = useNavigate();
 
   const { login } = useAuth();
 
-  const { data, mutate, isSuccess, isError, error } = useMutation<TokenQueryData, Error, string>(getAccessToken);
+  const { mutate } = useMutation<TokenQueryData, Error, string>(getAccessToken);
 
   useEffect(() => {
-    mutate(codeParam);
-  }, []);
-
-  useEffect(() => {
-    if (isSuccess) {
-      login(data.token);
+    if (!codeParam) {
+      alert('잘못된 접근입니다.');
+      navigate(PATH.MAIN, { replace: true });
+      return;
     }
-  }, [isSuccess]);
 
-  if (!codeParam) {
-    alert('잘못된 접근입니다.');
-    return <Navigate to="/" replace={true} />;
-  }
-
-  if (isError) {
-    alert(error.message);
-    return <Navigate to="/" replace={true} />;
-  }
-
-  if (isSuccess) {
-    return <Navigate to="/" replace={true} />;
-  }
+    mutate(codeParam, {
+      onError: error => {
+        alert(error.message ?? '로그인에 실패했습니다.');
+        navigate(PATH.MAIN, { replace: true });
+      },
+      onSuccess: data => {
+        login(data.token);
+        navigate(PATH.MAIN, { replace: true });
+      },
+    });
+  }, []);
 
   return (
     <Wrapper>

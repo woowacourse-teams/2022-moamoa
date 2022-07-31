@@ -26,5 +26,16 @@ export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 
     border-radius: 5px;
     background-color: ${theme.colors.secondary.light};
     z-index: 3;
+
+    transform-origin: top;
+    animation: slide-down 0.1s ease;
+    @keyframes slide-down {
+      0% {
+        transform: scale(1, 0);
+      }
+      100% {
+        transform: scale(1, 1);
+      }
+    }
   `}
 `;

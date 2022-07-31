@@ -8,7 +8,8 @@ import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
 import { getStudyList } from '@api/getStudyList';
 
-import { LoginContext } from '@context/login/LoginProvider';
+import { useAuth } from '@hooks/useAuth';
+
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@pages/main-page/MainPage.style';
@@ -30,8 +31,9 @@ const defaultParam = {
 };
 
 const MainPage: React.FC = () => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
   const { keyword } = useContext(SearchContext);
+
   const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
   const navigate = useNavigate();
 

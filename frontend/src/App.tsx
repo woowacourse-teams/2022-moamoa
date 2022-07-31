@@ -1,11 +1,10 @@
-import { useContext } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { LoginContext } from '@context/login/LoginProvider';
+import { useAuth } from '@hooks/useAuth';
 
 import Footer from '@layout/footer/Footer';
 import Header from '@layout/header/Header';
@@ -20,7 +19,7 @@ import MyStudyPage from '@pages/my-study-page/MyStudyPage';
 import DetailPage from '@detail-page/DetailPage';
 
 const App = () => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
 
   return (
     <div>
