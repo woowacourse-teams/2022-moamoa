@@ -15,6 +15,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class PeriodTest {
 
+    private static final LocalDate BASE_DATE = LocalDate.now().plusDays(5);
+    private static final LocalDate END_DATE = LocalDate.now().plusDays(6);
+
     @DisplayName("시작일자는 종료일자보다 클 수 없다.")
     @Test
     void startDateMustBeforeEndDate() {
@@ -37,15 +40,14 @@ public class PeriodTest {
     @ParameterizedTest
     @MethodSource("provideEnrollmentEndDateAndStartDate")
     void enrollmentEndDateAndStartDateNotHasRelatedConditions(LocalDate enrollmentEndDate, LocalDate startDate) {
-        assertThatNoException().isThrownBy(() -> new Period(enrollmentEndDate, startDate,
-                LocalDate.of(2022, 7, 15)));
+        assertThatNoException().isThrownBy(() -> new Period(enrollmentEndDate, startDate, END_DATE));
     }
 
     private static Stream<Arguments> provideEnrollmentEndDateAndStartDate() {
         return Stream.of(
-                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 9)),
-                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 10)),
-                Arguments.of(LocalDate.of(2022, 7, 10), LocalDate.of(2022, 7, 11))
+                Arguments.of(BASE_DATE, BASE_DATE.minusDays(1)),
+                Arguments.of(BASE_DATE, BASE_DATE),
+                Arguments.of(BASE_DATE, BASE_DATE.plusDays(1))
         );
     }
 

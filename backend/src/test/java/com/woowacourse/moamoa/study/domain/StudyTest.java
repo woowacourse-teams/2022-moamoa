@@ -14,7 +14,7 @@ public class StudyTest {
 
     @DisplayName("생성일자는 스터디 시작일자보다 클 수 없다.")
     @Test
-    void createdAtMustBeforeStartDate() {
+    void createdDateMustBeforeStartDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", PREPARE, "description");
         final Member member = new Member(1L, "username", "image", "profile");
         final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
@@ -27,7 +27,7 @@ public class StudyTest {
 
     @DisplayName("생성일자는 모집완료일자보다 클 수 없다.")
     @Test
-    void createdAtMustBeforeEnrollmentEndDate() {
+    void createdDateMustBeforeEnrollmentEndDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", PREPARE, "description");
         final Member member = new Member(1L, "username", "image", "profile");
         final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());
@@ -40,7 +40,7 @@ public class StudyTest {
 
     @Test
     @DisplayName("생성일자는 시작, 모집 종료, 종료 일자와 동일할 수 있다.")
-    void createdAtCanSameWithStartAndEndAndEnrollmentDate() {
+    void createdDateCanSameWithStartAndEndAndEnrollmentDate() {
         final Details details = new Details("title", "excerpt", "thumbnail", PREPARE, "description");
         final Member member = new Member(1L, "username", "image", "profile");
         final Participants participants = Participants.createByMaxSizeAndOwnerId(10, member.getId());

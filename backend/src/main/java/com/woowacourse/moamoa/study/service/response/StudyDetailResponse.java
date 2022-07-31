@@ -3,10 +3,7 @@ package com.woowacourse.moamoa.study.service.response;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +23,7 @@ public class StudyDetailResponse {
     private String description;
     private Integer currentMemberCount;
     private String maxMemberCount;
-    private String createdAt;
+    private String createdDate;
     private String enrollmentEndDate;
     private String startDate;
     private String endDate;
@@ -45,7 +42,7 @@ public class StudyDetailResponse {
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
         this.maxMemberCount = getNullableDate(study.getMaxMemberCount());
-        this.createdAt = study.getCreatedAt().toString();
+        this.createdDate = study.getCreatedDate().toString();
         this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
         this.startDate = study.getStartDate().toString();
         this.endDate = getNullableDate(study.getEndDate());

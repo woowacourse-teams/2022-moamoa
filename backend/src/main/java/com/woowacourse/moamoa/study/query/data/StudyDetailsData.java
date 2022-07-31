@@ -16,7 +16,7 @@ public class StudyDetailsData {
     private final String thumbnail;
     private final String recruitStatus;
     private final String description;
-    private final LocalDate createdAt;
+    private final LocalDate createdDate;
     private final MemberData owner;
     private final Integer currentMemberCount;
     private final Integer maxMemberCount;

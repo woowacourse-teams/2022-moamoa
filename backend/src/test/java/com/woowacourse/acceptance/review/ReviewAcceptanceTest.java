@@ -6,6 +6,7 @@ import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import io.restassured.RestAssured;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,11 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         super.setRestAssuredPort();
         getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "verus", "https://image", "github.com"));
+
+        final LocalDateTime now = LocalDateTime.now();
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '2000-01-01T11:58:20.551705', 1, '2000-01-02')");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_date, last_modified_date, owner_id, start_date) "
+                        + "VALUES (1, '짱구 스터디', '짱구 설명', 'jjanggu thumbnail', 'OPEN', 'PREPARE', '짱구입니다.', 1, '" + now + "', '" + now + "', 1, '2000-01-02')");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
     }
 

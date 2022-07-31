@@ -73,7 +73,7 @@ public class StudyControllerTest {
                 "java image", PREPARE, "자바 스터디 상세설명 입니다."));
         assertThat(study.get().getParticipants()).isEqualTo(Participants.createByMaxSizeAndOwnerId(10,
                 memberRepository.findByGithubId(1L).get().getId()));
-        assertThat(study.get().getCreatedAt()).isNotNull();
+        assertThat(study.get().getCreatedDate()).isNotNull();
         assertThat(study.get().getPeriod()).isEqualTo(
                 new Period(LocalDate.parse(creatingStudyRequest.getEnrollmentEndDate()),
                         creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate())));
@@ -104,7 +104,7 @@ public class StudyControllerTest {
 
     @DisplayName("스터디 생성 날짜와 스터디 시작 날짜가 같은 경우 IN_PROGRESS로 설정한다.")
     @Test
-    void checkStudyStatusIfCreateDateSameStartDate() {
+    void checkStudyStatusIfcreatedDateeSameStartDate() {
         StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
         final CreatingStudyRequest createStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
