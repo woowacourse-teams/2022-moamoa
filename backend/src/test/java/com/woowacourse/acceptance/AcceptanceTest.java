@@ -1,5 +1,8 @@
 package com.woowacourse.acceptance;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -47,7 +50,7 @@ public class AcceptanceTest {
     private RestTemplate restTemplate;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     @Value("${oauth2.github.client-id}")
     private String clientId;
@@ -129,6 +132,16 @@ public class AcceptanceTest {
             Assertions.fail("리뷰 작성 실패");
             return -1;
         }
+    }
+
+    protected void participateStudy(String jwtToken, Long studyId) {
+        RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, jwtToken)
+                .when().log().all()
+                .post("/api/studies/" + studyId)
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 
     private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {

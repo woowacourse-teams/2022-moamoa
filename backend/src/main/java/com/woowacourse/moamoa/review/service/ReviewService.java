@@ -41,7 +41,6 @@ public class ReviewService {
         }
 
         final Review review = Review.writeNewReview(study.getId(), member.getId(), content, reviewCreatedDate);
-
         return reviewRepository.save(review).getId();
     }
 }
