@@ -4,7 +4,6 @@ import detailStudyHandlers from '@mocks/detailStudyHandlers';
 import { myHandlers } from '@mocks/myHandlers';
 import studyJSON from '@mocks/studies.json';
 import { tagHandlers } from '@mocks/tagHandlers';
-import { tokenHandlers } from '@mocks/tokenHandlers';
 
 export const handlers = [
   rest.get('/api/studies', (req, res, ctx) => {
@@ -89,6 +88,5 @@ export const handlers = [
   }),
   ...detailStudyHandlers,
   ...tagHandlers,
-  ...tokenHandlers,
   ...myHandlers,
 ];
