@@ -5,7 +5,7 @@ import { ACCESS_TOKEN_KEY } from '@constants';
 import { LoginContext } from '@context/login/LoginProvider';
 
 export const useAuth = () => {
-  const { setIsLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
   const login = (accesssToken: string) => {
     window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accesssToken);
@@ -17,5 +17,5 @@ export const useAuth = () => {
     setIsLoggedIn(false);
   };
 
-  return { login, logout };
+  return { isLoggedIn, login, logout };
 };

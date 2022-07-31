@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { useContext } from 'react';
 import { useMutation } from 'react-query';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ import { changeDateSeperator } from '@utils/dates';
 
 import postJoiningStudy from '@api/postJoiningStudy';
 
-import { LoginContext } from '@context/login/LoginProvider';
+import { useAuth } from '@hooks/useAuth';
 
 import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
@@ -27,7 +26,7 @@ import useFetchDetail from '@detail-page/hooks/useFetchDetail';
 const DetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
 
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
 
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
   const { mutate } = useMutation<AxiosResponse, Error, number>(postJoiningStudy);
