@@ -1,3 +1,7 @@
+import { Link } from 'react-router-dom';
+
+import { PATH } from '@constants';
+
 import type { MakeOptional, MyStudy } from '@custom-types/index';
 
 import MyStudyCard from '@pages/my-study-page/components/my-study-card/MyStudyCard';
@@ -28,14 +32,16 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
         ) : (
           myStudies.map(myStudy => (
             <li key={myStudy.id}>
-              <MyStudyCard
-                title={myStudy.title}
-                ownerName={myStudy.owner.username}
-                tags={myStudy.tags}
-                startDate={myStudy.startDate}
-                endDate={myStudy.endDate}
-                disabled={disabled}
-              />
+              <Link to={PATH.STUDY_ROOM(myStudy.id.toString())}>
+                <MyStudyCard
+                  title={myStudy.title}
+                  ownerName={myStudy.owner.username}
+                  tags={myStudy.tags}
+                  startDate={myStudy.startDate}
+                  endDate={myStudy.endDate}
+                  disabled={disabled}
+                />
+              </Link>
             </li>
           ))
         )}

@@ -3,6 +3,7 @@ export const PATH = {
   STUDY_DETAIL: (studyId = ':studyId') => `/study/${studyId}`,
   CREATE_STUDY: '/study/create',
   MY_STUDY: '/my/study',
+  STUDY_ROOM: (studyId = ':studyId') => `/study/room/${studyId}`,
   LOGIN: '/login',
 };
 

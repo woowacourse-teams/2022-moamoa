@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 export const Nav = styled.nav`
   ${({ theme }) => css`
-    position: sticky;
-    top: 100px;
     width: 100%;
     max-width: 180px;
     padding: 16px;
