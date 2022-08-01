@@ -6,18 +6,15 @@ import Button from '@components/button/Button';
 
 import * as S from '@detail-page/components/study-float-box/StudyFloatBox.style';
 
-// TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
 export type StudyFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
-  studyId: number;
   ownerName: string;
-  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
+  handleRegisterBtnClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
-  studyId,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -51,7 +48,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           <span>{ownerName}</span>
         </S.Owner>
       </S.StudyInfo>
-      <Button disabled={!isOpen} onClick={handleRegisterBtnClick(studyId)}>
+      <Button disabled={!isOpen} onClick={handleRegisterBtnClick}>
         {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
       </Button>
     </S.StudyFloatBox>

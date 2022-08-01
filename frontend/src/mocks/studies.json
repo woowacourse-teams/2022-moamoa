@@ -7,7 +7,7 @@
       "thumbnail": "https://picsum.photos/id/28/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 28,
+      "currentMemberCount": 29,
       "maxMemberCount": 33,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-10",
@@ -16,7 +16,7 @@
       "owner": {
         "id": 1,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -206,7 +206,7 @@
       "thumbnail": "https://picsum.photos/id/27/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 8,
+      "currentMemberCount": 9,
       "maxMemberCount": 19,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-03",
@@ -215,7 +215,7 @@
       "owner": {
         "id": 2,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -283,7 +283,7 @@
       "thumbnail": "https://picsum.photos/id/35/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 31,
+      "currentMemberCount": 32,
       "maxMemberCount": 39,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-29",
@@ -292,7 +292,7 @@
       "owner": {
         "id": 3,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -500,7 +500,7 @@
       "thumbnail": "https://picsum.photos/id/31/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 23,
+      "currentMemberCount": 24,
       "maxMemberCount": 23,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-12",
@@ -509,7 +509,7 @@
       "owner": {
         "id": 4,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -665,7 +665,7 @@
       "thumbnail": "https://picsum.photos/id/83/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 12,
+      "currentMemberCount": 13,
       "maxMemberCount": 37,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-27",
@@ -674,7 +674,7 @@
       "owner": {
         "id": 5,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -765,7 +765,7 @@
       "thumbnail": "https://picsum.photos/id/25/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 25,
+      "currentMemberCount": 26,
       "maxMemberCount": 36,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-28",
@@ -774,7 +774,7 @@
       "owner": {
         "id": 6,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -946,7 +946,7 @@
       "thumbnail": "https://picsum.photos/id/60/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 21,
+      "currentMemberCount": 22,
       "maxMemberCount": 36,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-14",
@@ -955,7 +955,7 @@
       "owner": {
         "id": 7,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -1120,7 +1120,7 @@
       "thumbnail": "https://picsum.photos/id/4/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 25,
+      "currentMemberCount": 26,
       "maxMemberCount": 26,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-24",
@@ -1348,7 +1348,7 @@
       "thumbnail": "https://picsum.photos/id/17/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 26,
+      "currentMemberCount": 27,
       "maxMemberCount": 38,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-21",
@@ -1576,7 +1576,7 @@
       "thumbnail": "https://picsum.photos/id/88/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 39,
+      "currentMemberCount": 40,
       "maxMemberCount": 39,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-16",
@@ -1906,7 +1906,7 @@
       "thumbnail": "https://picsum.photos/id/52/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 10,
+      "currentMemberCount": 11,
       "maxMemberCount": 34,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-12",
@@ -1915,7 +1915,7 @@
       "owner": {
         "id": 8,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -1994,7 +1994,7 @@
       "thumbnail": "https://picsum.photos/id/41/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 38,
+      "currentMemberCount": 39,
       "maxMemberCount": 38,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-18",
@@ -2003,7 +2003,7 @@
       "owner": {
         "id": 9,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -2082,7 +2082,7 @@
       "thumbnail": "https://picsum.photos/id/91/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 14,
+      "currentMemberCount": 15,
       "maxMemberCount": 25,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-05",
@@ -2091,7 +2091,7 @@
       "owner": {
         "id": 10,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -2198,7 +2198,7 @@
       "thumbnail": "https://picsum.photos/id/71/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 19,
+      "currentMemberCount": 20,
       "maxMemberCount": 28,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-23",
@@ -2207,7 +2207,7 @@
       "owner": {
         "id": 11,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -2340,7 +2340,7 @@
       "thumbnail": "https://picsum.photos/id/35/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 29,
+      "currentMemberCount": 30,
       "maxMemberCount": 30,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-06",
@@ -2349,7 +2349,7 @@
       "owner": {
         "id": 12,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -2574,7 +2574,7 @@
       "thumbnail": "https://picsum.photos/id/12/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 4,
+      "currentMemberCount": 5,
       "maxMemberCount": 34,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-18",
@@ -2646,7 +2646,7 @@
       "thumbnail": "https://picsum.photos/id/81/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 22,
+      "currentMemberCount": 23,
       "maxMemberCount": 35,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-31",
@@ -2814,7 +2814,7 @@
       "thumbnail": "https://picsum.photos/id/74/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 35,
+      "currentMemberCount": 36,
       "maxMemberCount": 38,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-20",
@@ -2823,7 +2823,7 @@
       "owner": {
         "id": 13,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -3056,7 +3056,7 @@
       "thumbnail": "https://picsum.photos/id/65/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 11,
+      "currentMemberCount": 12,
       "maxMemberCount": 37,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-06",
@@ -3065,7 +3065,7 @@
       "owner": {
         "id": 14,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -3144,7 +3144,7 @@
       "thumbnail": "https://picsum.photos/id/13/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 12,
+      "currentMemberCount": 13,
       "maxMemberCount": 14,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-13",
@@ -3153,7 +3153,7 @@
       "owner": {
         "id": 15,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -3306,8 +3306,8 @@
       "thumbnail": "https://picsum.photos/id/51/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 38,
-      "maxMemberCount": 38,
+      "currentMemberCount": 39,
+      "maxMemberCount": 39,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-30",
       "startDate": "2022-07-18",
@@ -3315,7 +3315,7 @@
       "owner": {
         "id": 16,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -3567,7 +3567,7 @@
       "thumbnail": "https://picsum.photos/id/5/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 10,
+      "currentMemberCount": 11,
       "maxMemberCount": 22,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-03",
@@ -3576,7 +3576,7 @@
       "owner": {
         "id": 17,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -3631,7 +3631,7 @@
       "thumbnail": "https://picsum.photos/id/74/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 36,
+      "currentMemberCount": 37,
       "maxMemberCount": 39,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-03",
@@ -3895,7 +3895,7 @@
       "thumbnail": "https://picsum.photos/id/43/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 6,
+      "currentMemberCount": 7,
       "maxMemberCount": 40,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-07",
@@ -3997,7 +3997,7 @@
       "thumbnail": "https://picsum.photos/id/8/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 33,
+      "currentMemberCount": 34,
       "maxMemberCount": 40,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-15",
@@ -4273,7 +4273,7 @@
       "thumbnail": "https://picsum.photos/id/45/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 10,
+      "currentMemberCount": 11,
       "maxMemberCount": 26,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-24",
@@ -4393,7 +4393,7 @@
       "thumbnail": "https://picsum.photos/id/27/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 6,
+      "currentMemberCount": 7,
       "maxMemberCount": 19,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-15",
@@ -4402,7 +4402,7 @@
       "owner": {
         "id": 18,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -4602,7 +4602,7 @@
       "thumbnail": "https://picsum.photos/id/17/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 32,
+      "currentMemberCount": 33,
       "maxMemberCount": 37,
       "createdAt": "2022-07-09",
       "enrollmentEndDate": "2022-07-05",
@@ -4611,7 +4611,7 @@
       "owner": {
         "id": 19,
         "username": "jaejae-yoo",
-        "imageUrl": "images/123",
+        "imageUrl":  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         "profileUrl": "https://github.com/user/jaejae-yoo"
       },
       "members": [
@@ -4854,7 +4854,7 @@
       "thumbnail": "https://picsum.photos/id/54/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 20,
+      "currentMemberCount": 21,
       "maxMemberCount": 24,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-10",
@@ -5058,7 +5058,7 @@
       "thumbnail": "https://picsum.photos/id/59/200/300",
       "recruitmentStatus": "RECRUITMENT_END",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 12,
+      "currentMemberCount": 13,
       "maxMemberCount": 28,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-13",
@@ -5208,7 +5208,7 @@
       "thumbnail": "https://picsum.photos/id/27/200/300",
       "recruitmentStatus": "RECRUITMENT_START",
       "description": "# Prettier plugin sort imports\n\nA prettier plugin to sort import declarations by provided Regular Expression order.\n\n**Note: If you are migrating from v2.x.x to v3.x.x, [Please Read Migration Guidelines](./docs/MIGRATION.md)**\n\n### Input\n\n```javascript\nimport React, {\n  FC,\n  useEffect,\n  useRef,\n  ChangeEvent,\n  KeyboardEvent,\n} from \"react\";\nimport { logger } from \"@core/logger\";\nimport { reduce, debounce } from \"lodash\";\nimport { Message } from \"../Message\";\nimport { createServer } from \"@server/node\";\nimport { Alert } from \"@ui/Alert\";\nimport { repeat, filter, add } from \"../utils\";\nimport { initializeApp } from \"@core/app\";\nimport { Popup } from \"@ui/Popup\";\nimport { createConnection } from \"@server/database\";\n```\n\n### Output\n\n```javascript\nimport { debounce, reduce } from \"lodash\";\nimport React, {\n  ChangeEvent,\n  FC,\n  KeyboardEvent,\n  useEffect,\n  useRef,\n} from \"react\";\n\nimport { createConnection } from \"@server/database\";\nimport { createServer } from \"@server/node\";\n\nimport { initializeApp } from \"@core/app\";\nimport { logger } from \"@core/logger\";\n\nimport { Alert } from \"@ui/Alert\";\nimport { Popup } from \"@ui/Popup\";\n\nimport { Message } from \"../Message\";\nimport { add, filter, repeat } from \"../utils\";\n```\n",
-      "currentMemberCount": 27,
+      "currentMemberCount": 28,
       "maxMemberCount": 38,
       "createdAt": "2022-07-21",
       "enrollmentEndDate": "2022-07-09",

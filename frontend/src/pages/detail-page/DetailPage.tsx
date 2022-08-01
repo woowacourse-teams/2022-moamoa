@@ -1,6 +1,14 @@
-import { useParams } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
+import { useMutation } from 'react-query';
+import { Navigate, useParams } from 'react-router-dom';
+
+import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
+
+import postJoiningStudy from '@api/postJoiningStudy';
+
+import { useAuth } from '@hooks/useAuth';
 
 import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
 import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
@@ -18,11 +26,32 @@ import useFetchDetail from '@detail-page/hooks/useFetchDetail';
 const DetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
 
-  const studyDetailQueryResult = useFetchDetail(Number(studyId));
+  const { isLoggedIn } = useAuth();
 
-  const handleRegisterBtnClick = (studyId: number) => () => {
-    alert('아직 준비중입니다 :D');
+  const studyDetailQueryResult = useFetchDetail(Number(studyId));
+  const { mutate } = useMutation<AxiosResponse, Error, number>(postJoiningStudy);
+
+  const handleRegisterBtnClick = () => {
+    if (!isLoggedIn) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
+    mutate(Number(studyId), {
+      onError: () => {
+        alert('가입에 실패했습니다.');
+      },
+      onSuccess: () => {
+        alert('가입했습니다 :D');
+        studyDetailQueryResult.refetch();
+      },
+    });
   };
+
+  if (!studyId) {
+    alert('잘못된 접근입니다.');
+    return <Navigate to={PATH.MAIN} replace={true} />;
+  }
 
   if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
 
@@ -62,12 +91,11 @@ const DetailPage = () => {
             <MarkdownRender markdownContent={description} />
           </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberSection members={members} />
+          <StudyMemberSection owner={owner} members={members} />
         </S.MainDescription>
         <S.FloatButtonContainer>
           <S.StickyContainer>
             <StudyFloatBox
-              studyId={id}
               ownerName={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
@@ -82,7 +110,6 @@ const DetailPage = () => {
       <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox
-          studyId={id}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
           enrollmentEndDate={enrollmentEndDate}
