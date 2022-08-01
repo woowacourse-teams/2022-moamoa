@@ -21,7 +21,7 @@ Default.args = {
   description: '자바스크립트',
   isChecked: false,
 };
-Default.parameters = { controls: { exclude: ['handleFilterButtonClick'] } };
+Default.parameters = { controls: { exclude: ['onFilterButtonClick'] } };
 
 export const Clicked = Template.bind({});
 Clicked.args = {
@@ -29,7 +29,7 @@ Clicked.args = {
   description: '자바스크립트',
   isChecked: true,
 };
-Clicked.parameters = { controls: { exclude: ['isChecked', 'handleFilterButtonClick'] } };
+Clicked.parameters = { controls: { exclude: ['isChecked', 'onFilterButtonClick'] } };
 
 export const Unclicked = Template.bind({});
 Unclicked.args = {
@@ -37,4 +37,4 @@ Unclicked.args = {
   description: '자바스크립트',
   isChecked: false,
 };
-Unclicked.parameters = { controls: { exclude: ['isChecked', 'handleFilterButtonClick'] } };
+Unclicked.parameters = { controls: { exclude: ['isChecked', 'onFilterButtonClick'] } };

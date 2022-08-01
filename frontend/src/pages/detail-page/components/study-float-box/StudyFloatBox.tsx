@@ -11,7 +11,7 @@ export type StudyFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   ownerName: string;
-  handleRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+  onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
@@ -20,7 +20,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   maxMemberCount,
   ownerName,
   recruitmentStatus,
-  handleRegisterButtonClick,
+  onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 

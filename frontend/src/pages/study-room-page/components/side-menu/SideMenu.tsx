@@ -8,14 +8,19 @@ export type SideMenuProps = {
   className?: string;
   activeTabId: TabId;
   tabs: Tabs;
-  handleTabButtonClick: (id: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onTabButtonClick: (id: string) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const mb12 = css`
   margin-bottom: 12px;
 `;
 
-const SideMenu: React.FC<SideMenuProps> = ({ className, activeTabId, tabs, handleTabButtonClick }) => {
+const SideMenu: React.FC<SideMenuProps> = ({
+  className,
+  activeTabId,
+  tabs,
+  onTabButtonClick: handleTabButtonClick,
+}) => {
   return (
     <S.Sidebar className={className}>
       {tabs.map(({ id, name }) => (

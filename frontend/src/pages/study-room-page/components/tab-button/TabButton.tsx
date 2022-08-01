@@ -7,9 +7,9 @@ export type TabButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const TabButton: React.FC<TabButtonProps> = ({ className, children, isSelected, onClick }) => {
+const TabButton: React.FC<TabButtonProps> = ({ className, children, isSelected, onClick: handleClick }) => {
   return (
-    <S.TabButton className={className} type="button" isSelected={isSelected} onClick={onClick}>
+    <S.TabButton className={className} type="button" isSelected={isSelected} onClick={handleClick}>
       {children}
     </S.TabButton>
   );

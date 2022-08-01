@@ -46,7 +46,7 @@ const StudyRoomPage: React.FC = () => {
             `}
             activeTabId={activeTabId}
             tabs={tabs}
-            handleTabButtonClick={handleTabButtonClick}
+            onTabButtonClick={handleTabButtonClick}
           />
           <S.Content>{activeTab?.content ?? '%ERROR% 새로고침 해주세요'}</S.Content>
         </S.Container>

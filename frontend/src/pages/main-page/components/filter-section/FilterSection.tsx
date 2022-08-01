@@ -12,7 +12,7 @@ import FilterButtonList from '@main-page/components/filter-section/filter-button
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
-  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const SCROLL_DIST = 100;
@@ -20,7 +20,10 @@ const SCROLL_DIST = 100;
 const filterByCategory = (tags: Array<Tag> | undefined, categoryId: number) =>
   tags?.filter(tag => tag.category.id === categoryId) || [];
 
-const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFilterButtonClick }) => {
+const FilterSection: React.FC<FilterSectionProps> = ({
+  selectedFilters,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => {
   const sliderRef = useRef<HTMLElement>(null);
 
   const { data, isLoading, isError, error } = useQuery<TagListQueryData, Error>('filters', getTagList);
@@ -56,7 +59,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
   return (
     <S.FilterSectionContainer>
       <S.LeftButtonContainer>
-        <ArrowButton direction="left" ariaLabel="왼쪽으로 스크롤" handleSlideButtonClick={handleLeftSlideButtonClick} />
+        <ArrowButton direction="left" ariaLabel="왼쪽으로 스크롤" onSlideButtonClick={handleLeftSlideButtonClick} />
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
@@ -64,27 +67,23 @@ const FilterSection: React.FC<FilterSectionProps> = ({ selectedFilters, handleFi
         <FilterButtonList
           filters={areaTags}
           selectedFilters={selectedFilters}
-          handleFilterButtonClick={handleFilterButtonClick}
+          onFilterButtonClick={handleFilterButtonClick}
         />
         <S.VerticalLine />
         <FilterButtonList
           filters={generationTags}
           selectedFilters={selectedFilters}
-          handleFilterButtonClick={handleFilterButtonClick}
+          onFilterButtonClick={handleFilterButtonClick}
         />
         <S.VerticalLine />
         <FilterButtonList
           filters={subjectTags}
           selectedFilters={selectedFilters}
-          handleFilterButtonClick={handleFilterButtonClick}
+          onFilterButtonClick={handleFilterButtonClick}
         />
       </S.FilterSection>
       <S.RightButtonContainer>
-        <ArrowButton
-          direction="right"
-          ariaLabel="오른쪽으로 스크롤"
-          handleSlideButtonClick={handleRightSlideButtonClick}
-        />
+        <ArrowButton direction="right" ariaLabel="오른쪽으로 스크롤" onSlideButtonClick={handleRightSlideButtonClick} />
       </S.RightButtonContainer>
     </S.FilterSectionContainer>
   );

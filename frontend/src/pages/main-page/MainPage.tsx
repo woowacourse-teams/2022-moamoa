@@ -76,9 +76,9 @@ const MainPage: React.FC = () => {
 
   return (
     <S.Page>
-      <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
+      <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <Wrapper>
-        <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
+        <InfiniteScroll observingCondition={hasSearchResult} onContentLoad={fetchNextPage}>
           {isFetching && <div>Loading...</div>}
           {isError && <div>{error.message}</div>}
           {hasSearchResult ? (

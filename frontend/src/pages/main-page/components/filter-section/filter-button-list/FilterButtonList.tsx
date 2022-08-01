@@ -6,13 +6,17 @@ import FilterButton from '@main-page/components/filter-section/filter-button/Fil
 export type FilterButtonListProps = {
   filters: Array<Tag>;
   selectedFilters: Array<TagInfo>;
-  handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>
   selectedFilters.some(filter => filter.id === id && filter.categoryName === categoryName);
 
-const FilterButtonList: React.FC<FilterButtonListProps> = ({ filters, selectedFilters, handleFilterButtonClick }) => {
+const FilterButtonList: React.FC<FilterButtonListProps> = ({
+  filters,
+  selectedFilters,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => {
   return (
     <S.FilterButtons>
       {filters.map(({ id, name, description, category }) => (
@@ -21,7 +25,7 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({ filters, selectedFi
             name={name}
             description={description}
             isChecked={isSelected(id, category.name, selectedFilters)}
-            handleFilterButtonClick={handleFilterButtonClick(id, category.name)}
+            onFilterButtonClick={handleFilterButtonClick(id, category.name)}
           />
         </li>
       ))}

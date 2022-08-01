@@ -101,7 +101,7 @@ const DetailPage = () => {
               maxMemberCount={maxMemberCount}
               enrollmentEndDate={enrollmentEndDate}
               recruitmentStatus={recruitmentStatus}
-              handleRegisterButtonClick={handleRegisterButtonClick}
+              onRegisterButtonClick={handleRegisterButtonClick}
             />
           </S.StickyContainer>
         </S.FloatButtonContainer>
@@ -114,7 +114,7 @@ const DetailPage = () => {
           maxMemberCount={maxMemberCount}
           enrollmentEndDate={enrollmentEndDate}
           recruitmentStatus={recruitmentStatus}
-          handleRegisterButtonClick={handleRegisterButtonClick}
+          onRegisterButtonClick={handleRegisterButtonClick}
         />
       </S.FixedBottomContainer>
     </Wrapper>

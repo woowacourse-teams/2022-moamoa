@@ -91,7 +91,7 @@ const Template: Story<FilterButtonListProps> = () => {
     <FilterButtonList
       filters={filters}
       selectedFilters={selectedFilters}
-      handleFilterButtonClick={handleFilterButtonClick}
+      onFilterButtonClick={handleFilterButtonClick}
     />
   );
 };

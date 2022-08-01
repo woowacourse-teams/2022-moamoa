@@ -6,10 +6,15 @@ export type FilterButtonProps = {
   name: string;
   description: string;
   isChecked: boolean;
-  handleFilterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+  onFilterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecked, handleFilterButtonClick }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({
+  name,
+  description,
+  isChecked,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => {
   return (
     <S.FilterButtonContainer>
       <S.CheckBoxButton isChecked={isChecked} onClick={handleFilterButtonClick}>
