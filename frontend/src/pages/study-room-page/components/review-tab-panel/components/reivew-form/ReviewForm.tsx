@@ -14,7 +14,7 @@ import { Button } from '@components/button/Button.style';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 
-import * as S from '@review-page/components/reivew-form/ReviewForm.style';
+import * as S from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
 
 export type ReviewFormProps = {
   studyId: StudyId;

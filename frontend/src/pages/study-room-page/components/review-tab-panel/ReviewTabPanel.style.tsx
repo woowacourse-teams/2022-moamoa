@@ -19,7 +19,7 @@ export const ReviewList = styled.ul`
   `}
 `;
 
-export const ReviewPage = styled.div`
+export const ReviewTabPanel = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 30px;

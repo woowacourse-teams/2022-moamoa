@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { ReviewForm } from '@review-page/components/reivew-form/ReviewForm.style';
+import { ReviewForm } from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
 
 export const ReviewEditForm = styled(ReviewForm)`
   ${({ theme }) => css`

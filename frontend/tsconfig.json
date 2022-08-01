@@ -30,7 +30,6 @@
       "@detail-page/*": ["pages/detail-page/*"],
       "@create-study-page/*": ["pages/create-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
-      "@review-page/*": ["pages/review-page/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
       "@layout/*": ["layout/*"],
       "@hooks/*": ["hooks/*"],

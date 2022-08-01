@@ -1,19 +1,19 @@
-import { useParams } from 'react-router-dom';
-
 import { Member } from '@custom-types';
-
-import useFetchStudyReviews from '@pages/detail-page/hooks/useFetchStudyReviews';
-import ReviewForm from '@pages/review-page/components/reivew-form/ReviewForm';
-import ReviewComment from '@pages/review-page/components/review-comment/ReviewComment';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@review-page/ReviewPage.style';
+import useFetchStudyReviews from '@detail-page/hooks/useFetchStudyReviews';
 
-const ReviewPage: React.FC = () => {
-  const params = useParams() as { studyId: string };
-  const studyId = parseInt(params.studyId, 10);
+import * as S from '@study-room-page/components/review-tab-panel/ReviewTabPanel.style';
+import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
+import ReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
+
+type ReviewTabPanelProps = {
+  studyId: number;
+};
+
+const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
   const { data, isFetching, refetch } = useFetchStudyReviews(studyId);
   const author: Member = {
     id: 1,
@@ -61,7 +61,7 @@ const ReviewPage: React.FC = () => {
 
   return (
     <Wrapper>
-      <S.ReviewPage>
+      <S.ReviewTabPanel>
         {
           <ReviewForm
             author={author}
@@ -72,9 +72,9 @@ const ReviewPage: React.FC = () => {
         }
         <Divider />
         {renderReviewList()}
-      </S.ReviewPage>
+      </S.ReviewTabPanel>
     </Wrapper>
   );
 };
 
-export default ReviewPage;
+export default ReviewTabPanel;

@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
+import ReviewTabPanel from '@pages/study-room-page/components/review-tab-panel/ReviewTabPanel';
+
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/StudyRoomPage.style';
@@ -14,15 +16,15 @@ export type Tabs = Array<Tab>;
 
 export type TabId = Tab['id'];
 
-const tabs: Tabs = [
-  { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
-  { id: 'material', name: '자료실', content: '자료실입니다.' },
-  { id: 'review', name: '후기', content: '후기입니다.' },
-];
-
 const StudyRoomPage: React.FC = () => {
   const { studyId } = useParams() as { studyId: string };
   // TODO: 내 스터디인지 아닌지 확인하는 api가 필요
+
+  const tabs: Tabs = [
+    { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
+    { id: 'material', name: '자료실', content: '자료실입니다.' },
+    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={parseInt(studyId, 10)} /> },
+  ];
 
   const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
 

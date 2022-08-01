@@ -1,6 +1,7 @@
-import type { ReviewFormProps } from '@review-page/components/reivew-form/ReviewForm';
-import ReviewForm from '@review-page/components/reivew-form/ReviewForm';
 import { Story } from '@storybook/react';
+
+import type { ReviewFormProps } from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
+import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
 
 export default {
   title: 'Components/ReviewForm',

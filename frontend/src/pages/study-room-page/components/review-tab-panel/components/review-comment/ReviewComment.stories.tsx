@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import ReviewComment from '@pages/review-page/components/review-comment/ReviewComment';
-import type { ReviewCommentProps } from '@pages/review-page/components/review-comment/ReviewComment';
+import type { ReviewCommentProps } from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
+import ReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
 
 export default {
   title: 'Components/ReviewComment',
