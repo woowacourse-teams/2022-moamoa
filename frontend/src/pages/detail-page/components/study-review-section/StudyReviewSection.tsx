@@ -17,7 +17,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   const size = showAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
   const { data, isError, isFetching } = useFetchStudyReviews(Number(studyId), size);
 
-  const handleMoreBtnClick = () => {
+  const handleMoreButtonClick = () => {
     setIsMoreButtonVisible(prev => !prev);
   };
 
@@ -44,7 +44,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
             <S.MoreButtonContainer>
               <MoreButton
                 status={showAll ? 'unfold' : 'fold'}
-                onClick={handleMoreBtnClick}
+                onClick={handleMoreButtonClick}
                 foldText="- 접기"
                 unfoldText="+ 더보기"
               />

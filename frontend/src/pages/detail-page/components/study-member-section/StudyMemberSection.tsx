@@ -21,7 +21,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
 
   const totalMembers = [owner, ...members];
 
-  const handleShowMoreBtnClick = () => {
+  const handleShowMoreButtonClick = () => {
     setShowAll(prev => !prev);
   };
 
@@ -99,7 +99,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}
-            onClick={handleShowMoreBtnClick}
+            onClick={handleShowMoreButtonClick}
             foldText="- 접기"
             unfoldText="+ 더보기"
           />

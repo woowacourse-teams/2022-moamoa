@@ -16,7 +16,7 @@ const Template: Story<StudyWideFloatBoxProps> = props => (
       width: '700px',
     }}
   >
-    <StudyWideFloatBox {...props} handleRegisterBtnClick={() => noop} />
+    <StudyWideFloatBox {...props} handleRegisterButtonClick={() => noop} />
   </div>
 );
 

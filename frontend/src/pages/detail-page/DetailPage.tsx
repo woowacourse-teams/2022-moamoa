@@ -30,7 +30,7 @@ const DetailPage = () => {
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
   const { mutate } = useMutation<AxiosResponse, Error, number>(postJoiningStudy);
 
-  const handleRegisterBtnClick = () => {
+  const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {
       alert('로그인이 필요합니다.');
       return;
@@ -101,7 +101,7 @@ const DetailPage = () => {
               maxMemberCount={maxMemberCount}
               enrollmentEndDate={enrollmentEndDate}
               recruitmentStatus={recruitmentStatus}
-              handleRegisterBtnClick={handleRegisterBtnClick}
+              handleRegisterButtonClick={handleRegisterButtonClick}
             />
           </S.StickyContainer>
         </S.FloatButtonContainer>
@@ -114,7 +114,7 @@ const DetailPage = () => {
           maxMemberCount={maxMemberCount}
           enrollmentEndDate={enrollmentEndDate}
           recruitmentStatus={recruitmentStatus}
-          handleRegisterBtnClick={handleRegisterBtnClick}
+          handleRegisterButtonClick={handleRegisterButtonClick}
         />
       </S.FixedBottomContainer>
     </Wrapper>

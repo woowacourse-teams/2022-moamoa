@@ -11,7 +11,7 @@ export type StudyFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   ownerName: string;
-  handleRegisterBtnClick: React.MouseEventHandler<HTMLButtonElement>;
+  handleRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
@@ -20,7 +20,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   maxMemberCount,
   ownerName,
   recruitmentStatus,
-  handleRegisterBtnClick,
+  handleRegisterButtonClick,
 }) => {
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
@@ -48,7 +48,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           <span>{ownerName}</span>
         </S.Owner>
       </S.StudyInfo>
-      <Button disabled={!isOpen} onClick={handleRegisterBtnClick}>
+      <Button disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
       </Button>
     </S.StudyFloatBox>

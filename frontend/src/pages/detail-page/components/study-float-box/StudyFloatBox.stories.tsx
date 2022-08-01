@@ -12,7 +12,7 @@ export default {
 
 const Template: Story<StudyFloatBoxProps> = props => (
   <div style={{ width: '400px' }}>
-    <StudyFloatBox {...props} handleRegisterBtnClick={() => noop} />
+    <StudyFloatBox {...props} handleRegisterButtonClick={() => noop} />
   </div>
 );
 
