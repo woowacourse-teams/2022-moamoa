@@ -21,7 +21,7 @@ public class AuthenticationRequestMatcherBuilder {
                 .collect(Collectors.toMap(method -> method, method -> new ArrayList<>()));
     }
 
-    public AuthenticationRequestMatcherBuilder setUpAuthenticationPath(HttpMethod method, String... urls) {
+    public AuthenticationRequestMatcherBuilder addUpAuthenticationPath(HttpMethod method, String... urls) {
         final List<String> paths = authenticationPaths.get(method);
         paths.addAll(List.of(urls));
         return this;

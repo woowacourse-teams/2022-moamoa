@@ -16,8 +16,8 @@ public class AuthRequestMatchConfig {
     @Bean
     public AuthenticationRequestMatcher authenticationRequestMatcher() {
         return authenticationRequestMatcherBuilder
-                .setUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews")
-                .setUpAuthenticationPath(HttpMethod.GET, "/api/my/studies")
+                .addUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews")
+                .addUpAuthenticationPath(HttpMethod.GET, "/api/my/studies")
                 .build();
     }
 }
