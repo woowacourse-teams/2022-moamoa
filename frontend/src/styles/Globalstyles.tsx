@@ -1,5 +1,8 @@
 import { Global, css } from '@emotion/react';
 
+import rocketCursorPointerImage from '@assets/images/rocket-cursor-pointer.png';
+import rocketCursorImage from '@assets/images/rocket-cursor.png';
+
 import { theme } from '@styles/theme';
 
 const GlobalStyles = () => {
@@ -14,6 +17,7 @@ const GlobalStyles = () => {
           margin: 0;
           color: ${theme.colors.black};
         }
+
         @font-face {
           font-family: 'NanumSquareRound';
           font-weight: 300;
@@ -88,11 +92,23 @@ const GlobalStyles = () => {
           font-family: inherit;
         }
 
-        button {
-          cursor: pointer;
+        body,
+        label {
+          cursor: url(${rocketCursorImage}) 12 7, auto;
+        }
 
+        button,
+        a,
+        select,
+        input[type='checkbox'],
+        input[type='date'],
+        option {
+          cursor: url(${rocketCursorPointerImage}) 12 7, pointer;
+        }
+
+        button {
           &:disabled {
-            cursor: default;
+            cursor: url(${rocketCursorImage}) 12 7, default;
           }
         }
 

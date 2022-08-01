@@ -1,10 +1,10 @@
 import notFoundImage from '@assets/images/no-image-found.png';
 
-interface ImageProps {
+export type ImageProps = {
   className?: string;
   src: string;
   alt: string;
-}
+};
 
 const Image: React.FC<ImageProps> = ({ className, src, alt }) => {
   const handleImageError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {

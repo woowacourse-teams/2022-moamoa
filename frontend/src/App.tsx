@@ -6,18 +6,17 @@ import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
-import Footer from '@layout/footer/Footer';
-import Header from '@layout/header/Header';
-import Main from '@layout/main/Main';
+import { Footer, Header, Main } from '@layout/index';
 
-import CreateStudyPage from '@pages/create-study-page/CreateStudyPage';
-import ErrorPage from '@pages/error-page/ErrorPage';
-import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
-import MainPage from '@pages/main-page/MainPage';
-import MyStudyPage from '@pages/my-study-page/MyStudyPage';
-import ReviewPage from '@pages/review-page/ReviewPage';
-
-import DetailPage from '@detail-page/DetailPage';
+import {
+  CreateStudyPage,
+  DetailPage,
+  ErrorPage,
+  LoginRedirectPage,
+  MainPage,
+  MyStudyPage,
+  StudyRoomPage,
+} from '@pages/index';
 
 const App = () => {
   const { isLoggedIn } = useAuth();
@@ -45,8 +44,14 @@ const App = () => {
             path={PATH.LOGIN}
             element={isLoggedIn ? <Navigate to={PATH.MAIN} replace={true} /> : <LoginRedirectPage />}
           />
-          <Route path={PATH.MY_STUDY} element={isLoggedIn ? <MyStudyPage /> : <Navigate to="/" replace={true} />} />
-          <Route path={PATH.REVIEW()} element={isLoggedIn ? <ReviewPage /> : <Navigate to="/" replace={true} />} />
+          <Route
+            path={PATH.MY_STUDY}
+            element={isLoggedIn ? <MyStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={PATH.STUDY_ROOM()}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Main>

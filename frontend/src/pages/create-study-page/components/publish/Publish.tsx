@@ -12,7 +12,7 @@ type PublishProps = {
   onPublishButtonClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Publish = ({ className, onPublishButtonClick }: PublishProps) => {
+const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
   const { formState } = useFormContext();
 
   return (
@@ -27,7 +27,7 @@ const Publish = ({ className, onPublishButtonClick }: PublishProps) => {
               padding: 12px 10px;
             `}
             fluid={true}
-            onClick={onPublishButtonClick}
+            onClick={handlePublishButtonClick}
             outline={true}
             isLoading={formState.isSubmitting}
           >

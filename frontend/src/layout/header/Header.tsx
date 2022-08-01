@@ -46,9 +46,9 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
   return (
     <S.Row className={className}>
-      <Link to={PATH.MAIN}>
+      <a href={PATH.MAIN}>
         <Logo />
-      </Link>
+      </a>
       <S.SearchBarContainer>
         <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>

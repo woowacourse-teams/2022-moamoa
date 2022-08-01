@@ -17,8 +17,6 @@ export const MyStudyList = styled.ul`
 
   & > li {
     width: 100%;
-
-    cursor: pointer;
   }
 
   ${mqDown('lg')} {

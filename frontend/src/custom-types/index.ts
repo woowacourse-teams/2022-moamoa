@@ -21,6 +21,7 @@ export type StudyId = number;
 export type TagId = number;
 export type ReviewId = number;
 export type MemberId = number;
+export type CategoryId = number;
 
 export type Study = {
   id: StudyId;
@@ -77,17 +78,17 @@ export type StudyReview = {
   content: string;
 };
 
-export interface TagInfo {
+export type TagInfo = {
   id: TagId;
   categoryName: string;
-}
+};
 
 export type Tag = {
   id: TagId;
   name: string;
   description: string;
   category: {
-    id: number;
+    id: CategoryId;
     name: string;
   };
 };

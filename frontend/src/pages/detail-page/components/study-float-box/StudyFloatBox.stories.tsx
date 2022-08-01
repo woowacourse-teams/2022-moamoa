@@ -12,13 +12,12 @@ export default {
 
 const Template: Story<StudyFloatBoxProps> = props => (
   <div style={{ width: '400px' }}>
-    <StudyFloatBox {...props} handleRegisterBtnClick={() => noop} />
+    <StudyFloatBox {...props} onRegisterButtonClick={() => noop} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  studyId: 232,
   enrollmentEndDate: '2022-07-28',
   currentMemberCount: 8,
   maxMemberCount: 14,

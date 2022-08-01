@@ -1,9 +1,9 @@
 import * as S from '@components/letter-counter/LetterCounter.style';
 
-export interface LetterCounterProps {
+export type LetterCounterProps = {
   count: number;
   maxCount: number;
-}
+};
 
 const LetterCounter: React.FC<LetterCounterProps> = ({ count, maxCount }) => {
   return (
