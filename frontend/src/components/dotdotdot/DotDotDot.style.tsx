@@ -14,7 +14,8 @@ export const DotDotDot = styled.ul`
     li {
       width: 4px;
       height: 4px;
-      background-color: ${theme.colors.black};
+      border-radius: 50%;
+      background-color: ${theme.colors.secondary.dark};
     }
 
     cursor: pointer;
