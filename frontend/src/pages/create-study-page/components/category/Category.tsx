@@ -4,10 +4,9 @@ import type { Tag } from '@custom-types/index';
 
 import { useFormContext } from '@hooks/useForm';
 
-import useFetchTagList from '@pages/create-study-page/hooks/useFetchTagList';
-
 import * as S from '@create-study-page/components/category/Category.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import useFetchTagList from '@create-study-page/hooks/useFetchTagList';
 
 export type CategoryProps = {
   className?: string;

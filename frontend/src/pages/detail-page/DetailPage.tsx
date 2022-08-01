@@ -10,9 +10,6 @@ import postJoiningStudy from '@api/postJoiningStudy';
 
 import { useAuth } from '@hooks/useAuth';
 
-import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
-import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
-
 import Divider from '@components/divider/Divider';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -20,7 +17,9 @@ import Wrapper from '@components/wrapper/Wrapper';
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
+import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
 import StudyReviewSection from '@detail-page/components/study-review-section/StudyReviewSection';
+import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useFetchDetail from '@detail-page/hooks/useFetchDetail';
 
 const DetailPage = () => {

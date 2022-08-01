@@ -12,13 +12,13 @@ import { useAuth } from '@hooks/useAuth';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import * as S from '@pages/main-page/MainPage.style';
-import CreateNewStudyButton from '@pages/main-page/components/create-new-study-button/CreateNewStudyButton';
-import FilterSection from '@pages/main-page/components/filter-section/FilterSection';
-import StudyCard from '@pages/main-page/components/study-card/StudyCard';
-
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
+
+import * as S from '@main-page/MainPage.style';
+import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
+import FilterSection from '@main-page/components/filter-section/FilterSection';
+import StudyCard from '@main-page/components/study-card/StudyCard';
 
 type PageParam = {
   page: number;

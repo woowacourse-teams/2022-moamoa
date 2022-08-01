@@ -4,9 +4,8 @@ import { PATH } from '@constants';
 
 import type { MakeOptional, MyStudy } from '@custom-types/index';
 
-import MyStudyCard from '@pages/my-study-page/components/my-study-card/MyStudyCard';
-
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
+import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export type MyStudyCardListSectionProps = {
   className?: string;

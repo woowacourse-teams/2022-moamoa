@@ -1,7 +1,7 @@
 import { Story } from '@storybook/react';
 
-import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
-import type { StudyMemberSectionProps } from '@pages/detail-page/components/study-member-section/StudyMemberSection';
+import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
+import type { StudyMemberSectionProps } from '@detail-page/components/study-member-section/StudyMemberSection';
 
 export default {
   title: 'Components/StudyMemberSection',

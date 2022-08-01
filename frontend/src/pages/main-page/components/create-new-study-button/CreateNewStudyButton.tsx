@@ -1,6 +1,6 @@
 import { theme } from '@styles/theme';
 
-import * as S from '@pages/main-page/components/create-new-study-button/CreateNewStudyButton.style';
+import * as S from '@main-page/components/create-new-study-button/CreateNewStudyButton.style';
 
 type CreateNewStudyButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;

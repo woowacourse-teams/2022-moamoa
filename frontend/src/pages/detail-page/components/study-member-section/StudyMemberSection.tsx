@@ -7,10 +7,9 @@ import { changeDateSeperator } from '@utils/dates';
 
 import { Member, Owner } from '@custom-types/index';
 
-import StudyMemberCard from '@pages/detail-page/components/study-member-card/StudyMemberCard';
-import * as S from '@pages/detail-page/components/study-member-section/StudyMemberSection.style';
-
 import MoreButton from '@detail-page/components/more-button/MoreButton';
+import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
+import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';
 
 export interface StudyMemberSectionProps {
   owner: Owner;

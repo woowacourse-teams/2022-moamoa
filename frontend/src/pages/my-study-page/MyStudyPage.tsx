@@ -7,12 +7,11 @@ import { MyStudy } from '@custom-types/index';
 
 import { getMyStudyList } from '@api/getMyStudyList';
 
-import MyStudyCardListSection from '@pages/my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
-
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@my-study-page/MyStudyPage.style';
+import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 
 const studies: Record<string, Array<MyStudy>> = {
   prepare: [],

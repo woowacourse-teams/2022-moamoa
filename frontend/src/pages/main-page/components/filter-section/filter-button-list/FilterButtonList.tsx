@@ -1,7 +1,7 @@
 import type { Tag, TagInfo } from '@custom-types/index';
 
-import * as S from '@pages/main-page/components/filter-section/filter-button-list/FilterButtonList.style';
-import FilterButton from '@pages/main-page/components/filter-section/filter-button/FilterButton';
+import * as S from '@main-page/components/filter-section/filter-button-list/FilterButtonList.style';
+import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
 
 export interface FilterButtonListProps {
   filters: Array<Tag>;
