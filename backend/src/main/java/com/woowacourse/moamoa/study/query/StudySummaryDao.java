@@ -49,7 +49,8 @@ public class StudySummaryDao {
             final String tagName = rs.getString("tag_name");
             final TagSummaryData tagSummaryData = new TagSummaryData(tagId, tagName);
 
-            result.get(studyId).add(tagSummaryData);
+            final List<TagSummaryData> findTagSummaryData = result.get(studyId);
+            findTagSummaryData.add(tagSummaryData);
             rs.next();
         }
         return result;
@@ -70,11 +71,11 @@ public class StudySummaryDao {
                 .collect(Collectors.toList());
         final MapSqlParameterSource params = new MapSqlParameterSource("ids", ids);
 
-        final String sql = "SELECT t.id tag_id, t.name tag_name, s.id study_id "
-                + "FROM tag t "
-                + "JOIN study_tag st ON t.id = st.tag_id "
-                + "JOIN study s ON st.study_id = s.id "
-                + "WHERE s.id IN (:ids)";
+        final String sql = "SELECT tag.id tag_id, tag.name tag_name, study.id study_id "
+                + "FROM tag "
+                + "JOIN study_tag ON tag.id = study_tag.tag_id "
+                + "JOIN study ON study_tag.study_id = study.id "
+                + "WHERE study.id IN (:ids)";
 
         try {
             return jdbcTemplate.queryForObject(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
@@ -84,18 +85,18 @@ public class StudySummaryDao {
     }
 
     private String sql(final SearchingTags searchingTags) {
-        return "SELECT s.id, s.title, s.excerpt, s.thumbnail, s.recruit_status "
-                + "FROM study s "
+        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruit_status "
+                + "FROM study "
                 + joinTableClause(searchingTags)
-                + "WHERE UPPER(s.title) LIKE UPPER(:title) ESCAPE '\' "
+                + "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' "
                 + filtersInQueryClause(searchingTags)
-                + "GROUP BY s.id LIMIT :limit OFFSET :offset";
+                + "GROUP BY study.id LIMIT :limit OFFSET :offset";
     }
 
     private String joinTableClause(final SearchingTags searchingTags) {
-        String sql = "JOIN study_tag {}_st ON s.id = {}_st.study_id "
-                + "JOIN tag {}_t ON {}_st.tag_id = {}_t.id "
-                + "JOIN category {}_c ON {}_t.category_id = {}_c.id AND {}_c.name = '{}'";
+        String sql = "JOIN study_tag {}_study_tag ON study.id = {}_study_tag.study_id "
+                + "JOIN tag {}_tag ON {}_study_tag.tag_id = {}_tag.id "
+                + "JOIN category {}_category ON {}_tag.category_id = {}_category.id AND {}_category.name = '{}'";
 
         return Stream.of(CategoryName.values())
                 .filter(searchingTags::hasBy)
@@ -104,7 +105,7 @@ public class StudySummaryDao {
     }
 
     private String filtersInQueryClause(final SearchingTags searchingTags) {
-        String sql = "AND {}_t.id IN (:{}) ";
+        String sql = "AND {}_tag.id IN (:{}) ";
 
         return Stream.of(CategoryName.values())
                 .filter(searchingTags::hasBy)

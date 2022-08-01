@@ -247,7 +247,7 @@ public class StudySummaryDaoTest {
                 .containsExactlyElementsOf(tuples);
     }
 
-    public static Stream<Arguments> provideStudyTags() {
+    private static Stream<Arguments> provideStudyTags() {
         return Stream.of(
                 Arguments.of(List.of(1L),
                         List.of(tuple(1L, "Java"), tuple(2L, "4기"), tuple(3L, "BE"))),
