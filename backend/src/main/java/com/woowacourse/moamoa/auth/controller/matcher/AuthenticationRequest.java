@@ -15,6 +15,6 @@ public class AuthenticationRequest {
         final Pattern pattern = Pattern.compile(path);
 
         return method.equals(HttpMethod.resolve(request.getMethod().toUpperCase()))
-                && (path.equals(request.getServletPath()) || pattern.matcher(request.getServletPath()).matches());
+                && pattern.matcher(request.getServletPath()).matches();
     }
 }
