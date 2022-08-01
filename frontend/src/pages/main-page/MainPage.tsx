@@ -85,7 +85,7 @@ const MainPage: React.FC = () => {
             <S.CardList>
               {searchedStudies.map(study => (
                 <li key={study.id}>
-                  <Link to={`study/${study.id}`}>
+                  <Link to={PATH.STUDY_DETAIL(study.id)}>
                     <StudyCard
                       thumbnailUrl={study.thumbnail}
                       thumbnailAlt={`${study.title} 스터디 이미지`}

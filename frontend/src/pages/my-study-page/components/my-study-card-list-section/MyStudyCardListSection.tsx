@@ -31,7 +31,7 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
         ) : (
           myStudies.map(myStudy => (
             <li key={myStudy.id}>
-              <Link to={PATH.STUDY_ROOM(myStudy.id.toString())}>
+              <Link to={PATH.STUDY_ROOM(myStudy.id)}>
                 <MyStudyCard
                   title={myStudy.title}
                   ownerName={myStudy.owner.username}
