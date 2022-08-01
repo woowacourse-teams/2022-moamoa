@@ -78,9 +78,12 @@ class MyStudyDaoTest {
         final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByGithubId(2L);
 
         assertThat(studySummaryData)
+                .hasSize(3)
                 .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
                 .contains(
+                        tuple("Java 스터디", PREPARE, 3, 10, "2021-12-08 11:58:20.657123", null),
+                        tuple("javaScript 스터디" ,PREPARE, 3, 20, null, null),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10 11:58:20.551705", "2021-12-08 11:58:20.551705")
                 );
     }
