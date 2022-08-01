@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Nav = styled.nav`
+export const Sidebar = styled.nav`
   ${({ theme }) => css`
     width: 100%;
     max-width: 180px;
