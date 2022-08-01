@@ -9,9 +9,9 @@ import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.controller.MyStudyController;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
-import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.MyStudyService;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
+import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -20,12 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = MyStudyController.class)
 @Import(JwtTokenProvider.class)
-@MockBean(JpaMetamodelMappingContext.class)
 class UnauthorizedMyStudyControllerTest {
 
     @Autowired
