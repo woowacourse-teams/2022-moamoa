@@ -4,6 +4,6 @@ export const Container = styled.div`
   display: flex;
 `;
 
-export const Contents = styled.section`
+export const Content = styled.section`
   flex-grow: 1;
 `;
