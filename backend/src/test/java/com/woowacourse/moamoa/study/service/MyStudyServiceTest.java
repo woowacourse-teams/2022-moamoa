@@ -6,16 +6,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.util.List;
+
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.study.domain.StudyStatus;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
-import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -137,7 +138,7 @@ class MyStudyServiceTest {
     @Test
     void getMyStudyNotExistUser() {
         assertThatThrownBy(() -> myStudyService.getStudies(5L))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessageContaining("5의 githubId를 가진 사용자는 없습니다.");
+                .isInstanceOf(MemberNotFoundException.class)
+                .hasMessageContaining("회원을 찾을 수 없습니다.");
     }
 }

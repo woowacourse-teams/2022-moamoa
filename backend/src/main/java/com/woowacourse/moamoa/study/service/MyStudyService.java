@@ -1,16 +1,14 @@
 package com.woowacourse.moamoa.study.service;
 
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.StudyOwnerWithTagsData;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
-import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,11 +28,10 @@ public class MyStudyService {
     private final MemberRepository memberRepository;
 
     public MyStudiesResponse getStudies(final Long githubId) {
-        if (!memberRepository.existsByGithubId(githubId)) {
-            throw new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId));
-        }
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
 
-        final List<MyStudySummaryData> myStudySummaryData = myStudyDao.findMyStudyByGithubId(githubId);
+        final List<MyStudySummaryData> myStudySummaryData = myStudyDao.findMyStudyByMemberId(member.getId());
 
         final List<Long> studyIds = myStudySummaryData.stream()
                 .map(MyStudySummaryData::getId)

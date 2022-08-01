@@ -5,18 +5,21 @@ import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.query.data.StudyOwnerWithTagsData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -62,12 +65,11 @@ public class MyStudyDao {
         return result;
     };
 
-    public List<MyStudySummaryData> findMyStudyByGithubId(Long id) {
+    public List<MyStudySummaryData> findMyStudyByMemberId(Long id) {
         String sql = "SELECT DISTINCT study.id, study.title, study.study_status, study.current_member_count, "
                 + "study.max_member_count, study.start_date, study.end_date "
-                + "FROM member JOIN study_member ON member.id = study_member.member_id "
-                + "JOIN study ON study.id = study_member.study_id "
-                + "WHERE member.github_id = :id OR study.owner_id = :id";
+                + "FROM study_member JOIN study ON study_member.study_id = study.id "
+                + "WHERE study_member.member_id = :id OR study.owner_id = :id";
 
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }
