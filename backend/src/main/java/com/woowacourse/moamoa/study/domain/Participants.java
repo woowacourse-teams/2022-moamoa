@@ -69,10 +69,10 @@ public class Participants {
     void participate(final Participant participant) {
         participants.add(participant);
         size = size + 1;
-        closeRecruitStatus();
+        closeRecruitmentWhenMaxMember();
     }
 
-    private void closeRecruitStatus() {
+    private void closeRecruitmentWhenMaxMember() {
         if (size == max) {
             this.recruitmentStatus = RECRUITMENT_END;
         }
