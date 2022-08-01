@@ -25,7 +25,7 @@ export type ReviewFormProps = {
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
@@ -39,6 +39,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
       { studyId, content },
       {
         onSuccess: () => {
+          reset('review');
           onPostSuccess();
         },
         onError: error => {
