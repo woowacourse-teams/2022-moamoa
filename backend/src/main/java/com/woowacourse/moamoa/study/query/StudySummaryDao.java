@@ -16,6 +16,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -35,10 +36,10 @@ public class StudySummaryDao {
         return new StudySummaryData(id, title, excerpt, thumbnail, status);
     };
 
-    private static final RowMapper<Map<Long, List<TagSummaryData>>> STUDY_WITH_TAG_ROW_MAPPER = (rs, rn) -> {
+    private static final ResultSetExtractor<Map<Long, List<TagSummaryData>>> STUDY_WITH_TAG_ROW_MAPPER = rs -> {
         final Map<Long, List<TagSummaryData>> result = new LinkedHashMap<>();
 
-        for (int idx = 0; idx < rs.getRow(); idx++) {
+        while (rs.next()){
             final Long studyId = rs.getLong("study_id");
 
             if (!result.containsKey(studyId)) {
@@ -51,7 +52,6 @@ public class StudySummaryDao {
 
             final List<TagSummaryData> findTagSummaryData = result.get(studyId);
             findTagSummaryData.add(tagSummaryData);
-            rs.next();
         }
         return result;
     };
@@ -78,7 +78,7 @@ public class StudySummaryDao {
                 + "WHERE study.id IN (:ids)";
 
         try {
-            return jdbcTemplate.queryForObject(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
+            return jdbcTemplate.query(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
             return Map.of();
         }
