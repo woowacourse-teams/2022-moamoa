@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.query;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
+import com.woowacourse.moamoa.study.query.data.StudyOwnerWithTagsData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -35,11 +37,11 @@ public class MyStudyDao {
                 currentMemberCount, maxMemberCount, startDate, endDate);
     };
 
-    private static final RowMapper<Map<Long, Map<MemberData, List<TagSummaryData>>>> OWNER_WITH_TAG_ROW_MAPPER = (rs, rn) -> {
-        Map<Long, Map<MemberData, List<TagSummaryData>>> result = new LinkedHashMap<>();
+    private static final ResultSetExtractor<Map<Long, StudyOwnerWithTagsData>> OWNER_WITH_TAG_ROW_MAPPER = rs -> {
+        Map<Long, StudyOwnerWithTagsData> result = new LinkedHashMap<>();
 
-        List<TagSummaryData> taqSummary = new ArrayList<>();
-        for (int idx = 0; idx < rs.getRow(); idx++) {
+        List<TagSummaryData> tagSummary = new ArrayList<>();
+        while (rs.next()) {
             final Long studyId = rs.getLong("study.id");
 
             if (!result.containsKey(studyId)) {
@@ -48,16 +50,14 @@ public class MyStudyDao {
                 String imageUrl = rs.getString("image_url");
                 String profileUrl = rs.getString("profile_url");
 
-                taqSummary = new ArrayList<>();
-                result.put(studyId, new LinkedHashMap<>());
-                result.get(studyId).put(new MemberData(githubId, username, imageUrl, profileUrl), taqSummary);
+                tagSummary = new ArrayList<>();
+                result.put(studyId, new StudyOwnerWithTagsData(new MemberData(githubId, username, imageUrl, profileUrl),
+                        tagSummary));
             }
 
             final Long tagId = rs.getLong("tag.id");
             final String tagName = rs.getString("tag.name");
-            taqSummary.add(new TagSummaryData(tagId, tagName));
-
-            rs.next();
+            tagSummary.add(new TagSummaryData(tagId, tagName));
         }
         return result;
     };
@@ -72,7 +72,7 @@ public class MyStudyDao {
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }
 
-    public Map<Long, Map<MemberData, List<TagSummaryData>>> findStudyOwnerWithTags(List<Long> studyIds) {
+    public Map<Long, StudyOwnerWithTagsData> findStudyOwnerWithTags(List<Long> studyIds) {
         List<String> ids = studyIds.stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());
@@ -85,6 +85,6 @@ public class MyStudyDao {
                 + "JOIN tag ON tag.id = study_tag.tag_id "
                 + "WHERE study.id IN (:ids)";
 
-        return jdbcTemplate.queryForObject(sql, parameters, OWNER_WITH_TAG_ROW_MAPPER);
+        return jdbcTemplate.query(sql, parameters, OWNER_WITH_TAG_ROW_MAPPER);
     }
 }

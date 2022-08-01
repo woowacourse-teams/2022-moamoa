@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.query.data.StudyOwnerWithTagsData;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
@@ -39,22 +40,18 @@ public class MyStudyService {
                 .map(MyStudySummaryData::getId)
                 .collect(Collectors.toList());
 
-        final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags = myStudyDao.findStudyOwnerWithTags(studyIds);
+        final Map<Long, StudyOwnerWithTagsData> studyOwnerWithTags = myStudyDao.findStudyOwnerWithTags(studyIds);
 
-        return new MyStudiesResponse(mapToResponse(myStudySummaryData, ownerWithStudyTags));
+        return new MyStudiesResponse(mapToResponse(myStudySummaryData, studyOwnerWithTags));
     }
 
     private List<MyStudyResponse> mapToResponse(final List<MyStudySummaryData> myStudySummaryData,
-                                                final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags) {
-
-        List<MyStudyResponse> myStudyData = new ArrayList<>();
-        for (MyStudySummaryData studyData : myStudySummaryData) {
-            final Map<MemberData, List<TagSummaryData>> ownerWithTag = ownerWithStudyTags.get(studyData.getId());
-
-            for (MemberData owner : ownerWithTag.keySet()) {
-                myStudyData.add(new MyStudyResponse(studyData, owner, ownerWithTag.get(owner)));
-            }
-        }
-        return myStudyData;
+                                                final Map<Long, StudyOwnerWithTagsData> ownerWithStudyTags) {
+        return myStudySummaryData.stream()
+                .map(studySummary -> new MyStudyResponse(
+                        studySummary, ownerWithStudyTags.get(studySummary.getId()).getOwner(),
+                        ownerWithStudyTags.get(studySummary.getId()).getTags()
+                ))
+                .collect(Collectors.toList());
     }
 }
