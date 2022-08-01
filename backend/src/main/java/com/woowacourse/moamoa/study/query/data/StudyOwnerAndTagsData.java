@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class StudyOwnerWithTagsData {
+public class StudyOwnerAndTagsData {
 
     private MemberData owner;
     private List<TagSummaryData> tags;

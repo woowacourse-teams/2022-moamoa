@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.study.query;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
-import com.woowacourse.moamoa.study.query.data.StudyOwnerWithTagsData;
+import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ public class MyStudyDao {
                 currentMemberCount, maxMemberCount, startDate, endDate);
     };
 
-    private static final ResultSetExtractor<Map<Long, StudyOwnerWithTagsData>> OWNER_WITH_TAG_ROW_MAPPER = rs -> {
-        Map<Long, StudyOwnerWithTagsData> result = new LinkedHashMap<>();
+    private static final ResultSetExtractor<Map<Long, StudyOwnerAndTagsData>> OWNER_WITH_TAG_ROW_MAPPER = rs -> {
+        Map<Long, StudyOwnerAndTagsData> result = new LinkedHashMap<>();
 
         List<TagSummaryData> tagSummary = new ArrayList<>();
         while (rs.next()) {
@@ -54,7 +54,7 @@ public class MyStudyDao {
                 String profileUrl = rs.getString("profile_url");
 
                 tagSummary = new ArrayList<>();
-                result.put(studyId, new StudyOwnerWithTagsData(new MemberData(githubId, username, imageUrl, profileUrl),
+                result.put(studyId, new StudyOwnerAndTagsData(new MemberData(githubId, username, imageUrl, profileUrl),
                         tagSummary));
             }
 
@@ -74,7 +74,7 @@ public class MyStudyDao {
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }
 
-    public Map<Long, StudyOwnerWithTagsData> findStudyOwnerWithTags(List<Long> studyIds) {
+    public Map<Long, StudyOwnerAndTagsData> findStudyOwnerWithTags(List<Long> studyIds) {
         List<String> ids = studyIds.stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());
