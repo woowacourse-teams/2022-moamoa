@@ -20,7 +20,7 @@ export type ReviewFormProps = {
 };
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostError }) => {
-  const { count, setCount, maxCount } = useLetterCount(200);
+  const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit } = useForm();
   const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
 
