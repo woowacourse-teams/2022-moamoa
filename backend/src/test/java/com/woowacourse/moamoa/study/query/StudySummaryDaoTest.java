@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
+import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class StudySummaryDaoTest {
 
     @Autowired
     private StudySummaryDao studySummaryDao;
+
+    @Autowired
+    private TagDao tagDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -240,7 +244,7 @@ public class StudySummaryDaoTest {
     @ParameterizedTest
     @MethodSource("provideStudyTags")
     void getTagByStudyId(final List<Long> ids, final List<Tuple> tuples) {
-        final Map<Long, List<TagSummaryData>> studyWithTags = studySummaryDao.findStudyWithTags(ids);
+        final Map<Long, List<TagSummaryData>> studyWithTags = tagDao.findTagsByStudyIds(ids);
 
         assertThat(studyWithTags.get(1L)).hasSize(3)
                 .extracting("id", "name")

@@ -47,7 +47,7 @@ public class SearchingStudyService {
         final List<Long> studyIds = studyData.getContent().stream()
                 .map(StudySummaryData::getId)
                 .collect(Collectors.toList());
-        final Map<Long, List<TagSummaryData>> studyTags = studySummaryDao.findStudyWithTags(studyIds);
+        final Map<Long, List<TagSummaryData>> studyTags = tagDao.findTagsByStudyIds(studyIds);
 
         return new StudiesResponse(studyData.getContent(), studyTags, studyData.hasNext());
     }

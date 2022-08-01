@@ -2,23 +2,16 @@ package com.woowacourse.moamoa.study.query;
 
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.domain.CategoryName;
-import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -36,26 +29,6 @@ public class StudySummaryDao {
         return new StudySummaryData(id, title, excerpt, thumbnail, status);
     };
 
-    private static final ResultSetExtractor<Map<Long, List<TagSummaryData>>> STUDY_WITH_TAG_ROW_MAPPER = rs -> {
-        final Map<Long, List<TagSummaryData>> result = new LinkedHashMap<>();
-
-        while (rs.next()){
-            final Long studyId = rs.getLong("study_id");
-
-            if (!result.containsKey(studyId)) {
-                result.put(studyId, new ArrayList<>());
-            }
-
-            final Long tagId = rs.getLong("tag_id");
-            final String tagName = rs.getString("tag_name");
-            final TagSummaryData tagSummaryData = new TagSummaryData(tagId, tagName);
-
-            final List<TagSummaryData> findTagSummaryData = result.get(studyId);
-            findTagSummaryData.add(tagSummaryData);
-        }
-        return result;
-    };
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
@@ -63,25 +36,6 @@ public class StudySummaryDao {
                 .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
 
-    }
-
-    public Map<Long, List<TagSummaryData>> findStudyWithTags(final List<Long> studyIds) {
-        final List<String> ids = studyIds.stream()
-                .map(Objects::toString)
-                .collect(Collectors.toList());
-        final MapSqlParameterSource params = new MapSqlParameterSource("ids", ids);
-
-        final String sql = "SELECT tag.id tag_id, tag.name tag_name, study.id study_id "
-                + "FROM tag "
-                + "JOIN study_tag ON tag.id = study_tag.tag_id "
-                + "JOIN study ON study_tag.study_id = study.id "
-                + "WHERE study.id IN (:ids)";
-
-        try {
-            return jdbcTemplate.query(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
-        } catch (EmptyResultDataAccessException e) {
-            return Map.of();
-        }
     }
 
     private String sql(final SearchingTags searchingTags) {

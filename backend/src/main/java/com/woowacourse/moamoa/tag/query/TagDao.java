@@ -3,15 +3,18 @@ package com.woowacourse.moamoa.tag.query;
 import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
 import com.woowacourse.moamoa.tag.query.response.CategoryData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,6 +32,26 @@ public class TagDao {
                 new CategoryData(categoryId, categoryName.toLowerCase()));
     };
 
+    private static final ResultSetExtractor<Map<Long, List<TagSummaryData>>> STUDY_WITH_TAG_ROW_MAPPER = rs -> {
+        final Map<Long, List<TagSummaryData>> result = new LinkedHashMap<>();
+
+        while (rs.next()){
+            final Long studyId = rs.getLong("study_id");
+
+            if (!result.containsKey(studyId)) {
+                result.put(studyId, new ArrayList<>());
+            }
+
+            final Long tagId = rs.getLong("tag_id");
+            final String tagName = rs.getString("tag_name");
+            final TagSummaryData tagSummaryData = new TagSummaryData(tagId, tagName);
+
+            final List<TagSummaryData> findTagSummaryData = result.get(studyId);
+            findTagSummaryData.add(tagSummaryData);
+        }
+        return result;
+    };
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public List<TagData> findTagsByStudyId(Long studyId) {
@@ -38,6 +61,21 @@ public class TagDao {
                 + "JOIN study_tag as st ON t.id = st.tag_id "
                 + "WHERE st.study_id = :studyId";
         return jdbcTemplate.query(sql, Map.of("studyId", studyId), ROW_MAPPER);
+    }
+
+    public Map<Long, List<TagSummaryData>> findTagsByStudyIds(final List<Long> studyIds) {
+        final String sql = "SELECT tag.id tag_id, tag.name tag_name, study.id study_id "
+                + "FROM tag "
+                + "JOIN study_tag ON tag.id = study_tag.tag_id "
+                + "JOIN study ON study_tag.study_id = study.id "
+                + "WHERE study.id IN (:ids)";
+        final MapSqlParameterSource params = new MapSqlParameterSource("ids", studyIds);
+
+        try {
+            return jdbcTemplate.query(sql, params, STUDY_WITH_TAG_ROW_MAPPER);
+        } catch (EmptyResultDataAccessException e) {
+            return Map.of();
+        }
     }
 
     public List<TagData> searchByShortNameAndCategoryId(final String tagShortName, final CategoryIdRequest categoryId) {
