@@ -16,7 +16,6 @@ public class AuthenticationRequestMatcherBuilder {
 
     private final Map<HttpMethod, List<String>> authenticationPaths;
 
-
     public AuthenticationRequestMatcherBuilder() {
         this.authenticationPaths = METHODS.stream()
                 .collect(Collectors.toMap(method -> method, method -> new ArrayList<>()));

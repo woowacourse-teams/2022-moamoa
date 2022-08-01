@@ -15,7 +15,8 @@ public class AuthenticationRequestMatcher {
                 .stream()
                 .flatMap(method -> authenticationPaths.get(method)
                         .stream()
-                        .map(path -> new AuthenticationRequest(method, path)))
+                        .map(path -> new AuthenticationRequest(method, path))
+                )
                 .collect(Collectors.toList());
     }
 
