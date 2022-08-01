@@ -52,10 +52,8 @@ const ReviewPage: React.FC = () => {
   return (
     <Wrapper>
       <S.ReviewPage>
-        <div className="top">
-          <ReviewForm studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
-        </div>
-        <div className="bottom">{renderReviewList()}</div>
+        {<ReviewForm studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />}
+        {renderReviewList()}
       </S.ReviewPage>
     </Wrapper>
   );

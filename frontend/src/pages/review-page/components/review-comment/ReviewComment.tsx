@@ -46,14 +46,14 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
           <S.Date>{date}</S.Date>
           <S.DropDown isOpen={isOpen}>
             <DotDotDot onClick={handleDropDownClick} />
-            <ul className="menu">
+            <S.DropDownMenu>
               <li>
                 <button onClick={handleEditReviewBtnClick}>수정</button>
               </li>
               <li>
                 <button onClick={handleDeleteReviewBtnClick}>삭제</button>
               </li>
-            </ul>
+            </S.DropDownMenu>
           </S.DropDown>
         </div>
       </div>
@@ -68,7 +68,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
             onPostError={handlePostError}
           />
         ) : (
-          <div className="content">{content}</div>
+          <S.Content>{content}</S.Content>
         )}
       </div>
     </S.ReviewComment>

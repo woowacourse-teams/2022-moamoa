@@ -38,32 +38,43 @@ type DropDownProps = {
   isOpen?: boolean;
 };
 
-export const DropDown = styled.div<DropDownProps>`
-  ${({ theme, isOpen }) => css`
-    position: relative;
-    .menu {
-      position: absolute;
-      top: 100%;
-      right: 100%;
-      z-index: 3;
+export const Content = styled.div`
+  line-height: 20px;
+`;
 
-      display: ${isOpen ? 'flex' : 'none'};
-      flex-direction: column;
-      row-gap: 15px;
+export const DropDownMenu = styled.ul`
+  ${({ theme }) => css`
+    position: absolute;
+    top: 100%;
+    right: 100%;
+    z-index: 3;
 
-      font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+    font-size: 24px;
+    padding: 10px;
+
+    background-color: ${theme.colors.white};
+    border: 1px solid ${theme.colors.secondary.dark};
+
+    button {
       padding: 10px;
 
-      background-color: ${theme.colors.white};
-      border: 1px solid ${theme.colors.secondary.dark};
+      background-color: transparent;
+      border: none;
+      white-space: nowrap;
+    }
+  `}
+`;
 
-      button {
-        padding: 10px;
+export const DropDown = styled.div<DropDownProps>`
+  ${({ isOpen }) => css`
+    position: relative;
 
-        background-color: transparent;
-        border: none;
-        white-space: nowrap;
-      }
+    ${DropDownMenu} {
+      display: ${isOpen ? 'flex' : 'none'};
     }
   `}
 `;
@@ -84,9 +95,5 @@ export const ReviewComment = styled.div`
       display: flex;
       column-gap: 20px;
     }
-  }
-
-  .content {
-    line-height: 20px;
   }
 `;
