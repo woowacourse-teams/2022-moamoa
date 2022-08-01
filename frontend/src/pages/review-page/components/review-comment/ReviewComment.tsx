@@ -5,7 +5,7 @@ import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 import ReviewEditForm from '@pages/review-page/components/review-edit-form/ReviewEditForm';
 
 import Avatar from '@components/avatar/Avatar';
-import DotDotDot from '@components/dotdotdot/DotDotDot';
+import KebabMenu from '@components/kebab-menu/KebabMenu';
 
 import * as S from '@review-page/components/review-comment/ReviewComment.style';
 import useReviewComment from '@review-page/components/review-comment/useReviewComment';
@@ -66,7 +66,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
           </div>
           <div className="right">
             <S.DropDown isOpen={isOpen}>
-              <DotDotDot onClick={handleDropDownClick} />
+              <KebabMenu onClick={handleDropDownClick} />
               <S.DropDownMenu>
                 <li>
                   <button onClick={handleEditReviewBtnClick}>수정</button>

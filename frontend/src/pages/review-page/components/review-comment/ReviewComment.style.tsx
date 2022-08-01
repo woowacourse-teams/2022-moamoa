@@ -19,7 +19,7 @@ export const Date = styled.span`
   `}
 `;
 
-export const DotDotDot = styled.ul`
+export const KebabMenu = styled.ul`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

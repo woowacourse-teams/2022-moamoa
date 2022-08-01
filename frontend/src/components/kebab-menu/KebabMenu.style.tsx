@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const DotDotDot = styled.ul`
+export const KebabMenu = styled.ul`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
