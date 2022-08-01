@@ -63,11 +63,11 @@ public class MyStudyDao {
     };
 
     public List<MyStudySummaryData> findMyStudyByGithubId(Long id) {
-        String sql = "SELECT study.id, study.title, study.study_status, study.current_member_count, "
+        String sql = "SELECT DISTINCT study.id, study.title, study.study_status, study.current_member_count, "
                 + "study.max_member_count, study.start_date, study.end_date "
                 + "FROM member JOIN study_member ON member.id = study_member.member_id "
                 + "JOIN study ON study.id = study_member.study_id "
-                + "WHERE member.github_id = :id";
+                + "WHERE member.github_id = :id OR study.owner_id = :id";
 
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }

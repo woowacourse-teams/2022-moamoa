@@ -110,23 +110,27 @@ class MyStudyServiceTest {
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
         assertThat(studies)
-                .hasSize(2)
+                .hasSize(4)
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
+                        tuple("Java 스터디", PREPARE, 3, 10),
+                        tuple("javaScript 스터디" ,PREPARE, 3, 20),
                         tuple("React 스터디", PREPARE, 4, 5),
                         tuple("OS 스터디", PREPARE, 1, 6)
                 );
 
         assertThat(owners)
-                .hasSize(2)
+                .hasSize(4)
                 .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .contains(
+                        tuple(2L, "greenlawn", "https://image", "github.com"),
+                        tuple(2L, "greenlawn", "https://image", "github.com"),
                         tuple(3L, "dwoo", "https://image", "github.com"),
                         tuple(4L, "verus", "https://image", "github.com")
                 );
 
-        assertThat(tags).hasSize(2);
+        assertThat(tags).hasSize(4);
     }
 
     @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")
