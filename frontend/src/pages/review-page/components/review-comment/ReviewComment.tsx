@@ -1,5 +1,4 @@
-import * as S from '@review-page/components/review-comment/ReviewComment.style';
-import useReviewComment from '@review-page/components/review-comment/useReviewComment';
+import { changeDateSeperator } from '@utils/dates';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
@@ -7,6 +6,9 @@ import ReviewEditForm from '@pages/review-page/components/review-edit-form/Revie
 
 import Avatar from '@components/avatar/Avatar';
 import DotDotDot from '@components/dotdotdot/DotDotDot';
+
+import * as S from '@review-page/components/review-comment/ReviewComment.style';
+import useReviewComment from '@review-page/components/review-comment/useReviewComment';
 
 export type ReviewCommentProps = {
   id: ReviewId;
@@ -24,55 +26,66 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     handleEditReviewBtnClick,
     handleDeleteReviewBtnClick,
     handleCancelEditBtnClick,
+    handleEditSuccess,
+    handleEditError,
   } = useReviewComment(id, studyId);
 
-  const handlePostSuccess = () => {
-    alert('성공적으로 수정했습니다!');
-  };
-  const handlePostError = () => {
-    alert('수정에 에러가 발생했습니다!');
+  const render = () => {
+    if (isEditing) {
+      return (
+        <ReviewEditForm
+          reviewId={id}
+          studyId={studyId}
+          originalContent={content}
+          date={date}
+          author={author}
+          onCancelEditBtnClick={handleCancelEditBtnClick}
+          onEditSuccess={handleEditSuccess}
+          onEditError={handleEditError}
+        />
+      );
+    }
+
+    return (
+      <S.ReviewComment>
+        <div className="top">
+          <div className="left">
+            <div className="user-info">
+              <div className="left">
+                <a href={author.profileUrl}>
+                  <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
+                </a>
+              </div>
+              <div className="right">
+                <a href={author.profileUrl}>
+                  <span className="username">{author.username}</span>
+                </a>
+                <span className="date">{changeDateSeperator(date)}</span>
+              </div>
+            </div>
+          </div>
+          <div className="right">
+            <S.DropDown isOpen={isOpen}>
+              <DotDotDot onClick={handleDropDownClick} />
+              <S.DropDownMenu>
+                <li>
+                  <button onClick={handleEditReviewBtnClick}>수정</button>
+                </li>
+                <li>
+                  <button onClick={handleDeleteReviewBtnClick}>삭제</button>
+                </li>
+              </S.DropDownMenu>
+            </S.DropDown>
+          </div>
+        </div>
+        <div className="bottom">
+          <S.Content>{content}</S.Content>
+        </div>
+      </S.ReviewComment>
+    );
   };
 
-  return (
-    <S.ReviewComment>
-      <div className="top">
-        <div className="left">
-          <S.Author>
-            <Avatar profileImg={author.profileUrl} profileAlt="프로필 이미지" size="sm" />
-            <S.Name>{author.username}</S.Name>
-          </S.Author>
-        </div>
-        <div className="right">
-          <S.Date>{date}</S.Date>
-          <S.DropDown isOpen={isOpen}>
-            <DotDotDot onClick={handleDropDownClick} />
-            <S.DropDownMenu>
-              <li>
-                <button onClick={handleEditReviewBtnClick}>수정</button>
-              </li>
-              <li>
-                <button onClick={handleDeleteReviewBtnClick}>삭제</button>
-              </li>
-            </S.DropDownMenu>
-          </S.DropDown>
-        </div>
-      </div>
-      <div className="bottom">
-        {isEditing ? (
-          <ReviewEditForm
-            reviewId={id}
-            studyId={studyId}
-            originalContent={content}
-            onCancelEditBtnClick={handleCancelEditBtnClick}
-            onPostSuccess={handlePostSuccess}
-            onPostError={handlePostError}
-          />
-        ) : (
-          <S.Content>{content}</S.Content>
-        )}
-      </div>
-    </S.ReviewComment>
-  );
+  return <>{render()}</>;
 };
 
 export default ReviewComment;

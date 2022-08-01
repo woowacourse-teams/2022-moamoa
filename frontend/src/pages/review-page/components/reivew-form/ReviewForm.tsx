@@ -1,25 +1,29 @@
-import * as S from '@review-page/components/reivew-form/ReviewForm.style';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { EmptyObject, ReviewQueryData, StudyId } from '@custom-types';
+import { EmptyObject, Member, ReviewQueryData, StudyId } from '@custom-types';
 
 import { postReview } from '@api/postReview';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
+import Avatar from '@components/avatar/Avatar';
+import { Button } from '@components/button/Button.style';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 
+import * as S from '@review-page/components/reivew-form/ReviewForm.style';
+
 export type ReviewFormProps = {
   studyId: StudyId;
+  author: Member;
   onPostSuccess: () => void;
   onPostError: (e: Error) => void;
 };
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostError }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit } = useForm();
   const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
@@ -46,12 +50,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostE
 
   return (
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
-      <div className="left">
+      <div className="textarea-container">
         <div className="top">
-          <span>후기를 작성해주세요.</span>
-          <LetterCounter count={count} maxCount={maxCount} />
+          <a className="user-info" href={author.profileUrl}>
+            <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="xs" />
+            <span className="username">rpf5573</span>
+          </a>
         </div>
-        <div className="bottom">
+        <div className="middle">
           <textarea
             {...register('review', {
               validate: (val: string) => {
@@ -68,9 +74,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostE
             })}
           />
         </div>
-      </div>
-      <div className="right">
-        <button>제출</button>
+        <div className="bottom">
+          <LetterCounter count={count} maxCount={maxCount} />
+          <div className="btn-group">
+            <Button className="register-btn">등록</Button>
+          </div>
+        </div>
       </div>
     </S.ReviewForm>
   );

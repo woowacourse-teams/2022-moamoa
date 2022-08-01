@@ -3,46 +3,48 @@ import styled from '@emotion/styled';
 
 export const ReviewForm = styled.form`
   ${({ theme }) => css`
-    display: flex;
-    column-gap: 15px;
-
-    & > .left {
-      flex: 1;
-
-      display: flex;
-      flex-direction: column;
-      row-gap: 10px;
+    .textarea-container {
+      border: 1px solid ${theme.colors.secondary.dark};
+      border-radius: 4px;
 
       & > .top {
+        padding-top: 12px;
+        padding-left: 14px;
+        .user-info {
+          display: flex;
+          align-items: center;
+          column-gap: 6px;
+          .username {
+            font-weight: 900;
+          }
+        }
+      }
+      & > .middle {
+        padding: 10px 14px;
+        textarea {
+          min-height: 90px;
+          height: 100%;
+          width: 100%;
+          font-size: 18px;
+          padding: 6px;
+          border-color: transparent;
+
+          background-color: transparent;
+        }
+      }
+      & > .bottom {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-      }
+        align-items: center;
 
-      & > .bottom {
-        height: 80px;
-      }
+        padding: 6px 14px;
+        border-top: 1px solid ${theme.colors.secondary.base};
 
-      textarea {
-        width: 100%;
-        height: 100%;
-        padding: 8px;
-        font-size: 18px;
-      }
-    }
-
-    & > .right {
-      display: flex;
-      align-items: flex-end;
-
-      button {
-        padding: 0 25px;
-        font-size: 24px;
-        color: white;
-        background-color: ${theme.colors.primary.dark};
-        height: 80px;
-        border: none;
-        outline: none;
+        .register-btn {
+          border-radius: 4px;
+          padding: 8px 10px;
+          font-size: 12px;
+        }
       }
     }
   `}

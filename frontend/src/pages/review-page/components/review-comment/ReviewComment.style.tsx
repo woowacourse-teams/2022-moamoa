@@ -45,19 +45,25 @@ export const Content = styled.div`
 export const DropDownMenu = styled.ul`
   ${({ theme }) => css`
     position: absolute;
-    top: 100%;
-    right: 100%;
+    top: calc(100% + 3px);
+    right: 6px;
     z-index: 3;
 
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
+    row-gap: 8px;
 
     font-size: 24px;
     padding: 10px;
 
     background-color: ${theme.colors.white};
     border: 1px solid ${theme.colors.secondary.dark};
+    border-radius: 5px;
+
+    & > li:first-of-type {
+      padding-bottom: 8px;
+      border-bottom: 1px solid ${theme.colors.secondary.base};
+    }
 
     button {
       padding: 10px;
@@ -80,20 +86,38 @@ export const DropDown = styled.div<DropDownProps>`
 `;
 
 export const ReviewComment = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-
-  & > .top {
-    position: relative;
-
+  ${({ theme }) => css`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    row-gap: 15px;
 
-    & > .right {
+    & > .top {
       display: flex;
-      column-gap: 20px;
+      justify-content: space-between;
+      align-items: center;
+      & > .left {
+        .user-info {
+          display: flex;
+          align-items: center;
+          column-gap: 6px;
+          .username {
+            font-weight: 900;
+          }
+          .date {
+            font-size: 12px;
+            color: ${theme.colors.secondary.dark};
+          }
+          .right {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2px;
+          }
+        }
+      }
+      & > .right {
+        display: flex;
+        column-gap: 20px;
+      }
     }
-  }
+  `}
 `;

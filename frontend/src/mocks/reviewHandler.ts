@@ -33,8 +33,7 @@ export const reviewHandlers = [
     const content = isObject(req.body) ? req.body['content'] : null;
     if (!content) return res(ctx.status(400), ctx.json({ errorMessage: '리뷰가 없습니다' }));
 
-    const reviews = structuredClone(reviewJSON.reviews);
-    reviews.push({
+    const review = {
       id: 1,
       member: {
         id: 17899306,
@@ -45,7 +44,41 @@ export const reviewHandlers = [
       content,
       createdDate: '2022-07-12',
       lastModifiedDate: '',
+    };
+    const reviews = [review, ...reviewJSON.reviews];
+    reviewJSON.reviews = reviews;
+
+    return res(ctx.status(200));
+  }),
+
+  rest.delete('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
+    const studyId = req.params.studyId;
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없습니다' }));
+
+    const reviewId = Number(req.params.reviewId);
+    if (!reviewId) return res(ctx.status(400), ctx.json({ errorMessage: '리뷰 아이디가 없습니다' }));
+
+    reviewJSON.reviews = reviewJSON.reviews.filter(({ id }) => reviewId !== id);
+
+    return res(ctx.status(200));
+  }),
+
+  rest.patch('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
+    const studyId = req.params.studyId;
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없습니다' }));
+
+    const reviewId = Number(req.params.reviewId);
+    if (!reviewId) return res(ctx.status(400), ctx.json({ errorMessage: '리뷰 아이디가 없습니다' }));
+
+    const content = isObject(req.body) ? req.body['content'] : null;
+
+    reviewJSON.reviews = reviewJSON.reviews.map(review => {
+      if (review.id === reviewId) {
+        review.content = content;
+      }
+      return review;
     });
-    return res(ctx.status(200), ctx.json({ reviews }));
+
+    return res(ctx.status(200));
   }),
 ];

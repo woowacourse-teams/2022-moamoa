@@ -1,64 +1,73 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { LetterCounter } from '@components/letter-counter/LetterCounter.style';
+import { ReviewForm } from '@review-page/components/reivew-form/ReviewForm.style';
 
-export const ReviewEditForm = styled.form`
+export const ReviewEditForm = styled(ReviewForm)`
   ${({ theme }) => css`
-    display: flex;
-    column-gap: 15px;
-
-    & > .left {
-      flex: 1;
-
-      display: flex;
-      flex-direction: column;
-      row-gap: 10px;
+    .textarea-container {
+      border: 1px solid ${theme.colors.secondary.dark};
+      border-radius: 4px;
 
       & > .top {
-        position: relative;
-
-        height: 80px;
-        textarea {
-          width: 100%;
-          height: 100%;
-          padding: 8px 8px 20px 8px;
-          font-size: 18px;
-        }
-
-        ${LetterCounter} {
-          position: absolute;
-          right: 4px;
-          bottom: 2px;
+        padding-top: 12px;
+        padding-left: 14px;
+        .user-info {
+          display: flex;
+          align-items: center;
+          column-gap: 6px;
+          .username {
+            font-weight: 900;
+          }
+          .date {
+            font-size: 12px;
+            color: ${theme.colors.secondary.dark};
+          }
+          .right {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2px;
+          }
         }
       }
+      & > .middle {
+        padding: 10px 14px;
+        textarea {
+          min-height: 90px;
+          height: 100%;
+          width: 100%;
+          font-size: 18px;
+          padding: 6px;
+          border-color: transparent;
 
+          background-color: transparent;
+        }
+      }
       & > .bottom {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 6px 14px;
+        border-top: 1px solid ${theme.colors.secondary.base};
+
         button {
-          background-color: transparent;
-          color: ${theme.colors.secondary.dark};
-          border: none;
-          outline: none;
-
-          font-size: 16px;
+          border-radius: 4px;
+          padding: 8px 10px;
+          font-size: 12px;
         }
-      }
-    }
 
-    & > .right {
-      display: flex;
-      align-items: flex-start;
+        .btn-group {
+          display: flex;
+          column-gap: 10px;
+        }
 
-      button {
-        padding: 0 25px;
-        font-size: 24px;
-        color: white;
-        background-color: ${theme.colors.primary.dark};
-        height: 80px;
-        border: none;
-        outline: none;
+        .cancel-btn {
+          background-color: ${theme.colors.secondary.dark};
+          &:hover {
+            background-color: ${theme.colors.secondary.base};
+          }
+        }
       }
     }
   `}

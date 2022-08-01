@@ -1,24 +1,31 @@
-import * as S from '@review-page/components/review-edit-form/ReviewEditForm.style';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { EditReviewQueryData, EmptyObject, ReviewId, StudyId } from '@custom-types';
+import { changeDateSeperator } from '@utils/dates';
 
-import { editReview } from '@api/editReview';
+import { DateYMD, EditReviewQueryData, EmptyObject, Member, ReviewId, StudyId } from '@custom-types';
+
+import { patchReview } from '@api/patchReview';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
+import Avatar from '@components/avatar/Avatar';
+import Button from '@components/button/Button';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
+
+import * as S from '@review-page/components/review-edit-form/ReviewEditForm.style';
 
 export type ReviewEditFormProps = {
   studyId: StudyId;
   reviewId: ReviewId;
   originalContent: string;
-  onPostSuccess: () => void;
-  onPostError: (e: Error) => void;
+  date: DateYMD;
+  author: Member;
+  onEditSuccess: () => void;
+  onEditError: (e: Error) => void;
   onCancelEditBtnClick: () => void;
 };
 
@@ -26,13 +33,15 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   studyId,
   reviewId,
   originalContent,
-  onPostSuccess,
-  onPostError,
+  date,
+  author,
+  onEditSuccess,
+  onEditError,
   onCancelEditBtnClick,
 }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, EditReviewQueryData>(editReview);
+  const { mutateAsync } = useMutation<EmptyObject, Error, EditReviewQueryData>(patchReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -45,10 +54,10 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
       { studyId, reviewId, content },
       {
         onSuccess: () => {
-          onPostSuccess();
+          onEditSuccess();
         },
         onError: error => {
-          onPostError(error);
+          onEditError(error);
         },
       },
     );
@@ -56,8 +65,23 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 
   return (
     <S.ReviewEditForm onSubmit={handleSubmit(onSubmit)}>
-      <div className="left">
+      <div className="textarea-container">
         <div className="top">
+          <div className="user-info">
+            <div className="left">
+              <a href={author.profileUrl}>
+                <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
+              </a>
+            </div>
+            <div className="right">
+              <a href={author.profileUrl}>
+                <span className="username">{author.username}</span>
+              </a>
+              <span className="date">{changeDateSeperator(date)}</span>
+            </div>
+          </div>
+        </div>
+        <div className="middle">
           <textarea
             defaultValue={originalContent}
             {...register('review-edit', {
@@ -74,14 +98,16 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
               maxLength: REVIEW_LENGTH.MAX.VALUE,
             })}
           />
-          <LetterCounter count={count} maxCount={maxCount} />
         </div>
         <div className="bottom">
-          <button onClick={onCancelEditBtnClick}>취소</button>
+          <LetterCounter count={count} maxCount={maxCount} />
+          <div className="btn-group">
+            <Button className="cancel-btn" type="button" onClick={onCancelEditBtnClick}>
+              취소
+            </Button>
+            <Button className="register-btn">수정</Button>
+          </div>
         </div>
-      </div>
-      <div className="right">
-        <button>수정</button>
       </div>
     </S.ReviewEditForm>
   );
