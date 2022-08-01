@@ -9,23 +9,17 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
+@AllArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationRequestMatcher authenticationRequestMatcher;
-
-    public AuthenticationInterceptor(final TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationRequestMatcher = new AuthenticationRequestMatcherBuilder()
-                .setUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews")
-                .setUpAuthenticationPath(HttpMethod.GET, "/api/my/studies")
-                .build();;
-    }
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
