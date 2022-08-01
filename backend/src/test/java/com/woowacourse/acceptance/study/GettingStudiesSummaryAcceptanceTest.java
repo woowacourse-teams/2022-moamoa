@@ -146,9 +146,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(studiesResponse.isHasNext()).isFalse(),
                 () -> assertThat(studiesResponse.getStudies()).hasSize(3),
                 () -> assertThat(studyIds).contains(httpStudyId, algorithmStudyId, linuxStudyId),
-                () -> assertThat(studyTags.get(0)).contains(fourTag),
-                () -> assertThat(studyTags.get(1)).contains(fourTag),
-                () -> assertThat(studyTags.get(2)).contains(fourTag, beTag)
+                () -> assertThat(studyTags).containsExactlyInAnyOrder(List.of(fourTag, beTag), List.of(fourTag), List.of(fourTag))
         );
     }
 
@@ -204,8 +202,10 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(studiesResponse.getStudies()).hasSize(5),
                 () -> assertThat(studyIds).contains(javaStudyId, reactStudyId, javascriptStudyId, httpStudyId,
                         algorithmStudyId),
-                () -> assertThat(studyTags).containsAnyOf(List.of(fourTag), List.of(fourTag), List.of(fourTag, beTag),
-                        List.of(javaTag, fourTag, beTag), List.of(fourTag, feTag, reactTag))
+                () -> assertThat(studyTags).containsExactlyInAnyOrder(
+                        List.of(javaTag, fourTag, beTag), List.of(fourTag, feTag, reactTag),
+                        List.of(fourTag, feTag), List.of(fourTag), List.of(fourTag)
+                )
         );
     }
 
