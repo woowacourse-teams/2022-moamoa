@@ -26,7 +26,7 @@ const StudyRoomPage: React.FC = () => {
 
   const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
 
-  const currentTab = tabs.find(({ id }) => id === activeTabId);
+  const activeTab = tabs.find(({ id }) => id === activeTabId);
 
   const handleTabButtonClick = (id: string) => () => {
     setActiveTabId(id);
@@ -48,7 +48,7 @@ const StudyRoomPage: React.FC = () => {
             tabs={tabs}
             handleTabButtonClick={handleTabButtonClick}
           />
-          <S.Content>{currentTab?.content ?? '%ERROR% 새로고침 해주세요'}</S.Content>
+          <S.Content>{activeTab?.content ?? '%ERROR% 새로고침 해주세요'}</S.Content>
         </S.Container>
       </Wrapper>
     </div>
