@@ -4,12 +4,12 @@ import type { TabId, Tabs } from '@study-room-page/StudyRoomPage';
 import * as S from '@study-room-page/components/side-menu/SideMenu.style';
 import TabButton from '@study-room-page/components/tab-button/TabButton';
 
-export interface SideMenuProps {
+export type SideMenuProps = {
   className?: string;
   activeTabId: TabId;
   tabs: Tabs;
   handleTabButtonClick: (id: string) => React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 const mb12 = css`
   margin-bottom: 12px;

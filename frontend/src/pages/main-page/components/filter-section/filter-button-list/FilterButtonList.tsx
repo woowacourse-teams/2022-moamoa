@@ -3,11 +3,11 @@ import type { Tag, TagInfo } from '@custom-types/index';
 import * as S from '@main-page/components/filter-section/filter-button-list/FilterButtonList.style';
 import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
 
-export interface FilterButtonListProps {
+export type FilterButtonListProps = {
   filters: Array<Tag>;
   selectedFilters: Array<TagInfo>;
   handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>
   selectedFilters.some(filter => filter.id === id && filter.categoryName === categoryName);

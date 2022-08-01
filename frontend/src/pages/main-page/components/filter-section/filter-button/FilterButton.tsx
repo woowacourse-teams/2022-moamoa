@@ -2,12 +2,12 @@ import { memo } from 'react';
 
 import * as S from '@main-page/components/filter-section/filter-button/FilterButton.style';
 
-export interface FilterButtonProps {
+export type FilterButtonProps = {
   name: string;
   description: string;
   isChecked: boolean;
   handleFilterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecked, handleFilterButtonClick }) => {
   return (

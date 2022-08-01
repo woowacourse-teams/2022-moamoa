@@ -1,9 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface CheckBoxButtonProps {
-  isChecked: boolean;
-}
+import type { FilterButtonProps } from '@main-page/components/filter-section/filter-button/FilterButton';
 
 const applyCheckedStyle = (theme: Theme) => css`
   color: ${theme.colors.primary.base};
@@ -25,7 +23,7 @@ export const FilterButtonContainer = styled.div`
   height: 70px;
 `;
 
-export const CheckBoxButton = styled.button<CheckBoxButtonProps>`
+export const CheckBoxButton = styled.button<Pick<FilterButtonProps, 'isChecked'>>`
   ${({ theme, isChecked }) => css`
     display: flex;
     flex-direction: column;

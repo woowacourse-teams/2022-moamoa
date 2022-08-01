@@ -7,9 +7,9 @@ import StudyReviewCard from '@detail-page/components/study-review-card/StudyRevi
 import * as S from '@detail-page/components/study-review-section/StudyReviewSection.style';
 import useFetchStudyReviews from '@detail-page/hooks/useFetchStudyReviews';
 
-export interface StudyReviewSectionProps {
+export type StudyReviewSectionProps = {
   studyId: number;
-}
+};
 
 const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   const [isMoreButtonVisible, setIsMoreButtonVisible] = useState<boolean>(true);

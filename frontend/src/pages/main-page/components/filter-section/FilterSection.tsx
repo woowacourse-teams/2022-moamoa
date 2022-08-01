@@ -10,10 +10,10 @@ import ArrowButton from '@components/arrow-button/ArrowButton';
 import * as S from '@main-page/components/filter-section/FilterSection.style';
 import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 
-export interface FilterSectionProps {
+export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
   handleFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 const SCROLL_DIST = 100;
 

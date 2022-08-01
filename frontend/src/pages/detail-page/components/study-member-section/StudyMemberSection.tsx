@@ -11,10 +11,10 @@ import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
 import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';
 
-export interface StudyMemberSectionProps {
+export type StudyMemberSectionProps = {
   owner: Owner;
   members: Array<Member>;
-}
+};
 
 const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
