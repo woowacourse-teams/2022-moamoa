@@ -117,7 +117,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이징 정보 및 키워드가 없는 경우에는 기본페이징 정보를 사용해 전체 스터디 목록에서 조회한다.")
     @Test
-    public void mentgetStudiesByDefaultPagingInfo() {
+    public void getStudiesByDefaultPagingInfo() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies/search")

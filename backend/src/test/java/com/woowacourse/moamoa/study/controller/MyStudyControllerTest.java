@@ -100,7 +100,7 @@ class MyStudyControllerTest {
 
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
-    void mentgetMyStudies() {
+    void getMyStudies() {
         final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(4L);
 
         assertThat(myStudies.getStatusCode()).isEqualTo(HttpStatus.OK);

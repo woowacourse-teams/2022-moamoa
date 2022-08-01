@@ -80,7 +80,7 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("스터디 요약 정보 외에 상세 정보를 포함하여 조회할 수 있다.")
     @Test
-    public void mentgetStudyDetails() {
+    public void getStudyDetails() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies/2")

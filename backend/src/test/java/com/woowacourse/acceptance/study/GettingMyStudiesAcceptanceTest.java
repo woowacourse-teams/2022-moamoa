@@ -81,7 +81,7 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
-    void mentgetMyStudies() {
+    void getMyStudies() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
         RestAssured.given().log().all()

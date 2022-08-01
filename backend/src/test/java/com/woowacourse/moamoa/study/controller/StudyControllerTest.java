@@ -104,7 +104,7 @@ public class StudyControllerTest {
 
     @DisplayName("스터디 생성 날짜와 스터디 시작 날짜가 같은 경우 IN_PROGRESS로 설정한다.")
     @Test
-    void checkStudyStatusIfcreatedDateeSameStartDate() {
+    void checkStudyStatusIfCreatedDateSameStartDate() {
         StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository));
         final CreatingStudyRequest createStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")

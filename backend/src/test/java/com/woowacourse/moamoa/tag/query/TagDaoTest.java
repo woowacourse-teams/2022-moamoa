@@ -89,7 +89,7 @@ class TagDaoTest {
 
     @DisplayName("대소문자 구분없이 태그 이름으로 조회한다.")
     @Test
-    void mentfindAllByNameContainingIgnoreCase() {
+    void findAllByNameContainingIgnoreCase() {
         List<TagData> tagData = tagDao.searchByShortNameAndCategoryId("ja", CategoryIdRequest.empty());
 
         assertThat(tagData)

@@ -104,7 +104,7 @@ class StudyDetailsDaoTest {
 
     @DisplayName("최대 인원의 정보가 없는 스터디 세부사항 조회")
     @Test
-    void mentgetNotHasMaxMemberCountStudyDetails() {
+    void getNotHasMaxMemberCountStudyDetails() {
         // Linux 스터디는 최대 인원 정보가 없음
         final StudyDetailsData actual = sut.findBy(6L);
 
