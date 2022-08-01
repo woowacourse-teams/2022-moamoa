@@ -1,5 +1,4 @@
 import * as S from '@review-page/components/reivew-form/ReviewForm.style';
-import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
@@ -12,6 +11,7 @@ import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
 export type ReviewFormProps = {
   studyId: StudyId;
@@ -20,8 +20,7 @@ export type ReviewFormProps = {
 };
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostError }) => {
-  const [count, setCount] = useState<number>(0);
-  const maxLength = 200;
+  const { count, setCount, maxCount } = useLetterCount(200);
   const { register, handleSubmit } = useForm();
   const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
 
@@ -50,7 +49,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, onPostSuccess, onPostE
       <div className="left">
         <div className="top">
           <span>후기를 작성해주세요.</span>
-          <LetterCounter count={count} maxCount={maxLength} />
+          <LetterCounter count={count} maxCount={maxCount} />
         </div>
         <div className="bottom">
           <textarea

@@ -1,5 +1,4 @@
 import * as S from '@review-page/components/review-edit-form/ReviewEditForm.style';
-import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
@@ -12,6 +11,7 @@ import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
 export type ReviewEditFormProps = {
   studyId: StudyId;
@@ -30,8 +30,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   onPostError,
   onCancelEditBtnClick,
 }) => {
-  const [count, setCount] = useState<number>(originalContent.length);
-  const maxLength = 200;
+  const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
   const { mutateAsync } = useMutation<EmptyObject, Error, EditReviewQueryData>(editReview);
 
@@ -75,7 +74,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
               maxLength: REVIEW_LENGTH.MAX.VALUE,
             })}
           />
-          <LetterCounter count={count} maxCount={maxLength} />
+          <LetterCounter count={count} maxCount={maxCount} />
         </div>
         <div className="bottom">
           <button onClick={onCancelEditBtnClick}>취소</button>
