@@ -66,12 +66,20 @@ export const Button = styled.button<ButtonProp>`
 
     white-space: nowrap;
 
+    ${outline && applyOutlineButtonStyle({ theme, isLoading })}
+
+    &:hover {
+      background-color: ${theme.colors.primary.light};
+    }
+
+    &:active {
+      background-color: ${theme.colors.primary.dark};
+    }
+
     &:disabled {
       background-color: ${theme.colors.secondary.base};
       color: ${theme.colors.black};
     }
-
-    ${outline && applyOutlineButtonStyle({ theme, isLoading })}
   `}
 `;
 
