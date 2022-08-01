@@ -33,11 +33,11 @@ const Button: React.FC<OptionalButtonProp> = ({
   disabled = false,
   outline = false,
   isLoading = false,
-  onClick = noop,
+  onClick: handleClick = noop,
 }) => {
   return (
     <S.ButtonContainer>
-      <S.Button className={className} fluid={fluid} disabled={disabled} outline={outline} onClick={onClick}>
+      <S.Button className={className} fluid={fluid} disabled={disabled} outline={outline} onClick={handleClick}>
         {/* isLoading상태에 관계 없이 children을 뿌려준다. 높이를 유지하기 위함이다.
         대신 color를 background-color와 동일하게 맞춘다 */}
         {children}

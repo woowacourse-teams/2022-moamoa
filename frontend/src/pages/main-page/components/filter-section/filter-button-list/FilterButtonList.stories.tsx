@@ -1,8 +1,8 @@
 import { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import type { FilterButtonListProps } from '@pages/main-page/components/filter-section/filter-button-list/FilterButtonList';
-import FilterButtonList from '@pages/main-page/components/filter-section/filter-button-list/FilterButtonList';
+import type { FilterButtonListProps } from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
+import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 
 export default {
   title: 'Components/FilterButtonList',
@@ -91,7 +91,7 @@ const Template: Story<FilterButtonListProps> = () => {
     <FilterButtonList
       filters={filters}
       selectedFilters={selectedFilters}
-      handleFilterButtonClick={handleFilterButtonClick}
+      onFilterButtonClick={handleFilterButtonClick}
     />
   );
 };

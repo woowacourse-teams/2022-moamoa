@@ -65,10 +65,10 @@ export type StudyReview = {
   content: string;
 };
 
-export interface TagInfo {
+export type TagInfo = {
   id: number;
   categoryName: string;
-}
+};
 
 export type Tag = {
   id: number;

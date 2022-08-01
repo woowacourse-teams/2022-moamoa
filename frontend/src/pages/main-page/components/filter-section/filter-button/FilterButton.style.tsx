@@ -1,9 +1,20 @@
-import { css } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface CheckBoxButtonProps {
-  isChecked: boolean;
-}
+import type { FilterButtonProps } from '@main-page/components/filter-section/filter-button/FilterButton';
+
+const applyCheckedStyle = (theme: Theme) => css`
+  color: ${theme.colors.primary.base};
+  border-bottom: 2px solid ${theme.colors.primary.dark};
+
+  &:hover {
+    border-bottom: 2px solid ${theme.colors.primary.dark};
+  }
+
+  & > p {
+    color: ${theme.colors.primary.dark};
+  }
+`;
 
 export const FilterButtonContainer = styled.div`
   display: flex;
@@ -12,7 +23,7 @@ export const FilterButtonContainer = styled.div`
   height: 70px;
 `;
 
-export const CheckBoxButton = styled.button<CheckBoxButtonProps>`
+export const CheckBoxButton = styled.button<Pick<FilterButtonProps, 'isChecked'>>`
   ${({ theme, isChecked }) => css`
     display: flex;
     flex-direction: column;
@@ -25,16 +36,18 @@ export const CheckBoxButton = styled.button<CheckBoxButtonProps>`
     padding-bottom: 8px;
 
     border: none;
-    border-bottom: 2px solid ${isChecked ? theme.colors.primary.dark : 'none'};
+    border-bottom: 2px solid transparent;
     background-color: transparent;
 
     &:hover {
-      border-bottom: 2px solid ${isChecked ? theme.colors.primary.dark : theme.colors.secondary.base};
+      border-bottom: 2px solid ${theme.colors.secondary.base};
     }
 
     & > p {
-      color: ${isChecked ? theme.colors.primary.dark : theme.colors.primary.base};
+      color: ${theme.colors.primary.base};
     }
+
+    ${isChecked && applyCheckedStyle(theme)}
   `}
 `;
 

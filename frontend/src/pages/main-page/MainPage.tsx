@@ -12,13 +12,13 @@ import { useAuth } from '@hooks/useAuth';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import * as S from '@pages/main-page/MainPage.style';
-import CreateNewStudyButton from '@pages/main-page/components/create-new-study-button/CreateNewStudyButton';
-import FilterSection from '@pages/main-page/components/filter-section/FilterSection';
-import StudyCard from '@pages/main-page/components/study-card/StudyCard';
-
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
+
+import * as S from '@main-page/MainPage.style';
+import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
+import FilterSection from '@main-page/components/filter-section/FilterSection';
+import StudyCard from '@main-page/components/study-card/StudyCard';
 
 type PageParam = {
   page: number;
@@ -76,16 +76,16 @@ const MainPage: React.FC = () => {
 
   return (
     <S.Page>
-      <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
+      <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <Wrapper>
-        <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
+        <InfiniteScroll observingCondition={hasSearchResult} onContentLoad={fetchNextPage}>
           {isFetching && <div>Loading...</div>}
           {isError && <div>{error.message}</div>}
           {hasSearchResult ? (
             <S.CardList>
               {searchedStudies.map(study => (
                 <li key={study.id}>
-                  <Link to={`study/${study.id}`}>
+                  <Link to={PATH.STUDY_DETAIL(study.id)}>
                     <StudyCard
                       thumbnailUrl={study.thumbnail}
                       thumbnailAlt={`${study.title} 스터디 이미지`}

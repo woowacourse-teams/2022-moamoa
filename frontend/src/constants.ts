@@ -1,8 +1,9 @@
 export const PATH = {
   MAIN: '/',
-  STUDY_DETAIL: (studyId = ':studyId') => `/study/${studyId}`,
+  STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
   CREATE_STUDY: '/study/create',
   MY_STUDY: '/my/study',
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/study/room/${studyId}`,
   LOGIN: '/login',
 };
 
