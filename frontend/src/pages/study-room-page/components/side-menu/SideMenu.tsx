@@ -8,22 +8,22 @@ export interface SideMenuProps {
   className?: string;
   activeTabId: TabId;
   tabs: Tabs;
-  handleTabButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+  handleTabButtonClick: (id: string) => React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const mb20 = css`
+const mb12 = css`
   margin-bottom: 12px;
 `;
 
 const SideMenu: React.FC<SideMenuProps> = ({ className, activeTabId, tabs, handleTabButtonClick }) => {
   return (
-    <S.Nav className={className}>
+    <S.Sidebar className={className}>
       {tabs.map(({ id, name }) => (
-        <TabButton key={id} id={id} onClick={handleTabButtonClick} isSelected={activeTabId === id} css={mb20}>
+        <TabButton key={id} onClick={handleTabButtonClick(id)} isSelected={activeTabId === id} css={mb12}>
           {name}
         </TabButton>
       ))}
-    </S.Nav>
+    </S.Sidebar>
   );
 };
 
