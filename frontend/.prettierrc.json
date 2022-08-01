@@ -28,6 +28,7 @@
     "^@detail-page/(.*)$",
     "^@create-study-page/(.*)$",
     "^@my-study-page/(.*)$",
+    "^@review-page/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
