@@ -41,17 +41,15 @@ const MyStudyPage: React.FC = () => {
   `;
 
   return (
-    <div>
-      <Wrapper>
-        <S.PageTitle>가입한 스터디 목록</S.PageTitle>
-        <Divider />
-        {isFetching && <div>로딩 중...</div>}
-        {isError && <div>내 스터디 불러오기를 실패했습니다</div>}
-        <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" myStudies={myStudies.inProgress} />
-        <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" myStudies={myStudies.prepare} />
-        <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" myStudies={myStudies.done} disabled={true} />
-      </Wrapper>
-    </div>
+    <Wrapper>
+      <S.PageTitle>가입한 스터디 목록</S.PageTitle>
+      <Divider />
+      {isFetching && <div>로딩 중...</div>}
+      {isError && <div>내 스터디 불러오기를 실패했습니다</div>}
+      <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" myStudies={myStudies.inProgress} />
+      <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" myStudies={myStudies.prepare} />
+      <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" myStudies={myStudies.done} disabled={true} />
+    </Wrapper>
   );
 };
 

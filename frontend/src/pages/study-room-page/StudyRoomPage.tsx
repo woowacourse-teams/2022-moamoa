@@ -33,25 +33,23 @@ const StudyRoomPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Wrapper>
-        <S.Container>
-          <SideMenu
-            css={css`
-              position: sticky;
-              top: 100px;
-              left: 0;
+    <Wrapper>
+      <S.Container>
+        <SideMenu
+          css={css`
+            position: sticky;
+            top: 100px;
+            left: 0;
 
-              align-self: flex-start;
-            `}
-            activeTabId={activeTabId}
-            tabs={tabs}
-            onTabButtonClick={handleTabButtonClick}
-          />
-          <S.Content>{activeTab?.content ?? '%ERROR% 새로고침 해주세요'}</S.Content>
-        </S.Container>
-      </Wrapper>
-    </div>
+            align-self: flex-start;
+          `}
+          activeTabId={activeTabId}
+          tabs={tabs}
+          onTabButtonClick={handleTabButtonClick}
+        />
+        <S.Content>{activeTab?.content ?? '%ERROR% 새로고침 해주세요'}</S.Content>
+      </S.Container>
+    </Wrapper>
   );
 };
 
