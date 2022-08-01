@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { LoginContext } from '@context/login/LoginProvider';
+import { useAuth } from '@hooks/useAuth';
 
 import { Footer, Header, Main } from '@layout/index';
 
@@ -20,7 +19,7 @@ import {
 } from '@pages/index';
 
 const App = () => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
 
   return (
     <div>
