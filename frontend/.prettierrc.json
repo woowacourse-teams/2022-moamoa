@@ -15,6 +15,7 @@
     "^@assets/(.*)$",
     "^@mocks/(.*)$",
     "^@constants$",
+    "^@utils",
     "^@utils/(.*)$",
     "^@custom-types",
     "^@styles/(.*)$",
