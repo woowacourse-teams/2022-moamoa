@@ -1,3 +1,4 @@
+import { getRandomInt } from '@utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,12 +24,6 @@ import Publish from '@create-study-page/components/publish/Publish';
 import Tag from '@create-study-page/components/tag/Tag';
 import Title from '@create-study-page/components/title/Title';
 import usePostNewStudy from '@create-study-page/hooks/usePostNewStudy';
-
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 const CreateStudyPage: React.FC = () => {
   const formMethods = useForm();
