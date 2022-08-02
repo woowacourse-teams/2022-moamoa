@@ -3,12 +3,17 @@ package com.woowacourse.moamoa.docs;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.auth.config.AuthConfig;
 import com.woowacourse.moamoa.auth.controller.AuthController;
 import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
+import com.woowacourse.moamoa.review.controller.ReviewController;
+import com.woowacourse.moamoa.review.controller.SearchingReviewController;
+import com.woowacourse.moamoa.review.service.ReviewService;
+import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest({
-        AuthController.class
+        AuthController.class,
+        ReviewController.class,
+        SearchingReviewController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 @Import(JwtTokenProvider.class)
@@ -30,6 +37,9 @@ public class DocumentationTest {
 
     @Autowired
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @MockBean
     protected AuthConfig authConfig;
@@ -42,6 +52,12 @@ public class DocumentationTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected ReviewService reviewService;
+
+    @MockBean
+    protected SearchingReviewService searchingReviewService;
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {

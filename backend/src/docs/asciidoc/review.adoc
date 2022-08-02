@@ -1,0 +1,12 @@
+[[Review]]
+== 리뷰
+
+=== 리뷰 작성
+operation::reviews/create[snippets='http-request,http-response']
+
+=== 리뷰 전체 조회
+operation::reviews/list[snippets='http-request,http-response']
+
+=== 리뷰 단일 조회
+operation::reviews/list-certain-number[snippets='http-request,http-response']
+
