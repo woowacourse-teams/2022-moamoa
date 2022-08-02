@@ -1,7 +1,5 @@
-package com.woowacourse.moamoa.study.batch;
+package com.woowacourse.moamoa.study.schedule;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.CLOSE;
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.OPEN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -11,7 +9,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.DateTimeSystem;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDateTime;
@@ -121,7 +119,7 @@ class AutoCloseEnrollmentTaskTest {
     @DisplayName("모집 기간이 지난 스터디는 자동으로 모집이 종료된다.")
     @Test
     void autoCloseEnrollment() {
-        given(dateTimeSystem.now()).willReturn(now);
+        given(dateTimeSystem.now()).willReturn(LocalDateTime.now());
 
         sut.getRunnable().run();
 

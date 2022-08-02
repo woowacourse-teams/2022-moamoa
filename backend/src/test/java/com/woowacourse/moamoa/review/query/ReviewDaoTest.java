@@ -9,7 +9,7 @@ import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.DateTimeSystem;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;

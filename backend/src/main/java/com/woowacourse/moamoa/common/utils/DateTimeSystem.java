@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.service;
+package com.woowacourse.moamoa.common.utils;
 
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;

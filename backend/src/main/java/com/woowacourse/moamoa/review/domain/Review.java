@@ -47,31 +47,11 @@ public class Review {
         this(null, associatedStudy, reviewer, content, createdDate, lastModifiedDate);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public AssociatedStudy getAssociatedStudy() {
-        return associatedStudy;
-    }
-
-    public Reviewer getReviewer() {
-        return reviewer;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
     public static Review writeNewReview(Long studyId, Long memberId, String content, LocalDateTime createdDate) {
         return new Review(new AssociatedStudy(studyId), new Reviewer(memberId), content, createdDate, createdDate);
+    }
+
+    public Long getId() {
+        return id;
     }
 }
