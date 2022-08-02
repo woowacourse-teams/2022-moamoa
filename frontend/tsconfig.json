@@ -32,9 +32,13 @@
       "@create-study-page/*": ["pages/create-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
+      "@login-redirect-page/*": ["pages/login-redirect-page/*"],
+      "@error-page/*": ["pages/error-page/*"],
+      "@layout": ["layout/index.ts"],
       "@layout/*": ["layout/*"],
       "@hooks/*": ["hooks/*"],
       "@mocks/*": ["mocks/*"],
+      "@pages": ["pages/index.ts"],
       "@pages/*": ["pages/*"]
     },
     "typeRoots": ["src/custom-types"]

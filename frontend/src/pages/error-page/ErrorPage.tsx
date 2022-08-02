@@ -4,7 +4,7 @@ import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
 import { PATH } from '@constants';
 
-import * as S from '@pages/error-page/ErrorPage.style';
+import * as S from '@error-page/ErrorPage.style';
 
 const ErrorPage: React.FC = () => {
   const navigate = useNavigate();

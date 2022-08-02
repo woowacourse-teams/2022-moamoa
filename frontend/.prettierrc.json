@@ -21,6 +21,7 @@
     "^@api",
     "^@hooks/(.*)$",
     "^@context/(.*)$",
+    "^@layout",
     "^@layout/(.*)$",
     "^@pages/(.*)$",
     "^@components/(.*)$",
@@ -29,6 +30,9 @@
     "^@create-study-page/(.*)$",
     "^@my-study-page/(.*)$",
     "^@study-room-page/(.*)$",
+    "^@error-page/(.*)$",
+    "^@login-redirect-page/(.*)$",
+    "^@webpack-page/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
