@@ -6,16 +6,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.util.List;
+import java.time.LocalDateTime;
+
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
-import java.time.LocalDateTime;
-import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,30 +121,34 @@ class MyStudyServiceTest {
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
         assertThat(studies)
-                .hasSize(2)
+                .hasSize(4)
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
+                        tuple("Java 스터디", PREPARE, 3, 10),
+                        tuple("javaScript 스터디" ,PREPARE, 3, 20),
                         tuple("React 스터디", PREPARE, 4, 5),
                         tuple("OS 스터디", PREPARE, 1, 6)
                 );
 
         assertThat(owners)
-                .hasSize(2)
+                .hasSize(4)
                 .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .contains(
+                        tuple(2L, "greenlawn", "https://image", "github.com"),
+                        tuple(2L, "greenlawn", "https://image", "github.com"),
                         tuple(3L, "dwoo", "https://image", "github.com"),
                         tuple(4L, "verus", "https://image", "github.com")
                 );
 
-        assertThat(tags).hasSize(2);
+        assertThat(tags).hasSize(4);
     }
 
     @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")
     @Test
     void getMyStudyNotExistUser() {
         assertThatThrownBy(() -> myStudyService.getStudies(5L))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessageContaining("5의 githubId를 가진 사용자는 없습니다.");
+                .isInstanceOf(MemberNotFoundException.class)
+                .hasMessageContaining("회원을 찾을 수 없습니다.");
     }
 }
