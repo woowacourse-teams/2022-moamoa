@@ -1,4 +1,4 @@
-import { Member } from '@custom-types';
+import type { Member } from '@custom-types';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -9,7 +9,7 @@ import * as S from '@study-room-page/components/review-tab-panel/ReviewTabPanel.
 import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
 import ReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
 
-type ReviewTabPanelProps = {
+export type ReviewTabPanelProps = {
   studyId: number;
 };
 

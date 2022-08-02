@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
-import { DeleteReviewRequestBody, EmptyObject, ReviewId, StudyId } from '@custom-types';
+import type { DeleteReviewRequestBody, EmptyObject, ReviewId, StudyId } from '@custom-types';
 
-import { deleteReview } from '@api/deleteReview';
+import deleteReview from '@api/deleteReview';
 
 const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { GetTagListResponseData } from '@custom-types';
+import type { GetTagListResponseData } from '@custom-types';
 
 import { getTagList } from '@api/getTagList';
 

@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { QK_FETCH_STUDY_DETAIL } from '@constants';
 
-import { GetStudyDetailResponseData } from '@custom-types';
+import type { GetStudyDetailResponseData } from '@custom-types';
 
 import getStudyDetail from '@api/getStudyDetail';
 

@@ -2,10 +2,9 @@ import { useQuery } from 'react-query';
 
 import { css } from '@emotion/react';
 
-import type { GetMyStudyResponseData } from '@custom-types';
-import { MyStudy } from '@custom-types';
+import type { GetMyStudyResponseData, MyStudy } from '@custom-types';
 
-import { getMyStudyList } from '@api/getMyStudyList';
+import getMyStudyList from '@api/getMyStudyList';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';

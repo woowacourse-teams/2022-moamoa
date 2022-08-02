@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 
 import { ACCESS_TOKEN_KEY, PATH } from '@constants';
 
-import { PostNewStudyRequestBody } from '@custom-types';
+import type { PostNewStudyRequestBody } from '@custom-types';
 
 import { FormProvider, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';

@@ -2,9 +2,9 @@ import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { EmptyObject, Member, PostReviewRequestVariables, StudyId } from '@custom-types';
+import type { EmptyObject, Member, PostReviewRequestVariables, StudyId } from '@custom-types';
 
-import { postReview } from '@api/postReview';
+import postReview from '@api/postReview';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';

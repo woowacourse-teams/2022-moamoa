@@ -5,7 +5,7 @@ import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
 
-import { Member, Owner } from '@custom-types';
+import type { Member, Owner } from '@custom-types';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';

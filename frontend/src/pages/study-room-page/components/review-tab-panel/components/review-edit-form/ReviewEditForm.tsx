@@ -4,17 +4,9 @@ import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
 
-import {
-  DateYMD,
-  EmptyObject,
-  Member,
-  PatchReviewRequestBody,
-  PatchReviewRequestVariables,
-  ReviewId,
-  StudyId,
-} from '@custom-types';
+import type { DateYMD, EmptyObject, Member, PatchReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
 
-import { patchReview } from '@api/patchReview';
+import patchReview from '@api/patchReview';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';

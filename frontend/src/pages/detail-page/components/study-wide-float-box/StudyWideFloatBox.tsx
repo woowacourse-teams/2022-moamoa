@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import { yyyymmddTommdd } from '@utils/index';
 
-import { StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import Button from '@components/button/Button';
 

@@ -1,7 +1,7 @@
 import { HiOutlineTrash } from 'react-icons/hi';
 import { TbCrown } from 'react-icons/tb';
 
-import { MakeOptional, Tag } from '@custom-types';
+import type { MakeOptional, Tag } from '@custom-types';
 
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
