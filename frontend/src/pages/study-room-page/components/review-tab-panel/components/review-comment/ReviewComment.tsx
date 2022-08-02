@@ -47,39 +47,31 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
 
     return (
       <S.ReviewComment>
-        <div className="top">
-          <div className="left">
-            <div className="user-info">
-              <div className="left">
-                <a href={author.profileUrl}>
-                  <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
-                </a>
-              </div>
-              <div className="right">
-                <a href={author.profileUrl}>
-                  <span className="username">{author.username}</span>
-                </a>
-                <span className="date">{changeDateSeperator(date)}</span>
-              </div>
-            </div>
-          </div>
-          <div className="right">
-            <S.DropDown isOpen={isOpen}>
-              <KebabMenu onClick={handleDropDownClick} />
-              <S.DropDownMenu>
-                <li>
-                  <button onClick={handleEditReviewBtnClick}>수정</button>
-                </li>
-                <li>
-                  <button onClick={handleDeleteReviewBtnClick}>삭제</button>
-                </li>
-              </S.DropDownMenu>
-            </S.DropDown>
-          </div>
-        </div>
-        <div className="bottom">
+        <S.ReviewCommentHead>
+          <S.UserInfo>
+            <S.AvatarLink href={author.profileUrl}>
+              <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
+            </S.AvatarLink>
+            <S.UsernameContainer>
+              <S.UsernameLink href={author.profileUrl}>{author.username}</S.UsernameLink>
+              <S.Date>{changeDateSeperator(date)}</S.Date>
+            </S.UsernameContainer>
+          </S.UserInfo>
+          <S.DropDown isOpen={isOpen}>
+            <KebabMenu onClick={handleDropDownClick} />
+            <S.DropDownMenu>
+              <li>
+                <button onClick={handleEditReviewBtnClick}>수정</button>
+              </li>
+              <li>
+                <button onClick={handleDeleteReviewBtnClick}>삭제</button>
+              </li>
+            </S.DropDownMenu>
+          </S.DropDown>
+        </S.ReviewCommentHead>
+        <S.ReviewCommentBody>
           <S.Content>{content}</S.Content>
-        </div>
+        </S.ReviewCommentBody>
       </S.ReviewComment>
     );
   };

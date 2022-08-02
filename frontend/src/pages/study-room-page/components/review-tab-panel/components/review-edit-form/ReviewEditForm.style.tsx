@@ -1,74 +1,76 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { ReviewForm } from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
+import { ButtonGroup } from '@components/button-group/ButtonGroup.style';
+import { Button } from '@components/button/Button.style';
 
-export const ReviewEditForm = styled(ReviewForm)`
+import {
+  ReviewFormBody,
+  ReviewFormFooter,
+  ReviewFormHead,
+} from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
+
+export {
+  ReviewFormBody,
+  ReviewFormFooter,
+  ReviewFormHead,
+  Textarea,
+  Username,
+} from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
+
+export const Date = styled.span`
   ${({ theme }) => css`
-    .textarea-container {
-      border: 1px solid ${theme.colors.secondary.dark};
-      border-radius: 4px;
+    font-size: 12px;
+    color: ${theme.colors.secondary.dark};
+  `}
+`;
 
-      & > .top {
-        padding-top: 12px;
-        padding-left: 14px;
-        .user-info {
-          display: flex;
-          align-items: center;
-          column-gap: 6px;
-          .username {
-            font-weight: 900;
-          }
-          .date {
-            font-size: 12px;
-            color: ${theme.colors.secondary.dark};
-          }
-          .right {
-            display: flex;
-            flex-direction: column;
-            row-gap: 2px;
-          }
-        }
-      }
-      & > .middle {
-        padding: 10px 14px;
-        textarea {
-          min-height: 90px;
-          height: 100%;
-          width: 100%;
-          font-size: 18px;
-          padding: 6px;
-          border-color: transparent;
+export const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+`;
 
-          background-color: transparent;
-        }
-      }
-      & > .bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+export const AvatarLink = styled.a``;
 
-        padding: 6px 14px;
-        border-top: 1px solid ${theme.colors.secondary.base};
+export const UsernameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+`;
 
-        button {
-          border-radius: 4px;
-          padding: 8px 10px;
-          font-size: 12px;
-        }
+export const UsernameLink = styled.a`
+  font-size: 20px;
+  font-weight: 700;
+`;
 
-        .btn-group {
-          display: flex;
-          column-gap: 10px;
-        }
-
-        .cancel-btn {
-          background-color: ${theme.colors.secondary.dark};
-          &:hover {
-            background-color: ${theme.colors.secondary.base};
-          }
-        }
-      }
+export const CancelButton = styled(Button)`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.secondary.dark};
+    &:hover {
+      background-color: ${theme.colors.secondary.base};
     }
   `}
+`;
+
+export const ReviewEditForm = styled.form`
+  ${({ theme }) => css`
+    border: 1px solid ${theme.colors.secondary.dark};
+    border-radius: 4px;
+  `}
+`;
+
+export const ReviewEditFormHead = styled(ReviewFormHead)``;
+
+export const ReviewEditFormBody = styled(ReviewFormBody)``;
+
+export const ReviewEditFormFooter = styled(ReviewFormFooter)`
+  ${ButtonGroup} {
+    column-gap: 10px;
+  }
+  button {
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
 `;

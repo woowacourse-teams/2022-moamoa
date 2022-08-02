@@ -12,6 +12,7 @@ import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
+import ButtonGroup from '@components/button-group/ButtonGroup';
 import Button from '@components/button/Button';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
@@ -65,50 +66,44 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 
   return (
     <S.ReviewEditForm onSubmit={handleSubmit(onSubmit)}>
-      <div className="textarea-container">
-        <div className="top">
-          <div className="user-info">
-            <div className="left">
-              <a href={author.profileUrl}>
-                <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
-              </a>
-            </div>
-            <div className="right">
-              <a href={author.profileUrl}>
-                <span className="username">{author.username}</span>
-              </a>
-              <span className="date">{changeDateSeperator(date)}</span>
-            </div>
-          </div>
-        </div>
-        <div className="middle">
-          <textarea
-            defaultValue={originalContent}
-            {...register('review-edit', {
-              validate: (val: string) => {
-                if (val.length < REVIEW_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
-                }
-                if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              onChange: e => setCount(e.target.value.length),
-              minLength: REVIEW_LENGTH.MIN.VALUE,
-              maxLength: REVIEW_LENGTH.MAX.VALUE,
-            })}
-          />
-        </div>
-        <div className="bottom">
-          <LetterCounter count={count} maxCount={maxCount} />
-          <div className="btn-group">
-            <Button className="cancel-btn" type="button" onClick={onCancelEditBtnClick}>
-              취소
-            </Button>
-            <Button className="register-btn">수정</Button>
-          </div>
-        </div>
-      </div>
+      <S.ReviewFormHead>
+        <S.UserInfo>
+          <S.AvatarLink href={author.profileUrl}>
+            <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
+          </S.AvatarLink>
+          <S.UsernameContainer>
+            <S.UsernameLink href={author.profileUrl}>{author.username}</S.UsernameLink>
+            <S.Date>{changeDateSeperator(date)}</S.Date>
+          </S.UsernameContainer>
+        </S.UserInfo>
+      </S.ReviewFormHead>
+      <S.ReviewEditFormBody>
+        <S.Textarea
+          defaultValue={originalContent}
+          {...register('review-edit', {
+            validate: (val: string) => {
+              if (val.length < REVIEW_LENGTH.MIN.VALUE) {
+                return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
+              }
+              if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: e => setCount(e.target.value.length),
+            minLength: REVIEW_LENGTH.MIN.VALUE,
+            maxLength: REVIEW_LENGTH.MAX.VALUE,
+          })}
+        ></S.Textarea>
+      </S.ReviewEditFormBody>
+      <S.ReviewEditFormFooter>
+        <LetterCounter count={count} maxCount={maxCount} />
+        <ButtonGroup variation="flex-end">
+          <S.CancelButton type="button" onClick={onCancelEditBtnClick}>
+            취소
+          </S.CancelButton>
+          <Button>수정</Button>
+        </ButtonGroup>
+      </S.ReviewEditFormFooter>
     </S.ReviewEditForm>
   );
 };

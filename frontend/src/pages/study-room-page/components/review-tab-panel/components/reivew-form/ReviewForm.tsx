@@ -51,37 +51,35 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
 
   return (
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
-      <div className="textarea-container">
-        <div className="top">
-          <a className="user-info" href={author.profileUrl}>
-            <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="xs" />
-            <span className="username">rpf5573</span>
-          </a>
-        </div>
-        <div className="middle">
-          <textarea
-            {...register('review', {
-              validate: (val: string) => {
-                if (val.length < REVIEW_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
-                }
-                if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              onChange: e => setCount(e.target.value.length),
-              minLength: REVIEW_LENGTH.MIN.VALUE,
-              maxLength: REVIEW_LENGTH.MAX.VALUE,
-            })}
-          />
-        </div>
-        <div className="bottom">
-          <LetterCounter count={count} maxCount={maxCount} />
-          <div className="btn-group">
-            <Button className="register-btn">등록</Button>
-          </div>
-        </div>
-      </div>
+      <S.ReviewFormHead>
+        <S.UserInfo href={author.profileUrl}>
+          <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="xs" />
+          <S.Username>rpf5573</S.Username>
+        </S.UserInfo>
+      </S.ReviewFormHead>
+      <S.ReviewFormBody>
+        <S.Textarea
+          {...register('review', {
+            validate: (val: string) => {
+              if (val.length < REVIEW_LENGTH.MIN.VALUE) {
+                return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
+              }
+              if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: e => setCount(e.target.value.length),
+            minLength: REVIEW_LENGTH.MIN.VALUE,
+            maxLength: REVIEW_LENGTH.MAX.VALUE,
+          })}
+        ></S.Textarea>
+      </S.ReviewFormBody>
+      <S.ReviewFormFooter>
+        <LetterCounter count={count} maxCount={maxCount} />
+        <S.ButtonGroup>
+          <Button className="register-btn">등록</Button>
+        </S.ButtonGroup>
+      </S.ReviewFormFooter>
     </S.ReviewForm>
   );
 };
