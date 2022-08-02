@@ -131,7 +131,7 @@ class ReviewControllerTest {
 
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(reviewsResponse.getBody()).isNotNull();
-        assertThat(reviewsResponse.getBody().getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getBody().getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getBody().getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews);
     }
 
@@ -142,7 +142,7 @@ class ReviewControllerTest {
 
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(reviewsResponse.getBody()).isNotNull();
-        assertThat(reviewsResponse.getBody().getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getBody().getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getBody().getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
     }
 
@@ -153,7 +153,7 @@ class ReviewControllerTest {
 
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(reviewsResponse.getBody()).isNotNull();
-        assertThat(reviewsResponse.getBody().getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getBody().getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getBody().getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews);
     }
 }

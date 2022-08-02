@@ -94,7 +94,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ReviewsResponse.class);
 
-        assertThat(reviewsResponse.getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews())
                 .containsExactlyInAnyOrderElementsOf(javaReviews);
     }
@@ -109,7 +109,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ReviewsResponse.class);
 
-        assertThat(reviewsResponse.getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
     }
 }
