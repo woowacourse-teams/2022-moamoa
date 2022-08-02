@@ -65,11 +65,6 @@ export type StudyDetail = {
   tags: Array<StudyTag>;
 } & Study;
 
-export type StudyListQueryData = {
-  studies: Array<Study>;
-  hasNext: boolean;
-};
-
 export type StudyReview = {
   id: ReviewId;
   member: Member;
@@ -93,28 +88,6 @@ export type Tag = {
   };
 };
 
-export type TagListQueryData = {
-  tags: Array<Tag>;
-};
-
-export type TokenQueryData = {
-  token: string;
-};
-
-export type ReviewQueryData = {
-  studyId: StudyId;
-  content: string;
-};
-
-export type EditReviewQueryData = {
-  reviewId: ReviewId;
-} & ReviewQueryData;
-
-export type DeleteReviewQueryData = {
-  studyId: StudyId;
-  reviewId: ReviewId;
-};
-
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
 
 export type MyStudy = Pick<
@@ -124,6 +97,78 @@ export type MyStudy = Pick<
   studyStatus: StudyStatus;
 };
 
-export type MyStudyQueryData = {
+export type GetStudyDetailRequestParams = {
+  studyId: number;
+};
+export type GetStudyDetailResponseData = StudyDetail;
+
+export type GetStudyListRequestParams = {
+  page?: number;
+  size?: number;
+  title: string;
+  selectedFilters: Array<TagInfo>;
+};
+export type GetStudyListResponseData = {
+  studies: Array<Study>;
+  hasNext: boolean;
+};
+
+export type GetTagListResponseData = {
+  tags: Array<Tag>;
+};
+
+export type PostTokenRequestParams = {
+  code: string;
+};
+export type PostTokenResponseData = {
+  token: string;
+};
+
+export type GetReviewResponseData = {
+  reviews: Array<StudyReview>;
+  totalCount: number;
+};
+export type GetReviewRequestParams = {
+  studyId: number;
+  size?: number;
+};
+export type PostReviewRequestParams = {
+  studyId: StudyId;
+};
+export type PostReviewRequestBody = {
+  content: string;
+};
+export type PostReviewRequestVariables = PostReviewRequestParams & PostReviewRequestBody;
+
+export type PatchReviewRequestParams = {
+  studyId: number;
+  reviewId: number;
+};
+export type PatchReviewRequestBody = {
+  content: string;
+};
+export type PatchReviewRequestVariables = PatchReviewRequestParams & PatchReviewRequestBody;
+
+export type DeleteReviewRequestBody = {
+  studyId: StudyId;
+  reviewId: ReviewId;
+};
+
+export type GetMyStudyResponseData = {
   studies: Array<MyStudy>;
 };
+
+export type PostJoiningStudyRequestParams = {
+  studyId: StudyId;
+};
+
+export type PostNewStudyRequestBody = {
+  tagIds: Array<TagId>;
+  thumbnail: string;
+} & MakeOptional<
+  Pick<
+    StudyDetail,
+    'title' | 'excerpt' | 'description' | 'maxMemberCount' | 'enrollmentEndDate' | 'startDate' | 'endDate' | 'owner'
+  >,
+  'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
+>;

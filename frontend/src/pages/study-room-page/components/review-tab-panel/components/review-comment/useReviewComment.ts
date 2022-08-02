@@ -3,14 +3,14 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
-import { DeleteReviewQueryData, EmptyObject, ReviewId, StudyId } from '@custom-types';
+import { DeleteReviewRequestBody, EmptyObject, ReviewId, StudyId } from '@custom-types';
 
 import { deleteReview } from '@api/deleteReview';
 
 const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { mutateAsync } = useMutation<EmptyObject, Error, DeleteReviewQueryData>(deleteReview);
+  const { mutateAsync } = useMutation<EmptyObject, Error, DeleteReviewRequestBody>(deleteReview);
   const queryClient = useQueryClient();
   const refetch = () => {
     queryClient.refetchQueries([QK_FETCH_STUDY_REVIEWS, studyId]);

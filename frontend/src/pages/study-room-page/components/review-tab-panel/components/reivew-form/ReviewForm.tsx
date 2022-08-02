@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { EmptyObject, Member, ReviewQueryData, StudyId } from '@custom-types';
+import { EmptyObject, Member, PostReviewRequestVariables, StudyId } from '@custom-types';
 
 import { postReview } from '@api/postReview';
 
@@ -26,7 +26,7 @@ export type ReviewFormProps = {
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit, reset } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, ReviewQueryData>(postReview);
+  const { mutateAsync } = useMutation<EmptyObject, Error, PostReviewRequestVariables>(postReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {

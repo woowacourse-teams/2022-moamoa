@@ -1,10 +1,11 @@
-import { AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
+
+import type { EmptyObject, PostJoiningStudyRequestParams } from '@custom-types';
 
 import postJoiningStudy from '@api/postJoiningStudy';
 
@@ -28,7 +29,7 @@ const DetailPage = () => {
   const { isLoggedIn } = useAuth();
 
   const studyDetailQueryResult = useFetchDetail(Number(studyId));
-  const { mutate } = useMutation<AxiosResponse, Error, number>(postJoiningStudy);
+  const { mutate } = useMutation<EmptyObject, Error, PostJoiningStudyRequestParams>(postJoiningStudy);
 
   const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {
@@ -36,15 +37,18 @@ const DetailPage = () => {
       return;
     }
 
-    mutate(Number(studyId), {
-      onError: () => {
-        alert('가입에 실패했습니다.');
+    mutate(
+      { studyId: Number(studyId) },
+      {
+        onError: () => {
+          alert('가입에 실패했습니다.');
+        },
+        onSuccess: () => {
+          alert('가입했습니다 :D');
+          studyDetailQueryResult.refetch();
+        },
       },
-      onSuccess: () => {
-        alert('가입했습니다 :D');
-        studyDetailQueryResult.refetch();
-      },
-    });
+    );
   };
 
   if (!studyId) {

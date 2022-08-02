@@ -4,9 +4,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { TokenQueryData } from '@custom-types';
+import type { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
 
-import { getAccessToken } from '@api/getAccessToken';
+import { postAccessToken } from '@api/postAccessToken';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -19,7 +19,7 @@ const LoginRedirectPage: React.FC = () => {
 
   const { login } = useAuth();
 
-  const { mutate } = useMutation<TokenQueryData, Error, string>(getAccessToken);
+  const { mutate } = useMutation<PostTokenResponseData, Error, PostTokenRequestParams>(postAccessToken);
 
   useEffect(() => {
     if (!codeParam) {
@@ -28,16 +28,19 @@ const LoginRedirectPage: React.FC = () => {
       return;
     }
 
-    mutate(codeParam, {
-      onError: error => {
-        alert(error.message ?? '로그인에 실패했습니다.');
-        navigate(PATH.MAIN, { replace: true });
+    mutate(
+      { code: codeParam },
+      {
+        onError: error => {
+          alert(error.message ?? '로그인에 실패했습니다.');
+          navigate(PATH.MAIN, { replace: true });
+        },
+        onSuccess: data => {
+          login(data.token);
+          navigate(PATH.MAIN, { replace: true });
+        },
       },
-      onSuccess: data => {
-        login(data.token);
-        navigate(PATH.MAIN, { replace: true });
-      },
-    });
+    );
   }, []);
 
   return (

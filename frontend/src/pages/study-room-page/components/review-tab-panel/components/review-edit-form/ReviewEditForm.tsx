@@ -4,7 +4,15 @@ import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils/dates';
 
-import { DateYMD, EditReviewQueryData, EmptyObject, Member, ReviewId, StudyId } from '@custom-types';
+import {
+  DateYMD,
+  EmptyObject,
+  Member,
+  PatchReviewRequestBody,
+  PatchReviewRequestVariables,
+  ReviewId,
+  StudyId,
+} from '@custom-types';
 
 import { patchReview } from '@api/patchReview';
 
@@ -42,7 +50,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, EditReviewQueryData>(patchReview);
+  const { mutateAsync } = useMutation<EmptyObject, Error, PatchReviewRequestVariables>(patchReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {

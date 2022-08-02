@@ -1,9 +1,9 @@
-import { StudyDetail } from '@custom-types';
+import type { GetStudyDetailRequestParams, GetStudyDetailResponseData } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-const getStudyDetail = async (studyId: number): Promise<StudyDetail> => {
-  const response = await axiosInstance.get<StudyDetail>(`/api/studies/${studyId}`);
+const getStudyDetail = async ({ studyId }: GetStudyDetailRequestParams) => {
+  const response = await axiosInstance.get<GetStudyDetailResponseData>(`/api/studies/${studyId}`);
   return response.data;
 };
 

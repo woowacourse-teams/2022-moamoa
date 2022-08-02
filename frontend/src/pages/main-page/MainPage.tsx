@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM, PATH } from '@constants';
 
-import type { Study, StudyListQueryData, TagInfo } from '@custom-types';
+import type { GetStudyListResponseData, Study, TagInfo } from '@custom-types';
 
 import { getStudyList } from '@api/getStudyList';
 
@@ -39,12 +39,12 @@ const MainPage: React.FC = () => {
 
   const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
     const { page, size } = pageParam;
-    const data: StudyListQueryData = await getStudyList(page, size, keyword, selectedFilters);
+    const data = await getStudyList({ page, size, title: keyword, selectedFilters });
     return { ...data, page: page + 1 };
   };
 
   const { data, isFetching, isError, error, fetchNextPage, isFetched } = useInfiniteQuery<
-    StudyListQueryData & { page: number },
+    GetStudyListResponseData & { page: number },
     Error
   >(['infinite-scroll-searched-study-list', keyword, selectedFilters], getStudyListWithPage, {
     getNextPageParam: lastPage => {

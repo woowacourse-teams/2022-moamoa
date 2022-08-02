@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { css } from '@emotion/react';
 
-import type { MyStudyQueryData } from '@custom-types';
+import type { GetMyStudyResponseData } from '@custom-types';
 import { MyStudy } from '@custom-types';
 
 import { getMyStudyList } from '@api/getMyStudyList';
@@ -13,14 +13,14 @@ import Wrapper from '@components/wrapper/Wrapper';
 import * as S from '@my-study-page/MyStudyPage.style';
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 
-const studies: Record<string, Array<MyStudy>> = {
-  prepare: [],
-  inProgress: [],
-  done: [],
-};
-
 const MyStudyPage: React.FC = () => {
-  const { data, isFetching, isError } = useQuery<MyStudyQueryData, Error>('my-studies', getMyStudyList);
+  const { data, isFetching, isError } = useQuery<GetMyStudyResponseData, Error>('my-studies', getMyStudyList);
+
+  const studies: Record<string, Array<MyStudy>> = {
+    prepare: [],
+    inProgress: [],
+    done: [],
+  };
 
   const myStudies =
     data?.studies.reduce((acc, study) => {

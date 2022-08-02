@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 
 import { ACCESS_TOKEN_KEY, PATH } from '@constants';
 
-import { StudyDetailPostData } from '@api/postNewStudy';
+import { PostNewStudyRequestBody } from '@custom-types';
 
 import { FormProvider, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
@@ -63,7 +63,7 @@ const CreateStudyPage: React.FC = () => {
 
     const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
 
-    const postData: StudyDetailPostData = {
+    const postData: PostNewStudyRequestBody = {
       title: values['title'],
       excerpt: values['excerpt'],
       thumbnail,
