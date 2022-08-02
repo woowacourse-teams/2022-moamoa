@@ -1,10 +1,11 @@
-import { getRandomInt } from '@utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
 import { ACCESS_TOKEN_KEY, PATH } from '@constants';
+
+import { getRandomInt } from '@utils';
 
 import type { PostNewStudyRequestBody } from '@custom-types';
 

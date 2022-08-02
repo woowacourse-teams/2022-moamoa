@@ -1,8 +1,9 @@
-import { changeDateSeperator } from '@utils';
 import { useMutation } from 'react-query';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
+
+import { changeDateSeperator } from '@utils';
 
 import type { EmptyObject, PostJoiningStudyRequestParams } from '@custom-types';
 

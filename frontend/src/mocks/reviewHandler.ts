@@ -1,7 +1,8 @@
-import { isObject } from '@utils';
 import { rest } from 'msw';
 
 import reviewJSON from '@mocks/reviews.json';
+
+import { isObject } from '@utils';
 
 export const reviewHandlers = [
   rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {

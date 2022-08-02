@@ -1,8 +1,9 @@
-import { getTagList } from '@api';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
 import type { GetTagListResponseData, Tag, TagInfo } from '@custom-types';
+
+import { getTagList } from '@api';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 

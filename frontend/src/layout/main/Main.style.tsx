@@ -1,6 +1,6 @@
-import { mqDown } from '@utils';
-
 import styled from '@emotion/styled';
+
+import { mqDown } from '@utils';
 
 export const Main = styled.main`
   padding: 120px 0 80px;
