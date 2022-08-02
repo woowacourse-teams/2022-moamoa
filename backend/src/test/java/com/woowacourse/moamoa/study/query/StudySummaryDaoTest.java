@@ -5,9 +5,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.study.domain.AttachedTag;
+import com.woowacourse.moamoa.study.domain.AttachedTags;
+import com.woowacourse.moamoa.study.domain.Details;
+import com.woowacourse.moamoa.study.domain.Participant;
+import com.woowacourse.moamoa.study.domain.Participants;
+import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
+import com.woowacourse.moamoa.tag.query.TagDao;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
+import javax.persistence.EntityManager;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,25 +40,37 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class StudySummaryDaoTest {
 
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     private StudySummaryDao studySummaryDao;
+
+    @Autowired
+    private StudyRepository studyRepository;
+
+    @Autowired
+    private TagDao tagDao;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private Member jjanggu;
+    private Member greenlawn;
+    private Member dwoo;
+    private Member verus;
+
+    private Study javaStudy;
+    private Study reactStudy;
+    private Study jsStudy;
+    private Study httpStudy;
+    private Study algStudy;
+    private Study linuxStudy;
+
     @BeforeEach
     void initDataBase() {
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (4, 4, 'verus', 'https://image', 'github.com')");
-
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '2021-11-08T11:58:20.551705', '2021-11-09T11:58:20.551705', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, owner_id) VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'OPEN', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '2021-11-08T11:58:20.551705', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, max_member_count, created_at, owner_id) VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'CLOSE', 'PREPARE', '디우의 HTTP 정복하기', 5, '2021-11-08T11:58:20.551705', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date) VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'CLOSE', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'CLOSE', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '2021-11-08T11:58:20.551705', 4, '2021-12-06T11:56:32.123567', '2021-12-07T11:56:32.123567', '2022-01-07T11:56:32.123567')");
-
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
@@ -54,29 +81,62 @@ public class StudySummaryDaoTest {
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
+        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
+        greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
+        dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
+        verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
+        javaStudy = studyRepository.save(new Study(
+                new Details("Java 스터디", "자바 설명", "java thumbnail", "OPEN", StudyStatus.PREPARE, "그린론의 우당탕탕 자바 스터디입니다."),
+                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
+                        greenlawn.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 11)),
+                new AttachedTags(List.of(new AttachedTag(1L), new AttachedTag(2L), new AttachedTag(3L)))));
+        reactStudy = studyRepository.save(new Study(
+                new Details("React 스터디", "리액트 설명", "react thumbnail", "OPEN", StudyStatus.PREPARE, "디우의 뤼액트 스터디입니다."),
+                new Participants(4, 5, Set.of(new Participant(jjanggu.getId()), new Participant(greenlawn.getId()), new Participant(verus.getId())), dwoo.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 10)),
+                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L), new AttachedTag(5L)))));
+        jsStudy = studyRepository.save(new Study(
+                new Details("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN", StudyStatus.PREPARE, "그린론의 자바스크립트 접해보기"),
+                new Participants(3, 20, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 11)),
+                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L)))));
+        httpStudy = studyRepository.save(new Study(
+                new Details("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE", StudyStatus.PREPARE, "디우의 HTTP 정복하기"),
+                new Participants(1, 5, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), jjanggu.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 11)),
+                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L)))));
+        algStudy = studyRepository.save(new Study(
+                new Details("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE", StudyStatus.PREPARE, "알고리즘을 TDD로 풀자의 베루스입니다."),
+                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 11)),
+                new AttachedTags(List.of())));
+        linuxStudy = studyRepository.save(new Study(
+                new Details("Linux 스터디", "리눅스 설명", "linux thumbnail", "CLOSE", StudyStatus.PREPARE, "Linux를 공부하자의 베루스입니다."),
+                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Period(
+                        LocalDate.of(2022, 11, 8),
+                        LocalDate.of(2022, 12, 9),
+                        LocalDate.of(2022, 12, 11)),
+                new AttachedTags(List.of())));
+        em.flush();
+        em.clear();
     }
 
 
@@ -129,7 +189,8 @@ public class StudySummaryDaoTest {
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
     public void findByBlankTitle() {
-        final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(), PageRequest.of(0, 5));
+        final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(),
+                PageRequest.of(0, 5));
 
         assertThat(response.hasNext()).isTrue();
         assertThat(response.getContent())
@@ -212,7 +273,8 @@ public class StudySummaryDaoTest {
                         ),
                         true
                 ),
-                Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), List.of(1L, 5L)), // 4기, FE, BE, Java, React
+                Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), List.of(1L, 5L)),
+                        // 4기, FE, BE, Java, React
                         List.of(
                                 tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
                                 tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN")
