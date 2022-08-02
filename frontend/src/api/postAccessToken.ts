@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios';
 
 import type { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
 const postAccessToken = async ({ code }: PostTokenRequestParams) => {
   const response = await axiosInstance.post<

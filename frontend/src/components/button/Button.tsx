@@ -1,4 +1,4 @@
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
 import type { MakeOptional } from '@custom-types';
 

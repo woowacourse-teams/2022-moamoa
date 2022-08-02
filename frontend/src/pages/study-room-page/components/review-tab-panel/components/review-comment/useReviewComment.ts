@@ -5,7 +5,7 @@ import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
 import type { DeleteReviewRequestBody, EmptyObject, ReviewId, StudyId } from '@custom-types';
 
-import deleteReview from '@api/deleteReview';
+import { deleteReview } from '@api';
 
 const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

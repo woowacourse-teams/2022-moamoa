@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import { mqDown } from '@utils';
 
-import { mqDown } from '@utils/index';
+import styled from '@emotion/styled';
 
 export const SectionTitle = styled.h3`
   margin-bottom: 20px;

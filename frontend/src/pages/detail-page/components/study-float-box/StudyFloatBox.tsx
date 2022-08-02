@@ -1,4 +1,4 @@
-import { yyyymmddTommdd } from '@utils/index';
+import { yyyymmddTommdd } from '@utils';
 
 import type { StudyDetail } from '@custom-types';
 

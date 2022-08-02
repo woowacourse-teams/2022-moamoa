@@ -1,7 +1,7 @@
+import { mqDown } from '@utils';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { mqDown } from '@utils/index';
 
 import * as Logo from '@layout/header/components/logo/Logo.style';
 import * as SearchBar from '@layout/header/components/search-bar/SearchBar.style';

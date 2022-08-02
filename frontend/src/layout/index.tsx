@@ -1,5 +1,3 @@
-import Footer from '@layout/footer/Footer';
-import Header from '@layout/header/Header';
-import Main from '@layout/main/Main';
-
-export { Footer, Header, Main };
+export { default as Footer } from '@layout/footer/Footer';
+export { default as Header } from '@layout/header/Header';
+export { default as Main } from '@layout/main/Main';

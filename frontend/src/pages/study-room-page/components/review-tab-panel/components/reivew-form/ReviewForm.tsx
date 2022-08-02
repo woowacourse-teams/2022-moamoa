@@ -4,7 +4,7 @@ import { REVIEW_LENGTH } from '@constants';
 
 import type { EmptyObject, Member, PostReviewRequestVariables, StudyId } from '@custom-types';
 
-import postReview from '@api/postReview';
+import { postReview } from '@api';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';

@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios';
 
 import type { DeleteReviewRequestBody, EmptyObject } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
 const deleteReview = async ({ studyId, reviewId }: DeleteReviewRequestBody) => {
   const response = await axiosInstance.delete<EmptyObject, AxiosResponse<EmptyObject>, DeleteReviewRequestBody>(

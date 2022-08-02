@@ -1,6 +1,5 @@
 import type { Story } from '@storybook/react';
-
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import type { StudyWideFloatBoxProps } from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';

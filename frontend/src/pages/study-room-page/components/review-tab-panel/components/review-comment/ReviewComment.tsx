@@ -1,4 +1,4 @@
-import { changeDateSeperator } from '@utils/dates';
+import { changeDateSeperator } from '@utils';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 

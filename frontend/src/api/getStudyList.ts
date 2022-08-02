@@ -2,7 +2,7 @@ import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
 import type { GetStudyListRequestParams, GetStudyListResponseData } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
 const { PAGE, SIZE } = DEFAULT_STUDY_CARD_QUERY_PARAM;
 const getStudyList = async ({ page = PAGE, size = SIZE, title, selectedFilters }: GetStudyListRequestParams) => {

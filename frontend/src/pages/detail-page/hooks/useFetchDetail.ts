@@ -4,7 +4,7 @@ import { QK_FETCH_STUDY_DETAIL } from '@constants';
 
 import type { GetStudyDetailResponseData } from '@custom-types';
 
-import getStudyDetail from '@api/getStudyDetail';
+import { getStudyDetail } from '@api';
 
 const useFetchDetail = (studyId: number) => {
   return useQuery<GetStudyDetailResponseData, Error>([QK_FETCH_STUDY_DETAIL, studyId], () =>

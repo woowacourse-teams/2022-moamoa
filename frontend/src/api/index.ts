@@ -1,27 +1,12 @@
-import axiosInstance from '@api/axiosInstance';
-import deleteReview from '@api/deleteReview';
-import getMyStudyList from '@api/getMyStudyList';
-import getStudyDetail from '@api/getStudyDetail';
-import getStudyList from '@api/getStudyList';
-import getStudyReviews from '@api/getStudyReviews';
-import getTagList from '@api/getTagList';
-import patchReview from '@api/patchReview';
-import postAccessToken from '@api/postAccessToken';
-import postJoiningStudy from '@api/postJoiningStudy';
-import postNewStudy from '@api/postNewStudy';
-import postReview from '@api/postReview';
-
-export {
-  axiosInstance,
-  deleteReview,
-  getMyStudyList,
-  getStudyDetail,
-  getStudyList,
-  getStudyReviews,
-  getTagList,
-  patchReview,
-  postAccessToken,
-  postJoiningStudy,
-  postNewStudy,
-  postReview,
-};
+export { default as axiosInstance } from '@api/axiosInstance';
+export { default as deleteReview } from '@api/deleteReview';
+export { default as getMyStudyList } from '@api/getMyStudyList';
+export { default as getStudyDetail } from '@api/getStudyDetail';
+export { default as getStudyList } from '@api/getStudyList';
+export { default as getStudyReviews } from '@api/getStudyReviews';
+export { default as getTagList } from '@api/getTagList';
+export { default as patchReview } from '@api/patchReview';
+export { default as postAccessToken } from '@api/postAccessToken';
+export { default as postJoiningStudy } from '@api/postJoiningStudy';
+export { default as postNewStudy } from '@api/postNewStudy';
+export { default as postReview } from '@api/postReview';

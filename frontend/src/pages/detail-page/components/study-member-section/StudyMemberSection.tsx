@@ -1,9 +1,8 @@
+import { changeDateSeperator } from '@utils';
 import { useState } from 'react';
 import { TbCrown } from 'react-icons/tb';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
-
-import { changeDateSeperator } from '@utils/dates';
 
 import type { Member, Owner } from '@custom-types';
 

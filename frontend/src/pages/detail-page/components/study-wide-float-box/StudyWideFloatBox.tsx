@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { yyyymmddTommdd } from '@utils';
 
-import { yyyymmddTommdd } from '@utils/index';
+import { css } from '@emotion/react';
 
 import type { StudyDetail } from '@custom-types';
 

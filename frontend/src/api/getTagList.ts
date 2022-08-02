@@ -1,6 +1,6 @@
 import type { GetTagListResponseData } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
 const getTagList = async () => {
   const response = await axiosInstance.get<GetTagListResponseData>(`/api/tags`);

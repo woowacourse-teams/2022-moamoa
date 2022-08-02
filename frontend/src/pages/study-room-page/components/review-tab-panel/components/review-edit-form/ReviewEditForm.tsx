@@ -1,12 +1,11 @@
+import { changeDateSeperator } from '@utils';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { changeDateSeperator } from '@utils/dates';
-
 import type { DateYMD, EmptyObject, Member, PatchReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
 
-import patchReview from '@api/patchReview';
+import { patchReview } from '@api';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';

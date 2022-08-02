@@ -1,13 +1,12 @@
+import { changeDateSeperator } from '@utils';
 import { useMutation } from 'react-query';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { changeDateSeperator } from '@utils/dates';
-
 import type { EmptyObject, PostJoiningStudyRequestParams } from '@custom-types';
 
-import postJoiningStudy from '@api/postJoiningStudy';
+import { postJoiningStudy } from '@api';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -23,7 +22,7 @@ import StudyReviewSection from '@detail-page/components/study-review-section/Stu
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useFetchDetail from '@detail-page/hooks/useFetchDetail';
 
-const DetailPage = () => {
+const DetailPage: React.FC = () => {
   const { studyId } = useParams() as { studyId: string };
 
   const { isLoggedIn } = useAuth();

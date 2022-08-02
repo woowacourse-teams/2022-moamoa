@@ -1,6 +1,6 @@
 import type { GetMyStudyResponseData } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
 const getMyStudyList = async () => {
   const response = await axiosInstance.get<GetMyStudyResponseData>(`/api/my/studies`);

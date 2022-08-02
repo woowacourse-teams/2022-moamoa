@@ -6,7 +6,7 @@ import { DEFAULT_STUDY_CARD_QUERY_PARAM, PATH } from '@constants';
 
 import type { GetStudyListResponseData, Study, TagInfo } from '@custom-types';
 
-import { getStudyList } from '@api/getStudyList';
+import { getStudyList } from '@api';
 
 import { useAuth } from '@hooks/useAuth';
 

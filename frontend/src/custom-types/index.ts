@@ -56,7 +56,7 @@ export type StudyDetail = {
   description: string;
   currentMemberCount: number;
   maxMemberCount: number;
-  createdAt: string;
+  createdDate: string;
   enrollmentEndDate: string;
   startDate: string;
   endDate: string;

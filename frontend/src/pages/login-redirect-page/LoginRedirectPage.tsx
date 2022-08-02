@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import type { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
 
-import { postAccessToken } from '@api/postAccessToken';
+import { postAccessToken } from '@api';
 
 import { useAuth } from '@hooks/useAuth';
 
