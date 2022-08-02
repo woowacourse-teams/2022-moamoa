@@ -1,10 +1,10 @@
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 
 import { EmptyObject, PostReviewRequestBody, PostReviewRequestVariables } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-export const postReview = async ({ studyId, content }: PostReviewRequestVariables) => {
+const postReview = async ({ studyId, content }: PostReviewRequestVariables) => {
   const response = await axiosInstance.post<EmptyObject, AxiosResponse<EmptyObject>, PostReviewRequestBody>(
     `/api/studies/${studyId}/reviews`,
     {
@@ -13,3 +13,5 @@ export const postReview = async ({ studyId, content }: PostReviewRequestVariable
   );
   return response.data;
 };
+
+export default postReview;

@@ -5,7 +5,7 @@ import type { GetStudyListRequestParams, GetStudyListResponseData } from '@custo
 import axiosInstance from '@api/axiosInstance';
 
 const { PAGE, SIZE } = DEFAULT_STUDY_CARD_QUERY_PARAM;
-export const getStudyList = async ({ page = PAGE, size = SIZE, title, selectedFilters }: GetStudyListRequestParams) => {
+const getStudyList = async ({ page = PAGE, size = SIZE, title, selectedFilters }: GetStudyListRequestParams) => {
   const tagParams = selectedFilters.map(({ id, categoryName }) => `&${categoryName}=${id}`).join('');
   const titleParams = title && `&title=${title}`;
 
@@ -14,3 +14,5 @@ export const getStudyList = async ({ page = PAGE, size = SIZE, title, selectedFi
   );
   return response.data;
 };
+
+export default getStudyList;

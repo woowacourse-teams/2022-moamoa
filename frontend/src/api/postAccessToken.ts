@@ -4,7 +4,7 @@ import type { PostTokenRequestParams, PostTokenResponseData } from '@custom-type
 
 import axiosInstance from '@api/axiosInstance';
 
-export const postAccessToken = async ({ code }: PostTokenRequestParams) => {
+const postAccessToken = async ({ code }: PostTokenRequestParams) => {
   const response = await axiosInstance.post<
     PostTokenResponseData,
     AxiosResponse<PostTokenResponseData>,
@@ -12,3 +12,5 @@ export const postAccessToken = async ({ code }: PostTokenRequestParams) => {
   >(`/api/login/token?code=${code}`);
   return response.data;
 };
+
+export default postAccessToken;

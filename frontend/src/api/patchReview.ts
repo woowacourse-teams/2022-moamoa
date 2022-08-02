@@ -4,7 +4,7 @@ import type { EmptyObject, PatchReviewRequestBody, PatchReviewRequestVariables }
 
 import axiosInstance from '@api/axiosInstance';
 
-export const patchReview = async ({ studyId, reviewId, content }: PatchReviewRequestVariables) => {
+const patchReview = async ({ studyId, reviewId, content }: PatchReviewRequestVariables) => {
   const response = await axiosInstance.patch<EmptyObject, AxiosResponse<EmptyObject>, PatchReviewRequestBody>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
     {
@@ -13,3 +13,5 @@ export const patchReview = async ({ studyId, reviewId, content }: PatchReviewReq
   );
   return response.data;
 };
+
+export default patchReview;
