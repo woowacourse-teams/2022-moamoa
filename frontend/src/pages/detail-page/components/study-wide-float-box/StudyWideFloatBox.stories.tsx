@@ -16,15 +16,13 @@ const Template: Story<StudyWideFloatBoxProps> = props => (
       width: '700px',
     }}
   >
-    <StudyWideFloatBox {...props} handleRegisterBtnClick={() => noop} />
+    <StudyWideFloatBox {...props} onRegisterButtonClick={() => noop} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  studyId: 123,
-  deadline: '2022-07-28',
+  enrollmentEndDate: '2022-07-28',
   currentMemberCount: 8,
   maxMemberCount: 14,
-  owner: 'airman5573',
 };

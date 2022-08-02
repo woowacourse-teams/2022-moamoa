@@ -30,13 +30,11 @@ public class ReviewService {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
-        final LocalDateTime reviewCreatedDate = LocalDateTime.now();
-
         if (!study.isWritableReviews(member.getId())) {
             throw new WritingReviewBadRequestException();
         }
 
-        final Review review = Review.writeNewReview(study.getId(), member.getId(), writeReviewRequest.getContent(), reviewCreatedDate);
+        final Review review = Review.writeNewReview(study.getId(), member.getId(), writeReviewRequest.getContent());
         return reviewRepository.save(review).getId();
     }
 

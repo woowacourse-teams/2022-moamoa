@@ -34,7 +34,7 @@ public class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatThrownBy(() ->
@@ -54,7 +54,7 @@ public class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
 
         assertThatThrownBy(() ->
@@ -74,7 +74,7 @@ public class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatCode(() ->
@@ -94,7 +94,7 @@ public class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatCode(() ->
@@ -107,7 +107,7 @@ public class StudyTest {
     public void participate() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -122,7 +122,7 @@ public class StudyTest {
     public void participateTwice() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -138,7 +138,7 @@ public class StudyTest {
     void participateByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -151,7 +151,7 @@ public class StudyTest {
     void participateFullOfMemberStudy() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -166,7 +166,7 @@ public class StudyTest {
     public void closeStudyByLastParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -185,7 +185,7 @@ public class StudyTest {
     ) {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.OPEN, enrollmentEndDate);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 createdAt);
 
@@ -222,7 +222,7 @@ public class StudyTest {
     void writeReviewByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -234,7 +234,7 @@ public class StudyTest {
     void writeReviewByParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
@@ -248,7 +248,7 @@ public class StudyTest {
     void writeReviewByNotParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.OPEN, LocalDate.now());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RecruitStatus.RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 

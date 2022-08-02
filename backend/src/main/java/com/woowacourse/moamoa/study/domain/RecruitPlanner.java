@@ -13,7 +13,7 @@ public class RecruitPlanner {
     private Integer max;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "recruit_status")
+    @Column(name = "recruitment_status")
     private RecruitStatus recruitStatus;
 
     private LocalDate enrollmentEndDate;
@@ -39,11 +39,11 @@ public class RecruitPlanner {
     }
 
     boolean isNeedToCloseRecruiting(final LocalDate now) {
-        return recruitStatus.equals(RecruitStatus.OPEN) && isRecruitedBeforeThan(now);
+        return recruitStatus.equals(RecruitStatus.RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
     void closeRecruiting() {
-        recruitStatus = RecruitStatus.CLOSE;
+        recruitStatus = RecruitStatus.RECRUITMENT_END;
     }
 
     LocalDate getEnrollmentEndDate() {
@@ -51,7 +51,7 @@ public class RecruitPlanner {
     }
 
     boolean isCloseEnrollment() {
-        return recruitStatus.equals(RecruitStatus.CLOSE);
+        return recruitStatus.equals(RecruitStatus.RECRUITMENT_END);
     }
 
     int getCapacity() {

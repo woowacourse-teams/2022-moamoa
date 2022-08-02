@@ -87,7 +87,7 @@ public class CreatingStudyRequest {
     }
 
     public RecruitPlanner mapToRecruitPlan() {
-        return new RecruitPlanner(maxMemberCount, RecruitStatus.OPEN, enrollmentEndDate);
+        return new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {

@@ -1,6 +1,5 @@
-export interface Theme {}
-
 export const COLORS = {
+  YELLOW200: '#FFD54F',
   BLUE100: '#534bae',
   BLUE200: '#1a237e',
   BLUE300: '#000051',
@@ -22,6 +21,9 @@ export const theme = {
       base: COLORS.GRAY200,
       light: COLORS.GRAY100,
       dark: COLORS.GRAY300,
+    },
+    tertiary: {
+      base: COLORS.YELLOW200,
     },
     white: COLORS.WHITE,
     black: COLORS.BLACK,

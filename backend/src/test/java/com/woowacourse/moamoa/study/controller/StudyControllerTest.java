@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -110,6 +112,7 @@ public class StudyControllerTest {
     void checkStudyStatusIfCreateDateSameStartDate() {
         StudyController sut = new StudyController(new StudyService(studyRepository, memberRepository,
                 new DateTimeSystem()));
+
         final CreatingStudyRequest createStudyRequest = CreatingStudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
@@ -134,7 +137,7 @@ public class StudyControllerTest {
         assertThat(study.get()
                 .getStudyPlanner()
                 .getStudyStatus())
-                .isEqualTo(StudyStatus.IN_PROGRESS);
+                .isEqualTo(IN_PROGRESS);
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")

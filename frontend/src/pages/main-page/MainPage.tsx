@@ -2,23 +2,23 @@ import { useContext, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
+import { DEFAULT_STUDY_CARD_QUERY_PARAM, PATH } from '@constants';
 
 import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
 
 import { getStudyList } from '@api/getStudyList';
 
-import { LoginContext } from '@context/login/LoginProvider';
-import { SearchContext } from '@context/search/SearchProvider';
+import { useAuth } from '@hooks/useAuth';
 
-import * as S from '@pages/main-page/MainPage.style';
-import FilterSection from '@pages/main-page/filter-section/FilterSection';
-import StudyCard from '@pages/main-page/study-card/StudyCard';
+import { SearchContext } from '@context/search/SearchProvider';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import CreateNewStudyButton from '@main-page/create-new-study-button/CreateNewStudyButton';
+import * as S from '@main-page/MainPage.style';
+import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
+import FilterSection from '@main-page/components/filter-section/FilterSection';
+import StudyCard from '@main-page/components/study-card/StudyCard';
 
 type PageParam = {
   page: number;
@@ -31,8 +31,9 @@ const defaultParam = {
 };
 
 const MainPage: React.FC = () => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
   const { keyword } = useContext(SearchContext);
+
   const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
   const navigate = useNavigate();
 
@@ -70,27 +71,27 @@ const MainPage: React.FC = () => {
       return;
     }
     window.scrollTo(0, 0);
-    navigate('/study/new');
+    navigate(PATH.CREATE_STUDY);
   };
 
   return (
     <S.Page>
-      <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
+      <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <Wrapper>
-        <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
+        <InfiniteScroll observingCondition={hasSearchResult} onContentLoad={fetchNextPage}>
           {isFetching && <div>Loading...</div>}
           {isError && <div>{error.message}</div>}
           {hasSearchResult ? (
             <S.CardList>
               {searchedStudies.map(study => (
                 <li key={study.id}>
-                  <Link to={`study/${study.id}`}>
+                  <Link to={PATH.STUDY_DETAIL(study.id)}>
                     <StudyCard
                       thumbnailUrl={study.thumbnail}
                       thumbnailAlt={`${study.title} 스터디 이미지`}
                       title={study.title}
                       excerpt={study.excerpt}
-                      isOpen={study.status === 'OPEN'}
+                      isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
                     />
                   </Link>
                 </li>

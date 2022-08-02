@@ -1,43 +1,42 @@
 import { yyyymmddTommdd } from '@utils/index';
 
+import { StudyDetail } from '@custom-types/index';
+
 import Button from '@components/button/Button';
 
 import * as S from '@detail-page/components/study-float-box/StudyFloatBox.style';
 
-export type StudyFloatBoxProps = {
-  studyId: number;
-  deadline: string;
-  currentMemberCount: number;
-  maxMemberCount: number;
-  owner: string;
-  status: 'OPEN' | 'CLOSE'; // TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
-  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
+export type StudyFloatBoxProps = Pick<
+  StudyDetail,
+  'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
+> & {
+  ownerName: string;
+  onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
-  studyId,
-  deadline,
+  enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
-  owner,
-  status,
-  handleRegisterBtnClick,
+  ownerName,
+  recruitmentStatus,
+  onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
-  const isOpen = status === 'OPEN';
+  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   return (
     <S.StudyFloatBox>
       <S.StudyInfo>
-        <S.Deadline>
+        <S.EnrollmentEndDate>
           {isOpen ? (
             <>
-              <span>{yyyymmddTommdd(deadline)}</span>
+              <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
               까지 가입 가능
             </>
           ) : (
             <span>모집 마감</span>
           )}
-        </S.Deadline>
+        </S.EnrollmentEndDate>
         <S.MemberCount>
           <span>모집인원</span>
           <span>
@@ -46,10 +45,10 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
         </S.MemberCount>
         <S.Owner>
           <span>스터디장</span>
-          <span>{owner}</span>
+          <span>{ownerName}</span>
         </S.Owner>
       </S.StudyInfo>
-      <Button disabled={!isOpen} onClick={handleRegisterBtnClick(studyId)}>
+      <Button disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
       </Button>
     </S.StudyFloatBox>

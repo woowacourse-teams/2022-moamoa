@@ -1,7 +1,8 @@
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import { Story } from '@storybook/react';
 
 import { css } from '@emotion/react';
+
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 export default {
   title: 'Components/MetaBox',

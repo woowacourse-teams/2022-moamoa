@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.auth.config.AuthRequestMatchConfig;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.review.controller.ReviewController;
@@ -24,7 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {ReviewController.class, SearchingReviewController.class})
-@Import({JwtTokenProvider.class})
+@Import({JwtTokenProvider.class, AuthRequestMatchConfig.class})
 public class BadRequestReviewWebMvcTest {
 
     @Autowired

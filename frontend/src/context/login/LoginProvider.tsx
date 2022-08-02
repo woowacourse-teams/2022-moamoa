@@ -4,14 +4,14 @@ import { ACCESS_TOKEN_KEY } from '@constants';
 
 import { noop } from '@utils/index';
 
-interface LoginProviderProps {
+type LoginProviderProps = {
   children: ReactNode;
-}
+};
 
-interface ContextType {
+type ContextType = {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const hasAccessToken = !!window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
 

@@ -2,13 +2,13 @@ import { ReactNode } from 'react';
 
 import * as S from '@components/card/Card.style';
 
-export interface CardProps {
+export type CardProps = {
   thumbnailUrl: string;
   thumbnailAlt: string;
   title: string;
   excerpt: string;
   extraChips: Array<ReactNode>;
-}
+};
 
 const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, extraChips }) => {
   return (
@@ -16,11 +16,11 @@ const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt,
       <S.ImageContainer>
         <S.CardImage src={thumbnailUrl} alt={thumbnailAlt} />
       </S.ImageContainer>
-      <S.Contents>
+      <S.Content>
         <S.Title>{title}</S.Title>
         <S.Excerpt>{excerpt}</S.Excerpt>
         <S.Extra>{extraChips}</S.Extra>
-      </S.Contents>
+      </S.Content>
     </S.Card>
   );
 };
