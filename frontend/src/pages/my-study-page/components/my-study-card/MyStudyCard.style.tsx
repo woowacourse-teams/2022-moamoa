@@ -45,7 +45,7 @@ export const Owner = styled.p`
   }
 `;
 
-export const Tags = styled.p`
+export const Tags = styled.ul`
   margin-bottom: 12px;
   display: flex;
   column-gap: 10px;

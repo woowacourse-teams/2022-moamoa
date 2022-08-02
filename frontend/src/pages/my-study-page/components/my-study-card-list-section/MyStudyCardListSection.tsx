@@ -10,7 +10,7 @@ import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 export type MyStudyCardListSectionProps = {
   className?: string;
   sectionTitle: string;
-  myStudies: Array<MyStudy>;
+  studies: Array<MyStudy>;
   disabled: boolean;
 };
 
@@ -19,25 +19,25 @@ type OptionalMyStudyCardListSectionProps = MakeOptional<MyStudyCardListSectionPr
 const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
   className,
   sectionTitle,
-  myStudies,
+  studies,
   disabled = false,
 }) => {
   return (
     <S.MyStudyCardListSection className={className}>
       <S.SectionTitle>{sectionTitle}</S.SectionTitle>
       <S.MyStudyList>
-        {myStudies.length === 0 ? (
+        {studies.length === 0 ? (
           <li>해당하는 스터디가 없습니다</li>
         ) : (
-          myStudies.map(myStudy => (
-            <li key={myStudy.id}>
-              <Link to={PATH.STUDY_ROOM(myStudy.id)}>
+          studies.map(study => (
+            <li key={study.id}>
+              <Link to={PATH.STUDY_ROOM(study.id)}>
                 <MyStudyCard
-                  title={myStudy.title}
-                  ownerName={myStudy.owner.username}
-                  tags={myStudy.tags}
-                  startDate={myStudy.startDate}
-                  endDate={myStudy.endDate}
+                  title={study.title}
+                  ownerName={study.owner.username}
+                  tags={study.tags}
+                  startDate={study.startDate}
+                  endDate={study.endDate}
                   disabled={disabled}
                 />
               </Link>

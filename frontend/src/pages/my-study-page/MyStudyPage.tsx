@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 
 import { css } from '@emotion/react';
@@ -15,25 +16,13 @@ import MyStudyCardListSection from '@my-study-page/components/my-study-card-list
 const MyStudyPage: React.FC = () => {
   const { data, isFetching, isError } = useQuery<GetMyStudyResponseData, Error>('my-studies', getMyStudyList);
 
-  const studies: Record<string, Array<MyStudy>> = {
-    prepare: [],
-    inProgress: [],
-    done: [],
-  };
-
-  const myStudies =
-    data?.studies.reduce((acc, study) => {
-      if (study.studyStatus === 'IN_PROGRESS') {
-        acc.inProgress.push(study);
-      }
-      if (study.studyStatus === 'PREPARE') {
-        acc.prepare.push(study);
-      }
-      if (study.studyStatus === 'DONE') {
-        acc.done.push(study);
-      }
-      return acc;
-    }, studies) || studies;
+  const studies: Record<string, Array<MyStudy>> = useMemo(() => {
+    return {
+      prepare: data?.studies.filter(({ studyStatus }) => studyStatus === 'IN_PROGRESS') || [],
+      inProgress: data?.studies.filter(({ studyStatus }) => studyStatus === 'PREPARE') || [],
+      done: data?.studies.filter(({ studyStatus }) => studyStatus === 'DONE') || [],
+    };
+  }, [data]);
 
   const mb20 = css`
     margin-bottom: 20px;
@@ -45,9 +34,9 @@ const MyStudyPage: React.FC = () => {
       <Divider />
       {isFetching && <div>로딩 중...</div>}
       {isError && <div>내 스터디 불러오기를 실패했습니다</div>}
-      <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" myStudies={myStudies.inProgress} />
-      <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" myStudies={myStudies.prepare} />
-      <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" myStudies={myStudies.done} disabled={true} />
+      <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" studies={studies.inProgress} />
+      <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" studies={studies.prepare} />
+      <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" studies={studies.done} disabled={true} />
     </Wrapper>
   );
 };
