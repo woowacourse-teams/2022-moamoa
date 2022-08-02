@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.query;
 
-import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_END;
-import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_START;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static java.util.Collections.emptyList;
@@ -13,15 +13,16 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.AttachedTag;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
-import com.woowacourse.moamoa.study.domain.Details;
-import com.woowacourse.moamoa.study.domain.Participant;
+import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.Period;
+import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -65,13 +66,6 @@ public class StudySummaryDaoTest {
     private Member dwoo;
     private Member verus;
 
-    private Study javaStudy;
-    private Study reactStudy;
-    private Study jsStudy;
-    private Study httpStudy;
-    private Study algStudy;
-    private Study linuxStudy;
-
     @BeforeEach
     void initDataBase() {
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
@@ -89,60 +83,66 @@ public class StudySummaryDaoTest {
         dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
         verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
 
-        javaStudy = studyRepository.save(new Study(
-                new Details("Java 스터디", "자바 설명", "java thumbnail", PREPARE, "그린론의 우당탕탕 자바 스터디입니다."),
-                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        greenlawn.getId(), RECRUITMENT_START),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 11)),
-                new AttachedTags(List.of(new AttachedTag(1L), new AttachedTag(2L), new AttachedTag(3L)))));
-        reactStudy = studyRepository.save(new Study(
-                new Details("React 스터디", "리액트 설명", "react thumbnail", PREPARE, "디우의 뤼액트 스터디입니다."),
-                new Participants(4, 5, Set.of(new Participant(jjanggu.getId()), new Participant(greenlawn.getId()),
-                        new Participant(verus.getId())), dwoo.getId(), RECRUITMENT_START),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 10)),
-                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L), new AttachedTag(5L)))));
-        jsStudy = studyRepository.save(new Study(
-                new Details("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", PREPARE, "그린론의 자바스크립트 접해보기"),
-                new Participants(3, 20, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        greenlawn.getId(), RECRUITMENT_START),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 11)),
-                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L)))));
-        httpStudy = studyRepository.save(new Study(
-                new Details("HTTP 스터디", "HTTP 설명", "http thumbnail", DONE, "디우의 HTTP 정복하기"),
-                new Participants(1, 5, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        jjanggu.getId(), RECRUITMENT_END),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 11)),
-                new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L)))));
-        algStudy = studyRepository.save(new Study(
-                new Details("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", DONE, "알고리즘을 TDD로 풀자의 베루스입니다."),
-                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        greenlawn.getId(), RECRUITMENT_END),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 11)),
-                new AttachedTags(List.of())));
-        linuxStudy = studyRepository.save(new Study(
-                new Details("Linux 스터디", "리눅스 설명", "linux thumbnail", DONE, "Linux를 공부하자의 베루스입니다."),
-                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        greenlawn.getId(), RECRUITMENT_END),
-                new Period(
-                        LocalDate.of(2022, 11, 8),
-                        LocalDate.of(2022, 12, 9),
-                        LocalDate.of(2022, 12, 11)),
-                new AttachedTags(List.of())));
+        studyRepository.save(
+                new Study(
+                        new Content("Java 스터디", "자바 설명", "java thumbnail", "그린론의 우당탕탕 자바 스터디입니다."),
+                        new Participants(greenlawn.getId(), Set.of(dwoo.getId(), verus.getId())),
+                        new RecruitPlanner(10, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), PREPARE),
+                        new AttachedTags(List.of(new AttachedTag(1L), new AttachedTag(2L), new AttachedTag(3L))),
+                        LocalDateTime.now())
+        );
+
+        studyRepository.save(
+                new Study(
+                        new Content("React 스터디", "리액트 설명", "react thumbnail", "디우의 뤼액트 스터디입니다."),
+                        new Participants(dwoo.getId(), Set.of(jjanggu.getId(), greenlawn.getId(), verus.getId())),
+                        new RecruitPlanner(5, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 10), PREPARE),
+                        new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L), new AttachedTag(5L))),
+                        LocalDateTime.now())
+        );
+
+        studyRepository.save(
+                new Study(
+                        new Content("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "그린론의 자바스크립트 접해보기"),
+                        new Participants(dwoo.getId(), Set.of(verus.getId())),
+                        new RecruitPlanner(20, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), PREPARE),
+                        new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L))),
+                        LocalDateTime.now())
+        );
+
+        studyRepository.save(
+                new Study(
+                        new Content("HTTP 스터디", "HTTP 설명", "http thumbnail", "디우의 HTTP 정복하기"),
+                        new Participants(jjanggu.getId(), Set.of(dwoo.getId(), verus.getId())),
+                        new RecruitPlanner(5, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
+                        new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L))),
+                        LocalDateTime.now())
+        );
+
+        studyRepository.save(
+                new Study(
+                        new Content("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "알고리즘을 TDD로 풀자의 베루스입니다."),
+                        new Participants(dwoo.getId(), Set.of(verus.getId())),
+                        new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
+                        new AttachedTags(List.of()),
+                        LocalDateTime.now())
+        );
+
+        studyRepository.save(
+                new Study(
+                        new Content("Linux 스터디", "리눅스 설명", "linux thumbnail", "Linux를 공부하자의 베루스입니다."),
+                        new Participants(dwoo.getId(), Set.of(verus.getId())),
+                        new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
+                        new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
+                        new AttachedTags(List.of()),
+                        LocalDateTime.now())
+        );
+
         em.flush();
         em.clear();
     }

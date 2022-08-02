@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.review.query;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -10,6 +9,7 @@ import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -61,7 +61,7 @@ class ReviewDaoTest {
         final Member verus = memberRepository.save(toMember(VERUS));
 
         // 스터디 생성
-        StudyService createStudyService = new StudyService(studyRepository, memberRepository);
+        StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
         CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()

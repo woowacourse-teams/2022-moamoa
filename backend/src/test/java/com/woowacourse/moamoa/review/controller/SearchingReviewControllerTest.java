@@ -6,14 +6,18 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.query.ReviewDao;
+import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import com.woowacourse.moamoa.review.service.request.SizeRequest;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -28,7 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-class ReviewControllerTest {
+class SearchingReviewControllerTest {
 
     private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
     private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
@@ -50,6 +54,9 @@ class ReviewControllerTest {
     @Autowired
     private ReviewDao reviewDao;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     private SearchingReviewController sut;
 
     private Study javaStudy;
@@ -67,7 +74,7 @@ class ReviewControllerTest {
         final Member verus = memberRepository.save(toMember(VERUS));
 
         // 스터디 생성
-        StudyService studyService = new StudyService(studyRepository, memberRepository);
+        StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
         CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
@@ -81,42 +88,33 @@ class ReviewControllerTest {
 
         javaStudy = studyService.createStudy(1L, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);
+        
+        studyService.participateStudy(greenlawn.getGithubId(), javaStudy.getId());
+        studyService.participateStudy(dwoo.getGithubId(), javaStudy.getId());
+        studyService.participateStudy(verus.getGithubId(), javaStudy.getId());
 
-        final LocalDate createdDate = startDate.plusDays(1);
-        final LocalDate lastModifiedDate = startDate.plusDays(2);
+        // 리뷰 추가
+        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
+
+        final Long javaReviewId1 = reviewService
+                .writeReview(jjanggu.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
+        final Long javaReviewId2 = reviewService
+                .writeReview(greenlawn.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용2"));
+        final Long javaReviewId3 = reviewService
+                .writeReview(dwoo.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용3"));
+        final Long javaReviewId4 = reviewService
+                .writeReview(verus.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
+        reviewService.writeReview(jjanggu.getGithubId(), reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
+
+        javaReviews = List.of(
+                new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), LocalDate.now(), LocalDate.now(), "리뷰 내용1"),
+                new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), LocalDate.now(), LocalDate.now(), "리뷰 내용2"),
+                new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), LocalDate.now(), LocalDate.now(), "리뷰 내용3"),
+                new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), LocalDate.now(), LocalDate.now(), "리뷰 내용4")
+        );
 
         entityManager.flush();
         entityManager.clear();
-
-        // 리뷰 추가
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (1, " + javaStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용1', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (2, " + javaStudy.getId() + ", " + greenlawn.getId() + ", '리뷰 내용2', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (3, " + javaStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용3', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (4, " + javaStudy.getId() + ", " + verus.getId() + ", '리뷰 내용4', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (5, " + reactStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용5', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (6, " + reactStudy.getId() + ", " + greenlawn.getId()+ ", '리뷰 내용6', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (7, " + reactStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용7', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-
-        javaReviews = List.of(
-                new ReviewResponse(1L, new WriterResponse(JJANGGU), createdDate, lastModifiedDate, "리뷰 내용1"),
-                new ReviewResponse(2L, new WriterResponse(GREENLAWN), createdDate, lastModifiedDate, "리뷰 내용2"),
-                new ReviewResponse(3L, new WriterResponse(DWOO), createdDate, lastModifiedDate, "리뷰 내용3"),
-                new ReviewResponse(4L, new WriterResponse(VERUS), createdDate, lastModifiedDate, "리뷰 내용4")
-        );
     }
 
     private static Member toMember(MemberData memberData) {
@@ -143,7 +141,8 @@ class ReviewControllerTest {
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(reviewsResponse.getBody()).isNotNull();
         assertThat(reviewsResponse.getBody().getTotalCount()).isEqualTo(4);
-        assertThat(reviewsResponse.getBody().getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
+        assertThat(reviewsResponse.getBody().getReviews())
+                .containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
     }
 
     @DisplayName("원하는 갯수보다 후기가 적은 경우 나머지 후기를 조회한다.")

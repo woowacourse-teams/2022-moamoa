@@ -3,13 +3,10 @@ package com.woowacourse.moamoa.review.service;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.review.domain.Review;
 import com.woowacourse.moamoa.review.domain.exception.WritingReviewBadRequestException;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-import com.woowacourse.moamoa.study.domain.Participant;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
@@ -33,19 +30,12 @@ public class ReviewService {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
-        final Participant participant = new Participant(member.getId());
-        if (!study.isParticipated(participant)) {
-            throw new NotParticipatedMemberException();
-        }
-
-        final LocalDateTime reviewCreatedDate = LocalDateTime.now();
-        if (study.isBeforeThanStudyStartDate(reviewCreatedDate.toLocalDate())) {
+        if (!study.isWritableReviews(member.getId())) {
             throw new WritingReviewBadRequestException();
         }
 
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Review review = new Review(associatedStudy, member, writeReviewRequest.getContent());
-
+        final Review review = Review.writeNewReview(study.getId(), member.getId(), writeReviewRequest.getContent());
         return reviewRepository.save(review).getId();
     }
+
 }

@@ -30,20 +30,20 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
         final LocalDateTime now = LocalDateTime.now();
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
-                        + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, enrollment_end_date, start_date, end_date, owner_id) "
-                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '" + now + "', '1999-01-01', '2021-11-10', '2021-12-08', 3)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
+                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '1999-01-01', '2021-11-10', '2021-12-08', 3)");
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
-                        + "VALUES (3, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '" + now + "', '2021-12-08', 2)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (3, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_date, last_modified_date, start_date, owner_id) "
-                        + "VALUES (4, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 3, '" + now + "', '" + now + "', '2021-12-08', 2)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (4, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 3, '" + now + "', '2021-12-08', 2)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
@@ -75,7 +75,7 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("한 명의 회원은 동일한 스터디에 대해서 한 번만 가입이 가능하다.")
     @Test
-    public void mentparticipateOnlyOnce() {
+    public void participateOnlyOnce() {
         final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 

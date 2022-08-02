@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.domain;
 
-public enum RecruitmentStatus {
+public enum RecruitStatus {
+
     RECRUITMENT_START, RECRUITMENT_END
 }
