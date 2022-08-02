@@ -20,7 +20,6 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@custom-types": ["custom-types/index.ts"],
-      "@pages/*": ["pages/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
       "@constants": ["constants.ts"],
@@ -33,7 +32,8 @@
       "@study-room-page/*": ["pages/study-room-page/*"],
       "@layout/*": ["layout/*"],
       "@hooks/*": ["hooks/*"],
-      "@mocks/*": ["mocks/*"]
+      "@mocks/*": ["mocks/*"],
+      "@pages/*": ["pages/*"]
     },
     "typeRoots": ["src/custom-types"]
   },
