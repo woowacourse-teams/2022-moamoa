@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.review.controller.ReviewController;
@@ -35,6 +36,9 @@ public class UnauthorizedReviewWebMvcTest {
 
     @MockBean
     private ReviewService reviewService;
+
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("유효하지 않은 토큰으로 리뷰 작성하려는 경우 401 에러을 반환한다.")
     @Test
