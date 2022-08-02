@@ -3,11 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
-import ReviewTabPanel from '@pages/study-room-page/components/review-tab-panel/ReviewTabPanel';
-
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/StudyRoomPage.style';
+import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 
 export type Tab = { id: string; name: string; content: React.ReactNode };

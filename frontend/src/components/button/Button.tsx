@@ -4,7 +4,7 @@ import type { MakeOptional } from '@custom-types';
 
 import * as S from '@components/button/Button.style';
 
-export type ButtonProp = {
+export type ButtonProps = {
   className?: string;
   children: string;
   type?: 'submit' | 'button';
@@ -15,7 +15,7 @@ export type ButtonProp = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick' | 'outline'>;
+type OptionalButtonProps = MakeOptional<ButtonProps, 'fluid' | 'onClick' | 'outline'>;
 
 const LoadingIndicator: React.FC = () => {
   return (
@@ -27,7 +27,7 @@ const LoadingIndicator: React.FC = () => {
   );
 };
 
-const Button: React.FC<OptionalButtonProp> = ({
+const Button: React.FC<OptionalButtonProps> = ({
   className,
   children,
   type = 'submit',

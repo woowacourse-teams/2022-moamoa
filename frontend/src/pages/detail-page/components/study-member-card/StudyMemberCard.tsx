@@ -3,14 +3,14 @@ import Avatar from '@components/avatar/Avatar';
 import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 
 // TODO: studyCount, startDate api 명세에 필요
-export type StudyMemberCardProp = {
+export type StudyMemberCardProps = {
   username: string;
   imageUrl: string;
   startDate: string;
   studyCount: number;
 };
 
-const StudyMemberCard: React.FC<StudyMemberCardProp> = ({
+const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
   username,
   imageUrl,
   studyCount = 12,

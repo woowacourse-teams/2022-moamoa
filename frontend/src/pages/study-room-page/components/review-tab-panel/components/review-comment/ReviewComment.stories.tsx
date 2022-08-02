@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import type { ReviewCommentProps } from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
 import ReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';

@@ -1,7 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { ButtonProp } from '@components/button/Button';
+import type { ButtonProps } from '@components/button/Button';
 
 const applyOutlineButtonStyle = ({ theme, isLoading }: { theme: Theme; isLoading?: boolean }) => css`
   transition: 0.3s;
@@ -52,7 +52,7 @@ export const LoadingIndicator = styled.div`
   }
 `;
 
-export const Button = styled.button<ButtonProp>`
+export const Button = styled.button<ButtonProps>`
   ${({ theme, fluid, outline, isLoading }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 20px 10px;

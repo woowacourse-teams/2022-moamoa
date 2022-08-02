@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import type { ReviewFormProps } from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
 import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';

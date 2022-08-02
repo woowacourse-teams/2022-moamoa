@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 import * as S from '@components/positive-number-input/PositiveNumberInput.style';
 
