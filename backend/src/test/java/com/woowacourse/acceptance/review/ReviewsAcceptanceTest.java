@@ -2,7 +2,6 @@ package com.woowacourse.acceptance.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
@@ -17,11 +16,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @DisplayName("리뷰 인수 테스트")
 public class ReviewsAcceptanceTest extends AcceptanceTest {
@@ -30,6 +27,9 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
     private static final MemberData DWOO = new MemberData(3L, "dwoo", "https://image", "github.com");
     private static final MemberData VERUS = new MemberData(4L, "verus", "https://image", "github.com");
+
+    private Long javaStudyId;
+    private Long javaReviewId1;
 
     private List<ReviewResponse> javaReviews;
 
@@ -50,7 +50,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .startDate(startDate)
                 .build();
 
-        long javaStudyId = createStudy(jjangguToken, javaStudyRequest);
+        javaStudyId = createStudy(jjangguToken, javaStudyRequest);
         long reactStudyId = createStudy(jjangguToken, reactStudyRequest);
 
         participateStudy(greenlawnToken, javaStudyId);
@@ -61,7 +61,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final LocalDate lastModifiedDate = LocalDate.now();
 
         // 리뷰 추가
-        long javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
+        javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
         long javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
         long javaReviewId3 = createReview(dwooToken, javaStudyId, new WriteReviewRequest("리뷰 내용3"));
         long javaReviewId4 = createReview(verusToken, javaStudyId, new WriteReviewRequest("리뷰 내용4"));
@@ -107,5 +107,20 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
+    }
+
+    @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 삭제할 수 있다.")
+    @Test
+    void deleteReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId1)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
     }
 }
