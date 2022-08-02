@@ -13,17 +13,15 @@ export type StudyWideFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
-  studyId: number;
-  handleRegisterBtnClick: (studyId: number) => React.MouseEventHandler<HTMLButtonElement>;
+  onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
-  studyId,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
   recruitmentStatus,
-  handleRegisterBtnClick,
+  onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
@@ -55,7 +53,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           `}
           fluid={true}
           disabled={!isOpen}
-          onClick={handleRegisterBtnClick(studyId)}
+          onClick={handleRegisterButtonClick}
         >
           {isOpen ? '가입하기' : '모집 마감'}
         </Button>

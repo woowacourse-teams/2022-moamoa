@@ -35,7 +35,7 @@ export const CardImage = styled(Image)`
   object-position: center;
 `;
 
-export const Contents = styled.div`
+export const Content = styled.div`
   padding: 8px 8px 12px;
 
   background-color: ${({ theme }) => theme.colors.secondary.light};

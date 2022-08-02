@@ -2,9 +2,11 @@ package com.woowacourse.acceptance.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
@@ -16,27 +18,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class GettingReviewsAcceptanceTest extends AcceptanceTest {
+@DisplayName("리뷰 인수 테스트")
+public class ReviewsAcceptanceTest extends AcceptanceTest {
 
     private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
     private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
     private static final MemberData DWOO = new MemberData(3L, "dwoo", "https://image", "github.com");
     private static final MemberData VERUS = new MemberData(4L, "verus", "https://image", "github.com");
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     private List<ReviewResponse> javaReviews;
 
     @BeforeEach
     void initDataBase() {
         final String jjangguToken = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
-        getBearerTokenBySignInOrUp(toGithubProfileResponse(GREENLAWN));
-        getBearerTokenBySignInOrUp(toGithubProfileResponse(DWOO));
-        getBearerTokenBySignInOrUp(toGithubProfileResponse(VERUS));
+        final String greenlawnToken = getBearerTokenBySignInOrUp(toGithubProfileResponse(GREENLAWN));
+        final String dwooToken = getBearerTokenBySignInOrUp(toGithubProfileResponse(DWOO));
+        final String verusToken = getBearerTokenBySignInOrUp(toGithubProfileResponse(VERUS));
 
         final LocalDate startDate = LocalDate.now();
         CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
@@ -51,31 +53,25 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
         long javaStudyId = createStudy(jjangguToken, javaStudyRequest);
         long reactStudyId = createStudy(jjangguToken, reactStudyRequest);
 
-        final LocalDate createdAt = startDate.plusDays(1);
-        final LocalDate lastModifiedDate = startDate.plusDays(2);
+        participateStudy(greenlawnToken, javaStudyId);
+        participateStudy(dwooToken, javaStudyId);
+        participateStudy(verusToken, javaStudyId);
+
+        final LocalDate createdAt = LocalDate.now();
+        final LocalDate lastModifiedDate = LocalDate.now();
 
         // 리뷰 추가
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (1, " + javaStudyId + ", " + 1L + ", '리뷰 내용1', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (2, " + javaStudyId + ", " + 2L + ", '리뷰 내용2', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (3, " + javaStudyId + ", " + 3L+ ", '리뷰 내용3', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (4, " + javaStudyId + ", " + 4L + ", '리뷰 내용4', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
-                + "VALUES (5, " + reactStudyId + ", " + 1L + ", '리뷰 내용5', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+        long javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
+        long javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
+        long javaReviewId3 = createReview(dwooToken, javaStudyId, new WriteReviewRequest("리뷰 내용3"));
+        long javaReviewId4 = createReview(verusToken, javaStudyId, new WriteReviewRequest("리뷰 내용4"));
+        createReview(jjangguToken, reactStudyId, new WriteReviewRequest("리뷰 내용5"));
 
         javaReviews = List.of(
-                new ReviewResponse(1L, new WriterResponse(JJANGGU), createdAt, lastModifiedDate, "리뷰 내용1"),
-                new ReviewResponse(2L, new WriterResponse(GREENLAWN), createdAt, lastModifiedDate, "리뷰 내용2"),
-                new ReviewResponse(3L, new WriterResponse(DWOO), createdAt, lastModifiedDate, "리뷰 내용3"),
-                new ReviewResponse(4L, new WriterResponse(VERUS), createdAt, lastModifiedDate, "리뷰 내용4")
+                new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), createdAt, lastModifiedDate, "리뷰 내용1"),
+                new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), createdAt, lastModifiedDate, "리뷰 내용2"),
+                new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), createdAt, lastModifiedDate, "리뷰 내용3"),
+                new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), createdAt, lastModifiedDate, "리뷰 내용4")
         );
     }
 
@@ -94,7 +90,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ReviewsResponse.class);
 
-        assertThat(reviewsResponse.getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews())
                 .containsExactlyInAnyOrderElementsOf(javaReviews);
     }
@@ -109,7 +105,7 @@ public class GettingReviewsAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ReviewsResponse.class);
 
-        assertThat(reviewsResponse.getTotalResults()).isEqualTo(4);
+        assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
     }
 }

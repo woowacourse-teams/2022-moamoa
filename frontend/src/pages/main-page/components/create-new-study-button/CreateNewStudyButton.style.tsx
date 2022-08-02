@@ -16,6 +16,7 @@ export const CreateNewStudyButton = styled.button`
     padding: 8px;
 
     border-radius: 50%;
+    border: none;
     background-color: ${theme.colors.primary.base};
 
     &:hover {

@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { MyStudyCardProps } from '@pages/my-study-page/components/my-study-card/MyStudyCard';
+import { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export const Container = styled.div`
   display: flex;

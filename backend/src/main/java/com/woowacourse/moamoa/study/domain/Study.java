@@ -4,22 +4,19 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import java.time.LocalDate;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
 @Getter
 public class Study {
 
@@ -28,59 +25,89 @@ public class Study {
     private Long id;
 
     @Embedded
-    private Details details;
+    private Content content;
 
     @Embedded
     private Participants participants;
 
     @Embedded
-    private AttachedTags attachedTags;
+    private RecruitPlanner recruitPlanner;
 
     @Embedded
-    private Period period;
+    private StudyPlanner studyPlanner;
 
-    @CreatedDate
+    @Embedded
+    private AttachedTags attachedTags;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Study(final Details details, final Participants participants,
-                 final Period period, final AttachedTags attachedTags) {
-        this(null, details, participants, period, attachedTags);
+    public Study(final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
+                 final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
+    ) {
+        this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    public Study(final Long id, final Details details, final Participants participants,
-                 final Period period, final AttachedTags attachedTags) {
-        final LocalDateTime createdAt = LocalDateTime.now();
-        validatePeriod(period, createdAt);
-
-        this.id = id;
-        this.details = details;
-        this.participants = participants;
-        this.period = period;
-        this.createdAt = createdAt;
-        this.attachedTags = attachedTags;
-
-    }
-
-    private void validatePeriod(final Period period, final LocalDateTime createdAt) {
-        if (period.isBefore(createdAt)) {
+    private Study(final Long id, final Content content, final Participants participants,
+                  final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+                  final LocalDateTime createdAt
+    ) {
+        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
+                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidPeriodException();
         }
+
+        this.id = id;
+        this.content = content;
+        this.participants = participants;
+        this.recruitPlanner = recruitPlanner;
+        this.studyPlanner = studyPlanner;
+        this.createdAt = createdAt;
+        this.attachedTags = attachedTags;
     }
 
-    public boolean isParticipated(final Participant participant) {
-        return participants.contains(participant);
+    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
+        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
+                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
     }
 
-    public boolean isBeforeThanStudyStartDate(final LocalDate reviewCreatedDate) {
-        return period.isBeforeThanStartDate(reviewCreatedDate);
-
+    private boolean isRecruitedOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner,
+                                                           final StudyPlanner studyPlanner,
+                                                           final LocalDateTime createdAt) {
+        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
+
+    public boolean isWritableReviews(final Long memberId) {
+        return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
+    }
+
     public void participate(final Long memberId) {
-        if (details.isCloseStatus() || period.isCloseEnrollment() || participants.isImpossibleParticipation(memberId)) {
+        if (recruitPlanner.isCloseEnrollment()) {
             throw new FailureParticipationException();
         }
 
-        participants.participate(new Participant(memberId));
+        final Participant participant = new Participant(memberId);
+        participants.participate(participant.getMemberId());
+
+        if (isFullOfCapacity()) {
+            recruitPlanner.closeRecruiting();
+        }
+    }
+
+    private boolean isFullOfCapacity() {
+        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
+    }
+
+    public boolean isNeedToCloseRecruiting(LocalDate now) {
+        return recruitPlanner.isNeedToCloseRecruiting(now);
+    }
+
+    public void closeEnrollment() {
+        recruitPlanner.closeRecruiting();
+    }
+
+    public boolean isCloseEnrollment() {
+        return recruitPlanner.isCloseEnrollment();
     }
 }

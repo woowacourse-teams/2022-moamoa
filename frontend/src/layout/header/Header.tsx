@@ -7,7 +7,6 @@ import { PATH, PROFILE_IMAGE_URL } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
-import { LoginContext } from '@context/login/LoginProvider';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@layout/header/Header.style';
@@ -23,14 +22,13 @@ export type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
-  const { isLoggedIn } = useContext(LoginContext);
   const { setKeyword } = useContext(SearchContext);
 
   const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
 
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
     e.preventDefault();
@@ -48,9 +46,9 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
   return (
     <S.Row className={className}>
-      <Link to={PATH.MAIN}>
+      <a href={PATH.MAIN}>
         <Logo />
-      </Link>
+      </a>
       <S.SearchBarContainer>
         <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>

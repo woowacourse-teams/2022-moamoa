@@ -1,6 +1,10 @@
 package com.woowacourse.moamoa.common.config;
 
+import com.woowacourse.moamoa.MoamoaApplication;
 import java.util.List;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -22,5 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedMethods(ALLOW_METHODS)
                 .exposedHeaders(HttpHeaders.LOCATION);
+    }
+
+    @Bean
+    public Logger logger() {
+        return LoggerFactory.getLogger(MoamoaApplication.class);
     }
 }
