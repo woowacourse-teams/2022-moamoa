@@ -44,9 +44,7 @@ public class ReviewService {
         }
 
         final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Review review = new Review(
-                associatedStudy, member, writeReviewRequest.getContent(), reviewCreatedDate, reviewCreatedDate
-        );
+        final Review review = new Review(associatedStudy, member, writeReviewRequest.getContent());
 
         return reviewRepository.save(review).getId();
     }

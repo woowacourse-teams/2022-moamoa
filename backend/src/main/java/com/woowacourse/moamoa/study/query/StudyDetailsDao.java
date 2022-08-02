@@ -20,8 +20,8 @@ public class StudyDetailsDao {
     private final JdbcTemplate jdbcTemplate;
 
     public StudyDetailsData findBy(Long studyId) {
-        String sql = "SELECT study.id, title, excerpt, thumbnail, recruit_status, description, current_member_count, "
-                + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
+        String sql = "SELECT study.id, title, excerpt, thumbnail, recruitment_status, description, current_member_count, "
+                + "max_member_count, created_date, enrollment_end_date, start_date, end_date, owner_id, "
                 + "member.github_id as owner_github_id, member.username as owner_username, "
                 + "member.image_url as owner_image_url, member.profile_url as owner_profile_url "
                 + "FROM study JOIN member ON study.owner_id = member.id "
@@ -53,13 +53,13 @@ public class StudyDetailsDao {
             String title = rs.getString("title");
             String excerpt = rs.getString("excerpt");
             String thumbnail = rs.getString("thumbnail");
-            String status = rs.getString("recruit_status");
+            String status = rs.getString("recruitment_status");
             String description = rs.getString("description");
-            LocalDate createdAt = rs.getObject("created_at", LocalDate.class);
+            LocalDate createdDate = rs.getObject("created_date", LocalDate.class);
 
             builder.id(id).title(title).excerpt(excerpt)
                     .thumbnail(thumbnail).status(status)
-                    .description(description).createdAt(createdAt);
+                    .description(description).createdDate(createdDate);
         }
 
         private void appendStudyPeriod(final ResultSet rs) throws SQLException {

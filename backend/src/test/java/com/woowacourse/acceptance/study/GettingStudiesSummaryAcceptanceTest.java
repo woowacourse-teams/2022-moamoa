@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.study;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.not;
@@ -15,7 +16,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -114,12 +114,13 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
         final StudiesResponse studiesResponse = 페이징을_통한_스터디_목록_조회(0, 3)
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(StudiesResponse.class);
+
         final List<Long> studyIds = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getId)
-                .collect(Collectors.toList());
+                .collect(toList());
         final List<List<TagSummaryData>> studyTags = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getTags)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isTrue(),
@@ -135,12 +136,13 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
         final StudiesResponse studiesResponse = 페이징을_통한_스터디_목록_조회(1, 3)
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(StudiesResponse.class);
+
         final List<Long> studyIds = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getId)
-                .collect(Collectors.toList());
+                .collect(toList());
         final List<List<TagSummaryData>> studyTags = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getTags)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isFalse(),
@@ -192,10 +194,10 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
                 .extract().as(StudiesResponse.class);
         final List<Long> studyIds = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getId)
-                .collect(Collectors.toList());
+                .collect(toList());
         final List<List<TagSummaryData>> studyTags = studiesResponse.getStudies().stream()
                 .map(StudyResponse::getTags)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isTrue(),

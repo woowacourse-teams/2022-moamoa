@@ -1,10 +1,10 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static java.time.LocalDate.*;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -31,7 +31,8 @@ public class Period {
     }
 
     private void validatePeriod(final LocalDate enrollmentEndDate, final LocalDate startDate, final LocalDate endDate) {
-        if (isImproperStudyDate(startDate, endDate) || isImproperEnrollmentEndDate(enrollmentEndDate, endDate)) {
+        if (isImproperStudyDate(startDate, endDate) || isImproperEnrollmentEndDate(enrollmentEndDate, endDate)
+                || isAfterThanNow(startDate, enrollmentEndDate)) {
             throw new InvalidPeriodException();
         }
     }
@@ -44,13 +45,13 @@ public class Period {
         return enrollmentEndDate != null && endDate != null && enrollmentEndDate.isAfter(endDate);
     }
 
-    boolean isBefore(final LocalDateTime createAt) {
-        return startDate.isBefore(createAt.toLocalDate()) || (enrollmentEndDate != null && enrollmentEndDate.isBefore(
-                createAt.toLocalDate()));
+    private boolean isAfterThanNow(final LocalDate enrollmentEndDate, final LocalDate startDate) {
+        final LocalDate now = now();
+        return (enrollmentEndDate != null && now.isAfter(enrollmentEndDate)) || (startDate != null && now.isAfter(startDate));
     }
 
     boolean isCloseEnrollment() {
-        return enrollmentEndDate != null && enrollmentEndDate.isBefore(LocalDate.now());
+        return enrollmentEndDate != null && enrollmentEndDate.isBefore(now());
     }
 
     public boolean isBeforeThanStartDate(final LocalDate reviewCreatedDate) {

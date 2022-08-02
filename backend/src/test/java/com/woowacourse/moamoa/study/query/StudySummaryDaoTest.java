@@ -1,5 +1,9 @@
 package com.woowacourse.moamoa.study.query;
 
+import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitmentStatus.RECRUITMENT_START;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -14,7 +18,6 @@ import com.woowacourse.moamoa.study.domain.Participant;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Period;
 import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.query.TagDao;
@@ -87,49 +90,54 @@ public class StudySummaryDaoTest {
         verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
 
         javaStudy = studyRepository.save(new Study(
-                new Details("Java 스터디", "자바 설명", "java thumbnail", "OPEN", StudyStatus.PREPARE, "그린론의 우당탕탕 자바 스터디입니다."),
+                new Details("Java 스터디", "자바 설명", "java thumbnail", PREPARE, "그린론의 우당탕탕 자바 스터디입니다."),
                 new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
-                        greenlawn.getId()),
+                        greenlawn.getId(), RECRUITMENT_START),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
                         LocalDate.of(2022, 12, 11)),
                 new AttachedTags(List.of(new AttachedTag(1L), new AttachedTag(2L), new AttachedTag(3L)))));
         reactStudy = studyRepository.save(new Study(
-                new Details("React 스터디", "리액트 설명", "react thumbnail", "OPEN", StudyStatus.PREPARE, "디우의 뤼액트 스터디입니다."),
-                new Participants(4, 5, Set.of(new Participant(jjanggu.getId()), new Participant(greenlawn.getId()), new Participant(verus.getId())), dwoo.getId()),
+                new Details("React 스터디", "리액트 설명", "react thumbnail", PREPARE, "디우의 뤼액트 스터디입니다."),
+                new Participants(4, 5, Set.of(new Participant(jjanggu.getId()), new Participant(greenlawn.getId()),
+                        new Participant(verus.getId())), dwoo.getId(), RECRUITMENT_START),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
                         LocalDate.of(2022, 12, 10)),
                 new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L), new AttachedTag(5L)))));
         jsStudy = studyRepository.save(new Study(
-                new Details("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN", StudyStatus.PREPARE, "그린론의 자바스크립트 접해보기"),
-                new Participants(3, 20, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Details("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", PREPARE, "그린론의 자바스크립트 접해보기"),
+                new Participants(3, 20, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
+                        greenlawn.getId(), RECRUITMENT_START),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
                         LocalDate.of(2022, 12, 11)),
                 new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L)))));
         httpStudy = studyRepository.save(new Study(
-                new Details("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE", StudyStatus.PREPARE, "디우의 HTTP 정복하기"),
-                new Participants(1, 5, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), jjanggu.getId()),
+                new Details("HTTP 스터디", "HTTP 설명", "http thumbnail", DONE, "디우의 HTTP 정복하기"),
+                new Participants(1, 5, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
+                        jjanggu.getId(), RECRUITMENT_END),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
                         LocalDate.of(2022, 12, 11)),
                 new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L)))));
         algStudy = studyRepository.save(new Study(
-                new Details("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE", StudyStatus.PREPARE, "알고리즘을 TDD로 풀자의 베루스입니다."),
-                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Details("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", DONE, "알고리즘을 TDD로 풀자의 베루스입니다."),
+                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
+                        greenlawn.getId(), RECRUITMENT_END),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
                         LocalDate.of(2022, 12, 11)),
                 new AttachedTags(List.of())));
         linuxStudy = studyRepository.save(new Study(
-                new Details("Linux 스터디", "리눅스 설명", "linux thumbnail", "CLOSE", StudyStatus.PREPARE, "Linux를 공부하자의 베루스입니다."),
-                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())), greenlawn.getId()),
+                new Details("Linux 스터디", "리눅스 설명", "linux thumbnail", DONE, "Linux를 공부하자의 베루스입니다."),
+                new Participants(3, 10, Set.of(new Participant(dwoo.getId()), new Participant(verus.getId())),
+                        greenlawn.getId(), RECRUITMENT_END),
                 new Period(
                         LocalDate.of(2022, 11, 8),
                         LocalDate.of(2022, 12, 9),
@@ -150,18 +158,18 @@ public class StudySummaryDaoTest {
         assertThat(response.getContent())
                 .hasSize(expectedTuples.size())
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactlyElementsOf(expectedTuples);
     }
 
     private static Stream<Arguments> providePageableAndExpect() {
         List<Tuple> tuples = List.of(
-                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"),
-                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
-                tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE"),
-                tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "CLOSE"));
+                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "RECRUITMENT_END"),
+                tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "RECRUITMENT_END"));
 
         return Stream.of(
                 Arguments.of(PageRequest.of(0, 3), tuples.subList(0, 3), true),
@@ -180,10 +188,10 @@ public class StudySummaryDaoTest {
         assertThat(response.getContent())
                 .hasSize(2)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactly(
-                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"));
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"));
     }
 
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
@@ -196,13 +204,13 @@ public class StudySummaryDaoTest {
         assertThat(response.getContent())
                 .hasSize(5)
                 .filteredOn(study -> study.getId() != null)
-                .extracting("title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactly(
-                        tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                        tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN"),
-                        tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE"),
-                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "CLOSE"));
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                        tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                        tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "RECRUITMENT_END"));
     }
 
     @DisplayName("한 가지 종류의 필터로 스터디 목록을 조회")
@@ -214,24 +222,24 @@ public class StudySummaryDaoTest {
         assertThat(response.hasNext()).isFalse();
         assertThat(response.getContent())
                 .hasSize(tuples.size())
-                .extracting("title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactlyElementsOf(tuples);
     }
 
     private static Stream<Arguments> provideOneKindFiltersAndExpectResult() {
         return Stream.of(
                 Arguments.of(new SearchingTags(emptyList(), emptyList(), List.of(5L)), // React
-                        List.of(tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"))),
+                        List.of(tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"))),
                 Arguments.of(new SearchingTags(emptyList(), List.of(3L), emptyList()), // BE
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "CLOSE")
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END")
                         )),
                 Arguments.of(new SearchingTags(List.of(6L), emptyList(), emptyList()), List.of()), // 3기,
                 Arguments.of(new SearchingTags(emptyList(), emptyList(), List.of(1L, 5L)), // Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN")
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
                         ))
         );
     }
@@ -245,7 +253,7 @@ public class StudySummaryDaoTest {
         assertThat(response.hasNext()).isEqualTo(hasNext);
         assertThat(response.getContent())
                 .hasSize(tuples.size())
-                .extracting("title", "excerpt", "thumbnail", "recruitStatus")
+                .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactlyElementsOf(tuples);
     }
 
@@ -253,8 +261,8 @@ public class StudySummaryDaoTest {
         return Stream.of(
                 Arguments.of(new SearchingTags(List.of(2L), emptyList(), List.of(1L, 5L)), // 4기, Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN")
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
                         ),
                         false
                 ),
@@ -262,22 +270,22 @@ public class StudySummaryDaoTest {
                         List.of(),
                         false),
                 Arguments.of(new SearchingTags(List.of(2L), List.of(3L), List.of(1L)), // 4기, BE, Java
-                        List.of(tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN")),
+                        List.of(tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")),
                         false
                 ),
                 Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), emptyList()), // 4기, FE, BE
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN"),
-                                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "OPEN")
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START")
                         ),
                         true
                 ),
                 Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), List.of(1L, 5L)),
                         // 4기, FE, BE, Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "OPEN"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "OPEN")
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
                         ),
                         false
                 )

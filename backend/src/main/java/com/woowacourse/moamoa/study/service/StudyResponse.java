@@ -16,7 +16,7 @@ public class StudyResponse {
     private String title;
     private String excerpt;
     private String thumbnail;
-    private String recruitStatus;
+    private String recruitmentStatus;
     private List<TagSummaryData> tags;
 
     public StudyResponse(
@@ -24,6 +24,6 @@ public class StudyResponse {
             final List<TagSummaryData> studyTags
     ) {
         this(studySummaryData.getId(), studySummaryData.getTitle(), studySummaryData.getExcerpt(),
-                studySummaryData.getThumbnail(), studySummaryData.getRecruitStatus(), studyTags);
+                studySummaryData.getThumbnail(), studySummaryData.getRecruitmentStatus(), studyTags);
     }
 }

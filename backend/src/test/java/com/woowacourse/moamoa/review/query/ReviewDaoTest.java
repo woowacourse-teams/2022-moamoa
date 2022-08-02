@@ -76,7 +76,7 @@ class ReviewDaoTest {
         javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
         reactStudy = createStudyService.createStudy(1L, reactStudyRequest);
 
-        final LocalDate createdAt = startDate.plusDays(1);
+        final LocalDate createdDate = startDate.plusDays(1);
         final LocalDate lastModifiedDate = startDate.plusDays(2);
 
         entityManager.flush();
@@ -85,37 +85,37 @@ class ReviewDaoTest {
         // 리뷰 추가
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (1, " + javaStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용1', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (2, " + javaStudy.getId() + ", " + greenlawn.getId() + ", '리뷰 내용2', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (3, " + javaStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용3', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (4, " + javaStudy.getId() + ", " + verus.getId() + ", '리뷰 내용4', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (5, " + reactStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용5', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (6, " + reactStudy.getId() + ", " + greenlawn.getId()+ ", '리뷰 내용6', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date) "
                 + "VALUES (7, " + reactStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용7', '"
-                + createdAt.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
+                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123')");
 
         javaReviews = List.of(
-                new ReviewData(1L, JJANGGU, createdAt, lastModifiedDate, "리뷰 내용1"),
-                new ReviewData(2L, GREENLAWN, createdAt, lastModifiedDate, "리뷰 내용2"),
-                new ReviewData(3L, DWOO, createdAt, lastModifiedDate, "리뷰 내용3"),
-                new ReviewData(4L, VERUS, createdAt, lastModifiedDate, "리뷰 내용4")
+                new ReviewData(1L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용1"),
+                new ReviewData(2L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용2"),
+                new ReviewData(3L, DWOO, createdDate, lastModifiedDate, "리뷰 내용3"),
+                new ReviewData(4L, VERUS, createdDate, lastModifiedDate, "리뷰 내용4")
         );
 
         reactReviews = List.of(
-                new ReviewData(5L, JJANGGU, createdAt, lastModifiedDate, "리뷰 내용5"),
-                new ReviewData(6L, GREENLAWN, createdAt, lastModifiedDate, "리뷰 내용6"),
-                new ReviewData(7L, DWOO, createdAt, lastModifiedDate, "리뷰 내용7")
+                new ReviewData(5L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용5"),
+                new ReviewData(6L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용6"),
+                new ReviewData(7L, DWOO, createdDate, lastModifiedDate, "리뷰 내용7")
         );
     }
 
