@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils/index';
@@ -30,6 +31,20 @@ export const MemberList = styled.ul`
     flex-direction: column;
     row-gap: 20px;
   }
+`;
+
+export const Owner = styled.li`
+  ${({ theme }) => css`
+    position: relative;
+
+    & svg {
+      position: absolute;
+      top: 5px;
+      left: 20px;
+      stroke: ${theme.colors.tertiary.base};
+      fill: ${theme.colors.tertiary.base};
+    }
+  `}
 `;
 
 export const MoreButtonContainer = styled.div`

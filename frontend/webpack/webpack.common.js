@@ -50,8 +50,11 @@ module.exports = {
       '@main-page': resolve(__dirname, '../src/pages/main-page'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
       '@create-study-page': resolve(__dirname, '../src/pages/create-study-page'),
+      '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
+      '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
       '@layout': resolve(__dirname, '../src/layout'),
       '@hooks': resolve(__dirname, '../src/hooks'),
+      '@mocks': resolve(__dirname, '../src/mocks'),
     },
   },
 };

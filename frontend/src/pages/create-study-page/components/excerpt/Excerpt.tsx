@@ -1,5 +1,3 @@
-import * as S from '@create-study-page/components/excerpt/Excerpt.style';
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import cn from 'classnames';
 import { useState } from 'react';
 
@@ -10,6 +8,9 @@ import { EXCERPT_LENGTH } from '@constants';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+
+import * as S from '@create-study-page/components/excerpt/Excerpt.style';
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 type ExcerptProps = {
   className?: string;

@@ -331,7 +331,7 @@ public class SearchingStudyControllerTest {
         assertThat(actual.getTitle()).isEqualTo(expect.getTitle());
         assertThat(actual.getExcerpt()).isEqualTo(expect.getExcerpt());
         assertThat(actual.getThumbnail()).isEqualTo(expect.getThumbnail());
-        assertThat(actual.getRecruitStatus()).isEqualTo(expect.getRecruitmentStatus());
+        assertThat(actual.getRecruitmentStatus()).isEqualTo(expect.getRecruitmentStatus());
         assertThat(actual.getDescription()).isEqualTo(expect.getDescription());
         assertThat(actual.getCreatedDate()).isEqualTo(expect.getCreatedDate().toString());
     }

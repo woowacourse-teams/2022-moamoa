@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
@@ -27,6 +28,9 @@ public class AuthControllerTest {
 
     @MockBean
     private TokenProvider tokenProvider;
+
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test

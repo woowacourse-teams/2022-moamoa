@@ -19,30 +19,38 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class StudySummaryDao {
 
-    private static final RowMapper<StudySummaryData> STUDY_ROW_MAPPER = createStudyRowMapper();
+    private static final RowMapper<StudySummaryData> STUDY_ROW_MAPPER = (resultSet, rowNum) -> {
+        final Long id = resultSet.getLong("id");
+        final String title = resultSet.getString("title");
+        final String excerpt = resultSet.getString("excerpt");
+        final String thumbnail = resultSet.getString("thumbnail");
+        final String status = resultSet.getString("recruitment_status");
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+        return new StudySummaryData(id, title, excerpt, thumbnail, status);
+    };
+
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
-        final List<StudySummaryData> data = namedParameterJdbcTemplate
+        final List<StudySummaryData> data = jdbcTemplate
                 .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
 
     }
 
     private String sql(final SearchingTags searchingTags) {
-        return "SELECT s.id, s.title, s.excerpt, s.thumbnail, s.recruitment_status "
-                + "FROM study s "
+        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status "
+                + "FROM study "
                 + joinTableClause(searchingTags)
-                + "WHERE UPPER(s.title) LIKE UPPER(:title) ESCAPE '\' "
+                + "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' "
                 + filtersInQueryClause(searchingTags)
-                + "GROUP BY s.id LIMIT :limit OFFSET :offset";
+                + "GROUP BY study.id LIMIT :limit OFFSET :offset";
     }
 
     private String joinTableClause(final SearchingTags searchingTags) {
-        String sql = "JOIN study_tag {}_st ON s.id = {}_st.study_id "
-                + "JOIN tag {}_t ON {}_st.tag_id = {}_t.id "
-                + "JOIN category {}_c ON {}_t.category_id = {}_c.id AND {}_c.name = '{}'";
+        String sql = "JOIN study_tag {}_study_tag ON study.id = {}_study_tag.study_id "
+                + "JOIN tag {}_tag ON {}_study_tag.tag_id = {}_tag.id "
+                + "JOIN category {}_category ON {}_tag.category_id = {}_category.id AND {}_category.name = '{}'";
 
         return Stream.of(CategoryName.values())
                 .filter(searchingTags::hasBy)
@@ -51,7 +59,7 @@ public class StudySummaryDao {
     }
 
     private String filtersInQueryClause(final SearchingTags searchingTags) {
-        String sql = "AND {}_t.id IN (:{}) ";
+        String sql = "AND {}_tag.id IN (:{}) ";
 
         return Stream.of(CategoryName.values())
                 .filter(searchingTags::hasBy)
@@ -81,18 +89,5 @@ public class StudySummaryDao {
 
     private boolean hasNext(final List<StudySummaryData> studies, final Pageable pageable) {
         return studies.size() > pageable.getPageSize();
-    }
-
-    private static RowMapper<StudySummaryData> createStudyRowMapper() {
-        return (resultSet, rowNum) -> {
-            final Long id = resultSet.getLong("id");
-
-            final String title = resultSet.getString("title");
-            final String excerpt = resultSet.getString("excerpt");
-            final String thumbnail = resultSet.getString("thumbnail");
-            final String status = resultSet.getString("recruitment_status");
-
-            return new StudySummaryData(id, title, excerpt, thumbnail, status);
-        };
     }
 }

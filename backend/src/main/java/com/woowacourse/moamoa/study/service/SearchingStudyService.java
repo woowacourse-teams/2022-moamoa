@@ -11,7 +11,10 @@ import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagData;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -26,10 +29,11 @@ public class SearchingStudyService {
     private final MemberDao memberDao;
     private final TagDao tagDao;
 
-    public SearchingStudyService(final StudySummaryDao studySummaryDao,
-                                 final StudyDetailsDao studyDetailsDao,
-                                 final MemberDao memberDao,
-                                 final TagDao tagDao
+    public SearchingStudyService(
+            final StudySummaryDao studySummaryDao,
+            final StudyDetailsDao studyDetailsDao,
+            final MemberDao memberDao,
+            final TagDao tagDao
     ) {
         this.studySummaryDao = studySummaryDao;
         this.studyDetailsDao = studyDetailsDao;
@@ -38,8 +42,14 @@ public class SearchingStudyService {
     }
 
     public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Pageable pageable) {
-        Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, pageable);
-        return new StudiesResponse(studyData.getContent(), studyData.hasNext());
+        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, pageable);
+
+        final List<Long> studyIds = studyData.getContent().stream()
+                .map(StudySummaryData::getId)
+                .collect(Collectors.toList());
+        final Map<Long, List<TagSummaryData>> studyTags = tagDao.findTagsByStudyIds(studyIds);
+
+        return new StudiesResponse(studyData.getContent(), studyTags, studyData.hasNext());
     }
 
     public StudyDetailResponse getStudyDetails(final Long studyId) {

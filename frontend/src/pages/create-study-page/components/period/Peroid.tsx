@@ -1,5 +1,3 @@
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/period/Period.style';
 import { useMemo } from 'react';
 
 import { css } from '@emotion/react';
@@ -7,6 +5,9 @@ import { css } from '@emotion/react';
 import { getNextYear, getToday } from '@utils/index';
 
 import { useFormContext } from '@hooks/useForm';
+
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import * as S from '@create-study-page/components/period/Period.style';
 
 type PeriodProps = {
   className?: string;
