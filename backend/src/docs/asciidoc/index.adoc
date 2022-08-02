@@ -6,4 +6,5 @@
 
 = MOAMOA
 include::auth.adoc[]
-include::review.adoc[]
+include::studies.adoc[]
+include::reviews.adoc[]

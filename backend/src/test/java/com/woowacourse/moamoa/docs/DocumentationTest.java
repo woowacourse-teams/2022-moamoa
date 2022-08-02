@@ -9,11 +9,16 @@ import com.woowacourse.moamoa.auth.controller.AuthController;
 import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.review.controller.ReviewController;
 import com.woowacourse.moamoa.review.controller.SearchingReviewController;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.SearchingReviewService;
+import com.woowacourse.moamoa.study.controller.SearchingStudyController;
+import com.woowacourse.moamoa.study.controller.StudyController;
+import com.woowacourse.moamoa.study.service.SearchingStudyService;
+import com.woowacourse.moamoa.study.service.StudyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest({
         AuthController.class,
+        StudyController.class,
+        SearchingStudyController.class,
         ReviewController.class,
         SearchingReviewController.class
 })
@@ -41,6 +48,9 @@ public class DocumentationTest {
     @Autowired
     protected ObjectMapper objectMapper;
 
+    @Autowired
+    protected TokenProvider tokenProvider;
+
     @MockBean
     protected AuthConfig authConfig;
 
@@ -52,6 +62,12 @@ public class DocumentationTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected StudyService studyService;
+
+    @MockBean
+    protected SearchingStudyService searchingStudyService;
 
     @MockBean
     protected ReviewService reviewService;
