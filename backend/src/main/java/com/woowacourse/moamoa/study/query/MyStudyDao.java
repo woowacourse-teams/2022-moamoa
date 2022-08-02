@@ -43,9 +43,9 @@ public class MyStudyDao {
     private static final ResultSetExtractor<Map<Long, StudyOwnerAndTagsData>> OWNER_WITH_TAG_ROW_MAPPER = rs -> {
         Map<Long, StudyOwnerAndTagsData> result = new LinkedHashMap<>();
 
-        List<TagSummaryData> tagSummary = new ArrayList<>();
+        Long studyId;
         while (rs.next()) {
-            final Long studyId = rs.getLong("study.id");
+            studyId = rs.getLong("study.id");
 
             if (!result.containsKey(studyId)) {
                 Long githubId = rs.getLong("github_id");
@@ -53,14 +53,14 @@ public class MyStudyDao {
                 String imageUrl = rs.getString("image_url");
                 String profileUrl = rs.getString("profile_url");
 
-                tagSummary = new ArrayList<>();
                 result.put(studyId, new StudyOwnerAndTagsData(new MemberData(githubId, username, imageUrl, profileUrl),
-                        tagSummary));
+                        new ArrayList<>()));
             }
 
             final Long tagId = rs.getLong("tag.id");
             final String tagName = rs.getString("tag.name");
-            tagSummary.add(new TagSummaryData(tagId, tagName));
+            result.get(studyId)
+                    .addTag(new TagSummaryData(tagId, tagName));
         }
         return result;
     };
