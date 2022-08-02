@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.auth.controller.AuthController;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,9 @@ class AuthServiceTest {
 
     @MockBean
     private TokenProvider tokenProvider;
+
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test

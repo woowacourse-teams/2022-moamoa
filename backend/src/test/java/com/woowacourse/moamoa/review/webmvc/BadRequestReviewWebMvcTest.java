@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.review.controller.ReviewController;
@@ -35,6 +36,9 @@ public class BadRequestReviewWebMvcTest {
 
     @MockBean
     private ReviewService reviewService;
+
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("필수 데이터인 후기 내용이 공백인 경우 400을 반환한다.")
     @Test

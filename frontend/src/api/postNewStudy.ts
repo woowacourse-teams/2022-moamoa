@@ -20,7 +20,7 @@ const postNewStudy = async (data: StudyDetailPostData) => {
     `/api/studies`,
     data,
   );
-  return response;
+  return response.data;
 };
 
 export default postNewStudy;

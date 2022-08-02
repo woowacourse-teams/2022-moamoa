@@ -1,20 +1,25 @@
 package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcherBuilder;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
+    private final AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
@@ -23,8 +28,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && validatePostPath(request) ||
-                request.getMethod().equals("GET") && validateGetPath(request)) {
+        if (authenticationRequestMatcher.isRequiredAuth(request)) {
             final String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
@@ -42,14 +46,5 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (token == null || !tokenProvider.validateToken(token)) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
-    }
-
-    private boolean validatePostPath(final HttpServletRequest request) {
-        return request.getServletPath().equals("/api/studies") ||
-                request.getServletPath().matches("/api/studies/\\d+/reviews");
-    }
-
-    private boolean validateGetPath(final HttpServletRequest request) {
-        return request.getServletPath().equals("/api/my/studies");
     }
 }

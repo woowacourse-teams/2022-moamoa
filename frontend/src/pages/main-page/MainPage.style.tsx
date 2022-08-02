@@ -9,7 +9,6 @@ export const CardList = styled.ul`
   gap: 32px;
 
   & > li {
-    cursor: pointer;
     width: 100%;
   }
 

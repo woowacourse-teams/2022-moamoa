@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-import tagsJSON from './tags.json';
+import tagsJSON from '@mocks/tags.json';
 
 export const tagHandlers = [
   rest.get('/api/tags', (req, res, ctx) => {

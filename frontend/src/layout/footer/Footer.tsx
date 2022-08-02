@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import * as S from '@layout/footer/Footer.style';
 
-type FooterProps = {
+export type FooterProps = {
   marginBottom: string;
 };
 

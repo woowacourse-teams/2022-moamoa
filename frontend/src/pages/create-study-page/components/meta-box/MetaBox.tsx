@@ -1,6 +1,7 @@
-import * as S from '@create-study-page/components/meta-box/MetaBox.style';
 import cn from 'classnames';
 import { ReactNode } from 'react';
+
+import * as S from '@create-study-page/components/meta-box/MetaBox.style';
 
 const MetaBoxTitle = ({ className, children }: { className?: string; children: ReactNode }) => {
   return <h2 className={cn('title', className)}>{children}</h2>;

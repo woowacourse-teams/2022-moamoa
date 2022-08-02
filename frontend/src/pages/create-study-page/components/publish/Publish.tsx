@@ -1,18 +1,18 @@
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/publish/Publish.style';
-
 import { css } from '@emotion/react';
 
 import { useFormContext } from '@hooks/useForm';
 
 import Button from '@components/button/Button';
 
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import * as S from '@create-study-page/components/publish/Publish.style';
+
 type PublishProps = {
   className?: string;
   onPublishButtonClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Publish = ({ className, onPublishButtonClick }: PublishProps) => {
+const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
   const { formState } = useFormContext();
 
   return (
@@ -27,7 +27,7 @@ const Publish = ({ className, onPublishButtonClick }: PublishProps) => {
               padding: 12px 10px;
             `}
             fluid={true}
-            onClick={onPublishButtonClick}
+            onClick={handlePublishButtonClick}
             outline={true}
             isLoading={formState.isSubmitting}
           >

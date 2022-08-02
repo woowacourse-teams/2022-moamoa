@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,9 @@ public class BadRequestReviewControllerTest {
 
     @MockBean
     private SearchingReviewService searchingReviewService;
+
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("size 파라미터의 형식이 잘못된 경우 400을 반환한다.")
     @Test
