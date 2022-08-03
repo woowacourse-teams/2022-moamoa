@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.review.service.request.EditReviewRequest;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
@@ -145,7 +145,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     @Test
     void updateReview() {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
-        final EditReviewRequest request = new EditReviewRequest("edit review");
+        final EditingReviewRequest request = new EditingReviewRequest("edit review");
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -163,7 +163,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     @Test
     void updateNotWriteReview() {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
-        final EditReviewRequest request = new EditReviewRequest("edit review");
+        final EditingReviewRequest request = new EditingReviewRequest("edit review");
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, token)

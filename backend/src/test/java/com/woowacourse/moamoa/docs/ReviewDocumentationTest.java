@@ -11,10 +11,13 @@ import static com.woowacourse.fixtures.StudyFixtures.자바_스터디_아이디;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import java.util.List;
@@ -43,7 +46,8 @@ public class ReviewDocumentationTest extends DocumentationTest {
     @DisplayName("스터디에 리뷰를 전체 조회한다.")
     @Test
     void findAll() throws Exception {
-        final ReviewsResponse reviewsResponse = new ReviewsResponse(List.of(자바_리뷰1_데이터, 자바_리뷰2_데이터, 자바_리뷰3_데이터, 자바_리뷰4_데이터), 자바_리뷰_총_개수);
+        final ReviewsResponse reviewsResponse = new ReviewsResponse(
+                List.of(자바_리뷰1_데이터, 자바_리뷰2_데이터, 자바_리뷰3_데이터, 자바_리뷰4_데이터), 자바_리뷰_총_개수);
         given(searchingReviewService.getReviewsByStudy(any(), any())).willReturn(reviewsResponse);
 
         mockMvc.perform(get("/api/studies/{study-id}/reviews", 자바_스터디_아이디)
@@ -64,5 +68,30 @@ public class ReviewDocumentationTest extends DocumentationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("reviews/list-certain-number"))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("리뷰를 수정하면 204를 반환한다.")
+    @Test
+    void update() throws Exception {
+        final EditingReviewRequest editingReviewRequest = new EditingReviewRequest("수정한 리뷰 내용입니다.");
+
+        mockMvc.perform(put("/api/studies/{study-id}/reviews/{review-id}", 자바_스터디_아이디, 자바_리뷰1_아이디)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + JWT_토큰)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(editingReviewRequest)))
+                .andDo(document("reviews/update"))
+                .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("리뷰를 삭제하면 204를 반환한다.")
+    @Test
+    void deleteReview() throws Exception {
+        mockMvc.perform(delete("/api/studies/{study-id}/reviews/{review-id}", 자바_스터디_아이디, 자바_리뷰1_아이디)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + JWT_토큰)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(document("reviews/delete"))
+                .andExpect(status().isNoContent());
     }
 }

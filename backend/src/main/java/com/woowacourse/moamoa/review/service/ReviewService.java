@@ -8,7 +8,7 @@ import com.woowacourse.moamoa.review.domain.exception.WritingReviewBadRequestExc
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.exception.ReviewNotFoundException;
 import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
-import com.woowacourse.moamoa.review.service.request.EditReviewRequest;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -40,7 +40,7 @@ public class ReviewService {
         return reviewRepository.save(review).getId();
     }
 
-    public void updateReview(final Long githubId, final Long reviewId, final EditReviewRequest editReviewRequest) {
+    public void updateReview(final Long githubId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
@@ -50,7 +50,7 @@ public class ReviewService {
             throw new UnwrittenReviewException();
         }
 
-        review.updateContent(editReviewRequest.getContent());
+        review.updateContent(editingReviewRequest.getContent());
     }
 
     public void deleteReview(final Long githubId, final Long reviewId) {

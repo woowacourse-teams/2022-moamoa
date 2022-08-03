@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.review.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.review.service.ReviewService;
-import com.woowacourse.moamoa.review.service.request.EditReviewRequest;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import java.net.URI;
 import javax.validation.Valid;
@@ -37,9 +37,9 @@ public class ReviewController {
     public ResponseEntity<Void> updateReview(
             @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "review-id") final Long reviewId,
-            @Valid @RequestBody final EditReviewRequest editReviewRequest
+            @Valid @RequestBody final EditingReviewRequest editingReviewRequest
     ) {
-        reviewService.updateReview(githubId, reviewId, editReviewRequest);
+        reviewService.updateReview(githubId, reviewId, editingReviewRequest);
         return ResponseEntity.noContent().build();
     }
 
