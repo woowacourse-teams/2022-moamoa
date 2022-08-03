@@ -1,15 +1,10 @@
-import { StudyReview } from '@custom-types/index';
+import type { GetReviewRequestParams, GetReviewResponseData } from '@custom-types';
 
-import axiosInstance from '@api/axiosInstance';
+import { axiosInstance } from '@api';
 
-export type StudyReviewResponse = {
-  reviews: Array<StudyReview>;
-  totalResults: number;
-};
-
-const getStudyReviews = async (studyId: number, size?: number): Promise<StudyReviewResponse> => {
+const getStudyReviews = async ({ studyId, size }: GetReviewRequestParams) => {
   const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
-  const response = await axiosInstance.get<StudyReviewResponse>(url);
+  const response = await axiosInstance.get<GetReviewResponseData>(url);
   return response.data;
 };
 

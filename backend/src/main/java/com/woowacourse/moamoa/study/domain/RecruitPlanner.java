@@ -64,4 +64,8 @@ public class RecruitPlanner {
     boolean hasCapacity() {
         return max != null;
     }
+
+    public RecruitStatus getRecruitStatus() {
+        return recruitStatus;
+    }
 }

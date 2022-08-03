@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
 import TabButton from '@study-room-page/components/tab-button/TabButton';

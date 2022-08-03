@@ -1,14 +1,14 @@
 import { css } from '@emotion/react';
 
-import type { TabId, Tabs } from '@study-room-page/StudyRoomPage';
 import * as S from '@study-room-page/components/side-menu/SideMenu.style';
 import TabButton from '@study-room-page/components/tab-button/TabButton';
+import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export type SideMenuProps = {
   className?: string;
   activeTabId: TabId;
   tabs: Tabs;
-  onTabButtonClick: (id: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onTabButtonClick: (id: TabId) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const mb12 = css`

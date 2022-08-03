@@ -1,17 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-
 import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
-import { PATH } from '@constants';
-
-import * as S from '@pages/error-page/ErrorPage.style';
+import * as S from '@error-page/ErrorPage.style';
+import useErrorPage from '@error-page/hooks/useErrorPage';
 
 const ErrorPage: React.FC = () => {
-  const navigate = useNavigate();
-
-  const handleHomeButtonClick = () => {
-    navigate(PATH.MAIN, { replace: true });
-  };
+  const { handleHomeButtonClick } = useErrorPage();
 
   return (
     <S.Page>

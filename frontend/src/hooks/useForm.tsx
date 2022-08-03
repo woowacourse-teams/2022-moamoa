@@ -46,18 +46,21 @@ type RefCallBack = (element: FieldElement | null) => void;
 
 type UseFormRegisterReturn = {
   ref: RefCallBack;
-  name: string;
+  name: FieldName;
 };
 
-type UseFormRegister = (name: string, options?: UseFormRegisterOption) => UseFormRegisterReturn;
+type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
 
-type GetFieldFn = (name: string) => Field | null;
+type GetFieldFn = (fieldName: FieldName) => Field | null;
+
+type ResetFieldFn = (fieldName: FieldName) => void;
 
 type UseFormReturn = {
   formState: UseFormState;
   handleSubmit: UseFormHandleSubmit;
   register: UseFormRegister;
   getField: GetFieldFn;
+  reset: ResetFieldFn;
 };
 
 type UseForm = () => UseFormReturn;
@@ -171,6 +174,13 @@ export const useForm: UseForm = () => {
     setFormState(prev => setError(prev, error));
   };
 
+  const reset = (fieldName: FieldName) => {
+    const field = getField(fieldName);
+    if (!field) return;
+
+    field.fieldElement.value = '';
+  };
+
   const handleChange = (e: React.ChangeEvent<FieldElement>) => {
     const {
       target: { name },
@@ -255,6 +265,7 @@ export const useForm: UseForm = () => {
     handleSubmit,
     register,
     getField,
+    reset,
   };
 };
 

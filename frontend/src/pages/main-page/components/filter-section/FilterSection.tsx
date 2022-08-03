@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
-import type { Tag, TagInfo, TagListQueryData } from '@custom-types/index';
+import type { GetTagListResponseData, Tag, TagInfo } from '@custom-types';
 
-import { getTagList } from '@api/getTagList';
+import { getTagList } from '@api';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 
@@ -26,7 +26,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery<TagListQueryData, Error>('filters', getTagList);
+  const { data, isLoading, isError, error } = useQuery<GetTagListResponseData, Error>('filters', getTagList);
 
   const generationTags = filterByCategory(data?.tags, 1);
   const areaTags = filterByCategory(data?.tags, 2);
