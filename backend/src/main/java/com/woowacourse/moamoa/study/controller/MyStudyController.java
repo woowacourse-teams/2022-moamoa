@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.study.service.MyStudyService;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,9 @@ public class MyStudyController {
     }
 
     @GetMapping("/api/members/me/role")
-    public ResponseEntity<Void> getStudyRole(
-            @AuthenticationPrincipal Long githubId, @RequestParam(name = "study-id") Long studyId) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MyRoleResponse> getMyRoleInStudy(
+            @AuthenticationPrincipal Long githubId, @RequestParam(name = "study-id") Long studyId
+    ) {
+        return ResponseEntity.ok().body(myStudyService.findMyRoleInStudy(githubId, studyId));
     }
 }

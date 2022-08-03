@@ -110,15 +110,16 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("특정 스터디에서 나의 Role을 확인한다.")
     void isMyStudy() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
         RestAssured.given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
-                .queryParam("study-id", 3)
+                .queryParam("study-id", 7)
                 .when()
                 .get("/api/members/me/role")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.OK.value())
+                .body("role", is("OWNER"));
     }
 }

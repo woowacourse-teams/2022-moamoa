@@ -10,7 +10,11 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.MyRole;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
@@ -19,7 +23,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
@@ -34,11 +41,14 @@ class MyStudyServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private StudyRepository studyRepository;
+
     private MyStudyService myStudyService;
 
     @BeforeEach
     void setUp() {
-        myStudyService = new MyStudyService(myStudyDao, memberRepository);
+        myStudyService = new MyStudyService(myStudyDao, memberRepository, studyRepository);
 
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
@@ -144,5 +154,14 @@ class MyStudyServiceTest {
         assertThatThrownBy(() -> myStudyService.getStudies(5L))
                 .isInstanceOf(UnauthorizedException.class)
                 .hasMessageContaining("5의 githubId를 가진 사용자는 없습니다.");
+    }
+
+    @DisplayName("스터디에서 나의 역할을 조회한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"1,2,MEMBER", "1,3,NON_MEMBER", "2,1,OWNER"})
+    void getMyRoleInStudy(Long githubId, Long studyId, MyRole role) {
+        final MyRoleResponse response = myStudyService.findMyRoleInStudy(githubId, studyId);
+
+        assertThat(response.getRole()).isEqualTo(role);
     }
 }
