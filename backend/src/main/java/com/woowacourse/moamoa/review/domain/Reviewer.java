@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.review.domain;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -14,5 +15,9 @@ public class Reviewer {
 
     public Reviewer(final Long memberId) {
         this.memberId = memberId;
+    }
+
+    public boolean isSame(final Long memberId) {
+        return Objects.equals(this.memberId, memberId);
     }
 }

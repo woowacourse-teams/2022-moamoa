@@ -30,6 +30,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
     private Long javaStudyId;
     private Long javaReviewId1;
+    private Long javaReviewId2;
 
     private List<ReviewResponse> javaReviews;
 
@@ -62,7 +63,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
         // 리뷰 추가
         javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
-        long javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
+        javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
         long javaReviewId3 = createReview(dwooToken, javaStudyId, new WriteReviewRequest("리뷰 내용3"));
         long javaReviewId4 = createReview(verusToken, javaStudyId, new WriteReviewRequest("리뷰 내용4"));
         createReview(jjangguToken, reactStudyId, new WriteReviewRequest("리뷰 내용5"));
@@ -122,5 +123,20 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .delete("/api/studies/{study-id}/reviews/{review-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
+    @Test
+    void deleteNotWriteReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId2)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.UNAUTHORIZED.value());
     }
 }

@@ -40,6 +40,10 @@ public class Review extends BaseEntity {
         return new Review(new AssociatedStudy(studyId), new Reviewer(memberId), content);
     }
 
+    public boolean isReviewer(final Long memberId) {
+        return reviewer.isSame(memberId);
+    }
+
     public Long getId() {
         return id;
     }

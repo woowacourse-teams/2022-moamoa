@@ -37,6 +37,7 @@ public class ReviewController {
             @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
+        reviewService.deleteReview(githubId, studyId, reviewId);
         return ResponseEntity.noContent().build();
     }
 }
