@@ -9,9 +9,10 @@
     "study"
   ],
   "scripts": {
+    "build-dev": "webpack --progress --config ./webpack/webpack.dev.js",
     "build": "webpack --progress --config ./webpack/webpack.prod.js",
     "clean": "npm cache clean --force && rm -rf node_modules && rm package-lock.json",
-    "start": "webpack serve --open --progress --config ./webpack/webpack.dev.js",
+    "start": "webpack serve --open --progress --config ./webpack/webpack.local.js",
     "build:msw": "npx msw init public/ --save",
     "lint:es": "eslint '**/*.{js,ts,tsx}'",
     "lint:es:fix": "npm run lint:es -- --fix",

@@ -10,7 +10,10 @@ export const getNextYear = (today: string, seperator: '-' | '.') => {
 
 export const yyyymmddTommdd = (date: string, seperator = '-') => {
   const arr = date.split(seperator);
-  if (arr.length !== 3) throw new Error('날짜 형식이 올바르지 않습니다');
+  if (arr.length !== 3) {
+    console.error('날짜 형식이 올바르지 않습니다');
+    return '%%ERROR%%';
+  }
   const [m, d] = arr.slice(1, 3);
   return `${m}월 ${d}일`;
 };
