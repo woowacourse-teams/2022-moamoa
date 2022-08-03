@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.docs;
+package com.woowacourse.docs;
 
 import static com.woowacourse.fixtures.AuthFixtures.JWT_토큰;
 import static com.woowacourse.fixtures.StudyFixtures.리액트_스터디_응답;

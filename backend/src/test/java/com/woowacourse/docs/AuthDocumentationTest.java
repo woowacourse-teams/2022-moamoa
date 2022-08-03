@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.docs;
+package com.woowacourse.docs;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
