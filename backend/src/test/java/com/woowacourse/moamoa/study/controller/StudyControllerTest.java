@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.study.controller;
 
-import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -132,7 +131,7 @@ public class StudyControllerTest {
         Long studyId = Long.valueOf(id);
         Optional<Study> study = studyRepository.findById(studyId);
 
-        assertThat(study.get().isProgressStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(study.get().isProgressStatus()).isTrue();
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")

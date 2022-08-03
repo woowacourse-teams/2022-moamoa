@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -133,7 +134,7 @@ class AutoUpdateStatusTaskTest {
     private void assertNextExecuteTime(Trigger trigger, LocalDateTime current, LocalDateTime expectNextExecuteTime) {
         final Date date = Date.from(current.toInstant(ZoneOffset.of("+9")));
         final LocalDateTime actualNextExecuteTime =
-                trigger.nextExecutionTime(new SimpleTriggerContext(date, date, date))
+                Objects.requireNonNull(trigger.nextExecutionTime(new SimpleTriggerContext(date, date, date)))
                 .toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime();
 
         assertThat(actualNextExecuteTime).isEqualTo(expectNextExecuteTime);
