@@ -1,11 +1,11 @@
-import { MakeOptional } from '@custom-types/index';
+import type { MakeOptional } from '@custom-types';
 
 import * as S from '@components/avatar/Avatar.style';
 
 export type AvatarProps = {
   profileImg: string;
   profileAlt: string;
-  size: 'sm' | 'md' | 'lg';
+  size: 'xs' | 'sm' | 'md' | 'lg';
 };
 
 type OptionalAvatarProps = MakeOptional<AvatarProps, 'size'>;

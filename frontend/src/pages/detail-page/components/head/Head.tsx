@@ -1,4 +1,4 @@
-import type { StudyDetail } from '@custom-types/index';
+import type { StudyDetail } from '@custom-types';
 
 import StudyChip from '@components/study-chip/StudyChip';
 import TagChip from '@components/tag-chip/TagChip';

@@ -1,7 +1,7 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import type { MoreButtonProp } from '@detail-page/components/more-button/MoreButton';
+import type { MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
 };
 
-const Template: Story<MoreButtonProp> = props => {
+const Template: Story<MoreButtonProps> = props => {
   const [show, setShow] = useState<boolean>(false);
   return (
     <div style={{ width: '256px' }}>

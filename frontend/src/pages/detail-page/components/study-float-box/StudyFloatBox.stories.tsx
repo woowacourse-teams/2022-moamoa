@@ -1,6 +1,6 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
 import type { StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';

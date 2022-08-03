@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
 import type { FilterButtonListProps } from '@main-page/components/filter-section/filter-button-list/FilterButtonList';

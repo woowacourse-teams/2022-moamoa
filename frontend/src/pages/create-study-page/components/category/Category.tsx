@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 
-import type { Tag } from '@custom-types/index';
+import type { Tag } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 
 import * as S from '@create-study-page/components/category/Category.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import useFetchTagList from '@create-study-page/hooks/useFetchTagList';
+import useGetTagList from '@create-study-page/hooks/useGetTagList';
 
 export type CategoryProps = {
   className?: string;
@@ -27,7 +27,7 @@ const getClassifiedTags = (tags: Array<Tag>) => {
 
 const Category = ({ className }: CategoryProps) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError, isSuccess } = useFetchTagList();
+  const { data, isLoading, isError, isSuccess } = useGetTagList();
 
   const renderContent = () => {
     if (isLoading) return <div>loading...</div>;

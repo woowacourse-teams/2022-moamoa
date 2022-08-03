@@ -1,4 +1,4 @@
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
 import * as S from '@layout/header/components/nav-button/NavButton.style';
 

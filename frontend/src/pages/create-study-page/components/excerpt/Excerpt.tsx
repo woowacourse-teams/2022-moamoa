@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -8,6 +7,7 @@ import { EXCERPT_LENGTH } from '@constants';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
 import * as S from '@create-study-page/components/excerpt/Excerpt.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
@@ -22,7 +22,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
     register,
   } = useFormContext();
 
-  const [count, setCount] = useState(0);
+  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE);
 
   return (
     <S.Excerpt className={className}>
@@ -44,7 +44,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
                 justify-content: flex-end;
               `}
             >
-              <LetterCounter count={count} maxCount={EXCERPT_LENGTH.MAX.VALUE} />
+              <LetterCounter count={count} maxCount={maxCount} />
             </div>
             <textarea
               placeholder="한줄소개를 입력해주세요"

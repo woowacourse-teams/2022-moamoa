@@ -3,9 +3,9 @@ import { TbCrown } from 'react-icons/tb';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
-import { changeDateSeperator } from '@utils/dates';
+import { changeDateSeperator } from '@utils';
 
-import { Member, Owner } from '@custom-types/index';
+import type { Member, Owner } from '@custom-types';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';

@@ -130,6 +130,12 @@ const GlobalStyles = () => {
         li {
           list-style: none;
         }
+
+        select,
+        textarea,
+        input {
+          border-radius: 4px;
+        }
       `}
     />
   );

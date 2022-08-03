@@ -1,14 +1,8 @@
-import { AxiosResponse } from 'axios';
-import { useMutation } from 'react-query';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { changeDateSeperator } from '@utils/dates';
-
-import postJoiningStudy from '@api/postJoiningStudy';
-
-import { useAuth } from '@hooks/useAuth';
+import { changeDateSeperator } from '@utils';
 
 import Divider from '@components/divider/Divider';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
@@ -20,43 +14,21 @@ import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox
 import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
 import StudyReviewSection from '@detail-page/components/study-review-section/StudyReviewSection';
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
-import useFetchDetail from '@detail-page/hooks/useFetchDetail';
+import useDetailPage from '@detail-page/hooks/useDetailPage';
 
-const DetailPage = () => {
-  const { studyId } = useParams() as { studyId: string };
-
-  const { isLoggedIn } = useAuth();
-
-  const studyDetailQueryResult = useFetchDetail(Number(studyId));
-  const { mutate } = useMutation<AxiosResponse, Error, number>(postJoiningStudy);
-
-  const handleRegisterButtonClick = () => {
-    if (!isLoggedIn) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-
-    mutate(Number(studyId), {
-      onError: () => {
-        alert('가입에 실패했습니다.');
-      },
-      onSuccess: () => {
-        alert('가입했습니다 :D');
-        studyDetailQueryResult.refetch();
-      },
-    });
-  };
+const DetailPage: React.FC = () => {
+  const { studyId, detailQueryResult, handleRegisterButtonClick } = useDetailPage();
+  const { isFetching, isSuccess, isError, data } = detailQueryResult;
 
   if (!studyId) {
     alert('잘못된 접근입니다.');
     return <Navigate to={PATH.MAIN} replace={true} />;
   }
 
-  if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
+  if (isFetching) return <div>Loading...</div>;
 
-  if (!studyDetailQueryResult.data) return <div>No Data</div>;
+  if (!isSuccess || isError) return <div>조회에 실패했습니다</div>;
 
-  // TODO: background에 thumbnail 이미지 사용
   const {
     id,
     title,
@@ -72,7 +44,9 @@ const DetailPage = () => {
     owner,
     members,
     tags,
-  } = studyDetailQueryResult.data;
+  } = data;
+
+  // TODO: background에 thumbnail 이미지 사용
 
   return (
     <Wrapper>

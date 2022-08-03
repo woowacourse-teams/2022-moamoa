@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
 import type { StudyMemberSectionProps } from '@detail-page/components/study-member-section/StudyMemberSection';

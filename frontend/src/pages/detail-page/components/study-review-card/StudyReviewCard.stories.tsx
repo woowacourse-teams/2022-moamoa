@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
 import type { StudyReviewCardProps } from '@detail-page/components/study-review-card/StudyReviewCard';
