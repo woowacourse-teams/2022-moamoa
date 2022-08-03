@@ -1,13 +1,3 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-
-import { css } from '@emotion/react';
-
-import { PATH } from '@constants';
-
-import { useAuth } from '@hooks/useAuth';
-
-import { Footer, Header, Main } from '@layout/index';
-
 import {
   CreateStudyPage,
   DetailPage,
@@ -16,7 +6,16 @@ import {
   MainPage,
   MyStudyPage,
   StudyRoomPage,
-} from '@pages/index';
+} from '@pages';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { css } from '@emotion/react';
+
+import { PATH } from '@constants';
+
+import { useAuth } from '@hooks/useAuth';
+
+import { Footer, Header, Main } from '@layout';
 
 const App = () => {
   const { isLoggedIn } = useAuth();

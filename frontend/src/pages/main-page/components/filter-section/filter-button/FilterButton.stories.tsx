@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
 import type { FilterButtonProps } from '@main-page/components/filter-section/filter-button/FilterButton';

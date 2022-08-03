@@ -18,7 +18,8 @@
     "prettier:etc": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --check",
     "prettier:etc:fix": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --write",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "tsc": "tsc "
   },
   "license": "ISC",
   "devDependencies": {

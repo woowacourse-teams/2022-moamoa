@@ -19,11 +19,12 @@
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
-      "@custom-types/*": ["custom-types/*"],
-      "@pages/*": ["pages/*"],
+      "@custom-types": ["custom-types/index.ts"],
       "@assets/*": ["assets/*"],
+      "@utils": ["utils/index.ts"],
       "@utils/*": ["utils/*"],
       "@constants": ["constants.ts"],
+      "@api": ["api/index.ts"],
       "@api/*": ["api/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
@@ -31,9 +32,14 @@
       "@create-study-page/*": ["pages/create-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
+      "@login-redirect-page/*": ["pages/login-redirect-page/*"],
+      "@error-page/*": ["pages/error-page/*"],
+      "@layout": ["layout/index.ts"],
       "@layout/*": ["layout/*"],
       "@hooks/*": ["hooks/*"],
-      "@mocks/*": ["mocks/*"]
+      "@mocks/*": ["mocks/*"],
+      "@pages": ["pages/index.ts"],
+      "@pages/*": ["pages/*"]
     },
     "typeRoots": ["src/custom-types"]
   },

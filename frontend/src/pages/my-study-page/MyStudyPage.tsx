@@ -1,54 +1,70 @@
-import { useQuery } from 'react-query';
+import { useMemo } from 'react';
 
 import { css } from '@emotion/react';
 
-import type { MyStudyQueryData } from '@custom-types/index';
-import { MyStudy } from '@custom-types/index';
-
-import { getMyStudyList } from '@api/getMyStudyList';
+import type { MyStudy, StudyStatus } from '@custom-types';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@my-study-page/MyStudyPage.style';
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
+import useGetMyStudy from '@my-study-page/hooks/useGetMyStudy';
 
-const studies: Record<string, Array<MyStudy>> = {
-  prepare: [],
-  inProgress: [],
-  done: [],
+const filterStudiesByStatus = (studies: Array<MyStudy>, status: StudyStatus) => {
+  return studies.filter(({ studyStatus }) => studyStatus === status);
+};
+
+const useMyStudyPage = () => {
+  const myStudyQueryResult = useGetMyStudy();
+
+  const filteredStudies: Record<string, Array<MyStudy>> = useMemo(() => {
+    const studies = myStudyQueryResult.data?.studies ?? [];
+    return {
+      prepare: filterStudiesByStatus(studies, 'IN_PROGRESS'),
+      inProgress: filterStudiesByStatus(studies, 'PREPARE'),
+      done: filterStudiesByStatus(studies, 'DONE'),
+    };
+  }, [myStudyQueryResult.data]);
+
+  return {
+    myStudyQueryResult,
+    studies: filteredStudies,
+  };
 };
 
 const MyStudyPage: React.FC = () => {
-  const { data, isFetching, isError } = useQuery<MyStudyQueryData, Error>('my-studies', getMyStudyList);
+  const { myStudyQueryResult, studies } = useMyStudyPage();
 
-  const myStudies =
-    data?.studies.reduce((acc, study) => {
-      if (study.studyStatus === 'IN_PROGRESS') {
-        acc.inProgress.push(study);
-      }
-      if (study.studyStatus === 'PREPARE') {
-        acc.prepare.push(study);
-      }
-      if (study.studyStatus === 'DONE') {
-        acc.done.push(study);
-      }
-      return acc;
-    }, studies) || studies;
+  const { isFetching, isError, isSuccess } = myStudyQueryResult;
 
-  const mb20 = css`
-    margin-bottom: 20px;
-  `;
+  const renderStudyListSections = () => {
+    if (isFetching) {
+      return <div>로딩 중...</div>;
+    }
+
+    if (isError || !isSuccess) {
+      return <div>내 스터디 불러오기를 실패했습니다</div>;
+    }
+
+    const mb20 = css`
+      margin-bottom: 20px;
+    `;
+
+    return (
+      <>
+        <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" studies={studies.inProgress} />
+        <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" studies={studies.prepare} />
+        <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" studies={studies.done} disabled={true} />
+      </>
+    );
+  };
 
   return (
     <Wrapper>
       <S.PageTitle>가입한 스터디 목록</S.PageTitle>
       <Divider />
-      {isFetching && <div>로딩 중...</div>}
-      {isError && <div>내 스터디 불러오기를 실패했습니다</div>}
-      <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" myStudies={myStudies.inProgress} />
-      <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" myStudies={myStudies.prepare} />
-      <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" myStudies={myStudies.done} disabled={true} />
+      {renderStudyListSections()}
     </Wrapper>
   );
 };

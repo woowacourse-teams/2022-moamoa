@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import type { NavButtonProps } from '@layout/header/components/nav-button/NavButton';

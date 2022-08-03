@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/index';
+import { mqDown } from '@utils';
 
 import { DescriptionTab } from '@create-study-page/components/description-tab/DescriptionTab.style';
 

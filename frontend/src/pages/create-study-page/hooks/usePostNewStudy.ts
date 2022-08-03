@@ -1,9 +1,11 @@
 import { useMutation } from 'react-query';
 
-import postNewStudy from '@api/postNewStudy';
+import type { EmptyObject, PostNewStudyRequestBody } from '@custom-types';
+
+import { postNewStudy } from '@api';
 
 const usePostNewStudy = () => {
-  return useMutation(postNewStudy);
+  return useMutation<EmptyObject, Error, PostNewStudyRequestBody>(postNewStudy);
 };
 
 export default usePostNewStudy;

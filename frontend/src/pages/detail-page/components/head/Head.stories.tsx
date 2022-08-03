@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import Head from '@detail-page/components/head/Head';
 import type { HeadProps } from '@detail-page/components/head/Head';

@@ -1,20 +1,21 @@
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
-import { MakeOptional } from '@custom-types/index';
+import type { MakeOptional } from '@custom-types';
 
 import * as S from '@components/button/Button.style';
 
-export type ButtonProp = {
+export type ButtonProps = {
   className?: string;
   children: string;
-  fluid: boolean;
+  type?: 'submit' | 'button';
+  fluid?: boolean;
   disabled?: boolean;
-  outline: boolean;
+  outline?: boolean;
   isLoading?: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick' | 'outline'>;
+type OptionalButtonProps = MakeOptional<ButtonProps, 'fluid' | 'onClick' | 'outline'>;
 
 const LoadingIndicator: React.FC = () => {
   return (
@@ -26,9 +27,10 @@ const LoadingIndicator: React.FC = () => {
   );
 };
 
-const Button: React.FC<OptionalButtonProp> = ({
+const Button: React.FC<OptionalButtonProps> = ({
   className,
   children,
+  type = 'submit',
   fluid = true,
   disabled = false,
   outline = false,

@@ -7,5 +7,6 @@ declare namespace NodeJS {
   export type ProcessEnv = {
     API_URL: string;
     CLIENT_ID: string;
+    NODE_ENV: 'development' | 'production';
   };
 }

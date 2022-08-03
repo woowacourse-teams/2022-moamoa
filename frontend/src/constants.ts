@@ -5,6 +5,7 @@ export const PATH = {
   MY_STUDY: '/my/study',
   STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/study/room/${studyId}`,
   LOGIN: '/login',
+  REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
 };
 
 export const ACCESS_TOKEN_KEY = 'accessToken';
@@ -100,3 +101,18 @@ export const MEMBER_COUNT = {
 
 export const PROFILE_IMAGE_URL =
   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80';
+
+export const REVIEW_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};

@@ -41,10 +41,6 @@ public class RecruitPlanner {
         return enrollmentEndDate.isBefore(date);
     }
 
-    boolean hasCapacity() {
-        return max != null;
-    }
-
     void updateRecruiting(final LocalDate now) {
         if (isNeedToCloseRecruiting(now)) {
             closeRecruiting();
@@ -72,5 +68,9 @@ public class RecruitPlanner {
             return max;
         }
         throw new IllegalStateException("최대 인원 정보가 없습니다.");
+    }
+
+    boolean hasCapacity() {
+        return max != null;
     }
 }

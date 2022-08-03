@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { MakeOptional } from '@custom-types/index';
+import type { MakeOptional } from '@custom-types';
 
 import type { ThemeColor } from '@styles/theme';
 

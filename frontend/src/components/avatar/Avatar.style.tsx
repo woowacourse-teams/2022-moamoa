@@ -5,6 +5,11 @@ import type { AvatarProps } from '@components/avatar/Avatar';
 import Image from '@components/image/Image';
 
 const dynamicSize = {
+  xs: css`
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+  `,
   sm: css`
     width: 36px;
     min-width: 36px;

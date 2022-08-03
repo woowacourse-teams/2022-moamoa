@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import TagChip from '@components/tag-chip/TagChip';
 import type { TagChipProps } from '@components/tag-chip/TagChip';
