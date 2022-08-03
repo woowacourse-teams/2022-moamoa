@@ -1,21 +1,15 @@
 package com.woowacourse.acceptance.auth;
 
 import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import io.restassured.RestAssured;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
 
@@ -79,20 +73,5 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     private void mockingGithubServerForGetProfile(final String accessToken, final HttpStatus status)
             throws JsonProcessingException {
         mockingGithubServerForGetProfile(accessToken, status, null);
-    }
-
-    @Test
-    @DisplayName("내가 속한 스터디인지 확인한다.")
-    void isMyStudy() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-
-        RestAssured.given().log().all()
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
-                .queryParam("study-id", 3)
-                .when()
-                .get("/api/auth/role")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
     }
 }
