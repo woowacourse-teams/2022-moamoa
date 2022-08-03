@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,14 @@ public class ReviewController {
     ) {
         final Long id = reviewService.writeReview(githubId, studyId, writeReviewRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reviews/" + id)).build();
+    }
+
+    @PatchMapping("/{review-id}")
+    public ResponseEntity<Void> updateReview(
+            @AuthenticationPrincipal final Long githubId,
+            @PathVariable(name = "review-id") final Long reviewId
+    ) {
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{review-id}")

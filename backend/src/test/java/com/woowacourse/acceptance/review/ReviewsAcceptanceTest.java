@@ -139,4 +139,19 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .delete("/api/studies/{study-id}/reviews/{review-id}")
                 .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
+
+    @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 수정할 수 있다.")
+    @Test
+    void updateReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId1)
+                .when().log().all()
+                .patch("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
 }
