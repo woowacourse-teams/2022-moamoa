@@ -34,10 +34,9 @@ public class ReviewController {
     @DeleteMapping("/{review-id}")
     public ResponseEntity<Void> deleteReview(
             @AuthenticationPrincipal final Long githubId,
-            @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
-        reviewService.deleteReview(githubId, studyId, reviewId);
+        reviewService.deleteReview(githubId, reviewId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -137,6 +137,6 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .pathParam("review-id", javaReviewId2)
                 .when().log().all()
                 .delete("/api/studies/{study-id}/reviews/{review-id}")
-                .then().statusCode(HttpStatus.UNAUTHORIZED.value());
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }
