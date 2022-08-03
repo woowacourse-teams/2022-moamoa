@@ -23,7 +23,7 @@ const Template: Story<MyStudyCardListSectionProps> = props => (
 export const Default = Template.bind({});
 Default.args = {
   sectionTitle: '활동 중!',
-  myStudies: [
+  studies: [
     {
       id: 66201614,
       title: '2022-daily-planner',

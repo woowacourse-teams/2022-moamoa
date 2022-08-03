@@ -55,11 +55,11 @@ export type StudyDetail = {
   recruitmentStatus: RecruitmentStatus;
   description: string;
   currentMemberCount: number;
-  maxMemberCount: number;
+  maxMemberCount?: number;
   createdDate: string;
-  enrollmentEndDate: string;
+  enrollmentEndDate?: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   owner: Owner;
   members: Array<Member>;
   tags: Array<StudyTag>;

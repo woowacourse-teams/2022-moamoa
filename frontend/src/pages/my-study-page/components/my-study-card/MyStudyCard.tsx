@@ -10,7 +10,7 @@ export type MyStudyCardProps = {
   ownerName: string;
   tags: Array<Pick<Tag, 'id' | 'name'>>;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   disabled: boolean;
 };
 
@@ -41,7 +41,7 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
         </S.Top>
         <S.Bottom>
           <S.Period>
-            <span>{startDate}</span> ~ <span>{endDate}</span>
+            <span>{startDate}</span> ~ <span>{endDate || ''}</span>
           </S.Period>
           <S.TrashButton>
             <HiOutlineTrash size={20} />
