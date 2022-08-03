@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,21 +27,23 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
         getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
-        jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                        + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'OPEN', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
+        final LocalDateTime now = LocalDateTime.now();
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
-                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'OPEN', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '2021-11-08T11:58:20.551705', '1999-01-01T00:00:00', '2021-11-10T11:58:20.551705', '2021-12-08T11:58:20.551705', 3)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                        + "VALUES (3, 'Java 스터디', '자바 설명', 'java thumbnail', 'CLOSE', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
+                        + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '1999-01-01', '2021-11-10', '2021-12-08', 3)");
 
         jdbcTemplate.update(
-                "INSERT INTO study(id, title, excerpt, thumbnail, recruit_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                        + "VALUES (4, 'Java 스터디', '자바 설명', 'java thumbnail', 'CLOSE', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 3, '2021-11-08T11:58:20.551705', '2021-12-08T11:58:20.657123', 2)");
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (3, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
+
+        jdbcTemplate.update(
+                "INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                        + "VALUES (4, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_END', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 3, '" + now + "', '2021-12-08', 2)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 1)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");

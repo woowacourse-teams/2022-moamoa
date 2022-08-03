@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-@Component
 public class AuthenticationRequestMatcherBuilder {
 
     private static final List<HttpMethod> METHODS = List.of(

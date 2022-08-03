@@ -11,11 +11,9 @@ import org.springframework.http.HttpMethod;
 @AllArgsConstructor
 public class AuthRequestMatchConfig {
 
-    private final AuthenticationRequestMatcherBuilder authenticationRequestMatcherBuilder;
-
     @Bean
     public AuthenticationRequestMatcher authenticationRequestMatcher() {
-        return authenticationRequestMatcherBuilder
+        return new AuthenticationRequestMatcherBuilder()
                 .addUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews")
                 .addUpAuthenticationPath(HttpMethod.GET, "/api/my/studies")
                 .build();

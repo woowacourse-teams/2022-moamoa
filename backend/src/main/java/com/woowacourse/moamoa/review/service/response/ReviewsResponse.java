@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.review.query.data.ReviewData;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,19 +12,19 @@ import lombok.NoArgsConstructor;
 public class ReviewsResponse {
 
     private List<ReviewResponse> reviews;
-    private Integer totalResults;
+    private Integer totalCount;
 
-    public ReviewsResponse(final List<ReviewData> reviews, final Integer totalResults) {
+    public ReviewsResponse(final List<ReviewData> reviews, final Integer totalCount) {
         this.reviews = reviews.stream()
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
-        this.totalResults = totalResults;
+        this.totalCount = totalCount;
     }
 
     public ReviewsResponse(final List<ReviewData> reviews) {
         this.reviews = reviews.stream()
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
-        totalResults = reviews.size();
+        totalCount = reviews.size();
     }
 }

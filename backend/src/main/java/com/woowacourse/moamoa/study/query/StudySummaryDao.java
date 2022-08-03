@@ -24,7 +24,7 @@ public class StudySummaryDao {
         final String title = resultSet.getString("title");
         final String excerpt = resultSet.getString("excerpt");
         final String thumbnail = resultSet.getString("thumbnail");
-        final String status = resultSet.getString("recruit_status");
+        final String status = resultSet.getString("recruitment_status");
 
         return new StudySummaryData(id, title, excerpt, thumbnail, status);
     };
@@ -39,7 +39,7 @@ public class StudySummaryDao {
     }
 
     private String sql(final SearchingTags searchingTags) {
-        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruit_status "
+        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status "
                 + "FROM study "
                 + joinTableClause(searchingTags)
                 + "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' "
@@ -90,5 +90,4 @@ public class StudySummaryDao {
     private boolean hasNext(final List<StudySummaryData> studies, final Pageable pageable) {
         return studies.size() > pageable.getPageSize();
     }
-
 }
