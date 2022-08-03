@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -93,7 +94,7 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("recruitmentStatus", is("RECRUITMENT_START"))
                 .body("description", is("디우의 뤼액트 스터디입니다."))
                 .body("currentMemberCount", is(4))
-                .body("maxMemberCount", is("5"))
+                .body("maxMemberCount", is(5))
                 .body("enrollmentEndDate", is("2021-11-09"))
                 .body("startDate", is("2021-11-10"))
                 .body("endDate", is("2021-12-08"))
@@ -124,10 +125,10 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("recruitmentStatus", is("RECRUITMENT_END"))
                 .body("description", is("알고리즘을 TDD로 풀자의 베루스입니다."))
                 .body("currentMemberCount", is(1))
-                .body("maxMemberCount", is(""))
-                .body("enrollmentEndDate", is(""))
+                .body("maxMemberCount", is(nullValue()))
+                .body("enrollmentEndDate", is(nullValue()))
                 .body("startDate", is("2021-12-06"))
-                .body("endDate", is(""))
+                .body("endDate", is(nullValue()))
                 .body("owner.id", is(4))
                 .body("owner.username", is("verus"))
                 .body("owner.imageUrl", is("https://image"))

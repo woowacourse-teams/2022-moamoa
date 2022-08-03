@@ -18,7 +18,6 @@ import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Function;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +30,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class SearchingStudyControllerTest {
-
-    private static final Function<Object, String> NULL_TO_EMPTY_STRING_CONVERTER = value -> value == null ? "" : value.toString();
 
     private SearchingStudyController sut;
 
@@ -339,10 +336,8 @@ public class SearchingStudyControllerTest {
     private void assertStudyParticipants(
             final StudyDetailResponse actual, final StudyDetailsData expect, List<Tuple> expectParticipants
     ) {
-        final String expectedMaxMemberCount = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getMaxMemberCount());
-
         assertThat(actual.getCurrentMemberCount()).isEqualTo(expect.getCurrentMemberCount());
-        assertThat(actual.getMaxMemberCount()).isEqualTo(expectedMaxMemberCount);
+        assertThat(actual.getMaxMemberCount()).isEqualTo(expect.getMaxMemberCount());
         assertThat(actual.getOwner()).isEqualTo(expect.getOwner());
         assertThat(actual.getMembers())
                 .hasSize(expectParticipants.size())
@@ -351,11 +346,8 @@ public class SearchingStudyControllerTest {
     }
 
     private void assertStudyPeriod(final StudyDetailResponse actual, final StudyDetailsData expect) {
-        final String expectedEnrollmentEndDate = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getEnrollmentEndDate());
-        final String expectedEndDate = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getEndDate());
-
-        assertThat(actual.getEnrollmentEndDate()).isEqualTo(expectedEnrollmentEndDate);
-        assertThat(actual.getEndDate()).isEqualTo(expectedEndDate);
+        assertThat(actual.getEnrollmentEndDate()).isEqualTo(expect.getEnrollmentEndDate());
+        assertThat(actual.getEndDate()).isEqualTo(expect.getEndDate());
         assertThat(actual.getStartDate()).isEqualTo(expect.getStartDate().toString());
     }
 
