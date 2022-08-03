@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.review.service.request.EditReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
@@ -144,14 +145,35 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     @Test
     void updateReview() {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+        final EditReviewRequest request = new EditReviewRequest("edit review");
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", javaStudyId)
                 .pathParam("review-id", javaReviewId1)
+                .body(request)
                 .when().log().all()
-                .patch("/api/studies/{study-id}/reviews/{review-id}")
+                .put("/api/studies/{study-id}/reviews/{review-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("내가 작성하지 않은 리뷰를 수정할 수 없다.")
+    @Test
+    void updateNotWriteReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+        final EditReviewRequest request = new EditReviewRequest("edit review");
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId2)
+                .body(request)
+                .when().log().all()
+                .put("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

@@ -44,7 +44,15 @@ public class Review extends BaseEntity {
         return reviewer.isSame(memberId);
     }
 
+    public void updateContent(final String content) {
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getContent() {
+        return content;
     }
 }

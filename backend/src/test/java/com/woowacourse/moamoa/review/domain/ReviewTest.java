@@ -23,4 +23,15 @@ public class ReviewTest {
         final Review review = new Review(new AssociatedStudy(1L), new Reviewer(writtenMemberId), "content");
         assertThat(review.isReviewer(unwrittenMemberId)).isFalse();
     }
+
+    @DisplayName("리뷰 내용을 수정한다.")
+    @Test
+    void updateReviewContent() {
+        final Review review = new Review(new AssociatedStudy(1L), new Reviewer(writtenMemberId), "content");
+        final String updatedContent = "update content";
+
+        review.updateContent(updatedContent);
+
+        assertThat(review.getContent()).isEqualTo(updatedContent);
+    }
 }
