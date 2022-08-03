@@ -68,7 +68,6 @@ public class StudyFixtures {
     public static final StudyResponse 자바스크립트_스터디_응답 = new StudyResponse(자바스크립트_스터디_아이디, 자바스크립트_스터디_내용.getTitle(), 자바스크립트_스터디_내용.getExcerpt(),
             자바스크립트_스터디_내용.getThumbnail(), 자바스크립트_스터디_모집계획.getRecruitStatus().name(), List.of(우테코4기_태그_요약, FE_태그_요약));
 
-
     /* HTTP 스터디 */
     public static final Long HTTP_스터디_아이디 = 4L;
     public static final Content HTTP_스터디_내용 = new Content("디우의 HTTP", "HTTP 스터디 요약", "HTTP 스터디 썸네일", "HTTP 스터디 설명입니다.");
