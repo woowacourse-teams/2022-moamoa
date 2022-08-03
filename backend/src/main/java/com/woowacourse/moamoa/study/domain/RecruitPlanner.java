@@ -1,14 +1,18 @@
 package com.woowacourse.moamoa.study.domain;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.*;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static javax.persistence.EnumType.STRING;
+import static lombok.AccessLevel.PROTECTED;
 
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor(access = PROTECTED)
 public class RecruitPlanner {
 
     @Column(name = "max_member_count")
@@ -19,9 +23,6 @@ public class RecruitPlanner {
     private RecruitStatus recruitStatus;
 
     private LocalDate enrollmentEndDate;
-
-    protected RecruitPlanner() {
-    }
 
     public RecruitPlanner(final Integer max, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
         this.max = max;
@@ -40,7 +41,17 @@ public class RecruitPlanner {
         return enrollmentEndDate.isBefore(date);
     }
 
-    boolean isNeedToCloseRecruiting(final LocalDate now) {
+    boolean hasCapacity() {
+        return max != null;
+    }
+
+    void updateRecruiting(final LocalDate now) {
+        if (isNeedToCloseRecruiting(now)) {
+            closeRecruiting();
+        }
+    }
+
+    private boolean isNeedToCloseRecruiting(final LocalDate now) {
         return recruitStatus.equals(RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
@@ -61,9 +72,5 @@ public class RecruitPlanner {
             return max;
         }
         throw new IllegalStateException("최대 인원 정보가 없습니다.");
-    }
-
-    boolean hasCapacity() {
-        return max != null;
     }
 }

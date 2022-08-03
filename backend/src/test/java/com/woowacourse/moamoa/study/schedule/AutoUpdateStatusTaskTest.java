@@ -29,7 +29,7 @@ import org.springframework.scheduling.config.TriggerTask;
 import org.springframework.scheduling.support.SimpleTriggerContext;
 
 @RepositoryTest
-class AutoCloseEnrollmentTaskTest {
+class AutoUpdateStatusTaskTest {
 
     private long javaStudyId;
     private long reactStudyId;
@@ -178,6 +178,6 @@ class AutoCloseEnrollmentTaskTest {
 
         final Study linuxStudy = studyRepository.findById(algorithmStudyId).orElseThrow();
 
-        assertThat(linuxStudy.isProgressStudy()).isEqualTo(true);
+        assertThat(linuxStudy.isProgressStatus()).isEqualTo(true);
     }
 }

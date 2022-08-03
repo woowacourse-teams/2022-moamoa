@@ -47,16 +47,21 @@ public class StudyPlanner {
         return endDate.isBefore(date);
     }
 
-    public boolean isNeedToCloseStudy(final LocalDate now) {
+    void updateStatus(final LocalDate now) {
+        if (isNeedToCloseStudy(now)) {
+            studyStatus = DONE;
+        }
+        if (isNeedToChangeProgress(now)) {
+            studyStatus = IN_PROGRESS;
+        }
+    }
+
+    private boolean isNeedToCloseStudy(final LocalDate now) {
         return (endDate != null) && (studyStatus.equals(IN_PROGRESS)) && (endDate.isAfter(now) || endDate.isEqual(now));
     }
 
-    public boolean isNeedToChangeProgress(final LocalDate now) {
+    private boolean isNeedToChangeProgress(final LocalDate now) {
         return (studyStatus.equals(PREPARE)) && (startDate.isAfter(now) || startDate.isEqual(now));
-    }
-
-    public StudyStatus getStudyStatus() {
-        return studyStatus;
     }
 
     boolean isProgress() {
@@ -67,16 +72,8 @@ public class StudyPlanner {
         return studyStatus.equals(PREPARE);
     }
 
-    public boolean isCloseStudy() {
+    boolean isCloseStudy() {
         return studyStatus.equals(DONE);
-    }
-
-    public void closeStudy() {
-        studyStatus = DONE;
-    }
-
-    public void changeProgress() {
-        studyStatus = IN_PROGRESS;
     }
 
     @Override

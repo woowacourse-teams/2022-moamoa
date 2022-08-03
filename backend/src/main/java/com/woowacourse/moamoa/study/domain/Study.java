@@ -95,31 +95,16 @@ public class Study {
         }
     }
 
-    private boolean isFullOfCapacity() {
-        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
-    }
-
-    public boolean isNeedToCloseRecruiting(LocalDate now) {
-        return recruitPlanner.isNeedToCloseRecruiting(now);
+    public void changeStatus(final LocalDate now) {
+        recruitPlanner.updateRecruiting(now);
+        studyPlanner.updateStatus(now);
     }
 
     public boolean isCloseEnrollment() {
         return recruitPlanner.isCloseEnrollment();
     }
 
-    public void closeEnrollment() {
-        recruitPlanner.closeRecruiting();
-    }
-
-    public boolean isNeedToChangeProgress(LocalDate now) {
-        return studyPlanner.isNeedToChangeProgress(now);
-    }
-
-    public boolean isNeedToCloseStudy(LocalDate now) {
-        return studyPlanner.isNeedToCloseStudy(now);
-    }
-
-    public boolean isProgressStudy() {
+    public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }
 
@@ -127,11 +112,7 @@ public class Study {
         return studyPlanner.isCloseStudy();
     }
 
-    public void closeStudy() {
-        studyPlanner.closeStudy();
-    }
-
-    public void changeStudyStatus() {
-        studyPlanner.changeProgress();
+    private boolean isFullOfCapacity() {
+        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
     }
 }

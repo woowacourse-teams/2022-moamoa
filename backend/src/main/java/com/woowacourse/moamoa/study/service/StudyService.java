@@ -70,15 +70,7 @@ public class StudyService {
         final LocalDate now = dateTimeSystem.now().toLocalDate();
 
         for (Study study : studies) {
-            if (study.isNeedToCloseRecruiting(now)) {
-                study.closeEnrollment();
-            }
-            if (study.isNeedToCloseStudy(now)) {
-                study.closeStudy();
-            }
-            if (study.isNeedToChangeProgress(now)) {
-                study.changeStudyStatus();
-            }
+            study.changeStatus(now);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -9,17 +8,16 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -134,10 +132,7 @@ public class StudyControllerTest {
         Long studyId = Long.valueOf(id);
         Optional<Study> study = studyRepository.findById(studyId);
 
-        assertThat(study.get()
-                .getStudyPlanner()
-                .getStudyStatus())
-                .isEqualTo(IN_PROGRESS);
+        assertThat(study.get().isProgressStatus()).isEqualTo(IN_PROGRESS);
     }
 
     @DisplayName("존재하지 않은 사용자로 생성 시 예외 발생")
