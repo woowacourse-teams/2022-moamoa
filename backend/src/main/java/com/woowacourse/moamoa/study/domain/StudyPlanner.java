@@ -8,13 +8,14 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
 public class StudyPlanner {
 
@@ -74,22 +75,5 @@ public class StudyPlanner {
 
     boolean isCloseStudy() {
         return studyStatus.equals(DONE);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final StudyPlanner studyPlanner = (StudyPlanner) o;
-        return Objects.equals(startDate, studyPlanner.startDate) && Objects.equals(endDate, studyPlanner.endDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(startDate, endDate);
     }
 }

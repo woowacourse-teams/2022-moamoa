@@ -1,15 +1,17 @@
 package com.woowacourse.moamoa.study.schedule;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDateTime;
@@ -152,10 +154,10 @@ class AutoUpdateStatusTaskTest {
         final Study javascriptStudy = studyRepository.findById(javascriptStudyId).orElseThrow();
         final Study httpStudy = studyRepository.findById(httpStudyId).orElseThrow();
 
-        assertThat(javaStudy.isCloseEnrollment()).isEqualTo(true);
-        assertThat(reactStudy.isCloseEnrollment()).isEqualTo(true);
-        assertThat(javascriptStudy.isCloseEnrollment()).isEqualTo(false);
-        assertThat(httpStudy.isCloseEnrollment()).isEqualTo(false);
+        assertThat(javaStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
+        assertThat(reactStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
+        assertThat(javascriptStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
+        assertThat(httpStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
     @DisplayName("스터디 종료기간이 넘으면 자동으로 종료 상태가 된다.")

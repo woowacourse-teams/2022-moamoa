@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -14,7 +15,6 @@ import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
-import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
@@ -77,7 +77,7 @@ public class StudyControllerTest {
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getStudyPlanner()).isEqualTo(
                 new StudyPlanner(
-                        creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate()), StudyStatus.PREPARE));
+                        creatingStudyRequest.getStartDate(), LocalDate.parse(creatingStudyRequest.getEndDate()), PREPARE));
         assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(creatingStudyRequest.getTagIds());
     }

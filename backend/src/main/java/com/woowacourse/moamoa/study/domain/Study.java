@@ -100,10 +100,6 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
-    public boolean isCloseEnrollment() {
-        return recruitPlanner.isCloseEnrollment();
-    }
-
     public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }
