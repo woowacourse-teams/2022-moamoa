@@ -14,7 +14,7 @@ export type ReviewTabPanelProps = {
 };
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
-  const { data, isFetching, refetch } = useGetStudyReviews(studyId);
+  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews(studyId);
   const author: Member = {
     id: 1,
     profileUrl: 'https://github.com/airman5573',
@@ -38,7 +38,11 @@ const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
       return <div>불러오는중...</div>;
     }
 
-    if (!hasReviews) {
+    if (isError || !isSuccess) {
+      return <div>에러가 발생했습니다</div>;
+    }
+
+    if (data.reviews.length === 0) {
       return <div>첫 리뷰를 남겨주세요!</div>;
     }
 
