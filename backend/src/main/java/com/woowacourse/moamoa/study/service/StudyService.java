@@ -65,7 +65,7 @@ public class StudyService {
                 .orElseThrow(() -> new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId)));
     }
 
-    public void autoCloseStudies() {
+    public void autoUpdateStatus() {
         final List<Study> studies = studyRepository.findAll();
         final LocalDate now = dateTimeSystem.now().toLocalDate();
 

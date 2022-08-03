@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.study.service.StudyService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.config.TriggerTask;
@@ -27,7 +26,7 @@ public class AutoCloseEnrollmentTask extends TriggerTask {
             @Transactional
             public void run() {
                 LOGGER.debug(LocalDateTime.now() + " : " + "start moamoa scheduled task!");
-                studyService.autoCloseStudies();
+                studyService.autoUpdateStatus();
             }
         };
     }
