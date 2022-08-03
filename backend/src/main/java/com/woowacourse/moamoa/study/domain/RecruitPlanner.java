@@ -1,9 +1,11 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.*;
+import static javax.persistence.EnumType.STRING;
+
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Embeddable
@@ -12,7 +14,7 @@ public class RecruitPlanner {
     @Column(name = "max_member_count")
     private Integer max;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = STRING)
     @Column(name = "recruitment_status")
     private RecruitStatus recruitStatus;
 
@@ -39,11 +41,11 @@ public class RecruitPlanner {
     }
 
     boolean isNeedToCloseRecruiting(final LocalDate now) {
-        return recruitStatus.equals(RecruitStatus.RECRUITMENT_START) && isRecruitedBeforeThan(now);
+        return recruitStatus.equals(RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
     void closeRecruiting() {
-        recruitStatus = RecruitStatus.RECRUITMENT_END;
+        recruitStatus = RECRUITMENT_END;
     }
 
     LocalDate getEnrollmentEndDate() {
@@ -51,7 +53,7 @@ public class RecruitPlanner {
     }
 
     boolean isCloseEnrollment() {
-        return recruitStatus.equals(RecruitStatus.RECRUITMENT_END);
+        return recruitStatus.equals(RECRUITMENT_END);
     }
 
     int getCapacity() {

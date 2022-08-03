@@ -103,11 +103,35 @@ public class Study {
         return recruitPlanner.isNeedToCloseRecruiting(now);
     }
 
+    public boolean isCloseEnrollment() {
+        return recruitPlanner.isCloseEnrollment();
+    }
+
     public void closeEnrollment() {
         recruitPlanner.closeRecruiting();
     }
 
-    public boolean isCloseEnrollment() {
-        return recruitPlanner.isCloseEnrollment();
+    public boolean isNeedToChangeProgress(LocalDate now) {
+        return studyPlanner.isNeedToChangeProgress(now);
+    }
+
+    public boolean isNeedToCloseStudy(LocalDate now) {
+        return studyPlanner.isNeedToCloseStudy(now);
+    }
+
+    public boolean isProgressStudy() {
+        return studyPlanner.isProgress();
+    }
+
+    public boolean isCloseStudy() {
+        return studyPlanner.isCloseStudy();
+    }
+
+    public void closeStudy() {
+        studyPlanner.closeStudy();
+    }
+
+    public void changeStudyStatus() {
+        studyPlanner.changeProgress();
     }
 }

@@ -1,5 +1,8 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -44,12 +47,36 @@ public class StudyPlanner {
         return endDate.isBefore(date);
     }
 
-    boolean isPreparing() {
-        return studyStatus.equals(StudyStatus.PREPARE);
+    public boolean isNeedToCloseStudy(final LocalDate now) {
+        return (endDate != null) && (studyStatus.equals(IN_PROGRESS)) && (endDate.isAfter(now) || endDate.isEqual(now));
+    }
+
+    public boolean isNeedToChangeProgress(final LocalDate now) {
+        return (studyStatus.equals(PREPARE)) && (startDate.isAfter(now) || startDate.isEqual(now));
     }
 
     public StudyStatus getStudyStatus() {
         return studyStatus;
+    }
+
+    boolean isProgress() {
+        return studyStatus.equals(IN_PROGRESS);
+    }
+
+    boolean isPreparing() {
+        return studyStatus.equals(PREPARE);
+    }
+
+    public boolean isCloseStudy() {
+        return studyStatus.equals(DONE);
+    }
+
+    public void closeStudy() {
+        studyStatus = DONE;
+    }
+
+    public void changeProgress() {
+        studyStatus = IN_PROGRESS;
     }
 
     @Override
