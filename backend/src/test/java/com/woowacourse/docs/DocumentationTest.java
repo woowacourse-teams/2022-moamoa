@@ -13,6 +13,7 @@ import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.member.controller.MemberController;
+import com.woowacourse.moamoa.member.service.MemberService;
 import com.woowacourse.moamoa.review.controller.ReviewController;
 import com.woowacourse.moamoa.review.controller.SearchingReviewController;
 import com.woowacourse.moamoa.review.service.ReviewService;
@@ -76,6 +77,9 @@ public class DocumentationTest {
 
     @MockBean
     protected ReviewService reviewService;
+
+    @MockBean
+    protected MemberService memberService;
 
     @MockBean
     protected SearchingReviewService searchingReviewService;
