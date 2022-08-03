@@ -13,23 +13,11 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-configurations {
     asciidoctorExtensions
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
-    systemProperties = System.getProperties()
 }
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -54,8 +42,19 @@ dependencies {
     /* end REST Docs */
 }
 
-test {
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+tasks.named('test') {
     outputs.dir snippetsDir
+    useJUnitPlatform()
+    systemProperties = System.getProperties()
+    finalizedBy 'asciidoctor'
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
 }
 
 asciidoctor {
@@ -67,10 +66,13 @@ asciidoctor {
 task createDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from file("build/asciidoc/html5/")
+    from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static/docs")
 }
 
 bootJar {
     dependsOn createDocument
+    from ("src/docs/asciidoc") {
+        into "BOOT-INF/classes/static/docs"
+    }
 }
