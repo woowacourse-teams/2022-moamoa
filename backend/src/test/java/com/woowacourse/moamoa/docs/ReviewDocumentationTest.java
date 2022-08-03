@@ -1,11 +1,11 @@
 package com.woowacourse.moamoa.docs;
 
 import static com.woowacourse.fixtures.AuthFixtures.JWT_토큰;
-import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰1;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰1_데이터;
 import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰1_아이디;
-import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰2;
-import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰3;
-import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰2_데이터;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰3_데이터;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4_데이터;
 import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰_총_개수;
 import static com.woowacourse.fixtures.StudyFixtures.자바_스터디_아이디;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +43,7 @@ public class ReviewDocumentationTest extends DocumentationTest {
     @DisplayName("스터디에 리뷰를 전체 조회한다.")
     @Test
     void findAll() throws Exception {
-        final ReviewsResponse reviewsResponse = new ReviewsResponse(List.of(자바_리뷰1, 자바_리뷰2, 자바_리뷰3, 자바_리뷰4), 자바_리뷰_총_개수);
+        final ReviewsResponse reviewsResponse = new ReviewsResponse(List.of(자바_리뷰1_데이터, 자바_리뷰2_데이터, 자바_리뷰3_데이터, 자바_리뷰4_데이터), 자바_리뷰_총_개수);
         given(searchingReviewService.getReviewsByStudy(any(), any())).willReturn(reviewsResponse);
 
         mockMvc.perform(get("/api/studies/{study-id}/reviews", 자바_스터디_아이디)
@@ -56,7 +56,7 @@ public class ReviewDocumentationTest extends DocumentationTest {
     @DisplayName("스터디에 리뷰를 일정 개수만 조회한다.")
     @Test
     void findCertainNumber() throws Exception {
-        final ReviewsResponse reviewsResponse = new ReviewsResponse(List.of(자바_리뷰1, 자바_리뷰2), 자바_리뷰_총_개수);
+        final ReviewsResponse reviewsResponse = new ReviewsResponse(List.of(자바_리뷰1_데이터, 자바_리뷰2_데이터), 자바_리뷰_총_개수);
         given(searchingReviewService.getReviewsByStudy(any(), any())).willReturn(reviewsResponse);
 
         mockMvc.perform(get("/api/studies/{study-id}/reviews?size=2", 자바_스터디_아이디)
