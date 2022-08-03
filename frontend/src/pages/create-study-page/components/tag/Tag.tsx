@@ -4,7 +4,7 @@ import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import * as S from '@create-study-page/components/tag/Tag.style';
-import useFetchTagList from '@create-study-page/hooks/useFetchTagList';
+import useGetTagList from '@create-study-page/hooks/useGetTagList';
 
 type TagProps = {
   className?: string;
@@ -12,7 +12,7 @@ type TagProps = {
 
 const Tag = ({ className }: TagProps) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError } = useFetchTagList();
+  const { data, isLoading, isError } = useGetTagList();
 
   const render = () => {
     if (isLoading) return <div>loading...</div>;

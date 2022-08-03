@@ -4,8 +4,8 @@ import type { GetTagListResponseData } from '@custom-types';
 
 import { getTagList } from '@api';
 
-const useFetchTagList = () => {
+const useGetTagList = () => {
   return useQuery<GetTagListResponseData, Error>('filters', getTagList);
 };
 
-export default useFetchTagList;
+export default useGetTagList;

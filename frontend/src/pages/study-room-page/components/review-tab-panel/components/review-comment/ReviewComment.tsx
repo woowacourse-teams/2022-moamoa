@@ -76,7 +76,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     );
   };
 
-  return <>{render()}</>;
+  return render();
 };
 
 export default ReviewComment;

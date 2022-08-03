@@ -3,7 +3,7 @@ import type { Member } from '@custom-types';
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import useFetchStudyReviews from '@detail-page/hooks/useFetchStudyReviews';
+import useGetStudyReviews from '@detail-page/hooks/useGetStudyReviews';
 
 import * as S from '@study-room-page/components/review-tab-panel/ReviewTabPanel.style';
 import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
@@ -14,7 +14,7 @@ export type ReviewTabPanelProps = {
 };
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
-  const { data, isFetching, refetch } = useFetchStudyReviews(studyId);
+  const { data, isFetching, refetch } = useGetStudyReviews(studyId);
   const author: Member = {
     id: 1,
     profileUrl: 'https://github.com/airman5573',

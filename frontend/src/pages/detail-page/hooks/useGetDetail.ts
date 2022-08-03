@@ -6,10 +6,10 @@ import type { GetStudyDetailResponseData } from '@custom-types';
 
 import { getStudyDetail } from '@api';
 
-const useFetchDetail = (studyId: number) => {
+const useGetDetail = (studyId: number) => {
   return useQuery<GetStudyDetailResponseData, Error>([QK_FETCH_STUDY_DETAIL, studyId], () =>
     getStudyDetail({ studyId }),
   );
 };
 
-export default useFetchDetail;
+export default useGetDetail;
