@@ -1,21 +1,19 @@
 package com.woowacourse.moamoa.study.service;
 
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.domain.MyRole;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
+import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
-import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -38,33 +36,28 @@ public class MyStudyService {
     private final StudyRepository studyRepository;
 
     public MyStudiesResponse getStudies(final Long githubId) {
-        if (!memberRepository.existsByGithubId(githubId)) {
-            throw new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId));
-        }
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
 
-        final List<MyStudySummaryData> myStudySummaryData = myStudyDao.findMyStudyByGithubId(githubId);
+        final List<MyStudySummaryData> myStudySummaryData = myStudyDao.findMyStudyByMemberId(member.getId());
 
         final List<Long> studyIds = myStudySummaryData.stream()
                 .map(MyStudySummaryData::getId)
                 .collect(Collectors.toList());
 
-        final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags = myStudyDao.findStudyOwnerWithTags(studyIds);
+        final Map<Long, StudyOwnerAndTagsData> studyOwnerWithTags = myStudyDao.findStudyOwnerWithTags(studyIds);
 
-        return new MyStudiesResponse(mapToResponse(myStudySummaryData, ownerWithStudyTags));
+        return new MyStudiesResponse(mapToResponse(myStudySummaryData, studyOwnerWithTags));
     }
 
     private List<MyStudyResponse> mapToResponse(final List<MyStudySummaryData> myStudySummaryData,
-                                                final Map<Long, Map<MemberData, List<TagSummaryData>>> ownerWithStudyTags) {
-
-        List<MyStudyResponse> myStudyData = new ArrayList<>();
-        for (MyStudySummaryData studyData : myStudySummaryData) {
-            final Map<MemberData, List<TagSummaryData>> ownerWithTag = ownerWithStudyTags.get(studyData.getId());
-
-            for (MemberData owner : ownerWithTag.keySet()) {
-                myStudyData.add(new MyStudyResponse(studyData, owner, ownerWithTag.get(owner)));
-            }
-        }
-        return myStudyData;
+                                                final Map<Long, StudyOwnerAndTagsData> ownerWithStudyTags) {
+        return myStudySummaryData.stream()
+                .map(studySummary -> new MyStudyResponse(
+                        studySummary, ownerWithStudyTags.get(studySummary.getId()).getOwner(),
+                        ownerWithStudyTags.get(studySummary.getId()).getTags()
+                ))
+                .collect(Collectors.toList());
     }
 
     public MyRoleResponse findMyRoleInStudy(final Long githubId, final Long studyId) {

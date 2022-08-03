@@ -1,6 +1,6 @@
-import { yyyymmddTommdd } from '@utils/index';
+import { yyyymmddTommdd } from '@utils';
 
-import { StudyDetail } from '@custom-types/index';
+import type { StudyDetail } from '@custom-types';
 
 import Button from '@components/button/Button';
 
@@ -24,19 +24,26 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 }) => {
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
+  const renderEnrollmentEndDateContent = () => {
+    if (!isOpen) {
+      return <span>모집 마감</span>;
+    }
+
+    if (!enrollmentEndDate) {
+      return '모집중';
+    }
+
+    return (
+      <>
+        <span>{yyyymmddTommdd(enrollmentEndDate)}</span>까지 가입 가능
+      </>
+    );
+  };
+
   return (
     <S.StudyFloatBox>
       <S.StudyInfo>
-        <S.EnrollmentEndDate>
-          {isOpen ? (
-            <>
-              <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
-              까지 가입 가능
-            </>
-          ) : (
-            <span>모집 마감</span>
-          )}
-        </S.EnrollmentEndDate>
+        <S.EnrollmentEndDate>{renderEnrollmentEndDateContent()}</S.EnrollmentEndDate>
         <S.MemberCount>
           <span>모집인원</span>
           <span>

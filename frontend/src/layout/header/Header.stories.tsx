@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import Header from '@layout/header/Header';
 import type { HeaderProps } from '@layout/header/Header';

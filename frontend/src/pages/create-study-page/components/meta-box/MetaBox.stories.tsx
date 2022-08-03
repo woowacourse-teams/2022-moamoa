@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import { css } from '@emotion/react';
 
@@ -9,7 +9,7 @@ export default {
   component: MetaBox,
 };
 
-const Template: Story = props => (
+const Template: Story = () => (
   <MetaBox
     css={css`
       max-width: 300px;

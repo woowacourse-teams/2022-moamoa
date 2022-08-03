@@ -9,16 +9,18 @@
     "study"
   ],
   "scripts": {
+    "build-dev": "webpack --progress --config ./webpack/webpack.dev.js",
     "build": "webpack --progress --config ./webpack/webpack.prod.js",
     "clean": "npm cache clean --force && rm -rf node_modules && rm package-lock.json",
-    "start": "webpack serve --open --progress --config ./webpack/webpack.dev.js",
+    "start": "webpack serve --open --progress --config ./webpack/webpack.local.js",
     "build:msw": "npx msw init public/ --save",
     "lint:es": "eslint '**/*.{js,ts,tsx}'",
     "lint:es:fix": "npm run lint:es -- --fix",
     "prettier:etc": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --check",
     "prettier:etc:fix": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --write",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "tsc": "tsc "
   },
   "license": "ISC",
   "devDependencies": {

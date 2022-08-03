@@ -4,13 +4,17 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.util.List;
+
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
+
 import java.time.LocalDateTime;
-import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -83,13 +87,17 @@ class MyStudyDaoTest {
     @DisplayName("내가 참여한 스터디 목록을 조회한다.")
     @Test
     void getMyStudies() {
-        final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByGithubId(2L);
+        final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByMemberId(2L);
 
         assertThat(studySummaryData)
+                .hasSize(3)
                 .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
 
                 .contains(
+                        tuple("Java 스터디", PREPARE, 3, 10, "2021-12-08", null),
+                        tuple("javaScript 스터디" ,PREPARE, 3, 20, null, null),
+                        tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08"),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08")
                 );
     }

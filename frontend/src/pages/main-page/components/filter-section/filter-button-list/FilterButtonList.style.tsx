@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/index';
+import { mqDown } from '@utils';
 
 export const FilterButtons = styled.ul`
   display: flex;

@@ -1,7 +1,13 @@
-import axiosInstance from '@api/axiosInstance';
+import type { AxiosResponse } from 'axios';
 
-const postJoiningStudy = async (studyId: number) => {
-  const response = await axiosInstance.post(`/api/studies/${studyId}`);
+import type { EmptyObject, PostJoiningStudyRequestParams } from '@custom-types';
+
+import { axiosInstance } from '@api';
+
+const postJoiningStudy = async ({ studyId }: PostJoiningStudyRequestParams) => {
+  const response = await axiosInstance.post<EmptyObject, AxiosResponse<EmptyObject>, PostJoiningStudyRequestParams>(
+    `/api/studies/${studyId}`,
+  );
   return response.data;
 };
 

@@ -1,6 +1,6 @@
 import Chip from '@components/chip/Chip';
 
-type StudyChipProps = {
+export type StudyChipProps = {
   isOpen: boolean;
 };
 

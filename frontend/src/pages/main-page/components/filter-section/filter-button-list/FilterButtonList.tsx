@@ -1,4 +1,4 @@
-import type { Tag, TagInfo } from '@custom-types/index';
+import type { Tag, TagInfo } from '@custom-types';
 
 import * as S from '@main-page/components/filter-section/filter-button-list/FilterButtonList.style';
 import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';

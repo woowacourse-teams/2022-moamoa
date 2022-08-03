@@ -1,7 +1,7 @@
 import { HiOutlineTrash } from 'react-icons/hi';
 import { TbCrown } from 'react-icons/tb';
 
-import { MakeOptional, Tag } from '@custom-types/index';
+import type { MakeOptional, Tag } from '@custom-types';
 
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
@@ -10,7 +10,7 @@ export type MyStudyCardProps = {
   ownerName: string;
   tags: Array<Pick<Tag, 'id' | 'name'>>;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   disabled: boolean;
 };
 
@@ -41,7 +41,7 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
         </S.Top>
         <S.Bottom>
           <S.Period>
-            <span>{startDate}</span> ~ <span>{endDate}</span>
+            <span>{startDate}</span> ~ <span>{endDate || ''}</span>
           </S.Period>
           <S.TrashButton>
             <HiOutlineTrash size={20} />

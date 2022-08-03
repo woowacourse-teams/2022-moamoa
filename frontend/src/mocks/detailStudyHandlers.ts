@@ -24,7 +24,7 @@ const detailStudyHandlers = [
         ctx.status(200),
         ctx.json({
           reviews: reviewJSON.reviews.slice(0, sizeNum),
-          totalResults: reviewJSON.reviews.length,
+          totalCount: reviewJSON.reviews.length,
         }),
       );
     }
@@ -32,7 +32,7 @@ const detailStudyHandlers = [
       ctx.status(200),
       ctx.json({
         reviews: reviewJSON.reviews,
-        totalResults: reviewJSON.reviews.length,
+        totalCount: reviewJSON.reviews.length,
       }),
     );
   }),

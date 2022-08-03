@@ -2,7 +2,7 @@ import { ReactNode, createContext, useState } from 'react';
 
 import { ACCESS_TOKEN_KEY } from '@constants';
 
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
 type LoginProviderProps = {
   children: ReactNode;
