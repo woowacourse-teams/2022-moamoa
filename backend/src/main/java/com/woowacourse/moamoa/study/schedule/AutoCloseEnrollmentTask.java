@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.config.TriggerTask;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -18,13 +17,9 @@ public class AutoCloseEnrollmentTask extends TriggerTask {
     }
 
     private static Runnable runnable(final StudyService studyService) {
-        return new Runnable() {
-
-            @Transactional
-            public void run() {
-                log.debug("{} : start moamoa scheduled task!", LocalDateTime.now());
-                studyService.autoUpdateStatus();
-            }
+        return () -> {
+            log.debug("{} : start moamoa scheduled task!", LocalDateTime.now());
+            studyService.autoUpdateStatus();
         };
     }
 }
