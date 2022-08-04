@@ -24,10 +24,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
                              final Object handler) {
-
-        System.out.println("request.getRequestURL() = " + request.getRequestURL());
-
-        System.out.println("request.getServletPath() = " + request.getServletPath());
         
         if (isPreflight(request)) {
             return true;

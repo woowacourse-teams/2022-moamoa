@@ -38,7 +38,7 @@ public class BadRequestMyMemberRoleWebMvcTest {
 
     @DisplayName("study Id가 없을 경우 400 에러가 발생한다. ")
     @Test
-    void getMyStudiesWithoutAuthorization() throws Exception {
+    void getMyStudiesWithoutStudyId() throws Exception {
         final String token = "Bearer " + jwtTokenProvider.createToken(1L);
 
         mockMvc.perform(get("/api/members/me/role")

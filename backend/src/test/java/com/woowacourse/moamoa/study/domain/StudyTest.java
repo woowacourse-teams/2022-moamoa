@@ -3,21 +3,26 @@ package com.woowacourse.moamoa.study.domain;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
-import static java.time.LocalDateTime.now;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import static java.time.LocalDateTime.now;
+
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class StudyTest {
@@ -253,5 +258,20 @@ public class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         assertThat(sut.isWritableReviews(2L)).isFalse();
+    }
+
+    @DisplayName("스터디에서 나의 역할을 조회한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"2,MEMBER", "3,NON_MEMBER", "1,OWNER"})
+    void getMyRoleInStudy(Long memberId, MemberRole role) {
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, LocalDate.now());
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+
+        sut.participate(2L);
+
+        assertThat(sut.getRole(memberId)).isEqualTo(role);
     }
 }

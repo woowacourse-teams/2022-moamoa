@@ -67,17 +67,6 @@ public class MyStudyService {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        final Participants participants = study.getParticipants();
-        return getMyRoleResponse(member, participants);
-    }
-
-    private MyRoleResponse getMyRoleResponse(final Member member, final Participants participants) {
-        if (Objects.equals(participants.getOwnerId(), member.getId())) {
-            return new MyRoleResponse(MemberRole.OWNER);
-        }
-        if (participants.isParticipate(member.getId())) {
-            return new MyRoleResponse(MemberRole.MEMBER);
-        }
-        return new MyRoleResponse(MemberRole.NON_MEMBER);
+        return new MyRoleResponse(study.getRole(member.getId()));
     }
 }

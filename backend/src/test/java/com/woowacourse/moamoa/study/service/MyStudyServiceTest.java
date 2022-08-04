@@ -12,11 +12,9 @@ import java.time.LocalDateTime;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
-import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
@@ -24,8 +22,7 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -158,14 +155,5 @@ class MyStudyServiceTest {
         assertThatThrownBy(() -> myStudyService.getStudies(5L))
                 .isInstanceOf(MemberNotFoundException.class)
                 .hasMessageContaining("회원을 찾을 수 없습니다.");
-    }
-
-    @DisplayName("스터디에서 나의 역할을 조회한다.")
-    @ParameterizedTest
-    @CsvSource(value = {"1,2,MEMBER", "1,3,NON_MEMBER", "2,1,OWNER"})
-    void getMyRoleInStudy(Long githubId, Long studyId, MemberRole role) {
-        final MyRoleResponse response = myStudyService.findMyRoleInStudy(githubId, studyId);
-
-        assertThat(response.getRole()).isEqualTo(role);
     }
 }
