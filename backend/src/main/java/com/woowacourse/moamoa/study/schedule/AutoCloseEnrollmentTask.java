@@ -1,20 +1,17 @@
 package com.woowacourse.moamoa.study.schedule;
 
-import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.study.service.StudyService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.config.TriggerTask;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Slf4j
 public class AutoCloseEnrollmentTask extends TriggerTask {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoamoaApplication.class);
 
     public AutoCloseEnrollmentTask(final StudyService studyService) {
         super(runnable(studyService), new CronTrigger("@daily", ZoneId.of("Asia/Seoul")));
@@ -25,7 +22,7 @@ public class AutoCloseEnrollmentTask extends TriggerTask {
 
             @Transactional
             public void run() {
-                LOGGER.debug(LocalDateTime.now() + " : " + "start moamoa scheduled task!");
+                log.debug("{} : start moamoa scheduled task!", LocalDateTime.now());
                 studyService.autoUpdateStatus();
             }
         };
