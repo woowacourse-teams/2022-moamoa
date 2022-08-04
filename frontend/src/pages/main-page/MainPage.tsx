@@ -20,10 +20,6 @@ const MainPage: React.FC = () => {
   const { isFetching, isError, isSuccess, data, fetchNextPage } = studyListQueryResult;
 
   const renderStudyList = () => {
-    if (isFetching) {
-      return <div>Loading...</div>;
-    }
-
     if (isError || !isSuccess) {
       return <div>에러가 발생했습니다</div>;
     }
@@ -51,6 +47,7 @@ const MainPage: React.FC = () => {
             </li>
           ))}
         </S.CardList>
+        {isFetching && <div>Loading...</div>}
       </InfiniteScroll>
     );
   };
