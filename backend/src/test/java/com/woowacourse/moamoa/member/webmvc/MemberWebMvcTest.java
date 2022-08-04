@@ -48,6 +48,7 @@ public class MemberWebMvcTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    @DisplayName("사용자가 없는 경우 400 에러 반환")
     @Test
     void notFound() throws Exception {
         final String token = tokenProvider.createToken(1L);

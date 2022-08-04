@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -35,14 +36,14 @@ public class MemberDao {
     }
 
     public Optional<MemberData> findByGithubId(final Long githubId) {
-        final String sql = "SELECT github_id, username, image_url, profile_url "
-                + "FROM member "
-                + "WHERE member.github_id = :id";
-        final List<MemberData> data = jdbcTemplate.query(sql, Map.of("id", githubId), ROW_MAPPER);
-
-        if (data.size() == 1) {
-            return Optional.of(data.get(0));
+        try {
+            final String sql = "SELECT github_id, username, image_url, profile_url "
+                    + "FROM member "
+                    + "WHERE member.github_id = :id";
+            final MemberData data = jdbcTemplate.queryForObject(sql, Map.of("id", githubId), ROW_MAPPER);
+            return Optional.of(data);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 }

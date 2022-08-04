@@ -42,6 +42,7 @@ public class MemberControllerTest {
         assertThat(response.getBody().getImageUrl()).isEqualTo("image");
     }
 
+    @DisplayName("github Id에 맞는 사용자가 없는 경우 예외가 발생한다.")
     @Test
     void findNotFoundGithubIdMember() {
         final MemberController memberController = new MemberController(new MemberService(memberRepository, memberDao));

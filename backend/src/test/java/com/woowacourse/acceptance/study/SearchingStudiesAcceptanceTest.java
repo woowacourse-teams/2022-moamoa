@@ -11,8 +11,11 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,28 +30,19 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private long javaStudyId;
+    private long reactStudyId;
+    private long javascriptStudyId;
+    private long httpStudyId;
+    private long algorithmStudyId;
+    private long linuxStudyId;
 
     @BeforeEach
     void initDataBase() {
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "greenlawn", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
         getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-
-        final LocalDateTime now = LocalDateTime.now();
-
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
-                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_at, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date) "
-                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
 
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
@@ -60,19 +54,49 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
+        final LocalDateTime now = LocalDateTime.now();
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5)");
+        CreatingStudyRequest javaRequest = CreatingStudyRequest.builder()
+                .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
+                .description("그린론의 우당탕탕 자바 스터디입니다.").startDate(LocalDate.now().plusDays(1))
+                .tagIds(List.of(1L, 2L, 3L))
+                .build();
+        javaStudyId = createStudy(token, javaRequest);
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4)");
+        CreatingStudyRequest reactRequest = CreatingStudyRequest.builder()
+                .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
+                .description("디우의 뤼액트 스터디입니다.").startDate(LocalDate.now().plusDays(2))
+                .tagIds(List.of(2L, 4L, 5L))
+                .build();
+        reactStudyId = createStudy(token, reactRequest);
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
+        CreatingStudyRequest javascriptRequest = CreatingStudyRequest.builder()
+                .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
+                .description("그린론의 자바스크립트 접해보기").startDate(LocalDate.now().plusDays(3))
+                .tagIds(List.of(2L, 4L))
+                .build();
+        javascriptStudyId = createStudy(token, javascriptRequest);
+
+        CreatingStudyRequest httpRequest = CreatingStudyRequest.builder()
+                .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail")
+                .description("디우의 HTTP 정복하기").startDate(LocalDate.now().plusDays(3))
+                .tagIds(List.of(2L, 3L))
+                .build();
+        httpStudyId = createStudy(token, httpRequest);
+
+        CreatingStudyRequest algorithmRequest = CreatingStudyRequest.builder()
+                .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
+                .description("알고리즘을 TDD로 풀자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
+                .tagIds(List.of())
+                .build();
+        algorithmStudyId = createStudy(token, algorithmRequest);
+
+        CreatingStudyRequest linuxRequest = CreatingStudyRequest.builder()
+                .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
+                .description("Linux를 공부하자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
+                .tagIds(List.of())
+                .build();
+        linuxStudyId = createStudy(token, linuxRequest);
     }
 
     @DisplayName("잘못된 페이징 정보로 목록을 검색시 400에러를 응답한다.")
@@ -127,16 +151,15 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("hasNext", is(true))
                 .body("studies", hasSize(5))
-                .body("studies.id", contains(
-                        notNullValue(), notNullValue(), notNullValue(), notNullValue(), notNullValue()))
+                .body("studies.id", not(empty()))
                 .body("studies.title", contains(
-                        "Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디", "알고리즘 스터디"))
+                        "Linux 스터디", "알고리즘 스터디", "HTTP 스터디", "javaScript 스터디", "React 스터디"))
                 .body("studies.excerpt", contains(
-                        "자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명", "알고리즘 설명"))
+                        "리눅스 설명", "알고리즘 설명", "HTTP 설명", "자바스크립트 설명", "리액트 설명"))
                 .body("studies.thumbnail", contains(
-                        "java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail",
-                        "algorithm thumbnail"))
-                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_END", "RECRUITMENT_END"));
+                        "linux thumbnail", "algorithm thumbnail", "http thumbnail", "javascript thumbnail",
+                        "react thumbnail"))
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("앞뒤 공백을 제거한 키워드로 스터디 목록을 조회한다.")
@@ -153,9 +176,9 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("hasNext", is(false))
                 .body("studies", hasSize(2))
                 .body("studies.id", contains(notNullValue(), notNullValue()))
-                .body("studies.title", contains("Java 스터디", "javaScript 스터디"))
-                .body("studies.excerpt", contains("자바 설명", "자바스크립트 설명"))
-                .body("studies.thumbnail", contains("java thumbnail", "javascript thumbnail"))
+                .body("studies.title", contains("javaScript 스터디", "Java 스터디"))
+                .body("studies.excerpt", contains("자바스크립트 설명", "자바 설명"))
+                .body("studies.thumbnail", contains("javascript thumbnail", "java thumbnail"))
                 .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
@@ -194,10 +217,10 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("hasNext", is(false))
                 .body("studies", hasSize(2))
                 .body("studies.id", not(empty()))
-                .body("studies.title", contains("Java 스터디", "HTTP 스터디"))
-                .body("studies.excerpt", contains("자바 설명", "HTTP 설명"))
-                .body("studies.thumbnail", contains("java thumbnail", "http thumbnail"))
-                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_END"));
+                .body("studies.title", contains("HTTP 스터디", "Java 스터디"))
+                .body("studies.excerpt", contains("HTTP 설명", "자바 설명"))
+                .body("studies.thumbnail", contains("http thumbnail", "java thumbnail"))
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
@@ -238,11 +261,11 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("hasNext", is(false))
                 .body("studies", hasSize(4))
                 .body("studies.id", not(empty()))
-                .body("studies.title", contains("Java 스터디", "React 스터디", "javaScript 스터디", "HTTP 스터디"))
-                .body("studies.excerpt", contains("자바 설명", "리액트 설명", "자바스크립트 설명", "HTTP 설명"))
+                .body("studies.title", contains("HTTP 스터디", "javaScript 스터디", "React 스터디", "Java 스터디"))
+                .body("studies.excerpt", contains("HTTP 설명", "자바스크립트 설명", "리액트 설명", "자바 설명"))
                 .body("studies.thumbnail",
-                        contains("java thumbnail", "react thumbnail", "javascript thumbnail", "http thumbnail"))
-                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_END"));
+                        contains("http thumbnail", "javascript thumbnail", "react thumbnail", "java thumbnail"))
+                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")

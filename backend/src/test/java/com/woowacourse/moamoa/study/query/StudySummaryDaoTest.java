@@ -147,7 +147,6 @@ public class StudySummaryDaoTest {
         em.clear();
     }
 
-
     @DisplayName("페이징 정보를 사용해 스터디 목록 조회")
     @ParameterizedTest
     @MethodSource("providePageableAndExpect")
@@ -164,12 +163,13 @@ public class StudySummaryDaoTest {
 
     private static Stream<Arguments> providePageableAndExpect() {
         List<Tuple> tuples = List.of(
-                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
-                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
-                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "RECRUITMENT_END"),
                 tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "RECRUITMENT_END"),
-                tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "RECRUITMENT_END"));
+                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
+        );
 
         return Stream.of(
                 Arguments.of(PageRequest.of(0, 3), tuples.subList(0, 3), true),
@@ -190,8 +190,9 @@ public class StudySummaryDaoTest {
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactly(
-                        tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"));
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                        tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
+                );
     }
 
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
@@ -206,11 +207,12 @@ public class StudySummaryDaoTest {
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "excerpt", "thumbnail", "recruitmentStatus")
                 .containsExactly(
-                        tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                        tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
-                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                        tuple("Linux 스터디", "리눅스 설명", "linux thumbnail", "RECRUITMENT_END"),
+                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "RECRUITMENT_END"),
                         tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
-                        tuple("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "RECRUITMENT_END"));
+                        tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                        tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
+                );
     }
 
     @DisplayName("한 가지 종류의 필터로 스터디 목록을 조회")
@@ -232,14 +234,14 @@ public class StudySummaryDaoTest {
                         List.of(tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"))),
                 Arguments.of(new SearchingTags(emptyList(), List.of(3L), emptyList()), // BE
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END")
+                                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
                         )),
                 Arguments.of(new SearchingTags(List.of(6L), emptyList(), emptyList()), List.of()), // 3기,
                 Arguments.of(new SearchingTags(emptyList(), emptyList(), List.of(1L, 5L)), // Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
                         ))
         );
     }
@@ -261,8 +263,8 @@ public class StudySummaryDaoTest {
         return Stream.of(
                 Arguments.of(new SearchingTags(List.of(2L), emptyList(), List.of(1L, 5L)), // 4기, Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
                         ),
                         false
                 ),
@@ -275,17 +277,17 @@ public class StudySummaryDaoTest {
                 ),
                 Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), emptyList()), // 4기, FE, BE
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
-                                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START")
+                                tuple("HTTP 스터디", "HTTP 설명", "http thumbnail", "RECRUITMENT_END"),
+                                tuple("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "RECRUITMENT_START"),
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
                         ),
                         true
                 ),
                 Arguments.of(new SearchingTags(List.of(2L), List.of(3L, 4L), List.of(1L, 5L)),
                         // 4기, FE, BE, Java, React
                         List.of(
-                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START"),
-                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START")
+                                tuple("React 스터디", "리액트 설명", "react thumbnail", "RECRUITMENT_START"),
+                                tuple("Java 스터디", "자바 설명", "java thumbnail", "RECRUITMENT_START")
                         ),
                         false
                 )
