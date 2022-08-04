@@ -82,7 +82,7 @@ public class StudyPlanner {
         if (startDate.isEqual(createdDate) && studyStatus == IN_PROGRESS) {
             return false;
         }
-        if ((startDate.isAfter(createdDate)) && studyStatus == PREPARE) {
+        if ((startDate.isAfter(createdDate)) && (studyStatus == PREPARE || studyStatus == IN_PROGRESS)) {
             return false;
         }
         return !studyStatus.equals(DONE);

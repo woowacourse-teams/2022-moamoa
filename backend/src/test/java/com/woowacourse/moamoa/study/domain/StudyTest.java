@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.domain;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.*;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
@@ -254,5 +255,56 @@ public class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
         assertThat(sut.isWritableReviews(2L)).isFalse();
+    }
+
+    @DisplayName("스터디 종료기간이 넘으면 자동으로 종료 상태가 된다.")
+    @Test
+    public void autoCloseStudyStatus() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now().minusDays(3));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1), IN_PROGRESS);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(4));
+
+        // when
+        sut.changeStatus(LocalDate.now().plusDays(2));
+
+        // then
+        assertThat(sut.isCloseStudy()).isTrue();
+    }
+
+    @DisplayName("스터디 시작기간(StartDate)이 되면 자동으로 진행중 상태가 된다.")
+    @Test
+    public void updateInProgressStatus() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        // when
+        sut.changeStatus(LocalDate.now());
+
+        // then
+        assertThat(sut.isProgressStatus()).isTrue();
+    }
+
+    @DisplayName("모집 기간이 지난 스터디는 자동으로 모집이 종료된다.")
+    @Test
+    public void autoCloseEnrollment() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        // when
+        sut.changeStatus(LocalDate.now());
+
+        // then
+        assertThat(sut.getRecruitPlanner().isCloseEnrollment()).isTrue();
     }
 }

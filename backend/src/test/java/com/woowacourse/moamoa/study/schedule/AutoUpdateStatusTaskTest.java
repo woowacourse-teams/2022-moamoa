@@ -141,9 +141,9 @@ class AutoUpdateStatusTaskTest {
         assertThat(actualNextExecuteTime).isEqualTo(expectNextExecuteTime);
     }
 
-    @DisplayName("모집 기간이 지난 스터디는 자동으로 모집이 종료된다.")
+    @DisplayName("스터디의 상태를 자동으로 변경시킨다.")
     @Test
-    void autoCloseEnrollment() {
+    void autoUpdateStatus() {
         given(dateTimeSystem.now()).willReturn(LocalDateTime.now());
 
         sut.getRunnable().run();
@@ -152,34 +152,12 @@ class AutoUpdateStatusTaskTest {
         final Study reactStudy = studyRepository.findById(reactStudyId).orElseThrow();
         final Study javascriptStudy = studyRepository.findById(javascriptStudyId).orElseThrow();
         final Study httpStudy = studyRepository.findById(httpStudyId).orElseThrow();
+        final Study linuxStudy = studyRepository.findById(linuxStudyId).orElseThrow();
 
         assertThat(javaStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
         assertThat(reactStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
         assertThat(javascriptStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
         assertThat(httpStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
-    }
-
-    @DisplayName("스터디 종료기간이 넘으면 자동으로 종료 상태가 된다.")
-    @Test
-    public void autoCloseStudyStatus() {
-        given(dateTimeSystem.now()).willReturn(LocalDateTime.now());
-
-        sut.getRunnable().run();
-
-        final Study linuxStudy = studyRepository.findById(linuxStudyId).orElseThrow();
-
-        assertThat(linuxStudy.isCloseStudy()).isEqualTo(true);
-    }
-
-    @DisplayName("스터디 시작기간(StartDate)이 되면 자동으로 진행중 상태가 된다.")
-    @Test
-    public void autoProgressStudyStatus() {
-        given(dateTimeSystem.now()).willReturn(LocalDateTime.now().minusDays(2));
-
-        sut.getRunnable().run();
-
-        final Study linuxStudy = studyRepository.findById(algorithmStudyId).orElseThrow();
-
-        assertThat(linuxStudy.isProgressStatus()).isEqualTo(true);
+        assertThat(linuxStudy.isCloseStudy()).isTrue();
     }
 }
