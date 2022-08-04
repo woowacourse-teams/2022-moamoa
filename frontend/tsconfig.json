@@ -42,7 +42,7 @@
       "@pages/*": ["pages/*"]
     },
     "typeRoots": ["src/custom-types"],
-    "types": ["cypress", "@testing-library/cypress"]
+    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
   "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
 }
