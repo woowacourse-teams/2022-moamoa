@@ -144,10 +144,10 @@ export type PatchReviewRequestParams = {
   studyId: number;
   reviewId: number;
 };
-export type PatchReviewRequestBody = {
+export type PutReviewRequestBody = {
   content: string;
 };
-export type PatchReviewRequestVariables = PatchReviewRequestParams & PatchReviewRequestBody;
+export type PutReviewRequestVariables = PatchReviewRequestParams & PutReviewRequestBody;
 
 export type DeleteReviewRequestBody = {
   studyId: StudyId;

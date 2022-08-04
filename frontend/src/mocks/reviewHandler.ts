@@ -63,7 +63,7 @@ export const reviewHandlers = [
     return res(ctx.status(200));
   }),
 
-  rest.patch('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
+  rest.put('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없습니다' }));
 
