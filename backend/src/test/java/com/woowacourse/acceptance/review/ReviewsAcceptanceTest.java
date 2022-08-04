@@ -70,11 +70,19 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         long javaReviewId4 = createReview(verusToken, javaStudyId, new WriteReviewRequest("리뷰 내용4"));
         createReview(jjangguToken, reactStudyId, new WriteReviewRequest("리뷰 내용5"));
 
+        final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), createdAt,
+                lastModifiedDate, "리뷰 내용1");
+        final ReviewResponse 리뷰_내용2 = new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), createdAt,
+                lastModifiedDate, "리뷰 내용2");
+        final ReviewResponse 리뷰_내용3 = new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), createdAt,
+                lastModifiedDate, "리뷰 내용3");
+        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), createdAt,
+                lastModifiedDate, "리뷰 내용4");
         javaReviews = List.of(
-                new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), createdAt, lastModifiedDate, "리뷰 내용1"),
-                new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), createdAt, lastModifiedDate, "리뷰 내용2"),
-                new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), createdAt, lastModifiedDate, "리뷰 내용3"),
-                new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), createdAt, lastModifiedDate, "리뷰 내용4")
+                리뷰_내용4,
+                리뷰_내용3,
+                리뷰_내용2,
+                리뷰_내용1
         );
     }
 
@@ -148,21 +156,6 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
     }
 
-    @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
-    @Test
-    void deleteNotWriteReview() {
-        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
-
-        RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("study-id", javaStudyId)
-                .pathParam("review-id", javaReviewId2)
-                .when().log().all()
-                .delete("/api/studies/{study-id}/reviews/{review-id}")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value());
-    }
-
     @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 수정할 수 있다.")
     @Test
     void updateReview() {
@@ -180,23 +173,5 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .put("/api/studies/{study-id}/reviews/{review-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
-    }
-
-    @DisplayName("내가 작성하지 않은 리뷰를 수정할 수 없다.")
-    @Test
-    void updateNotWriteReview() {
-        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
-        final EditingReviewRequest request = new EditingReviewRequest("edit review");
-
-        RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("study-id", javaStudyId)
-                .pathParam("review-id", javaReviewId2)
-                .body(request)
-                .when().log().all()
-                .put("/api/studies/{study-id}/reviews/{review-id}")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

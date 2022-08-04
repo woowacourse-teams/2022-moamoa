@@ -4,10 +4,10 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.review.domain.Review;
+import com.woowacourse.moamoa.review.domain.Reviewer;
 import com.woowacourse.moamoa.review.domain.exception.WritingReviewBadRequestException;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.exception.ReviewNotFoundException;
-import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -46,11 +46,7 @@ public class ReviewService {
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
-        if (!review.isReviewer(member.getId())) {
-            throw new UnwrittenReviewException();
-        }
-
-        review.updateContent(editingReviewRequest.getContent());
+        review.updateContent(new Reviewer(member.getId()), editingReviewRequest.getContent());
     }
 
     public void deleteReview(final Long githubId, final Long reviewId) {
@@ -59,10 +55,6 @@ public class ReviewService {
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
-        if (!review.isReviewer(member.getId())) {
-            throw new UnwrittenReviewException();
-        }
-
-        reviewRepository.deleteById(reviewId);
+        review.delete(new Reviewer(member.getId()));
     }
 }
