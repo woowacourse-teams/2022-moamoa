@@ -3,7 +3,6 @@ package com.woowacourse.acceptance.review;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
@@ -81,7 +80,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("리뷰를 작성한다.")
     @Test
-    void create() throws JsonProcessingException {
+    void create() {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
         final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("짱구의 스터디 리뷰입니다.");
 
