@@ -1,21 +1,25 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static javax.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import java.time.LocalDate;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
 public class StudyPlanner {
 
-    @Enumerated(value = STRING)
+    @Enumerated(STRING)
     @Column(nullable = false)
     private StudyStatus studyStatus;
 
@@ -44,28 +48,43 @@ public class StudyPlanner {
         return endDate.isBefore(date);
     }
 
-    boolean isPreparing() {
-        return studyStatus.equals(StudyStatus.PREPARE);
-    }
-
-    public StudyStatus getStudyStatus() {
-        return studyStatus;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    void updateStatus(final LocalDate now) {
+        if (isNeedToChangeStatus(now)) {
+            studyStatus = studyStatus.nextStatus();
         }
-        if (o == null || getClass() != o.getClass()) {
+    }
+
+    private boolean isNeedToChangeStatus(final LocalDate now) {
+        return isNeedToCloseStudy(now) || isNeedToChangeProgress(now);
+    }
+
+    private boolean isNeedToCloseStudy(final LocalDate now) {
+        return (endDate != null) && (isProgress()) && (endDate.isBefore(now) || endDate.isEqual(now));
+    }
+
+    private boolean isNeedToChangeProgress(final LocalDate now) {
+        return (isPreparing()) && (startDate.isBefore(now) || startDate.isEqual(now));
+    }
+
+    boolean isProgress() {
+        return studyStatus.equals(IN_PROGRESS);
+    }
+
+    boolean isPreparing() {
+        return studyStatus.equals(PREPARE);
+    }
+
+    boolean isCloseStudy() {
+        return studyStatus.equals(DONE);
+    }
+
+    public boolean isInappropriateCondition(final LocalDate createdDate) {
+        if (startDate.isEqual(createdDate) && studyStatus == IN_PROGRESS) {
             return false;
         }
-        final StudyPlanner studyPlanner = (StudyPlanner) o;
-        return Objects.equals(startDate, studyPlanner.startDate) && Objects.equals(endDate, studyPlanner.endDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(startDate, endDate);
+        if ((startDate.isAfter(createdDate)) && (studyStatus == PREPARE || studyStatus == IN_PROGRESS)) {
+            return false;
+        }
+        return !studyStatus.equals(DONE);
     }
 }

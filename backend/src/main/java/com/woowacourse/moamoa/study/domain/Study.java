@@ -57,6 +57,10 @@ public class Study {
             throw new InvalidPeriodException();
         }
 
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidPeriodException();
+        }
+
         this.id = id;
         this.content = content;
         this.participants = participants;
@@ -95,19 +99,20 @@ public class Study {
         }
     }
 
+    public void changeStatus(final LocalDate now) {
+        recruitPlanner.updateRecruiting(now);
+        studyPlanner.updateStatus(now);
+    }
+
+    public boolean isProgressStatus() {
+        return studyPlanner.isProgress();
+    }
+
+    public boolean isCloseStudy() {
+        return studyPlanner.isCloseStudy();
+    }
+
     private boolean isFullOfCapacity() {
         return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
-    }
-
-    public boolean isNeedToCloseRecruiting(LocalDate now) {
-        return recruitPlanner.isNeedToCloseRecruiting(now);
-    }
-
-    public void closeEnrollment() {
-        recruitPlanner.closeRecruiting();
-    }
-
-    public boolean isCloseEnrollment() {
-        return recruitPlanner.isCloseEnrollment();
     }
 }
