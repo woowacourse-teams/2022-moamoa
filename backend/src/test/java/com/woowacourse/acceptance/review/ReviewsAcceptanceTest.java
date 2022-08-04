@@ -6,6 +6,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
@@ -29,6 +30,10 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     private static final MemberData DWOO = new MemberData(3L, "dwoo", "https://image", "github.com");
     private static final MemberData VERUS = new MemberData(4L, "verus", "https://image", "github.com");
 
+    private Long javaStudyId;
+    private Long javaReviewId1;
+    private Long javaReviewId2;
+
     private List<ReviewResponse> javaReviews;
 
     @BeforeEach
@@ -48,7 +53,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .startDate(startDate)
                 .build();
 
-        long javaStudyId = createStudy(jjangguToken, javaStudyRequest);
+        javaStudyId = createStudy(jjangguToken, javaStudyRequest);
         long reactStudyId = createStudy(jjangguToken, reactStudyRequest);
 
         participateStudy(greenlawnToken, javaStudyId);
@@ -59,17 +64,25 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final LocalDate lastModifiedDate = LocalDate.now();
 
         // 리뷰 추가
-        long javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
-        long javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
+        javaReviewId1 = createReview(jjangguToken, javaStudyId, new WriteReviewRequest("리뷰 내용1"));
+        javaReviewId2 = createReview(greenlawnToken, javaStudyId, new WriteReviewRequest("리뷰 내용2"));
         long javaReviewId3 = createReview(dwooToken, javaStudyId, new WriteReviewRequest("리뷰 내용3"));
         long javaReviewId4 = createReview(verusToken, javaStudyId, new WriteReviewRequest("리뷰 내용4"));
         createReview(jjangguToken, reactStudyId, new WriteReviewRequest("리뷰 내용5"));
 
+        final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), createdAt,
+                lastModifiedDate, "리뷰 내용1");
+        final ReviewResponse 리뷰_내용2 = new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), createdAt,
+                lastModifiedDate, "리뷰 내용2");
+        final ReviewResponse 리뷰_내용3 = new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), createdAt,
+                lastModifiedDate, "리뷰 내용3");
+        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), createdAt,
+                lastModifiedDate, "리뷰 내용4");
         javaReviews = List.of(
-                new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), createdAt, lastModifiedDate, "리뷰 내용1"),
-                new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), createdAt, lastModifiedDate, "리뷰 내용2"),
-                new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), createdAt, lastModifiedDate, "리뷰 내용3"),
-                new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), createdAt, lastModifiedDate, "리뷰 내용4")
+                리뷰_내용4,
+                리뷰_내용3,
+                리뷰_내용2,
+                리뷰_내용1
         );
     }
 
@@ -125,5 +138,40 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
         assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrderElementsOf(javaReviews.subList(0, 2));
+    }
+
+    @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 삭제할 수 있다.")
+    @Test
+    void deleteReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+
+        RestAssured.given(spec).log().all()
+                .filter(document("reviews/delete"))
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId1)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 수정할 수 있다.")
+    @Test
+    void updateReview() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+        final EditingReviewRequest request = new EditingReviewRequest("edit review");
+
+        RestAssured.given(spec).log().all()
+                .filter(document("reviews/update"))
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .pathParam("review-id", javaReviewId1)
+                .body(request)
+                .when().log().all()
+                .put("/api/studies/{study-id}/reviews/{review-id}")
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

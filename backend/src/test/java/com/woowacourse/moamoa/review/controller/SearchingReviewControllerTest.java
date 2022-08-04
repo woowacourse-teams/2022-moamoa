@@ -108,11 +108,19 @@ class SearchingReviewControllerTest {
                 .writeReview(verus.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
         reviewService.writeReview(jjanggu.getGithubId(), reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
 
+        final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), LocalDate.now(),
+                LocalDate.now(), "리뷰 내용1");
+        final ReviewResponse 리뷰_내용2 = new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), LocalDate.now(),
+                LocalDate.now(), "리뷰 내용2");
+        final ReviewResponse 리뷰_내용3 = new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), LocalDate.now(),
+                LocalDate.now(), "리뷰 내용3");
+        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), LocalDate.now(),
+                LocalDate.now(), "리뷰 내용4");
         javaReviews = List.of(
-                new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), LocalDate.now(), LocalDate.now(), "리뷰 내용1"),
-                new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), LocalDate.now(), LocalDate.now(), "리뷰 내용2"),
-                new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), LocalDate.now(), LocalDate.now(), "리뷰 내용3"),
-                new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), LocalDate.now(), LocalDate.now(), "리뷰 내용4")
+                리뷰_내용4,
+                리뷰_내용3,
+                리뷰_내용2,
+                리뷰_내용1
         );
 
         entityManager.flush();
