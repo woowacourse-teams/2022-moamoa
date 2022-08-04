@@ -30,17 +30,16 @@ jobs:
     - name: Install
       run: npm install
       
+    - name: Test
+      run: npm install
+      uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+      
     - name: Build
       run: npm run build-dev
-      
-    - name: Check out repository code
-      uses: actions/checkout@v2
-
-    - name: run cypress tests with firefox
-      uses: cypress-io/github-action@v2
-      timeout-minutes: 10
-      with:
-        browser: firefox
       
     - name: Deploy
       run: curl ${{ secrets.FE_DEV_DEPLOY_REQUEST_URL }}
