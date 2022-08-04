@@ -114,7 +114,8 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
     void isMyStudy() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("members/me/role"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
                 .queryParam("study-id", 7)
