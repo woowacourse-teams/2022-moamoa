@@ -38,3 +38,4 @@ out/
 
 /src/main/resources/application-security.yml
 /src/test/resources/application-security.yml
+/src/main/resources/static/docs/index.html
