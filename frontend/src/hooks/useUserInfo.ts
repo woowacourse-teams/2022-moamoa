@@ -9,12 +9,17 @@ import { UserInfoContext } from '@context/userInfo/UserInfoProvider';
 
 export const useUserInfo = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const { data, refetch: fetchUserInfo } = useQuery<GetUserInformation, Error>('user-info', getUserInformation, {
+  const {
+    data,
+    refetch: fetchUserInfo,
+    isError,
+    isSuccess,
+  } = useQuery<GetUserInformation, Error>('user-info', getUserInformation, {
     enabled: false,
   });
 
   useEffect(() => {
-    if (!data) return;
+    if (!data || isError || !isSuccess) return;
     setUserInfo(data);
   }, [data]);
 

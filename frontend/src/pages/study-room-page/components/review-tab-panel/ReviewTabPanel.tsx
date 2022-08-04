@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/divider/Divider';
@@ -15,7 +17,11 @@ export type ReviewTabPanelProps = {
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews(studyId);
-  const { userInfo: author } = useUserInfo();
+  const { userInfo: author, fetchUserInfo } = useUserInfo();
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const handlePostSuccess = () => {
     alert('댓글을 추가했습니다');
