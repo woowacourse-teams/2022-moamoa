@@ -35,10 +35,10 @@ const useCreateStudyPage = () => {
     const { values } = submitResult;
     const { feTagId, beTagId } = getAreaTagId();
     const tagIds = [
-      values['area-fe'] === 'checked' ? feTagId : undefined,
-      values['area-be'] === 'checked' ? beTagId : undefined,
-      values['generation'],
-      values['subject'],
+      values['area-fe'] === 'checked' ? feTagId : null,
+      values['area-be'] === 'checked' ? beTagId : null,
+      values['generation'] === '선택 안함' ? null : values['generation'],
+      values['subject'] === '선택 안함' ? null : values['subject'],
     ]
       .filter(val => val === 0 || !!val)
       .map(Number);
@@ -50,10 +50,10 @@ const useCreateStudyPage = () => {
       excerpt: values['excerpt'],
       thumbnail,
       description: values['description'],
-      maxMemberCount: values['max-member-count'],
-      enrollmentEndDate: values['enrollment-end-date'], // nullable
+      maxMemberCount: values['max-member-count'] || null,
+      enrollmentEndDate: values['enrollment-end-date'] || null, // nullable
       startDate: values['start-date'],
-      endDate: values['end-date'], // nullable
+      endDate: values['end-date'] || null, // nullable
       tagIds,
     };
 

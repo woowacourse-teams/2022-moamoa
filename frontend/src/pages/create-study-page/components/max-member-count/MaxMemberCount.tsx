@@ -15,35 +15,69 @@ type MaxMemberCountProps = {
   className?: string;
 };
 
+const maxMemberCountName = 'max-member-count';
+
 const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
+  const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(true);
   const [count, setCount] = useState<number>(1);
+
+  const { removeField } = useFormContext();
+
   const { register } = useFormContext();
+
+  const handleNoSelectCheckboxChange = () => {
+    setWillSelectMaxMember(prev => {
+      if (prev) removeField(maxMemberCountName);
+      return !prev;
+    });
+  };
 
   return (
     <S.MaxMemberCount className={className}>
       <MetaBox>
         <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
         <MetaBox.Content>
-          <label
-            htmlFor="max-member-count"
+          <div
             css={css`
-              margin-right: 10px;
+              display: flex;
+              margin-bottom: 8px;
             `}
           >
-            최대 인원 :
-          </label>
-          <PositiveNumberInput
-            {...register('max-member-count', {
-              min: MEMBER_COUNT.MIN.VALUE,
-              max: MEMBER_COUNT.MAX.VALUE,
-            })}
-            id="max-member-count"
-            placeholder="최대 인원"
-            value={count}
-            onChange={value => {
-              setCount(Number(value));
-            }}
-          ></PositiveNumberInput>
+            <label htmlFor="no-select">선택 안함</label>
+            <input
+              css={css`
+                margin-left: 4px;
+              `}
+              type="checkbox"
+              id="no-select"
+              checked={!willSelectMaxMember}
+              onChange={handleNoSelectCheckboxChange}
+            />
+          </div>
+          {willSelectMaxMember && (
+            <>
+              <label
+                htmlFor={maxMemberCountName}
+                css={css`
+                  margin-right: 10px;
+                `}
+              >
+                최대 인원 :
+              </label>
+              <PositiveNumberInput
+                {...register(maxMemberCountName, {
+                  min: MEMBER_COUNT.MIN.VALUE,
+                  max: MEMBER_COUNT.MAX.VALUE,
+                })}
+                id={maxMemberCountName}
+                placeholder="최대 인원"
+                value={count}
+                onChange={value => {
+                  setCount(Number(value));
+                }}
+              ></PositiveNumberInput>
+            </>
+          )}
         </MetaBox.Content>
       </MetaBox>
     </S.MaxMemberCount>

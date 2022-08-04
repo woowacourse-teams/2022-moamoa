@@ -163,7 +163,7 @@ export type PostJoiningStudyRequestParams = {
 };
 
 export type PostNewStudyRequestBody = {
-  tagIds: Array<TagId>;
+  tagIds?: Array<TagId>;
   thumbnail: string;
 } & MakeOptional<
   Pick<
