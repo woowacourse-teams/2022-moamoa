@@ -85,7 +85,7 @@ const DescriptionTab = () => {
               </label>
               <textarea
                 id="description"
-                placeholder="(20000자 제한)"
+                placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
                 className={cn({ invalid: !!errors['description']?.hasError })}
                 {...register('description', {
                   validate: (val: string) => {
@@ -97,6 +97,7 @@ const DescriptionTab = () => {
                   validationMode: 'change',
                   minLength: DESCRIPTION_LENGTH.MIN.VALUE,
                   maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+                  required: true,
                 })}
               ></textarea>
             </div>

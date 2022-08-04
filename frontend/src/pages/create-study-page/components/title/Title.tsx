@@ -32,10 +32,24 @@ const Title: React.FC = () => {
       >
         <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
       </div>
+      <label // TODO: HiddenLabel Component 생성
+        htmlFor="title"
+        css={css`
+          display: block;
+
+          height: 0;
+          width: 0;
+
+          visibility: hidden;
+        `}
+      >
+        스터디 이름
+      </label>
       <input
+        id="title"
         className={cn('title-input', { invalid: !!errors['title']?.hasError })}
         type="text"
-        placeholder="스터디 이름"
+        placeholder="*스터디 이름"
         {...register('title', {
           validate: (val: string) => {
             if (val.length < TITLE_LENGTH.MIN.VALUE) {
@@ -50,6 +64,7 @@ const Title: React.FC = () => {
           onChange: e => setCount(e.target.value.length),
           minLength: TITLE_LENGTH.MIN.VALUE,
           maxLength: TITLE_LENGTH.MAX.VALUE,
+          required: true,
         })}
       />
     </div>

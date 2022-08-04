@@ -62,3 +62,9 @@ operation::reviews/list[snippets='http-request,http-response']
 
 === 후기 특정 개수 조회
 operation::reviews/list-certain-number[snippets='http-request,http-response']
+
+=== 리뷰 수정
+operation::reviews/update[snippets='http-request,http-response']
+
+=== 리뷰 삭제
+operation::reviews/delete[snippets='http-request,http-response']
