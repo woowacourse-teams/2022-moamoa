@@ -71,7 +71,7 @@ export const CreateStudyPage = styled.div`
             border-radius: 4px;
             border: 1px solid ${theme.colors.secondary.dark};
             background-color: ${theme.colors.white};
-            color: ${theme.colors.black}
+            color: ${theme.colors.black};
 
             padding: 6px 12px;
 
