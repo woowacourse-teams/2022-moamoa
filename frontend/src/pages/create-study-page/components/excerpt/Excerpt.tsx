@@ -46,8 +46,22 @@ const Excerpt = ({ className }: ExcerptProps) => {
             >
               <LetterCounter count={count} maxCount={maxCount} />
             </div>
+            <label // TODO: HiddenLabel Component 생성
+              htmlFor="excerpt"
+              css={css`
+                display: block;
+
+                height: 0;
+                width: 0;
+
+                visibility: hidden;
+              `}
+            >
+              소개글
+            </label>
             <textarea
-              placeholder="한줄소개를 입력해주세요"
+              id="excerpt"
+              placeholder="*한줄소개를 입력해주세요"
               className={cn({ invalid: !!errors['excerpt']?.hasError })}
               {...register('excerpt', {
                 validate: (val: string) => {
@@ -62,6 +76,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
                 onChange: e => setCount(e.target.value.length),
                 minLength: EXCERPT_LENGTH.MIN.VALUE,
                 maxLength: EXCERPT_LENGTH.MAX.VALUE,
+                required: true,
               })}
             />
           </div>

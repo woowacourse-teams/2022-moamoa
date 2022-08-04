@@ -4,6 +4,8 @@ import { css } from '@emotion/react';
 
 import { getNextYear, getToday } from '@utils';
 
+import { DateYMD } from '@custom-types';
+
 import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
@@ -15,8 +17,8 @@ type PeriodProps = {
 
 const Period = ({ className }: PeriodProps) => {
   const { register } = useFormContext();
-  const today = useMemo(() => getToday('-'), []);
-  const nextYear = getNextYear(today, '-');
+  const today = useMemo(() => getToday('-'), []) as DateYMD;
+  const nextYear = getNextYear(today, '-') as DateYMD;
 
   return (
     <S.Period className={className}>
@@ -34,7 +36,7 @@ const Period = ({ className }: PeriodProps) => {
                 margin-right: 10px;
               `}
             >
-              스터디 시작 :
+              *스터디 시작 :
             </label>
             <input
               type="date"
@@ -42,7 +44,11 @@ const Period = ({ className }: PeriodProps) => {
               min={today}
               max={nextYear}
               defaultValue={today}
-              {...register('start-date')}
+              {...register('start-date', {
+                min: today,
+                max: nextYear,
+                required: true,
+              })}
             ></input>
           </div>
           <div>

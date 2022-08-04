@@ -16,7 +16,7 @@ type MaxMemberCountProps = {
 };
 
 const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(1);
   const { register } = useFormContext();
 
   return (

@@ -1,5 +1,7 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
+import { DateYMD } from '@custom-types';
+
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
@@ -38,8 +40,9 @@ type UseFormRegisterOption = Partial<{
   onChange: ChangeHandler;
   minLength: number;
   maxLength: number;
-  min: number;
-  max: number;
+  min: number | DateYMD;
+  max: number | DateYMD;
+  required: boolean;
 }>;
 
 type RefCallBack = (element: FieldElement | null) => void;
@@ -257,6 +260,7 @@ export const useForm: UseForm = () => {
       minLength: options?.minLength,
       max: options?.max,
       min: options?.min,
+      required: options?.required,
     };
   };
 
