@@ -1,4 +1,6 @@
-import type { Member } from '@custom-types';
+import { useEffect } from 'react';
+
+import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -15,14 +17,11 @@ export type ReviewTabPanelProps = {
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews(studyId);
-  const author: Member = {
-    id: 1,
-    profileUrl: 'https://github.com/airman5573',
-    imageUrl: 'https://cdn.mos.cms.futurecdn.net/yCPyoZDQBBcXikqxkeW2jJ-1200-80.jpg',
-    username: 'earth',
-  };
+  const { userInfo: author, fetchUserInfo } = useUserInfo();
 
-  const hasReviews = !!data?.reviews;
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const handlePostSuccess = () => {
     alert('댓글을 추가했습니다');

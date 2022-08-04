@@ -31,7 +31,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     }
 
     if (!enrollmentEndDate) {
-      return '모집중';
+      return <span>모집중</span>;
     }
 
     return (
