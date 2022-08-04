@@ -58,11 +58,11 @@ public class StudyPlanner {
     }
 
     private boolean isNeedToCloseStudy(final LocalDate now) {
-        return (endDate != null) && (isProgress()) && (endDate.isAfter(now) || endDate.isEqual(now));
+        return (endDate != null) && (isProgress()) && (endDate.isBefore(now) || endDate.isEqual(now));
     }
 
     private boolean isNeedToChangeProgress(final LocalDate now) {
-        return (isPreparing()) && (startDate.isAfter(now) || startDate.isEqual(now));
+        return (isPreparing()) && (startDate.isBefore(now) || startDate.isEqual(now));
     }
 
     boolean isProgress() {

@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.Objects;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -67,47 +66,47 @@ class AutoUpdateStatusTaskTest {
         CreatingStudyRequest javaRequest = CreatingStudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
                 .description("그린론의 우당탕탕 자바 스터디입니다.")
-                .startDate(now.toLocalDate().minusDays(2))
-                .enrollmentEndDate(now.toLocalDate().minusDays(1))
+                .startDate(dateTimeSystem.now().toLocalDate().plusDays(3))
+                .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(4))
                 .build();
         javaStudyId = studyService.createStudy(1L, javaRequest).getId();
 
         CreatingStudyRequest reactRequest = CreatingStudyRequest.builder()
                 .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
                 .description("디우의 뤼액트 스터디입니다.")
-                .startDate(now.toLocalDate().minusDays(3))
-                .enrollmentEndDate(now.toLocalDate().minusDays(2))
+                .startDate(dateTimeSystem.now().toLocalDate().plusDays(2))
+                .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(3))
                 .build();
         reactStudyId = studyService.createStudy(1L, reactRequest).getId();
 
         CreatingStudyRequest javascriptRequest = CreatingStudyRequest.builder()
                 .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
                 .description("그린론의 자바스크립트 접해보기")
-                .startDate(now.toLocalDate().plusDays(3))
-                .enrollmentEndDate(now.toLocalDate().plusDays(2))
+                .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
+                .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(7))
                 .build();
         javascriptStudyId = studyService.createStudy(1L, javascriptRequest).getId();
 
         CreatingStudyRequest httpRequest = CreatingStudyRequest.builder()
                 .title("Http 스터디").excerpt("Http 설명").thumbnail("http thumbnail")
                 .description("그린론의 HTTP 접해보기")
-                .startDate(now.toLocalDate().plusDays(3))
+                .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
                 .build();
         httpStudyId = studyService.createStudy(1L, httpRequest).getId();
 
         CreatingStudyRequest linuxRequest = CreatingStudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
                 .description("Linux를 공부하자의 베루스입니다.")
-                .startDate(now.toLocalDate().minusDays(5))
-                .endDate(now.toLocalDate())
+                .startDate(dateTimeSystem.now().toLocalDate())
+                .endDate(dateTimeSystem.now().toLocalDate())
                 .build();
         linuxStudyId = studyService.createStudy(1L, linuxRequest).getId();
 
         CreatingStudyRequest algorithmRequest = CreatingStudyRequest.builder()
                 .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
                 .description("알고리즘을 TDD로 풀자의 베루스입니다.")
-                .startDate(now.toLocalDate().minusDays(2))
-                .endDate(now.toLocalDate())
+                .startDate(dateTimeSystem.now().toLocalDate().plusDays(2))
+                .endDate(dateTimeSystem.now().toLocalDate().plusDays(5))
                 .build();
 
         algorithmStudyId = studyService.createStudy(1L, algorithmRequest).getId();
@@ -135,8 +134,8 @@ class AutoUpdateStatusTaskTest {
 
     private void assertNextExecuteTime(Trigger trigger, LocalDateTime current, LocalDateTime expectNextExecuteTime) {
         final Date date = Date.from(current.toInstant(ZoneOffset.of("+9")));
-        final LocalDateTime actualNextExecuteTime =
-                Objects.requireNonNull(trigger.nextExecutionTime(new SimpleTriggerContext(date, date, date)))
+        final LocalDateTime actualNextExecuteTime = trigger
+                .nextExecutionTime(new SimpleTriggerContext(date, date, date))
                 .toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime();
 
         assertThat(actualNextExecuteTime).isEqualTo(expectNextExecuteTime);
