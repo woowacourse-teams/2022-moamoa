@@ -49,12 +49,13 @@ public class StudyPlanner {
     }
 
     void updateStatus(final LocalDate now) {
-        if (isNeedToCloseStudy(now)) {
-            studyStatus = DONE;
+        if (isNeedToChangeStatus(now)) {
+            studyStatus = studyStatus.nextStatus();
         }
-        if (isNeedToChangeProgress(now)) {
-            studyStatus = IN_PROGRESS;
-        }
+    }
+
+    private boolean isNeedToChangeStatus(final LocalDate now) {
+        return isNeedToCloseStudy(now) || isNeedToChangeProgress(now);
     }
 
     private boolean isNeedToCloseStudy(final LocalDate now) {
