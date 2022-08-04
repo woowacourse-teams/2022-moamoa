@@ -39,15 +39,6 @@ jobs:
   cypress-E2E:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: ls -a
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.1.0'
-      - run: npm install
-      - uses: cypress-io/github-action@v2
-        with:
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          # the entire command will automatically be prefixed with "npm"
-          # and we need the second "npm" to execute "cypress run ..." command line
+      - uses: actions/checkout@v3
+      - name: show all list
+        run: ls -a
