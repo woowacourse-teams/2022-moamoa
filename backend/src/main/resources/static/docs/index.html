@@ -461,6 +461,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_리뷰_작성">리뷰 작성</a></li>
 <li><a href="#_리뷰_전체_조회">리뷰 전체 조회</a></li>
 <li><a href="#_리뷰_특정_개수_조회">리뷰 특정 개수 조회</a></li>
+<li><a href="#My-Role">스터디에서 사용자 역할 조회</a></li>
 </ul>
 </li>
 </ul>
@@ -492,7 +493,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 30
+Content-Length: 28
 
 {
   "token" : "JWT 토큰"
@@ -514,9 +515,9 @@ Content-Length: 30
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/studies HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer aaaaa.bbbbb.ccccc
+Authorization: Bearer header.payload.signature
 Accept: application/json
-Content-Length: 348
+Content-Length: 338
 Host: localhost:8080
 
 {
@@ -568,7 +569,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 808
+Content-Length: 773
 
 {
   "studies" : [ {
@@ -623,9 +624,9 @@ Content-Length: 808
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/studies/1/reviews HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer aaaaa.bbbbb.ccccc
+Authorization: Bearer header.payload.signature
 Accept: application/json
-Content-Length: 55
+Content-Length: 53
 Host: localhost:8080
 
 {
@@ -669,7 +670,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 1326
+Content-Length: 1279
 
 {
   "reviews" : [ {
@@ -745,7 +746,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 683
+Content-Length: 658
 
 {
   "reviews" : [ {
@@ -777,13 +778,39 @@ Content-Length: 683
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="My-Role"><a class="link" href="#My-Role">스터디에서 사용자 역할 조회</a></h3>
+<div class="sect3">
+<h4 id="My-Role_http_request"><a class="link" href="#My-Role_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/members/me/role?study-id=3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer header.payload.signature
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="My-Role_http_response"><a class="link" href="#My-Role_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-08-03 14:36:51 +0900
+Last updated 2022-08-03 21:57:59 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

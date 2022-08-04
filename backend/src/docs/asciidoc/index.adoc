@@ -33,3 +33,8 @@ operation::reviews/list[snippets='http-request,http-response']
 
 === 리뷰 특정 개수 조회
 operation::reviews/list-certain-number[snippets='http-request,http-response']
+
+[[My-Role]]
+
+=== 스터디에서 사용자 역할 조회
+operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']

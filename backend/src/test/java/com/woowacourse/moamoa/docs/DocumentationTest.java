@@ -15,8 +15,10 @@ import com.woowacourse.moamoa.review.controller.ReviewController;
 import com.woowacourse.moamoa.review.controller.SearchingReviewController;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.SearchingReviewService;
+import com.woowacourse.moamoa.study.controller.MyStudyController;
 import com.woowacourse.moamoa.study.controller.SearchingStudyController;
 import com.woowacourse.moamoa.study.controller.StudyController;
+import com.woowacourse.moamoa.study.service.MyStudyService;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
         StudyController.class,
         SearchingStudyController.class,
         ReviewController.class,
-        SearchingReviewController.class
+        SearchingReviewController.class,
+        MyStudyController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 @Import(JwtTokenProvider.class)
@@ -74,6 +77,9 @@ public class DocumentationTest {
 
     @MockBean
     protected SearchingReviewService searchingReviewService;
+
+    @MockBean
+    protected MyStudyService myStudyService;
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
