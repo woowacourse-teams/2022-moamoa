@@ -18,7 +18,6 @@ import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Function;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +30,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class SearchingStudyControllerTest {
-
-    private static final Function<Object, String> NULL_TO_EMPTY_STRING_CONVERTER = value -> value == null ? "" : value.toString();
 
     private SearchingStudyController sut;
 
@@ -64,10 +61,10 @@ public class SearchingStudyControllerTest {
                 + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
                 + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_at, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', 3)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
+                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '2022-08-03', 2)");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_at, start_date, owner_id) "
+                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '2022-08-03', 3)");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date) "
                 + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
@@ -339,10 +336,8 @@ public class SearchingStudyControllerTest {
     private void assertStudyParticipants(
             final StudyDetailResponse actual, final StudyDetailsData expect, List<Tuple> expectParticipants
     ) {
-        final String expectedMaxMemberCount = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getMaxMemberCount());
-
         assertThat(actual.getCurrentMemberCount()).isEqualTo(expect.getCurrentMemberCount());
-        assertThat(actual.getMaxMemberCount()).isEqualTo(expectedMaxMemberCount);
+        assertThat(actual.getMaxMemberCount()).isEqualTo(expect.getMaxMemberCount());
         assertThat(actual.getOwner()).isEqualTo(expect.getOwner());
         assertThat(actual.getMembers())
                 .hasSize(expectParticipants.size())
@@ -351,11 +346,8 @@ public class SearchingStudyControllerTest {
     }
 
     private void assertStudyPeriod(final StudyDetailResponse actual, final StudyDetailsData expect) {
-        final String expectedEnrollmentEndDate = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getEnrollmentEndDate());
-        final String expectedEndDate = NULL_TO_EMPTY_STRING_CONVERTER.apply(expect.getEndDate());
-
-        assertThat(actual.getEnrollmentEndDate()).isEqualTo(expectedEnrollmentEndDate);
-        assertThat(actual.getEndDate()).isEqualTo(expectedEndDate);
+        assertThat(actual.getEnrollmentEndDate()).isEqualTo(expect.getEnrollmentEndDate());
+        assertThat(actual.getEndDate()).isEqualTo(expect.getEndDate());
         assertThat(actual.getStartDate()).isEqualTo(expect.getStartDate().toString());
     }
 
