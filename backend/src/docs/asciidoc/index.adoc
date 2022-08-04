@@ -16,10 +16,7 @@ operation::auth/login[snippets='http-request,http-response']
 == 회원
 
 === 스터디에서 나의 Role 확인
-//operation::studies/summary[snippets='http-request,http-response']
-
-=== 로그인한 사용자 정보 조회
-//operation::studies/summary[snippets='http-request,http-response']
+operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
 
 [[Study]]
 == 스터디

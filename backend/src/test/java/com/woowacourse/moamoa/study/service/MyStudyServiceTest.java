@@ -9,9 +9,11 @@ import static org.assertj.core.api.Assertions.tuple;
 import java.util.List;
 import java.time.LocalDateTime;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
@@ -21,6 +23,7 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -36,11 +39,14 @@ class MyStudyServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private StudyRepository studyRepository;
+
     private MyStudyService myStudyService;
 
     @BeforeEach
     void setUp() {
-        myStudyService = new MyStudyService(myStudyDao, memberRepository);
+        myStudyService = new MyStudyService(myStudyDao, memberRepository, studyRepository);
 
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
@@ -150,5 +156,21 @@ class MyStudyServiceTest {
         assertThatThrownBy(() -> myStudyService.getStudies(5L))
                 .isInstanceOf(MemberNotFoundException.class)
                 .hasMessageContaining("회원을 찾을 수 없습니다.");
+    }
+
+    @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 사용자 조회 시 예외 발생")
+    @Test
+    void getMemberRoleNotExistUser() {
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(5L, 1L))
+                .isInstanceOf(MemberNotFoundException.class)
+                .hasMessageContaining("회원을 찾을 수 없습니다.");
+    }
+
+    @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 스터디 조회 시 예외 발생")
+    @Test
+    void getMemberRoleNotExistStudy() {
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(1L, 10L))
+                .isInstanceOf(StudyNotFoundException.class)
+                .hasMessageContaining("스터디가 존재하지 않습니다.");
     }
 }

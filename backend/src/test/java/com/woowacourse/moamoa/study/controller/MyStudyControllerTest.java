@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.service.MyStudyService;
@@ -35,13 +36,16 @@ class MyStudyControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private StudyRepository studyRepository;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private MyStudyController myStudyController;
 
     @BeforeEach
     void setUp() {
-        myStudyController = new MyStudyController(new MyStudyService(myStudyDao, memberRepository));
+        myStudyController = new MyStudyController(new MyStudyService(myStudyDao, memberRepository, studyRepository));
 
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
         jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");

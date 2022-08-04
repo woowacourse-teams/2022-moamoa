@@ -5,8 +5,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -114,5 +116,15 @@ public class Study {
 
     private boolean isFullOfCapacity() {
         return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
+    }
+
+    public MemberRole getRole(final Long memberId) {
+        if (Objects.equals(participants.getOwnerId(), memberId)) {
+            return MemberRole.OWNER;
+        }
+        if (participants.isParticipate(memberId)) {
+            return MemberRole.MEMBER;
+        }
+        return MemberRole.NON_MEMBER;
     }
 }

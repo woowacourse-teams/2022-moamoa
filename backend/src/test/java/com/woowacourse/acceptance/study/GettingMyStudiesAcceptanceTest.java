@@ -2,6 +2,9 @@ package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -104,5 +107,22 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies[0].owner.profileUrl", is("github.com"))
                 .body("studies[0].tags.id", contains(2, 4, 5))
                 .body("studies[0].tags.name", contains("4기", "FE", "React"));
+    }
+
+    @Test
+    @DisplayName("특정 스터디에서 나의 Role을 확인한다.")
+    void isMyStudy() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+
+        RestAssured.given(spec).log().all()
+                .filter(document("members/me/role"))
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .queryParam("study-id", 7)
+                .when()
+                .get("/api/members/me/role")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("role", is("OWNER"));
     }
 }
