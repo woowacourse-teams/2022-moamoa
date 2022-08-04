@@ -58,7 +58,7 @@ operation::tags/search[snippets='http-request,http-response']
 == 스터디 후기
 
 === 후기 작성
-//operation::reviews/create[snippets='http-request,http-response']
+operation::reviews/create[snippets='http-request,http-response']
 
 === 후기 전체 조회
 operation::reviews/list[snippets='http-request,http-response']
