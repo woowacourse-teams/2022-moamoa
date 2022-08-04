@@ -30,14 +30,15 @@ jobs:
     - name: Install
       run: npm install
       
+    - name: Build
+      run: npm run build-dev
+      
     - name: Cypress run
       uses: cypress-io/github-action@v4.2.0
       with:
-        build: npm run build
-        start: npm start
-    
-    - name: Build
-      run: npm run build-dev
+        build: npm run build-dev
+        start: npm run start
+        test: npm run cypress:run
       
     - name: Deploy
       run: curl ${{ secrets.FE_DEV_DEPLOY_REQUEST_URL }}
