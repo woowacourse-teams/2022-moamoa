@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 
 import detailStudyHandlers from '@mocks/detailStudyHandlers';
+import { memberHandlers } from '@mocks/memberHandlers';
 import { myHandlers } from '@mocks/myHandlers';
 import { reviewHandlers } from '@mocks/reviewHandler';
 import studyJSON from '@mocks/studies.json';
@@ -93,4 +94,5 @@ export const handlers = [
   ...myHandlers,
   ...reviewHandlers,
   ...tokenHandlers,
+  ...memberHandlers,
 ];

@@ -172,3 +172,5 @@ export type PostNewStudyRequestBody = {
   >,
   'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
 >;
+
+export type GetUserInformation = Member;
