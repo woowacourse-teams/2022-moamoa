@@ -21,8 +21,8 @@ const useMyStudyPage = () => {
   const filteredStudies: Record<string, Array<MyStudy>> = useMemo(() => {
     const studies = myStudyQueryResult.data?.studies ?? [];
     return {
-      prepare: filterStudiesByStatus(studies, 'IN_PROGRESS'),
-      inProgress: filterStudiesByStatus(studies, 'PREPARE'),
+      prepare: filterStudiesByStatus(studies, 'PREPARE'),
+      inProgress: filterStudiesByStatus(studies, 'IN_PROGRESS'),
       done: filterStudiesByStatus(studies, 'DONE'),
     };
   }, [myStudyQueryResult.data]);

@@ -25,6 +25,13 @@ export const CreateStudyPage = styled.div`
       }
     }
 
+    input[type='checkbox'] {
+      &:focus {
+        border: none;
+        outline: none;
+      }
+    }
+
     select {
       line-height: 2;
       border-color: ${theme.colors.secondary.base};

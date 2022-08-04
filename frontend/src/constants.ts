@@ -86,7 +86,7 @@ export const DESCRIPTION_LENGTH = {
 
 export const MEMBER_COUNT = {
   MIN: {
-    VALUE: 0,
+    VALUE: 1,
     get MESSAGE() {
       return `${this.VALUE}명 이상이어야 합니다`;
     },
