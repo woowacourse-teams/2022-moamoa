@@ -7,8 +7,10 @@ import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
@@ -19,14 +21,20 @@ public class StudyDetailsDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public StudyDetailsData findBy(Long studyId) {
-        String sql = "SELECT study.id, title, excerpt, thumbnail, recruitment_status, description, current_member_count, "
-                + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
-                + "member.github_id as owner_github_id, member.username as owner_username, "
-                + "member.image_url as owner_image_url, member.profile_url as owner_profile_url "
-                + "FROM study JOIN member ON study.owner_id = member.id "
-                + "WHERE study.id = ?";
-        return jdbcTemplate.query(sql, new StudyDetailsDataExtractor(), studyId);
+    public Optional<StudyDetailsData> findBy(Long studyId) {
+        try {
+            String sql =
+                    "SELECT study.id, title, excerpt, thumbnail, recruitment_status, description, current_member_count, "
+                            + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
+                            + "member.github_id as owner_github_id, member.username as owner_username, "
+                            + "member.image_url as owner_image_url, member.profile_url as owner_profile_url "
+                            + "FROM study JOIN member ON study.owner_id = member.id "
+                            + "WHERE study.id = ?";
+            final StudyDetailsData data = jdbcTemplate.query(sql, new StudyDetailsDataExtractor(), studyId);
+            return Optional.of(data);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private static class StudyDetailsDataExtractor implements ResultSetExtractor<StudyDetailsData> {
