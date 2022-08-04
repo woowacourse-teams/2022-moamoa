@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.domain.MyRole;
+import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -73,11 +73,11 @@ public class MyStudyService {
 
     private MyRoleResponse getMyRoleResponse(final Member member, final Participants participants) {
         if (Objects.equals(participants.getOwnerId(), member.getId())) {
-            return new MyRoleResponse(MyRole.OWNER);
+            return new MyRoleResponse(MemberRole.OWNER);
         }
         if (participants.isParticipate(member.getId())) {
-            return new MyRoleResponse(MyRole.MEMBER);
+            return new MyRoleResponse(MemberRole.MEMBER);
         }
-        return new MyRoleResponse(MyRole.NON_MEMBER);
+        return new MyRoleResponse(MemberRole.NON_MEMBER);
     }
 }

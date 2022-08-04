@@ -19,14 +19,14 @@ public class MyStudyController {
     private final MyStudyService myStudyService;
 
     @GetMapping("/api/my/studies")
-    public ResponseEntity<MyStudiesResponse> getMyStudies(@AuthenticationPrincipal Long githubId) {
+    public ResponseEntity<MyStudiesResponse> getMyStudies(@AuthenticationPrincipal final Long githubId) {
         final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(githubId);
         return ResponseEntity.ok().body(myStudiesResponse);
     }
 
     @GetMapping("/api/members/me/role")
     public ResponseEntity<MyRoleResponse> getMyRoleInStudy(
-            @AuthenticationPrincipal Long githubId, @RequestParam(name = "study-id") Long studyId
+            @AuthenticationPrincipal final Long githubId, @RequestParam(name = "study-id") final Long studyId
     ) {
         return ResponseEntity.ok().body(myStudyService.findMyRoleInStudy(githubId, studyId));
     }

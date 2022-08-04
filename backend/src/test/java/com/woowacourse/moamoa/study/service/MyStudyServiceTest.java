@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.study.domain.MyRole;
+import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
@@ -163,7 +163,7 @@ class MyStudyServiceTest {
     @DisplayName("스터디에서 나의 역할을 조회한다.")
     @ParameterizedTest
     @CsvSource(value = {"1,2,MEMBER", "1,3,NON_MEMBER", "2,1,OWNER"})
-    void getMyRoleInStudy(Long githubId, Long studyId, MyRole role) {
+    void getMyRoleInStudy(Long githubId, Long studyId, MemberRole role) {
         final MyRoleResponse response = myStudyService.findMyRoleInStudy(githubId, studyId);
 
         assertThat(response.getRole()).isEqualTo(role);

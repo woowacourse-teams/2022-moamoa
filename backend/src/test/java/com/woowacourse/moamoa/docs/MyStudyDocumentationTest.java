@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.docs;
 
 import static com.woowacourse.fixtures.AuthFixtures.JWT_토큰;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -16,8 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
-import com.woowacourse.moamoa.study.domain.MyRole;
+import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +28,7 @@ public class MyStudyDocumentationTest extends DocumentationTest {
     @DisplayName("스터디에서 사용자의 역할을 조회한다.")
     @Test
     void getMyRoleInStudy() throws Exception {
-        given(myStudyService.findMyRoleInStudy(any(), any())).willReturn(new MyRoleResponse(MyRole.MEMBER));
+        given(myStudyService.findMyRoleInStudy(any(), any())).willReturn(new MyRoleResponse(MemberRole.MEMBER));
 
         mockMvc.perform(get("/api/members/me/role")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + JWT_토큰)

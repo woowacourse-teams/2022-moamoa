@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.domain;
 
-public enum MyRole {
+public enum MemberRole {
 
     MEMBER, NON_MEMBER, OWNER
 }

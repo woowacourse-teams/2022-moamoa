@@ -22,7 +22,7 @@ import com.woowacourse.moamoa.study.service.MyStudyService;
 
 @WebMvcTest(controllers = MyStudyController.class)
 @Import(JwtTokenProvider.class)
-public class BadRequestMyMyRoleWebMvcTest {
+public class BadRequestMyMemberRoleWebMvcTest {
 
     @Autowired
     private MockMvc mockMvc;
