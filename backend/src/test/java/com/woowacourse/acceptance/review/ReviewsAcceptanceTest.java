@@ -137,7 +137,8 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     void deleteReview() {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("reviews/delete"))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", javaStudyId)
@@ -168,7 +169,8 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
         final EditingReviewRequest request = new EditingReviewRequest("edit review");
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("reviews/update"))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
