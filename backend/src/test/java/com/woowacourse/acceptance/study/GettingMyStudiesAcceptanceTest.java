@@ -5,6 +5,12 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -18,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
@@ -115,7 +122,10 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
 
         RestAssured.given(spec).log().all()
-                .filter(document("members/me/role"))
+                .filter(document("members/me/role",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token")),
+                        requestParameters(parameterWithName("study-id").description("스터디 ID")),
+                        responseFields(fieldWithPath("role").type(JsonFieldType.STRING).description("해당 스터디에서 사용자의 역할"))))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
                 .queryParam("study-id", 7)

@@ -10,7 +10,7 @@
 == 인증
 
 === Github 로그인
-operation::auth/login[snippets='http-request,http-response']
+operation::auth/login[snippets='http-request,request-parameters,http-response,response-fields']
 
 [[Member]]
 == 회원
