@@ -33,10 +33,14 @@ jobs:
     - name: Build
       run: npm run build-dev
       
-    - name: Test
-      uses: cypress-io/github-action@v4
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: run cypress tests with firefox
+      uses: cypress-io/github-action@v2
+      timeout-minutes: 10
       with:
-        browser: chrome
+        browser: firefox
       
     - name: Deploy
       run: curl ${{ secrets.FE_DEV_DEPLOY_REQUEST_URL }}
