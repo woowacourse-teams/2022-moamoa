@@ -1,25 +1,28 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
+import static javax.persistence.EnumType.STRING;
+import static lombok.AccessLevel.PROTECTED;
+
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor(access = PROTECTED)
 public class RecruitPlanner {
 
     @Column(name = "max_member_count")
     private Integer max;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     @Column(name = "recruitment_status")
     private RecruitStatus recruitStatus;
 
     private LocalDate enrollmentEndDate;
-
-    protected RecruitPlanner() {
-    }
 
     public RecruitPlanner(final Integer max, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
         this.max = max;
@@ -38,12 +41,18 @@ public class RecruitPlanner {
         return enrollmentEndDate.isBefore(date);
     }
 
-    boolean isNeedToCloseRecruiting(final LocalDate now) {
-        return recruitStatus.equals(RecruitStatus.RECRUITMENT_START) && isRecruitedBeforeThan(now);
+    void updateRecruiting(final LocalDate now) {
+        if (isNeedToCloseRecruiting(now)) {
+            closeRecruiting();
+        }
+    }
+
+    private boolean isNeedToCloseRecruiting(final LocalDate now) {
+        return recruitStatus.equals(RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
     void closeRecruiting() {
-        recruitStatus = RecruitStatus.RECRUITMENT_END;
+        recruitStatus = RECRUITMENT_END;
     }
 
     LocalDate getEnrollmentEndDate() {
@@ -51,7 +60,7 @@ public class RecruitPlanner {
     }
 
     boolean isCloseEnrollment() {
-        return recruitStatus.equals(RecruitStatus.RECRUITMENT_END);
+        return recruitStatus.equals(RECRUITMENT_END);
     }
 
     int getCapacity() {

@@ -28,7 +28,7 @@ CREATE TABLE study
     max_member_count INTEGER,
     created_at DATETIME not null,
     enrollment_end_date DATE,
-    start_date DATE,
+    start_date DATE not null,
     end_date DATE,
     owner_id BIGINT NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES member (id)

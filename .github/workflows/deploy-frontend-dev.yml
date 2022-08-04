@@ -30,12 +30,23 @@ jobs:
     - name: Install
       run: npm install
       
-    - name: Test
-      run: npm run cypress:run
-    
     - name: Build
       run: npm run build-dev
       
     - name: Deploy
       run: curl ${{ secrets.FE_DEV_DEPLOY_REQUEST_URL }}
-
+      
+  cypress-E2E:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.1.0'
+      - run: npm install
+      - uses: cypress-io/github-action@v2
+        with:
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+          # the entire command will automatically be prefixed with "npm"
+          # and we need the second "npm" to execute "cypress run ..." command line

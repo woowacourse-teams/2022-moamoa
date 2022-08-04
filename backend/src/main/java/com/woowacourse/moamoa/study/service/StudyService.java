@@ -1,8 +1,5 @@
 package com.woowacourse.moamoa.study.service;
 
-import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
-
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
@@ -10,9 +7,9 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
-import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
@@ -68,14 +65,12 @@ public class StudyService {
                 .orElseThrow(() -> new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId)));
     }
 
-    public void autoCloseStudies() {
+    public void autoUpdateStatus() {
         final List<Study> studies = studyRepository.findAll();
         final LocalDate now = dateTimeSystem.now().toLocalDate();
 
         for (Study study : studies) {
-            if (study.isNeedToCloseRecruiting(now)) {
-                study.closeEnrollment();
-            }
+            study.changeStatus(now);
         }
     }
 }
