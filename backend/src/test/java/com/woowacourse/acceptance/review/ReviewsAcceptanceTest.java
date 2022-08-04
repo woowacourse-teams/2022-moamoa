@@ -1,8 +1,8 @@
 package com.woowacourse.acceptance.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.query.data.MemberData;
@@ -17,11 +17,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @DisplayName("리뷰 인수 테스트")
 public class ReviewsAcceptanceTest extends AcceptanceTest {
@@ -80,10 +78,29 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 memberData.getProfileUrl());
     }
 
+    @DisplayName("리뷰를 작성한다.")
+    @Test
+    void create() {
+        final String token = getBearerTokenBySignInOrUp(toGithubProfileResponse(JJANGGU));
+        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("짱구의 스터디 리뷰입니다.");
+
+        RestAssured.given(spec).log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .body(writeReviewRequest)
+                .filter(document("reviews/create"))
+                .when().log().all()
+                .post("/api/studies/1/reviews")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+    }
+
     @DisplayName("스터디에 달린 전체 리뷰 목록을 조회할 수 있다.")
     @Test
     void getAllReviews() {
-        final ReviewsResponse reviewsResponse = RestAssured.given().log().all()
+        final ReviewsResponse reviewsResponse = RestAssured.given(spec).log().all()
+                .filter(document("reviews/list"))
                 .when().log().all()
                 .get("api/studies/1/reviews")
                 .then().log().all()
@@ -98,7 +115,8 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
     @DisplayName("원하는 갯수만큼 스터디에 달린 리뷰 목록을 조회할 수 있다.")
     @Test
     public void getReviewsBySize() {
-        final ReviewsResponse reviewsResponse = RestAssured.given().log().all()
+        final ReviewsResponse reviewsResponse = RestAssured.given(spec).log().all()
+                .filter(document("reviews/list-certain-number"))
                 .when().log().all()
                 .get("/api/studies/1/reviews?size=2")
                 .then()

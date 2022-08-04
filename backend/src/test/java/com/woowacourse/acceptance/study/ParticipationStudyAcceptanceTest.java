@@ -3,6 +3,7 @@ package com.woowacourse.acceptance.study;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -64,7 +65,8 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
         final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/participant"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, jwtToken)
                 .when().log().all()

@@ -1,6 +1,7 @@
 package com.woowacourse.acceptance.auth;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -24,7 +25,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         mockingGithubServerForGetProfile(accessToken, HttpStatus.OK,
                 new GithubProfileResponse(1L, "sc0116", "https://image", "github.com"));
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/login"))
                 .param("code", authorizationCode)
                 .when()
                 .post("/api/login/token")
