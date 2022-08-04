@@ -36,10 +36,9 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
-    /* start REST Docs */
+
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    /* end REST Docs */
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 }
 
 ext {
@@ -66,13 +65,17 @@ asciidoctor {
 task createDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from file("build/docs/asciidoc/index.html")
+    from file("build/docs/asciidoc")
     into file("src/main/resources/static/docs")
 }
 
-bootJar {
+task moveDocument(type: Copy) {
     dependsOn createDocument
-    from ("src/docs/asciidoc") {
-        into "BOOT-INF/classes/static/docs"
-    }
+
+    from file("build/docs/asciidoc")
+    into file("build/resources/main/static/docs")
+}
+
+bootJar {
+    dependsOn moveDocument
 }
