@@ -30,16 +30,23 @@ jobs:
     - name: Install
       run: npm install
       
-    - name: Test
-      run: npm install
-      uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-      
     - name: Build
       run: npm run build-dev
       
     - name: Deploy
       run: curl ${{ secrets.FE_DEV_DEPLOY_REQUEST_URL }}
+      
+  cypress-E2E:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # If you're using actions/checkout@v3 you must set persist-credentials to false in most cases for the deployment to work correctly.
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.1.0'
+      - run: npm install
+      - uses: cypress-io/github-action@v2
+        with:
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+          # the entire command will automatically be prefixed with "npm"
+          # and we need the second "npm" to execute "cypress run ..." command line
