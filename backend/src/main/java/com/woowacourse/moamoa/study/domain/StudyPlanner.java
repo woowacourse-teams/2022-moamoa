@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PROTECTED)
 public class StudyPlanner {
 
-    @Enumerated(value = STRING)
+    @Enumerated(STRING)
     @Column(nullable = false)
     private StudyStatus studyStatus;
 

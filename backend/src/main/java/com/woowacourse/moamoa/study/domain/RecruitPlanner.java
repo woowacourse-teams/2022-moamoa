@@ -18,7 +18,7 @@ public class RecruitPlanner {
     @Column(name = "max_member_count")
     private Integer max;
 
-    @Enumerated(value = STRING)
+    @Enumerated(STRING)
     @Column(name = "recruitment_status")
     private RecruitStatus recruitStatus;
 
