@@ -12,6 +12,7 @@ export default defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'webpack',
+      webpackConfig: require('./webpack/webpack.dev'),
     },
   },
 });
