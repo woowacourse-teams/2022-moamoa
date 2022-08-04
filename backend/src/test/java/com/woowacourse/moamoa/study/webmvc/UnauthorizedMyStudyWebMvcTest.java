@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,9 +33,10 @@ class UnauthorizedMyStudyWebMvcTest {
     private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("헤더에 Authorization 코드가 없이, 내 스터디를 조회할 경우 401 에러가 발생한다.")
-    @Test
-    void getMyStudiesWithoutAuthorization() throws Exception {
-        mockMvc.perform(get("/api/my/studies"))
+    @ParameterizedTest
+    @CsvSource({"/api/my/studies", "/api/members/me/role"})
+    void getMyStudiesWithoutAuthorization(String path) throws Exception {
+        mockMvc.perform(get(path))
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
