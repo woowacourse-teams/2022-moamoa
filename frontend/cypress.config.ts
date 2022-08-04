@@ -1,5 +1,7 @@
 import { defineConfig } from 'cypress';
 
+import webpackConfig from './webpack/webpack.dev';
+
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
@@ -12,7 +14,7 @@ export default defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'webpack',
-      webpackConfig: require('./webpack/webpack.dev'),
+      webpackConfig,
     },
   },
 });
