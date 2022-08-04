@@ -9,6 +9,7 @@ import { theme } from '@styles/theme';
 
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
+import { UserInfoProvider } from '@context/userInfo/UserInfoProvider';
 
 import App from './App';
 
@@ -31,14 +32,16 @@ if ($root) {
   root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <LoginProvider>
-          <SearchProvider>
-            <GlobalStyles />
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </SearchProvider>
-        </LoginProvider>
+        <UserInfoProvider>
+          <LoginProvider>
+            <SearchProvider>
+              <GlobalStyles />
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </SearchProvider>
+          </LoginProvider>
+        </UserInfoProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );
