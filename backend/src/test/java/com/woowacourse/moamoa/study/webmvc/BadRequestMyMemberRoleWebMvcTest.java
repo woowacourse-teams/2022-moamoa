@@ -47,4 +47,17 @@ public class BadRequestMyMemberRoleWebMvcTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
+
+    @DisplayName("study Id가 String일 경우 400 에러가 발생한다.")
+    @Test
+    void getMyStudiesWithoutStudyId1() throws Exception {
+        final String token = "Bearer " + jwtTokenProvider.createToken(1L);
+
+        mockMvc.perform(get("/api/members/me/role")
+                        .param("study-id", "one")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 }
