@@ -126,6 +126,7 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
                         requestHeaders(headerWithName("Authorization").description("Bearer Token")),
                         requestParameters(parameterWithName("study-id").description("스터디 ID")),
                         responseFields(fieldWithPath("role").type(JsonFieldType.STRING).description("해당 스터디에서 사용자의 역할"))))
+                .filter(document("members/me/role"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
                 .queryParam("study-id", 7)
