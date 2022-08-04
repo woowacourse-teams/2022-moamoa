@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -118,7 +119,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @DisplayName("페이징 정보 및 키워드가 없는 경우에는 기본페이징 정보를 사용해 전체 스터디 목록에서 조회한다.")
     @Test
     public void getStudiesByDefaultPagingInfo() {
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/search"))
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -201,7 +203,8 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
     @Test
     public void getStudiesByFilterAndTitle() {
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/searchWithTags"))
                 .queryParam("title", "ja")
                 .queryParam("area", 3)
                 .queryParam("page", 0)

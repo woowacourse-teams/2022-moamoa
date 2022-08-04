@@ -2,6 +2,7 @@ package com.woowacourse.acceptance.study;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -84,7 +85,8 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
     void getMyStudies() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/myStudy"))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .when().log().all()
                 .get("/api/my/studies")

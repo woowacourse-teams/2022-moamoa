@@ -3,6 +3,8 @@ package com.woowacourse.acceptance;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -17,10 +19,13 @@ import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +36,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,6 +46,13 @@ import org.springframework.web.client.RestTemplate;
         classes = {MoamoaApplication.class}
 )
 public class AcceptanceTest {
+
+    private static final String OUTPUT_DIRECTORY = "build/generated-snippets";
+
+    protected RequestSpecification spec;
+
+    @RegisterExtension
+    final RestDocumentationExtension restDocumentation = new RestDocumentationExtension (OUTPUT_DIRECTORY);
 
     @LocalServerPort
     protected int port;
@@ -59,6 +73,16 @@ public class AcceptanceTest {
     private String clientSecret;
 
     private MockRestServiceServer mockServer;
+
+    @BeforeEach
+    protected void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
+        this.spec = new RequestSpecBuilder()
+                .addFilter(documentationConfiguration(restDocumentation)
+                        .operationPreprocessors()
+                        .withRequestDefaults(prettyPrint())
+                        .withResponseDefaults(prettyPrint()))
+                .build();
+    }
 
     @BeforeEach
     protected void setRestAssuredPort() {
