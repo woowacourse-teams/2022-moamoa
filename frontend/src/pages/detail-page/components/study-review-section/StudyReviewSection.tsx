@@ -55,7 +55,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
 
   return (
     <S.ReviewSection>
-      <S.ReviewTitle>후기 {data?.totalCount && <span>{data.totalCount}개</span>}</S.ReviewTitle>
+      <S.ReviewTitle>후기 {<span>{data?.totalCount ?? '0'}개</span>}</S.ReviewTitle>
       {renderReviews()}
     </S.ReviewSection>
   );

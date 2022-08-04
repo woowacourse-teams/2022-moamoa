@@ -55,7 +55,7 @@ const DetailPage: React.FC = () => {
         recruitmentStatus={recruitmentStatus}
         excerpt={excerpt}
         startDate={changeDateSeperator(startDate)}
-        endDate={changeDateSeperator(endDate)}
+        endDate={endDate && changeDateSeperator(endDate)}
         tags={tags}
       />
       <Divider space={2} />

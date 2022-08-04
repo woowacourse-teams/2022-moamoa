@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -81,7 +82,8 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
     @DisplayName("스터디 요약 정보 외에 상세 정보를 포함하여 조회할 수 있다.")
     @Test
     public void getStudyDetails() {
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/details"))
                 .when().log().all()
                 .get("/api/studies/2")
                 .then().log().all()

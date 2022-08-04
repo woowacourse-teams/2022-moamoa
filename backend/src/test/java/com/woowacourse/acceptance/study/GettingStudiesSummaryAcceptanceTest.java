@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -212,7 +213,8 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
     }
 
     private ValidatableResponse 페이징을_통한_스터디_목록_조회(Object page, Object size) {
-        return RestAssured.given().log().all()
+        return RestAssured.given(spec).log().all()
+                .filter(document("studies/summary"))
                 .queryParam("page", page)
                 .queryParam("size", size)
                 .when().log().all()
