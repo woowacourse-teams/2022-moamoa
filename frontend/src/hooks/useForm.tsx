@@ -1,5 +1,7 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
+import { DateYMD } from '@custom-types';
+
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
@@ -38,8 +40,9 @@ type UseFormRegisterOption = Partial<{
   onChange: ChangeHandler;
   minLength: number;
   maxLength: number;
-  min: number;
-  max: number;
+  min: number | DateYMD;
+  max: number | DateYMD;
+  required: boolean;
 }>;
 
 type RefCallBack = (element: FieldElement | null) => void;
@@ -51,6 +54,8 @@ type UseFormRegisterReturn = {
 
 type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
 
+type RmFieldFn = (filedName: FieldName) => void;
+
 type GetFieldFn = (fieldName: FieldName) => Field | null;
 
 type ResetFieldFn = (fieldName: FieldName) => void;
@@ -60,6 +65,7 @@ type UseFormReturn = {
   handleSubmit: UseFormHandleSubmit;
   register: UseFormRegister;
   getField: GetFieldFn;
+  removeField: RmFieldFn;
   reset: ResetFieldFn;
 };
 
@@ -85,6 +91,11 @@ export const useForm: UseForm = () => {
   if (!fieldsRef.current) {
     fieldsRef.current = new Map<string, Field>();
   }
+
+  const removeField: RmFieldFn = name => {
+    if (!fieldsRef.current) return null;
+    fieldsRef.current.delete(name);
+  };
 
   const getField: GetFieldFn = name => {
     if (!fieldsRef.current) return null;
@@ -219,6 +230,7 @@ export const useForm: UseForm = () => {
 
     const values = getFieldValues(fieldsRef.current);
     const result = onSubmit(event, { isValid, values, errors });
+
     if (result) {
       result
         .then(() => {
@@ -257,6 +269,7 @@ export const useForm: UseForm = () => {
       minLength: options?.minLength,
       max: options?.max,
       min: options?.min,
+      required: options?.required,
     };
   };
 
@@ -265,6 +278,7 @@ export const useForm: UseForm = () => {
     handleSubmit,
     register,
     getField,
+    removeField,
     reset,
   };
 };

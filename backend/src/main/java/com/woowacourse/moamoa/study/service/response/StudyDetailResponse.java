@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.service.response;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +23,11 @@ public class StudyDetailResponse {
     private String recruitmentStatus;
     private String description;
     private Integer currentMemberCount;
-    private String maxMemberCount;
-    private String createdDate;
-    private String enrollmentEndDate;
-    private String startDate;
-    private String endDate;
+    private Integer maxMemberCount;
+    private LocalDate createdDate;
+    private LocalDate enrollmentEndDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private MemberData owner;
     private List<MemberData> members;
     private List<TagData> tags;
@@ -41,20 +42,13 @@ public class StudyDetailResponse {
         this.recruitmentStatus = study.getRecruitmentStatus();
         this.description = study.getDescription();
         this.currentMemberCount = study.getCurrentMemberCount();
-        this.maxMemberCount = getNullableDate(study.getMaxMemberCount());
-        this.createdDate = study.getCreatedDate().toString();
-        this.enrollmentEndDate = getNullableDate(study.getEnrollmentEndDate());
-        this.startDate = study.getStartDate().toString();
-        this.endDate = getNullableDate(study.getEndDate());
+        this.maxMemberCount = study.getMaxMemberCount();
+        this.createdDate = study.getCreatedDate();
+        this.enrollmentEndDate = study.getEnrollmentEndDate();
+        this.startDate = study.getStartDate();
+        this.endDate = study.getEndDate();
         this.owner = study.getOwner();
         this.members = participants;
         this.tags = attachedTags;
-    }
-
-    private String getNullableDate(final Object value) {
-        if (value == null) {
-            return "";
-        }
-        return value.toString();
     }
 }

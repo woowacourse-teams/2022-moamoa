@@ -30,7 +30,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     }
 
     if (!enrollmentEndDate) {
-      return '모집중';
+      return <span>모집중</span>;
     }
 
     return (

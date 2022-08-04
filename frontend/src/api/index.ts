@@ -5,7 +5,7 @@ export { default as getStudyDetail } from '@api/getStudyDetail';
 export { default as getStudyList } from '@api/getStudyList';
 export { default as getStudyReviews } from '@api/getStudyReviews';
 export { default as getTagList } from '@api/getTagList';
-export { default as patchReview } from '@api/patchReview';
+export { default as putReview } from '@api/putReview';
 export { default as postAccessToken } from '@api/postAccessToken';
 export { default as postJoiningStudy } from '@api/postJoiningStudy';
 export { default as postNewStudy } from '@api/postNewStudy';

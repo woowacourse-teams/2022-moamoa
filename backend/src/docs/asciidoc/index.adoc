@@ -10,16 +10,20 @@
 == 인증
 
 === Github 로그인
-operation::auth/login[snippets='http-request,http-response']
+operation::auth/login[snippets='http-request,request-parameters,http-response,response-fields']
 
 [[Member]]
 == 회원
 
 === 스터디에서 나의 Role 확인
+<<<<<<< HEAD
 //operation::studies/summary[snippets='http-request,http-response']
 
 === 로그인한 사용자 정보 조회
 operation::members/me[snippets='http-request,http-response']
+=======
+operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+>>>>>>> develop
 
 [[Study]]
 == 스터디
@@ -65,3 +69,9 @@ operation::reviews/list[snippets='http-request,http-response']
 
 === 후기 특정 개수 조회
 operation::reviews/list-certain-number[snippets='http-request,http-response']
+
+=== 리뷰 수정
+operation::reviews/update[snippets='http-request,http-response']
+
+=== 리뷰 삭제
+operation::reviews/delete[snippets='http-request,http-response']

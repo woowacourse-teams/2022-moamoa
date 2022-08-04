@@ -144,10 +144,10 @@ export type PatchReviewRequestParams = {
   studyId: number;
   reviewId: number;
 };
-export type PatchReviewRequestBody = {
+export type PutReviewRequestBody = {
   content: string;
 };
-export type PatchReviewRequestVariables = PatchReviewRequestParams & PatchReviewRequestBody;
+export type PutReviewRequestVariables = PatchReviewRequestParams & PutReviewRequestBody;
 
 export type DeleteReviewRequestBody = {
   studyId: StudyId;
@@ -163,7 +163,7 @@ export type PostJoiningStudyRequestParams = {
 };
 
 export type PostNewStudyRequestBody = {
-  tagIds: Array<TagId>;
+  tagIds?: Array<TagId>;
   thumbnail: string;
 } & MakeOptional<
   Pick<
@@ -172,3 +172,5 @@ export type PostNewStudyRequestBody = {
   >,
   'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
 >;
+
+export type GetUserInformation = Member;

@@ -5,8 +5,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -57,6 +59,10 @@ public class Study {
             throw new InvalidPeriodException();
         }
 
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidPeriodException();
+        }
+
         this.id = id;
         this.content = content;
         this.participants = participants;
@@ -95,19 +101,30 @@ public class Study {
         }
     }
 
+    public void changeStatus(final LocalDate now) {
+        recruitPlanner.updateRecruiting(now);
+        studyPlanner.updateStatus(now);
+    }
+
+    public boolean isProgressStatus() {
+        return studyPlanner.isProgress();
+    }
+
+    public boolean isCloseStudy() {
+        return studyPlanner.isCloseStudy();
+    }
+
     private boolean isFullOfCapacity() {
         return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
     }
 
-    public boolean isNeedToCloseRecruiting(LocalDate now) {
-        return recruitPlanner.isNeedToCloseRecruiting(now);
-    }
-
-    public void closeEnrollment() {
-        recruitPlanner.closeRecruiting();
-    }
-
-    public boolean isCloseEnrollment() {
-        return recruitPlanner.isCloseEnrollment();
+    public MemberRole getRole(final Long memberId) {
+        if (Objects.equals(participants.getOwnerId(), memberId)) {
+            return MemberRole.OWNER;
+        }
+        if (participants.isParticipate(memberId)) {
+            return MemberRole.MEMBER;
+        }
+        return MemberRole.NON_MEMBER;
     }
 }

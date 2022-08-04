@@ -53,8 +53,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
       <S.ReviewFormHead>
         <S.UserInfo href={author.profileUrl}>
-          <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="xs" />
-          <S.Username>rpf5573</S.Username>
+          <Avatar profileImg={author.imageUrl} profileAlt={`${author.username} 이미지`} size="xs" />
+          <S.Username>{author.username}</S.Username>
         </S.UserInfo>
       </S.ReviewFormHead>
       <S.ReviewFormBody>

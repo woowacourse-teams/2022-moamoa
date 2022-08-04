@@ -56,6 +56,7 @@ const Category = ({ className }: CategoryProps) => {
             기수 :
           </label>
           <select id="generation" {...register('generation')}>
+            <option>선택 안함</option>
             {generations.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}

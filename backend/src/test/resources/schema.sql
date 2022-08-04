@@ -28,7 +28,7 @@ CREATE TABLE study
     max_member_count INTEGER,
     created_at DATETIME not null,
     enrollment_end_date DATE,
-    start_date DATE,
+    start_date DATE not null,
     end_date DATE,
     owner_id BIGINT NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES member (id)
@@ -42,6 +42,7 @@ CREATE TABLE review
     content MEDIUMTEXT,
     created_date DATETIME not null,
     last_modified_date DATETIME  not null,
+    deleted boolean not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );

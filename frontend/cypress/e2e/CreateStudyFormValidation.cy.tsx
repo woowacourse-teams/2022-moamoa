@@ -13,11 +13,11 @@ describe('스터디 개설 페이지 폼 유효성 테스트', () => {
   });
 
   beforeEach(() => {
-    cy.findByPlaceholderText('스터디 이름').as(studyTitle);
-    cy.findByPlaceholderText('(20000자 제한)').as(description);
+    cy.findByPlaceholderText('*스터디 이름').as(studyTitle);
+    cy.findByPlaceholderText('*스터디 소개글(20000자 제한)').as(description);
     cy.findByText('개설하기').as(submitButton);
-    cy.findByPlaceholderText('한줄소개를 입력해주세요').as(excerpt);
-    cy.findByLabelText('스터디 시작 :').as(startDate);
+    cy.findByPlaceholderText('*한줄소개를 입력해주세요').as(excerpt);
+    cy.findByLabelText('*스터디 시작 :').as(startDate);
   });
 
   const minText = 'a';

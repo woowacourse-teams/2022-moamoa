@@ -1,15 +1,16 @@
 package com.woowacourse.moamoa.study.domain;
 
-import java.util.Arrays;
-
 public enum StudyStatus {
 
     PREPARE, IN_PROGRESS, DONE;
 
-    public static StudyStatus find(String status) {
-        return Arrays.stream(StudyStatus.values())
-                .filter(studyStatus -> studyStatus.name().equals(status))
-                .findAny()
-                .get();
+    public StudyStatus nextStatus() {
+        if (this.equals(PREPARE)) {
+            return IN_PROGRESS;
+        }
+        if (this.equals(IN_PROGRESS)) {
+            return DONE;
+        }
+        return PREPARE;
     }
 }

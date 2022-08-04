@@ -31,6 +31,7 @@ const Tag = ({ className }: TagProps) => {
           `}
           {...register('subject')}
         >
+          <option>선택 안함</option>
           {subjects.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}
@@ -45,7 +46,7 @@ const Tag = ({ className }: TagProps) => {
     <S.Tag className={className}>
       <MetaBox>
         <MetaBox.Title>
-          <label htmlFor="tag-list">태그</label>
+          <label htmlFor="tag-list">주제</label>
         </MetaBox.Title>
         <MetaBox.Content>{render()}</MetaBox.Content>
       </MetaBox>

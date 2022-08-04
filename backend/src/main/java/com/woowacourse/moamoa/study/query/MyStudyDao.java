@@ -36,7 +36,7 @@ public class MyStudyDao {
         final String startDate = rs.getString("start_date");
         final String endDate = rs.getString("end_date");
 
-        return new MyStudySummaryData(id, title, StudyStatus.find(studyStatus),
+        return new MyStudySummaryData(id, title, StudyStatus.valueOf(studyStatus),
                 currentMemberCount, maxMemberCount, startDate, endDate);
     };
 
