@@ -5,6 +5,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -142,7 +143,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
         final String jwtToken = getBearerTokenBySignInOrUp(
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
-        final String location = RestAssured.given().log().all()
+        final String location = RestAssured.given(spec).log().all()
+                .filter(document("studies/create"))
                 .header(AUTHORIZATION, jwtToken)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
