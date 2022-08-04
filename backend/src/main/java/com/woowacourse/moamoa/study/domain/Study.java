@@ -57,6 +57,10 @@ public class Study {
             throw new InvalidPeriodException();
         }
 
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidPeriodException();
+        }
+
         this.id = id;
         this.content = content;
         this.participants = participants;

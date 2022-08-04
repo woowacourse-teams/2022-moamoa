@@ -77,4 +77,14 @@ public class StudyPlanner {
     boolean isCloseStudy() {
         return studyStatus.equals(DONE);
     }
+
+    public boolean isInappropriateCondition(final LocalDate createdDate) {
+        if (startDate.isEqual(createdDate) && studyStatus == IN_PROGRESS) {
+            return false;
+        }
+        if ((startDate.isAfter(createdDate)) && studyStatus == PREPARE) {
+            return false;
+        }
+        return !studyStatus.equals(DONE);
+    }
 }

@@ -206,7 +206,7 @@ public class StudyTest {
                 Arguments.of(
                         now.minusDays(1),
                         now.toLocalDate(),
-                        new StudyPlanner(now.toLocalDate(), now.toLocalDate().plusDays(10), IN_PROGRESS),
+                        new StudyPlanner(now.toLocalDate().minusDays(1), now.toLocalDate().plusDays(10), IN_PROGRESS),
                         true
                 ),
                 Arguments.of(

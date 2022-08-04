@@ -87,30 +87,30 @@ public class StudySummaryDaoTest {
                 new Study(
                         new Content("Java 스터디", "자바 설명", "java thumbnail", "그린론의 우당탕탕 자바 스터디입니다."),
                         new Participants(greenlawn.getId(), Set.of(dwoo.getId(), verus.getId())),
-                        new RecruitPlanner(10, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new RecruitPlanner(10, RECRUITMENT_START, LocalDate.of(2022, 12, 9)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), PREPARE),
                         new AttachedTags(List.of(new AttachedTag(1L), new AttachedTag(2L), new AttachedTag(3L))),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 12, 8, 0, 0, 0))
         );
 
         studyRepository.save(
                 new Study(
                         new Content("React 스터디", "리액트 설명", "react thumbnail", "디우의 뤼액트 스터디입니다."),
                         new Participants(dwoo.getId(), Set.of(jjanggu.getId(), greenlawn.getId(), verus.getId())),
-                        new RecruitPlanner(5, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new RecruitPlanner(5, RECRUITMENT_START, LocalDate.of(2022, 12, 9)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 10), PREPARE),
                         new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L), new AttachedTag(5L))),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 12, 8, 0, 0, 0))
         );
 
         studyRepository.save(
                 new Study(
                         new Content("javaScript 스터디", "자바스크립트 설명", "javascript thumbnail", "그린론의 자바스크립트 접해보기"),
                         new Participants(dwoo.getId(), Set.of(verus.getId())),
-                        new RecruitPlanner(20, RECRUITMENT_START, LocalDate.of(2022, 11, 8)),
+                        new RecruitPlanner(20, RECRUITMENT_START, LocalDate.of(2022, 12, 9)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), PREPARE),
                         new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(4L))),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 12, 8, 0, 0, 0))
         );
 
         studyRepository.save(
@@ -120,7 +120,7 @@ public class StudySummaryDaoTest {
                         new RecruitPlanner(5, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
                         new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L))),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 11, 7, 0, 0, 0))
         );
 
         studyRepository.save(
@@ -130,7 +130,7 @@ public class StudySummaryDaoTest {
                         new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
                         new AttachedTags(List.of()),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 11, 7, 0, 0, 0))
         );
 
         studyRepository.save(
@@ -140,7 +140,7 @@ public class StudySummaryDaoTest {
                         new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2022, 11, 8)),
                         new StudyPlanner(LocalDate.of(2022, 12, 9), LocalDate.of(2022, 12, 11), DONE),
                         new AttachedTags(List.of()),
-                        LocalDateTime.now())
+                        LocalDateTime.of(2022, 11, 7, 0, 0, 0))
         );
 
         em.flush();
