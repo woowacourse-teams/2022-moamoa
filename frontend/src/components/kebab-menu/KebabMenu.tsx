@@ -1,16 +1,18 @@
 import * as S from '@components/kebab-menu/KebabMenu.style';
 
 type KebabMenuProps = {
-  onClick: React.MouseEventHandler<HTMLUListElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const KebabMenu: React.FC<KebabMenuProps> = ({ onClick }) => {
+const KebabMenu: React.FC<KebabMenuProps> = ({ onClick: handleKebabMenuClick }) => {
   return (
-    <S.KebabMenu onClick={onClick}>
-      <li></li>
-      <li></li>
-      <li></li>
-    </S.KebabMenu>
+    <S.KebabMenuButton type="button" onClick={handleKebabMenuClick}>
+      <S.KebabMenu>
+        <li></li>
+        <li></li>
+        <li></li>
+      </S.KebabMenu>
+    </S.KebabMenuButton>
   );
 };
 

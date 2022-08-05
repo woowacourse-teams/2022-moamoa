@@ -97,6 +97,8 @@ export type MyStudy = Pick<
   studyStatus: StudyStatus;
 };
 
+export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';
+
 export type GetStudyDetailRequestParams = {
   studyId: number;
 };
@@ -173,4 +175,11 @@ export type PostNewStudyRequestBody = {
   'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
 >;
 
-export type GetUserInformation = Member;
+export type GetUserRoleRequestParams = {
+  studyId: StudyId;
+};
+export type GetUserRoleResponseData = {
+  role: UserRole;
+};
+
+export type GetUserInformationResponseData = Member;

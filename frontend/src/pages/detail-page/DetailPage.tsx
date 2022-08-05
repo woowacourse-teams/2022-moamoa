@@ -17,7 +17,7 @@ import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/Stud
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
 const DetailPage: React.FC = () => {
-  const { studyId, detailQueryResult, handleRegisterButtonClick } = useDetailPage();
+  const { studyId, detailQueryResult, userRoleQueryResult, handleRegisterButtonClick } = useDetailPage();
   const { isFetching, isSuccess, isError, data } = detailQueryResult;
 
   if (!studyId) {
@@ -70,6 +70,8 @@ const DetailPage: React.FC = () => {
         <S.FloatButtonContainer>
           <S.StickyContainer>
             <StudyFloatBox
+              studyId={id}
+              userRole={userRoleQueryResult.data?.role}
               ownerName={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
@@ -84,6 +86,8 @@ const DetailPage: React.FC = () => {
       <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox
+          studyId={id}
+          userRole={userRoleQueryResult.data?.role}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
           enrollmentEndDate={enrollmentEndDate}

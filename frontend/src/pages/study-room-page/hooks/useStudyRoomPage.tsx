@@ -1,5 +1,10 @@
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
+
+import { GetUserRoleResponseData } from '@custom-types';
+
+import getUserRole from '@api/getUserRole';
 
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 
@@ -11,7 +16,10 @@ export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
   const { studyId } = useParams() as { studyId: string };
-  // TODO: 내 스터디인지 아닌지 확인하는 api가 필요
+
+  const userRoleQueryResult = useQuery<GetUserRoleResponseData, Error>('my-role', () =>
+    getUserRole({ studyId: Number(studyId) }),
+  );
 
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
@@ -30,6 +38,7 @@ const useStudyRoomPage = () => {
   return {
     tabs,
     activeTab,
+    userRoleQueryResult,
     handleTabButtonClick,
   };
 };

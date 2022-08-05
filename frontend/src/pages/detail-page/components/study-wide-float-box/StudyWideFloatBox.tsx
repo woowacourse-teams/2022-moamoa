@@ -1,8 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import { css } from '@emotion/react';
+
+import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
-import type { StudyDetail } from '@custom-types';
+import type { StudyDetail, UserRole } from '@custom-types';
 
 import Button from '@components/button/Button';
 
@@ -13,10 +17,14 @@ export type StudyWideFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
+  studyId: number;
+  userRole?: UserRole;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
+  studyId,
+  userRole,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -26,6 +34,10 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   const renderEnrollmentEndDateContent = () => {
+    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+      return <span>이미 가입한 스터디입니다</span>;
+    }
+
     if (!isOpen) {
       return <span>모집 마감</span>;
     }
@@ -41,6 +53,39 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     );
   };
 
+  const renderButton = () => {
+    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+      return (
+        <Link to={PATH.STUDY_ROOM(studyId)}>
+          <Button
+            css={css`
+              height: 100%;
+              padding: 0 20px;
+            `}
+            fluid={true}
+            type="button"
+          >
+            이동하기
+          </Button>
+        </Link>
+      );
+    }
+
+    return (
+      <Button
+        css={css`
+          height: 100%;
+          padding: 0 20px;
+        `}
+        fluid={true}
+        disabled={!isOpen}
+        onClick={handleRegisterButtonClick}
+      >
+        {isOpen ? '가입하기' : '모집 마감'}
+      </Button>
+    );
+  };
+
   return (
     <S.StudyWideFloatBox>
       <S.StudyInfo>
@@ -52,19 +97,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           </span>
         </S.MemberCount>
       </S.StudyInfo>
-      <div>
-        <Button
-          css={css`
-            height: 100%;
-            padding: 0 20px;
-          `}
-          fluid={true}
-          disabled={!isOpen}
-          onClick={handleRegisterButtonClick}
-        >
-          {isOpen ? '가입하기' : '모집 마감'}
-        </Button>
-      </div>
+      <div>{renderButton()}</div>
     </S.StudyWideFloatBox>
   );
 };
