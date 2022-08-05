@@ -40,6 +40,7 @@ const useDetailPage = () => {
         onSuccess: () => {
           alert('가입했습니다 :D');
           detailQueryResult.refetch();
+          userRoleQueryResult.refetch();
         },
       },
     );
