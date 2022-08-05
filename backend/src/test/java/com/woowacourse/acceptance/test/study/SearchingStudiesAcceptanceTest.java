@@ -1,5 +1,11 @@
-package com.woowacourse.acceptance.study;
+package com.woowacourse.acceptance.test.study;
 
+import static com.woowacourse.acceptance.fixture.TagFixture.BE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixture.FE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixture.리액트_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixture.우테코4기_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixture.자바_태그_ID;
+import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
@@ -10,93 +16,45 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @DisplayName("키워드 검색 인수 테스트")
 public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    private long javaStudyId;
-    private long reactStudyId;
-    private long javascriptStudyId;
-    private long httpStudyId;
-    private long algorithmStudyId;
-    private long linuxStudyId;
-
     @BeforeEach
-    void initDataBase() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(2L, "greenlawn", "https://image", "github.com"));
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(3L, "dwoo", "https://image", "github.com"));
-        getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+    void setUp() {
+        LocalDate 지금 = LocalDate.now();
 
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+         짱구가().로그인하고().자바_스터디를()
+                .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID)
+                .생성한다();
 
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+         짱구가().로그인하고().리액트_스터디를()
+                .시작일자는(지금).태그는(우테코4기_태그_ID, FE_태그_ID, 리액트_태그_ID)
+                .생성한다();
 
-        final LocalDateTime now = LocalDateTime.now();
+         짱구가().로그인하고().자바스크립트_스터디를()
+                .시작일자는(지금).태그는(우테코4기_태그_ID, FE_태그_ID)
+                .생성한다();
 
-        CreatingStudyRequest javaRequest = CreatingStudyRequest.builder()
-                .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
-                .description("그린론의 우당탕탕 자바 스터디입니다.").startDate(LocalDate.now().plusDays(1))
-                .tagIds(List.of(1L, 2L, 3L))
-                .build();
-        javaStudyId = createStudy(token, javaRequest);
+         짱구가().로그인하고().HTTP_스터디를()
+                .시작일자는(지금).태그는(우테코4기_태그_ID, BE_태그_ID)
+                .생성한다();
 
-        CreatingStudyRequest reactRequest = CreatingStudyRequest.builder()
-                .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
-                .description("디우의 뤼액트 스터디입니다.").startDate(LocalDate.now().plusDays(2))
-                .tagIds(List.of(2L, 4L, 5L))
-                .build();
-        reactStudyId = createStudy(token, reactRequest);
+         짱구가().로그인하고().알고리즘_스터디를()
+                .시작일자는(지금)
+                .생성한다();
 
-        CreatingStudyRequest javascriptRequest = CreatingStudyRequest.builder()
-                .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
-                .description("그린론의 자바스크립트 접해보기").startDate(LocalDate.now().plusDays(3))
-                .tagIds(List.of(2L, 4L))
-                .build();
-        javascriptStudyId = createStudy(token, javascriptRequest);
-
-        CreatingStudyRequest httpRequest = CreatingStudyRequest.builder()
-                .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail")
-                .description("디우의 HTTP 정복하기").startDate(LocalDate.now().plusDays(3))
-                .tagIds(List.of(2L, 3L))
-                .build();
-        httpStudyId = createStudy(token, httpRequest);
-
-        CreatingStudyRequest algorithmRequest = CreatingStudyRequest.builder()
-                .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
-                .description("알고리즘을 TDD로 풀자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
-                .tagIds(List.of())
-                .build();
-        algorithmStudyId = createStudy(token, algorithmRequest);
-
-        CreatingStudyRequest linuxRequest = CreatingStudyRequest.builder()
-                .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
-                .description("Linux를 공부하자의 베루스입니다.").startDate(LocalDate.now().plusDays(2))
-                .tagIds(List.of())
-                .build();
-        linuxStudyId = createStudy(token, linuxRequest);
+         짱구가().로그인하고().리눅스_스터디를()
+                .시작일자는(지금)
+                .생성한다();
     }
 
     @DisplayName("잘못된 페이징 정보로 목록을 검색시 400에러를 응답한다.")

@@ -1,4 +1,4 @@
-package com.woowacourse.acceptance.study;
+package com.woowacourse.acceptance.test.study;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
