@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PATH, PROFILE_IMAGE_URL } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
+import { useUserInfo } from '@hooks/useUserInfo';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
@@ -29,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const navigate = useNavigate();
 
   const { logout, isLoggedIn } = useAuth();
+  const { userInfo } = useUserInfo();
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
     e.preventDefault();
@@ -61,11 +63,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             </NavButton>
           </Link>
           <S.AvatarButton onClick={handleAvatarButtonClick}>
-            <Avatar
-              // TODO: Context에서 정보를 가져온다
-              profileImg={PROFILE_IMAGE_URL}
-              profileAlt="프로필 이미지"
-            />
+            <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
           </S.AvatarButton>
           {openDropDownBox && (
             <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>

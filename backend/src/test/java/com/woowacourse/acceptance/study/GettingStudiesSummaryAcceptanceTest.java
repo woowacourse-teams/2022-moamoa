@@ -126,8 +126,8 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isTrue(),
                 () -> assertThat(studiesResponse.getStudies()).hasSize(3),
-                () -> assertThat(studyIds).contains(javaStudyId, reactStudyId, javascriptStudyId),
-                () -> assertThat(studyTags).containsAnyOf(List.of(javaTag, fourTag, beTag), List.of(fourTag, feTag, reactTag), List.of(feTag, reactTag))
+                () -> assertThat(studyIds).contains(linuxStudyId, algorithmStudyId, httpStudyId),
+                () -> assertThat(studyTags).containsAnyOf(List.of(fourTag, beTag), List.of(fourTag), List.of(fourTag))
         );
     }
 
@@ -148,8 +148,8 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isFalse(),
                 () -> assertThat(studiesResponse.getStudies()).hasSize(3),
-                () -> assertThat(studyIds).contains(httpStudyId, algorithmStudyId, linuxStudyId),
-                () -> assertThat(studyTags).containsExactlyInAnyOrder(List.of(fourTag, beTag), List.of(fourTag), List.of(fourTag))
+                () -> assertThat(studyIds).contains(javascriptStudyId, reactStudyId, javaStudyId),
+                () -> assertThat(studyTags).containsExactlyInAnyOrder(List.of(fourTag, feTag), List.of(fourTag, feTag, reactTag), List.of(javaTag, fourTag, beTag))
         );
     }
 
@@ -203,11 +203,10 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(studiesResponse.isHasNext()).isTrue(),
                 () -> assertThat(studiesResponse.getStudies()).hasSize(5),
-                () -> assertThat(studyIds).contains(javaStudyId, reactStudyId, javascriptStudyId, httpStudyId,
-                        algorithmStudyId),
+                () -> assertThat(studyIds).contains(linuxStudyId, algorithmStudyId, httpStudyId, javascriptStudyId, reactStudyId),
                 () -> assertThat(studyTags).containsExactlyInAnyOrder(
-                        List.of(javaTag, fourTag, beTag), List.of(fourTag, feTag, reactTag),
-                        List.of(fourTag, feTag), List.of(fourTag), List.of(fourTag)
+                        List.of(fourTag, beTag), List.of(fourTag),
+                        List.of(fourTag), List.of(fourTag, feTag), List.of(fourTag, feTag, reactTag)
                 )
         );
     }

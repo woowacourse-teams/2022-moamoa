@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,7 +85,7 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasEnrollmentEndDateAndEndDateStudyDetails() {
         // 알고리즘 스터디는 모집 기간과 스터디 종료일자가 없음
-        final StudyDetailsData actual = sut.findBy(5L);
+        final StudyDetailsData actual = sut.findBy(5L).orElseThrow();
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
@@ -106,7 +107,7 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasMaxMemberCountStudyDetails() {
         // Linux 스터디는 최대 인원 정보가 없음
-        final StudyDetailsData actual = sut.findBy(6L);
+        final StudyDetailsData actual = sut.findBy(6L).orElseThrow();
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content

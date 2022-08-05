@@ -4,13 +4,15 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.review.domain.Review;
+import com.woowacourse.moamoa.review.domain.Reviewer;
 import com.woowacourse.moamoa.review.domain.exception.WritingReviewBadRequestException;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
+import com.woowacourse.moamoa.review.service.exception.ReviewNotFoundException;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +38,23 @@ public class ReviewService {
 
         final Review review = Review.writeNewReview(study.getId(), member.getId(), writeReviewRequest.getContent());
         return reviewRepository.save(review).getId();
+    }
+
+    public void updateReview(final Long githubId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        review.updateContent(new Reviewer(member.getId()), editingReviewRequest.getContent());
+    }
+
+    public void deleteReview(final Long githubId, final Long reviewId) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        review.delete(new Reviewer(member.getId()));
     }
 }

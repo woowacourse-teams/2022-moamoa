@@ -34,7 +34,7 @@ class AuthenticationRequestMatcherTest {
     void matchAuthRequestIsTrue(String method, String path) {
         given(httpServletRequest.getMethod())
                 .willReturn(method);
-        given(httpServletRequest.getServletPath())
+        given(httpServletRequest.getRequestURI())
                 .willReturn(path);
 
         assertThat(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).isTrue();
@@ -48,7 +48,7 @@ class AuthenticationRequestMatcherTest {
     void matchAuthRequestIsFalse(String method, String path) {
         given(httpServletRequest.getMethod())
                 .willReturn(method);
-        given(httpServletRequest.getServletPath())
+        given(httpServletRequest.getRequestURI())
                 .willReturn(path);
 
         assertThat(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).isFalse();

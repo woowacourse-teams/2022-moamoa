@@ -39,18 +39,20 @@ public class StudySummaryDao {
     }
 
     private String sql(final SearchingTags searchingTags) {
-        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status "
+        return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status, study.created_at "
                 + "FROM study "
                 + joinTableClause(searchingTags)
                 + "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' "
                 + filtersInQueryClause(searchingTags)
-                + "GROUP BY study.id LIMIT :limit OFFSET :offset";
+                + "GROUP BY study.id "
+                + "ORDER BY study.created_at DESC "
+                + "LIMIT :limit OFFSET :offset ";
     }
 
     private String joinTableClause(final SearchingTags searchingTags) {
         String sql = "JOIN study_tag {}_study_tag ON study.id = {}_study_tag.study_id "
                 + "JOIN tag {}_tag ON {}_study_tag.tag_id = {}_tag.id "
-                + "JOIN category {}_category ON {}_tag.category_id = {}_category.id AND {}_category.name = '{}'";
+                + "JOIN category {}_category ON {}_tag.category_id = {}_category.id AND {}_category.name = '{}' ";
 
         return Stream.of(CategoryName.values())
                 .filter(searchingTags::hasBy)

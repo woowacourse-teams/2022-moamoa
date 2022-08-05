@@ -12,12 +12,14 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Embeddable
-@ToString
 @NoArgsConstructor(access = PROTECTED)
+@Getter
+@ToString
 public class Participants {
 
     @Column(name = "current_member_count")
@@ -49,6 +51,10 @@ public class Participants {
 
     boolean isAlreadyParticipated(Long memberId) {
         return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
+    }
+
+    public boolean isParticipate(Long memberId) {
+        return participants.contains(new Participant(memberId));
     }
 
     int getSize() {

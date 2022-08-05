@@ -2,8 +2,12 @@ package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
@@ -26,6 +30,8 @@ public class MyStudyService {
     private final MyStudyDao myStudyDao;
 
     private final MemberRepository memberRepository;
+
+    private final StudyRepository studyRepository;
 
     public MyStudiesResponse getStudies(final Long githubId) {
         final Member member = memberRepository.findByGithubId(githubId)
@@ -50,5 +56,14 @@ public class MyStudyService {
                         ownerWithStudyTags.get(studySummary.getId()).getTags()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public MyRoleResponse findMyRoleInStudy(final Long githubId, final Long studyId) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        return new MyRoleResponse(study.getRole(member.getId()));
     }
 }
