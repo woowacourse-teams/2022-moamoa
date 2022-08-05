@@ -1,6 +1,10 @@
+import { Link } from 'react-router-dom';
+
+import { PATH } from '@constants';
+
 import { yyyymmddTommdd } from '@utils';
 
-import type { StudyDetail } from '@custom-types';
+import type { StudyDetail, UserRole } from '@custom-types';
 
 import Button from '@components/button/Button';
 
@@ -10,11 +14,15 @@ export type StudyFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
+  studyId: number;
+  userRole?: UserRole;
   ownerName: string;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
+  studyId,
+  userRole,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -33,10 +41,30 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
       return <span>모집중</span>;
     }
 
+    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+      return <span>이미 가입한 스터디입니다</span>;
+    }
+
     return (
       <>
         <span>{yyyymmddTommdd(enrollmentEndDate)}</span>까지 가입 가능
       </>
+    );
+  };
+
+  const renderButton = () => {
+    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+      return (
+        <Link to={PATH.STUDY_ROOM(studyId)}>
+          <Button type="button">스터디 방으로 이동하기</Button>
+        </Link>
+      );
+    }
+
+    return (
+      <Button disabled={!isOpen} onClick={handleRegisterButtonClick}>
+        {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+      </Button>
     );
   };
 
@@ -55,9 +83,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           <span>{ownerName}</span>
         </S.Owner>
       </S.StudyInfo>
-      <Button disabled={!isOpen} onClick={handleRegisterButtonClick}>
-        {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
-      </Button>
+      {renderButton()}
     </S.StudyFloatBox>
   );
 };

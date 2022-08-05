@@ -1,9 +1,10 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { EmptyObject, PostJoiningStudyRequestParams } from '@custom-types';
+import type { EmptyObject, GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
 
 import { postJoiningStudy } from '@api';
+import getUserRole from '@api/getUserRole';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -16,6 +17,13 @@ const useDetailPage = () => {
   const detailQueryResult = useGetDetail(Number(studyId));
 
   const { mutate } = useMutation<EmptyObject, Error, PostJoiningStudyRequestParams>(postJoiningStudy);
+  const userRoleQueryResult = useQuery<GetUserRoleResponseData, Error>(
+    'my-role',
+    () => getUserRole({ studyId: Number(studyId) }),
+    {
+      enabled: isLoggedIn,
+    },
+  );
 
   const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {
@@ -39,6 +47,7 @@ const useDetailPage = () => {
 
   return {
     detailQueryResult,
+    userRoleQueryResult,
     studyId,
     handleRegisterButtonClick,
   };

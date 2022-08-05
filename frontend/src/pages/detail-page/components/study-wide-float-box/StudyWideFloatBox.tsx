@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import { yyyymmddTommdd } from '@utils';
 
-import type { StudyDetail } from '@custom-types';
+import type { StudyDetail, UserRole } from '@custom-types';
 
 import Button from '@components/button/Button';
 
@@ -13,10 +13,14 @@ export type StudyWideFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
+  studyId: number;
+  userRole?: UserRole;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
+  studyId,
+  userRole,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,

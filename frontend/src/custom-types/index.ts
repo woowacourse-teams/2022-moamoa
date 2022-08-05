@@ -97,6 +97,8 @@ export type MyStudy = Pick<
   studyStatus: StudyStatus;
 };
 
+export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';
+
 export type GetStudyDetailRequestParams = {
   studyId: number;
 };
@@ -177,7 +179,7 @@ export type GetUserRoleRequestParams = {
   studyId: StudyId;
 };
 export type GetUserRoleResponseData = {
-  role: 'OWNER' | 'MEMBER' | 'NON_MEMBER';
+  role: UserRole;
 };
 
 export type GetUserInformationResponseData = Member;
