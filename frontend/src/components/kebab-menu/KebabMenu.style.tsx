@@ -1,6 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+export const KebabMenuButton = styled.button`
+  border: none;
+  background-color: transparent;
+`;
+
 export const KebabMenu = styled.ul`
   ${({ theme }) => css`
     display: flex;
@@ -16,14 +21,6 @@ export const KebabMenu = styled.ul`
       height: 4px;
       border-radius: 50%;
       background-color: ${theme.colors.secondary.dark};
-
-      button {
-        background-color: transparent;
-        border: none;
-        outline: none;
-      }
     }
-
-    cursor: pointer;
   `}
 `;
