@@ -16,20 +16,16 @@ operation::auth/login[snippets='http-request,request-parameters,http-response,re
 == 회원
 
 === 스터디에서 나의 Role 확인
-<<<<<<< HEAD
-//operation::studies/summary[snippets='http-request,http-response']
+operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
 
 === 로그인한 사용자 정보 조회
-operation::members/me[snippets='http-request,http-response']
-=======
-operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
->>>>>>> develop
+operation::members/me[snippets='http-request,request-headers,http-response']
 
 [[Study]]
 == 스터디
 
 === 스터디 생성
-operation::studies/create[snippets='http-request,http-response']
+operation::studies/create[snippets='http-request,request-headers,http-response']
 
 === 스터디 참여
 operation::studies/participant[snippets='http-request,http-response']

@@ -1,6 +1,8 @@
 package com.woowacourse.acceptance.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -25,7 +27,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     void getCurrentMember() {
         final MemberResponse memberResponse = RestAssured.given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, token)
-                .filter(document("members/me"))
+                .filter(document("members/me",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .when().log().all()
                 .get("/api/members/me")
                 .then().log().all()

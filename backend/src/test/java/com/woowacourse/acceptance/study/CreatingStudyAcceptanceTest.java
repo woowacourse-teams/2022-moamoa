@@ -151,7 +151,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
 
         final String location = RestAssured.given(spec).log().all()
-                .filter(document("studies/create"))
+                .filter(document("studies/create",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .header(AUTHORIZATION, jwtToken)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
