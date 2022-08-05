@@ -1,3 +1,15 @@
+export const PATH = {
+  MAIN: '/',
+  STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
+  CREATE_STUDY: '/study/create',
+  MY_STUDY: '/my/study',
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/study/room/${studyId}`,
+  LOGIN: '/login',
+  REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
+};
+
+export const ACCESS_TOKEN_KEY = 'accessToken';
+
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,
@@ -16,4 +28,91 @@ export const BREAK_POINTS = {
   lg: 992,
   xl: 1280,
   xxl: 1400,
+};
+
+export const VALIDATIONS = {
+  EXCERPT: {
+    LENGTH: {
+      MIN: 1,
+      MAX: 50,
+    },
+  },
+};
+
+export const EXCERPT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 50,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const TITLE_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 30,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const DESCRIPTION_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 20000,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const MEMBER_COUNT = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}명 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 100,
+    get MESSAGE() {
+      return `${this.VALUE}명까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const PROFILE_IMAGE_URL =
+  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80';
+
+export const REVIEW_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
 };

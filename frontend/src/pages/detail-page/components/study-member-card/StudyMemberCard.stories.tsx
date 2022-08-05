@@ -1,14 +1,14 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
-import type { StudyMemberCardProp } from '@detail-page/components/study-member-card/StudyMemberCard';
+import type { StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export default {
   title: 'Components/StudyMemberCard',
   component: StudyMemberCard,
 };
 
-const Template: Story<StudyMemberCardProp> = props => (
+const Template: Story<StudyMemberCardProps> = props => (
   <div style={{ maxWidth: '350px', minWidth: 'fit-content' }}>
     <StudyMemberCard {...props} />
   </div>

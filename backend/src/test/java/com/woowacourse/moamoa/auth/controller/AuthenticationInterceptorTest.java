@@ -46,7 +46,7 @@ class AuthenticationInterceptorTest {
 
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.POST.toString());
-        given(httpServletRequest.getServletPath())
+        given(httpServletRequest.getRequestURI())
                 .willReturn("/api/studies");
         given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
                 .willReturn(Collections.enumeration(List.of(bearerToken)));
@@ -64,7 +64,7 @@ class AuthenticationInterceptorTest {
 
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.POST.toString());
-        given(httpServletRequest.getServletPath())
+        given(httpServletRequest.getRequestURI())
                 .willReturn("/api/studies");
         given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
                 .willReturn(Collections.enumeration(List.of(token)));

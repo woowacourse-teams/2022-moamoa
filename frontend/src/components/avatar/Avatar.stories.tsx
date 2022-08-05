@@ -1,4 +1,4 @@
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
 import Avatar from '@components/avatar/Avatar';
 import type { AvatarProps } from '@components/avatar/Avatar';

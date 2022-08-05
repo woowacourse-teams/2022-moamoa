@@ -4,19 +4,40 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TagAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("전체 필터 목록을 조회한다.")
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void initDataBase() {
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+    }
+
+    @DisplayName("전체 태그 목록을 조회한다.")
     @Test
     void getAllFilters() {
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("tags/list"))
                 .when().log().all()
                 .get("/api/tags")
                 .then().log().all()
@@ -66,7 +87,8 @@ public class TagAcceptanceTest extends AcceptanceTest {
     @DisplayName("카테고리와 이름으로 필터 목록을 조회한다.")
     @Test
     void getFiltersByCategory() {
-        RestAssured.given().log().all()
+        RestAssured.given(spec).log().all()
+                .filter(document("tags/search"))
                 .queryParam("name", "a")
                 .queryParam("category", 3L)
                 .when().log().all()

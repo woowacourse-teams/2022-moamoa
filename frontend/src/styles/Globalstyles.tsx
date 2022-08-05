@@ -1,5 +1,8 @@
 import { Global, css } from '@emotion/react';
 
+import rocketCursorPointerImage from '@assets/images/rocket-cursor-pointer.png';
+import rocketCursorImage from '@assets/images/rocket-cursor.png';
+
 import { theme } from '@styles/theme';
 
 const GlobalStyles = () => {
@@ -14,6 +17,7 @@ const GlobalStyles = () => {
           margin: 0;
           color: ${theme.colors.black};
         }
+
         @font-face {
           font-family: 'NanumSquareRound';
           font-weight: 300;
@@ -80,17 +84,43 @@ const GlobalStyles = () => {
           font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
         }
 
-        button {
+        button,
+        input,
+        textarea,
+        select,
+        option {
           font-family: inherit;
-          cursor: pointer;
+        }
+
+        body,
+        label {
+          cursor: url(${rocketCursorImage}) 12 7, auto;
+        }
+
+        button,
+        a,
+        select,
+        input[type='checkbox'],
+        input[type='date'],
+        option {
+          cursor: url(${rocketCursorPointerImage}) 12 7, pointer;
+        }
+
+        button {
+          &:disabled {
+            cursor: url(${rocketCursorImage}) 12 7, default;
+          }
         }
 
         a {
           text-decoration: none;
         }
 
+        textarea {
+          resize: none;
+        }
+
         input {
-          font-family: inherit;
           background-color: ${theme.colors.white};
           &::placeholder {
             color: ${theme.colors.secondary.dark};
@@ -99,6 +129,12 @@ const GlobalStyles = () => {
 
         li {
           list-style: none;
+        }
+
+        select,
+        textarea,
+        input {
+          border-radius: 4px;
         }
       `}
     />

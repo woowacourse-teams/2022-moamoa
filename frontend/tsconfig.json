@@ -19,19 +19,30 @@
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
-      "@custom-types/*": ["custom-types/*"],
-      "@pages/*": ["pages/*"],
+      "@custom-types": ["custom-types/index.ts"],
       "@assets/*": ["assets/*"],
+      "@utils": ["utils/index.ts"],
       "@utils/*": ["utils/*"],
       "@constants": ["constants.ts"],
+      "@api": ["api/index.ts"],
       "@api/*": ["api/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
       "@detail-page/*": ["pages/detail-page/*"],
+      "@create-study-page/*": ["pages/create-study-page/*"],
+      "@my-study-page/*": ["pages/my-study-page/*"],
+      "@study-room-page/*": ["pages/study-room-page/*"],
+      "@login-redirect-page/*": ["pages/login-redirect-page/*"],
+      "@error-page/*": ["pages/error-page/*"],
+      "@layout": ["layout/index.ts"],
       "@layout/*": ["layout/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@mocks/*": ["mocks/*"],
+      "@pages": ["pages/index.ts"],
+      "@pages/*": ["pages/*"]
     },
-    "typeRoots": ["src/custom-types"]
+    "typeRoots": ["src/custom-types"],
+    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
-  "include": ["src"]
+  "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
 }

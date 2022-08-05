@@ -1,27 +1,25 @@
 package com.woowacourse.moamoa.study.domain;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
-import com.woowacourse.moamoa.study.domain.studytag.StudyTag;
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CollectionTable;
+import java.util.Objects;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Study {
 
     @Id
@@ -29,84 +27,104 @@ public class Study {
     private Long id;
 
     @Embedded
-    private Details details;
+    private Content content;
 
     @Embedded
     private Participants participants;
 
     @Embedded
-    private Period period;
+    private RecruitPlanner recruitPlanner;
 
-    @CreatedDate
+    @Embedded
+    private StudyPlanner studyPlanner;
+
+    @Embedded
+    private AttachedTags attachedTags;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "owner_id")
-    private Member owner;
-
-    @ElementCollection
-    @CollectionTable(name = "study_tag", joinColumns = @JoinColumn(name = "study_id"))
-    private List<AttachedTag> attachedTags = new ArrayList<>();
-
-    @OneToMany(mappedBy = "study")
-    private List<StudyTag> studyTags = new ArrayList<>();
-
-    public Study(final Long id, final Details details) {
-        this.id = id;
-        this.details = details;
+    public Study(final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
+                 final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
+    ) {
+        this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    public Study(final Details details, final Participants participants, final Member owner,
-                 final Period period, final List<AttachedTag> attachedTags) {
-        this(null, details, participants, period, owner, attachedTags);
-    }
-
-    public Study(final Long id,
-                 final Details details, final Participants participants,
-                 final Period period, final Member owner,
-                 final List<AttachedTag> attachedTags) {
-        this.id = id;
-        this.details = details;
-        this.participants = participants;
-        this.period = period;
-        this.createdAt = LocalDateTime.now();
-        this.owner = owner;
-        this.attachedTags = attachedTags;
-
-        if (period.isBefore(createdAt)) {
+    private Study(final Long id, final Content content, final Participants participants,
+                  final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+                  final LocalDateTime createdAt
+    ) {
+        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
+                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidPeriodException();
+        }
+
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidPeriodException();
+        }
+
+        this.id = id;
+        this.content = content;
+        this.participants = participants;
+        this.recruitPlanner = recruitPlanner;
+        this.studyPlanner = studyPlanner;
+        this.createdAt = createdAt;
+        this.attachedTags = attachedTags;
+    }
+
+    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
+        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
+                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
+    }
+
+    private boolean isRecruitedOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner,
+                                                           final StudyPlanner studyPlanner,
+                                                           final LocalDateTime createdAt) {
+        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
+    }
+
+    public boolean isWritableReviews(final Long memberId) {
+        return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
+    }
+
+    public void participate(final Long memberId) {
+        if (recruitPlanner.isCloseEnrollment()) {
+            throw new FailureParticipationException();
+        }
+
+        final Participant participant = new Participant(memberId);
+        participants.participate(participant.getMemberId());
+
+        if (isFullOfCapacity()) {
+            recruitPlanner.closeRecruiting();
         }
     }
 
-    protected Study() {
+    public void changeStatus(final LocalDate now) {
+        recruitPlanner.updateRecruiting(now);
+        studyPlanner.updateStatus(now);
     }
 
-    public Long getId() {
-        return id;
+    public boolean isProgressStatus() {
+        return studyPlanner.isProgress();
     }
 
-    public Details getDetails() {
-        return details;
+    public boolean isCloseStudy() {
+        return studyPlanner.isCloseStudy();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    private boolean isFullOfCapacity() {
+        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
     }
 
-    public Period getPeriod() {
-        return period;
-    }
-
-    public Member getOwner() {
-        return owner;
-    }
-
-    public Participants getParticipants() {
-        return participants;
-    }
-
-    public List<AttachedTag> getAttachedTags() {
-        return attachedTags;
+    public MemberRole getRole(final Long memberId) {
+        if (Objects.equals(participants.getOwnerId(), memberId)) {
+            return MemberRole.OWNER;
+        }
+        if (participants.isParticipate(memberId)) {
+            return MemberRole.MEMBER;
+        }
+        return MemberRole.NON_MEMBER;
     }
 }

@@ -9,16 +9,20 @@
     "study"
   ],
   "scripts": {
+    "build-dev": "webpack --progress --config ./webpack/webpack.dev.js",
     "build": "webpack --progress --config ./webpack/webpack.prod.js",
     "clean": "npm cache clean --force && rm -rf node_modules && rm package-lock.json",
-    "start": "webpack serve --open --progress --config ./webpack/webpack.dev.js",
+    "start": "webpack serve --open --progress --config ./webpack/webpack.local.js",
     "build:msw": "npx msw init public/ --save",
     "lint:es": "eslint '**/*.{js,ts,tsx}'",
     "lint:es:fix": "npm run lint:es -- --fix",
     "prettier:etc": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --check",
     "prettier:etc:fix": "prettier '**/*.{js,jsx,ts,tsx,json,yaml,md}' --write",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "tsc": "tsc ",
+    "cypress:open": "npx cypress open",
+    "cypress:run": "npx cypress run"
   },
   "license": "ISC",
   "devDependencies": {
@@ -40,7 +44,9 @@
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
+    "@testing-library/cypress": "^8.0.3",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "@types/classnames": "^2.3.1",
     "@types/dompurify": "^2.3.3",
     "@types/marked": "^4.0.3",
     "@types/react": "^18.0.14",
@@ -48,7 +54,9 @@
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.5",
     "babel-loader": "^8.2.5",
+    "classnames": "^2.3.1",
     "clean-webpack-plugin": "^4.0.0",
+    "cypress": "^10.4.0",
     "dotenv": "^16.0.1",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",

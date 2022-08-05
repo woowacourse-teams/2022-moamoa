@@ -4,8 +4,9 @@ declare module '*.png';
 declare module '*.json';
 
 declare namespace NodeJS {
-  export interface ProcessEnv {
+  export type ProcessEnv = {
     API_URL: string;
     CLIENT_ID: string;
-  }
+    NODE_ENV: 'development' | 'production';
+  };
 }

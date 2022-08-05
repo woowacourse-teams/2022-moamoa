@@ -1,14 +1,8 @@
-buildscript {
-    ext {
-        queryDslVersion = "5.0.0"
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version '2.6.9'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'org.asciidoctor.jvm.convert' version "3.3.2"
 }
 
 group = 'com.woowacourse'
@@ -19,6 +13,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExtensions
 }
 
 repositories {
@@ -42,32 +37,45 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
 
-    // querydsl
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 tasks.named('test') {
+    outputs.dir snippetsDir
     useJUnitPlatform()
     systemProperties = System.getProperties()
+    finalizedBy 'asciidoctor'
 }
 
-// querydsl
-def querydslDir = "$buildDir/generated/querydsl"
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
 
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExtensions'
+    dependsOn test
 }
-sourceSets {
-    main.java.srcDir querydslDir
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
 }
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
+
+task moveDocument(type: Copy) {
+    dependsOn createDocument
+
+    from file("build/docs/asciidoc")
+    into file("build/resources/main/static/docs")
 }
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    querydsl.extendsFrom compileClasspath
+
+bootJar {
+    dependsOn moveDocument
 }

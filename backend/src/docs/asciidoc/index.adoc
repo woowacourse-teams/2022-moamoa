@@ -1,0 +1,73 @@
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+= MOAMOA
+
+[[Auth]]
+== 인증
+
+=== Github 로그인
+operation::auth/login[snippets='http-request,request-parameters,http-response,response-fields']
+
+[[Member]]
+== 회원
+
+=== 스터디에서 나의 Role 확인
+operation::members/me/role[snippets='http-request,request-headers,request-parameters,http-response,response-fields']
+
+=== 로그인한 사용자 정보 조회
+operation::members/me[snippets='http-request,request-headers,http-response']
+
+[[Study]]
+== 스터디
+
+=== 스터디 생성
+operation::studies/create[snippets='http-request,request-headers,http-response']
+
+=== 스터디 참여
+operation::studies/participant[snippets='http-request,http-response']
+
+=== 스터디 목록 조회
+operation::studies/summary[snippets='http-request,http-response']
+
+=== 스터디 제목 검색
+operation::studies/search[snippets='http-request,http-response']
+
+=== 스터디 제목 검색 (필터링)
+operation::studies/searchWithTags[snippets='http-request,http-response']
+
+=== 스터디 세부 페이지
+operation::studies/details[snippets='http-request,http-response']
+
+=== 참여한 스터디 목록 조회
+operation::studies/myStudy[snippets='http-request,http-response']
+
+[[Tag]]
+== 태그
+
+=== 태그 목록 조회
+operation::tags/list[snippets='http-request,http-response']
+
+=== 태그 목록 검색
+operation::tags/search[snippets='http-request,http-response']
+
+[[Review]]
+== 스터디 후기
+
+=== 후기 작성
+operation::reviews/create[snippets='http-request,http-response']
+
+=== 후기 전체 조회
+operation::reviews/list[snippets='http-request,http-response']
+
+=== 후기 특정 개수 조회
+operation::reviews/list-certain-number[snippets='http-request,http-response']
+
+=== 리뷰 수정
+operation::reviews/update[snippets='http-request,http-response']
+
+=== 리뷰 삭제
+operation::reviews/delete[snippets='http-request,http-response']

@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 export const tokenHandlers = [
-  rest.post('/api/login/token', (req, res, ctx) => {
+  rest.get('/api/login/token', (req, res, ctx) => {
     const code = req.url.searchParams.get('code');
 
     if (!code) {

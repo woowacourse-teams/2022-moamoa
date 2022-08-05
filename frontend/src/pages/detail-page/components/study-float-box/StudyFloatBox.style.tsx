@@ -5,7 +5,6 @@ export const StudyFloatBox = styled.div`
   ${({ theme }) => css`
     padding: 40px 40px 30px 40px;
 
-    font-size: 24px;
     background: ${theme.colors.white};
     border: 3px solid ${theme.colors.primary.base};
     box-shadow: 8px 8px 0 ${theme.colors.secondary.dark};
@@ -15,7 +14,7 @@ export const StudyFloatBox = styled.div`
 
 export const StudyInfo = styled.div``;
 
-export const Deadline = styled.p`
+export const EnrollmentEndDate = styled.p`
   margin-bottom: 20px;
 
   font-size: 20px;
@@ -23,7 +22,7 @@ export const Deadline = styled.p`
   & > span {
     padding-right: 4px;
 
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
   }
 `;

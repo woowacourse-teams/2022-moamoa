@@ -1,14 +1,15 @@
 package com.woowacourse.moamoa.tag.controller.converter;
 
-import com.woowacourse.moamoa.tag.domain.CategoryId;
+import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
+import java.util.Optional;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CategoryIdConverter implements Converter<String, CategoryId> {
+public class CategoryIdConverter implements Converter<String, CategoryIdRequest> {
 
     @Override
-    public CategoryId convert(final String source) {
-        return source.isBlank() ? CategoryId.empty() : new CategoryId(Long.valueOf(source));
+    public CategoryIdRequest convert(final String source) {
+        return source.isBlank() ? CategoryIdRequest.empty() : new CategoryIdRequest(Long.parseLong(source));
     }
 }

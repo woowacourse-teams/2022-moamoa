@@ -1,19 +1,25 @@
 import { useContext } from 'react';
 
+import { ACCESS_TOKEN_KEY } from '@constants';
+
 import { LoginContext } from '@context/login/LoginProvider';
 
+import { useUserInfo } from './useUserInfo';
+
 export const useAuth = () => {
-  const { setIsLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+  const { fetchUserInfo } = useUserInfo();
 
   const login = (accesssToken: string) => {
-    localStorage.setItem('accessToken', accesssToken);
+    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accesssToken);
     setIsLoggedIn(true);
+    fetchUserInfo();
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
+    window.sessionStorage.removeItem(ACCESS_TOKEN_KEY);
     setIsLoggedIn(false);
   };
 
-  return { login, logout };
+  return { isLoggedIn, login, logout };
 };

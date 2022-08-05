@@ -1,54 +1,71 @@
 package com.woowacourse.moamoa.study.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import static lombok.AccessLevel.PROTECTED;
+
+import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Embeddable
+@NoArgsConstructor(access = PROTECTED)
+@Getter
 @ToString
 public class Participants {
 
     @Column(name = "current_member_count")
     private int size;
 
-    @Column(name = "max_member_count")
-    private Integer max;
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(name = "study_member", joinColumns = @JoinColumn(name = "study_id"))
-    private List<Participant> participants = new ArrayList<>();
+    private Set<Participant> participants = new HashSet<>();
 
-    protected Participants() {
+    public Participants(Long ownerId, final Set<Long> participants) {
+        this.size = participants.size() + 1;
+        this.ownerId = ownerId;
+        this.participants = participants.stream()
+                .map(Participant::new)
+                .collect(Collectors.toSet());
     }
 
-    public Participants(final Integer size, final Integer max,
-                        final List<Participant> participants) {
-        this.size = size;
-        this.max = max;
-        this.participants = participants;
+    void participate(Long memberId) {
+        if (isAlreadyParticipated(memberId)) {
+            throw new FailureParticipationException();
+        }
+
+        participants.add(new Participant(memberId));
+        size = size + 1;
     }
 
-    public int getSize() {
+    boolean isAlreadyParticipated(Long memberId) {
+        return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
+    }
+
+    public boolean isParticipate(Long memberId) {
+        return participants.contains(new Participant(memberId));
+    }
+
+    int getSize() {
         return size;
     }
 
-    public int getMax() {
-        return max;
-    }
-
-    public List<Participant> getParticipants() {
-        return new ArrayList<>(participants);
-    }
-
-    public static Participants createByMaxSize(final Integer maxSize) {
-        return new Participants(1, maxSize, new ArrayList<>());
+    private Set<Participant> getParticipants() {
+        Set<Participant> totalParticipants = new HashSet<>();
+        totalParticipants.add(new Participant(ownerId));
+        totalParticipants.addAll(this.participants);
+        return totalParticipants;
     }
 
     @Override
@@ -60,12 +77,15 @@ public class Participants {
             return false;
         }
         final Participants that = (Participants) o;
-        return size == that.size && Objects.equals(max, that.max) && Objects.equals(getParticipants(),
-                that.getParticipants());
+        return size == that.size && Objects.equals(getParticipants(), that.getParticipants());
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(size, max, participants);
+    public int hashCode()  {
+        return Objects.hash(size, getParticipants());
+    }
+
+    public static Participants createBy(Long ownerId) {
+        return new Participants(ownerId, new HashSet<>());
     }
 }

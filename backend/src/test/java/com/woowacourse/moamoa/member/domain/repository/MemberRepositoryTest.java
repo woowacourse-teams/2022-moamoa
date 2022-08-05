@@ -4,21 +4,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-@DataJpaTest
-@Transactional
+@RepositoryTest
 class MemberRepositoryTest {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private MemberRepository memberRepository;
+
+    @BeforeEach
+    void setUp() {
+        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
+        memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
+        memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
+        memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+    }
 
     @DisplayName("신규 사용자일 경우 사용자 정보를 저장한다.")
     @Test

@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 
 type InfiniteScrollProps = {
-  handleContentLoad: () => void;
+  onContentLoad: () => void;
   observingCondition: boolean;
   children: React.ReactNode;
 };
 
-const InfiniteScroll: React.FC<InfiniteScrollProps> = ({ handleContentLoad, observingCondition, children }) => {
+const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
+  onContentLoad: handleContentLoad,
+  observingCondition,
+  children,
+}) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   const endOfContentObserver = useMemo(

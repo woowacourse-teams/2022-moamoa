@@ -1,57 +1,62 @@
-import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 import { useState } from 'react';
 
-import * as S from '@pages/detail-page/components/study-review-section/StudyReviewSection.style';
-import useFetchStudyReviews from '@pages/detail-page/hooks/useFetchStudyReviews';
+import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
+import * as S from '@detail-page/components/study-review-section/StudyReviewSection.style';
+import useGetStudyReviews from '@detail-page/hooks/useGetStudyReviews';
 
-export interface StudyReviewSectionProps {
+export type StudyReviewSectionProps = {
   studyId: number;
-}
+};
 
 const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   const [isMoreButtonVisible, setIsMoreButtonVisible] = useState<boolean>(true);
   const showAll = !isMoreButtonVisible;
   const size = showAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
-  const { data, isError, isFetching } = useFetchStudyReviews(Number(studyId), size);
+  const { data, isError, isFetching, isSuccess } = useGetStudyReviews(Number(studyId), size);
 
-  const handleMoreBtnClick = () => {
+  const handleMoreButtonClick = () => {
     setIsMoreButtonVisible(prev => !prev);
+  };
+
+  const renderReviews = () => {
+    if (isFetching) return <div>로딩중...</div>;
+    if (!isSuccess || isError) return <div>후기 불러오기를 실패했습니다</div>;
+    if (data.reviews.length === 0) return <div>아직 작성된 후기가 없습니다</div>;
+    return (
+      <>
+        <S.ReviewList>
+          {data.reviews.map(review => (
+            <S.ReviewListItem key={review.id}>
+              <StudyReviewCard
+                imageUrl={review.member.imageUrl}
+                username={review.member.username}
+                reviewDate={review.createdDate}
+                review={review.content}
+              />
+            </S.ReviewListItem>
+          ))}
+        </S.ReviewList>
+        {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
+          <S.MoreButtonContainer>
+            <MoreButton
+              status={showAll ? 'unfold' : 'fold'}
+              onClick={handleMoreButtonClick}
+              foldText="- 접기"
+              unfoldText="+ 더보기"
+            />
+          </S.MoreButtonContainer>
+        )}
+      </>
+    );
   };
 
   return (
     <S.ReviewSection>
-      <S.ReviewTitle>후기 {data?.totalResults && <span>{data.totalResults}개</span>}</S.ReviewTitle>
-      {isFetching && <div>로딩중...</div>}
-      {isError && <div>후기 불러오기를 실패했습니다.</div>}
-      {data?.reviews && (
-        <>
-          <S.ReviewList>
-            {data.reviews.map(review => (
-              <S.ReviewListItem key={review.id}>
-                <StudyReviewCard
-                  imageUrl={review.member.imageUrl}
-                  username={review.member.username}
-                  reviewDate={review.createdAt}
-                  review={review.content}
-                />
-              </S.ReviewListItem>
-            ))}
-          </S.ReviewList>
-          {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
-            <S.MoreButtonContainer>
-              <MoreButton
-                status={showAll ? 'unfold' : 'fold'}
-                onClick={handleMoreBtnClick}
-                foldText="- 접기"
-                unfoldText="+ 더보기"
-              />
-            </S.MoreButtonContainer>
-          )}
-        </>
-      )}
+      <S.ReviewTitle>후기 {<span>{data?.totalCount ?? '0'}개</span>}</S.ReviewTitle>
+      {renderReviews()}
     </S.ReviewSection>
   );
 };

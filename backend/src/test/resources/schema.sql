@@ -18,17 +18,18 @@ CREATE TABLE member
 CREATE TABLE study
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    excerpt VARCHAR(255) NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    excerpt VARCHAR(50) NOT NULL,
     thumbnail VARCHAR(255) NOT NULL,
-    status VARCHAR(255) NOT NULL,
+    recruitment_status VARCHAR(255) NOT NULL,
+    study_status VARCHAR(255) NOT NULL,
     description MEDIUMTEXT,
     current_member_count INTEGER DEFAULT 1,
     max_member_count INTEGER,
     created_at DATETIME not null,
-    enrollment_end_date DATETIME,
-    start_date DATETIME,
-    end_date DATETIME,
+    enrollment_end_date DATE,
+    start_date DATE not null,
+    end_date DATE,
     owner_id BIGINT NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES member (id)
 );
@@ -41,6 +42,7 @@ CREATE TABLE review
     content MEDIUMTEXT,
     created_date DATETIME not null,
     last_modified_date DATETIME  not null,
+    deleted boolean not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );

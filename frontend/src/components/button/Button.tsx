@@ -1,23 +1,51 @@
-import { noop } from '@utils/index';
+import { noop } from '@utils';
 
-import { MakeOptional } from '@custom-types/index';
+import type { MakeOptional } from '@custom-types';
 
 import * as S from '@components/button/Button.style';
 
-export type ButtonProp = {
+export type ButtonProps = {
   className?: string;
   children: string;
-  fluid: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  type?: 'submit' | 'button';
+  fluid?: boolean;
+  disabled?: boolean;
+  outline?: boolean;
+  isLoading?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-type OptionalButtonProp = MakeOptional<ButtonProp, 'fluid' | 'onClick'>;
+type OptionalButtonProps = MakeOptional<ButtonProps, 'fluid' | 'onClick' | 'outline'>;
 
-const Button: React.FC<OptionalButtonProp> = ({ className, children, onClick = noop, fluid = true }) => {
+const LoadingIndicator: React.FC = () => {
   return (
-    <S.Button className={className} fluid={fluid} onClick={onClick}>
-      {children}
-    </S.Button>
+    <S.LoadingIndicator>
+      <div className="spinning-loader">
+        <div className="dot"></div>
+      </div>
+    </S.LoadingIndicator>
+  );
+};
+
+const Button: React.FC<OptionalButtonProps> = ({
+  className,
+  children,
+  type = 'submit',
+  fluid = true,
+  disabled = false,
+  outline = false,
+  isLoading = false,
+  onClick: handleClick = noop,
+}) => {
+  return (
+    <S.ButtonContainer>
+      <S.Button className={className} fluid={fluid} disabled={disabled} outline={outline} onClick={handleClick}>
+        {/* isLoading상태에 관계 없이 children을 뿌려준다. 높이를 유지하기 위함이다.
+        대신 color를 background-color와 동일하게 맞춘다 */}
+        {children}
+      </S.Button>
+      {isLoading && <LoadingIndicator />}
+    </S.ButtonContainer>
   );
 };
 

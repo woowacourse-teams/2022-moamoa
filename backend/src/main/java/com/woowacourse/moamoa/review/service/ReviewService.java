@@ -1,41 +1,60 @@
 package com.woowacourse.moamoa.review.service;
 
-import static java.util.stream.Collectors.toList;
-
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.review.domain.Review;
+import com.woowacourse.moamoa.review.domain.Reviewer;
+import com.woowacourse.moamoa.review.domain.exception.WritingReviewBadRequestException;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
-import com.woowacourse.moamoa.review.service.response.ReviewResponse;
-import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
-import java.util.List;
+import com.woowacourse.moamoa.review.service.exception.ReviewNotFoundException;
+import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
+import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
+    private final StudyRepository studyRepository;
 
-    public ReviewsResponse getReviewsByStudy(Long studyId, Integer size) {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
+    public Long writeReview(final Long githubId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
 
-        final List<Review> reviews = reviewRepository.findAllByAssociatedStudy(associatedStudy);
-
-        if (size != null) {
-            return makeReviewsResponse(reviews.subList(0, size), reviews.size());
+        if (!study.isWritableReviews(member.getId())) {
+            throw new WritingReviewBadRequestException();
         }
 
-        return makeReviewsResponse(reviews, reviews.size());
+        final Review review = Review.writeNewReview(study.getId(), member.getId(), writeReviewRequest.getContent());
+        return reviewRepository.save(review).getId();
     }
 
-    private ReviewsResponse makeReviewsResponse(final List<Review> reviews, final int totalCount) {
-        final List<ReviewResponse> reviewResponses = reviews.stream()
-                .map(ReviewResponse::new)
-                .collect(toList());
+    public void updateReview(final Long githubId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
 
-        return new ReviewsResponse(reviewResponses, totalCount);
+        review.updateContent(new Reviewer(member.getId()), editingReviewRequest.getContent());
+    }
+
+    public void deleteReview(final Long githubId, final Long reviewId) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        review.delete(new Reviewer(member.getId()));
     }
 }

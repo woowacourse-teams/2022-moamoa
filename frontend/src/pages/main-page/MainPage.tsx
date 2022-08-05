@@ -1,91 +1,62 @@
-import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
-import { useContext, useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import type { Study, StudyListQueryData, TagInfo } from '@custom-types/index';
+import { PATH } from '@constants';
 
-import { getStudyList } from '@api/getStudyList';
-
-import { SearchContext } from '@context/search/SearchProvider';
-
-import * as S from '@pages/main-page/MainPage.style';
-import FilterSection from '@pages/main-page/filter-section/FilterSection';
-import StudyCard from '@pages/main-page/study-card/StudyCard';
+import type { Study } from '@custom-types';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
-type PageParam = {
-  page: number;
-  size: number;
-};
-
-const defaultParam = {
-  page: DEFAULT_STUDY_CARD_QUERY_PARAM.PAGE,
-  size: DEFAULT_STUDY_CARD_QUERY_PARAM.SIZE,
-};
+import * as S from '@main-page/MainPage.style';
+import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
+import FilterSection from '@main-page/components/filter-section/FilterSection';
+import StudyCard from '@main-page/components/study-card/StudyCard';
+import useMainPage from '@main-page/hooks/useMainPage';
 
 const MainPage: React.FC = () => {
-  const { keyword } = useContext(SearchContext);
-  const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
+  const { studyListQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
+    useMainPage();
 
-  const getStudyListWithPage = async ({ pageParam = defaultParam }: { pageParam?: PageParam }) => {
-    const { page, size } = pageParam;
-    const data: StudyListQueryData = await getStudyList(page, size, keyword, selectedFilters);
-    return { ...data, page: page + 1 };
-  };
+  const { isFetching, isError, isSuccess, data, fetchNextPage } = studyListQueryResult;
 
-  const { data, isLoading, isError, error, fetchNextPage } = useInfiniteQuery<
-    StudyListQueryData & { page: number },
-    Error
-  >(['infinite-scroll-searched-study-list', keyword, selectedFilters], getStudyListWithPage, {
-    getNextPageParam: lastPage => {
-      if (!lastPage.hasNext) return;
-      return { page: lastPage.page };
-    },
-  });
+  const renderStudyList = () => {
+    if (isError || !isSuccess) {
+      return <div>에러가 발생했습니다</div>;
+    }
 
-  const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) || [];
-  const hasSearchResult = searchedStudies.length > 0;
+    const searchedStudies = data.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
-  const handleFilterButtonClick = (id: number, categoryName: string) => () => {
-    setSelectedFilters(prev => {
-      if (prev.some(filter => filter.id === id && filter.categoryName === categoryName)) {
-        return prev.filter(filter => !(filter.id === id && filter.categoryName === categoryName));
-      }
-      return [...prev, { id, categoryName }];
-    });
+    if (searchedStudies.length === 0) {
+      return <div>검색 결과가 없습니다</div>;
+    }
+
+    return (
+      <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
+        <S.CardList>
+          {searchedStudies.map(study => (
+            <li key={study.id}>
+              <Link to={PATH.STUDY_DETAIL(study.id)}>
+                <StudyCard
+                  thumbnailUrl={study.thumbnail}
+                  thumbnailAlt={`${study.title} 스터디 이미지`}
+                  title={study.title}
+                  excerpt={study.excerpt}
+                  isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
+                />
+              </Link>
+            </li>
+          ))}
+        </S.CardList>
+        {isFetching && <div>Loading...</div>}
+      </InfiniteScroll>
+    );
   };
 
   return (
     <S.Page>
-      <FilterSection selectedFilters={selectedFilters} handleFilterButtonClick={handleFilterButtonClick} />
-      <Wrapper>
-        <InfiniteScroll observingCondition={hasSearchResult} handleContentLoad={fetchNextPage}>
-          {isLoading && <div>Loading...</div>}
-          {isError && <div>{error.message}</div>}
-          {hasSearchResult ? (
-            <S.CardList>
-              {searchedStudies.map(study => (
-                <li key={study.id}>
-                  <Link to={`study/${study.id}`}>
-                    <StudyCard
-                      thumbnailUrl={study.thumbnail}
-                      thumbnailAlt={`${study.title} 스터디 이미지`}
-                      title={study.title}
-                      excerpt={study.excerpt}
-                      isOpen={study.status === 'OPEN'}
-                    />
-                  </Link>
-                </li>
-              ))}
-            </S.CardList>
-          ) : (
-            <div>검색결과가 없습니다</div>
-          )}
-        </InfiniteScroll>
-      </Wrapper>
+      <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+      <Wrapper>{renderStudyList()}</Wrapper>
+      <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </S.Page>
   );
 };

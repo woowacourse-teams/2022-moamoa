@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
 
@@ -8,6 +9,7 @@ import { theme } from '@styles/theme';
 
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
+import { UserInfoProvider } from '@context/userInfo/UserInfoProvider';
 
 import App from './App';
 
@@ -30,12 +32,16 @@ if ($root) {
   root.render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <LoginProvider>
-          <SearchProvider>
-            <GlobalStyles />
-            <App />
-          </SearchProvider>
-        </LoginProvider>
+        <UserInfoProvider>
+          <LoginProvider>
+            <SearchProvider>
+              <GlobalStyles />
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </SearchProvider>
+          </LoginProvider>
+        </UserInfoProvider>
       </QueryClientProvider>
     </ThemeProvider>,
   );

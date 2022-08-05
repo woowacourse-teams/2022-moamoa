@@ -1,11 +1,11 @@
-import { MakeOptional } from '@custom-types/index';
+import type { MakeOptional } from '@custom-types';
 
 import * as S from '@components/chip/Chip.style';
 
-export interface ChipProps {
+export type ChipProps = {
   children: string;
   disabled: boolean;
-}
+};
 
 export type OptionalChipProps = MakeOptional<ChipProps, 'disabled'>;
 

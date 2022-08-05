@@ -22,8 +22,15 @@ module.exports = {
       '@api': resolve(__dirname, '../src/api'),
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
+      '@main-page': resolve(__dirname, '../src/pages/main-page'),
+      '@create-study-page': resolve(__dirname, '../src/pages/create-study-page'),
+      '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
+      '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
+      '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
+      '@error-page': resolve(__dirname, '../src/pages/error-page'),
       '@layout': resolve(__dirname, '../src/layout'),
       '@hooks': resolve(__dirname, '../src/hooks'),
+      '@mocks': resolve(__dirname, '../src/mocks'),
     };
 
     config.module.rules[0].use[0].options.presets = [

@@ -1,24 +1,27 @@
-import { useContext } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import {
+  CreateStudyPage,
+  DetailPage,
+  ErrorPage,
+  LoginRedirectPage,
+  MainPage,
+  MyStudyPage,
+  StudyRoomPage,
+} from '@pages';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
-import { LoginContext } from '@context/login/LoginProvider';
+import { PATH } from '@constants';
 
-import Footer from '@layout/footer/Footer';
-import Header from '@layout/header/Header';
+import { useAuth } from '@hooks/useAuth';
 
-import ErrorPage from '@pages/error-page/ErrorPage';
-import LoginRedirectPage from '@pages/login-redirect-page/LoginRedirectPage';
-import MainPage from '@pages/main-page/MainPage';
-
-import DetailPage from '@detail-page/DetailPage';
+import { Footer, Header, Main } from '@layout';
 
 const App = () => {
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn } = useAuth();
 
   return (
-    <BrowserRouter>
+    <div>
       <Header
         css={css`
           position: fixed;
@@ -28,21 +31,31 @@ const App = () => {
           z-index: 2;
         `}
       />
-      <main
-        css={css`
-          padding: 120px 0 80px;
-          min-height: calc(100vh - 80px);
-        `}
-      >
+      <Main>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/study/:studyId" element={<DetailPage />} />
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace={true} /> : <LoginRedirectPage />} />
+          <Route path={PATH.MAIN} element={<MainPage />} />
+          <Route path={PATH.STUDY_DETAIL()} element={<DetailPage />} />
+          <Route
+            path={PATH.CREATE_STUDY}
+            element={isLoggedIn ? <CreateStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={PATH.LOGIN}
+            element={isLoggedIn ? <Navigate to={PATH.MAIN} replace={true} /> : <LoginRedirectPage />}
+          />
+          <Route
+            path={PATH.MY_STUDY}
+            element={isLoggedIn ? <MyStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={PATH.STUDY_ROOM()}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-      </main>
-      <Footer />
-    </BrowserRouter>
+      </Main>
+      <Footer marginBottom={'0'} />
+    </div>
   );
 };
 

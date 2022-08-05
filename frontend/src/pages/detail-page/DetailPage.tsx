@@ -1,7 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-import StudyMemberSection from '@pages/detail-page/components/study-member-section/StudyMemberSection';
-import StudyWideFloatBox from '@pages/detail-page/components/study-wide-float-box/StudyWideFloatBox';
+import { PATH } from '@constants';
+
+import { changeDateSeperator } from '@utils';
 
 import Divider from '@components/divider/Divider';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
@@ -10,29 +11,30 @@ import Wrapper from '@components/wrapper/Wrapper';
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
+import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
 import StudyReviewSection from '@detail-page/components/study-review-section/StudyReviewSection';
-import useFetchDetail from '@detail-page/hooks/useFetchDetail';
+import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
+import useDetailPage from '@detail-page/hooks/useDetailPage';
 
-const DetailPage = () => {
-  const { studyId } = useParams() as { studyId: string };
+const DetailPage: React.FC = () => {
+  const { studyId, detailQueryResult, userRoleQueryResult, handleRegisterButtonClick } = useDetailPage();
+  const { isFetching, isSuccess, isError, data } = detailQueryResult;
 
-  const studyDetailQueryResult = useFetchDetail(Number(studyId));
+  if (!studyId) {
+    alert('잘못된 접근입니다.');
+    return <Navigate to={PATH.MAIN} replace={true} />;
+  }
 
-  const handleRegisterBtnClick = (studyId: number) => () => {
-    alert('스터디에 가입했습니다!');
-  };
+  if (isFetching) return <div>Loading...</div>;
 
-  if (studyDetailQueryResult.isFetching) return <div>Loading...</div>;
+  if (!isSuccess || isError) return <div>조회에 실패했습니다</div>;
 
-  if (!studyDetailQueryResult.data) return <div>No Data</div>;
-
-  // TODO: background에 thumbnail 이미지 사용
   const {
     id,
     title,
     excerpt,
     thumbnail,
-    status,
+    recruitmentStatus,
     description,
     currentMemberCount,
     maxMemberCount,
@@ -42,11 +44,20 @@ const DetailPage = () => {
     owner,
     members,
     tags,
-  } = studyDetailQueryResult.data;
+  } = data;
+
+  // TODO: background에 thumbnail 이미지 사용
 
   return (
     <Wrapper>
-      <Head title={title} status={status} excerpt={excerpt} startDate={startDate} endDate={endDate} tags={tags} />
+      <Head
+        title={title}
+        recruitmentStatus={recruitmentStatus}
+        excerpt={excerpt}
+        startDate={changeDateSeperator(startDate)}
+        endDate={endDate && changeDateSeperator(endDate)}
+        tags={tags}
+      />
       <Divider space={2} />
       <S.Main>
         <S.MainDescription>
@@ -54,17 +65,19 @@ const DetailPage = () => {
             <MarkdownRender markdownContent={description} />
           </S.MarkDownContainer>
           <Divider space={2} />
-          <StudyMemberSection members={members} />
+          <StudyMemberSection owner={owner} members={members} />
         </S.MainDescription>
         <S.FloatButtonContainer>
           <S.StickyContainer>
             <StudyFloatBox
               studyId={id}
-              owner={owner.username}
+              userRole={userRoleQueryResult.data?.role}
+              ownerName={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
-              deadline={enrollmentEndDate}
-              handleRegisterBtnClick={handleRegisterBtnClick}
+              enrollmentEndDate={enrollmentEndDate}
+              recruitmentStatus={recruitmentStatus}
+              onRegisterButtonClick={handleRegisterButtonClick}
             />
           </S.StickyContainer>
         </S.FloatButtonContainer>
@@ -74,11 +87,12 @@ const DetailPage = () => {
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          owner={owner.username}
+          userRole={userRoleQueryResult.data?.role}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
-          deadline={enrollmentEndDate}
-          handleRegisterBtnClick={handleRegisterBtnClick}
+          enrollmentEndDate={enrollmentEndDate}
+          recruitmentStatus={recruitmentStatus}
+          onRegisterButtonClick={handleRegisterButtonClick}
         />
       </S.FixedBottomContainer>
     </Wrapper>

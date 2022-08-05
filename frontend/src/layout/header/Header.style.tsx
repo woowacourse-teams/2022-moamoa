@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils/media-query';
+import { mqDown } from '@utils';
 
-import * as Logo from '@layout/header/logo/Logo.style';
-import * as SearchBar from '@layout/header/search-bar/SearchBar.style';
+import * as Logo from '@layout/header/components/logo/Logo.style';
+import * as SearchBar from '@layout/header/components/search-bar/SearchBar.style';
 
 export const SearchBarContainer = styled.div`
   position: absolute;
@@ -63,31 +63,10 @@ export const Row = styled.header`
 
 export const Nav = styled.nav`
   display: flex;
+  column-gap: 16px;
 `;
 
-export const NavButton = styled.button`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 4px;
-
-    padding: 8px 4px;
-
-    color: ${theme.colors.primary.base};
-    border: none;
-    background-color: transparent;
-
-    &:hover {
-      border-bottom: 1px solid ${theme.colors.secondary.base};
-    }
-
-    & > svg {
-      fill: ${theme.colors.primary.base};
-    }
-
-    & > span {
-      color: ${theme.colors.primary.base};
-    }
-  `}
+export const AvatarButton = styled.button`
+  border: none;
+  background-color: transparent;
 `;

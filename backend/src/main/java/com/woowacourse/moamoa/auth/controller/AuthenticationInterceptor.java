@@ -1,29 +1,36 @@
 package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcherBuilder;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
+    private final AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+                             final Object handler) {
+        
         if (isPreflight(request)) {
             return true;
         }
 
-        if (request.getMethod().equals("POST") && request.getServletPath().equals("/api/studies")) {
-            String token = AuthenticationExtractor.extract(request);
+        if (authenticationRequestMatcher.isRequiredAuth(request)) {
+            final String token = AuthenticationExtractor.extract(request);
             validateToken(token);
 
             request.setAttribute("payload", tokenProvider.getPayload(token));
