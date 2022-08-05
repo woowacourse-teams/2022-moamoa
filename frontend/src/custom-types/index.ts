@@ -172,3 +172,10 @@ export type PostNewStudyRequestBody = {
   >,
   'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
 >;
+
+export type GetUserRoleRequestParams = {
+  studyId: StudyId;
+};
+export type GetUserRoleResponseData = {
+  role: 'OWNER' | 'MEMBER' | 'NON_MEMBER';
+};
