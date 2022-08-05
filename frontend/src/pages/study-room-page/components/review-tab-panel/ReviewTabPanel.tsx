@@ -17,7 +17,7 @@ export type ReviewTabPanelProps = {
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews(studyId);
-  const { userInfo: author, fetchUserInfo } = useUserInfo();
+  const { userInfo, fetchUserInfo } = useUserInfo();
 
   useEffect(() => {
     fetchUserInfo();
@@ -55,6 +55,7 @@ const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
               author={review.member}
               date={review.createdDate}
               content={review.content}
+              isMyComment={userInfo.id === review.member.id}
             />
           </li>
         ))}
@@ -67,7 +68,7 @@ const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
       <S.ReviewTabPanel>
         {
           <ReviewForm
-            author={author}
+            author={userInfo}
             studyId={studyId}
             onPostSuccess={handlePostSuccess}
             onPostError={handlePostError}

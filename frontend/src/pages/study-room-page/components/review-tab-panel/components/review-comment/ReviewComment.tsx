@@ -15,9 +15,10 @@ export type ReviewCommentProps = {
   author: Member;
   date: DateYMD;
   content: string;
+  isMyComment: boolean;
 };
 
-const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date, content }) => {
+const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date, content, isMyComment }) => {
   const {
     isOpen,
     isEditing,
@@ -57,17 +58,19 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
               <S.Date>{changeDateSeperator(date)}</S.Date>
             </S.UsernameContainer>
           </S.UserInfo>
-          <S.DropDown isOpen={isOpen}>
-            <KebabMenu onClick={handleDropDownClick} />
-            <S.DropDownMenu>
-              <li>
-                <button onClick={handleEditReviewBtnClick}>수정</button>
-              </li>
-              <li>
-                <button onClick={handleDeleteReviewBtnClick}>삭제</button>
-              </li>
-            </S.DropDownMenu>
-          </S.DropDown>
+          {isMyComment && (
+            <S.DropDown isOpen={isOpen}>
+              <KebabMenu onClick={handleDropDownClick} />
+              <S.DropDownMenu>
+                <li>
+                  <button onClick={handleEditReviewBtnClick}>수정</button>
+                </li>
+                <li>
+                  <button onClick={handleDeleteReviewBtnClick}>삭제</button>
+                </li>
+              </S.DropDownMenu>
+            </S.DropDown>
+          )}
         </S.ReviewCommentHead>
         <S.ReviewCommentBody>
           <S.Content>{content}</S.Content>
