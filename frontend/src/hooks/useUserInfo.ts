@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import type { GetUserInformation } from '@custom-types';
+import type { GetUserInformationResponseData } from '@custom-types';
 
 import getUserInformation from '@api/getUserInformation';
 
@@ -14,7 +14,7 @@ export const useUserInfo = () => {
     refetch: fetchUserInfo,
     isError,
     isSuccess,
-  } = useQuery<GetUserInformation, Error>('user-info', getUserInformation, {
+  } = useQuery<GetUserInformationResponseData, Error>('user-info', getUserInformation, {
     enabled: false,
   });
 

@@ -180,4 +180,4 @@ export type GetUserRoleResponseData = {
   role: 'OWNER' | 'MEMBER' | 'NON_MEMBER';
 };
 
-export type GetUserInformation = Member;
+export type GetUserInformationResponseData = Member;
