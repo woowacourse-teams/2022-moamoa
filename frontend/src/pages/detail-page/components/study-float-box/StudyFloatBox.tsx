@@ -33,16 +33,16 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   const renderEnrollmentEndDateContent = () => {
+    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+      return <span>이미 가입한 스터디입니다</span>;
+    }
+
     if (!isOpen) {
       return <span>모집 마감</span>;
     }
 
     if (!enrollmentEndDate) {
       return <span>모집중</span>;
-    }
-
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
-      return <span>이미 가입한 스터디입니다</span>;
     }
 
     return (
