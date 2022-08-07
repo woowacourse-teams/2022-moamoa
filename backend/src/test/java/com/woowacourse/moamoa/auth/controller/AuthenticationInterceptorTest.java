@@ -4,30 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
-@SpringBootTest
-class AuthenticationInterceptorTest {
+import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
-    @MockBean
-    private HttpServletRequest httpServletRequest;
-
-    @Autowired
-    private AuthenticationInterceptor authenticationInterceptor;
-
-    @Autowired
-    private TokenProvider tokenProvider;
+class AuthenticationInterceptorTest extends WebMVCTest {
 
     @DisplayName("Preflight 요청인지 확인한다.")
     @Test
@@ -68,6 +56,8 @@ class AuthenticationInterceptorTest {
                 .willReturn("/api/studies");
         given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
                 .willReturn(Collections.enumeration(List.of(token)));
+
+        given(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).willReturn(true);
 
         assertThatThrownBy(() -> authenticationInterceptor.preHandle(httpServletRequest, null, null))
                 .isInstanceOf(UnauthorizedException.class)

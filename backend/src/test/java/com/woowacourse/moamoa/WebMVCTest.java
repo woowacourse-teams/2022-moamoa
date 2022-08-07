@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.woowacourse.moamoa.auth.config.AuthRequestMatchConfig;
 import com.woowacourse.moamoa.auth.controller.AuthController;
+import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
 import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
@@ -17,11 +18,13 @@ import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import com.woowacourse.moamoa.study.controller.MyStudyController;
 import com.woowacourse.moamoa.study.service.MyStudyService;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.request.NativeWebRequest;
 
 @WebMvcTest({
         MyStudyController.class,
@@ -37,17 +40,14 @@ public abstract class WebMVCTest {
     @Autowired
     protected MockMvc mockMvc;
 
-    @MockBean
-    protected MyStudyService myStudyService;
-
-    @MockBean
-    protected AuthenticationRequestMatcher authenticationRequestMatcher;
-
     @Autowired
     protected TokenProvider tokenProvider;
 
     @Autowired
     protected AuthRequestMatchConfig authRequestMatchConfig;
+
+    @Autowired
+    protected AuthenticationInterceptor authenticationInterceptor;
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -63,4 +63,16 @@ public abstract class WebMVCTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected MyStudyService myStudyService;
+
+    @MockBean
+    protected AuthenticationRequestMatcher authenticationRequestMatcher;
+
+    @MockBean
+    protected HttpServletRequest httpServletRequest;
+
+    @MockBean
+    protected NativeWebRequest nativeWebRequest;
 }
