@@ -4,7 +4,8 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -103,11 +104,19 @@ class MyStudyDaoTest {
                 );
     }
 
-    @DisplayName("스터디 ID가 비어있을 경우, 스터디 방장과 Tags의 빈 맵을 반환한다.")
+    @DisplayName("스터디 ID가 비어있을 경우, 스터디 방장 빈 맵을 반환한다.")
     @Test
-    void findStudyOwnerWithTags() {
-        final Map<Long, StudyOwnerAndTagsData> studyOwnerWithTags = myStudyDao.findStudyOwnerWithTags(List.of());
+    void findStudyOwnersByEmptyStudyId() {
+        final Map<Long, MemberData> owners = myStudyDao.findOwners(List.of());
 
-        assertThat(studyOwnerWithTags.size()).isZero();
+        assertThat(owners.size()).isZero();
+    }
+
+    @DisplayName("스터디 ID가 비어있을 경우, 스터디 태그 빈 맵을 반환한다.")
+    @Test
+    void findStudyTagsByEmptyStudyId() {
+        final Map<Long, List<TagSummaryData>> tags = myStudyDao.findTags(List.of());
+
+        assertThat(tags.size()).isZero();
     }
 }

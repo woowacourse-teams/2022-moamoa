@@ -80,7 +80,6 @@ class MyStudyServiceTest {
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
         jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
 
@@ -94,18 +93,16 @@ class MyStudyServiceTest {
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
 
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (7, 2)");
-
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
 
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
 
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (7, 1)");
         jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (7, 2)");
     }
 
@@ -148,6 +145,41 @@ class MyStudyServiceTest {
                 );
 
         assertThat(tags).hasSize(4);
+    }
+
+    @DisplayName("태그가 없는 스터디를 조회한다.")
+    @Test
+    void findMyStudiesWithoutTags() {
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(1L);
+
+        final List<MemberData> owners = myStudiesResponse.getStudies()
+                .stream()
+                .map(MyStudyResponse::getOwner)
+                .collect(toList());
+
+        final List<List<TagSummaryData>> tags = myStudiesResponse.getStudies()
+                .stream()
+                .map(MyStudyResponse::getTags)
+                .collect(toList());
+
+        final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
+
+        assertThat(studies)
+                .hasSize(1)
+                .filteredOn(study -> study.getId() != null)
+                .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
+                .contains(
+                        tuple("OS 스터디", PREPARE, 1, 6)
+                );
+
+        assertThat(owners)
+                .hasSize(1)
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .contains(
+                        tuple(4L, "verus", "https://image", "github.com")
+                );
+
+        assertThat(tags.get(0)).isNull();
     }
 
     @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")

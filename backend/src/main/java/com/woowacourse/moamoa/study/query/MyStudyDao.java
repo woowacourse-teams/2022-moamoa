@@ -3,7 +3,6 @@ package com.woowacourse.moamoa.study.query;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
-import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
 import java.util.ArrayList;
@@ -41,8 +40,8 @@ public class MyStudyDao {
                 currentMemberCount, maxMemberCount, startDate, endDate);
     };
 
-    private static final ResultSetExtractor<Map<Long, StudyOwnerAndTagsData>> OWNER_WITH_TAG_ROW_MAPPER = rs -> {
-        Map<Long, StudyOwnerAndTagsData> result = new LinkedHashMap<>();
+    private static final ResultSetExtractor<Map<Long, MemberData>> OWNER_ROW_MAPPER = rs -> {
+        Map<Long, MemberData> result = new LinkedHashMap<>();
 
         Long studyId;
         while (rs.next()) {
@@ -54,14 +53,26 @@ public class MyStudyDao {
                 String imageUrl = rs.getString("image_url");
                 String profileUrl = rs.getString("profile_url");
 
-                result.put(studyId, new StudyOwnerAndTagsData(new MemberData(githubId, username, imageUrl, profileUrl),
-                        new ArrayList<>()));
+                result.put(studyId, new MemberData(githubId, username, imageUrl, profileUrl));
+            }
+        }
+        return result;
+    };
+
+    private static final ResultSetExtractor<Map<Long, List<TagSummaryData>>> TAG_ROW_MAPPER = rs -> {
+        Map<Long, List<TagSummaryData>> result = new LinkedHashMap<>();
+
+        while (rs.next()) {
+            Long studyId = rs.getLong("study.id");
+
+            if (!result.containsKey(studyId)) {
+                result.put(studyId, new ArrayList<>());
             }
 
             final Long tagId = rs.getLong("tag.id");
             final String tagName = rs.getString("tag.name");
-            result.get(studyId)
-                    .addTag(new TagSummaryData(tagId, tagName));
+
+            result.get(studyId).add(new TagSummaryData(tagId, tagName));
         }
         return result;
     };
@@ -75,7 +86,7 @@ public class MyStudyDao {
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }
 
-    public Map<Long, StudyOwnerAndTagsData> findStudyOwnerWithTags(List<Long> studyIds) {
+    public Map<Long, MemberData> findOwners(List<Long> studyIds) {
         if (studyIds.isEmpty()) {
             return new HashMap<>();
         }
@@ -86,12 +97,29 @@ public class MyStudyDao {
 
         SqlParameterSource parameters = new MapSqlParameterSource("ids", ids);
 
-        String sql = "SELECT study.id, member.github_id, member.username, member.image_url, member.profile_url, tag.id, tag.name "
+        String sql = "SELECT study.id, member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM study JOIN member ON member.id = study.owner_id "
-                + "JOIN study_tag ON study.id = study_tag.study_id "
+                + "WHERE study.id IN (:ids)";
+
+        return jdbcTemplate.query(sql, parameters, OWNER_ROW_MAPPER);
+    }
+
+    public Map<Long, List<TagSummaryData>> findTags(List<Long> studyIds) {
+        if (studyIds.isEmpty()) {
+            return new HashMap<>();
+        }
+
+        List<String> ids = studyIds.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", ids);
+
+        String sql = "SELECT study.id, tag.id, tag.name "
+                + "FROM study JOIN study_tag ON study.id = study_tag.study_id "
                 + "JOIN tag ON tag.id = study_tag.tag_id "
                 + "WHERE study.id IN (:ids)";
 
-        return jdbcTemplate.query(sql, parameters, OWNER_WITH_TAG_ROW_MAPPER);
+        return jdbcTemplate.query(sql, parameters, TAG_ROW_MAPPER);
     }
 }
