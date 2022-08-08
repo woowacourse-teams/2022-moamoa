@@ -25,7 +25,6 @@ public class AuthService {
 
         memberService.saveOrUpdate(githubProfileResponse.toMember());
 
-        final String jwtToken = tokenProvider.createToken(githubProfileResponse.getGitgubId());
-        return new TokenResponse(jwtToken);
+        return tokenProvider.createToken(githubProfileResponse.getGithubId());
     }
 }

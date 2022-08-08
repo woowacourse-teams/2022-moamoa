@@ -1,14 +1,12 @@
 package com.woowacourse.moamoa.auth.service.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public class TokenResponse {
 
-    private final String token;
-
-    public TokenResponse(final String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
-    }
+    private final String accessToken;
+    private final String refreshToken;
 }

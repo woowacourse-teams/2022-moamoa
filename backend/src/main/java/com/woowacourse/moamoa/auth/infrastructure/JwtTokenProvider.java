@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
+import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider implements TokenProvider {
 
+    private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60; // 7일
+
     private final SecretKey key;
     private final long validityInMilliseconds;
 
@@ -27,16 +30,25 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String createToken(final Long payload) {
+    public TokenResponse createToken(final Long payload) {
         final Date now = new Date();
-        final Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setSubject(payload.toString())
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
+        //Refresh Token
+        String refreshToken =  Jwts.builder()
+                .setSubject(payload.toString())
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        return new TokenResponse(accessToken, refreshToken);
     }
 
     @Override

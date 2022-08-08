@@ -16,14 +16,6 @@ public class AccessTokenRequest {
 
     private final String code;
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
     public String getCode() {
         return code;
     }

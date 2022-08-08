@@ -2,15 +2,15 @@ package com.woowacourse.moamoa.auth.service.oauthclient.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.moamoa.member.domain.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class GithubProfileResponse {
 
     @JsonProperty("id")
-    private Long gitgubId;
+    private Long githubId;
 
     @JsonProperty("login")
     private String username;
@@ -21,15 +21,7 @@ public class GithubProfileResponse {
     @JsonProperty("html_url")
     private String profileUrl;
 
-    public GithubProfileResponse(final Long gitgubId, final String username, final String imageUrl,
-                                 final String profileUrl) {
-        this.gitgubId = gitgubId;
-        this.username = username;
-        this.imageUrl = imageUrl;
-        this.profileUrl = profileUrl;
-    }
-
     public Member toMember() {
-        return new Member(gitgubId, username, imageUrl, profileUrl);
+        return new Member(githubId, username, imageUrl, profileUrl);
     }
 }
