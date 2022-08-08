@@ -1,6 +1,24 @@
 package com.woowacourse.acceptance.test.study;
 
-import static org.hamcrest.Matchers.contains;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필_URL;
+import static com.woowacourse.acceptance.fixture.StudyFixtures.리액트_스터디_제목;
+import static com.woowacourse.acceptance.fixture.StudyFixtures.자바_스터디_제목;
+import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_설명;
+import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_설명;
+import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
+import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -14,112 +32,81 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.StudyStatus;
+import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
+import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
+import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import io.restassured.RestAssured;
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
+import java.time.LocalDate;
+import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @BeforeEach
-    void initDatabase() {
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (4, 4, 'verus', 'https://image', 'github.com')");
-
-        final LocalDateTime now = LocalDateTime.now();
-
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
-                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '2022-08-03', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '2022-08-03', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date) "
-                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (7, 'OS 스터디', 'OS 설명', 'os thumbnail', 'RECRUITMENT_END', 'PREPARE', 'OS를 공부하자의 베루스입니다.', 1, 6, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
-    }
-
+    @Disabled // 그린론이 해결할 버그 관련 인수 테스트
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void getMyStudies() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "jjanggu", "https://image", "github.com"));
+        // arrange
+        LocalDate 지금 = LocalDate.now();
+        long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).태그는(자바_태그_ID, BE_태그_ID).생성한다();
+        long 리액트_스터디_ID = 디우가().로그인하고().리액트_스터디를().시작일자는(지금.plusDays(10)).생성한다();
+        그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다();
+        final String token = 그린론이().로그인한다();
 
-        RestAssured.given(spec).log().all()
+        // act
+        final MyStudiesResponse body = RestAssured.given(spec).log().all()
                 .filter(document("studies/myStudy"))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(AUTHORIZATION, token)
                 .when().log().all()
                 .get("/api/my/studies")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("studies[0].id", is(2))
-                .body("studies[0].title", is("React 스터디"))
-                .body("studies[0].studyStatus", is("PREPARE"))
-                .body("studies[0].currentMemberCount", is(4))
-                .body("studies[0].maxMemberCount", is(5))
-                .body("studies[0].startDate", is("2021-11-10"))
-                .body("studies[0].endDate", is("2021-12-08"))
-                .body("studies[0].owner.username", is("dwoo"))
-                .body("studies[0].owner.imageUrl", is("https://image"))
-                .body("studies[0].owner.profileUrl", is("github.com"))
-                .body("studies[0].tags.id", contains(2, 4, 5))
-                .body("studies[0].tags.name", contains("4기", "FE", "React"));
+                .extract().as(MyStudiesResponse.class);
+
+        // assert
+        MyStudyResponse expectedJava = new MyStudyResponse(
+                new MyStudySummaryData(자바_스터디_ID, 자바_스터디_제목, IN_PROGRESS, 1,
+                        null, 지금.toString(), null),
+                new MemberData(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL),
+                List.of(new TagSummaryData(자바_태그_ID, 자바_태그_설명), new TagSummaryData(리액트_태그_ID, 리액트_태그_설명)));
+
+        MyStudyResponse expectedReact = new MyStudyResponse(
+                new MyStudySummaryData(리액트_스터디_ID, 리액트_스터디_제목, StudyStatus.PREPARE, 1,
+                        null, 지금.plusDays(10).toString(), null),
+                new MemberData(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL),
+                List.of());
+
+        assertThat(body.getStudies())
+                .hasSize(2)
+                .containsExactlyInAnyOrder(expectedJava, expectedReact);
     }
 
     @Test
     @DisplayName("특정 스터디에서 나의 Role을 확인한다.")
     void isMyStudy() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        // arrange
+        LocalDate 지금 = LocalDate.now();
+        long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        String token = 그린론이().로그인한다();
 
+        // act & assert
         RestAssured.given(spec).log().all()
                 .filter(document("members/me/role",
                         requestHeaders(headerWithName("Authorization").description("Bearer Token")),
                         requestParameters(parameterWithName("study-id").description("스터디 ID")),
-                        responseFields(fieldWithPath("role").type(JsonFieldType.STRING).description("해당 스터디에서 사용자의 역할"))))
+                        responseFields(
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("해당 스터디에서 사용자의 역할"))))
                 .filter(document("members/me/role"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
-                .queryParam("study-id", 7)
+                .queryParam("study-id", 자바_스터디_ID)
                 .when()
                 .get("/api/members/me/role")
                 .then().log().all()

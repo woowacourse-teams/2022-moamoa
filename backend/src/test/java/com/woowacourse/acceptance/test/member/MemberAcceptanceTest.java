@@ -1,9 +1,9 @@
 package com.woowacourse.acceptance.test.member;
 
-import static com.woowacourse.acceptance.fixture.MemberFixture.베루스_깃허브_ID;
-import static com.woowacourse.acceptance.fixture.MemberFixture.베루스_이름;
-import static com.woowacourse.acceptance.fixture.MemberFixture.베루스_이미지_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixture.베루스_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;

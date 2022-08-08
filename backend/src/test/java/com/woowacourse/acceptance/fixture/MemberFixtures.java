@@ -2,7 +2,7 @@ package com.woowacourse.acceptance.fixture;
 
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 
-public class MemberFixture {
+public class MemberFixtures {
 
     public static final long 짱구_깃허브_ID = 1L;
     public static final String 짱구_이름 = "jjanggu";

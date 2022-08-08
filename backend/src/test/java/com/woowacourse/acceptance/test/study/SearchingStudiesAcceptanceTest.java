@@ -1,10 +1,10 @@
 package com.woowacourse.acceptance.test.study;
 
-import static com.woowacourse.acceptance.fixture.TagFixture.BE_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixture.FE_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixture.리액트_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixture.우테코4기_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixture.자바_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.FE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.우테코4기_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.contains;

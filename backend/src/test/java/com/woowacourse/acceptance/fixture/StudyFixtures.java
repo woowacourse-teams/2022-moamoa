@@ -1,6 +1,6 @@
 package com.woowacourse.acceptance.fixture;
 
-public class StudyFixture {
+public class StudyFixtures {
 
     public static final String 자바_스터디_제목 = "Java 스터디";
     public static final String 자바_스터디_요약 = "자바 설명";

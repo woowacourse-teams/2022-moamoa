@@ -1,9 +1,9 @@
 package com.woowacourse.acceptance.steps;
 
-import static com.woowacourse.acceptance.fixture.MemberFixture.그린론_깃허브_프로필;
-import static com.woowacourse.acceptance.fixture.MemberFixture.디우_깃허브_프로필;
-import static com.woowacourse.acceptance.fixture.MemberFixture.베루스_깃허브_프로필;
-import static com.woowacourse.acceptance.fixture.MemberFixture.짱구_깃허브_프로필;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_프로필;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_프로필;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_프로필;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_깃허브_프로필;
 
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
@@ -34,12 +34,7 @@ public class LoginSteps extends Steps {
     }
 
     public AfterLoginSteps 로그인하고() {
-        if (tokenCache.containsKey(githubProfile.getGitgubId())) {
-            return new AfterLoginSteps(tokenCache.get(githubProfile.getGitgubId()));
-        }
-        final String token = getIssuedBearerToken();
-        tokenCache.put(githubProfile.getGitgubId(), token);
-        return new AfterLoginSteps(token);
+        return new AfterLoginSteps(getIssuedBearerToken());
     }
 
     public String 로그인한다() {
@@ -47,6 +42,15 @@ public class LoginSteps extends Steps {
     }
 
     private String getIssuedBearerToken() {
+        if (tokenCache.containsKey(githubProfile.getGitgubId())) {
+            return tokenCache.get(githubProfile.getGitgubId());
+        }
+        final String bearerToken = requestBearerToken();
+        tokenCache.put(githubProfile.getGitgubId(), bearerToken);
+        return bearerToken;
+    }
+
+    private String requestBearerToken() {
         final String authorizationCode = "Authorization Code";
         mockingGithubServer(authorizationCode, githubProfile);
         final String token = RestAssured.given().log().all()

@@ -7,7 +7,7 @@ import static com.woowacourse.fixtures.CategoryFixtures.SUBJECT_응답;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
-public class TagFixture {
+public class TagFixtures {
 
     public static final Long 자바_태그_ID = 1L;
     public static final String 자바_태그명 = "Java";

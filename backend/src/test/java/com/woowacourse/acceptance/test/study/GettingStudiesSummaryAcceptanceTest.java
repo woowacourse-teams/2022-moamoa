@@ -1,6 +1,6 @@
 package com.woowacourse.acceptance.test.study;
 
-import static com.woowacourse.acceptance.fixture.TagFixture.*;
+import static com.woowacourse.acceptance.fixture.TagFixtures.*;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
