@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,10 @@ public class MyStudyDao {
     }
 
     public Map<Long, StudyOwnerAndTagsData> findStudyOwnerWithTags(List<Long> studyIds) {
+        if (studyIds.isEmpty()) {
+            return new HashMap<>();
+        }
+
         List<String> ids = studyIds.stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());

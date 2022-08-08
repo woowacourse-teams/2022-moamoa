@@ -4,6 +4,7 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.study.query.data.StudyOwnerAndTagsData;
 import java.util.List;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -11,6 +12,7 @@ import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 
 import java.time.LocalDateTime;
 
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,5 +101,13 @@ class MyStudyDaoTest {
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08"),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08")
                 );
+    }
+
+    @DisplayName("스터디 ID가 비어있을 경우, 스터디 방장과 Tags의 빈 맵을 반환한다.")
+    @Test
+    void findStudyOwnerWithTags() {
+        final Map<Long, StudyOwnerAndTagsData> studyOwnerWithTags = myStudyDao.findStudyOwnerWithTags(List.of());
+
+        assertThat(studyOwnerWithTags.size()).isZero();
     }
 }
