@@ -12,7 +12,7 @@ import Excerpt from '@create-study-page/components/excerpt/Excerpt';
 import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
 import Period from '@create-study-page/components/period/Peroid';
 import Publish from '@create-study-page/components/publish/Publish';
-import Tag from '@create-study-page/components/tag/Tag';
+import Subject from '@create-study-page/components/subject/Subject';
 import Title from '@create-study-page/components/title/Title';
 import useCreateStudyPage from '@create-study-page/hooks/useCreateStudyPage';
 
@@ -47,7 +47,7 @@ const CreateStudyPage: React.FC = () => {
                     margin-bottom: 15px;
                   `}
                 />
-                <Tag
+                <Subject
                   css={css`
                     margin-bottom: 15px;
                   `}

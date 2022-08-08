@@ -75,7 +75,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
         <S.MemberCount>
           <span>모집인원</span>
           <span>
-            {currentMemberCount} / {maxMemberCount}
+            {currentMemberCount} / {maxMemberCount ?? '∞'}
           </span>
         </S.MemberCount>
         <S.Owner>
