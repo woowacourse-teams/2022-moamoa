@@ -95,7 +95,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         스터디원 <span>{totalMembers.length}명</span>
       </S.Title>
       <S.MemberList>{renderMembers()}</S.MemberList>
-      {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
+      {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}
