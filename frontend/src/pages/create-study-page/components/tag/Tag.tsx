@@ -31,10 +31,9 @@ const Tag = ({ className }: TagProps) => {
           `}
           {...register('subject')}
         >
-          <option>선택 안함</option>
-          {subjects.map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
+          {subjects.map(({ id, name, description }) => (
+            <option selected={name === 'Etc'} key={id} value={id}>
+              {description}
             </option>
           ))}
         </select>
