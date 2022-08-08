@@ -45,6 +45,12 @@ operation::studies/details[snippets='http-request,http-response']
 === 참여한 스터디 목록 조회
 operation::studies/myStudy[snippets='http-request,http-response']
 
+[[Study-Room]]
+== 스터디룸
+
+=== 링크 공유글 생성
+operation::study-room/link-sharing-room[snippets='http-request,request-headers,http-response']
+
 [[Tag]]
 == 태그
 
