@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -32,6 +33,7 @@ module.exports = {
       favicon: join(__dirname, '../public/favicon.png'),
     }),
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],

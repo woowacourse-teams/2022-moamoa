@@ -1,5 +1,5 @@
-import { HiOutlineTrash } from 'react-icons/hi';
-import { TbCrown } from 'react-icons/tb';
+import { HiOutlineTrash } from '@react-icons/all-files/hi/HiOutlineTrash';
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 
 import type { MakeOptional, Tag } from '@custom-types';
 
@@ -30,7 +30,7 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
         <S.Top>
           <S.Title>{title}</S.Title>
           <S.Owner>
-            <TbCrown size={20} />
+            <RiVipCrownLine size={20} />
             {ownerName}
           </S.Owner>
           <S.Tags>

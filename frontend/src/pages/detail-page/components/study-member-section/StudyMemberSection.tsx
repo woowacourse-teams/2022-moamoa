@@ -1,5 +1,5 @@
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 import { useState } from 'react';
-import { TbCrown } from 'react-icons/tb';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
@@ -35,7 +35,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         <>
           <S.Owner key={owner.id}>
             <a href={owner.profileUrl}>
-              <TbCrown size={20} />
+              <RiVipCrownLine size={20} />
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
@@ -64,7 +64,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
       <>
         <S.Owner key={owner.id}>
           <a href={owner.profileUrl}>
-            <TbCrown size={20} />
+            <RiVipCrownLine size={20} />
             <StudyMemberCard
               username={owner.username}
               imageUrl={owner.imageUrl}

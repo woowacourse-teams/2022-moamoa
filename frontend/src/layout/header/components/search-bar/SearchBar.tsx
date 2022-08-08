@@ -1,4 +1,4 @@
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
 
 import * as S from '@layout/header/components/search-bar/SearchBar.style';
 

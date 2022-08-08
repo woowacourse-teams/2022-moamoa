@@ -1,4 +1,5 @@
-import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { BsChevronLeft } from '@react-icons/all-files/bs/BsChevronLeft';
+import { BsChevronRight } from '@react-icons/all-files/bs/BsChevronRight';
 
 import * as S from '@components/arrow-button/ArrowButton.style';
 

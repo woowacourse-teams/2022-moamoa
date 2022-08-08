@@ -1,8 +1,10 @@
+import { BiBookmark } from '@react-icons/all-files/bi/BiBookmark';
+import { FiLogIn } from '@react-icons/all-files/fi/FiLogIn';
+import { FiLogOut } from '@react-icons/all-files/fi/FiLogOut';
 import { useContext, useState } from 'react';
-import { BiBookmark } from 'react-icons/bi';
-import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 
+// TODO: 불필요한 Import , 상수 자체가 필요 없음
 import { PATH, PROFILE_IMAGE_URL } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
@@ -68,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           {openDropDownBox && (
             <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
               <NavButton onClick={logout} ariaLabel="로그아웃">
-                <MdOutlineLogout size={20} />
+                <FiLogOut size={20} />
                 <span>로그아웃</span>
               </NavButton>
             </DropDownBox>
@@ -77,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
           <NavButton ariaLabel="로그인">
-            <MdOutlineLogin size={20} />
+            <FiLogIn size={20} />
             <span>로그인</span>
           </NavButton>
         </a>
