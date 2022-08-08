@@ -78,7 +78,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@react-icons/all-files": "^4.1.0",
     "axios": "^0.27.2",
     "dompurify": "^2.3.9",
     "emotion-reset": "^3.0.1",

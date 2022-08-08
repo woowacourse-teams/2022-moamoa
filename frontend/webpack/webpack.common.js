@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,7 +7,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
-  devtool: 'eval-source-map',
   output: {
     filename: 'main.js',
     path: join(__dirname, '../dist'),
@@ -33,7 +31,6 @@ module.exports = {
       favicon: join(__dirname, '../public/favicon.png'),
     }),
     new CleanWebpackPlugin(),
-    new BundleAnalyzerPlugin(),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
