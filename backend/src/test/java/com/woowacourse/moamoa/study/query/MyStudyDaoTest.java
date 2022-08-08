@@ -51,6 +51,9 @@ class MyStudyDaoTest {
                 + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
                 + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
+                + "VALUES (7, 'OS 스터디', 'OS 설명', 'os thumbnail', 'RECRUITMENT_END', 'PREPARE', 'OS를 공부하자의 그린론입니다.', 1, '" + now + "', 2, '2021-12-06', '2021-12-07', '2022-01-07')");
+
 
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
@@ -93,14 +96,14 @@ class MyStudyDaoTest {
         final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByMemberId(2L);
 
         assertThat(studySummaryData)
-                .hasSize(3)
+                .hasSize(4)
                 .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
                 .contains(
                         tuple("Java 스터디", PREPARE, 3, 10, "2021-12-08", null),
                         tuple("javaScript 스터디" ,PREPARE, 3, 20, "2022-08-03", null),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08"),
-                        tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08")
+                        tuple("OS 스터디", PREPARE, 1, 0, "2021-12-06", "2022-01-07")
                 );
     }
 
