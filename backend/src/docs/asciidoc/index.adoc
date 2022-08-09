@@ -49,7 +49,7 @@ operation::studies/myStudy[snippets='http-request,http-response']
 == 스터디룸
 
 === 링크 공유글 생성
-operation::study-room/link-sharing-room[snippets='http-request,request-headers,http-response']
+operation::reference-room/create[snippets='http-request,request-headers,http-response']
 
 [[Tag]]
 == 태그

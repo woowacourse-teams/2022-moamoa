@@ -1,5 +1,6 @@
-package com.woowacourse.moamoa.studyroom.linksharingroom.service.request;
+package com.woowacourse.moamoa.referenceroom.service.request;
 
+import com.woowacourse.moamoa.referenceroom.domain.Link;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,4 +15,8 @@ public class CreatingLinkRequest {
     private String linkUrl;
 
     private String description;
+
+    public Link toLink(final Long studyId, final Long memberId) {
+        return new Link(studyId, memberId, linkUrl, description);
+    }
 }

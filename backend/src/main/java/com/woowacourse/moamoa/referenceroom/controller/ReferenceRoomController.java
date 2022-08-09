@@ -1,8 +1,8 @@
-package com.woowacourse.moamoa.studyroom.linksharingroom.controller;
+package com.woowacourse.moamoa.referenceroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
-import com.woowacourse.moamoa.studyroom.linksharingroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.studyroom.linksharingroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

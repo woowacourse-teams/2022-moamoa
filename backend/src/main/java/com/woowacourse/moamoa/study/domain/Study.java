@@ -5,7 +5,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -84,7 +83,7 @@ public class Study {
                 recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
-    public boolean isWritableReviews(final Long memberId) {
+    public boolean isWritable(final Long memberId) {
         return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
     }
 
