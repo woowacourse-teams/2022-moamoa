@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.http.HttpHeaders;
 
 public class CommunityControllerWebMvcTest extends WebMVCTest {
 
@@ -17,7 +18,10 @@ public class CommunityControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "Bearer InvalidToken", "Invalid"})
     void UnauthorizedByInvalidToken(String token) throws Exception {
-        mockMvc.perform(post("/api/studies/{study-id}/notice/articles", 1L))
+        mockMvc.perform(
+                post("/api/studies/{study-id}/community/articles", 1L)
+                .header(HttpHeaders.AUTHORIZATION, token)
+        )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
     }

@@ -11,8 +11,13 @@ import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 class AuthServiceTest extends WebMVCTest {
+
+    @MockBean
+    AuthService authService;
 
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
