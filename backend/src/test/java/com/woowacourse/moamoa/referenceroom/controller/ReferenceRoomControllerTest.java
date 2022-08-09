@@ -112,4 +112,11 @@ public class ReferenceRoomControllerTest {
         assertThatThrownBy(() -> sut.deleteLink(짱구_깃허브_아이디, -1L))
                 .isInstanceOf(LinkNotFoundException.class);
     }
+
+    @DisplayName("내가 작성하지 않은 링크 공유글을 삭제할 수 없다.")
+    @Test
+    void deleteByUnwrittenMember() {
+        assertThatThrownBy(() -> sut.deleteLink(베루스_깃허브_아이디, linkId))
+                .isInstanceOf(UnwrittenLinkException.class);
+    }
 }

@@ -9,14 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Getter
+@Where(clause = "deleted = false")
 public class Link extends BaseEntity {
 
     @Id
@@ -34,22 +35,50 @@ public class Link extends BaseEntity {
 
     private String description;
 
+    @Column(nullable = false)
+    private boolean deleted;
+
     public Link(
             final AssociatedStudy associatedStudy, final Author author, final String linkUrl, final String description
     ) {
-        this(null, associatedStudy, author, linkUrl, description);
+        this(null, associatedStudy, author, linkUrl, description, false);
     }
 
     public void update(final Link updatedLink) {
-        validateAuthor(updatedLink.getAuthor());
+        validateAuthor(updatedLink.author);
 
         linkUrl = updatedLink.linkUrl;
         description = updatedLink.description;
+    }
+
+    public void delete(final Author author) {
+        validateAuthor(author);
+        deleted = true;
     }
 
     private void validateAuthor(final Author author) {
         if (!this.author.equals(author)) {
             throw new UnwrittenLinkException();
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public AssociatedStudy getAssociatedStudy() {
+        return associatedStudy;
+    }
+
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

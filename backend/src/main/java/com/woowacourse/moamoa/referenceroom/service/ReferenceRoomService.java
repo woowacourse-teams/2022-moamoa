@@ -56,5 +56,7 @@ public class ReferenceRoomService {
                 .orElseThrow(MemberNotFoundException::new);
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
+
+        link.delete(new Author(member.getId()));
     }
 }

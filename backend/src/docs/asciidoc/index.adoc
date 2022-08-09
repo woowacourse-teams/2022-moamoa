@@ -54,6 +54,9 @@ operation::reference-room/create[snippets='http-request,request-headers,http-res
 === 링크 공유글 수정
 operation::reference-room/update[snippets='http-request,request-headers,http-response']
 
+=== 링크 공유글 삭제
+operation::reference-room/delete[snippets='http-request,request-headers,http-response']
+
 [[Tag]]
 == 태그
 

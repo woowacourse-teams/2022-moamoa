@@ -56,6 +56,7 @@ CREATE TABLE link
     description MEDIUMTEXT,
     created_date DATETIME NOT NULL,
     last_modified_date DATETIME NOT NULL,
+    deleted boolean NOT NULL,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
