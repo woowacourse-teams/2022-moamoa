@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.auth.service;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
 import com.woowacourse.moamoa.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class AuthService {
     private final OAuthClient oAuthClient;
 
     @Transactional
-    public TokenResponse createToken(final String code) {
+    public TokenResponseWithRefresh createToken(final String code) {
         final String accessToken = oAuthClient.getAccessToken(code);
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
 
@@ -28,9 +28,9 @@ public class AuthService {
         return tokenProvider.createToken(githubProfileResponse.getGithubId());
     }
 
-    public TokenResponse refreshToken(final String refreshToken) {
+    public TokenResponseWithRefresh refreshToken(final String refreshToken) {
         String accessToken = tokenProvider.recreationAccessToken(refreshToken);
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponseWithRefresh(accessToken, refreshToken);
     }
 }

@@ -1,10 +1,10 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
 
 public interface TokenProvider {
 
-    TokenResponse createToken(final Long payload);
+    TokenResponseWithRefresh createToken(final Long payload);
 
     String getPayload(final String token);
 

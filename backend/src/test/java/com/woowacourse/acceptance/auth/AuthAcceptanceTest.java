@@ -34,8 +34,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .filter(document("auth/login",
                         requestParameters(parameterWithName("code").description("Authorization code")),
                         responseFields(
-                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰"),
-                                fieldWithPath("refreshToken").type(STRING).description("리프래시 토큰")
+                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰")
                         )))
                 .queryParam("code", authorizationCode)
                 .when()

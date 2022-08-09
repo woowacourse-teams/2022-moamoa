@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
 import com.woowacourse.moamoa.auth.exception.TokenExpirationException;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -31,7 +31,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public TokenResponse createToken(final Long payload) {
+    public TokenResponseWithRefresh createToken(final Long payload) {
         final Date now = new Date();
 
         String accessToken = Jwts.builder()
@@ -47,7 +47,7 @@ public class JwtTokenProvider implements TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponseWithRefresh(accessToken, refreshToken);
     }
 
     @Override
