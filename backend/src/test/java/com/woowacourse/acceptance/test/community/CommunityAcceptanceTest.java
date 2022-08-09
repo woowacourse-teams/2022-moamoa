@@ -13,6 +13,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import org.apache.http.HttpHeaders;
@@ -92,6 +93,9 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ArticleResponse.class);
+
+        Long articleId = Long.valueOf(location.split("/")[6]);
+        assertThat(articleResponse).isEqualTo(new ArticleResponse(articleId, new AuthorResponse());
     }
 
     private class ArticleRequest {
@@ -101,5 +105,8 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
     }
 
     private class ArticleResponse {
+    }
+
+    private class AuthorResponse {
     }
 }
