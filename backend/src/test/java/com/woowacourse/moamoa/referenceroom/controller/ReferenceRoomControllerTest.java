@@ -13,6 +13,7 @@ import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
+import com.woowacourse.moamoa.referenceroom.service.exception.UnwrittenLinkException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -94,5 +95,14 @@ public class ReferenceRoomControllerTest {
 
         assertThatThrownBy(() -> sut.updateLink(짱구_깃허브_아이디, -1L, editingLinkRequest))
                 .isInstanceOf(LinkNotFoundException.class);
+    }
+
+    @DisplayName("내가 작성하지 않은 링크 공유글을 수정할 수 없다.")
+    @Test
+    void updateByUnwrittenMember() {
+        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com", "수정된 링크 설명입니다.");
+
+        assertThatThrownBy(() -> sut.updateLink(베루스_깃허브_아이디, linkId, editingLinkRequest))
+                .isInstanceOf(UnwrittenLinkException.class);
     }
 }

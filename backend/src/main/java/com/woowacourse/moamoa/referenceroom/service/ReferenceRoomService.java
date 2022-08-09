@@ -3,12 +3,14 @@ package com.woowacourse.moamoa.referenceroom.service;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
+import com.woowacourse.moamoa.referenceroom.domain.Author;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
+import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
@@ -35,7 +37,7 @@ public class ReferenceRoomService {
             throw new NotCreatingLinkException();
         }
 
-        final Link link = creatingLinkRequest.toLink(studyId, member.getId());
+        final Link link = creatingLinkRequest.toLink(new AssociatedStudy(studyId), new Author(member.getId()));
         return linkRepository.save(link).getId();
     }
 
@@ -44,5 +46,8 @@ public class ReferenceRoomService {
                 .orElseThrow(MemberNotFoundException::new);
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
+
+        final Link updatedLink = editingLinkRequest.toLink(link.getAssociatedStudy(), new Author(member.getId()));
+        link.update(updatedLink);
     }
 }
