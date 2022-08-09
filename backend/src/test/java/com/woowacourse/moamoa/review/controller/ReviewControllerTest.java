@@ -39,9 +39,6 @@ public class ReviewControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private EntityManager entityManager;
 
     @Autowired
