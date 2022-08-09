@@ -123,7 +123,10 @@ export type PostTokenRequestParams = {
   code: string;
 };
 export type PostTokenResponseData = {
-  token: string;
+  accessToken: string;
+};
+export type GetTokenResponseData = {
+  accessToken: string;
 };
 
 export type GetReviewResponseData = {
