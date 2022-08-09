@@ -1,12 +1,5 @@
 package com.woowacourse.acceptance.fixture;
 
-import static com.woowacourse.fixtures.CategoryFixtures.AREA_응답;
-import static com.woowacourse.fixtures.CategoryFixtures.GENERATION_응답;
-import static com.woowacourse.fixtures.CategoryFixtures.SUBJECT_응답;
-
-import com.woowacourse.moamoa.tag.query.response.TagData;
-import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
-
 public class TagFixtures {
 
     public static final Long 자바_태그_ID = 1L;

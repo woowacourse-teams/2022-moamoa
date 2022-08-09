@@ -1,14 +1,14 @@
-package com.woowacourse.fixtures;
+package com.woowacourse.moamoa.fixtures;
 
-import static com.woowacourse.fixtures.MemberFixtures.그린론_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
-import static com.woowacourse.fixtures.MemberFixtures.디우_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.디우_응답;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_응답;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
-import static com.woowacourse.fixtures.StudyFixtures.자바_스터디_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_아이디;
 
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.review.domain.Review;
