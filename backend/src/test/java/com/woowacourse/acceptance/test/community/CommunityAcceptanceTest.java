@@ -1,5 +1,9 @@
 package com.woowacourse.acceptance.test.community;
 
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -13,7 +17,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
+import com.woowacourse.moamoa.community.service.request.ArticleRequest;
+import com.woowacourse.moamoa.community.service.response.ArticleResponse;
+import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import org.apache.http.HttpHeaders;
@@ -61,7 +67,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.LOCATION);
 
         // assert
-        final ArticleResponse articleResponse = RestAssured
+        final ArticleResponse actualResponse = RestAssured
                 .given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .filter(document("get/article",
@@ -95,18 +101,15 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .extract().as(ArticleResponse.class);
 
         Long articleId = Long.valueOf(location.split("/")[6]);
-        assertThat(articleResponse).isEqualTo(new ArticleResponse(articleId, new AuthorResponse());
-    }
+        final ArticleResponse expectedResponse = ArticleResponse.builder()
+                .articleId(articleId)
+                .authorResponse(new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL))
+                .title("게시글 제목")
+                .content("게시글 내용")
+                .createdDate(LocalDate.now())
+                .lastModifiedDate(LocalDate.now())
+                .build();
 
-    private class ArticleRequest {
-        public ArticleRequest(final String 게시글_제목, final String 게시글_내용) {
-            throw new UnsupportedOperationException("ArticleRequest#ArticleRequest not implemented yet !!");
-        }
-    }
-
-    private class ArticleResponse {
-    }
-
-    private class AuthorResponse {
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 }
