@@ -57,8 +57,6 @@ class AuthenticationInterceptorTest extends WebMVCTest {
         given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
                 .willReturn(Collections.enumeration(List.of(token)));
 
-        given(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).willReturn(true);
-
         assertThatThrownBy(() -> authenticationInterceptor.preHandle(httpServletRequest, null, null))
                 .isInstanceOf(UnauthorizedException.class)
                         .hasMessageContaining("유효하지 않은 토큰입니다.");

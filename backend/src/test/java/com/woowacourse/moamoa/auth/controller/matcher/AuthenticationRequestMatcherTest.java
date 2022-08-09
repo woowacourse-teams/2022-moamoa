@@ -8,8 +8,12 @@ import com.woowacourse.moamoa.WebMVCTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 class AuthenticationRequestMatcherTest extends WebMVCTest {
+
+    @Autowired
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @DisplayName("사용자 인증이 필요한 요청인 경우")
     @ParameterizedTest
@@ -21,8 +25,6 @@ class AuthenticationRequestMatcherTest extends WebMVCTest {
                 .willReturn(method);
         given(httpServletRequest.getRequestURI())
                 .willReturn(path);
-
-        given(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).willReturn(true);
 
         assertThat(authenticationRequestMatcher.isRequiredAuth(httpServletRequest)).isTrue();
     }

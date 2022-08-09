@@ -68,9 +68,6 @@ public abstract class WebMVCTest {
     protected MyStudyService myStudyService;
 
     @MockBean
-    protected AuthenticationRequestMatcher authenticationRequestMatcher;
-
-    @MockBean
     protected HttpServletRequest httpServletRequest;
 
     @MockBean
