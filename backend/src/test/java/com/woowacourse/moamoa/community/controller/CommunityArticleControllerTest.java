@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
+import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
@@ -49,7 +50,8 @@ public class CommunityArticleControllerTest {
         Study study = studyService.createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        CommunityArticleController sut = new CommunityArticleController(communityArticleRepository);
+        CommunityArticleController sut = new CommunityArticleController(
+                new CommunityArticleService(memberRepository, communityArticleRepository));
 
         // act
         ResponseEntity<Void> response = sut.createArticle(member.getGithubId(), study.getId(), request);
