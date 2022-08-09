@@ -15,7 +15,7 @@ public class AuthRequestMatchConfig {
     public AuthenticationRequestMatcher authenticationRequestMatcher() {
         return new AuthenticationRequestMatcherBuilder()
                 .addUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews",
-                        "/api/studies/\\d+/reviews/\\d+", "/api/studies/\\d+/community/articles")
+                        "/api/studies/\\d+/reviews/\\d+", "/api/studies/\\w+/community/articles")
                 .addUpAuthenticationPath(HttpMethod.GET, "/api/my/studies", "/api/members/me", "/api/members/me/role")
                 .addUpAuthenticationPath(HttpMethod.PUT, "/api/studies/\\d+/reviews/\\d+")
                 .addUpAuthenticationPath(HttpMethod.DELETE, "/api/studies/\\d+/reviews/\\d+")

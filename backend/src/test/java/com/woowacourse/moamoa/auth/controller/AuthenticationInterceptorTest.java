@@ -7,8 +7,10 @@ import static org.mockito.BDDMockito.given;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
@@ -16,6 +18,9 @@ import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
 class AuthenticationInterceptorTest extends WebMVCTest {
+
+    @MockBean
+    protected HttpServletRequest httpServletRequest;
 
     @DisplayName("Preflight 요청인지 확인한다.")
     @Test

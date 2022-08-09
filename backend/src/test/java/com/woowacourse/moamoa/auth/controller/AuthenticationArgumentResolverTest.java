@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 
 import java.util.Collections;
@@ -18,6 +19,9 @@ import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
 class AuthenticationArgumentResolverTest extends WebMVCTest {
+
+    @MockBean
+    protected HttpServletRequest httpServletRequest;
 
     @Autowired
     private AuthenticationArgumentResolver authenticationArgumentResolver;

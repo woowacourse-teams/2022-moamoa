@@ -5,12 +5,17 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.moamoa.WebMVCTest;
 
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 class AuthenticationRequestMatcherTest extends WebMVCTest {
+
+    @MockBean
+    protected HttpServletRequest httpServletRequest;
 
     @Autowired
     private AuthenticationRequestMatcher authenticationRequestMatcher;
