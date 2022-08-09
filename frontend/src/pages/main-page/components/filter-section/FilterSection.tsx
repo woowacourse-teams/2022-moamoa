@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
@@ -26,7 +27,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery<GetTagListResponseData, Error>('filters', getTagList);
+  const { data, isLoading, isError, error } = useQuery<GetTagListResponseData, AxiosError>('filters', getTagList);
 
   const generationTags = filterByCategory(data?.tags, 1);
   const areaTags = filterByCategory(data?.tags, 2);

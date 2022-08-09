@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ const useLoginRedirectPage = () => {
 
   const { login } = useAuth();
 
-  const { mutate } = useMutation<PostTokenResponseData, Error, PostTokenRequestParams>(postAccessToken);
+  const { mutate } = useMutation<PostTokenResponseData, AxiosError, PostTokenRequestParams>(postAccessToken);
 
   useEffect(() => {
     if (!codeParam) {

@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
@@ -14,7 +15,7 @@ export const useUserInfo = () => {
     refetch: fetchUserInfo,
     isError,
     isSuccess,
-  } = useQuery<GetUserInformationResponseData, Error>('user-info', getUserInformation, {
+  } = useQuery<GetUserInformationResponseData, AxiosError>('user-info', getUserInformation, {
     enabled: false,
   });
 
