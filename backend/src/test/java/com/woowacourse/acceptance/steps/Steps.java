@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-public class Steps {
+public abstract class Steps {
 
     protected final static Map<Long, String> tokenCache = new HashMap<>();
 
