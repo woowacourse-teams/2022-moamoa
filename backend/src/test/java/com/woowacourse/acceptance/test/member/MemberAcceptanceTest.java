@@ -1,30 +1,28 @@
-package com.woowacourse.acceptance.member;
+package com.woowacourse.acceptance.test.member;
 
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
+import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import io.restassured.RestAssured;
 import org.apache.http.HttpHeaders;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 public class MemberAcceptanceTest extends AcceptanceTest {
 
-    private String token;
-
-    @BeforeEach
-    void setUp() {
-        token = getBearerTokenBySignInOrUp(new GithubProfileResponse(1L, "verus", "image", "profile"));
-    }
-
     @Test
     void getCurrentMember() {
+        final String token = 베루스가().로그인한다();
+
         final MemberResponse memberResponse = RestAssured.given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .filter(document("members/me",
@@ -35,9 +33,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(MemberResponse.class);
 
-        assertThat(memberResponse.getId()).isEqualTo(1L);
-        assertThat(memberResponse.getUsername()).isEqualTo("verus");
-        assertThat(memberResponse.getImageUrl()).isEqualTo("image");
-        assertThat(memberResponse.getProfileUrl()).isEqualTo("profile");
+        assertThat(memberResponse.getId()).isEqualTo(베루스_깃허브_ID);
+        assertThat(memberResponse.getUsername()).isEqualTo(베루스_이름);
+        assertThat(memberResponse.getImageUrl()).isEqualTo(베루스_이미지_URL);
+        assertThat(memberResponse.getProfileUrl()).isEqualTo(베루스_프로필_URL);
     }
 }

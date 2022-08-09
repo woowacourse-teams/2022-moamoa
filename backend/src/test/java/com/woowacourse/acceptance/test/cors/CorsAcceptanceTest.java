@@ -1,4 +1,4 @@
-package com.woowacourse.acceptance.cors;
+package com.woowacourse.acceptance.test.cors;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
