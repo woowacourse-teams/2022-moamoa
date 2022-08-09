@@ -50,4 +50,11 @@ public class ReferenceRoomService {
         final Link updatedLink = editingLinkRequest.toLink(link.getAssociatedStudy(), new Author(member.getId()));
         link.update(updatedLink);
     }
+
+    public void deleteLink(final Long githubId, final Long linkId) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Link link = linkRepository.findById(linkId)
+                .orElseThrow(LinkNotFoundException::new);
+    }
 }

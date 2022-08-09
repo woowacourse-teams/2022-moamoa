@@ -49,6 +49,7 @@ public class ReferenceRoomController {
             @AuthenticationPrincipal final Long githubId,
             @PathVariable("link-id") final Long linkId
     ) {
+        referenceRoomService.deleteLink(githubId, linkId);
         return ResponseEntity.noContent().build();
     }
 }

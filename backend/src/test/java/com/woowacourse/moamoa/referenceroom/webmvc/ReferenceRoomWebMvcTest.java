@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class BadRequestReferenceRoomWebMvcTest extends WebMVCTest {
+public class ReferenceRoomWebMvcTest extends WebMVCTest {
 
     @DisplayName("필수 데이터인 링크 URL이 null인 경우 400을 반환한다.")
     @Test
@@ -23,6 +23,20 @@ public class BadRequestReferenceRoomWebMvcTest extends WebMVCTest {
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(content))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("필수 데이터인 링크 URL이 공백인 경우 400을 반환한다.")
+    @Test
+    void requestByBlankLinkUrl() throws Exception {
+        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("", "설명"));
+
+        mockMvc.perform(post("/api/studies/1/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -39,5 +53,19 @@ public class BadRequestReferenceRoomWebMvcTest extends WebMVCTest {
                         .content(content))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("유효하지 않은 토큰으로 호출하는 경우 401을 반환한다.")
+    @Test
+    void requestByInvalidToken() throws Exception {
+        final String invalidToken = "Bearer Invalid Token";
+        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
+
+        mockMvc.perform(post("/api/studies/one/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, invalidToken)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }
