@@ -48,9 +48,6 @@ class SearchingReviewControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private EntityManager entityManager;
 
     @Autowired
@@ -116,12 +113,7 @@ class SearchingReviewControllerTest {
                 LocalDate.now(), "리뷰 내용3");
         final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용4");
-        javaReviews = List.of(
-                리뷰_내용4,
-                리뷰_내용3,
-                리뷰_내용2,
-                리뷰_내용1
-        );
+        javaReviews = List.of(리뷰_내용4, 리뷰_내용3, 리뷰_내용2, 리뷰_내용1);
 
         entityManager.flush();
         entityManager.clear();

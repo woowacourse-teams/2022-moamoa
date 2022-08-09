@@ -18,9 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 class MemberRepositoryTest {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @BeforeEach
