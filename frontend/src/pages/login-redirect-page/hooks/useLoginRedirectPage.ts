@@ -30,12 +30,12 @@ const useLoginRedirectPage = () => {
     mutate(
       { code: codeParam },
       {
-        onError: error => {
-          alert(error.message ?? '로그인에 실패했습니다.');
+        onError: () => {
+          alert('로그인에 실패했습니다.');
           navigate(PATH.MAIN, { replace: true });
         },
         onSuccess: data => {
-          login(data.token);
+          login(data.accessToken);
           navigate(PATH.MAIN, { replace: true });
         },
       },
