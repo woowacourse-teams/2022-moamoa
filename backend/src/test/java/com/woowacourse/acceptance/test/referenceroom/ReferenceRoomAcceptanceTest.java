@@ -73,4 +73,27 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .put("/api/studies/{study-id}/reference-room/links/{link-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
     }
+
+    @DisplayName("작성한 링크 공유글을 삭제할 수 있다.")
+    @Test
+    void deleteLink() {
+        final CreatingLinkRequest creatingLinkRequest = new CreatingLinkRequest("https://github.com/sc0116",
+                "링크 설명입니다.");
+        final LocalDate 지금 = LocalDate.now();
+        final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(creatingLinkRequest);
+        final String token = 짱구가().로그인한다();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("reference-room/delete",
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        )))
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .pathParam("study-id", 자바_스터디_ID)
+                .pathParam("link-id", 짱구_링크공유_ID)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/reference-room/links/{link-id}")
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
 }
