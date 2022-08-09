@@ -86,6 +86,11 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     navigate(PATH.MAIN);
   };
 
+  const handleLogoutButtonClick = () => {
+    logout();
+    alert('로그아웃 되었습니다.');
+  };
+
   const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
   const handleOutsideDropBoxClick = () => setOpenDropDownBox(false);
 
@@ -110,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           </S.AvatarButton>
           {openDropDownBox && (
             <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
-              <NavButton onClick={logout} ariaLabel="로그아웃">
+              <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
                 <MdOutlineLogout />
                 <span>로그아웃</span>
               </NavButton>
