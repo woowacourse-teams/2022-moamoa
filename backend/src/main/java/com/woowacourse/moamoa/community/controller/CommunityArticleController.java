@@ -20,14 +20,12 @@ public class CommunityArticleController {
     }
 
     @PostMapping("/api/studies/{study-id}/community/articles")
-    public ResponseEntity<Void> createArticle(
-            @AuthenticationPrincipal final Long githubId,
-            @PathVariable("study-id") final Long studyId,
-            final ArticleRequest request) {
-
-        final CommunityArticle article = communityArticleService.createArticle(githubId, studyId,
-                request);
-
-        return ResponseEntity.created(URI.create("/api/studies/" + studyId +"/community/articles/" + article.getId())).build();
+    public ResponseEntity<Void> createArticle(@AuthenticationPrincipal final Long githubId,
+                                              @PathVariable("study-id") final Long studyId,
+                                              final ArticleRequest request
+    ) {
+        final CommunityArticle article = communityArticleService.createArticle(githubId, studyId, request);
+        final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
+        return ResponseEntity.created(location).build();
     }
 }

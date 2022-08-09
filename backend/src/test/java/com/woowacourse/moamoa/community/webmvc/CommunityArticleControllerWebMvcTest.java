@@ -5,11 +5,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
 
@@ -19,7 +24,7 @@ public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", 1L)
-                .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(HttpHeaders.AUTHORIZATION, token)
         )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -33,6 +38,70 @@ public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "one")
                         .header(HttpHeaders.AUTHORIZATION, token)
+        )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("제목은 null 또는 Empty 일 수 없다.")
+    @ParameterizedTest
+    @NullAndEmptySource
+    void badRequestByNullOrEmptyTitle(String title) throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                post("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
+        )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("내용은 null 또는 Empty 일 수 없다.")
+    @ParameterizedTest
+    @NullAndEmptySource
+    void badRequestByNullOrEmptyContent(String content) throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                post("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
+        )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("제목은 공백일 수 없다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"   ", "\t", "\n"})
+    void badRequestByBlankTitle(String title) throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                post("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
+        )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("내용은 공백일 수 없다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"   ", "\t", "\n"})
+    void badRequestByBlankContent(String content) throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                post("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
