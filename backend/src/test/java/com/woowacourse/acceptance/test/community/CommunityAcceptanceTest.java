@@ -4,6 +4,7 @@ import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -30,26 +31,40 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
         // act
-        RestAssured.given(spec).log().all()
+        final String location = RestAssured.given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .body(objectMapper.writeValueAsString(request))
                 .pathParam("study-id", 스터디_ID)
                 .filter(document("write/article",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 식별 ID"),
-                        ),
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용")
+                                requestHeaders(
+                                        headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                                ),
+                                pathParameters(
+                                        parameterWithName("study-id").description("스터디 식별 ID")
+                                ),
+                                requestFields(
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용")
+                                ),
+                                responseHeaders(
+                                        headerWithName(HttpHeaders.LOCATION).description("생성된 게시글 url"),
+                                        headerWithName("Access-Control-Allow-Headers").description("접근 가능한 헤더"))
                         )
-                ))
+                )
                 .when().log().all()
                 .post("/api/studies/{study-id}/community/articles")
                 .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .header(HttpHeaders.LOCATION);
+
+        RestAssured
+                .given(spec).log().all()
+                .filter(document("get/article"))
+                .when().log().all()
+                .get(location)
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 
     private class ArticleRequest {
