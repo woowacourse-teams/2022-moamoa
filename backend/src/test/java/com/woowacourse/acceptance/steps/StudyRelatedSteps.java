@@ -4,6 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
@@ -45,6 +46,24 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reviews/", ""));
         } catch (Exception e) {
             Assertions.fail("리뷰 작성 실패");
+            return -1;
+        }
+    }
+
+    public long 링크를_공유한다(final CreatingLinkRequest request) {
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(AUTHORIZATION, token)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                    .pathParams("study-id", studyId)
+                    .body(objectMapper.writeValueAsString(request))
+                    .when().post("/api/studies/{study-id}/reference-room/links")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reference-room/links/", ""));
+        } catch (Exception e) {
+            Assertions.fail("링크 공유 작성 실패");
             return -1;
         }
     }
