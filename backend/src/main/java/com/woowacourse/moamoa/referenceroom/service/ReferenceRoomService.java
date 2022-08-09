@@ -5,8 +5,10 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
+import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
@@ -23,9 +25,7 @@ public class ReferenceRoomService {
     private final StudyRepository studyRepository;
     private final LinkRepository linkRepository;
 
-    public Long createLink(
-            final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest
-    ) {
+    public Long createLink(final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
@@ -37,5 +37,12 @@ public class ReferenceRoomService {
 
         final Link link = creatingLinkRequest.toLink(studyId, member.getId());
         return linkRepository.save(link).getId();
+    }
+
+    public void updateLink(final Long githubId, final Long linkId, final EditingLinkRequest editingLinkRequest) {
+        final Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Link link = linkRepository.findById(linkId)
+                .orElseThrow(LinkNotFoundException::new);
     }
 }

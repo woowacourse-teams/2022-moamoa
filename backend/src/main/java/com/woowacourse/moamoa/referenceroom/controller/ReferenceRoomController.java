@@ -39,6 +39,7 @@ public class ReferenceRoomController {
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final EditingLinkRequest editingLinkRequest
     ) {
+        referenceRoomService.updateLink(githubId, linkId, editingLinkRequest);
         return ResponseEntity.noContent().build();
     }
 }

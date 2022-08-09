@@ -11,8 +11,10 @@ import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
@@ -43,6 +45,7 @@ public class ReferenceRoomControllerTest {
     private Long jjangguId;
     private Long verusId;
     private Long javaStudyId;
+    private Long linkId;
 
     @BeforeEach
     void setUp() {
@@ -62,6 +65,14 @@ public class ReferenceRoomControllerTest {
 
         javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
 
+        // 링크 공유 생성
+        final ReferenceRoomService referenceRoomService =
+                new ReferenceRoomService(memberRepository, studyRepository, linkRepository);
+        final CreatingLinkRequest creatingLinkRequest =
+                new CreatingLinkRequest("https://github.com/sc0116", "링크 설명입니다.");
+
+        linkId = referenceRoomService.createLink(짱구_깃허브_아이디, javaStudyId, creatingLinkRequest);
+
         entityManager.flush();
         entityManager.clear();
     }
@@ -74,5 +85,14 @@ public class ReferenceRoomControllerTest {
 
         assertThatThrownBy(() -> sut.createLink(베루스_깃허브_아이디, javaStudyId, creatingLinkRequest))
                 .isInstanceOf(NotCreatingLinkException.class);
+    }
+
+    @DisplayName("존재하지 않는 링크 공유글을 수정할 수 없다.")
+    @Test
+    void updateByInvalidLinkId() {
+        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("www.naver.com", "수정");
+
+        assertThatThrownBy(() -> sut.updateLink(짱구_깃허브_아이디, -1L, editingLinkRequest))
+                .isInstanceOf(LinkNotFoundException.class);
     }
 }
