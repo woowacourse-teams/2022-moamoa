@@ -96,28 +96,15 @@ public class AcceptanceTest {
 
     @AfterEach
     void tearDown() {
-        jdbcTemplate.update("DELETE FROM study_tag");
-        jdbcTemplate.update("DELETE FROM study_member");
-        jdbcTemplate.update("DELETE FROM review");
-        jdbcTemplate.update("DELETE FROM study");
-        jdbcTemplate.update("DELETE FROM member");
-
+        jdbcTemplate.update("SET REFERENTIAL_INTEGRITY FALSE");
+        jdbcTemplate.update("TRUNCATE TABLE member");
+        jdbcTemplate.update("TRUNCATE TABLE study_tag");
+        jdbcTemplate.update("TRUNCATE TABLE study_member");
+        jdbcTemplate.update("TRUNCATE TABLE review");
+        jdbcTemplate.update("TRUNCATE TABLE study");
+        jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
         jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
         jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
-    }
-
-    protected String getBearerTokenBySignInOrUp(GithubProfileResponse response) {
-        final String authorizationCode = "Authorization Code";
-        mockingGithubServer(authorizationCode, response);
-        final String token = RestAssured.given().log().all()
-                .param("code", authorizationCode)
-                .when()
-                .post("/api/login/token")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract().jsonPath().getString("token");
-        mockServer.reset();
-        return "Bearer " + token;
     }
 
     private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
