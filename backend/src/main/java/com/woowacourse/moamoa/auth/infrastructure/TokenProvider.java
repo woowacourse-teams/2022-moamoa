@@ -10,7 +10,5 @@ public interface TokenProvider {
 
     boolean validateToken(final String token);
 
-    String validateRefreshToken(final String refreshToken);
-
-    String recreationAccessToken(final String payload);
+    String recreationAccessToken(final String refreshToken);
 }

@@ -84,7 +84,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String validateRefreshToken(final String refreshToken) {
+    public String recreationAccessToken(final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -97,8 +97,7 @@ public class JwtTokenProvider implements TokenProvider {
         return null;
     }
 
-    @Override
-    public String recreationAccessToken(final String payload) {
+    private String createAccessToken(final String payload) {
         final long githubId = Long.parseLong(payload);
         final Date now = new Date();
 
