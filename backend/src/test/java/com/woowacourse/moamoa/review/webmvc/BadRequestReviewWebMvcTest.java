@@ -46,7 +46,7 @@ public class BadRequestReviewWebMvcTest {
     @DisplayName("필수 데이터인 후기 내용이 공백인 경우 400을 반환한다.")
     @Test
     void requestByBlankContent() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new WriteReviewRequest(""));
 
         mockMvc.perform(post("/api/studies/1/reviews")
@@ -60,7 +60,7 @@ public class BadRequestReviewWebMvcTest {
     @DisplayName("필수 데이터인 후기 내용이 null 값인 경우 400을 반환한다.")
     @Test
     void requestByEmptyContent() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(post("/api/studies/1/reviews")
                         .header(HttpHeaders.AUTHORIZATION, token)

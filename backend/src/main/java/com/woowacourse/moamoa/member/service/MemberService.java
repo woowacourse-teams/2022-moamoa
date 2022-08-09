@@ -24,9 +24,10 @@ public class MemberService {
     public void saveOrUpdate(final Member member) {
         final Optional<Member> foundMember = memberRepository.findByGithubId(member.getGithubId());
 
-        foundMember.ifPresent(
-                m -> m.update(member.getUsername(), member.getImageUrl(), member.getProfileUrl())
-        );
+        if (foundMember.isPresent()) {
+            foundMember.get().update(member.getUsername(), member.getImageUrl(), member.getProfileUrl());
+            return;
+        }
 
         memberRepository.save(member);
     }
@@ -34,8 +35,7 @@ public class MemberService {
     public MemberResponse getByGithubId(final Long githubId) {
         final MemberData member = memberDao.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
-
-        return new MemberResponse(member.getGithubId(), member.getUsername(), member.getProfileUrl(),
-                member.getImageUrl());
+        return new MemberResponse(member.getGithubId(), member.getUsername(),
+                member.getProfileUrl(), member.getImageUrl());
     }
 }

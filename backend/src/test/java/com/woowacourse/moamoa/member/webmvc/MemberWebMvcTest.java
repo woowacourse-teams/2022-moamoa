@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.member.webmvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,7 +50,7 @@ public class MemberWebMvcTest {
     @DisplayName("사용자가 없는 경우 400 에러 반환")
     @Test
     void notFound() throws Exception {
-        final String token = tokenProvider.createToken(1L);
+        final String token = tokenProvider.createToken(1L).getAccessToken();
         given(memberService.getByGithubId(any())).willThrow(MemberNotFoundException.class);
 
         mockMvc.perform(get("/api/members/me")

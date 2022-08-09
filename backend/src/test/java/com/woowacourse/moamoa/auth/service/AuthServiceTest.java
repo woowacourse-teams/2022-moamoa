@@ -35,12 +35,12 @@ class AuthServiceTest {
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
     void getTokenByAuthorizationCode() throws Exception {
-        when(authService.createToken("authorization-code")).thenReturn(new TokenResponse("this is jwt-token"));
+        when(authService.createToken("authorization-code")).thenReturn(new TokenResponse("this is jwt-token", "refresh token"));
 
         mockMvc.perform(post("/api/login/token")
                         .param("code", "authorization-code"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("token").value("this is jwt-token"))
+                .andExpect(jsonPath("accessToken").value("this is jwt-token"))
                 .andDo(print());
     }
 }

@@ -1,8 +1,7 @@
 package com.woowacourse.acceptance.auth;
 
 import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -17,7 +16,6 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
 
@@ -35,13 +33,16 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given(spec).log().all()
                 .filter(document("auth/login",
                         requestParameters(parameterWithName("code").description("Authorization code")),
-                        responseFields(fieldWithPath("token").type(JsonFieldType.STRING).description("사용자 토큰"))))
+                        responseFields(
+                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰"),
+                                fieldWithPath("refreshToken").type(STRING).description("리프래시 토큰")
+                        )))
                 .queryParam("code", authorizationCode)
                 .when()
                 .post("/api/login/token")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("token", notNullValue());
+                .body("accessToken", notNullValue());
     }
 
     @Test

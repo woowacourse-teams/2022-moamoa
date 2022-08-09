@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
+import com.woowacourse.moamoa.auth.exception.TokenExpirationException;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -40,9 +41,7 @@ public class JwtTokenProvider implements TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        //Refresh Token
         String refreshToken =  Jwts.builder()
-                .setSubject(payload.toString())
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -68,12 +67,46 @@ public class JwtTokenProvider implements TokenProvider {
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
+            Date tokenExpirationDate = claims.getBody().getExpiration();
 
-            return !claims.getBody()
-                    .getExpiration()
-                    .before(new Date());
+            validateTokenExpiration(tokenExpirationDate);
+
+            return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    private void validateTokenExpiration(Date tokenExpirationDate) {
+        if (tokenExpirationDate.before(new Date())) {
+            throw new TokenExpirationException();
+        }
+    }
+
+    @Override
+    public String validateRefreshToken(final String refreshToken) {
+        Jws<Claims> claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(refreshToken);
+
+        if (!claims.getBody().getExpiration().before(new Date())) {
+            return recreationAccessToken(claims.getBody().toString());
+        }
+
+        return null;
+    }
+
+    @Override
+    public String recreationAccessToken(final String payload) {
+        final long githubId = Long.parseLong(payload);
+        final Date now = new Date();
+
+        return Jwts.builder()
+                .setSubject(Long.toString(githubId))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 }

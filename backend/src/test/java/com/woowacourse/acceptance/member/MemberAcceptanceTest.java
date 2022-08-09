@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.member;
 
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -9,7 +10,6 @@ import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import io.restassured.RestAssured;
-import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void getCurrentMember() {
         final MemberResponse memberResponse = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(AUTHORIZATION, token)
                 .filter(document("members/me",
                         requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .when().log().all()

@@ -117,7 +117,7 @@ public class AcceptanceTest {
                 .post("/api/login/token")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().jsonPath().getString("token");
+                .extract().jsonPath().getString("accessToken");
         mockServer.reset();
         return "Bearer " + token;
     }
@@ -170,7 +170,8 @@ public class AcceptanceTest {
 
     private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
-            mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
+            mockingGithubServerForGetAccessToken(authorizationCode, Map.of(
+                    "access_token", "access-token",
                     "token_type", "bearer",
                     "scope", ""));
             mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
