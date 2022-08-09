@@ -17,7 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class LinkSharingRoomAcceptanceTest extends AcceptanceTest {
+public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
 
     private static final GithubProfileResponse JJANGGU = new GithubProfileResponse(1L, "jjanggu", "https://image",
             "github.com");
@@ -45,7 +45,7 @@ public class LinkSharingRoomAcceptanceTest extends AcceptanceTest {
                 new CreatingLinkRequest("https://github.com/sc0116", "링크에 대한 간단한 소개입니다.");
 
         RestAssured.given(spec).log().all()
-                .filter(document("study-room/link-sharing-room",
+                .filter(document("reference-room/create",
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
                         )))
@@ -54,8 +54,8 @@ public class LinkSharingRoomAcceptanceTest extends AcceptanceTest {
                 .pathParam("study-id", javaStudyId)
                 .body(request)
                 .when().log().all()
-                .post("/api/studies/{study-id}/link-sharing-rooms")
+                .post("/api/studies/{study-id}/reference-room/links")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 }

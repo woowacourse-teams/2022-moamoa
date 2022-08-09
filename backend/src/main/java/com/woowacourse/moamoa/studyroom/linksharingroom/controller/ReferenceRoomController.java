@@ -1,8 +1,11 @@
 package com.woowacourse.moamoa.studyroom.linksharingroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
+import com.woowacourse.moamoa.studyroom.linksharingroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.studyroom.linksharingroom.service.request.CreatingLinkRequest;
+import java.net.URI;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/studies/{study-id}/link-sharing-rooms")
-public class LinkSharingRoomController {
+@RequestMapping("/api/studies/{study-id}/reference-room/links")
+@RequiredArgsConstructor
+public class ReferenceRoomController {
+
+    private final ReferenceRoomService referenceRoomService;
 
     @PostMapping
     public ResponseEntity<Void> createLink(
@@ -20,6 +26,7 @@ public class LinkSharingRoomController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final CreatingLinkRequest creatingLinkRequest
     ) {
-        return ResponseEntity.ok().build();
+        final Long linkId = referenceRoomService.createLink(githubId, studyId, creatingLinkRequest);
+        return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + linkId)).build();
     }
 }
