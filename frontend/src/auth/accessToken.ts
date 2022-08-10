@@ -1,5 +1,5 @@
 class AccessTokenController {
-  private static _accessToken = '';
+  private static _accessToken: string | null = '';
 
   static setAccessToken(newAccessToken: string) {
     this._accessToken = newAccessToken;
@@ -10,7 +10,7 @@ class AccessTokenController {
   }
 
   static removeAccessToken() {
-    this._accessToken = '';
+    this._accessToken = null;
   }
 
   static async fetchRefreshToken() {}
