@@ -2,11 +2,13 @@ package com.woowacourse.moamoa.auth.service;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
+import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,13 @@ public class AuthService {
     }
 
     public TokenResponse refreshToken(final Long githubId, final String refreshToken) {
+        final Token token = tokenRepository.findByGithubId(githubId)
+                .orElseThrow(TokenNotFoundException::new);
+
+        if (!token.getRefreshToken().equals(refreshToken)) {
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+        }
+
         String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
 
         return new TokenResponse(accessToken);

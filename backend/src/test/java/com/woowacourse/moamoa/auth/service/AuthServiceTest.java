@@ -1,6 +1,8 @@
 package com.woowacourse.moamoa.auth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
@@ -8,6 +10,7 @@ import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -69,5 +72,29 @@ class AuthServiceTest {
 
         assertThat(refreshToken).isNotBlank();
         assertThat(tokenResponse.getAccessToken()).isNotBlank();
+    }
+
+    @DisplayName("DB에 저장되어 있지 않은 refresh token으로 access token을 발급받을 수 없다.")
+    @Test
+    public void validateRefreshToken() {
+        Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
+        Mockito.when(oAuthClient.getProfile("access-token"))
+                .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
+
+        assertThatThrownBy(() -> authService.refreshToken(1L, "InvalidRefreshToken"))
+                .isInstanceOf(UnauthorizedException.class);
+    }
+
+    @DisplayName("refresh token을 통해 access token을 발급받을 수 있다.")
+    @Test
+    public void recreationAccessToken() {
+        Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
+        Mockito.when(oAuthClient.getProfile("access-token"))
+                .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
+
+        authService.createToken("authorization-code");
+        final Token token = tokenRepository.findByGithubId(1L).get();
+
+        assertDoesNotThrow(() -> authService.refreshToken(1L, token.getRefreshToken()));
     }
 }

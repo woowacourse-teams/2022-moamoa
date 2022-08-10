@@ -1,7 +1,12 @@
 package com.woowacourse.acceptance.auth;
 
+import static javax.management.openmbean.SimpleType.STRING;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -10,14 +15,20 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.auth.domain.Token;
+import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
@@ -39,6 +50,25 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .queryParam("code", authorizationCode)
                 .when()
                 .post("/api/login/token")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("accessToken", notNullValue());
+    }
+
+    @DisplayName("RefreshToken 으로 AccessToken 을 재발급한다.")
+    @Test
+    void refreshToken() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/refresh",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .cookie("refreshToken", foundToken.getRefreshToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .when()
+                .get("/api/auth/refresh")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("accessToken", notNullValue());

@@ -33,8 +33,7 @@ public class AuthController {
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<TokenResponse> refreshToken(@AuthenticationPrincipal Long githubId,
-                                                                 @CookieValue String refreshToken) {
+    public ResponseEntity<TokenResponse> refreshToken(@AuthenticationPrincipal Long githubId, @CookieValue String refreshToken) {
         return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
     }
 
