@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -12,11 +13,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @ToString
 public class ArticleResponse {
 
-    private Long articleId;
-    private AuthorResponse authorResponse;
+    private Long id;
+    private AuthorResponse author;
     private String title;
     private String content;
     private LocalDate createdDate;

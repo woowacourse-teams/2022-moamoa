@@ -26,6 +26,7 @@ import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 public class CommunityAcceptanceTest extends AcceptanceTest {
@@ -41,8 +42,10 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         // act
         final String location = RestAssured.given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(objectMapper.writeValueAsString(request))
                 .pathParam("study-id", 스터디_ID)
+                .when().log().all()
                 .filter(document("write/article",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
@@ -59,7 +62,6 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                                 headerWithName("Access-Control-Allow-Headers").description("접근 가능한 헤더")
                         ))
                 )
-                .when().log().all()
                 .post("/api/studies/{study-id}/community/articles")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
@@ -67,9 +69,14 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.LOCATION);
 
         // assert
+        Long articleId = Long.valueOf(location.split("/")[6]);
+
         final ArticleResponse actualResponse = RestAssured
                 .given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", 스터디_ID)
+                .pathParam("article-id", articleId)
                 .filter(document("get/article",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
@@ -81,7 +88,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 식별 ID"),
                                 fieldWithPath("author").type(JsonFieldType.OBJECT).description("작성자"),
-                                fieldWithPath("author.id").type(JsonFieldType.STRING).description("작성자 github ID"),
+                                fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("작성자 github ID"),
                                 fieldWithPath("author.username").type(JsonFieldType.STRING)
                                         .description("작성자 github 사용자 이름"),
                                 fieldWithPath("author.imageUrl").type(JsonFieldType.STRING)
@@ -95,15 +102,14 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                         )
                 ))
                 .when().log().all()
-                .get(location)
+                .get("/api/studies/{study-id}/community/articles/{article-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ArticleResponse.class);
 
-        Long articleId = Long.valueOf(location.split("/")[6]);
         final ArticleResponse expectedResponse = ArticleResponse.builder()
-                .articleId(articleId)
-                .authorResponse(new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL))
+                .id(articleId)
+                .author(new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL))
                 .title("게시글 제목")
                 .content("게시글 내용")
                 .createdDate(LocalDate.now())

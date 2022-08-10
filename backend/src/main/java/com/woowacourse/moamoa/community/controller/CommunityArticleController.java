@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import java.net.URI;
 import javax.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class CommunityArticleController {
     ) {
         final CommunityArticle article = communityArticleService.createArticle(githubId, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/api/studies/{study-id}/community/articles/{article-id}")
