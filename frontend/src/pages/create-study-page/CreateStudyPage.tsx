@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import { FormProvider } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
@@ -28,7 +26,7 @@ const CreateStudyPage: React.FC = () => {
             <S.Container>
               <S.Main>
                 <Title />
-                <DescriptionTab css={css``} />
+                <DescriptionTab />
                 <Excerpt />
               </S.Main>
               <S.Sidebar>
