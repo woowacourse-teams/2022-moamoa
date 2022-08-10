@@ -105,25 +105,25 @@ class ReviewDaoTest {
         // 리뷰 추가
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (1, " + javaStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용1', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (2, " + javaStudy.getId() + ", " + greenlawn.getId() + ", '리뷰 내용2', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (3, " + javaStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용3', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (4, " + javaStudy.getId() + ", " + verus.getId() + ", '리뷰 내용4', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (5, " + reactStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용5', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (6, " + reactStudy.getId() + ", " + greenlawn.getId()+ ", '리뷰 내용6', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (7, " + reactStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용7', '"
-                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
+                + createdDate + "', '" + lastModifiedDate + "', false)");
 
         javaReviews = List.of(
                 new ReviewData(1L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용1"),
