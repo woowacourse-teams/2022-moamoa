@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +35,10 @@ public class CommunityArticle {
     }
 
     public static CommunityArticle write(final Member member, final Study study, final ArticleRequest request) {
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
+
         return new CommunityArticle(request.getTitle(), request.getContent(), member.getId(), study.getId());
     }
 }
