@@ -26,6 +26,8 @@
       "@constants": ["constants.ts"],
       "@api": ["api/index.ts"],
       "@api/*": ["api/*"],
+      "@auth": ["auth/index.ts"],
+      "@auth/*": ["auth/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
       "@detail-page/*": ["pages/detail-page/*"],
