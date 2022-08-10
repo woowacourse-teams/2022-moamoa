@@ -10,10 +10,9 @@ import com.woowacourse.moamoa.community.domain.repository.CommunityArticleReposi
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
 import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
-import com.woowacourse.moamoa.community.service.response.ArticleResponse;
-import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -24,16 +23,13 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class GettingCommunityArticleControllerTest {
+public class DeletingCommunityArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -62,31 +58,27 @@ public class GettingCommunityArticleControllerTest {
         sut = new CommunityArticleController(communityArticleService);
     }
 
-    @DisplayName("스터디 게시글을 단건 조회한다.")
+    @DisplayName("스터디 커뮤니티 게시글을 삭제한다.")
     @Test
-    void getStudyCommunityArticle() {
+    void deleteCommunityArticle() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
                 request);
 
         //act
-        final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getGithubId(), study.getId(),
-                article.getId());
+        sut.deleteArticle(member.getGithubId(), study.getId(), article.getId());
 
         //assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(new ArticleResponse(article.getId(),
-                new AuthorResponse(member.getGithubId(), member.getUsername(), member.getImageUrl(),
-                        member.getProfileUrl()),
-                request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
+        assertThat(communityArticleRepository.existsById(article.getId())).isFalse();
     }
 
-    @DisplayName("존재하지 않는 사용자가 게시글 조회 시 예외가 발생한다.")
+    @DisplayName("존재하지 않는 사용자가 게시글 삭제 시 예외가 발생한다.")
     @Test
     void throwExceptionWhenGetByNotFoundMember() {
         // arrange
@@ -97,8 +89,9 @@ public class GettingCommunityArticleControllerTest {
                 .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(2L, study.getId(), article.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(2L, study.getId(), article.getId()))
                 .isInstanceOf(MemberNotFoundException.class);
+        assertThat(communityArticleRepository.existsById(article.getId())).isTrue();
     }
 
     @DisplayName("스터디가 없는 경우 게시글 조회 시 예외가 발생한다.")
@@ -113,7 +106,7 @@ public class GettingCommunityArticleControllerTest {
         long notFoundStudyId = study.getId() + 1L;
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(member.getGithubId(), notFoundStudyId, article.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), notFoundStudyId, article.getId()))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 
@@ -126,13 +119,13 @@ public class GettingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(member.getGithubId(), study.getId(), 1L))
+        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), study.getId(), 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글을 조회한 경우 예외가 발생한다.")
+    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글을 삭제한 경우 예외가 발생한다.")
     @Test
-    void throwExceptionWhenGettingByNotParticipant() {
+    void throwExceptionWhenDeletingByNotParticipant() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
@@ -145,12 +138,13 @@ public class GettingCommunityArticleControllerTest {
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(other.getGithubId(), study.getId(), article.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(other.getGithubId(), study.getId(), article.getId()))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 
-    @DisplayName("스터디와 연관되지 않은 게시글 조회 시 예외 발생")
-    void throwExceptionWhenGettingNotRelatedArticleWithStudy() {
+    @DisplayName("스터디와 연관되지 않은 게시글 삭제 시 예외 발생")
+    @Test
+    void throwExceptionWhenDeletingNotRelatedArticleWithStudy() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
@@ -164,7 +158,27 @@ public class GettingCommunityArticleControllerTest {
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(member.getGithubId(), notHasArticleStudy.getId(), article.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), notHasArticleStudy.getId(), article.getId()))
                 .isInstanceOf(NotRelatedArticleException.class);
+    }
+
+    @DisplayName("작성자 외에 게시글 삭제 시 예외 발생")
+    @Test
+    void throwExceptionWhenDeletingNotAuthor() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Member other = memberRepository.save(new Member(2L, "other", "imageUrl", "profileUrl"));
+
+        Study study = studyService.createStudy(member.getGithubId(),
+                javaStudyRequest.startDate(LocalDate.now()).build());
+        studyService.participateStudy(other.getGithubId(), study.getId());
+
+        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+                request);
+
+        // act & assert
+        assertThatThrownBy(() -> sut.deleteArticle(other.getGithubId(), study.getId(), article.getId()))
+                .isInstanceOf(NotArticleAuthorException.class);
     }
 }

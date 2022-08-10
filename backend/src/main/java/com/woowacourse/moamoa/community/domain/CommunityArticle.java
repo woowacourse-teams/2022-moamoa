@@ -70,4 +70,12 @@ public class CommunityArticle extends BaseEntity {
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyId());
     }
+
+    public boolean isBelongTo(final Long studyId) {
+        return this.studyId.equals(studyId);
+    }
+
+    public boolean isAuthor(final Long memberId) {
+        return this.authorId.equals(memberId);
+    }
 }

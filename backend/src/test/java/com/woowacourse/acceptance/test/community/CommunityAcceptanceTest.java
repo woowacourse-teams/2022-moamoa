@@ -118,4 +118,43 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         assertThat(actualResponse).isEqualTo(expectedResponse);
     }
+
+    @DisplayName("스터디 커뮤니티 게시글을 삭제한다.")
+    @Test
+    void deleteCommunityArticle() {
+        // arrange
+        long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
+        long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("게시글 제목", "게시글 내용");
+        String 토큰 = 그린론이().로그인한다();
+
+        // act
+        RestAssured.given(spec).log().all()
+                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .pathParam("study-id", 스터디_ID)
+                .pathParam("article-id", 게시글_ID)
+                .filter(document("delete/article",
+                    requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                    ),
+                    pathParameters(
+                            parameterWithName("study-id").description("스터디 식별 번호"),
+                            parameterWithName("article-id").description("게시글 식별 번호")
+                    )
+                ))
+                .when().log().all()
+                .delete("/api/studies/{study-id}/community/articles/{article-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+
+        // assert
+        RestAssured
+                .given(spec).log().all()
+                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .pathParam("study-id", 스터디_ID)
+                .pathParam("article-id", 게시글_ID)
+                .when().log().all()
+                .get("/api/studies/{study-id}/community/articles/{article-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
 }

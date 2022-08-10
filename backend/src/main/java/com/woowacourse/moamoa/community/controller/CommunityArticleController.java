@@ -9,6 +9,7 @@ import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +42,14 @@ public class CommunityArticleController {
     ) {
         ArticleResponse response = communityArticleService.getArticle(githubId, studyId, articleId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/api/studies/{study-id}/community/articles/{article-id}")
+    public ResponseEntity<Void> deleteArticle(@AuthenticationPrincipal final Long githubId,
+                                              @PathVariable("study-id") final Long studyId,
+                                              @PathVariable("article-id") final Long articleId
+    ) {
+        communityArticleService.deleteArticle(githubId, studyId, articleId);
+        return ResponseEntity.noContent().build();
     }
 }

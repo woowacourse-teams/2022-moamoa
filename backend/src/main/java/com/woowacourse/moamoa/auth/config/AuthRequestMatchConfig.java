@@ -19,7 +19,8 @@ public class AuthRequestMatchConfig {
                 .addUpAuthenticationPath(HttpMethod.GET, "/api/my/studies", "/api/members/me", "/api/members/me/role",
                         "/api/studies/\\w+/community/articles/\\w+")
                 .addUpAuthenticationPath(HttpMethod.PUT, "/api/studies/\\d+/reviews/\\d+")
-                .addUpAuthenticationPath(HttpMethod.DELETE, "/api/studies/\\d+/reviews/\\d+")
+                .addUpAuthenticationPath(HttpMethod.DELETE, "/api/studies/\\d+/reviews/\\d+",
+                        "/api/studies/\\w+/community/articles/\\w+")
                 .build();
     }
 }

@@ -5,6 +5,8 @@ import com.woowacourse.moamoa.community.domain.repository.CommunityArticleReposi
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.query.data.CommunityArticleData;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
+import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import com.woowacourse.moamoa.member.domain.Member;
@@ -48,13 +50,41 @@ public class CommunityArticleService {
     public ArticleResponse getArticle(final Long githubId, final Long studyId, final Long articleId) {
         final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final CommunityArticle article = communityArticleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!study.isParticipant(member.getId())) {
             throw new NotParticipatedMemberException();
         }
 
+        if (!article.isBelongTo(study.getId())) {
+            throw new NotRelatedArticleException(study.getId(), article.getId());
+        }
+
         final CommunityArticleData data = communityArticleDao.getById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
         return new ArticleResponse(data);
+    }
+
+    @Transactional
+    public void deleteArticle(final Long githubId, final Long studyId, final Long articleId) {
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final CommunityArticle article = communityArticleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
+
+        if (!article.isBelongTo(study.getId())) {
+            throw new NotRelatedArticleException(study.getId(), article.getId());
+        }
+
+        if (!article.isAuthor(member.getId())) {
+            throw new NotArticleAuthorException(article.getId(), member.getId());
+        }
+
+        communityArticleRepository.deleteById(articleId);
     }
 }

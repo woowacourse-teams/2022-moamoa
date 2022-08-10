@@ -48,7 +48,7 @@ public class Study {
         this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    private Study(final Long id, final Content content, final Participants participants,
+    public Study(final Long id, final Content content, final Participants participants,
                   final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
                   final LocalDateTime createdAt
     ) {
