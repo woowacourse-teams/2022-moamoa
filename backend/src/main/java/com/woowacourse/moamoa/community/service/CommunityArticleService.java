@@ -34,7 +34,6 @@ public class CommunityArticleService {
         final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
-        return communityArticleRepository.save(
-                new CommunityArticle(request.getTitle(), request.getContent(), member.getId(), study.getId()));
+        return communityArticleRepository.save(CommunityArticle.write(member, study, request));
     }
 }
