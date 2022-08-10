@@ -9,6 +9,8 @@ import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
+import com.woowacourse.moamoa.community.service.response.ArticleResponse;
+import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -42,11 +44,14 @@ public class CommunityArticleControllerTest {
 
     private StudyService studyService;
     private CommunityArticleController sut;
+    private CommunityArticleService communityArticleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new CommunityArticleController(new CommunityArticleService(memberRepository, studyRepository, communityArticleRepository));
+        communityArticleService = new CommunityArticleService(memberRepository, studyRepository,
+                communityArticleRepository);
+        sut = new CommunityArticleController(communityArticleService);
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -94,5 +99,28 @@ public class CommunityArticleControllerTest {
         // act & assert
         assertThatThrownBy(() -> sut.createArticle(member.getGithubId(), 1L, new ArticleRequest("제목", "내용")))
                 .isInstanceOf(StudyNotFoundException.class);
+    }
+
+    @DisplayName("스터디 게시글을 단건 조회한다.")
+    @Test
+    void getStudyCommunityArticle() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Study study = studyService
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+
+        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+                request);
+
+        //act
+        final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getGithubId(), study.getId(),
+                article.getId());
+
+        //assert
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(new ArticleResponse(article.getId(),
+                new AuthorResponse(member.getId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()),
+                request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
     }
 }

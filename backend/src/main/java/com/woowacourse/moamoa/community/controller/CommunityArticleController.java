@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
+import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,11 @@ public class CommunityArticleController {
     }
 
     @GetMapping("/api/studies/{study-id}/community/articles/{article-id}")
-    public ResponseEntity<Void> getArticle(
-            @PathVariable("study-id") final Long studyId,
-            @PathVariable("article-id") final Long articleId
+    public ResponseEntity<ArticleResponse> getArticle(@AuthenticationPrincipal final Long githubId,
+                                                      @PathVariable("study-id") final Long studyId,
+                                                      @PathVariable("article-id") final Long articleId
     ) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new ArticleResponse(
+        ));
     }
 }
