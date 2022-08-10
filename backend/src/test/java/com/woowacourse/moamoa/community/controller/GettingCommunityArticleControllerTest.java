@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
@@ -35,9 +36,6 @@ public class GettingCommunityArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private StudyRepository studyRepository;
@@ -74,9 +72,6 @@ public class GettingCommunityArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
                 request);
-
-        entityManager.flush();
-        entityManager.clear();
 
         //act
         final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getGithubId(), study.getId(),
@@ -132,5 +127,24 @@ public class GettingCommunityArticleControllerTest {
         // act & assert
         assertThatThrownBy(() -> sut.getArticle(member.getGithubId(), study.getId(), 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
+    }
+
+    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글을 조회한 경우 예외가 발생한다.")
+    @Test
+    void throwExceptionWhenGettingByNotParticipant() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
+
+        Study study = studyService
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+
+        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+                request);
+
+        // act & assert
+        assertThatThrownBy(() -> sut.getArticle(other.getGithubId(), study.getId(), article.getId()))
+                .isInstanceOf(NotParticipatedMemberException.class);
     }
 }
