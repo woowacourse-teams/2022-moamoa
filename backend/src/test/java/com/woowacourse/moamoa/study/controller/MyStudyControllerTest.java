@@ -112,8 +112,8 @@ class MyStudyControllerTest {
                         tuple(1L, "Java 스터디", PREPARE, 3, 10),
                         tuple(2L, "React 스터디", PREPARE, 4, 5),
                         tuple(3L, "javaScript 스터디", PREPARE, 3, 20),
-                        tuple(5L, "알고리즘 스터디", PREPARE, 1, 0),
-                        tuple(6L, "Linux 스터디", PREPARE, 1, 0))
+                        tuple(5L, "알고리즘 스터디", PREPARE, 1, null),
+                        tuple(6L, "Linux 스터디", PREPARE, 1, null))
                 );
 
         final List<MemberData> owners = myStudies.getBody()

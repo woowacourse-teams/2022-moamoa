@@ -93,7 +93,7 @@ class MyStudyDaoTest {
                         tuple("Java 스터디", PREPARE, 3, 10, "2021-12-08", null),
                         tuple("javaScript 스터디" ,PREPARE, 3, 20, "2022-08-03", null),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08"),
-                        tuple("OS 스터디", PREPARE, 1, 0, "2021-12-06", "2022-01-07")
+                        tuple("OS 스터디", PREPARE, 1, null, "2021-12-06", "2022-01-07")
                 );
     }
 

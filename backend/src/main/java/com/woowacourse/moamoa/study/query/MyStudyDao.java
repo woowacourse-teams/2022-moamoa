@@ -32,7 +32,7 @@ public class MyStudyDao {
         final String title = rs.getString("title");
         final String studyStatus = rs.getString("study_status");
         final int currentMemberCount = rs.getInt("current_member_count");
-        final int maxMemberCount = rs.getInt("max_member_count");
+        final Integer maxMemberCount = rs.getObject("max_member_count", Integer.class);
         final String startDate = rs.getString("start_date");
         final String endDate = rs.getString("end_date");
 
