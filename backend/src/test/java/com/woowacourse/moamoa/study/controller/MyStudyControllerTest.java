@@ -171,8 +171,8 @@ class MyStudyControllerTest {
                 .contains(tuple(2L, "4기"),
                         tuple(4L, "FE"));
 
-        assertThat(tags.get(3)).isNull();
+        assertThat(tags.get(3).size()).isZero();
 
-        assertThat(tags.get(4)).isNull();
+        assertThat(tags.get(4).size()).isZero();
     }
 }

@@ -179,7 +179,7 @@ class MyStudyServiceTest {
                         tuple(4L, "verus", "https://image", "github.com")
                 );
 
-        assertThat(tags.get(0)).isNull();
+        assertThat(tags.get(0).size()).isZero();
     }
 
     @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")

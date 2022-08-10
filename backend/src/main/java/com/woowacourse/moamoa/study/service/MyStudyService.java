@@ -55,8 +55,18 @@ public class MyStudyService {
         final Map<Long, MemberData> owners = myStudyDao.findOwners(studyIds);
         final Map<Long, List<TagSummaryData>> tags = myStudyDao.findTags(studyIds);
 
+        return mapOwnerWithTags(studyIds, owners, tags);
+    }
+
+    private Map<Long, StudyOwnerAndTagsData> mapOwnerWithTags(final List<Long> studyIds,
+                                                              final Map<Long, MemberData> owners,
+                                                              final Map<Long, List<TagSummaryData>> tags) {
         Map<Long, StudyOwnerAndTagsData> result = new HashMap<>();
         for (Long id : studyIds) {
+            if (tags.get(id) == null) {
+                result.put(id, new StudyOwnerAndTagsData(owners.get(id), List.of()));
+                continue;
+            }
             result.put(id, new StudyOwnerAndTagsData(owners.get(id), tags.get(id)));
         }
         return result;
