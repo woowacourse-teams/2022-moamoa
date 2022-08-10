@@ -91,11 +91,7 @@ public class MyStudyDao {
             return new HashMap<>();
         }
 
-        List<String> ids = studyIds.stream()
-                .map(Object::toString)
-                .collect(Collectors.toList());
-
-        SqlParameterSource parameters = new MapSqlParameterSource("ids", ids);
+        SqlParameterSource parameters = new MapSqlParameterSource("ids", studyIds);
 
         String sql = "SELECT study.id, member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM study JOIN member ON member.id = study.owner_id "
