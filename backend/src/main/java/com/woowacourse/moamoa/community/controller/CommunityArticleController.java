@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import java.net.URI;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class CommunityArticleController {
     @PostMapping("/api/studies/{study-id}/community/articles")
     public ResponseEntity<Void> createArticle(@AuthenticationPrincipal final Long githubId,
                                               @PathVariable("study-id") final Long studyId,
-                                              final ArticleRequest request
+                                              @Valid final ArticleRequest request
     ) {
         final CommunityArticle article = communityArticleService.createArticle(githubId, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());

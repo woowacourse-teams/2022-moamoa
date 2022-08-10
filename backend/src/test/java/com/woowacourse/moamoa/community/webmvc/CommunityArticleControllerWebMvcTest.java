@@ -106,4 +106,34 @@ public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
+
+    @DisplayName("제목은 30자 이하여야 한다.")
+    @Test
+    void badRequestByInvalidLengthTitle() throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                        post("/api/studies/{study-id}/community/articles", "1")
+                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("내용은 5000자 이하여야 한다.")
+    @Test
+    void badRequestByInvalidLengthContent() throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                        post("/api/studies/{study-id}/community/articles", "1")
+                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 }
