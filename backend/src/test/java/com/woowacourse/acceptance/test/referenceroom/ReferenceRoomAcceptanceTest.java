@@ -1,6 +1,27 @@
 package com.woowacourse.acceptance.test.referenceroom;
 
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_프로필_URL;
+import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
+import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
+import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -8,8 +29,12 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.response.AuthorResponse;
+import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
+import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +68,67 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .post("/api/studies/{study-id}/reference-room/links")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @DisplayName("스터디에 전체 링크공유 목록을 조회할 수 있다.")
+    @Test
+    void getAllLink() {
+        final LocalDate 지금 = LocalDate.now();
+        final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+
+        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+
+        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
+        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
+        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
+        final Long 그린론_링크공유_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request2);
+        final Long 디우_링크공유_ID = 디우가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request3);
+        final Long 베루스_링크공유_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request4);
+        짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
+        짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
+
+        final String token = 짱구가().로그인한다();
+        final LinksResponse linksResponse = RestAssured.given(spec).log().all()
+                .filter(document("reference-room/list",
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        )))
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .pathParam("study-id", 자바_스터디_ID)
+                .when().log().all()
+                .get("/api/studies/{study-id}/reference-room/links")
+                .then().statusCode(HttpStatus.OK.value())
+                .extract().as(LinksResponse.class);
+
+        final LocalDate 리뷰_생성일 = LocalDate.now();
+        final LocalDate 리뷰_수정일 = LocalDate.now();
+
+        final AuthorResponse 짱구 = new AuthorResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
+        final LinkResponse 짱구_응답
+                = new LinkResponse(짱구_링크공유_ID, 짱구, request1.getLinkUrl(), request1.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
+        final AuthorResponse 그린론 = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final LinkResponse 그린론_응답
+                = new LinkResponse(그린론_링크공유_ID, 그린론, request2.getLinkUrl(), request2.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
+        final AuthorResponse 디우 = new AuthorResponse(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL);
+        final LinkResponse 디우_응답
+                = new LinkResponse(디우_링크공유_ID, 디우, request3.getLinkUrl(), request3.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
+        final AuthorResponse 베루스 = new AuthorResponse(베루스_깃허브_ID, 베루스_이름, 베루스_이미지_URL, 베루스_프로필_URL);
+        final LinkResponse 베루스_응답
+                = new LinkResponse(베루스_링크공유_ID, 베루스, request4.getLinkUrl(), request4.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
+        assertAll(
+                () -> assertThat(linksResponse.isHasNext()).isTrue(),
+                () -> assertThat(linksResponse.getLinks())
+                        .containsExactlyInAnyOrderElementsOf(List.of(짱구_응답, 그린론_응답, 디우_응답, 베루스_응답, 짱구_응답))
+        );
     }
 
     @DisplayName("작성한 링크 공유글을 수정할 수 있다.")
