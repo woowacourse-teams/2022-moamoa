@@ -79,3 +79,10 @@ CREATE TABLE study_member
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
+
+CREATE TABLE token
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    github_id BIGINT NOT NULL UNIQUE,
+    refresh_token MEDIUMTEXT
+);

@@ -77,12 +77,6 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
-    private void validateTokenExpiration(Date tokenExpirationDate) {
-        if (tokenExpirationDate.before(new Date())) {
-            throw new TokenExpirationException();
-        }
-    }
-
     @Override
     public String recreationAccessToken(final Long githubId, final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
@@ -94,6 +88,12 @@ public class JwtTokenProvider implements TokenProvider {
         validateTokenExpiration(tokenExpirationDate);
 
         return createAccessToken(githubId);
+    }
+
+    private void validateTokenExpiration(Date tokenExpirationDate) {
+        if (tokenExpirationDate.before(new Date())) {
+            throw new TokenExpirationException();
+        }
     }
 
     private String createAccessToken(final Long githubId) {

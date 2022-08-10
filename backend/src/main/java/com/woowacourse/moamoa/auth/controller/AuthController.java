@@ -24,16 +24,16 @@ public class AuthController {
 
     @PostMapping("/api/login/token")
     public ResponseEntity<TokenResponse> login(@RequestParam final String code) {
-        TokenResponseWithRefresh tokenResponse = authService.createToken(code);
+        final TokenResponseWithRefresh tokenResponse = authService.createToken(code);
 
         final TokenResponse response = new TokenResponse(tokenResponse.getAccessToken());
-        ResponseCookie cookie = putTokenInCookie(tokenResponse);
+        final ResponseCookie cookie = putTokenInCookie(tokenResponse);
 
         return ResponseEntity.ok().header("Set-Cookie", cookie.toString()).body(response);
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<TokenResponseWithRefresh> refreshToken(@AuthenticationPrincipal Long githubId,
+    public ResponseEntity<TokenResponse> refreshToken(@AuthenticationPrincipal Long githubId,
                                                                  @CookieValue String refreshToken) {
         return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
     }
