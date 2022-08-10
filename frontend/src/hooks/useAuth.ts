@@ -1,11 +1,11 @@
 import type { AxiosError } from 'axios';
 import { useContext } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import type { QueryKey } from 'react-query';
 
-import type { GetTokenResponseData } from '@custom-types';
+import type { EmptyObject, GetTokenResponseData } from '@custom-types';
 
-import { getAccessToken } from '@api';
+import { deleteRefreshToken, getAccessToken } from '@api';
 
 import AccessTokenController from '@auth/accessToken';
 
@@ -18,14 +18,15 @@ export const useAuth = (refetchKey?: QueryKey) => {
   const { fetchUserInfo } = useUserInfo();
 
   const queryClient = useQueryClient();
-  const { refetch: fetchRefreshToken } = useQuery<GetTokenResponseData, AxiosError>(
+  const { refetch: fetchAccessTokenWithRefresh } = useQuery<GetTokenResponseData, AxiosError>(
     ['refresh-token', refetchKey], // refetchKey를 key로 설정하지 않으면 같은 key가 사용된 횟수만큼 onError가 실행됨
     getAccessToken,
     {
-      onError: () => {
+      onError: error => {
         // TODO: 만약 refreshToken이 만료되었다는 코드가 오면
-        logout();
-        alert('로그인이 만료되었습니다.');
+        if (error.response?.data.message === '리프레시 토큰 만료') {
+          logout();
+        }
       },
       onSuccess: data => {
         login(data.accessToken);
@@ -35,6 +36,7 @@ export const useAuth = (refetchKey?: QueryKey) => {
       retry: false,
     },
   );
+  const { mutate } = useMutation<EmptyObject, AxiosError, null>(deleteRefreshToken);
 
   const login = (accesssToken: string) => {
     AccessTokenController.setAccessToken(accesssToken);
@@ -43,10 +45,17 @@ export const useAuth = (refetchKey?: QueryKey) => {
   };
 
   const logout = () => {
-    AccessTokenController.removeAccessToken();
-    setIsLoggedIn(false);
-    // logout api 요청 필요
+    mutate(null, {
+      onError: () => {
+        alert('로그아웃에 실패했습니다. 새로고침 해주세요.');
+      },
+      onSuccess: () => {
+        AccessTokenController.removeAccessToken();
+        setIsLoggedIn(false);
+        alert('로그아웃 되었습니다.');
+      },
+    });
   };
 
-  return { isLoggedIn, login, logout, fetchRefreshToken };
+  return { isLoggedIn, login, logout, fetchAccessTokenWithRefresh };
 };
