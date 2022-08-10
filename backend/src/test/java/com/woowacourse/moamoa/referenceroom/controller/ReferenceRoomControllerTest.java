@@ -72,7 +72,7 @@ public class ReferenceRoomControllerTest {
         final CreatingLinkRequest creatingLinkRequest =
                 new CreatingLinkRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        linkId = referenceRoomService.createLink(짱구_깃허브_아이디, javaStudyId, creatingLinkRequest);
+        linkId = referenceRoomService.createLink(짱구_깃허브_아이디, javaStudyId, creatingLinkRequest).getId();
 
         entityManager.flush();
         entityManager.clear();

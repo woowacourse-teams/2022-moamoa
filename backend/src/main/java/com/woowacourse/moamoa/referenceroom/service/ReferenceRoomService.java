@@ -27,7 +27,7 @@ public class ReferenceRoomService {
     private final StudyRepository studyRepository;
     private final LinkRepository linkRepository;
 
-    public Long createLink(final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
+    public Link createLink(final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
@@ -38,7 +38,7 @@ public class ReferenceRoomService {
         }
 
         final Link link = creatingLinkRequest.toLink(new AssociatedStudy(studyId), new Author(member.getId()));
-        return linkRepository.save(link).getId();
+        return linkRepository.save(link);
     }
 
     public void updateLink(final Long githubId, final Long linkId, final EditingLinkRequest editingLinkRequest) {
