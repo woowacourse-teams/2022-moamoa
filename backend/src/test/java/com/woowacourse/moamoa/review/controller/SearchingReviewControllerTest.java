@@ -1,31 +1,19 @@
 package com.woowacourse.moamoa.review.controller;
 
 import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.디우_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.디우_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.디우_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.디우_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.query.ReviewDao;
 import com.woowacourse.moamoa.review.service.ReviewService;
@@ -37,14 +25,11 @@ import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
-
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,11 +39,6 @@ import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
 class SearchingReviewControllerTest {
-
-    private static final MemberData JJANGGU = new MemberData(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
-    private static final MemberData GREENLAWN = new MemberData(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
-    private static final MemberData DWOO = new MemberData(디우_깃허브_아이디, 디우_유저네임, 디우_이미지, 디우_프로필);
-    private static final MemberData VERUS = new MemberData(베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
 
     @Autowired
     private MemberRepository memberRepository;
@@ -124,13 +104,13 @@ class SearchingReviewControllerTest {
                 .writeReview(verus.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
         reviewService.writeReview(jjanggu.getGithubId(), reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
 
-        final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(JJANGGU), LocalDate.now(),
+        final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(짱구_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용1");
-        final ReviewResponse 리뷰_내용2 = new ReviewResponse(javaReviewId2, new WriterResponse(GREENLAWN), LocalDate.now(),
+        final ReviewResponse 리뷰_내용2 = new ReviewResponse(javaReviewId2, new WriterResponse(그린론_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용2");
-        final ReviewResponse 리뷰_내용3 = new ReviewResponse(javaReviewId3, new WriterResponse(DWOO), LocalDate.now(),
+        final ReviewResponse 리뷰_내용3 = new ReviewResponse(javaReviewId3, new WriterResponse(디우_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용3");
-        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(VERUS), LocalDate.now(),
+        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(베루스_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용4");
         javaReviews = List.of(리뷰_내용1, 리뷰_내용2, 리뷰_내용3, 리뷰_내용4);
 

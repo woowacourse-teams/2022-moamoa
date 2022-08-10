@@ -2,21 +2,15 @@ package com.woowacourse.moamoa.review.controller;
 
 import static com.woowacourse.fixtures.MemberFixtures.그린론;
 import static com.woowacourse.fixtures.MemberFixtures.그린론_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
@@ -37,9 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
 public class ReviewControllerTest {
-
-    private static final MemberData JJANGGU = new MemberData(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
-    private static final MemberData GREENLAWN = new MemberData(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
 
     @Autowired
     private MemberRepository memberRepository;
@@ -86,9 +77,9 @@ public class ReviewControllerTest {
         final Long javaReviewId4 = reviewService
                 .writeReview(greelawn.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
 
-        final ReviewResponse 리뷰_내용1 = new ReviewResponse(짱구_리뷰, new WriterResponse(JJANGGU), LocalDate.now(),
+        final ReviewResponse 리뷰_내용1 = new ReviewResponse(짱구_리뷰, new WriterResponse(짱구_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용1");
-        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(GREENLAWN), LocalDate.now(),
+        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(그린론_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용4");
 
         entityManager.flush();

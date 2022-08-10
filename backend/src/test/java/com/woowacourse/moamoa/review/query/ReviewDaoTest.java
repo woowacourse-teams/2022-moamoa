@@ -1,35 +1,22 @@
 package com.woowacourse.moamoa.review.query;
 
 import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.디우_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.디우_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.디우_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.디우_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_유저네임;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_이미지;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -43,11 +30,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 class ReviewDaoTest {
-
-    private static final MemberData JJANGGU = new MemberData(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
-    private static final MemberData GREENLAWN = new MemberData(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
-    private static final MemberData DWOO = new MemberData(디우_깃허브_아이디, 디우_유저네임, 디우_이미지, 디우_프로필);
-    private static final MemberData VERUS = new MemberData(베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
 
     @Autowired
     private MemberRepository memberRepository;
@@ -126,15 +108,15 @@ class ReviewDaoTest {
                 + createdDate + "', '" + lastModifiedDate + "', false)");
 
         javaReviews = List.of(
-                new ReviewData(1L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용1"),
-                new ReviewData(2L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용2"),
-                new ReviewData(3L, DWOO, createdDate, lastModifiedDate, "리뷰 내용3"),
-                new ReviewData(4L, VERUS, createdDate, lastModifiedDate, "리뷰 내용4")
+                new ReviewData(1L, 짱구_응답, createdDate, lastModifiedDate, "리뷰 내용1"),
+                new ReviewData(2L, 그린론_응답, createdDate, lastModifiedDate, "리뷰 내용2"),
+                new ReviewData(3L, 디우_응답, createdDate, lastModifiedDate, "리뷰 내용3"),
+                new ReviewData(4L, 베루스_응답, createdDate, lastModifiedDate, "리뷰 내용4")
         );
         reactReviews = List.of(
-                new ReviewData(5L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용5"),
-                new ReviewData(6L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용6"),
-                new ReviewData(7L, DWOO, createdDate, lastModifiedDate, "리뷰 내용7")
+                new ReviewData(5L, 짱구_응답, createdDate, lastModifiedDate, "리뷰 내용5"),
+                new ReviewData(6L, 그린론_응답, createdDate, lastModifiedDate, "리뷰 내용6"),
+                new ReviewData(7L, 디우_응답, createdDate, lastModifiedDate, "리뷰 내용7")
         );
     }
 
