@@ -36,11 +36,11 @@ public class AuthControllerTest {
     @Test
     void getJwtToken() throws Exception {
         given(authService.createToken("Authorization code"))
-                .willReturn(new TokenResponseWithRefresh("jwt token", "refresh token"));
+                .willReturn(new TokenResponseWithRefresh("jwt token", "refreshtoken"));
 
-        mockMvc.perform(post("/api/login/token").param("code", "Authorization code"))
+        mockMvc.perform(post("/api/login/token?code=Authorization code"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("accessToken").value("jwt token"))
+                .andExpect(jsonPath("$.accessToken").value("jwt token"))
                 .andDo(print());
     }
 }
