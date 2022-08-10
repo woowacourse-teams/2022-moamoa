@@ -13,7 +13,7 @@
 operation::auth/login[snippets='http-request,request-parameters,http-response,response-fields']
 
 === 리프래시 토큰
-operation::auth/refresh[snippets='http-request,request-parameters,http-response,response-fields']
+operation::auth/refresh[snippets='http-request,http-response']
 
 [[Member]]
 == 회원
