@@ -37,10 +37,4 @@ public abstract class WebMVCTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
-
-//    @MockBean
-//    protected HttpServletRequest httpServletRequest;
-
-    @MockBean
-    protected NativeWebRequest nativeWebRequest;
 }

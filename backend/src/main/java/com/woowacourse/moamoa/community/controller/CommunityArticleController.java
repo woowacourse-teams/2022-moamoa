@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,7 +24,7 @@ public class CommunityArticleController {
     @PostMapping("/api/studies/{study-id}/community/articles")
     public ResponseEntity<Void> createArticle(@AuthenticationPrincipal final Long githubId,
                                               @PathVariable("study-id") final Long studyId,
-                                              @Valid final ArticleRequest request
+                                              @Valid @RequestBody final ArticleRequest request
     ) {
         final CommunityArticle article = communityArticleService.createArticle(githubId, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());

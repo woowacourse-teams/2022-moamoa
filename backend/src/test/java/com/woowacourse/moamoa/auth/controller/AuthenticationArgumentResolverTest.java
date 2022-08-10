@@ -17,11 +17,15 @@ import org.junit.jupiter.api.Test;
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import org.springframework.web.context.request.NativeWebRequest;
 
 class AuthenticationArgumentResolverTest extends WebMVCTest {
 
     @MockBean
     protected HttpServletRequest httpServletRequest;
+
+    @MockBean
+    protected NativeWebRequest nativeWebRequest;
 
     @Autowired
     private AuthenticationArgumentResolver authenticationArgumentResolver;

@@ -1,11 +1,16 @@
 package com.woowacourse.moamoa.community.webmvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,10 +18,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
+
+    @MockBean
+    private CommunityArticleService communityArticleService;
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
@@ -136,4 +145,22 @@ public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
+    
+    @DisplayName("스터디에 참여한 참가자가 아닌 경우, NotParticipatedMemberException이 발생하고 401을 반환한다.")
+    @Test
+    void unauthorizedByNotParticipant() throws Exception {
+        when(communityArticleService.createArticle(any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
+
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                        post("/api/studies/{study-id}/community/articles", "1")
+                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("title", "content")))
+                )
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
 }
