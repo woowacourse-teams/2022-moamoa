@@ -1,5 +1,25 @@
 package com.woowacourse.moamoa.review.query;
 
+import static com.woowacourse.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_깃허브_아이디;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_유저네임;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_이미지;
+import static com.woowacourse.fixtures.MemberFixtures.그린론_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.디우;
+import static com.woowacourse.fixtures.MemberFixtures.디우_깃허브_아이디;
+import static com.woowacourse.fixtures.MemberFixtures.디우_유저네임;
+import static com.woowacourse.fixtures.MemberFixtures.디우_이미지;
+import static com.woowacourse.fixtures.MemberFixtures.디우_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_깃허브_아이디;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_유저네임;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_이미지;
+import static com.woowacourse.fixtures.MemberFixtures.베루스_프로필;
+import static com.woowacourse.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_깃허브_아이디;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_유저네임;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_이미지;
+import static com.woowacourse.fixtures.MemberFixtures.짱구_프로필;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -24,10 +44,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @RepositoryTest
 class ReviewDaoTest {
 
-    private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
-    private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
-    private static final MemberData DWOO = new MemberData(3L, "dwoo", "https://image", "github.com");
-    private static final MemberData VERUS = new MemberData(4L, "verus", "https://image", "github.com");
+    private static final MemberData JJANGGU = new MemberData(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
+    private static final MemberData GREENLAWN = new MemberData(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
+    private static final MemberData DWOO = new MemberData(디우_깃허브_아이디, 디우_유저네임, 디우_이미지, 디우_프로필);
+    private static final MemberData VERUS = new MemberData(베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
 
     @Autowired
     private MemberRepository memberRepository;
@@ -55,10 +75,10 @@ class ReviewDaoTest {
     @BeforeEach
     void setUp() {
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(toMember(JJANGGU));
-        final Member greenlawn = memberRepository.save(toMember(GREENLAWN));
-        final Member dwoo = memberRepository.save(toMember(DWOO));
-        final Member verus = memberRepository.save(toMember(VERUS));
+        final Member jjanggu = memberRepository.save(짱구);
+        final Member greenlawn = memberRepository.save(그린론);
+        final Member dwoo = memberRepository.save(디우);
+        final Member verus = memberRepository.save(베루스);
 
         // 스터디 생성
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -85,47 +105,37 @@ class ReviewDaoTest {
         // 리뷰 추가
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (1, " + javaStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용1', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (2, " + javaStudy.getId() + ", " + greenlawn.getId() + ", '리뷰 내용2', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (3, " + javaStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용3', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (4, " + javaStudy.getId() + ", " + verus.getId() + ", '리뷰 내용4', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (5, " + reactStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용5', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (6, " + reactStudy.getId() + ", " + greenlawn.getId()+ ", '리뷰 내용6', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
         jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
                 + "VALUES (7, " + reactStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용7', '"
-                + createdDate.toString() + "T11:23:30.123456', '" + lastModifiedDate.toString()+ "T11:45:20.456123', false)");
+                + createdDate + "T11:23:30.123456', '" + lastModifiedDate + "T11:45:20.456123', false)");
 
-        final ReviewData 리뷰_내용1 = new ReviewData(1L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용1");
-        final ReviewData 리뷰_내용2 = new ReviewData(2L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용2");
-        final ReviewData 리뷰_내용3 = new ReviewData(3L, DWOO, createdDate, lastModifiedDate, "리뷰 내용3");
-        final ReviewData 리뷰_내용4 = new ReviewData(4L, VERUS, createdDate, lastModifiedDate, "리뷰 내용4");
         javaReviews = List.of(
-                리뷰_내용4,
-                리뷰_내용3,
-                리뷰_내용2,
-                리뷰_내용1
+                new ReviewData(1L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용1"),
+                new ReviewData(2L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용2"),
+                new ReviewData(3L, DWOO, createdDate, lastModifiedDate, "리뷰 내용3"),
+                new ReviewData(4L, VERUS, createdDate, lastModifiedDate, "리뷰 내용4")
         );
-
         reactReviews = List.of(
                 new ReviewData(5L, JJANGGU, createdDate, lastModifiedDate, "리뷰 내용5"),
                 new ReviewData(6L, GREENLAWN, createdDate, lastModifiedDate, "리뷰 내용6"),
                 new ReviewData(7L, DWOO, createdDate, lastModifiedDate, "리뷰 내용7")
         );
-    }
-
-    private static Member toMember(MemberData memberData) {
-        return new Member(memberData.getGithubId(), memberData.getUsername(), memberData.getImageUrl(),
-                memberData.getProfileUrl());
     }
 
     @DisplayName("스터디 Id로 작성된 후기를 조회한다.")
