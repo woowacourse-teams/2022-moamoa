@@ -35,12 +35,12 @@ public class AuthControllerTest {
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
     void getJwtToken() throws Exception {
-        given(authService.createToken("Authorization code")).willReturn(new TokenResponseWithRefresh("jwt token", "refresh token"));
+        given(authService.createToken("Authorization code"))
+                .willReturn(new TokenResponseWithRefresh("jwt token", "refresh token"));
 
-        mockMvc.perform(post("/api/login/token?code=Authorization code"))
+        mockMvc.perform(post("/api/login/token").param("code", "Authorization code"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("accessToken")
-                        .value("jwt token"))
+                .andExpect(jsonPath("accessToken").value("jwt token"))
                 .andDo(print());
     }
 }

@@ -28,8 +28,8 @@ public class AuthService {
         return tokenProvider.createToken(githubProfileResponse.getGithubId());
     }
 
-    public TokenResponseWithRefresh refreshToken(final String refreshToken) {
-        String accessToken = tokenProvider.recreationAccessToken(refreshToken);
+    public TokenResponseWithRefresh refreshToken(final Long githubId, final String refreshToken) {
+        String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
 
         return new TokenResponseWithRefresh(accessToken, refreshToken);
     }
