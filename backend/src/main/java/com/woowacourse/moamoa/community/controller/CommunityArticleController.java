@@ -38,7 +38,7 @@ public class CommunityArticleController {
                                                       @PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        return ResponseEntity.ok().body(new ArticleResponse(
-        ));
+        ArticleResponse response = communityArticleService.getArticle(githubId, studyId, articleId);
+        return ResponseEntity.ok().body(response);
     }
 }

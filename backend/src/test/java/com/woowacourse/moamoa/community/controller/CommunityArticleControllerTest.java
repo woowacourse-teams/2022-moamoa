@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
+import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
@@ -20,6 +21,7 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,9 @@ public class CommunityArticleControllerTest {
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
     private StudyRepository studyRepository;
 
     @Autowired
@@ -41,6 +46,9 @@ public class CommunityArticleControllerTest {
 
     @Autowired
     private CommunityArticleRepository communityArticleRepository;
+
+    @Autowired
+    private CommunityArticleDao communityArticleDao;
 
     private StudyService studyService;
     private CommunityArticleController sut;
@@ -50,7 +58,7 @@ public class CommunityArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         communityArticleService = new CommunityArticleService(memberRepository, studyRepository,
-                communityArticleRepository);
+                communityArticleRepository, communityArticleDao);
         sut = new CommunityArticleController(communityArticleService);
     }
 
@@ -112,6 +120,9 @@ public class CommunityArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
                 request);
+
+        entityManager.flush();
+        entityManager.clear();
 
         //act
         final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getGithubId(), study.getId(),
