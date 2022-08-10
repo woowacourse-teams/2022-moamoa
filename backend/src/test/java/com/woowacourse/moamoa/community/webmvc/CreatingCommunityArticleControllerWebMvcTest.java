@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.community.webmvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,7 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
+public class CreatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
     @MockBean
     private CommunityArticleService communityArticleService;
@@ -162,5 +163,4 @@ public class CommunityArticleControllerWebMvcTest extends WebMVCTest {
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
-
 }

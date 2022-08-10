@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +30,13 @@ public class CommunityArticleController {
         final CommunityArticle article = communityArticleService.createArticle(githubId, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/api/studies/{study-id}/community/articles/{article-id}")
+    public ResponseEntity<Void> getArticle(
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("article-id") final Long articleId
+    ) {
+        return ResponseEntity.ok().build();
     }
 }
