@@ -28,7 +28,7 @@ import com.woowacourse.moamoa.referenceroom.query.LinkDao;
 import com.woowacourse.moamoa.referenceroom.query.data.LinkData;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
-import com.woowacourse.moamoa.referenceroom.service.exception.UnableViewException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
@@ -149,6 +149,6 @@ public class SearchingReferenceRoomControllerTest {
     @Test
     void getLinksByNotParticipatedMember() {
         assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudy.getId(), PageRequest.of(0, 5)))
-                .isInstanceOf(UnableViewException.class);
+                .isInstanceOf(NotParticipatedMemberException.class);
     }
 }

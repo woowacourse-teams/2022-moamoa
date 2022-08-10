@@ -5,7 +5,7 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.referenceroom.query.LinkDao;
 import com.woowacourse.moamoa.referenceroom.query.data.LinkData;
-import com.woowacourse.moamoa.referenceroom.service.exception.UnableViewException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -31,8 +31,8 @@ public class SearchingReferenceRoomService {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isAlreadyParticipate(member.getId())) {
-            throw new UnableViewException();
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
         }
 
         final Slice<LinkData> linkData = linkDao.findAllByStudyId(studyId, pageable);

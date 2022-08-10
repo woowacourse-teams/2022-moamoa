@@ -41,7 +41,7 @@ public class Participants {
     }
 
     void participate(Long memberId) {
-        if (isAlreadyParticipated(memberId)) {
+        if (isParticipation(memberId)) {
             throw new FailureParticipationException();
         }
 
@@ -49,7 +49,7 @@ public class Participants {
         size = size + 1;
     }
 
-    public boolean isAlreadyParticipated(Long memberId) {
+    public boolean isParticipation(final Long memberId) {
         return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
     }
 

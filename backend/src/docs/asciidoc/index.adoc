@@ -51,6 +51,9 @@ operation::studies/myStudy[snippets='http-request,http-response']
 === 링크 공유글 생성
 operation::reference-room/create[snippets='http-request,request-headers,http-response']
 
+=== 링크 공유글 전체 조회
+operation::reference-room/list[snippets='http-request,request-headers,http-response']
+
 === 링크 공유글 수정
 operation::reference-room/update[snippets='http-request,request-headers,http-response']
 

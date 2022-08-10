@@ -84,7 +84,7 @@ public class Study {
     }
 
     public boolean isWritable(final Long memberId) {
-        return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
+        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
     }
 
     public void participate(final Long memberId) {
@@ -105,8 +105,8 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
-    public boolean isAlreadyParticipate(final Long memberId) {
-        return participants.isAlreadyParticipated(memberId);
+    public boolean isParticipant(final Long memberId) {
+        return participants.isParticipation(memberId);
     }
 
     public boolean isProgressStatus() {

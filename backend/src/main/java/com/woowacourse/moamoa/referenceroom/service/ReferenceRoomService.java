@@ -8,6 +8,7 @@ import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
@@ -51,6 +52,10 @@ public class ReferenceRoomService {
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
+
         final Link updatedLink = editingLinkRequest.toLink(studyId, member.getId());
         link.update(updatedLink);
     }
@@ -62,6 +67,10 @@ public class ReferenceRoomService {
                 .orElseThrow(StudyNotFoundException::new);
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
+
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
 
         link.delete(new AssociatedStudy(studyId), new Author(member.getId()));
     }
