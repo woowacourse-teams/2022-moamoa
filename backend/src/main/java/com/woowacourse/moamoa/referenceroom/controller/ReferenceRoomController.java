@@ -36,19 +36,21 @@ public class ReferenceRoomController {
     @PutMapping("/{link-id}")
     public ResponseEntity<Void> updateLink(
             @AuthenticationPrincipal final Long githubId,
+            @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final EditingLinkRequest editingLinkRequest
     ) {
-        referenceRoomService.updateLink(githubId, linkId, editingLinkRequest);
+        referenceRoomService.updateLink(githubId, studyId, linkId, editingLinkRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{link-id}")
     public ResponseEntity<Void> deleteLink(
             @AuthenticationPrincipal final Long githubId,
+            @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {
-        referenceRoomService.deleteLink(githubId, linkId);
+        referenceRoomService.deleteLink(githubId, studyId, linkId);
         return ResponseEntity.noContent().build();
     }
 }

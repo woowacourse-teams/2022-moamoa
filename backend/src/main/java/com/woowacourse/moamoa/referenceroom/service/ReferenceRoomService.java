@@ -37,26 +37,32 @@ public class ReferenceRoomService {
             throw new NotCreatingLinkException();
         }
 
-        final Link link = creatingLinkRequest.toLink(new AssociatedStudy(studyId), new Author(member.getId()));
+        final Link link = creatingLinkRequest.toLink(studyId, member.getId());
         return linkRepository.save(link);
     }
 
-    public void updateLink(final Long githubId, final Long linkId, final EditingLinkRequest editingLinkRequest) {
+    public void updateLink(
+            final Long githubId, final Long studyId, final Long linkId, final EditingLinkRequest editingLinkRequest
+    ) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
-        final Link updatedLink = editingLinkRequest.toLink(link.getAssociatedStudy(), new Author(member.getId()));
+        final Link updatedLink = editingLinkRequest.toLink(studyId, member.getId());
         link.update(updatedLink);
     }
 
-    public void deleteLink(final Long githubId, final Long linkId) {
+    public void deleteLink(final Long githubId, final Long studyId, final Long linkId) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
-        link.delete(new Author(member.getId()));
+        link.delete(new AssociatedStudy(studyId), new Author(member.getId()));
     }
 }

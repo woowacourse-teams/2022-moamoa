@@ -13,7 +13,7 @@ import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
-import com.woowacourse.moamoa.referenceroom.service.exception.UnwrittenLinkException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotLinkAuthorException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -93,7 +93,7 @@ public class ReferenceRoomControllerTest {
     void updateByInvalidLinkId() {
         final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("www.naver.com", "수정");
 
-        assertThatThrownBy(() -> sut.updateLink(짱구_깃허브_아이디, -1L, editingLinkRequest))
+        assertThatThrownBy(() -> sut.updateLink(짱구_깃허브_아이디, javaStudyId, -1L, editingLinkRequest))
                 .isInstanceOf(LinkNotFoundException.class);
     }
 
@@ -102,21 +102,21 @@ public class ReferenceRoomControllerTest {
     void updateByUnwrittenMember() {
         final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com", "수정된 링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.updateLink(베루스_깃허브_아이디, linkId, editingLinkRequest))
-                .isInstanceOf(UnwrittenLinkException.class);
+        assertThatThrownBy(() -> sut.updateLink(베루스_깃허브_아이디, javaStudyId, linkId, editingLinkRequest))
+                .isInstanceOf(NotLinkAuthorException.class);
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByInvalidLinkId() {
-        assertThatThrownBy(() -> sut.deleteLink(짱구_깃허브_아이디, -1L))
+        assertThatThrownBy(() -> sut.deleteLink(짱구_깃허브_아이디, javaStudyId, -1L))
                 .isInstanceOf(LinkNotFoundException.class);
     }
 
     @DisplayName("내가 작성하지 않은 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByUnwrittenMember() {
-        assertThatThrownBy(() -> sut.deleteLink(베루스_깃허브_아이디, linkId))
-                .isInstanceOf(UnwrittenLinkException.class);
+        assertThatThrownBy(() -> sut.deleteLink(베루스_깃허브_아이디, javaStudyId, linkId))
+                .isInstanceOf(NotLinkAuthorException.class);
     }
 }

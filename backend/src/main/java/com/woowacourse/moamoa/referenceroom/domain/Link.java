@@ -1,7 +1,8 @@
 package com.woowacourse.moamoa.referenceroom.domain;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
-import com.woowacourse.moamoa.referenceroom.service.exception.UnwrittenLinkException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotLinkAuthorException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotRelatedLinkException;
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -45,20 +46,29 @@ public class Link extends BaseEntity {
     }
 
     public void update(final Link updatedLink) {
+        validateBelongToStudy(updatedLink.associatedStudy);
         validateAuthor(updatedLink.author);
 
         linkUrl = updatedLink.linkUrl;
         description = updatedLink.description;
     }
 
-    public void delete(final Author author) {
+    public void delete(final AssociatedStudy associatedStudy, final Author author) {
+        validateBelongToStudy(associatedStudy);
         validateAuthor(author);
+
         deleted = true;
+    }
+
+    private void validateBelongToStudy(final AssociatedStudy associatedStudy) {
+        if (!this.associatedStudy.equals(associatedStudy)) {
+            throw new NotRelatedLinkException();
+        }
     }
 
     private void validateAuthor(final Author author) {
         if (!this.author.equals(author)) {
-            throw new UnwrittenLinkException();
+            throw new NotLinkAuthorException();
         }
     }
 
