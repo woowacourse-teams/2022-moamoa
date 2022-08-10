@@ -49,7 +49,7 @@ public class Participants {
         size = size + 1;
     }
 
-    boolean isAlreadyParticipated(Long memberId) {
+    public boolean isAlreadyParticipated(Long memberId) {
         return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
     }
 

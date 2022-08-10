@@ -10,7 +10,9 @@ import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.member.controller.MemberController;
 import com.woowacourse.moamoa.member.service.MemberService;
 import com.woowacourse.moamoa.referenceroom.controller.ReferenceRoomController;
+import com.woowacourse.moamoa.referenceroom.controller.SearchingReferenceRoomController;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
 import com.woowacourse.moamoa.review.controller.ReviewController;
 import com.woowacourse.moamoa.review.controller.SearchingReviewController;
 import com.woowacourse.moamoa.review.service.ReviewService;
@@ -32,7 +34,8 @@ import org.springframework.web.context.request.NativeWebRequest;
         MemberController.class,
         MyStudyController.class,
         AuthController.class,
-        ReferenceRoomController.class
+        ReferenceRoomController.class,
+        SearchingReferenceRoomController.class
 })
 @Import({JwtTokenProvider.class, AuthRequestMatchConfig.class})
 public abstract class WebMVCTest {
@@ -69,6 +72,9 @@ public abstract class WebMVCTest {
 
     @MockBean
     protected ReferenceRoomService referenceRoomService;
+
+    @MockBean
+    protected SearchingReferenceRoomService searchingReferenceRoomService;
 
     @MockBean
     protected HttpServletRequest httpServletRequest;

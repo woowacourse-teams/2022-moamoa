@@ -105,6 +105,10 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
+    public boolean isAlreadyParticipate(final Long memberId) {
+        return participants.isAlreadyParticipated(memberId);
+    }
+
     public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }

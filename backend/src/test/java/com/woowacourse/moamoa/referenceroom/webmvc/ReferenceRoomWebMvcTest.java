@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.webmvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,9 +21,9 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(null, "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(content))
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -51,6 +52,30 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("page 파라미터 형식이 잘못된 경우 400을 반환한다.")
+    @Test
+    void requestByInvalidPageParameter() throws Exception {
+        final String token = tokenProvider.createToken(1L);
+
+        mockMvc.perform(get("/api/studies/1/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .param("page", "one"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("size 파라미터 형식이 잘못된 경우 400을 반환한다.")
+    @Test
+    void requestByInvalidSizeParameter() throws Exception {
+        final String token = tokenProvider.createToken(1L);
+
+        mockMvc.perform(get("/api/studies/1/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .param("size", "one"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }

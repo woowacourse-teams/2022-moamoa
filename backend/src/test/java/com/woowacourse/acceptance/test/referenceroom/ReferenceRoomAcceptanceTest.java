@@ -44,7 +44,6 @@ import org.springframework.http.MediaType;
 @DisplayName("링크 모음 인수 테스트")
 public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
 
-
     @DisplayName("참여한 스터디의 링크 공유실에 정상적으로 글을 작성한다.")
     @Test
     void shareLink() {
@@ -89,8 +88,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long 그린론_링크공유_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request2);
         final Long 디우_링크공유_ID = 디우가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request3);
         final Long 베루스_링크공유_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request4);
-        짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
-        짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
+        final Long 짱구_링크공유_ID2 = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
+        final Long 짱구_링크공유_ID3 = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
 
         final String token = 짱구가().로그인한다();
         final LinksResponse linksResponse = RestAssured.given(spec).log().all()
@@ -100,6 +99,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                         )))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
+                .param("page", 1)
+                .param("size", 5)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")
                 .then().statusCode(HttpStatus.OK.value())
@@ -124,10 +125,16 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final LinkResponse 베루스_응답
                 = new LinkResponse(베루스_링크공유_ID, 베루스, request4.getLinkUrl(), request4.getDescription(), 리뷰_생성일, 리뷰_수정일);
 
+        final LinkResponse 짱구_응답2
+                = new LinkResponse(짱구_링크공유_ID2, 짱구, request1.getLinkUrl(), request1.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
+        final LinkResponse 짱구_응답3
+                = new LinkResponse(짱구_링크공유_ID3, 짱구, request1.getLinkUrl(), request1.getDescription(), 리뷰_생성일, 리뷰_수정일);
+
         assertAll(
                 () -> assertThat(linksResponse.isHasNext()).isTrue(),
                 () -> assertThat(linksResponse.getLinks())
-                        .containsExactlyInAnyOrderElementsOf(List.of(짱구_응답, 그린론_응답, 디우_응답, 베루스_응답, 짱구_응답))
+                        .containsExactlyInAnyOrderElementsOf(List.of(짱구_응답, 그린론_응답, 디우_응답, 베루스_응답, 짱구_응답2))
         );
     }
 
