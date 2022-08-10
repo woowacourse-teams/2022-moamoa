@@ -3,11 +3,11 @@ import { useContext } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import type { QueryKey } from 'react-query';
 
-import { ACCESS_TOKEN_KEY } from '@constants';
-
 import type { GetTokenResponseData } from '@custom-types';
 
 import getRefreshToken from '@api/getRefreshToken';
+
+import AccessTokenController from '@auth/accessToken';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -23,6 +23,7 @@ export const useAuth = (refetchKey?: QueryKey) => {
     getRefreshToken,
     {
       onError: () => {
+        // TODO: 만약 refreshToken이 만료되었다는 코드가 오면
         logout();
         alert('로그인이 만료되었습니다.');
       },
@@ -36,13 +37,13 @@ export const useAuth = (refetchKey?: QueryKey) => {
   );
 
   const login = (accesssToken: string) => {
-    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accesssToken);
+    AccessTokenController.setAccessToken(accesssToken);
     setIsLoggedIn(true);
     fetchUserInfo();
   };
 
   const logout = () => {
-    window.sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+    AccessTokenController.removeAccessToken();
     setIsLoggedIn(false);
   };
 

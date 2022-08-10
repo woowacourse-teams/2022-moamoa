@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // TODO: 불필요한 Import , 상수 자체가 필요 없음
-import { PATH, PROFILE_IMAGE_URL } from '@constants';
+import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 import { useUserInfo } from '@hooks/useUserInfo';
@@ -67,7 +67,11 @@ const BiBookmark = () => (
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const { setKeyword } = useContext(SearchContext);
+  console.log('Header');
 
+  useEffect(() => {
+    console.log('useEffect-Header');
+  }, []);
   const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();

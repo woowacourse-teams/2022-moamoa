@@ -1,4 +1,6 @@
-import { ACCESS_TOKEN_KEY, DESCRIPTION_LENGTH, EXCERPT_LENGTH, PATH, TITLE_LENGTH } from '@constants';
+import { DESCRIPTION_LENGTH, EXCERPT_LENGTH, PATH, TITLE_LENGTH } from '@constants';
+
+import AccessTokenController from '@auth/accessToken';
 
 const studyTitle = 'studyTitle';
 const description = 'description';
@@ -8,7 +10,7 @@ const startDate = 'startDate';
 
 describe('스터디 개설 페이지 폼 유효성 테스트', () => {
   before(() => {
-    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, 'asdfasf');
+    AccessTokenController.setAccessToken('asdfasfdsfd');
     cy.visit(PATH.CREATE_STUDY);
   });
 

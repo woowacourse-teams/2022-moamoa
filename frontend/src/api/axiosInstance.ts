@@ -1,13 +1,12 @@
 import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 
-import { ACCESS_TOKEN_KEY } from '@constants';
+import AccessTokenController from '@auth/accessToken';
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': process.env.API_URL,
   },
   withCredentials: true,
 });
@@ -29,7 +28,7 @@ axiosInstance.interceptors.response.use(response => response, handleAxiosError);
 
 axiosInstance.interceptors.request.use(
   config => {
-    const accessToken = window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
+    const accessToken = AccessTokenController.getAccessToken();
 
     if (!accessToken) return config;
     if (!config.headers) {
