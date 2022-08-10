@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
+import { PostLoginRequestParams, PostLoginResponseData } from '@custom-types';
 
 import { postLogin } from '@api';
 
@@ -18,7 +18,7 @@ const useLoginRedirectPage = () => {
 
   const { login } = useAuth();
 
-  const { mutate } = useMutation<PostTokenResponseData, AxiosError, PostTokenRequestParams>(postLogin);
+  const { mutate } = useMutation<PostLoginResponseData, AxiosError, PostLoginRequestParams>(postLogin);
 
   useEffect(() => {
     if (!codeParam) {
