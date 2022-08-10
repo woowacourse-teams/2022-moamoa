@@ -131,7 +131,7 @@ public class CommunityArticleControllerTest {
         //assert
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(new ArticleResponse(article.getId(),
-                new AuthorResponse(member.getId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()),
+                new AuthorResponse(member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()),
                 request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
     }
 }
