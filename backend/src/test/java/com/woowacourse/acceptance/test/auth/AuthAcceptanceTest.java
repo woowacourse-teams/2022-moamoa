@@ -1,4 +1,4 @@
-package com.woowacourse.acceptance.auth;
+package com.woowacourse.acceptance.test.auth;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

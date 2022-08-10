@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import io.jsonwebtoken.JwtException;
+
 @RestControllerAdvice
 @Slf4j
 public class CommonControllerAdvice {
@@ -41,7 +43,7 @@ public class CommonControllerAdvice {
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler({UnauthorizedException.class, JwtException.class})
     public ResponseEntity<Void> handleUnauthorized(final Exception e) {
         log.debug("UnauthorizedException : {}", e.getMessage());
         return ResponseEntity.status(UNAUTHORIZED).build();
