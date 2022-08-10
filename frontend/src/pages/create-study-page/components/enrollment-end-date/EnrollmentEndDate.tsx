@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import { css } from '@emotion/react';
-
 import { getNextYear, getToday } from '@utils';
 
 import { useFormContext } from '@hooks/useForm';
@@ -24,21 +22,14 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
         <MetaBox.Title>스터디 신청 마감일</MetaBox.Title>
         <MetaBox.Content>
           <div>
-            <label
-              htmlFor="enrollment-end-date"
-              css={css`
-                margin-right: 10px;
-              `}
-            >
-              마감일자 :
-            </label>
-            <input
+            <S.Label htmlFor="enrollment-end-date">마감일자 :</S.Label>
+            <S.Input
               type="date"
               id="enrollment-end-date"
               min={today}
               max={nextYear}
               {...register('enrollment-end-date')}
-            ></input>
+            />
           </div>
         </MetaBox.Content>
       </MetaBox>

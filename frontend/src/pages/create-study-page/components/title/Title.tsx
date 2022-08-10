@@ -1,55 +1,32 @@
 import cn from 'classnames';
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
-
 import { TITLE_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 
+import * as S from './Title.style';
+
 const Title: React.FC = () => {
   const { register, formState } = useFormContext();
   const { errors } = formState;
   const [count, setCount] = useState(0);
+  const isValid = !!errors['title']?.hasError;
 
   return (
-    <div
-      css={css`
-        position: relative;
-      `}
-    >
-      <div
-        css={css`
-          position: absolute;
-          right: 4px;
-          bottom: 2px;
-
-          display: flex;
-          justify-content: flex-end;
-        `}
-      >
+    <S.Container>
+      <S.LetterCounterContainer>
         <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      </div>
-      <label // TODO: HiddenLabel Component 생성
-        htmlFor="title"
-        css={css`
-          display: block;
-
-          height: 0;
-          width: 0;
-
-          visibility: hidden;
-        `}
-      >
-        스터디 이름
-      </label>
-      <input
+      </S.LetterCounterContainer>
+      {/* TODO: HiddenLabel Component 생성 */}
+      <S.Label htmlFor="title">스터디 이름</S.Label>
+      <S.Input
         id="title"
-        className={cn('title-input', { invalid: !!errors['title']?.hasError })}
         type="text"
         placeholder="*스터디 이름"
+        isValid={isValid}
         {...register('title', {
           validate: (val: string) => {
             if (val.length < TITLE_LENGTH.MIN.VALUE) {
@@ -67,7 +44,7 @@ const Title: React.FC = () => {
           required: true,
         })}
       />
-    </div>
+    </S.Container>
   );
 };
 
