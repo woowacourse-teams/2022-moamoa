@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import type { AxiosError } from 'axios';
+import { useContext, useState } from 'react';
+import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
-// TODO: 불필요한 Import , 상수 자체가 필요 없음
 import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
@@ -67,15 +68,10 @@ const BiBookmark = () => (
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const { setKeyword } = useContext(SearchContext);
-  console.log('Header');
 
-  useEffect(() => {
-    console.log('useEffect-Header');
-  }, []);
   const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
-
   const { logout, isLoggedIn } = useAuth();
   const { userInfo } = useUserInfo();
 
@@ -92,7 +88,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
   const handleLogoutButtonClick = () => {
     logout();
-    alert('로그아웃 되었습니다.');
   };
 
   const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
