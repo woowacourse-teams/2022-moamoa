@@ -15,7 +15,7 @@ type ContextType = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const hasAccessToken = !!AccessTokenController.getAccessToken();
+const hasAccessToken = !!AccessTokenController.accessToken;
 
 export const LoginContext = createContext<ContextType>({
   isLoggedIn: false,

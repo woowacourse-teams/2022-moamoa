@@ -5,7 +5,7 @@ import type { QueryKey } from 'react-query';
 
 import type { GetTokenResponseData } from '@custom-types';
 
-import getRefreshToken from '@api/getRefreshToken';
+import { getAccessToken } from '@api';
 
 import AccessTokenController from '@auth/accessToken';
 
@@ -20,7 +20,7 @@ export const useAuth = (refetchKey?: QueryKey) => {
   const queryClient = useQueryClient();
   const { refetch: fetchRefreshToken } = useQuery<GetTokenResponseData, AxiosError>(
     ['refresh-token', refetchKey], // refetchKey를 key로 설정하지 않으면 같은 key가 사용된 횟수만큼 onError가 실행됨
-    getRefreshToken,
+    getAccessToken,
     {
       onError: () => {
         // TODO: 만약 refreshToken이 만료되었다는 코드가 오면
@@ -45,6 +45,7 @@ export const useAuth = (refetchKey?: QueryKey) => {
   const logout = () => {
     AccessTokenController.removeAccessToken();
     setIsLoggedIn(false);
+    // logout api 요청 필요
   };
 
   return { isLoggedIn, login, logout, fetchRefreshToken };

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import type { GetUserRoleResponseData } from '@custom-types';
 
-import getUserRole from '@api/getUserRole';
+import { getUserRole } from '@api';
 
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 

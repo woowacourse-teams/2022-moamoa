@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
 
-import { postAccessToken } from '@api';
+import { postLogin } from '@api';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -18,7 +18,7 @@ const useLoginRedirectPage = () => {
 
   const { login } = useAuth();
 
-  const { mutate } = useMutation<PostTokenResponseData, AxiosError, PostTokenRequestParams>(postAccessToken);
+  const { mutate } = useMutation<PostTokenResponseData, AxiosError, PostTokenRequestParams>(postLogin);
 
   useEffect(() => {
     if (!codeParam) {

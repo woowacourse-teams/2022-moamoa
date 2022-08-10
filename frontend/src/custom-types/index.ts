@@ -119,10 +119,10 @@ export type GetTagListResponseData = {
   tags: Array<Tag>;
 };
 
-export type PostTokenRequestParams = {
+export type PostLoginRequestParams = {
   code: string;
 };
-export type PostTokenResponseData = {
+export type PostLoginResponseData = {
   accessToken: string;
 };
 export type GetTokenResponseData = {

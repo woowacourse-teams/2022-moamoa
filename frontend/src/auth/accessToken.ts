@@ -1,17 +1,19 @@
 class AccessTokenController {
-  private static accessToken = '';
+  private static _accessToken = '';
 
   static setAccessToken(newAccessToken: string) {
-    this.accessToken = newAccessToken;
+    this._accessToken = newAccessToken;
   }
 
-  static getAccessToken() {
-    return this.accessToken;
+  static get accessToken() {
+    return this._accessToken;
   }
 
   static removeAccessToken() {
-    this.accessToken = '';
+    this._accessToken = '';
   }
+
+  static async fetchRefreshToken() {}
 }
 
 export default AccessTokenController;

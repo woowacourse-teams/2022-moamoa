@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import type { GetUserInformationResponseData } from '@custom-types';
 
-import getUserInformation from '@api/getUserInformation';
+import { getUserInformation } from '@api';
 
 import { UserInfoContext } from '@context/userInfo/UserInfoProvider';
 

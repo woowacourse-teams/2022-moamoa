@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(response => response, handleAxiosError);
 
 axiosInstance.interceptors.request.use(
   config => {
-    const accessToken = AccessTokenController.getAccessToken();
+    const accessToken = AccessTokenController.accessToken;
 
     if (!accessToken) return config;
     if (!config.headers) {

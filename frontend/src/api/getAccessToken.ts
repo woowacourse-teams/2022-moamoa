@@ -2,9 +2,9 @@ import type { GetTokenResponseData } from '@custom-types';
 
 import { axiosInstance } from '@api';
 
-const getRefreshToken = async () => {
+const getAccessToken = async () => {
   const response = await axiosInstance.get<GetTokenResponseData>(`/api/auth/refresh`);
   return response.data;
 };
 
-export default getRefreshToken;
+export default getAccessToken;

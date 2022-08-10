@@ -4,8 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import type { EmptyObject, GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
 
-import { postJoiningStudy } from '@api';
-import getUserRole from '@api/getUserRole';
+import { getUserRole, postJoiningStudy } from '@api';
 
 import { useAuth } from '@hooks/useAuth';
 
