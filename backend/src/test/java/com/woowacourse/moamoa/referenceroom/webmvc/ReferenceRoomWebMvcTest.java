@@ -42,6 +42,25 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("링크 공유 설명이 50글자 이상인 경우 400을 반환한다.")
+    @Test
+    void requestBy50LengthExceededDescription() throws Exception {
+        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크",
+                "일이삼사오육칠팔구십"
+                        + "일이삼사오육칠팔이십"
+                        + "일이삼사오육칠팔삼십"
+                        + "일이삼사오육칠팔사십"
+                        + "일이삼사오육앗싸오십일"));
+
+        mockMvc.perform(post("/api/studies/1/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("정상적이지 않은 스터디 id인 경우 400을 반환한다.")
     @Test
     void requestByInvalidStudyId() throws Exception {

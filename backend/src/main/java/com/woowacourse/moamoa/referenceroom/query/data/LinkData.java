@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class LinkData {
 
     private Long id;
-    private MemberData member;
+    private MemberData memberData;
     private String linkUrl;
     private String description;
     private LocalDate createdDate;

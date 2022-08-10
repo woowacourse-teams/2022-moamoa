@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
-import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
@@ -30,9 +29,8 @@ public class ReferenceRoomController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final CreatingLinkRequest creatingLinkRequest
     ) {
-        final Link link = referenceRoomService.createLink(githubId, studyId, creatingLinkRequest);
-        return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + link.getId()))
-                .build();
+        final Long id = referenceRoomService.createLink(githubId, studyId, creatingLinkRequest).getId();
+        return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
     @PutMapping("/{link-id}")
