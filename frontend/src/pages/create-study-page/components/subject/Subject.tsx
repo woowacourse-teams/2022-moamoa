@@ -3,14 +3,14 @@ import { css } from '@emotion/react';
 import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/tag/Tag.style';
+import * as S from '@create-study-page/components/subject/Subject.style';
 import useGetTagList from '@create-study-page/hooks/useGetTagList';
 
-type TagProps = {
+type SubjectProps = {
   className?: string;
 };
 
-const Tag = ({ className }: TagProps) => {
+const Subject = ({ className }: SubjectProps) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTagList();
 
@@ -25,16 +25,15 @@ const Tag = ({ className }: TagProps) => {
 
       return (
         <select
-          id="tag-list"
+          id="subject-list"
           css={css`
             width: 100%;
           `}
           {...register('subject')}
         >
-          <option>선택 안함</option>
-          {subjects.map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
+          {subjects.map(({ id, name, description }) => (
+            <option selected={name === 'Etc'} key={id} value={id}>
+              {description}
             </option>
           ))}
         </select>
@@ -43,15 +42,15 @@ const Tag = ({ className }: TagProps) => {
   };
 
   return (
-    <S.Tag className={className}>
+    <S.Subject className={className}>
       <MetaBox>
         <MetaBox.Title>
-          <label htmlFor="tag-list">주제</label>
+          <label htmlFor="subject-list">주제</label>
         </MetaBox.Title>
         <MetaBox.Content>{render()}</MetaBox.Content>
       </MetaBox>
-    </S.Tag>
+    </S.Subject>
   );
 };
 
-export default Tag;
+export default Subject;

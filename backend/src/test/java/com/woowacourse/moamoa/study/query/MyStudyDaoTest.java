@@ -55,16 +55,6 @@ class MyStudyDaoTest {
                 + "VALUES (7, 'OS 스터디', 'OS 설명', 'os thumbnail', 'RECRUITMENT_END', 'PREPARE', 'OS를 공부하자의 그린론입니다.', 1, '" + now + "', 2, '2021-12-06', '2021-12-07', '2022-01-07')");
 
 
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
-        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
-
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
-        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
-
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");

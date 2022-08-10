@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { TbCrown } from 'react-icons/tb';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
@@ -15,6 +14,24 @@ export type StudyMemberSectionProps = {
   owner: Owner;
   members: Array<Member>;
 };
+
+const TbCrown = () => (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    height="20"
+    width="20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <desc></desc>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
+  </svg>
+);
 
 const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -35,7 +52,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         <>
           <S.Owner key={owner.id}>
             <a href={owner.profileUrl}>
-              <TbCrown size={20} />
+              <TbCrown />
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
@@ -64,7 +81,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
       <>
         <S.Owner key={owner.id}>
           <a href={owner.profileUrl}>
-            <TbCrown size={20} />
+            <TbCrown />
             <StudyMemberCard
               username={owner.username}
               imageUrl={owner.imageUrl}
@@ -95,7 +112,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         스터디원 <span>{totalMembers.length}명</span>
       </S.Title>
       <S.MemberList>{renderMembers()}</S.MemberList>
-      {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
+      {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}
