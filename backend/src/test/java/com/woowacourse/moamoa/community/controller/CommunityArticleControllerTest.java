@@ -10,8 +10,6 @@ import com.woowacourse.moamoa.community.domain.repository.CommunityArticleReposi
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
-import com.woowacourse.moamoa.community.service.response.ArticleResponse;
-import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -21,7 +19,6 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,9 +31,6 @@ public class CommunityArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private StudyRepository studyRepository;
@@ -52,14 +46,12 @@ public class CommunityArticleControllerTest {
 
     private StudyService studyService;
     private CommunityArticleController sut;
-    private CommunityArticleService communityArticleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        communityArticleService = new CommunityArticleService(memberRepository, studyRepository,
-                communityArticleRepository, communityArticleDao);
-        sut = new CommunityArticleController(communityArticleService);
+        sut = new CommunityArticleController(new CommunityArticleService(memberRepository, studyRepository,
+                communityArticleRepository, communityArticleDao));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -107,31 +99,5 @@ public class CommunityArticleControllerTest {
         // act & assert
         assertThatThrownBy(() -> sut.createArticle(member.getGithubId(), 1L, new ArticleRequest("제목", "내용")))
                 .isInstanceOf(StudyNotFoundException.class);
-    }
-
-    @DisplayName("스터디 게시글을 단건 조회한다.")
-    @Test
-    void getStudyCommunityArticle() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
-                request);
-
-        entityManager.flush();
-        entityManager.clear();
-
-        //act
-        final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getGithubId(), study.getId(),
-                article.getId());
-
-        //assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(new ArticleResponse(article.getId(),
-                new AuthorResponse(member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()),
-                request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
     }
 }

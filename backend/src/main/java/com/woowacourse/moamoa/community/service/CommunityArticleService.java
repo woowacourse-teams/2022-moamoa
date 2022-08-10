@@ -4,9 +4,9 @@ import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.query.data.CommunityArticleData;
+import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
-import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -45,7 +45,10 @@ public class CommunityArticleService {
     }
 
     public ArticleResponse getArticle(final Long githubId, final Long studyId, final Long articleId) {
-        CommunityArticleData data = communityArticleDao.getById(articleId).get();
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final CommunityArticleData data = communityArticleDao.getById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId));
         return new ArticleResponse(data);
     }
 }

@@ -1,13 +1,11 @@
 package com.woowacourse.moamoa.community.webmvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
@@ -15,9 +13,7 @@ import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberExce
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
