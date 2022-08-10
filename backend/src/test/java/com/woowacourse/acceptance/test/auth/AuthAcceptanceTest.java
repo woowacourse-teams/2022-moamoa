@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.auth;
 
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -49,7 +50,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                         )))
                 .queryParam("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("accessToken", notNullValue());
@@ -74,6 +75,25 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .body("accessToken", notNullValue());
     }
 
+    @DisplayName("로그아웃시에 쿠키를 제거해준다.")
+    @Test
+    public void logout() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/logout",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .cookie("refreshToken", foundToken.getRefreshToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .when()
+                .delete("/api/auth/logout")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .cookie("refreshToken", is(""));
+    }
+
     @Test
     @DisplayName("유효하지 않은 Authorization Code인 경우 401을 반환한다.")
     void get401ByInvalidAuthorizationCode() throws JsonProcessingException {
@@ -86,7 +106,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given().log().all()
                 .param("code", invalidAuthorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
@@ -106,7 +126,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given().log().all()
                 .param("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }

@@ -15,6 +15,9 @@ operation::auth/login[snippets='http-request,request-parameters,http-response,re
 === 리프래시 토큰
 operation::auth/refresh[snippets='http-request,http-response']
 
+=== 로그아웃
+operation::auth/logout[snippets='http-request,http-response']
+
 [[Member]]
 == 회원
 

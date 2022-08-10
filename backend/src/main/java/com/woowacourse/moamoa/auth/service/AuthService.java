@@ -58,4 +58,11 @@ public class AuthService {
 
         return new TokenResponse(accessToken);
     }
+
+    public void logout(final Long githubId) {
+        final Token token = tokenRepository.findByGithubId(githubId)
+                .orElseThrow(TokenNotFoundException::new);
+
+        tokenRepository.delete(token);
+    }
 }

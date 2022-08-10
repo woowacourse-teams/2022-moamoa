@@ -113,7 +113,7 @@ public class AcceptanceTest {
         final String token = RestAssured.given().log().all()
                 .param("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().jsonPath().getString("accessToken");

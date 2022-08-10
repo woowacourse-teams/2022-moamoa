@@ -12,6 +12,7 @@ import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileRes
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,5 +97,23 @@ class AuthServiceTest {
         final Token token = tokenRepository.findByGithubId(1L).get();
 
         assertDoesNotThrow(() -> authService.refreshToken(1L, token.getRefreshToken()));
+    }
+
+    @DisplayName("로그아웃을 하면 Token 을 제거한다.")
+    @Test
+    public void logout() {
+        Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
+        Mockito.when(oAuthClient.getProfile("access-token"))
+                .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
+
+        authService.createToken("authorization-code");
+        final Token token = tokenRepository.findByGithubId(1L).get();
+
+        authService.logout(token.getGithubId());
+
+        final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
+
+        assertThat(token).isNotNull();
+        assertThat(foundToken.isEmpty()).isTrue();
     }
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/api/login/token")
+    @PostMapping("/api/auth/login")
     public ResponseEntity<TokenResponse> login(@RequestParam final String code) {
         final TokenResponseWithRefresh tokenResponse = authService.createToken(code);
 
@@ -37,9 +38,26 @@ public class AuthController {
         return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
     }
 
+    @DeleteMapping("/api/auth/logout")
+    public ResponseEntity<Void> logout(@AuthenticationPrincipal Long githubId) {
+        authService.logout(githubId);
+
+        return ResponseEntity.noContent().header("Set-Cookie", removeCookie().toString()).build();
+    }
+
     private static ResponseCookie putTokenInCookie(final TokenResponseWithRefresh tokenResponse) {
         return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
                 .maxAge(REFRESH_TOKEN_EXPIRATION)
+                .path("/")
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+    }
+
+    private static ResponseCookie removeCookie() {
+        return ResponseCookie.from(REFRESH_TOKEN, null)
+                .maxAge(0)
                 .path("/")
                 .sameSite("None")
                 .secure(true)
