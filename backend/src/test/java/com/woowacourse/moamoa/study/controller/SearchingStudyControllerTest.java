@@ -10,6 +10,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.query.data.MemberFullData;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
@@ -32,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class SearchingStudyControllerTest {
@@ -247,7 +247,7 @@ public class SearchingStudyControllerTest {
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
-    public void mentgetStudyDetails() {
+    public void getStudyDetails() {
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(javaStudyId).title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
@@ -271,6 +271,14 @@ public class SearchingStudyControllerTest {
         );
 
         final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
+
+        StudyDetailResponse body = response.getBody();
+        List<MemberFullData> members = body.getMembers();
+
+        for (MemberFullData member : members) {
+            System.out.println("member = " + member);
+            System.out.println("member.getNumberOfStudy() = " + member.getNumberOfStudy());
+        }
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();

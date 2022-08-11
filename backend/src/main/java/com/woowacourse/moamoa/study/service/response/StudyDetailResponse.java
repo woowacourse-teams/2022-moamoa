@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.query.data.MemberFullData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.time.LocalDate;
@@ -29,11 +30,11 @@ public class StudyDetailResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private MemberData owner;
-    private List<MemberData> members;
+    private List<MemberFullData> members;
     private List<TagData> tags;
 
     public StudyDetailResponse(final StudyDetailsData study,
-                               final List<MemberData> participants,
+                               final List<MemberFullData> participants,
                                final List<TagData> attachedTags) {
         this.id = study.getId();
         this.title = study.getTitle();
