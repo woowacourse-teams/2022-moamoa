@@ -5,6 +5,7 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
+import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -14,6 +15,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -133,13 +135,13 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .filter(document("delete/article",
-                    requestHeaders(
-                            headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                    ),
-                    pathParameters(
-                            parameterWithName("study-id").description("스터디 식별 번호"),
-                            parameterWithName("article-id").description("게시글 식별 번호")
-                    )
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별 번호"),
+                                parameterWithName("article-id").description("게시글 식별 번호")
+                        )
                 ))
                 .when().log().all()
                 .delete("/api/studies/{study-id}/community/articles/{article-id}")
@@ -156,5 +158,59 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .get("/api/studies/{study-id}/community/articles/{article-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @DisplayName("스터디 커뮤니티 전체 게시글을 조회한다.")
+    @Test
+    void getStudyCommunityArticles() {
+        // arrange
+        long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
+        long 게시글_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
+        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
+        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
+
+        final long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
+        베루스가().로그인하고().스터디에(리액트_스터디_ID).게시글을_작성한다("리액트 게시글 제목", "리액트 게시글 내용");
+
+        String 토큰 = 그린론이().로그인한다();
+
+        RestAssured
+                .given(spec).log().all()
+                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .pathParam("study-id", 자바_스터디_ID)
+                .queryParam("page", 0)
+                .queryParam("size", 3)
+                .filter(document("get/articles",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 ID")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지"),
+                                parameterWithName("size").description("사이즈")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 식별 ID"),
+                                fieldWithPath("author").type(JsonFieldType.OBJECT).description("작성자"),
+                                fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("작성자 github ID"),
+                                fieldWithPath("author.username").type(JsonFieldType.STRING)
+                                        .description("작성자 github 사용자 이름"),
+                                fieldWithPath("author.imageUrl").type(JsonFieldType.STRING)
+                                        .description("작성자 github 이미지 URL"),
+                                fieldWithPath("author.profileUrl").type(JsonFieldType.STRING)
+                                        .description("작성자 github 프로필 URL"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("createdDate").type(JsonFieldType.STRING).description("게시글 작성일"),
+                                fieldWithPath("lastModifiedDate").type(JsonFieldType.STRING).description("게시글 수정일")
+                        )
+                    )
+                );
+
     }
 }
