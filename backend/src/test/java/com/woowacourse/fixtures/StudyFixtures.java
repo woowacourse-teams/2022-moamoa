@@ -123,13 +123,13 @@ public class StudyFixtures {
                 HTTP_스터디_계획, HTTP_스터디_태그, LocalDateTime.now());
     }
 
-    /* 알고리즘 스터디 */
+    /* 알고리즘 스터디 (모집 기간과 스터디 종료일자가 없음) */
     public static final Member 알고리즘_스터디장 = new Member(베루스_아이디, 베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
     public static final Long 알고리즘_스터디_아이디 = 5L;
     public static final Content 알고리즘_스터디_내용 = new Content("알고리즘 주도 개발 1타 강사 베루스", "알고리즘 스터디 요약", "알고리즘 스터디 썸네일", "알고리즘 스터디 설명입니다.");
     public static final Participants 알고리즘_스터디_참가자들 = new Participants(베루스_아이디, Set.of(그린론_아이디, 디우_아이디));
-    public static final RecruitPlanner 알고리즘_스터디_모집계획 = new RecruitPlanner(10, RECRUITMENT_END, LocalDate.now());
-    public static final StudyPlanner 알고리즘_스터디_계획 = new StudyPlanner(LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(2), PREPARE);
+    public static final RecruitPlanner 알고리즘_스터디_모집계획 = new RecruitPlanner(null, RECRUITMENT_END, null);
+    public static final StudyPlanner 알고리즘_스터디_계획 = new StudyPlanner(LocalDate.now().plusMonths(1), null, PREPARE);
     public static final AttachedTags 알고리즘_스터디_태그 = new AttachedTags(List.of());
     public static final Study 알고리즘_스터디 = new Study(알고리즘_스터디_내용, 알고리즘_스터디_참가자들, 알고리즘_스터디_모집계획,
             알고리즘_스터디_계획, 알고리즘_스터디_태그, LocalDateTime.now());
@@ -141,12 +141,12 @@ public class StudyFixtures {
                 알고리즘_스터디_계획, 알고리즘_스터디_태그, LocalDateTime.now());
     }
 
-    /* 리눅스 스터디 */
+    /* 리눅스 스터디 (최대 인원 없음) */
     public static final Member 리눅스_스터디장 = new Member(베루스_아이디, 베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
     public static final Long 리눅스_스터디_아이디 = 6L;
     public static final Content 리눅스_스터디_내용 = new Content("벨우스의 린우스", "리눅스 스터디 요약", "리눅스 스터디 썸네일", "리눅스 스터디 설명입니다.");
     public static final Participants 리눅스_스터디_참가자들 = new Participants(베루스_아이디, Set.of(그린론_아이디, 디우_아이디));
-    public static final RecruitPlanner 리눅스_스터디_모집계획 = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
+    public static final RecruitPlanner 리눅스_스터디_모집계획 = new RecruitPlanner(null, RECRUITMENT_START, LocalDate.now());
     public static final StudyPlanner 리눅스_스터디_계획 = new StudyPlanner(LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(2), PREPARE);
     public static final AttachedTags 리눅스_스터디_태그 = new AttachedTags(List.of());
     public static final Study 리눅스_스터디 = new Study(리눅스_스터디_내용, 리눅스_스터디_참가자들, 리눅스_스터디_모집계획,

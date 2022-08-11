@@ -57,7 +57,7 @@ public class RecruitPlanner {
         recruitStatus = RECRUITMENT_END;
     }
 
-    LocalDate getEnrollmentEndDate() {
+    public LocalDate getEnrollmentEndDate() {
         return enrollmentEndDate;
     }
 
@@ -75,4 +75,6 @@ public class RecruitPlanner {
     boolean hasCapacity() {
         return max != null;
     }
+
+
 }

@@ -114,8 +114,7 @@ class MyStudyDaoTest {
                                 자바스크립트_스터디_모집계획.getMax(), 자바스크립트_스터디_계획.getStartDate().toString(),
                                 자바스크립트_스터디_계획.getEndDate().toString()),
                         tuple(알고리즘_스터디_내용.getTitle(), 알고리즘_스터디_계획.getStudyStatus(), 알고리즘_스터디_참가자들.getSize(),
-                                알고리즘_스터디_모집계획.getMax(), 알고리즘_스터디_계획.getStartDate().toString(),
-                                알고리즘_스터디_계획.getEndDate().toString()),
+                                알고리즘_스터디_모집계획.getMax(), 알고리즘_스터디_계획.getStartDate().toString(), null),
                         tuple(리눅스_스터디_내용.getTitle(), 리눅스_스터디_계획.getStudyStatus(), 리눅스_스터디_참가자들.getSize(),
                                 리눅스_스터디_모집계획.getMax(), 리눅스_스터디_계획.getStartDate().toString(),
                                 리눅스_스터디_계획.getEndDate().toString())
