@@ -57,10 +57,10 @@ class ReviewDaoTest {
     @BeforeEach
     void setUp() {
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구);
-        final Member greenlawn = memberRepository.save(그린론);
-        final Member dwoo = memberRepository.save(디우);
-        final Member verus = memberRepository.save(베루스);
+        final Member jjanggu = memberRepository.save(짱구());
+        final Member greenlawn = memberRepository.save(그린론());
+        final Member dwoo = memberRepository.save(디우());
+        final Member verus = memberRepository.save(베루스());
 
         // 스터디 생성
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());

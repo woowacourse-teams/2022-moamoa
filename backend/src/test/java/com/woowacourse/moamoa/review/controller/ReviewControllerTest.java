@@ -53,8 +53,8 @@ public class ReviewControllerTest {
         sut = new ReviewController(new ReviewService(reviewRepository, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구);
-        final Member greelawn = memberRepository.save(그린론);
+        final Member jjanggu = memberRepository.save(짱구());
+        final Member greelawn = memberRepository.save(그린론());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
