@@ -7,6 +7,8 @@ import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
 
+import AccessTokenController from '@auth/accessToken';
+
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
 import { UserInfoProvider } from '@context/userInfo/UserInfoProvider';
@@ -16,7 +18,7 @@ import App from './App';
 if (process.env.NODE_ENV == 'development') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { worker } = require('./mocks/browser');
-  // worker.start();j
+  worker.start();
 }
 
 const $root = document.getElementById('root');
@@ -29,22 +31,25 @@ if ($root) {
       },
     },
   });
-  root.render(
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <UserInfoProvider>
-          <LoginProvider>
-            <SearchProvider>
-              <GlobalStyles />
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </SearchProvider>
-          </LoginProvider>
-        </UserInfoProvider>
-      </QueryClientProvider>
-    </ThemeProvider>,
-  );
+
+  AccessTokenController.fetchAccessTokenWithRefresh().finally(() => {
+    root.render(
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <UserInfoProvider>
+            <LoginProvider>
+              <SearchProvider>
+                <GlobalStyles />
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </SearchProvider>
+            </LoginProvider>
+          </UserInfoProvider>
+        </QueryClientProvider>
+      </ThemeProvider>,
+    );
+  });
 } else {
   throw new Error('root element is not exist');
 }

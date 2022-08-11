@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 });
 
 const handleAxiosError = (error: AxiosError) => {
-  const { data } = error.response as AxiosResponse<{ message: string }>;
+  const { data } = error.response as AxiosResponse<{ message: string; code?: number }>;
   if (data?.message) {
     console.error(data.message);
     // TODO: 커스텀 에러 코드를 만들어서 그에 맞는 message를 담은 error 객체를 return 하도록 해야 함

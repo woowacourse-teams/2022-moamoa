@@ -1,4 +1,5 @@
 export { default as axiosInstance } from '@api/axiosInstance';
+export { default as deleteRefreshToken } from '@api/deleteRefreshToken';
 export { default as deleteReview } from '@api/deleteReview';
 export { default as getAccessToken } from '@api/getAccessToken';
 export { default as getMyStudyList } from '@api/getMyStudyList';

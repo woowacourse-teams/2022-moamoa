@@ -9,6 +9,8 @@ import { PostLoginRequestParams, PostLoginResponseData } from '@custom-types';
 
 import { postLogin } from '@api';
 
+import AccessTokenController from '@auth/accessToken';
+
 import { useAuth } from '@hooks/useAuth';
 
 const useLoginRedirectPage = () => {
@@ -36,6 +38,11 @@ const useLoginRedirectPage = () => {
         },
         onSuccess: data => {
           login(data.accessToken);
+          AccessTokenController.setTokenExpiredMsTime(Math.floor(data.expiredTime * 0.8));
+
+          setTimeout(() => {
+            AccessTokenController.fetchAccessTokenWithRefresh();
+          }, AccessTokenController.tokenExpiredMsTime);
           navigate(PATH.MAIN, { replace: true });
         },
       },

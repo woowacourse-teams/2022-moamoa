@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useContext } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import type { QueryKey } from 'react-query';
@@ -17,25 +17,6 @@ export const useAuth = (refetchKey?: QueryKey) => {
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const { fetchUserInfo } = useUserInfo();
 
-  const queryClient = useQueryClient();
-  const { refetch: fetchAccessTokenWithRefresh } = useQuery<GetTokenResponseData, AxiosError>(
-    ['refresh-token', refetchKey], // refetchKey를 key로 설정하지 않으면 같은 key가 사용된 횟수만큼 onError가 실행됨
-    getAccessToken,
-    {
-      onError: error => {
-        // TODO: 만약 refreshToken이 만료되었다는 코드가 오면
-        if (error.response?.data.message === '리프레시 토큰 만료') {
-          logout();
-        }
-      },
-      onSuccess: data => {
-        login(data.accessToken);
-        queryClient.invalidateQueries(refetchKey);
-      },
-      enabled: false,
-      retry: false,
-    },
-  );
   const { mutate } = useMutation<EmptyObject, AxiosError, null>(deleteRefreshToken);
 
   const login = (accesssToken: string) => {
@@ -57,5 +38,5 @@ export const useAuth = (refetchKey?: QueryKey) => {
     });
   };
 
-  return { isLoggedIn, login, logout, fetchAccessTokenWithRefresh };
+  return { isLoggedIn, login, logout };
 };

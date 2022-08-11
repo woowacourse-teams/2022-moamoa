@@ -15,14 +15,14 @@ type ContextType = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const hasAccessToken = !!AccessTokenController.accessToken;
-
 export const LoginContext = createContext<ContextType>({
   isLoggedIn: false,
   setIsLoggedIn: noop,
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
+  const hasAccessToken = !!AccessTokenController.accessToken;
+
   const [isLoggedIn, setIsLoggedIn] = useState(hasAccessToken);
   const { fetchUserInfo } = useUserInfo();
 

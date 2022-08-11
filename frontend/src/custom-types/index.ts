@@ -124,9 +124,11 @@ export type PostLoginRequestParams = {
 };
 export type PostLoginResponseData = {
   accessToken: string;
+  expiredTime: number;
 };
 export type GetTokenResponseData = {
   accessToken: string;
+  expiredTime: number;
 };
 
 export type GetReviewResponseData = {
