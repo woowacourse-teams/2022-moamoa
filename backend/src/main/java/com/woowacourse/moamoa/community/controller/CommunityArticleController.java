@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
+import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -56,10 +57,11 @@ public class CommunityArticleController {
     }
 
     @GetMapping("/api/studies/{study-id}/community/articles")
-    public ResponseEntity<Void> getArticles(@AuthenticationPrincipal final Long githubId,
-                                            @PathVariable("study-id") final Long studyId,
-                                            @PageableDefault final Pageable pageable
+    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticationPrincipal final Long githubId,
+                                                                @PathVariable("study-id") final Long studyId,
+                                                                @PageableDefault final Pageable pageable
     ) {
-        return ResponseEntity.ok().build();
+        ArticleSummariesResponse response = communityArticleService.getArticles(githubId, studyId, pageable);
+        return ResponseEntity.ok().body(response);
     }
 }

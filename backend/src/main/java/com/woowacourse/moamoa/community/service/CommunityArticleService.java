@@ -9,6 +9,8 @@ import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorExcept
 import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
+import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
+import com.woowacourse.moamoa.community.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -16,6 +18,10 @@ import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberExce
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +92,15 @@ public class CommunityArticleService {
         }
 
         communityArticleRepository.deleteById(articleId);
+    }
+
+    public ArticleSummariesResponse getArticles(final Long githubId, final Long studyId, final Pageable pageable) {
+        final Page<CommunityArticleData> page = communityArticleDao.getAllByStudyId(studyId, pageable);
+
+        final List<ArticleSummaryResponse> articles = page.getContent().stream()
+                .map(ArticleSummaryResponse::new)
+                .collect(Collectors.toList());
+
+        return new ArticleSummariesResponse(articles, page.getNumber(), page.getTotalPages() - 1, page.getTotalElements());
     }
 }

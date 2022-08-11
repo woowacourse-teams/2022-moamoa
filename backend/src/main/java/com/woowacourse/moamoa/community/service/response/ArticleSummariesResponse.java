@@ -1,7 +1,15 @@
 package com.woowacourse.moamoa.community.service.response;
 
 import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@NoArgsConstructor
+@Getter
+@EqualsAndHashCode
+@ToString
 public class ArticleSummariesResponse {
 
     private List<ArticleSummaryResponse> articles;
