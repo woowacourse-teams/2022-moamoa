@@ -1,19 +1,32 @@
 package com.woowacourse.moamoa.review.query;
 
 import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰1;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰1_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰2;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰2_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰3;
+import static com.woowacourse.fixtures.ReviewFixtures.리액트_리뷰3_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰1;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰1_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰2;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰2_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰3;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰3_내용;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4;
+import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4_내용;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.review.domain.Review;
+import com.woowacourse.moamoa.review.domain.repository.ReviewRepository;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -26,7 +39,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 class ReviewDaoTest {
@@ -38,7 +50,7 @@ class ReviewDaoTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -54,13 +66,18 @@ class ReviewDaoTest {
 
     private List<ReviewData> reactReviews;
 
+    private Member 짱구;
+    private Member 그린론;
+    private Member 디우;
+    private Member 베루스;
+
     @BeforeEach
     void setUp() {
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구());
-        final Member greenlawn = memberRepository.save(그린론());
-        final Member dwoo = memberRepository.save(디우());
-        final Member verus = memberRepository.save(베루스());
+        짱구 = memberRepository.save(짱구());
+        그린론 = memberRepository.save(그린론());
+        디우 = memberRepository.save(디우());
+        베루스 = memberRepository.save(베루스());
 
         // 스터디 생성
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -78,45 +95,35 @@ class ReviewDaoTest {
         javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
         reactStudy = createStudyService.createStudy(1L, reactStudyRequest);
 
-        final LocalDate createdDate = startDate.plusDays(1);
-        final LocalDate lastModifiedDate = startDate.plusDays(2);
+        // 리뷰 추가
+        final Review firstJavaReview = reviewRepository.save(자바_리뷰1(javaStudy.getId(), 짱구.getId()));
+        final Review secondJavaReview = reviewRepository.save(자바_리뷰2(javaStudy.getId(), 그린론.getId()));
+        final Review thirdJavaReview = reviewRepository.save(자바_리뷰3(javaStudy.getId(), 디우.getId()));
+        final Review forthJavaReview = reviewRepository.save(자바_리뷰4(javaStudy.getId(), 베루스.getId()));
+
+        final Review firstReactReview = reviewRepository.save(리액트_리뷰1(reactStudy.getId(), 짱구.getId()));
+        final Review secondReactReview = reviewRepository.save(리액트_리뷰2(reactStudy.getId(), 그린론.getId()));
+        final Review thirdReactReview = reviewRepository.save(리액트_리뷰3(reactStudy.getId(), 디우.getId()));
 
         entityManager.flush();
-        entityManager.clear();
-
-        // 리뷰 추가
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (1, " + javaStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용1', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (2, " + javaStudy.getId() + ", " + greenlawn.getId() + ", '리뷰 내용2', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (3, " + javaStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용3', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (4, " + javaStudy.getId() + ", " + verus.getId() + ", '리뷰 내용4', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (5, " + reactStudy.getId() + ", " + jjanggu.getId() + ", '리뷰 내용5', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (6, " + reactStudy.getId() + ", " + greenlawn.getId()+ ", '리뷰 내용6', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
-        jdbcTemplate.update("INSERT INTO review(id, study_id, member_id, content, created_date, last_modified_date, deleted) "
-                + "VALUES (7, " + reactStudy.getId() + ", " + dwoo.getId()+ ", '리뷰 내용7', '"
-                + createdDate + "', '" + lastModifiedDate + "', false)");
 
         javaReviews = List.of(
-                new ReviewData(1L, 짱구_응답, createdDate, lastModifiedDate, "리뷰 내용1"),
-                new ReviewData(2L, 그린론_응답, createdDate, lastModifiedDate, "리뷰 내용2"),
-                new ReviewData(3L, 디우_응답, createdDate, lastModifiedDate, "리뷰 내용3"),
-                new ReviewData(4L, 베루스_응답, createdDate, lastModifiedDate, "리뷰 내용4")
+                new ReviewData(4L, new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        forthJavaReview.getCreatedDate(), forthJavaReview.getLastModifiedDate(), 자바_리뷰4_내용),
+                new ReviewData(3L, new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        thirdJavaReview.getCreatedDate(), thirdJavaReview.getLastModifiedDate(), 자바_리뷰3_내용),
+                new ReviewData(2L, new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        secondJavaReview.getCreatedDate(), secondJavaReview.getLastModifiedDate(), 자바_리뷰2_내용),
+                new ReviewData(1L, new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        firstJavaReview.getCreatedDate(), firstJavaReview.getLastModifiedDate(), 자바_리뷰1_내용)
         );
         reactReviews = List.of(
-                new ReviewData(5L, 짱구_응답, createdDate, lastModifiedDate, "리뷰 내용5"),
-                new ReviewData(6L, 그린론_응답, createdDate, lastModifiedDate, "리뷰 내용6"),
-                new ReviewData(7L, 디우_응답, createdDate, lastModifiedDate, "리뷰 내용7")
+                new ReviewData(5L, new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        firstReactReview.getCreatedDate(), firstReactReview.getLastModifiedDate(), 리액트_리뷰1_내용),
+                new ReviewData(6L, new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        secondReactReview.getCreatedDate(), secondReactReview.getLastModifiedDate(), 리액트_리뷰2_내용),
+                new ReviewData(7L, new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        thirdReactReview.getCreatedDate(), thirdReactReview.getLastModifiedDate(), 리액트_리뷰3_내용)
         );
     }
 
