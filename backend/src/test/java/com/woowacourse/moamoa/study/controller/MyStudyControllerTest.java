@@ -36,6 +36,16 @@ import static com.woowacourse.fixtures.StudyFixtures.자바스크립트_스터�
 import static com.woowacourse.fixtures.StudyFixtures.자바스크립트_스터디_모집계획;
 import static com.woowacourse.fixtures.StudyFixtures.자바스크립트_스터디_참가자들;
 import static com.woowacourse.fixtures.StudyFixtures.자바스크립트_스터디장;
+import static com.woowacourse.fixtures.TagFixtures.BE_태그_아이디;
+import static com.woowacourse.fixtures.TagFixtures.BE_태그명;
+import static com.woowacourse.fixtures.TagFixtures.FE_태그_아이디;
+import static com.woowacourse.fixtures.TagFixtures.FE_태그명;
+import static com.woowacourse.fixtures.TagFixtures.리액트_태그_아이디;
+import static com.woowacourse.fixtures.TagFixtures.리액트_태그명;
+import static com.woowacourse.fixtures.TagFixtures.우테코4기_태그_아이디;
+import static com.woowacourse.fixtures.TagFixtures.우테코4기_태그명;
+import static com.woowacourse.fixtures.TagFixtures.자바_태그_아이디;
+import static com.woowacourse.fixtures.TagFixtures.자바_태그명;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -46,7 +56,6 @@ import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.MyStudyService;
-import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
 import com.woowacourse.moamoa.study.service.response.MyStudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
@@ -75,8 +84,6 @@ class MyStudyControllerTest {
     private EntityManager entityManager;
 
     private MyStudyController myStudyController;
-
-    private StudyService studyService;
 
     @BeforeEach
     void setUp() {
@@ -148,23 +155,27 @@ class MyStudyControllerTest {
                 .hasSize(3)
                 .extracting("id", "name")
                 .containsExactlyElementsOf(List.of(
-                        tuple(1L, "Java"),
-                        tuple(2L, "4기"),
-                        tuple(3L, "BE"))
+                        tuple(자바_태그_아이디, 자바_태그명),
+                        tuple(우테코4기_태그_아이디, 우테코4기_태그명),
+                        tuple(BE_태그_아이디, BE_태그명))
                 );
 
         assertThat(tags.get(1))
                 .hasSize(3)
                 .extracting("id", "name")
-                .contains(tuple(5L, "React"),
-                        tuple(2L, "4기"),
-                        tuple(4L, "FE"));
+                .contains(
+                        tuple(리액트_태그_아이디, 리액트_태그명),
+                        tuple(우테코4기_태그_아이디, 우테코4기_태그명),
+                        tuple(FE_태그_아이디, FE_태그명)
+                );
 
         assertThat(tags.get(2))
                 .hasSize(2)
                 .extracting("id", "name")
-                .contains(tuple(2L, "4기"),
-                        tuple(4L, "FE"));
+                .contains(
+                        tuple(우테코4기_태그_아이디, 우테코4기_태그명),
+                        tuple(FE_태그_아이디, FE_태그명)
+                );
 
 
         assertThat(tags.get(3).size()).isZero();
