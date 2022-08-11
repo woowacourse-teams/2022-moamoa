@@ -43,6 +43,7 @@ import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -76,7 +77,6 @@ class MyStudyDaoTest {
     private Study 알고리즘_스터디;
     private Study 리눅스_스터디;
 
-
     @BeforeEach
     void initDataBase() {
         짱구 = memberRepository.save(짱구());
@@ -84,15 +84,14 @@ class MyStudyDaoTest {
         디우 = memberRepository.save(디우());
         베루스 = memberRepository.save(베루스());
 
-        자바_스터디 = studyRepository.save(자바_스터디());
-        리액트_스터디 = studyRepository.save(리액트_스터디());
-        자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디());
-        HTTP_스터디 = studyRepository.save(HTTP_스터디());
-        알고리즘_스터디 = studyRepository.save(알고리즘_스터디());
-        리눅스_스터디 = studyRepository.save(리눅스_스터디());
-//
-//        entityManager.flush();
-//        entityManager.clear();
+        자바_스터디 = studyRepository.save(자바_스터디(짱구.getId(), Set.of(그린론.getId(), 디우.getId())));
+        리액트_스터디 = studyRepository.save(리액트_스터디(디우.getId(), Set.of(짱구.getId(), 그린론.getId(), 베루스.getId())));
+        자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디(그린론.getId(), Set.of(디우.getId(), 베루스.getId())));
+        HTTP_스터디 = studyRepository.save(HTTP_스터디(디우.getId(), Set.of(베루스.getId(), 짱구.getId())));
+        알고리즘_스터디 = studyRepository.save(알고리즘_스터디(베루스.getId(), Set.of(그린론.getId(), 디우.getId())));
+        리눅스_스터디 = studyRepository.save(리눅스_스터디(베루스.getId(), Set.of(그린론.getId(), 디우.getId())));
+
+        entityManager.flush();
     }
 
     @DisplayName("내가 참여한 스터디 목록을 조회한다.")
