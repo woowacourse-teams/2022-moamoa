@@ -1,6 +1,4 @@
-import type { AxiosError } from 'axios';
 import { useContext, useState } from 'react';
-import { useMutation } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';

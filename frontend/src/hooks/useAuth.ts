@@ -1,11 +1,10 @@
 import { AxiosError } from 'axios';
 import { useContext } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import type { QueryKey } from 'react-query';
+import { useMutation } from 'react-query';
 
-import type { EmptyObject, GetTokenResponseData } from '@custom-types';
+import type { EmptyObject } from '@custom-types';
 
-import { deleteRefreshToken, getAccessToken } from '@api';
+import { deleteRefreshToken } from '@api';
 
 import AccessTokenController from '@auth/accessToken';
 
@@ -13,7 +12,7 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import { LoginContext } from '@context/login/LoginProvider';
 
-export const useAuth = (refetchKey?: QueryKey) => {
+export const useAuth = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const { fetchUserInfo } = useUserInfo();
 
