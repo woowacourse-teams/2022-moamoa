@@ -8,6 +8,13 @@ export const PATH = {
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
 };
 
+export const API_ERROR = {
+  EXPIRED_REFRESH_TOKEN: {
+    CODE: 4001,
+    MESSAGE: '오류가 발생했습니다 :(',
+  },
+};
+
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,

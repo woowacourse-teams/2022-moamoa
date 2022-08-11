@@ -1,5 +1,7 @@
 import { AxiosError } from 'axios';
 
+import { API_ERROR } from '@constants';
+
 import { deleteRefreshToken, getAccessToken } from '@api';
 
 class AccessTokenController {
@@ -31,7 +33,8 @@ class AccessTokenController {
       await deleteRefreshToken();
       AccessTokenController.removeAccessToken();
     } catch (error) {
-      alert('로그아웃에 실패했습니다. 새로고침 해주세요.');
+      alert('로그아웃에 실패했습니다. :(');
+      window.location.reload();
     }
   }
 
@@ -46,7 +49,7 @@ class AccessTokenController {
       }, this.tokenExpiredMsTime);
     } catch (error) {
       if (error instanceof AxiosError) {
-        if (error.response?.data.code === 4001) {
+        if (error.response?.data.code === API_ERROR.EXPIRED_REFRESH_TOKEN.CODE) {
           await this.fetchLogout();
         }
       }
