@@ -21,15 +21,10 @@ import static com.woowacourse.fixtures.MemberFixtures.짱구_유저네임;
 import static com.woowacourse.fixtures.MemberFixtures.짱구_이미지;
 import static com.woowacourse.fixtures.MemberFixtures.짱구_프로필;
 import static com.woowacourse.fixtures.TagFixtures.BE_태그_아이디;
-import static com.woowacourse.fixtures.TagFixtures.BE_태그_요약;
 import static com.woowacourse.fixtures.TagFixtures.FE_태그_아이디;
-import static com.woowacourse.fixtures.TagFixtures.FE_태그_요약;
 import static com.woowacourse.fixtures.TagFixtures.리액트_태그_아이디;
-import static com.woowacourse.fixtures.TagFixtures.리액트_태그_요약;
 import static com.woowacourse.fixtures.TagFixtures.우테코4기_태그_아이디;
-import static com.woowacourse.fixtures.TagFixtures.우테코4기_태그_요약;
 import static com.woowacourse.fixtures.TagFixtures.자바_태그_아이디;
-import static com.woowacourse.fixtures.TagFixtures.자바_태그_요약;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
@@ -43,7 +38,6 @@ import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
-import com.woowacourse.moamoa.study.service.StudyResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,8 +55,6 @@ public class StudyFixtures {
     public static final AttachedTags 자바_스터디_태그 = new AttachedTags(List.of(new AttachedTag(자바_태그_아이디), new AttachedTag(우테코4기_태그_아이디), new AttachedTag(BE_태그_아이디)));
     public static final Study 자바_스터디 = new Study(자바_스터디_내용, 자바_스터디_참가자들, 자바_스터디_모집계획,
             자바_스터디_계획, 자바_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse 자바_스터디_응답 = new StudyResponse(자바_스터디_아이디, 자바_스터디_내용.getTitle(), 자바_스터디_내용.getExcerpt(),
-            자바_스터디_내용.getThumbnail(), 자바_스터디_모집계획.getRecruitStatus().name(), List.of(자바_태그_요약, 우테코4기_태그_요약, BE_태그_요약));
 
     public static Study 자바_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(자바_스터디_내용, new Participants(ownerId, participants), 자바_스터디_모집계획,
@@ -79,8 +71,6 @@ public class StudyFixtures {
     public static final AttachedTags 리액트_스터디_태그 = new AttachedTags(List.of(new AttachedTag(우테코4기_태그_아이디), new AttachedTag(FE_태그_아이디), new AttachedTag(리액트_태그_아이디)));
     public static final Study 리액트_스터디 = new Study(리액트_스터디_내용, 리액트_스터디_참가자들, 리액트_스터디_모집계획,
             리액트_스터디_계획, 리액트_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse 리액트_스터디_응답 = new StudyResponse(리액트_스터디_아이디, 리액트_스터디_내용.getTitle(), 리액트_스터디_내용.getExcerpt(),
-            리액트_스터디_내용.getThumbnail(), 리액트_스터디_모집계획.getRecruitStatus().name(), List.of(우테코4기_태그_요약, FE_태그_요약, 리액트_태그_요약));
 
     public static Study 리액트_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(리액트_스터디_내용, new Participants(ownerId, participants), 리액트_스터디_모집계획,
@@ -97,8 +87,6 @@ public class StudyFixtures {
     public static final AttachedTags 자바스크립트_스터디_태그 = new AttachedTags(List.of(new AttachedTag(우테코4기_태그_아이디), new AttachedTag(FE_태그_아이디)));
     public static final Study 자바스크립트_스터디 = new Study(자바스크립트_스터디_내용, 자바스크립트_스터디_참가자들, 자바스크립트_스터디_모집계획,
             자바스크립트_스터디_계획, 자바스크립트_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse 자바스크립트_스터디_응답 = new StudyResponse(자바스크립트_스터디_아이디, 자바스크립트_스터디_내용.getTitle(), 자바스크립트_스터디_내용.getExcerpt(),
-            자바스크립트_스터디_내용.getThumbnail(), 자바스크립트_스터디_모집계획.getRecruitStatus().name(), List.of(우테코4기_태그_요약, FE_태그_요약));
 
     public static Study 자바스크립트_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(자바스크립트_스터디_내용, new Participants(ownerId, participants), 자바스크립트_스터디_모집계획,
@@ -115,8 +103,6 @@ public class StudyFixtures {
     public static final AttachedTags HTTP_스터디_태그 = new AttachedTags(List.of(new AttachedTag(우테코4기_태그_아이디), new AttachedTag(BE_태그_아이디)));
     public static final Study HTTP_스터디 = new Study(HTTP_스터디_내용, HTTP_스터디_참가자들, HTTP_스터디_모집계획,
             HTTP_스터디_계획, HTTP_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse HTTP_스터디_응답 = new StudyResponse(HTTP_스터디_아이디, HTTP_스터디_내용.getTitle(), HTTP_스터디_내용.getExcerpt(),
-            HTTP_스터디_내용.getThumbnail(), HTTP_스터디_모집계획.getRecruitStatus().name(), List.of(우테코4기_태그_요약, BE_태그_요약));
 
     public static Study HTTP_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(HTTP_스터디_내용, new Participants(ownerId, participants), HTTP_스터디_모집계획,
@@ -133,8 +119,6 @@ public class StudyFixtures {
     public static final AttachedTags 알고리즘_스터디_태그 = new AttachedTags(List.of());
     public static final Study 알고리즘_스터디 = new Study(알고리즘_스터디_내용, 알고리즘_스터디_참가자들, 알고리즘_스터디_모집계획,
             알고리즘_스터디_계획, 알고리즘_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse 알고리즘_스터디_응답 = new StudyResponse(알고리즘_스터디_아이디, 알고리즘_스터디_내용.getTitle(), 알고리즘_스터디_내용.getExcerpt(),
-            알고리즘_스터디_내용.getThumbnail(), 알고리즘_스터디_모집계획.getRecruitStatus().name(), List.of());
 
     public static Study 알고리즘_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(알고리즘_스터디_내용, new Participants(ownerId, participants), 알고리즘_스터디_모집계획,
@@ -151,8 +135,6 @@ public class StudyFixtures {
     public static final AttachedTags 리눅스_스터디_태그 = new AttachedTags(List.of());
     public static final Study 리눅스_스터디 = new Study(리눅스_스터디_내용, 리눅스_스터디_참가자들, 리눅스_스터디_모집계획,
             리눅스_스터디_계획, 리눅스_스터디_태그, LocalDateTime.now());
-    public static final StudyResponse 리눅스_스터디_응답 = new StudyResponse(리눅스_스터디_아이디, 리눅스_스터디_내용.getTitle(), 리눅스_스터디_내용.getExcerpt(),
-            리눅스_스터디_내용.getThumbnail(), 리눅스_스터디_모집계획.getRecruitStatus().name(), List.of());
 
     public static Study 리눅스_스터디(final Long ownerId, final Set<Long> participants) {
         return new Study(리눅스_스터디_내용, new Participants(ownerId, participants), 리눅스_스터디_모집계획,
