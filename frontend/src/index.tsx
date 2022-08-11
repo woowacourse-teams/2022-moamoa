@@ -1,5 +1,6 @@
+import { AxiosError } from 'axios';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
@@ -30,6 +31,16 @@ if ($root) {
         refetchOnWindowFocus: false,
       },
     },
+    queryCache: new QueryCache({
+      onError: error => {
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 401) {
+            alert(`문제가 발생했습니다. 관리자에게 문의해주세요 :( ${error.message}`);
+            window.location.reload();
+          }
+        }
+      },
+    }),
   });
 
   AccessTokenController.fetchAccessTokenWithRefresh().finally(() => {
