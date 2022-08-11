@@ -7,6 +7,7 @@ import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import java.net.URI;
 import javax.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,5 +52,13 @@ public class CommunityArticleController {
     ) {
         communityArticleService.deleteArticle(githubId, studyId, articleId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/api/studies/{study-id}/community/articles")
+    public ResponseEntity<Void> getArticles(@AuthenticationPrincipal final Long githubId,
+                                                      @PathVariable("study-id") final Long studyId,
+                                                       final Pageable pageable
+    ) {
+        return ResponseEntity.ok().build();
     }
 }
