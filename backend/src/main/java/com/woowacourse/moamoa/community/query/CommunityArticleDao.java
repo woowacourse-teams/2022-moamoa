@@ -60,7 +60,7 @@ public class CommunityArticleDao {
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM article JOIN member ON article.author_id = member.id "
                 + "WHERE article.study_id = :studyId "
-                + "ORDER BY created_date DESC "
+                + "ORDER BY created_date DESC, id DESC "
                 + "LIMIT :size OFFSET :offset";
 
         final Map<String, Object> params = Map.of(

@@ -95,6 +95,13 @@ public class CommunityArticleService {
     }
 
     public ArticleSummariesResponse getArticles(final Long githubId, final Long studyId, final Pageable pageable) {
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
+
         final Page<CommunityArticleData> page = communityArticleDao.getAllByStudyId(studyId, pageable);
 
         final List<ArticleSummaryResponse> articles = page.getContent().stream()

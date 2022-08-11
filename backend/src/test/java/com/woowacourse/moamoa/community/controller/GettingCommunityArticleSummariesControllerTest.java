@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.community.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
@@ -14,10 +15,14 @@ import com.woowacourse.moamoa.community.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,11 +55,14 @@ public class GettingCommunityArticleSummariesControllerTest {
     @Autowired
     private CommunityArticleDao communityArticleDao;
 
+    private CommunityArticleController sut;
+
     @BeforeEach
     void setUp() {
         communityArticleService = new CommunityArticleService(memberRepository, studyRepository,
                 communityArticleRepository, communityArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
+        sut = new CommunityArticleController(communityArticleService);
     }
 
     @DisplayName("스터디 커뮤니티 글 목록을 조회한다.")
@@ -74,8 +82,6 @@ public class GettingCommunityArticleSummariesControllerTest {
         CommunityArticle article5 = communityArticleService
                 .createArticle(그린론.getGithubId(), study.getId(), new ArticleRequest("제목5", "내용5"));
 
-        CommunityArticleController sut = new CommunityArticleController(communityArticleService);
-
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getGithubId(), study.getId(), PageRequest.of(0, 3));
 
@@ -92,5 +98,44 @@ public class GettingCommunityArticleSummariesControllerTest {
         assertThat(response.getBody()).isEqualTo(
                 new ArticleSummariesResponse(articles, 0, 1, 5)
         );
+    }
+
+    @DisplayName("사용자가 없는 경우 게시글 목록 조회 시 예외가 발생한다.")
+    @Test
+    void throwExceptionWhenCreateByNotFoundMember() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Study study = studyService
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+
+        // act & assert
+        assertThatThrownBy(() -> sut.getArticles(2L, study.getId(), PageRequest.of(0, 3)))
+                .isInstanceOf(MemberNotFoundException.class);
+    }
+
+    @DisplayName("스터디가 없는 경우 게시글 목록 조회 시 예외가 발생한다.")
+    @Test
+    void throwExceptionWhenWriteToNotFoundStudy() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+
+        // act & assert
+        assertThatThrownBy(() -> sut.getArticles(member.getGithubId(), 1L, PageRequest.of(0, 3)))
+                .isInstanceOf(StudyNotFoundException.class);
+    }
+
+    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글 목록을 조회한 경우 예외가 발생한다.")
+    @Test
+    void throwExceptionWhenGettingByNotParticipant() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
+
+        Study study = studyService
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+
+        // act & assert
+        assertThatThrownBy(() -> sut.getArticles(other.getGithubId(), study.getId(), PageRequest.of(0, 3)))
+                .isInstanceOf(NotParticipatedMemberException.class);
     }
 }
