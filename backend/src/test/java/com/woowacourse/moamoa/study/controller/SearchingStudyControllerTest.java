@@ -10,7 +10,6 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.member.query.data.MemberFullData;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
@@ -272,14 +271,6 @@ public class SearchingStudyControllerTest {
 
         final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
 
-        StudyDetailResponse body = response.getBody();
-        List<MemberFullData> members = body.getMembers();
-
-        for (MemberFullData member : members) {
-            System.out.println("member = " + member);
-            System.out.println("member.getNumberOfStudy() = " + member.getNumberOfStudy());
-        }
-
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertStudyContent(response.getBody(), expect);
@@ -329,7 +320,6 @@ public class SearchingStudyControllerTest {
     @DisplayName("스터디 참여자와 부착된 태그가 없는 스터디의 세부사항 조회")
     @Test
     void getNotHasParticipantsAndAttachedTagsStudyDetails() {
-
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(linuxStudyId).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
@@ -355,6 +345,22 @@ public class SearchingStudyControllerTest {
         assertStudyParticipants(actual, expect, expectParticipants);
         assertStudyPeriod(actual, expect);
         assertAttachedTags(actual.getTags(), expectAttachedTags);
+    }
+
+    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수도 함께 조회한다.")
+    @Test
+    public void findStudyDetailsWithNumberOfStudy() {
+        final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
+
+        final StudyDetailResponse responseBody = response.getBody();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseBody.getMembers()).hasSize(2)
+                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
+                .containsExactly(
+                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
+                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
+                );
     }
 
     private void assertStudyContent(final StudyDetailResponse actual, final StudyDetailsData expect) {

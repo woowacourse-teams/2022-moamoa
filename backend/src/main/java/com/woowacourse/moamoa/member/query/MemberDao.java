@@ -24,12 +24,17 @@ public class MemberDao {
     }
 
     public List<MemberFullData> findMembersByStudyId(final Long studyId) {
-        final String sql = "SELECT github_id, username, image_url, profile_url, "
-                + "count(case when (study_member.member_id = member.id OR study.owner_id = member.id) then 1 end) as number_of_study "
+        final String sql = "SELECT member.id, github_id, username, image_url, profile_url, "
+                + "((SELECT count(case when (study_member.member_id = member.id) then 1 end) "
+                + "FROM study JOIN study_member ON study.id = study_member.study_id "
+                + "WHERE study_member.member_id = member.id) + "
+                + "(SELECT count(case when (study.owner_id = member.id) then 1 end) "
+                + "FROM study "
+                + "WHERE study.owner_id = member.id)) as number_of_study "
                 + "FROM member JOIN study_member ON member.id = study_member.member_id "
                 + "JOIN study ON study_member.study_id = study.id "
-                + "WHERE study_member.study_id = :id "
-                + "GROUP BY member.github_id";
+                + "WHERE study_member.study_id = :id";
+
         return jdbcTemplate.query(sql, Map.of("id", studyId), MEMBER_FULL_DATA_ROW_MAPPER);
     }
 
