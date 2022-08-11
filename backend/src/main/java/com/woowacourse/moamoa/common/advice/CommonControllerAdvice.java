@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
 import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
@@ -11,14 +12,13 @@ import com.woowacourse.moamoa.common.exception.NotFoundException;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import io.jsonwebtoken.JwtException;
 
 @RestControllerAdvice
 @Slf4j
@@ -47,6 +47,12 @@ public class CommonControllerAdvice {
     public ResponseEntity<Void> handleUnauthorized(final Exception e) {
         log.debug("UnauthorizedException : {}", e.getMessage());
         return ResponseEntity.status(UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(RefreshTokenExpirationException.class)
+    public ResponseEntity<ErrorResponse> handle(RefreshTokenExpirationException e) {
+        log.debug("RefreshTokenExpirationException : {}", e.getMessage());
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage(), 4001));
     }
 
     @ExceptionHandler(NotFoundException.class)

@@ -27,7 +27,7 @@ public class AuthController {
     public ResponseEntity<TokenResponse> login(@RequestParam final String code) {
         final TokenResponseWithRefresh tokenResponse = authService.createToken(code);
 
-        final TokenResponse response = new TokenResponse(tokenResponse.getAccessToken());
+        final TokenResponse response = new TokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());
         final ResponseCookie cookie = putTokenInCookie(tokenResponse);
 
         return ResponseEntity.ok().header("Set-Cookie", cookie.toString()).body(response);

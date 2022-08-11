@@ -56,7 +56,7 @@ public class AuthService {
 
         String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
 
-        return new TokenResponse(accessToken);
+        return new TokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
     }
 
     public void logout(final Long githubId) {
@@ -64,5 +64,9 @@ public class AuthService {
                 .orElseThrow(TokenNotFoundException::new);
 
         tokenRepository.delete(token);
+    }
+
+    public long getExpireTime() {
+        return tokenProvider.getValidityInMilliseconds();
     }
 }

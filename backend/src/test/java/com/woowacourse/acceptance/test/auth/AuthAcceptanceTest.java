@@ -7,6 +7,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -46,7 +47,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .filter(document("auth/login",
                         requestParameters(parameterWithName("code").description("Authorization code")),
                         responseFields(
-                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰")
+                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰"),
+                                fieldWithPath("expiredTime").type(NUMBER).description("유효시간")
                         )))
                 .queryParam("code", authorizationCode)
                 .when()
