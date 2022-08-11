@@ -1,7 +1,3 @@
-import cn from 'classnames';
-
-import { css } from '@emotion/react';
-
 import { EXCERPT_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
@@ -29,40 +25,16 @@ const Excerpt = ({ className }: ExcerptProps) => {
       <MetaBox>
         <MetaBox.Title>한줄소개</MetaBox.Title>
         <MetaBox.Content>
-          <div
-            css={css`
-              position: relative;
-            `}
-          >
-            <div
-              css={css`
-                position: absolute;
-                right: 4px;
-                bottom: 2px;
-
-                display: flex;
-                justify-content: flex-end;
-              `}
-            >
+          <S.Container>
+            <S.LetterCounterContainer>
               <LetterCounter count={count} maxCount={maxCount} />
-            </div>
-            <label // TODO: HiddenLabel Component 생성
-              htmlFor="excerpt"
-              css={css`
-                display: block;
-
-                height: 0;
-                width: 0;
-
-                visibility: hidden;
-              `}
-            >
-              소개글
-            </label>
-            <textarea
+            </S.LetterCounterContainer>
+            {/* TODO: HiddenLabel Component 생성 */}
+            <S.Label htmlFor="excerpt">소개글</S.Label>
+            <S.Textarea
               id="excerpt"
               placeholder="*한줄소개를 입력해주세요"
-              className={cn({ invalid: !!errors['excerpt']?.hasError })}
+              isValid={!!errors['excerpt']?.hasError}
               {...register('excerpt', {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
@@ -79,7 +51,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
                 required: true,
               })}
             />
-          </div>
+          </S.Container>
         </MetaBox.Content>
       </MetaBox>
     </S.Excerpt>

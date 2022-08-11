@@ -13,8 +13,6 @@ type PublishProps = {
 };
 
 const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
-  const { formState } = useFormContext();
-
   return (
     <S.Publish className={className}>
       <MetaBox>
@@ -29,7 +27,6 @@ const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: 
             fluid={true}
             onClick={handlePublishButtonClick}
             outline={true}
-            isLoading={formState.isSubmitting}
           >
             개설하기
           </Button>
