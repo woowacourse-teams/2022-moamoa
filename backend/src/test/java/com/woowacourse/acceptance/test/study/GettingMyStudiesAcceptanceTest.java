@@ -11,10 +11,13 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필
 import static com.woowacourse.acceptance.fixture.StudyFixtures.리액트_스터디_제목;
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바_스터디_제목;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
+import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_설명;
+import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_ID;
 import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_설명;
+import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그명;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
@@ -49,7 +52,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
-    @Disabled // 그린론이 해결할 버그 관련 인수 테스트
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void getMyStudies() {
@@ -75,10 +77,10 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
                 new MyStudySummaryData(자바_스터디_ID, 자바_스터디_제목, IN_PROGRESS, 1,
                         null, 지금.toString(), null),
                 new MemberData(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL),
-                List.of(new TagSummaryData(자바_태그_ID, 자바_태그_설명), new TagSummaryData(리액트_태그_ID, 리액트_태그_설명)));
+                List.of(new TagSummaryData(자바_태그_ID, 자바_태그명), new TagSummaryData(BE_태그_ID, BE_태그명)));
 
         MyStudyResponse expectedReact = new MyStudyResponse(
-                new MyStudySummaryData(리액트_스터디_ID, 리액트_스터디_제목, StudyStatus.PREPARE, 1,
+                new MyStudySummaryData(리액트_스터디_ID, 리액트_스터디_제목, StudyStatus.PREPARE, 2,
                         null, 지금.plusDays(10).toString(), null),
                 new MemberData(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL),
                 List.of());
