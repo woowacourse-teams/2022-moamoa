@@ -40,7 +40,6 @@
     "@storybook/testing-library": "^0.0.13",
     "@testing-library/cypress": "^8.0.3",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-    "@types/classnames": "^2.3.1",
     "@types/dompurify": "^2.3.3",
     "@types/marked": "^4.0.3",
     "@types/react": "^18.0.14",
