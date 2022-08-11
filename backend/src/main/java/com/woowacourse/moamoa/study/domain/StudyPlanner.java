@@ -87,4 +87,8 @@ public class StudyPlanner {
         }
         return !studyStatus.equals(DONE);
     }
+
+    public StudyStatus getStudyStatus() {
+        return studyStatus;
+    }
 }

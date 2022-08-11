@@ -57,7 +57,7 @@ public class Participants {
         return participants.contains(new Participant(memberId));
     }
 
-    int getSize() {
+    public int getSize() {
         return size;
     }
 
