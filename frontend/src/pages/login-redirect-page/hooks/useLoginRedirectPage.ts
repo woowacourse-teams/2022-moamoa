@@ -38,11 +38,12 @@ const useLoginRedirectPage = () => {
         },
         onSuccess: data => {
           login(data.accessToken);
-          AccessTokenController.setTokenExpiredMsTime(Math.floor(data.expiredTime * 0.8));
+          AccessTokenController.setTokenExpiredMsTime(data.expiredTime);
 
           setTimeout(() => {
             AccessTokenController.fetchAccessTokenWithRefresh();
           }, AccessTokenController.tokenExpiredMsTime);
+
           navigate(PATH.MAIN, { replace: true });
         },
       },

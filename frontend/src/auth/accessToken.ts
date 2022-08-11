@@ -17,11 +17,15 @@ class AccessTokenController {
   }
 
   static setTokenExpiredMsTime(newTime: number) {
-    this._tokenExpiredMsTime = newTime;
+    this._tokenExpiredMsTime = Math.floor(newTime * 0.8);
   }
 
   static get tokenExpiredMsTime() {
     return this._tokenExpiredMsTime;
+  }
+
+  static get hasAccessToken() {
+    return !!this._accessToken;
   }
 
   static removeAccessToken() {
@@ -42,16 +46,15 @@ class AccessTokenController {
     try {
       const data = await getAccessToken();
       this.setAccessToken(data.accessToken);
-      this.setTokenExpiredMsTime(Math.floor(data.expiredTime * 0.8));
+      this.setTokenExpiredMsTime(data.expiredTime);
 
       setTimeout(() => {
         this.fetchAccessTokenWithRefresh();
       }, this.tokenExpiredMsTime);
     } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.response?.data.code === API_ERROR.EXPIRED_REFRESH_TOKEN.CODE) {
-          await this.fetchLogout();
-        }
+      if (!(error instanceof AxiosError)) return;
+      if (error.response?.data.code === API_ERROR.EXPIRED_REFRESH_TOKEN.CODE) {
+        await this.fetchLogout();
       }
     }
   }

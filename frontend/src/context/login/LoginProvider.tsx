@@ -21,9 +21,7 @@ export const LoginContext = createContext<ContextType>({
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
-  const hasAccessToken = !!AccessTokenController.accessToken;
-
-  const [isLoggedIn, setIsLoggedIn] = useState(hasAccessToken);
+  const [isLoggedIn, setIsLoggedIn] = useState(AccessTokenController.hasAccessToken);
   const { fetchUserInfo } = useUserInfo();
 
   useEffect(() => {
