@@ -4,6 +4,10 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,9 +25,12 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
+import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
+import com.woowacourse.moamoa.community.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
+import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -165,20 +172,20 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
     void getStudyCommunityArticles() {
         // arrange
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        long 게시글_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+        그린론이().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
 
         베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
-        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
-        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
-        베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
+        long 자바_게시글2_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
+        long 자바_게시글3_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
+        long 자바_게시글4_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
 
-        final long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
+        long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
         베루스가().로그인하고().스터디에(리액트_스터디_ID).게시글을_작성한다("리액트 게시글 제목", "리액트 게시글 내용");
 
         String 토큰 = 그린론이().로그인한다();
 
-        RestAssured
-                .given(spec).log().all()
+        // act
+        final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 자바_스터디_ID)
                 .queryParam("page", 0)
@@ -195,22 +202,42 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                                 parameterWithName("size").description("사이즈")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 식별 ID"),
-                                fieldWithPath("author").type(JsonFieldType.OBJECT).description("작성자"),
-                                fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("작성자 github ID"),
-                                fieldWithPath("author.username").type(JsonFieldType.STRING)
+                                fieldWithPath("articles").type(JsonFieldType.ARRAY).description("게시물 목록"),
+                                fieldWithPath("articles[].id").type(JsonFieldType.NUMBER).description("게시글 식별 ID"),
+                                fieldWithPath("articles[].author").type(JsonFieldType.OBJECT).description("작성자"),
+                                fieldWithPath("articles[].author.id").type(JsonFieldType.NUMBER)
+                                        .description("작성자 github ID"),
+                                fieldWithPath("articles[].author.username").type(JsonFieldType.STRING)
                                         .description("작성자 github 사용자 이름"),
-                                fieldWithPath("author.imageUrl").type(JsonFieldType.STRING)
+                                fieldWithPath("articles[].author.imageUrl").type(JsonFieldType.STRING)
                                         .description("작성자 github 이미지 URL"),
-                                fieldWithPath("author.profileUrl").type(JsonFieldType.STRING)
+                                fieldWithPath("articles[].author.profileUrl").type(JsonFieldType.STRING)
                                         .description("작성자 github 프로필 URL"),
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
-                                fieldWithPath("createdDate").type(JsonFieldType.STRING).description("게시글 작성일"),
-                                fieldWithPath("lastModifiedDate").type(JsonFieldType.STRING).description("게시글 수정일")
+                                fieldWithPath("articles[].title").type(JsonFieldType.STRING).description("게시글 제목"),
+                                fieldWithPath("articles[].createdDate").type(JsonFieldType.STRING)
+                                        .description("게시글 작성일"),
+                                fieldWithPath("articles[].lastModifiedDate").type(JsonFieldType.STRING)
+                                        .description("게시글 수정일"),
+                                fieldWithPath("currentPage").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                fieldWithPath("lastPage").type(JsonFieldType.NUMBER).description("마지막 페이지 번호"),
+                                fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("게시글 전체 갯수")
                         )
-                    )
-                );
+                ))
+                .when().log().all()
+                .get("/api/studies/{study-id}/community/articles")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(ArticleSummariesResponse.class);
 
+        // assert
+        AuthorResponse 베루스 = new AuthorResponse(베루스_깃허브_ID, 베루스_이름, 베루스_이미지_URL, 베루스_프로필_URL);
+
+        List<ArticleSummaryResponse> articles = List.of(
+                new ArticleSummaryResponse(자바_게시글4_ID, 베루스, "자바 게시글 제목4", LocalDate.now(), LocalDate.now()),
+                new ArticleSummaryResponse(자바_게시글3_ID, 베루스, "자바 게시글 제목3", LocalDate.now(), LocalDate.now()),
+                new ArticleSummaryResponse(자바_게시글2_ID, 베루스, "자바 게시글 제목2", LocalDate.now(), LocalDate.now())
+        );
+
+        assertThat(response).isEqualTo(new ArticleSummariesResponse(articles, 0, 1, 4));
     }
 }
