@@ -55,11 +55,16 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
     }
 
     private boolean isNumeric(final String text) {
+        if (text.isBlank()) {
+            return false;
+        }
+
         for (char character : text.toCharArray()) {
             if (!Character.isDigit(character)) {
                 return false;
             }
         }
+
         return true;
     }
 }

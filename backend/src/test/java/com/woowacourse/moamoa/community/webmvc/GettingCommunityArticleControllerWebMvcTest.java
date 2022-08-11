@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.community.webmvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,6 +62,37 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
                         get("/api/studies/{study-id}/community/articles", "one")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                 )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("잘못된 형식의 파라미터를 전달한 경우 400 에러를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({"one,1", "1,one", "-1,3", "1,-1", "1,0"})
+    void badRequestByInvalidFormatParam(String page, String size) throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                get("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .param("page", page)
+                        .param("size", size)
+        )
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("페이지 정보 없이 게시글 목록 조회 시 400 에러를 반환한다.")
+    @Test
+    void badRequestByEmptyPage() throws Exception {
+        final String token = "Bearer" + tokenProvider.createToken(1L);
+
+        mockMvc.perform(
+                get("/api/studies/{study-id}/community/articles", "1")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .param("page", "")
+                        .param("size", "5")
+        )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }

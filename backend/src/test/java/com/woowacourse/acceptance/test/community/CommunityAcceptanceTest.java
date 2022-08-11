@@ -240,4 +240,39 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         assertThat(response).isEqualTo(new ArticleSummariesResponse(articles, 0, 1, 4));
     }
+
+    @DisplayName("스터디 커뮤니티 전체 게시글을 기본 페이징 정보로 조회한다.")
+    @Test
+    void getStudyCommunityArticlesByDefaultPageable() {
+        // arrange
+        long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
+        long 게시글1_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+        long 게시글2_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
+        long 게시글3_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
+        long 게시글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
+
+        String 토큰 = 그린론이().로그인한다();
+
+        // act
+        final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
+                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .pathParam("study-id", 스터디_ID)
+                .when().log().all()
+                .get("/api/studies/{study-id}/community/articles")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(ArticleSummariesResponse.class);
+
+        // assert
+        AuthorResponse 그린론 = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+
+        List<ArticleSummaryResponse> articles = List.of(
+                new ArticleSummaryResponse(게시글4_ID, 그린론, "자바 게시글 제목4", LocalDate.now(), LocalDate.now()),
+                new ArticleSummaryResponse(게시글3_ID, 그린론, "자바 게시글 제목3", LocalDate.now(), LocalDate.now()),
+                new ArticleSummaryResponse(게시글2_ID, 그린론, "자바 게시글 제목2", LocalDate.now(), LocalDate.now()),
+                new ArticleSummaryResponse(게시글1_ID, 그린론, "자바 게시글 제목1", LocalDate.now(), LocalDate.now())
+        );
+
+        assertThat(response).isEqualTo(new ArticleSummariesResponse(articles, 0, 0, 4));
+    }
 }
