@@ -12,8 +12,10 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
@@ -86,9 +88,5 @@ public class StudyPlanner {
             return false;
         }
         return !studyStatus.equals(DONE);
-    }
-
-    public StudyStatus getStudyStatus() {
-        return studyStatus;
     }
 }

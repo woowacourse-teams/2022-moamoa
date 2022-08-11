@@ -58,4 +58,8 @@ public class MemberFixtures {
     public static final String 태태_프로필 = "https://nannoo.com";
     public static final Member 태태 = new Member(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
     public static final MemberData 태태_응답 = new MemberData(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
+
+    public static Member 그린론() {
+        return new Member(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
+    }
 }
