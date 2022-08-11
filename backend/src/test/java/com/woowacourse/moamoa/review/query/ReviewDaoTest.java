@@ -19,6 +19,7 @@ import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰3_내용;
 import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4;
 import static com.woowacourse.fixtures.ReviewFixtures.자바_리뷰4_내용;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
@@ -108,21 +109,21 @@ class ReviewDaoTest {
         entityManager.flush();
 
         javaReviews = List.of(
-                new ReviewData(4L, new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        forthJavaReview.getCreatedDate(), forthJavaReview.getLastModifiedDate(), 자바_리뷰4_내용),
-                new ReviewData(3L, new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        thirdJavaReview.getCreatedDate(), thirdJavaReview.getLastModifiedDate(), 자바_리뷰3_내용),
-                new ReviewData(2L, new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                new ReviewData(forthJavaReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        firstJavaReview.getCreatedDate(), firstJavaReview.getLastModifiedDate(), 자바_리뷰1_내용),
+                new ReviewData(thirdJavaReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
                         secondJavaReview.getCreatedDate(), secondJavaReview.getLastModifiedDate(), 자바_리뷰2_내용),
-                new ReviewData(1L, new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        firstJavaReview.getCreatedDate(), firstJavaReview.getLastModifiedDate(), 자바_리뷰1_내용)
+                new ReviewData(secondJavaReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        thirdJavaReview.getCreatedDate(), thirdJavaReview.getLastModifiedDate(), 자바_리뷰3_내용),
+                new ReviewData(firstJavaReview.getId(), new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        forthJavaReview.getCreatedDate(), forthJavaReview.getLastModifiedDate(), 자바_리뷰4_내용)
         );
         reactReviews = List.of(
-                new ReviewData(5L, new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                new ReviewData(firstReactReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
                         firstReactReview.getCreatedDate(), firstReactReview.getLastModifiedDate(), 리액트_리뷰1_내용),
-                new ReviewData(6L, new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                new ReviewData(secondReactReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
                         secondReactReview.getCreatedDate(), secondReactReview.getLastModifiedDate(), 리액트_리뷰2_내용),
-                new ReviewData(7L, new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                new ReviewData(thirdReactReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
                         thirdReactReview.getCreatedDate(), thirdReactReview.getLastModifiedDate(), 리액트_리뷰3_내용)
         );
     }
@@ -133,7 +134,14 @@ class ReviewDaoTest {
         List<ReviewData> reviews = sut.findAllByStudyId(javaStudy.getId());
 
         assertThat(reviews).isNotEmpty();
-        assertThat(reviews).hasSize(4);
-        assertThat(reviews).containsExactlyInAnyOrderElementsOf(javaReviews);
+        assertThat(reviews).hasSize(4)
+                .filteredOn(review -> review.getId() != null)
+                .extracting("member.githubId", "content")
+                .containsExactlyInAnyOrder(
+                        tuple(javaReviews.get(0).getMember().getGithubId(), javaReviews.get(0).getContent()),
+                        tuple(javaReviews.get(1).getMember().getGithubId(), javaReviews.get(1).getContent()),
+                        tuple(javaReviews.get(2).getMember().getGithubId(), javaReviews.get(2).getContent()),
+                        tuple(javaReviews.get(3).getMember().getGithubId(), javaReviews.get(3).getContent())
+                );
     }
 }
