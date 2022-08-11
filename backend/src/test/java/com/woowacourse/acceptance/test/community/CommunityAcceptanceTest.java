@@ -327,7 +327,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         final AuthorResponse authorResponse = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
 
-        assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목",
-                "게시글 내용", LocalDate.now(), LocalDate.now()));
+        assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목 수정",
+                "게시글 내용 수정", LocalDate.now(), LocalDate.now()));
     }
 }

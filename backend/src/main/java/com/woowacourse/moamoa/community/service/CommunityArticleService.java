@@ -110,4 +110,27 @@ public class CommunityArticleService {
 
         return new ArticleSummariesResponse(articles, page.getNumber(), page.getTotalPages() - 1, page.getTotalElements());
     }
+
+    @Transactional
+    public void updateArticle(final Long githubId, final Long studyId, final Long articleId,
+                              final ArticleRequest request) {
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final CommunityArticle article = communityArticleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+
+        if (!study.isParticipant(member.getId())) {
+            throw new NotParticipatedMemberException();
+        }
+
+        if (!article.isBelongTo(study.getId())) {
+            throw new NotRelatedArticleException(study.getId(), article.getId());
+        }
+
+        if (!article.isAuthor(member.getId())) {
+            throw new NotArticleAuthorException(article.getId(), member.getId());
+        }
+
+        article.update(request.getTitle(), request.getContent());
+    }
 }

@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("api/studies/{study-id}/community/articles")
 public class CommunityArticleController {
 
     private final CommunityArticleService communityArticleService;
@@ -28,7 +31,7 @@ public class CommunityArticleController {
         this.communityArticleService = communityArticleService;
     }
 
-    @PostMapping("/api/studies/{study-id}/community/articles")
+    @PostMapping
     public ResponseEntity<Void> createArticle(@AuthenticationPrincipal final Long githubId,
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final ArticleRequest request
@@ -38,7 +41,7 @@ public class CommunityArticleController {
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
-    @GetMapping("/api/studies/{study-id}/community/articles/{article-id}")
+    @GetMapping("/{article-id}")
     public ResponseEntity<ArticleResponse> getArticle(@AuthenticationPrincipal final Long githubId,
                                                       @PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-id") final Long articleId
@@ -47,7 +50,7 @@ public class CommunityArticleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/api/studies/{study-id}/community/articles/{article-id}")
+    @DeleteMapping("{article-id}")
     public ResponseEntity<Void> deleteArticle(@AuthenticationPrincipal final Long githubId,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId
@@ -56,12 +59,22 @@ public class CommunityArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/studies/{study-id}/community/articles")
+    @GetMapping
     public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticationPrincipal final Long githubId,
                                                                 @PathVariable("study-id") final Long studyId,
                                                                 @PageableDefault final Pageable pageable
     ) {
         ArticleSummariesResponse response = communityArticleService.getArticles(githubId, studyId, pageable);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/{article-id}")
+    public ResponseEntity<Void> updateArticle(@AuthenticationPrincipal final Long githubId,
+                                              @PathVariable("study-id") final Long studyId,
+                                              @PathVariable("article-id") final Long articleId,
+                                              @Valid @RequestBody final ArticleRequest request
+    ) {
+        communityArticleService.updateArticle(githubId, studyId, articleId, request);
+        return ResponseEntity.noContent().build();
     }
 }
