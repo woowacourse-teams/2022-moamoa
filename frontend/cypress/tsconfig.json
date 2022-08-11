@@ -1,52 +1,11 @@
 // cypress ts target을 ES6로 설정
 // esnext일 때 에러 발생
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ES6",
     "lib": ["dom", "dom.iterable", "ES6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ES6",
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react", // css prop을 사용하기 위해 필요하다
-    "baseUrl": "../src",
-    "paths": {
-      "@components/*": ["components/*"],
-      "@styles/*": ["styles/*"],
-      "@custom-types": ["custom-types/index.ts"],
-      "@assets/*": ["assets/*"],
-      "@utils": ["utils/index.ts"],
-      "@utils/*": ["utils/*"],
-      "@constants": ["constants.ts"],
-      "@api": ["api/index.ts"],
-      "@api/*": ["api/*"],
-      "@auth": ["auth/index.ts"],
-      "@auth/*": ["auth/*"],
-      "@context/*": ["context/*"],
-      "@main-page/*": ["pages/main-page/*"],
-      "@detail-page/*": ["pages/detail-page/*"],
-      "@create-study-page/*": ["pages/create-study-page/*"],
-      "@my-study-page/*": ["pages/my-study-page/*"],
-      "@study-room-page/*": ["pages/study-room-page/*"],
-      "@login-redirect-page/*": ["pages/login-redirect-page/*"],
-      "@error-page/*": ["pages/error-page/*"],
-      "@layout": ["layout/index.ts"],
-      "@layout/*": ["layout/*"],
-      "@hooks/*": ["hooks/*"],
-      "@mocks/*": ["mocks/*"],
-      "@pages": ["pages/index.ts"],
-      "@pages/*": ["pages/*"]
-    },
-    "typeRoots": ["src/custom-types"],
-    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
-  "include": ["../src", "../node_modules/cypress", "**/*.cy.ts", "**/*.cy.tsx"]
+  "include": ["../src", "../node_modules/cypress", "./**/*.cy.ts", "./**/*.cy.tsx"]
 }
