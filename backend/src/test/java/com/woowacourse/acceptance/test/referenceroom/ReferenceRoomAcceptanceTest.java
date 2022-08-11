@@ -165,6 +165,25 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .put("/api/studies/{study-id}/reference-room/links/{link-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
+
+        final LinksResponse response = RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .pathParam("study-id", 자바_스터디_ID)
+                .when().log().all()
+                .get("/api/studies/{study-id}/reference-room/links")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(LinksResponse.class);
+
+        final LocalDate 링크_생성일 = 지금;
+        final LocalDate 링크_수정일 = 지금;
+
+        final AuthorResponse 짱구 = new AuthorResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
+        final LinkResponse 짱구_링크 = new LinkResponse(짱구_링크공유_ID, 짱구, editingLinkRequest.getLinkUrl(),
+                editingLinkRequest.getDescription(), 링크_생성일, 링크_수정일);
+
+        assertThat(response.getLinks()).containsExactlyInAnyOrder(짱구_링크);
+        assertThat(response.isHasNext()).isFalse();
     }
 
     @DisplayName("작성한 링크 공유글을 삭제할 수 있다.")
@@ -188,5 +207,17 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .delete("/api/studies/{study-id}/reference-room/links/{link-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
+
+        final LinksResponse response = RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .pathParam("study-id", 자바_스터디_ID)
+                .when().log().all()
+                .get("/api/studies/{study-id}/reference-room/links")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(LinksResponse.class);
+
+        assertThat(response.getLinks()).isEmpty();
+        assertThat(response.isHasNext()).isFalse();
     }
 }
