@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
+
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
@@ -41,12 +43,21 @@ public class StudyService {
         final Member owner = findMemberBy(githubId);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+        final RecruitPlanner recruitPlanner = getRecruitPlanner(request, participants);
+
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
 
         return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+    }
+
+    private static RecruitPlanner getRecruitPlanner(final CreatingStudyRequest request, final Participants participants) {
+        final RecruitPlanner temporaryRecruitPlanner = request.mapToRecruitPlan();
+        if (request.getMaxMemberCount() != null && participants.getSize() == temporaryRecruitPlanner.getMax()) {
+            return new RecruitPlanner(temporaryRecruitPlanner.getMax(), RECRUITMENT_END, temporaryRecruitPlanner.getEnrollmentEndDate());
+        }
+        return temporaryRecruitPlanner;
     }
 
     public void participateStudy(final Long githubId, final Long studyId) {
