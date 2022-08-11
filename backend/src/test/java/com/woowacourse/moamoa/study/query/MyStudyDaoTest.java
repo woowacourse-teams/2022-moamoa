@@ -4,6 +4,8 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -11,6 +13,7 @@ import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 
 import java.time.LocalDateTime;
 
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +51,9 @@ class MyStudyDaoTest {
                 + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
         jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
                 + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
+        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
+                + "VALUES (7, 'OS 스터디', 'OS 설명', 'os thumbnail', 'RECRUITMENT_END', 'PREPARE', 'OS를 공부하자의 그린론입니다.', 1, '" + now + "', 2, '2021-12-06', '2021-12-07', '2022-01-07')");
+
 
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
@@ -80,14 +86,30 @@ class MyStudyDaoTest {
         final List<MyStudySummaryData> studySummaryData = myStudyDao.findMyStudyByMemberId(2L);
 
         assertThat(studySummaryData)
-                .hasSize(3)
+                .hasSize(4)
                 .filteredOn(myStudySummaryData -> myStudySummaryData.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
                 .contains(
                         tuple("Java 스터디", PREPARE, 3, 10, "2021-12-08", null),
                         tuple("javaScript 스터디" ,PREPARE, 3, 20, "2022-08-03", null),
                         tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08"),
-                        tuple("React 스터디", PREPARE, 4, 5, "2021-11-10", "2021-12-08")
+                        tuple("OS 스터디", PREPARE, 1, null, "2021-12-06", "2022-01-07")
                 );
+    }
+
+    @DisplayName("스터디 ID가 비어있을 경우, 스터디 방장 빈 맵을 반환한다.")
+    @Test
+    void findStudyOwnersByEmptyStudyId() {
+        final Map<Long, MemberData> owners = myStudyDao.findOwners(List.of());
+
+        assertThat(owners.size()).isZero();
+    }
+
+    @DisplayName("스터디 ID가 비어있을 경우, 스터디 태그 빈 맵을 반환한다.")
+    @Test
+    void findStudyTagsByEmptyStudyId() {
+        final Map<Long, List<TagSummaryData>> tags = myStudyDao.findTags(List.of());
+
+        assertThat(tags.size()).isZero();
     }
 }
