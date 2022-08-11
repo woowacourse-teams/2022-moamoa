@@ -128,4 +128,36 @@ public class StudyFixtures {
             리눅스_스터디_계획, 리눅스_스터디_태그, LocalDateTime.now());
     public static final StudyResponse 리눅스_스터디_응답 = new StudyResponse(리눅스_스터디_아이디, 리눅스_스터디_내용.getTitle(), 리눅스_스터디_내용.getExcerpt(),
             리눅스_스터디_내용.getThumbnail(), 리눅스_스터디_모집계획.getRecruitStatus().name(), List.of());
+
+
+    public static Study 자바_스터디() {
+        return new Study(자바_스터디_내용, 자바_스터디_참가자들, 자바_스터디_모집계획,
+                자바_스터디_계획, 자바_스터디_태그, LocalDateTime.now());
+    }
+
+    public static Study 리액트_스터디() {
+        return new Study(리액트_스터디_내용, 리액트_스터디_참가자들, 리액트_스터디_모집계획,
+                리액트_스터디_계획, 리액트_스터디_태그, LocalDateTime.now());
+    }
+
+    public static Study 자바스크립트_스터디() {
+        return new Study(자바스크립트_스터디_내용, 자바스크립트_스터디_참가자들, 자바스크립트_스터디_모집계획,
+                자바스크립트_스터디_계획, 자바스크립트_스터디_태그, LocalDateTime.now());
+    }
+
+    public static Study HTTP_스터디() {
+        return new Study(HTTP_스터디_내용, HTTP_스터디_참가자들, HTTP_스터디_모집계획,
+                HTTP_스터디_계획, HTTP_스터디_태그, LocalDateTime.now());
+    }
+
+    public static Study 알고리즘_스터디() {
+        return new Study(알고리즘_스터디_내용, 알고리즘_스터디_참가자들, 알고리즘_스터디_모집계획,
+                알고리즘_스터디_계획, 알고리즘_스터디_태그, LocalDateTime.now());
+    }
+
+    public static Study 리눅스_스터디() {
+        return new Study(리눅스_스터디_내용, 리눅스_스터디_참가자들, 리눅스_스터디_모집계획,
+                리눅스_스터디_계획, 리눅스_스터디_태그, LocalDateTime.now());
+    }
+
 }

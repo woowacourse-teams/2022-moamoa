@@ -59,7 +59,27 @@ public class MemberFixtures {
     public static final Member 태태 = new Member(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
     public static final MemberData 태태_응답 = new MemberData(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
 
+    public static Member 짱구() {
+        return new Member(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
+    }
+
     public static Member 그린론() {
         return new Member(그린론_깃허브_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
+    }
+
+    public static Member 디우() {
+        return new Member(디우_깃허브_아이디, 디우_유저네임, 디우_이미지, 디우_프로필);
+    }
+
+    public static Member 베루스() {
+        return new Member(베루스_깃허브_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
+    }
+
+    public static Member 병민() {
+        return new Member(병민_깃허브_아이디, 병민_유저네임, 병민_이미지, 병민_프로필);
+    }
+
+    public static Member 태태() {
+        return new Member(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
     }
 }

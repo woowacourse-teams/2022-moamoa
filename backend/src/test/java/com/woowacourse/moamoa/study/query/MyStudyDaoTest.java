@@ -37,6 +37,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
@@ -63,23 +64,34 @@ class MyStudyDaoTest {
     @Autowired
     private EntityManager entityManager;
 
+    private Member 짱구;
     private Member 그린론;
+    private Member 디우;
+    private Member 베루스;
+
+    private Study 자바_스터디;
+    private Study 리액트_스터디;
+    private Study 자바스크립트_스터디;
+    private Study HTTP_스터디;
+    private Study 알고리즘_스터디;
+    private Study 리눅스_스터디;
+
 
     @BeforeEach
     void initDataBase() {
-        memberRepository.save(짱구);
+        짱구 = memberRepository.save(짱구());
         그린론 = memberRepository.save(그린론());
-        memberRepository.save(디우);
-        memberRepository.save(베루스);
+        디우 = memberRepository.save(디우());
+        베루스 = memberRepository.save(베루스());
 
-        studyRepository.save(자바_스터디);
-        studyRepository.save(리액트_스터디);
-        studyRepository.save(자바스크립트_스터디);
-        studyRepository.save(HTTP_스터디);
-        studyRepository.save(알고리즘_스터디);
-        studyRepository.save(리눅스_스터디);
-
-        entityManager.flush();
+        자바_스터디 = studyRepository.save(자바_스터디());
+        리액트_스터디 = studyRepository.save(리액트_스터디());
+        자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디());
+        HTTP_스터디 = studyRepository.save(HTTP_스터디());
+        알고리즘_스터디 = studyRepository.save(알고리즘_스터디());
+        리눅스_스터디 = studyRepository.save(리눅스_스터디());
+//
+//        entityManager.flush();
 //        entityManager.clear();
     }
 

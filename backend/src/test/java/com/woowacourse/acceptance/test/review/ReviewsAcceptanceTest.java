@@ -32,7 +32,6 @@ import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -156,7 +155,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final ReviewResponse 베루스_리뷰 = new ReviewResponse(베루스_리뷰_ID, 베루스, 리뷰_생성일, 리뷰_수정일, "리뷰 내용4");
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
-        assertThat(reviewsResponse.getReviews()).containsExactly(베루스_리뷰, 디우_리뷰);
+        assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrder(베루스_리뷰, 디우_리뷰);
     }
 
     @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 삭제할 수 있다.")
