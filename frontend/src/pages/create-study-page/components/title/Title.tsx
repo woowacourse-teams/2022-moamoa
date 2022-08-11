@@ -6,7 +6,7 @@ import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 
-import * as S from './Title.style';
+import * as S from '@create-study-page/components/title/Title.style';
 
 const Title: React.FC = () => {
   const { register, formState } = useFormContext();
