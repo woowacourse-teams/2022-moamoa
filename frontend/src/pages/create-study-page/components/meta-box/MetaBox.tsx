@@ -3,11 +3,11 @@ import { ReactNode } from 'react';
 import * as S from '@create-study-page/components/meta-box/MetaBox.style';
 
 const MetaBoxTitle = ({ className, children }: { className?: string; children: ReactNode }) => {
-  return <h2 className={className}>{children}</h2>;
+  return <S.Title className={className}>{children}</S.Title>;
 };
 
 const MetaBoxContent = ({ className, children }: { className?: string; children: ReactNode }) => {
-  return <div className={className}>{children}</div>;
+  return <S.Content className={className}>{children}</S.Content>;
 };
 
 const MetaBox = ({ className, children }: { className?: string; children: ReactNode }) => {

@@ -12,6 +12,13 @@ export const CreateStudyPage = styled.div``;
 
 export const Form = styled.form``;
 
+export const PageTitle = styled.h1`
+  margin-bottom: 20px;
+
+  font-size: 32px;
+  font-weight: 700;
+`;
+
 export const DescriptionTab = styled(OriginalDesriptionTab)`
   margin-bottom: 15px;
 `;
