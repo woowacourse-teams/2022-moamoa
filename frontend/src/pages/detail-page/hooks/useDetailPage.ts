@@ -2,7 +2,7 @@ import type { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { EmptyObject, GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
+import type { GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
 
 import { getUserRole, postJoiningStudy } from '@api';
 
@@ -16,7 +16,7 @@ const useDetailPage = () => {
 
   const detailQueryResult = useGetDetail(Number(studyId));
 
-  const { mutate } = useMutation<EmptyObject, AxiosError, PostJoiningStudyRequestParams>(postJoiningStudy);
+  const { mutate } = useMutation<null, AxiosError, PostJoiningStudyRequestParams>(postJoiningStudy);
   const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>(
     'my-role',
     () => getUserRole({ studyId: Number(studyId) }),
