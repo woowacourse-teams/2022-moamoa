@@ -26,7 +26,7 @@ class AccessTokenController {
     this._accessToken = null;
   }
 
-  static async fetchLogout() {
+  private static async fetchLogout() {
     try {
       await deleteRefreshToken();
       AccessTokenController.removeAccessToken();
