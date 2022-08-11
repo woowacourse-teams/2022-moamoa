@@ -3,9 +3,6 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-import * as Logo from '@layout/header/components/logo/Logo.style';
-import * as SearchBar from '@layout/header/components/search-bar/SearchBar.style';
-
 export const SearchBarContainer = styled.div`
   position: absolute;
   left: 50%;
@@ -14,6 +11,13 @@ export const SearchBarContainer = styled.div`
 
   width: 100%;
   max-width: 400px;
+
+  ${mqDown('lg')} {
+    position: static;
+    left: 0;
+    top: 0;
+    transform: none;
+  }
 `;
 
 export const Row = styled.header`
@@ -30,33 +34,12 @@ export const Row = styled.header`
     background-color: ${theme.colors.secondary.light};
     border-bottom: 1px solid ${theme.colors.secondary.dark};
 
-    ${mqDown('lg')} {
-      ${Logo.ImageContainer} {
-        margin-right: 0;
-      }
-      ${Logo.BorderText} {
-        display: none;
-      }
-      ${SearchBarContainer} {
-        position: static;
-        left: 0;
-        top: 0;
-        transform: none;
-      }
-    }
-
     ${mqDown('md')} {
       padding: 16px 24px;
-      ${SearchBar.Input} {
-        font-size: 18px;
-      }
     }
 
     ${mqDown('sm')} {
       padding: 10px 12px;
-      ${SearchBar.Input} {
-        font-size: 16px;
-      }
     }
   `}
 `;

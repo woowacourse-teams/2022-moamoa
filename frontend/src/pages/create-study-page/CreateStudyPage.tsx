@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import { FormProvider } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
@@ -23,44 +21,36 @@ const CreateStudyPage: React.FC = () => {
     <Wrapper>
       <S.CreateStudyPage>
         <FormProvider {...formMethods}>
-          <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <h1 className="title">스터디 개설하기</h1>
-            <div className="inner">
-              <div className="main">
+          <S.Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+            <h1>스터디 개설하기</h1>
+            <S.Container>
+              <S.Main>
                 <Title />
                 <DescriptionTab />
                 <Excerpt />
-              </div>
-              <div className="sidebar">
-                <Publish
-                  css={css`
-                    margin-bottom: 15px;
-                  `}
-                />
-                <MaxMemberCount
-                  css={css`
-                    margin-bottom: 15px;
-                  `}
-                />
-                <Category
-                  css={css`
-                    margin-bottom: 15px;
-                  `}
-                />
-                <Subject
-                  css={css`
-                    margin-bottom: 15px;
-                  `}
-                />
-                <Period
-                  css={css`
-                    margin-bottom: 15px;
-                  `}
-                />
-                <EnrollmentEndDate />
-              </div>
-            </div>
-          </form>
+              </S.Main>
+              <S.Sidebar>
+                <li>
+                  <Publish />
+                </li>
+                <li>
+                  <MaxMemberCount />
+                </li>
+                <li>
+                  <Category />
+                </li>
+                <li>
+                  <Subject />
+                </li>
+                <li>
+                  <Period />
+                </li>
+                <li>
+                  <EnrollmentEndDate />
+                </li>
+              </S.Sidebar>
+            </S.Container>
+          </S.Form>
         </FormProvider>
       </S.CreateStudyPage>
     </Wrapper>
