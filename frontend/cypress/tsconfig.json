@@ -4,8 +4,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ES6",
-    "lib": ["dom", "dom.iterable", "ES6"],
-    "module": "ES6"
+    "module": "ES6",
+    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
   "include": ["../src", "../node_modules/cypress", "./**/*.cy.ts", "./**/*.cy.tsx"]
 }
