@@ -55,7 +55,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("accessToken", notNullValue());
+                .body("accessToken", notNullValue())
+                .body("expiredTime", notNullValue());
     }
 
     @DisplayName("RefreshToken 으로 AccessToken 을 재발급한다.")

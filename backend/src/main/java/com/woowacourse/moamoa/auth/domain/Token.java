@@ -27,8 +27,7 @@ public class Token {
     private String refreshToken;
 
     public Token(final Long githubId, final String refreshToken) {
-        this.githubId = githubId;
-        this.refreshToken = refreshToken;
+        this(null, githubId, refreshToken);
     }
 
     public void updateRefreshToken(final String refreshToken) {
