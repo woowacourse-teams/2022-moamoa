@@ -12,10 +12,10 @@ import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
 import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
+import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -68,35 +68,18 @@ public class UpdatingCommunityArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         CommunityArticle article = communityArticleService
-                .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
+                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
 
         // act
-        final ResponseEntity<Void> response = sut.updateArticle(member.getGithubId(), study.getId(), article.getId(),
+        final ResponseEntity<Void> response = sut.updateArticle(member.getId(), study.getId(), article.getId(),
                 new ArticleRequest("제목 수정", "내용 수정"));
 
         // assert
         CommunityArticle actualArticle = communityArticleRepository.findById(article.getId()).orElseThrow();
-        CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", member.getId(),
-                study.getId());
+        CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", member.getId(), study);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(actualArticle).isEqualTo(expectArticle);
-    }
-
-    @DisplayName("존재하지 않는 사용자가 게시글 수정 시 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenUpdateByNotFoundMember() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
-        CommunityArticle article = communityArticleService
-                .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
-
-        // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(2L, study.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
-                .isInstanceOf(MemberNotFoundException.class);
-        assertThat(communityArticleRepository.existsById(article.getId())).isTrue();
     }
 
     @DisplayName("스터디가 없는 경우 게시글 수정 시 예외가 발생한다.")
@@ -107,12 +90,13 @@ public class UpdatingCommunityArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         CommunityArticle article = communityArticleService
-                .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
+                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
         long notFoundStudyId = study.getId() + 1L;
 
         // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(member.getGithubId(), notFoundStudyId, article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
-                .isInstanceOf(StudyNotFoundException.class);
+        assertThatThrownBy(() -> sut
+                .updateArticle(member.getId(), notFoundStudyId, article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("게시글이 없는 경우 수정 시 예외가 발생한다.")
@@ -124,7 +108,8 @@ public class UpdatingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(member.getGithubId(), study.getId(), 1L, new ArticleRequest("제목 수정", "내용 수정")))
+        assertThatThrownBy(
+                () -> sut.updateArticle(member.getId(), study.getId(), 1L, new ArticleRequest("제목 수정", "내용 수정")))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -139,12 +124,13 @@ public class UpdatingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(other.getGithubId(), study.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
-                .isInstanceOf(NotParticipatedMemberException.class);
+        assertThatThrownBy(() -> sut
+                .updateArticle(other.getId(), study.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("스터디와 연관되지 않은 게시글 수정 시 예외 발생")
@@ -159,12 +145,13 @@ public class UpdatingCommunityArticleControllerTest {
                 javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), hasArticleStudy.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), hasArticleStudy.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(member.getGithubId(), notHasArticleStudy.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
-                .isInstanceOf(NotRelatedArticleException.class);
+        assertThatThrownBy(() -> sut.updateArticle(member.getId(), notHasArticleStudy.getId(), article.getId(),
+                new ArticleRequest("제목 수정", "내용 수정")))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("작성자 외에 게시글 수정 시 예외 발생")
@@ -179,11 +166,12 @@ public class UpdatingCommunityArticleControllerTest {
         studyService.participateStudy(other.getGithubId(), study.getId());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.updateArticle(other.getGithubId(), study.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
-                .isInstanceOf(NotArticleAuthorException.class);
+        assertThatThrownBy(() -> sut
+                .updateArticle(other.getId(), study.getId(), article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
+                .isInstanceOf(UneditableArticleException.class);
     }
 }

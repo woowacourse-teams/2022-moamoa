@@ -1,5 +1,8 @@
 package com.woowacourse.moamoa;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.woowacourse.moamoa.auth.config.AuthRequestMatchConfig;
@@ -8,7 +11,11 @@ import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,4 +44,13 @@ public abstract class WebMVCTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockBean
+    private MemberRepository memberRepository;
+
+    @BeforeEach
+    void setUp() {
+        when(memberRepository.findByGithubId(any()))
+                .thenReturn(Optional.of(new Member(1L, 1L, "username", "image", "profile")));
+    }
 }

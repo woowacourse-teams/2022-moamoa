@@ -12,6 +12,7 @@ import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
 import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
+import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
@@ -68,30 +69,14 @@ public class DeletingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
         //act
-        sut.deleteArticle(member.getGithubId(), study.getId(), article.getId());
+        sut.deleteArticle(member.getId(), study.getId(), article.getId());
 
         //assert
         assertThat(communityArticleRepository.existsById(article.getId())).isFalse();
-    }
-
-    @DisplayName("존재하지 않는 사용자가 게시글 삭제 시 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenGetByNotFoundMember() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-        CommunityArticle article = communityArticleService
-                .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
-
-        // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(2L, study.getId(), article.getId()))
-                .isInstanceOf(MemberNotFoundException.class);
-        assertThat(communityArticleRepository.existsById(article.getId())).isTrue();
     }
 
     @DisplayName("스터디가 없는 경우 게시글 조회 시 예외가 발생한다.")
@@ -102,12 +87,12 @@ public class DeletingCommunityArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
         CommunityArticle article = communityArticleService
-                .createArticle(member.getGithubId(), study.getId(), new ArticleRequest("제목", "내용"));
+                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
         long notFoundStudyId = study.getId() + 1L;
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), notFoundStudyId, article.getId()))
-                .isInstanceOf(StudyNotFoundException.class);
+        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), notFoundStudyId, article.getId()))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")
@@ -119,7 +104,7 @@ public class DeletingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), study.getId(), 1L))
+        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), study.getId(), 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -134,12 +119,12 @@ public class DeletingCommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getGithubId(), study.getId(), article.getId()))
-                .isInstanceOf(NotParticipatedMemberException.class);
+        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId()))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("스터디와 연관되지 않은 게시글 삭제 시 예외 발생")
@@ -154,12 +139,12 @@ public class DeletingCommunityArticleControllerTest {
                 javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), hasArticleStudy.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), hasArticleStudy.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getGithubId(), notHasArticleStudy.getId(), article.getId()))
-                .isInstanceOf(NotRelatedArticleException.class);
+        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), notHasArticleStudy.getId(), article.getId()))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("작성자 외에 게시글 삭제 시 예외 발생")
@@ -174,11 +159,11 @@ public class DeletingCommunityArticleControllerTest {
         studyService.participateStudy(other.getGithubId(), study.getId());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getGithubId(), study.getId(),
+        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getGithubId(), study.getId(), article.getId()))
-                .isInstanceOf(NotArticleAuthorException.class);
+        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId()))
+                .isInstanceOf(UneditableArticleException.class);
     }
 }

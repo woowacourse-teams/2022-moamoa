@@ -10,18 +10,18 @@ import com.woowacourse.moamoa.study.domain.Study;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Table(name = "article")
 public class CommunityArticle extends BaseEntity {
@@ -37,11 +37,21 @@ public class CommunityArticle extends BaseEntity {
     @Column(name = "author_id")
     private Long authorId;
 
-    @Column(name = "study_id")
-    private Long studyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
-    private CommunityArticle(final String title, final String content, final Long authorId, final Long studyId) {
-        this(null, title, content, authorId, studyId);
+    private CommunityArticle(final String title, final String content, final Long authorId, final Study study) {
+        this(null, title, content, authorId, study);
+    }
+
+    public CommunityArticle(final Long id, final String title, final String content, final Long authorId,
+                            final Study study) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.authorId = authorId;
+        this.study = study;
     }
 
     public static CommunityArticle write(final Member member, final Study study, final ArticleRequest request) {
@@ -49,11 +59,11 @@ public class CommunityArticle extends BaseEntity {
             throw new NotParticipatedMemberException();
         }
 
-        return new CommunityArticle(request.getTitle(), request.getContent(), member.getId(), study.getId());
+        return new CommunityArticle(request.getTitle(), request.getContent(), member.getId(), study);
     }
 
     public boolean isBelongTo(final Long studyId) {
-        return this.studyId.equals(studyId);
+        return this.study.getId().equals(studyId);
     }
 
     public boolean isAuthor(final Long memberId) {
@@ -63,6 +73,14 @@ public class CommunityArticle extends BaseEntity {
     public void update(final String title, final String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public boolean isEditableBy(final Long studyId, final Long memberId) {
+        return isBelongTo(studyId) && study.isParticipant(memberId) && isAuthor(memberId);
+    }
+
+    public boolean isViewableBy(final Long studyId, final Long memberId) {
+        return isBelongTo(studyId) && study.isParticipant(memberId);
     }
 
     @Override
@@ -76,11 +94,11 @@ public class CommunityArticle extends BaseEntity {
         final CommunityArticle that = (CommunityArticle) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
                 && Objects.equals(getContent(), that.getContent()) && Objects.equals(getAuthorId(),
-                that.getAuthorId()) && Objects.equals(getStudyId(), that.getStudyId());
+                that.getAuthorId()) && Objects.equals(getStudy().getId(), that.getStudy().getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyId());
+        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudy().getId());
     }
 }

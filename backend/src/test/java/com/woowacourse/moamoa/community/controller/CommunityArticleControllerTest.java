@@ -65,7 +65,7 @@ public class CommunityArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
         // act
-        ResponseEntity<Void> response = sut.createArticle(member.getGithubId(), study.getId(), request);
+        ResponseEntity<Void> response = sut.createArticle(member.getId(), study.getId(), request);
 
         // assert
         String location = response.getHeaders().getLocation().getPath();
@@ -74,7 +74,7 @@ public class CommunityArticleControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
         assertThat(communityArticleRepository.findById(articleId).get())
-                .isEqualTo(new CommunityArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study.getId()));
+                .isEqualTo(new CommunityArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study));
     }
 
     @DisplayName("사용자가 없는 경우 게시글 작성 시 예외가 발생한다.")
@@ -86,7 +86,7 @@ public class CommunityArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(2L, study.getId(), new ArticleRequest("제목", "내용")))
+        assertThatThrownBy(() -> sut.createArticle(member.getId() + 1, study.getId(), new ArticleRequest("제목", "내용")))
                 .isInstanceOf(MemberNotFoundException.class);
     }
 
@@ -97,7 +97,7 @@ public class CommunityArticleControllerTest {
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(member.getGithubId(), 1L, new ArticleRequest("제목", "내용")))
+        assertThatThrownBy(() -> sut.createArticle(member.getId(), 1L, new ArticleRequest("제목", "내용")))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 }

@@ -7,6 +7,8 @@ import com.woowacourse.moamoa.community.query.data.CommunityArticleData;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
 import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
+import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
+import com.woowacourse.moamoa.community.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
@@ -45,26 +47,20 @@ public class CommunityArticleService {
     }
 
     @Transactional
-    public CommunityArticle createArticle(final Long githubId, final Long studyId,
+    public CommunityArticle createArticle(final Long memberId, final Long studyId,
                                           final ArticleRequest request) {
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        final Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
         return communityArticleRepository.save(CommunityArticle.write(member, study, request));
     }
 
-    public ArticleResponse getArticle(final Long githubId, final Long studyId, final Long articleId) {
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId) {
         final CommunityArticle article = communityArticleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
-        if (!study.isParticipant(member.getId())) {
-            throw new NotParticipatedMemberException();
-        }
-
-        if (!article.isBelongTo(study.getId())) {
-            throw new NotRelatedArticleException(study.getId(), article.getId());
+        if (!article.isViewableBy(studyId, memberId)) {
+            throw new UnviewableArticleException();
         }
 
         final CommunityArticleData data = communityArticleDao.getById(articleId)
@@ -73,33 +69,22 @@ public class CommunityArticleService {
     }
 
     @Transactional
-    public void deleteArticle(final Long githubId, final Long studyId, final Long articleId) {
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
         final CommunityArticle article = communityArticleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
-        if (!study.isParticipant(member.getId())) {
-            throw new NotParticipatedMemberException();
-        }
-
-        if (!article.isBelongTo(study.getId())) {
-            throw new NotRelatedArticleException(study.getId(), article.getId());
-        }
-
-        if (!article.isAuthor(member.getId())) {
-            throw new NotArticleAuthorException(article.getId(), member.getId());
+        if (!article.isEditableBy(studyId, memberId)) {
+            throw new UneditableArticleException();
         }
 
         communityArticleRepository.deleteById(articleId);
     }
 
-    public ArticleSummariesResponse getArticles(final Long githubId, final Long studyId, final Pageable pageable) {
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable) {
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isParticipant(member.getId())) {
-            throw new NotParticipatedMemberException();
+        if (!study.isParticipant(memberId)) {
+            throw new UnviewableArticleException();
         }
 
         final Page<CommunityArticleData> page = communityArticleDao.getAllByStudyId(studyId, pageable);
@@ -112,23 +97,13 @@ public class CommunityArticleService {
     }
 
     @Transactional
-    public void updateArticle(final Long githubId, final Long studyId, final Long articleId,
+    public void updateArticle(final Long memberId, final Long studyId, final Long articleId,
                               final ArticleRequest request) {
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
         final CommunityArticle article = communityArticleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
-        if (!study.isParticipant(member.getId())) {
-            throw new NotParticipatedMemberException();
-        }
-
-        if (!article.isBelongTo(study.getId())) {
-            throw new NotRelatedArticleException(study.getId(), article.getId());
-        }
-
-        if (!article.isAuthor(member.getId())) {
-            throw new NotArticleAuthorException(article.getId(), member.getId());
+        if (!article.isEditableBy(studyId, memberId)) {
+            throw new UneditableArticleException();
         }
 
         article.update(request.getTitle(), request.getContent());
