@@ -159,4 +159,16 @@ public class StudyFixtures {
                 리눅스_스터디_계획, 리눅스_스터디_태그, LocalDateTime.now());
     }
 
+    /* OS 스터디 */
+    public static final Member OS_스터디장 = new Member(디우_아이디, 디우_깃허브_아이디, 디우_유저네임, 디우_이미지, 디우_프로필);
+    public static final Content OS_스터디_내용 = new Content("디우의 OS 스터디", "OS 스터디 요약", "OS 스터디 썸네일", "OS 스터디 설명입니다.");
+    public static final Participants OS_스터디_참가자들 = new Participants(디우_아이디, Set.of(그린론_아이디, 짱구_아이디, 베루스_아이디));
+    public static final RecruitPlanner OS_스터디_모집계획 = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
+    public static final StudyPlanner OS_스터디_계획 = new StudyPlanner(LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(2), PREPARE);
+    public static final AttachedTags OS_스터디_태그 = new AttachedTags(List.of(new AttachedTag(우테코4기_태그_아이디), new AttachedTag(BE_태그_아이디)));
+
+    public static Study OS_스터디(final Long ownerId, final Set<Long> participants) {
+        return new Study(OS_스터디_내용, new Participants(ownerId, participants), OS_스터디_모집계획,
+                OS_스터디_계획, OS_스터디_태그, LocalDateTime.now());
+    }
 }
