@@ -128,17 +128,18 @@ class MyStudyControllerTest {
         assertThat(myStudies.getBody()).isNotNull();
         assertThat(myStudies.getBody().getStudies())
                 .hasSize(5)
-                .extracting("id", "title", "studyStatus", "currentMemberCount", "maxMemberCount")
+                .filteredOn(myStudy -> myStudy.getId() != null)
+                .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .containsExactlyElementsOf(List.of(
-                        tuple(1L, 자바_스터디_내용.getTitle(), 자바_스터디_계획.getStudyStatus(), 자바_스터디_참가자들.getSize(),
+                        tuple(자바_스터디_내용.getTitle(), 자바_스터디_계획.getStudyStatus(), 자바_스터디_참가자들.getSize(),
                                 자바_스터디_모집계획.getMax()),
-                        tuple(2L, 리액트_스터디_내용.getTitle(), 리액트_스터디_계획.getStudyStatus(), 리액트_스터디_참가자들.getSize(),
+                        tuple(리액트_스터디_내용.getTitle(), 리액트_스터디_계획.getStudyStatus(), 리액트_스터디_참가자들.getSize(),
                                 리액트_스터디_모집계획.getMax()),
-                        tuple(3L, 자바스크립트_스터디_내용.getTitle(), 자바스크립트_스터디_계획.getStudyStatus(), 자바스크립트_스터디_참가자들.getSize(),
+                        tuple(자바스크립트_스터디_내용.getTitle(), 자바스크립트_스터디_계획.getStudyStatus(), 자바스크립트_스터디_참가자들.getSize(),
                                 자바스크립트_스터디_모집계획.getMax()),
-                        tuple(5L, 알고리즘_스터디_내용.getTitle(), 알고리즘_스터디_계획.getStudyStatus(), 알고리즘_스터디_참가자들.getSize(),
+                        tuple(알고리즘_스터디_내용.getTitle(), 알고리즘_스터디_계획.getStudyStatus(), 알고리즘_스터디_참가자들.getSize(),
                                 알고리즘_스터디_모집계획.getMax()),
-                        tuple(6L, 리눅스_스터디_내용.getTitle(), 리눅스_스터디_계획.getStudyStatus(), 리눅스_스터디_참가자들.getSize(),
+                        tuple(리눅스_스터디_내용.getTitle(), 리눅스_스터디_계획.getStudyStatus(), 리눅스_스터디_참가자들.getSize(),
                                 리눅스_스터디_모집계획.getMax())
                 ));
 
