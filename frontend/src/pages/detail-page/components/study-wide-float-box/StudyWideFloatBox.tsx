@@ -12,7 +12,6 @@ import Button from '@components/button/Button';
 
 import * as S from '@detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
 
-// TODO: 스터디에 가입한 사람인지 아닌지 상태도 받아야 함
 export type StudyWideFloatBoxProps = Pick<
   StudyDetail,
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'

@@ -46,7 +46,6 @@ class AccessTokenController {
       }, this.tokenExpiredMsTime);
     } catch (error) {
       if (error instanceof AxiosError) {
-        // TODO: 만약 refreshToken이 만료되었다는 코드가 오면
         if (error.response?.data.code === 4001) {
           await this.fetchLogout();
         }

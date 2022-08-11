@@ -44,7 +44,7 @@ export const handlers = [
         ctx.status(200),
         ctx.json({
           studies: searchedStudies.slice(0, 5),
-          hasNext: true, // TODO: hasNext 조건 주기
+          hasNext: true,
         }),
       );
     }
