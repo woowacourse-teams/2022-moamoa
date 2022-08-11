@@ -15,9 +15,10 @@ import lombok.NoArgsConstructor;
 public class EditingLinkRequest {
 
     @NotBlank(message = "공유할 링크 URL을 입력해 주세요.")
+    @Size(max = 500, message = "링크 URL은 500자를 초과할 수 없습니다.")
     private String linkUrl;
 
-    @Size(max = 50, message = "50글자를 초과할 수 없습니다.")
+    @Size(max = 25, message = "설명은 50자를 초과할 수 없습니다.")
     private String description;
 
     public Link toLink(final Long studyId, final Long memberId) {
