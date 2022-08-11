@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { useState } from 'react';
 
 import { TITLE_LENGTH } from '@constants';

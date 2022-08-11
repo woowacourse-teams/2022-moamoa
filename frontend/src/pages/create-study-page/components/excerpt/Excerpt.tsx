@@ -1,7 +1,3 @@
-import cn from 'classnames';
-
-import { css } from '@emotion/react';
-
 import { EXCERPT_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
