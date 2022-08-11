@@ -1,21 +1,23 @@
+// cypress ts target을 ES6로 설정
+// esnext일 때 에러 발생
 {
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES6",
+    "lib": ["dom", "dom.iterable", "ES6"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "module": "ES6",
     "moduleResolution": "node",
     "isolatedModules": true,
     "noEmit": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react", // css prop을 사용하기 위해 필요하다
-    "baseUrl": "./src",
+    "baseUrl": "../src",
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
@@ -44,6 +46,7 @@
       "@pages/*": ["pages/*"]
     },
     "typeRoots": ["src/custom-types"],
+    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
-  "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
+  "include": ["../src", "../node_modules/cypress", "**/*.cy.ts", "**/*.cy.tsx"]
 }
