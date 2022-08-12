@@ -79,22 +79,6 @@ public class DeletingCommunityArticleControllerTest {
         assertThat(communityArticleRepository.existsById(article.getId())).isFalse();
     }
 
-    @DisplayName("스터디가 없는 경우 게시글 조회 시 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenGettingToNotFoundStudy() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-        CommunityArticle article = communityArticleService
-                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
-        long notFoundStudyId = study.getId() + 1L;
-
-        // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), notFoundStudyId, article.getId()))
-                .isInstanceOf(UneditableArticleException.class);
-    }
-
     @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")
     @Test
     void throwExceptionWhenGettingToNotFoundArticle() {
@@ -108,7 +92,7 @@ public class DeletingCommunityArticleControllerTest {
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글을 삭제한 경우 예외가 발생한다.")
+    @DisplayName("게시글을 삭제할 수 없는 경우 예외가 발생한다.")
     @Test
     void throwExceptionWhenDeletingByNotParticipant() {
         // arrange
@@ -117,46 +101,6 @@ public class DeletingCommunityArticleControllerTest {
 
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
-                request);
-
-        // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId()))
-                .isInstanceOf(UneditableArticleException.class);
-    }
-
-    @DisplayName("스터디와 연관되지 않은 게시글 삭제 시 예외 발생")
-    @Test
-    void throwExceptionWhenDeletingNotRelatedArticleWithStudy() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-
-        Study hasArticleStudy = studyService.createStudy(member.getGithubId(),
-                javaStudyRequest.startDate(LocalDate.now()).build());
-        Study notHasArticleStudy = studyService.createStudy(member.getGithubId(),
-                javaStudyRequest.startDate(LocalDate.now()).build());
-
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getId(), hasArticleStudy.getId(),
-                request);
-
-        // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), notHasArticleStudy.getId(), article.getId()))
-                .isInstanceOf(UneditableArticleException.class);
-    }
-
-    @DisplayName("작성자 외에 게시글 삭제 시 예외 발생")
-    @Test
-    void throwExceptionWhenDeletingNotAuthor() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Member other = memberRepository.save(new Member(2L, "other", "imageUrl", "profileUrl"));
-
-        Study study = studyService.createStudy(member.getGithubId(),
-                javaStudyRequest.startDate(LocalDate.now()).build());
-        studyService.participateStudy(other.getGithubId(), study.getId());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),

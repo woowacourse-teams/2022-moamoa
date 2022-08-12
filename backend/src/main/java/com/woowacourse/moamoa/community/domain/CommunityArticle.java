@@ -62,25 +62,25 @@ public class CommunityArticle extends BaseEntity {
         return new CommunityArticle(request.getTitle(), request.getContent(), member.getId(), study);
     }
 
-    public boolean isBelongTo(final Long studyId) {
-        return this.study.getId().equals(studyId);
-    }
-
-    public boolean isAuthor(final Long memberId) {
-        return this.authorId.equals(memberId);
-    }
-
     public void update(final String title, final String content) {
         this.title = title;
         this.content = content;
     }
 
-    public boolean isEditableBy(final Long studyId, final Long memberId) {
-        return isBelongTo(studyId) && study.isParticipant(memberId) && isAuthor(memberId);
-    }
-
     public boolean isViewableBy(final Long studyId, final Long memberId) {
         return isBelongTo(studyId) && study.isParticipant(memberId);
+    }
+
+    public boolean isEditableBy(final Long studyId, final Long memberId) {
+        return isViewableBy(studyId, memberId) && isAuthor(memberId);
+    }
+
+    private boolean isBelongTo(final Long studyId) {
+        return this.study.getId().equals(studyId);
+    }
+
+    private boolean isAuthor(final Long memberId) {
+        return this.authorId.equals(memberId);
     }
 
     @Override

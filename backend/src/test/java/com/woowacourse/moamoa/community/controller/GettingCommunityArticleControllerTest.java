@@ -87,22 +87,6 @@ public class GettingCommunityArticleControllerTest {
                 request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
     }
 
-    @DisplayName("스터디가 없는 경우 게시글 조회 시 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenGettingToNotFoundStudy() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-        CommunityArticle article = communityArticleService
-                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
-        long notFoundStudyId = study.getId() + 1L;
-
-        // act & assert
-        assertThatThrownBy(() -> sut.getArticle(member.getId(), notFoundStudyId, article.getId()))
-                .isInstanceOf(UnviewableArticleException.class);
-    }
-
     @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")
     @Test
     void throwExceptionWhenGettingToNotFoundArticle() {
@@ -116,7 +100,7 @@ public class GettingCommunityArticleControllerTest {
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글을 조회한 경우 예외가 발생한다.")
+    @DisplayName("스터디를 조회할 수 없는 경우 예외가 발생한다.")
     @Test
     void throwExceptionWhenGettingByNotParticipant() {
         // arrange
@@ -132,25 +116,6 @@ public class GettingCommunityArticleControllerTest {
 
         // act & assert
         assertThatThrownBy(() -> sut.getArticle(other.getId(), study.getId(), article.getId()))
-                .isInstanceOf(UnviewableArticleException.class);
-    }
-
-    @DisplayName("스터디와 연관되지 않은 게시글 조회 시 예외 발생")
-    void throwExceptionWhenGettingNotRelatedArticleWithStudy() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-
-        Study hasArticleStudy = studyService.createStudy(member.getGithubId(),
-                javaStudyRequest.startDate(LocalDate.now()).build());
-        Study notHasArticleStudy = studyService.createStudy(member.getGithubId(),
-                javaStudyRequest.startDate(LocalDate.now()).build());
-
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getId(), hasArticleStudy.getId(),
-                request);
-
-        // act & assert
-        assertThatThrownBy(() -> sut.getArticle(member.getId(), notHasArticleStudy.getId(), article.getId()))
                 .isInstanceOf(UnviewableArticleException.class);
     }
 }
