@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.community.service.response;
 
-import com.woowacourse.moamoa.community.query.data.CommunityArticleData;
+import com.woowacourse.moamoa.community.query.data.ArticleData;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +24,7 @@ public class ArticleResponse {
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
 
-    public ArticleResponse(CommunityArticleData data) {
+    public ArticleResponse(ArticleData data) {
         this(data.getId(), new AuthorResponse(data.getMemberData()), data.getTitle(), data.getContent(),
                 data.getCreatedDate(), data.getLastModifiedDate());
     }

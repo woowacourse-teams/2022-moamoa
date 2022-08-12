@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.community.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.community.domain.CommunityArticle;
+import com.woowacourse.moamoa.community.domain.Article;
 import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
@@ -36,8 +36,8 @@ public class ArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-type") final String articleType,
                                               @Valid @RequestBody final ArticleRequest request) {
-        final CommunityArticle article = articleService.createArticle(id, studyId, request);
-        final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
+        final Article article = articleService.createArticle(id, studyId, request, articleType);
+        final URI location = URI.create("/api/studies/" + studyId + "/" + articleType + "/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
@@ -47,7 +47,7 @@ public class ArticleController {
                                                       @PathVariable("article-type") final String articleType, 
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = articleService.getArticle(id, studyId, articleId);
+        ArticleResponse response = articleService.getArticle(id, studyId, articleId, articleType);
         return ResponseEntity.ok().body(response);
     }
 
@@ -57,7 +57,7 @@ public class ArticleController {
                                               @PathVariable("article-type") final String articleType, 
                                               @PathVariable("article-id") final Long articleId
     ) {
-        articleService.deleteArticle(id, studyId, articleId);
+        articleService.deleteArticle(id, studyId, articleId, articleType);
         return ResponseEntity.noContent().build();
     }
 
@@ -67,7 +67,7 @@ public class ArticleController {
                                                                 @PathVariable("article-type") final String articleType, 
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable);
+        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, articleType);
         return ResponseEntity.ok().body(response);
     }
 
@@ -78,7 +78,7 @@ public class ArticleController {
                                               @PathVariable("article-id") final Long articleId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request);
+        articleService.updateArticle(id, studyId, articleId, request, articleType);
         return ResponseEntity.noContent().build();
     }
 }

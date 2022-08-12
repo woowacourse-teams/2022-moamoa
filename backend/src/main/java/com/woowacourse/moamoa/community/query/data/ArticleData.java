@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-public class CommunityArticleData {
+public class ArticleData {
 
     private final Long id;
     private final MemberData memberData;
@@ -14,9 +14,9 @@ public class CommunityArticleData {
     private final LocalDate createdDate;
     private final LocalDate lastModifiedDate;
 
-    public CommunityArticleData(final Long id, final MemberData memberData, final String title, final String content,
-                                final LocalDate createdDate,
-                                final LocalDate lastModifiedDate) {
+    public ArticleData(final Long id, final MemberData memberData, final String title, final String content,
+                       final LocalDate createdDate,
+                       final LocalDate lastModifiedDate) {
         this.id = id;
         this.memberData = memberData;
         this.title = title;

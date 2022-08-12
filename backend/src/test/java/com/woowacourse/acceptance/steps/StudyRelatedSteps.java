@@ -60,6 +60,25 @@ public class StudyRelatedSteps extends Steps {
         }
     }
 
+    public long 공지사항을_작성한다(final String title, final String content) {
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
+                    .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
+                    .pathParam("study-id", studyId)
+                    .when().log().all()
+                    .post("/api/studies/{study-id}/notice/articles")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/notice/articles/", ""));
+        } catch (Exception e) {
+            Assertions.fail("공지사항 작성 실패");
+            return -1;
+        }
+    }
+
     public long 게시글을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()

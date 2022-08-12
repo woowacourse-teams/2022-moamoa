@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS article;
+DROP TABLE IF EXISTS community;
+DROP TABLE IF EXISTS notice;
 DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
@@ -82,7 +83,20 @@ CREATE TABLE study_member
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
 
-CREATE TABLE article
+CREATE TABLE community
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title              VARCHAR(255) NOT NULL,
+    content            MEDIUMTEXT   NOT NULL,
+    author_id          BIGINT,
+    study_id           BIGINT,
+    created_date       DATETIME     not null,
+    last_modified_date DATETIME     not null,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (study_id) REFERENCES study (id)
+);
+
+CREATE TABLE notice
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     title              VARCHAR(255) NOT NULL,
