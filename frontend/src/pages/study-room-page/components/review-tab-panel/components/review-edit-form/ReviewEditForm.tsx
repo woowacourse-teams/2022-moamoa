@@ -1,10 +1,11 @@
+import type { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, EmptyObject, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
+import type { DateYMD, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
 
 import { putReview } from '@api';
 
@@ -12,7 +13,6 @@ import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
-import ButtonGroup from '@components/button-group/ButtonGroup';
 import Button from '@components/button/Button';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
@@ -42,7 +42,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, PutReviewRequestVariables>(putReview);
+  const { mutateAsync } = useMutation<null, AxiosError, PutReviewRequestVariables>(putReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -97,12 +97,12 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
       </S.ReviewEditFormBody>
       <S.ReviewEditFormFooter>
         <LetterCounter count={count} maxCount={maxCount} />
-        <ButtonGroup variation="flex-end">
+        <S.ReviewEditFormFooterButtonGroup variation="flex-end">
           <S.CancelButton type="button" onClick={onCancelEditBtnClick}>
             취소
           </S.CancelButton>
           <Button>수정</Button>
-        </ButtonGroup>
+        </S.ReviewEditFormFooterButtonGroup>
       </S.ReviewEditFormFooter>
     </S.ReviewEditForm>
   );

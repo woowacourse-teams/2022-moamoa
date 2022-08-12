@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 
@@ -26,7 +27,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery<GetTagListResponseData, Error>('filters', getTagList);
+  const { data, isLoading, isError } = useQuery<GetTagListResponseData, AxiosError>('filters', getTagList);
 
   const generationTags = filterByCategory(data?.tags, 1);
   const areaTags = filterByCategory(data?.tags, 2);
@@ -63,7 +64,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
-        {isError && <div>{error.message}</div>}
+        {isError && <div>필터 불러오기에 실패했습니다.</div>}
         <FilterButtonList
           filters={areaTags}
           selectedFilters={selectedFilters}

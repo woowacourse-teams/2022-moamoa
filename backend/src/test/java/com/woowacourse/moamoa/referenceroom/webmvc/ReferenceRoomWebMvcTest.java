@@ -17,7 +17,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @DisplayName("필수 데이터인 링크 URL이 null인 경우 400을 반환한다.")
     @Test
     void requestByNullLinkUrl() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(null, "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
@@ -31,7 +31,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @DisplayName("필수 데이터인 링크 URL이 공백인 경우 400을 반환한다.")
     @Test
     void requestByBlankLinkUrl() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("", "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
@@ -44,8 +44,8 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
 
     @DisplayName("링크 공유 설명이 25글자 이상인 경우 400을 반환한다.")
     @Test
-    void requestBy50LengthExceededDescription() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+    void requestBy25LengthExceededDescription() throws Exception {
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크",
                 "일이삼사오육칠팔구십"
                         + "일이삼사오육칠팔이십"
@@ -64,7 +64,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @DisplayName("정상적이지 않은 스터디 id인 경우 400을 반환한다.")
     @Test
     void requestByInvalidStudyId() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
 
         mockMvc.perform(post("/api/studies/one/reference-room/links")
@@ -78,7 +78,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @DisplayName("page 파라미터 형식이 잘못된 경우 400을 반환한다.")
     @Test
     void requestByInvalidPageParameter() throws Exception {
-        final String token = tokenProvider.createToken(1L);
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/studies/1/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -90,7 +90,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @DisplayName("size 파라미터 형식이 잘못된 경우 400을 반환한다.")
     @Test
     void requestByInvalidSizeParameter() throws Exception {
-        final String token = tokenProvider.createToken(1L);
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/studies/1/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)

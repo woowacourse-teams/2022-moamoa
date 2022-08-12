@@ -30,14 +30,14 @@ export const Content = styled.div`
   line-height: 20px;
 `;
 
-export const DropDownMenu = styled.ul`
-  ${({ theme }) => css`
+export const DropDownMenu = styled.ul<DropDownProps>`
+  ${({ theme, isOpen }) => css`
     position: absolute;
     top: calc(100% + 3px);
     right: 6px;
     z-index: 3;
 
-    display: flex;
+    display: ${isOpen ? 'flex' : 'none'};
     flex-direction: column;
     row-gap: 8px;
 
@@ -63,14 +63,8 @@ export const DropDownMenu = styled.ul`
   `}
 `;
 
-export const DropDown = styled.div<DropDownProps>`
-  ${({ isOpen }) => css`
-    position: relative;
-
-    ${DropDownMenu} {
-      display: ${isOpen ? 'flex' : 'none'};
-    }
-  `}
+export const DropDown = styled.div`
+  position: relative;
 `;
 
 export const ReviewCommentHead = styled.div`

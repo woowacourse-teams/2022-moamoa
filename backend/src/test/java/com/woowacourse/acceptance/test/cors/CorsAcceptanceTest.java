@@ -4,7 +4,6 @@ import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.jdbc.Sql;
 
 public class CorsAcceptanceTest extends AcceptanceTest {
 
@@ -12,7 +11,6 @@ public class CorsAcceptanceTest extends AcceptanceTest {
     @Test
     void corsTest() {
         RestAssured.given()
-                .header("Origin", "https://xxx.com")
                 .header("Access-Control-Request-Method", "GET")
                 .when()
                 .options("/api/studies")

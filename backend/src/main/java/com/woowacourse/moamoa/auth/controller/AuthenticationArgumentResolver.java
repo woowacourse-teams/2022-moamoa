@@ -28,8 +28,8 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     public Object resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
                                   final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-
         final String token = AuthenticationExtractor.extract(request);
+
         if (token == null) {
             throw new UnauthorizedException("인증 타입이 올바르지 않습니다.");
         }

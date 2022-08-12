@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 
-import { useFormContext } from '@hooks/useForm';
-
 import Button from '@components/button/Button';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
@@ -13,8 +11,6 @@ type PublishProps = {
 };
 
 const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
-  const { formState } = useFormContext();
-
   return (
     <S.Publish className={className}>
       <MetaBox>
@@ -29,7 +25,6 @@ const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: 
             fluid={true}
             onClick={handlePublishButtonClick}
             outline={true}
-            isLoading={formState.isSubmitting}
           >
             개설하기
           </Button>

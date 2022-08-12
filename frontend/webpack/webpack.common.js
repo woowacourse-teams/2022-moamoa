@@ -4,6 +4,8 @@ const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
+
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
@@ -17,7 +19,11 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'es2022',
+        },
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -45,6 +51,7 @@ module.exports = {
       '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
+      '@auth': resolve(__dirname, '../src/auth'),
       '@context': resolve(__dirname, '../src/context'),
       '@main-page': resolve(__dirname, '../src/pages/main-page'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
@@ -57,5 +64,12 @@ module.exports = {
       '@hooks': resolve(__dirname, '../src/hooks'),
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2020',
+      }),
+    ],
   },
 };

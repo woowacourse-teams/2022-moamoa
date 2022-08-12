@@ -6,7 +6,7 @@
   "singleQuote": true,
   "trailingComma": "all",
   "bracketSpacing": true,
-  "jsxBracketSameLine": false,
+  "bracketSameLine": false,
   "arrowParens": "avoid",
   "endOfLine": "auto",
 
@@ -20,6 +20,9 @@
     "^@custom-types",
     "^@styles/(.*)$",
     "^@api",
+    "^@api/(.*)$",
+    "^@auth",
+    "^@auth/(.*)$",
     "^@hooks/(.*)$",
     "^@context/(.*)$",
     "^@layout",

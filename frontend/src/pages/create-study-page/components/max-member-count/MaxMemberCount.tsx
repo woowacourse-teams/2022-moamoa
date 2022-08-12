@@ -1,12 +1,9 @@
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
-
 import { MEMBER_COUNT } from '@constants';
 
 import { useFormContext } from '@hooks/useForm';
-
-import PositiveNumberInput from '@components/positive-number-input/PositiveNumberInput';
+import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
 import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
@@ -19,11 +16,10 @@ const maxMemberCountName = 'max-member-count';
 
 const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
   const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(true);
-  const [count, setCount] = useState<number>(1);
 
-  const { removeField } = useFormContext();
+  const { removeField, register } = useFormContext();
 
-  const { register } = useFormContext();
+  const { handleKeyDown } = usePositiveNumberInput();
 
   const handleNoSelectCheckboxChange = () => {
     setWillSelectMaxMember(prev => {
@@ -37,45 +33,23 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
       <MetaBox>
         <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
         <MetaBox.Content>
-          <div
-            css={css`
-              display: flex;
-              margin-bottom: 8px;
-            `}
-          >
-            <label htmlFor="no-select">선택 안함</label>
-            <input
-              css={css`
-                margin-left: 4px;
-              `}
-              type="checkbox"
-              id="no-select"
-              checked={!willSelectMaxMember}
-              onChange={handleNoSelectCheckboxChange}
-            />
-          </div>
+          <S.Container>
+            <S.Label htmlFor="no-select">선택 안함</S.Label>
+            <S.Checkbox id="no-select" checked={!willSelectMaxMember} onChange={handleNoSelectCheckboxChange} />
+          </S.Container>
           {willSelectMaxMember && (
             <>
-              <label
-                htmlFor={maxMemberCountName}
-                css={css`
-                  margin-right: 10px;
-                `}
-              >
-                최대 인원 :
-              </label>
-              <PositiveNumberInput
+              <S.Label htmlFor={maxMemberCountName}>최대 인원 :</S.Label>
+              <S.Input
                 {...register(maxMemberCountName, {
                   min: MEMBER_COUNT.MIN.VALUE,
                   max: MEMBER_COUNT.MAX.VALUE,
                 })}
+                onKeyDown={handleKeyDown}
+                type="number"
                 id={maxMemberCountName}
                 placeholder="최대 인원"
-                value={count}
-                onChange={value => {
-                  setCount(Number(value));
-                }}
-              ></PositiveNumberInput>
+              />
             </>
           )}
         </MetaBox.Content>

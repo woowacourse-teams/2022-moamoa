@@ -1,11 +1,11 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
-import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.디우_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;

@@ -50,11 +50,11 @@ public class Participants {
     }
 
     public boolean isParticipation(final Long memberId) {
-        return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
+        return participants.contains(new Participant(memberId)) || isOwner(memberId);
     }
 
-    public boolean isParticipate(Long memberId) {
-        return participants.contains(new Participant(memberId));
+    boolean isOwner(Long memberId) {
+        return ownerId.equals(memberId);
     }
 
     int getSize() {
@@ -81,7 +81,7 @@ public class Participants {
     }
 
     @Override
-    public int hashCode()  {
+    public int hashCode() {
         return Objects.hash(size, getParticipants());
     }
 

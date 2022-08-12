@@ -14,14 +14,30 @@ public class AuthRequestMatchConfig {
     @Bean
     public AuthenticationRequestMatcher authenticationRequestMatcher() {
         return new AuthenticationRequestMatcherBuilder()
-                .addUpAuthenticationPath(HttpMethod.POST, "/api/studies", "/api/studies/\\d+/reviews",
-                        "/api/studies/\\d+/reviews/\\d+", "/api/studies/\\d+/reference-room/links")
-                .addUpAuthenticationPath(HttpMethod.GET, "/api/my/studies", "/api/members/me", "/api/members/me/role",
-                        "/api/studies/\\d+/reference-room/links")
-                .addUpAuthenticationPath(HttpMethod.PUT, "/api/studies/\\d+/reviews/\\d+",
-                        "/api/studies/\\d+/reference-room/links/\\d+")
-                .addUpAuthenticationPath(HttpMethod.DELETE, "/api/studies/\\d+/reviews/\\d+",
-                        "/api/studies/\\d+/reference-room/links/\\d+")
+                .addUpAuthenticationPath(HttpMethod.POST,
+                        "/api/studies",
+                        "/api/studies/\\d+/reviews",
+                        "/api/studies/\\d+/reviews/\\d+",
+                        "/api/studies/\\w+/community/articles",
+                        "/api/studies"
+                )
+                .addUpAuthenticationPath(HttpMethod.GET,
+                        "/api/my/studies",
+                        "/api/members/me",
+                        "/api/members/me/role",
+                        "/api/studies/\\w+/community/articles/\\w+",
+                        "/api/studies/\\w+/community/articles",
+                        "/api/studies/\\d+/reference-room/links"
+                )
+                .addUpAuthenticationPath(HttpMethod.PUT,
+                        "/api/studies/\\d+/reviews/\\d+",
+                        "/api/studies/\\d+/reference-room/links/\\d+"
+                )
+                .addUpAuthenticationPath(HttpMethod.DELETE,
+                        "/api/studies/\\d+/reviews/\\d+",
+                        "/api/studies/\\w+/community/articles/\\w+",
+                        "/api/studies/\\d+/reference-room/links/\\d+"
+                )
                 .build();
     }
 }
