@@ -359,7 +359,7 @@ public class SearchingStudyControllerTest {
                 .filteredOn(member -> member.getParticipationDate() != null)
                 .hasSize(2)
                 .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
-                .containsExactly(
+                .containsExactlyInAnyOrder(
                         tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
                         tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
                 );
