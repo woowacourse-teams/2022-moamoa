@@ -1,4 +1,4 @@
-package com.woowacourse.fixtures;
+package com.woowacourse.moamoa.fixtures;
 
 import com.woowacourse.moamoa.tag.domain.Category;
 import com.woowacourse.moamoa.tag.domain.CategoryName;

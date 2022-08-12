@@ -22,8 +22,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
-                             final Object handler) {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
         
         if (isPreflight(request)) {
             return true;

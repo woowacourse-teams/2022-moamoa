@@ -16,12 +16,15 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.service.MemberService;
+
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mockito;
 
 @RepositoryTest
 class AuthServiceTest {
@@ -76,7 +79,6 @@ class AuthServiceTest {
         final String refreshToken = token.getRefreshToken();
 
         final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
-
         assertThat(refreshToken).isNotBlank();
         assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }

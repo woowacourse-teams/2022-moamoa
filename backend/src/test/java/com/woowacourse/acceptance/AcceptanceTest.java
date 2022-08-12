@@ -96,6 +96,7 @@ public class AcceptanceTest {
     @AfterEach
     void tearDown() {
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY FALSE");
+        jdbcTemplate.update("TRUNCATE TABLE article");
         jdbcTemplate.update("TRUNCATE TABLE member");
         jdbcTemplate.update("TRUNCATE TABLE study_tag");
         jdbcTemplate.update("TRUNCATE TABLE study_member");

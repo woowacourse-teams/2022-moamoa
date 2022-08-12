@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import static java.time.LocalDateTime.now;
 
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 
@@ -326,5 +327,22 @@ public class StudyTest {
 
         // then
         assertThat(sut.getRecruitPlanner().isCloseEnrollment()).isTrue();
+    }
+
+    @DisplayName("참여자는 방장, 참가자만 가능하다.")
+    @ParameterizedTest
+    @CsvSource({"1, 2, 1, true", "1, 2, 2, true", "1, 2, 3, false"})
+    void checkIsParticipant(Long ownerId, Long participantId, Long targetMemberId, boolean expected) {
+        // arrange
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(ownerId);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        sut.participate(participantId);
+
+        // act
+        assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
     }
 }
