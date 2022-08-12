@@ -3,7 +3,7 @@ import { rest } from 'msw';
 const EXPIRED_TIME = 30 * 60000;
 
 export const tokenHandlers = [
-  rest.post('/api/auth/login/token', (req, res, ctx) => {
+  rest.post('/api/auth/login', (req, res, ctx) => {
     const code = req.url.searchParams.get('code');
 
     if (!code) {

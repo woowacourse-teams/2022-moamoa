@@ -9,7 +9,7 @@ const postLogin = async ({ code }: PostLoginRequestParams) => {
     PostLoginResponseData,
     AxiosResponse<PostLoginResponseData>,
     PostLoginRequestParams
-  >(`/api/auth/login/token?code=${code}`);
+  >(`/api/auth/login?code=${code}`);
   return response.data;
 };
 
