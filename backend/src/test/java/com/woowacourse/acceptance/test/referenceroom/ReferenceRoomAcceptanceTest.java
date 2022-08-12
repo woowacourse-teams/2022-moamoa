@@ -37,7 +37,6 @@ import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -154,7 +153,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(linksResponse.isHasNext()).isTrue(),
                 () -> assertThat(linksResponse.getLinks())
-                        .containsExactlyInAnyOrderElementsOf(List.of(그린론_응답, 디우_응답, 베루스_응답, 짱구_응답2, 짱구_응답3))
+                        .containsExactly(짱구_응답3, 짱구_응답2, 베루스_응답, 디우_응답, 그린론_응답)
         );
     }
 
