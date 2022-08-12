@@ -60,7 +60,7 @@ public class CommunityArticleService {
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!article.isViewableBy(studyId, memberId)) {
-            throw new UnviewableArticleException();
+            throw new UnviewableArticleException(studyId, memberId);
         }
 
         final CommunityArticleData data = communityArticleDao.getById(articleId)
@@ -84,7 +84,7 @@ public class CommunityArticleService {
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
         if (!study.isParticipant(memberId)) {
-            throw new UnviewableArticleException();
+            throw new UnviewableArticleException(studyId, memberId);
         }
 
         final Page<CommunityArticleData> page = communityArticleDao.getAllByStudyId(studyId, pageable);
