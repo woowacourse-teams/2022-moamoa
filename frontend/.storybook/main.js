@@ -34,29 +34,6 @@ module.exports = {
       '@mocks': resolve(__dirname, '../src/mocks'),
     };
 
-    config.module.rules[0].use[0].options.presets = [
-      require.resolve('@babel/preset-env'),
-      [
-        require.resolve('@babel/preset-react'),
-        {
-          runtime: 'automatic',
-          importSource: '@emotion/react',
-        },
-      ],
-    ];
-
-    config.module.rules[0].use[0].options.plugins = [
-      [
-        require.resolve('@emotion/babel-plugin'),
-        {
-          sourceMap: true,
-          autoLabel: 'dev-only',
-          labelFormat: '[local]',
-          cssPropOptimization: true,
-        },
-      ],
-    ];
-
     return config;
   },
 };
