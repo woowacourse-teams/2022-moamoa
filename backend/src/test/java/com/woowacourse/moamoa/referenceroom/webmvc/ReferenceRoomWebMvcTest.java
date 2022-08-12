@@ -42,9 +42,9 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @DisplayName("링크 공유 설명이 25글자 이상인 경우 400을 반환한다.")
+    @DisplayName("링크 공유 설명이 40글자 이상인 경우 400을 반환한다.")
     @Test
-    void requestBy25LengthExceededDescription() throws Exception {
+    void requestBy40LengthExceededDescription() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크",
                 "일이삼사오육칠팔구십"
