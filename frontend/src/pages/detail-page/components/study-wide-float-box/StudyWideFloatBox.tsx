@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { css } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
+import tw from '@utils/tw';
 
 import type { StudyDetail, UserRole } from '@custom-types';
 
@@ -56,14 +55,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
-          <Button
-            css={css`
-              height: 100%;
-              padding: 0 20px;
-            `}
-            fluid={true}
-            type="button"
-          >
+          <Button css={tw`h-full py-0 px-20`} fluid={true} type="button">
             이동하기
           </Button>
         </Link>
@@ -71,15 +63,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     }
 
     return (
-      <Button
-        css={css`
-          height: 100%;
-          padding: 0 20px;
-        `}
-        fluid={true}
-        disabled={!isOpen}
-        onClick={handleRegisterButtonClick}
-      >
+      <Button css={tw`h-full py-0 px-20`} fluid={true} disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '가입하기' : '모집 마감'}
       </Button>
     );
