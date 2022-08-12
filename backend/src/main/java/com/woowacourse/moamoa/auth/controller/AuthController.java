@@ -45,21 +45,19 @@ public class AuthController {
         return ResponseEntity.noContent().header("Set-Cookie", removeCookie().toString()).build();
     }
 
-    private static ResponseCookie putTokenInCookie(final TokenResponseWithRefresh tokenResponse) {
+    private ResponseCookie putTokenInCookie(final TokenResponseWithRefresh tokenResponse) {
         return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
                 .maxAge(REFRESH_TOKEN_EXPIRATION)
                 .path("/")
-                .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
                 .build();
     }
 
-    private static ResponseCookie removeCookie() {
+    private ResponseCookie removeCookie() {
         return ResponseCookie.from(REFRESH_TOKEN, null)
                 .maxAge(0)
                 .path("/")
-                .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
                 .build();

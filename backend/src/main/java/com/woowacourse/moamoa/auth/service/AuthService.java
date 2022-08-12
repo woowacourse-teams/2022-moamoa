@@ -59,6 +59,7 @@ public class AuthService {
         return new TokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
     }
 
+    @Transactional
     public void logout(final Long githubId) {
         final Token token = tokenRepository.findByGithubId(githubId)
                 .orElseThrow(TokenNotFoundException::new);

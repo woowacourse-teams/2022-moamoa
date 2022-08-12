@@ -107,6 +107,7 @@ public class JwtTokenProvider implements TokenProvider {
                 .compact();
     }
 
+    @Override
     public long getValidityInMilliseconds() {
         return validityInMilliseconds;
     }
