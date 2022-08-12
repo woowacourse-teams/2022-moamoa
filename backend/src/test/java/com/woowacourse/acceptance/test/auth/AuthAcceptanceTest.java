@@ -22,6 +22,7 @@ import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,5 +138,31 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     private void mockingGithubServerForGetProfile(final String accessToken, final HttpStatus status)
             throws JsonProcessingException {
         mockingGithubServerForGetProfile(accessToken, status, null);
+    }
+
+    private String getBearerTokenBySignInOrUp(GithubProfileResponse response) {
+        final String authorizationCode = "Authorization Code";
+        mockingGithubServer(authorizationCode, response);
+        final String token = RestAssured.given().log().all()
+                .param("code", authorizationCode)
+                .when()
+                .post("/api/auth/login")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath().getString("accessToken");
+        mockServer.reset();
+        return "Bearer " + token;
+    }
+
+    private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
+        try {
+            mockingGithubServerForGetAccessToken(authorizationCode, Map.of(
+                    "access_token", "access-token",
+                    "token_type", "bearer",
+                    "scope", ""));
+            mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
+        } catch (Exception e) {
+            Assertions.fail(e.getMessage());
+        }
     }
 }
