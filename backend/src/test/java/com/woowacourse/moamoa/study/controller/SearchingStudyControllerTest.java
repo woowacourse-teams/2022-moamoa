@@ -347,7 +347,7 @@ public class SearchingStudyControllerTest {
         assertAttachedTags(actual.getTags(), expectAttachedTags);
     }
 
-    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수도 함께 조회한다.")
+    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수와 가입날짜도 함께 조회한다.")
     @Test
     public void findStudyDetailsWithNumberOfStudy() {
         final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
@@ -355,7 +355,9 @@ public class SearchingStudyControllerTest {
         final StudyDetailResponse responseBody = response.getBody();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseBody.getMembers()).hasSize(2)
+        assertThat(responseBody.getMembers())
+                .filteredOn(member -> member.getCreatedDate() != null)
+                .hasSize(2)
                 .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
                 .containsExactly(
                         tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),

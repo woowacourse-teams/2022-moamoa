@@ -87,15 +87,15 @@ class MyStudyControllerTest {
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 3, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 4, '" + now + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 1, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 2, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 4, '" + now + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 3, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 4, '" + now + "')");
     }
 
     @DisplayName("내가 참여한 스터디를 조회한다.")

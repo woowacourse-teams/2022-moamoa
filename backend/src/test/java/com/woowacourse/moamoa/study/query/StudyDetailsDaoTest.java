@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,15 +58,15 @@ class StudyDetailsDaoTest {
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 3, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 4, '" + now + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 1, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 2, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 4, '" + now + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 3, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 4, '" + now + "')");
     }
 
 

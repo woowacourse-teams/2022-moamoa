@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.member.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.member.query.data.MemberFullData;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class MemberDao {
 
     public List<MemberFullData> findMembersByStudyId(final Long studyId) {
         final String sql = "SELECT member.id, github_id, username, image_url, profile_url, "
+                + "study_member.created_date as created_date, "
                 + "((SELECT count(case when (study_member.member_id = member.id) then 1 end) "
                 + "FROM study JOIN study_member ON study.id = study_member.study_id "
                 + "WHERE study_member.member_id = member.id) + "
@@ -56,8 +58,9 @@ public class MemberDao {
             String username = resultSet.getString("username");
             String imageUrl = resultSet.getString("image_url");
             String profileUrl = resultSet.getString("profile_url");
+            LocalDateTime createdDate = resultSet.getTimestamp("created_date").toLocalDateTime();
             int numberOfStudy = resultSet.getInt("number_of_study");
-            return new MemberFullData(githubId, username, imageUrl, profileUrl, numberOfStudy);
+            return new MemberFullData(githubId, username, imageUrl, profileUrl, createdDate, numberOfStudy);
         };
     }
 
