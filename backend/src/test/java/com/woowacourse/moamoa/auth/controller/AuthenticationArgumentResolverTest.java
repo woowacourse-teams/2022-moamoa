@@ -42,7 +42,7 @@ class AuthenticationArgumentResolverTest extends WebMVCTest {
     @DisplayName("Authorization 인증 타입이 Bearer인 경우 payload를 반환한다.")
     @Test
     void getToken() {
-        String wrongBearerToken = "Bearer " + tokenProvider.createToken(1L);
+        String wrongBearerToken = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         given(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .willReturn(httpServletRequest);

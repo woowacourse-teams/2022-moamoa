@@ -1,8 +1,14 @@
 package com.woowacourse.acceptance.test.auth;
 
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -11,15 +17,21 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.auth.domain.Token;
+import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
@@ -35,13 +47,55 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given(spec).log().all()
                 .filter(document("auth/login",
                         requestParameters(parameterWithName("code").description("Authorization code")),
-                        responseFields(fieldWithPath("token").type(JsonFieldType.STRING).description("사용자 토큰"))))
+                        responseFields(
+                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰"),
+                                fieldWithPath("expiredTime").type(NUMBER).description("유효시간")
+                        )))
                 .queryParam("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("token", notNullValue());
+                .body("accessToken", notNullValue())
+                .body("expiredTime", notNullValue());
+    }
+
+    @DisplayName("RefreshToken 으로 AccessToken 을 재발급한다.")
+    @Test
+    void refreshToken() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/refresh",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .cookie("refreshToken", foundToken.getRefreshToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .when()
+                .get("/api/auth/refresh")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("accessToken", notNullValue());
+    }
+
+    @DisplayName("로그아웃시에 쿠키를 제거해준다.")
+    @Test
+    public void logout() {
+        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/logout",
+                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .cookie("refreshToken", foundToken.getRefreshToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .when()
+                .delete("/api/auth/logout")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .cookie("refreshToken", is(""));
     }
 
     @Test
@@ -56,7 +110,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given().log().all()
                 .param("code", invalidAuthorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
@@ -76,7 +130,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         RestAssured.given().log().all()
                 .param("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
@@ -84,5 +138,31 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     private void mockingGithubServerForGetProfile(final String accessToken, final HttpStatus status)
             throws JsonProcessingException {
         mockingGithubServerForGetProfile(accessToken, status, null);
+    }
+
+    private String getBearerTokenBySignInOrUp(GithubProfileResponse response) {
+        final String authorizationCode = "Authorization Code";
+        mockingGithubServer(authorizationCode, response);
+        final String token = RestAssured.given().log().all()
+                .param("code", authorizationCode)
+                .when()
+                .post("/api/auth/login")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath().getString("accessToken");
+        mockServer.reset();
+        return "Bearer " + token;
+    }
+
+    private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
+        try {
+            mockingGithubServerForGetAccessToken(authorizationCode, Map.of(
+                    "access_token", "access-token",
+                    "token_type", "bearer",
+                    "scope", ""));
+            mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
+        } catch (Exception e) {
+            Assertions.fail(e.getMessage());
+        }
     }
 }

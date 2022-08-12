@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthenticationExtractor {
 
-    private static String BEARER_TYPE = "Bearer";
-    private static String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
+    private static final String BEARER_TYPE = "Bearer";
+    private static final String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
 
     public static String extract(HttpServletRequest request) {
         Enumeration<String> headers = request.getHeaders(AUTHORIZATION);

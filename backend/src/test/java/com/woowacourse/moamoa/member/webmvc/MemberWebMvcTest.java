@@ -31,7 +31,7 @@ public class MemberWebMvcTest extends WebMVCTest {
     @DisplayName("사용자가 없는 경우 400 에러 반환")
     @Test
     void notFound() throws Exception {
-        final String token = tokenProvider.createToken(1L);
+        final String token = tokenProvider.createToken(1L).getAccessToken();
         given(memberService.getByGithubId(any())).willThrow(MemberNotFoundException.class);
 
         mockMvc.perform(get("/api/members/me")

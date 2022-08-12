@@ -19,7 +19,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +66,7 @@ public class AcceptanceTest {
     @Value("${oauth2.github.client-secret}")
     private String clientSecret;
 
-    private MockRestServiceServer mockServer;
+    protected MockRestServiceServer mockServer;
 
     @BeforeEach
     protected void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
@@ -105,17 +104,6 @@ public class AcceptanceTest {
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
         jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
         jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
-    }
-
-    private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
-        try {
-            mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
-                    "token_type", "bearer",
-                    "scope", ""));
-            mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
-        } catch (Exception e) {
-            Assertions.fail(e.getMessage());
-        }
     }
 
     protected void mockingGithubServerForGetAccessToken(final String authorizationCode,
