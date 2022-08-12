@@ -41,14 +41,12 @@ public class MemberDao {
 
     private String countOwnerStudy() {
         return "((SELECT count(case when (study_member.member_id = member.id) then 1 end) "
-                + "FROM study JOIN study_member ON study.id = study_member.study_id "
-                + "WHERE study_member.member_id = member.id)";
+                + "FROM study JOIN study_member ON study.id = study_member.study_id) ";
     }
 
     private String countParticipationStudy() {
         return "(SELECT count(case when (study.owner_id = member.id) then 1 end) "
-                + "FROM study "
-                + "WHERE study.owner_id = member.id)) as number_of_study ";
+                + "FROM study)) as number_of_study ";
     }
 
     public Optional<MemberData> findByGithubId(final Long githubId) {
