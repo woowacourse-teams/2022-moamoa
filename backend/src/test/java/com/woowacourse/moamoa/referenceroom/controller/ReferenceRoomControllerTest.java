@@ -15,7 +15,6 @@ import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
-import com.woowacourse.moamoa.referenceroom.service.exception.NotLinkAuthorException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
@@ -103,15 +102,6 @@ public class ReferenceRoomControllerTest {
                 .isInstanceOf(LinkNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여했지만 내가 작성하지 않은 링크 공유글을 수정할 수 없다.")
-    @Test
-    void updateByUnwrittenMember() {
-        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com", "수정된 링크 설명입니다.");
-
-        assertThatThrownBy(() -> sut.updateLink(베루스_깃허브_아이디, javaStudyId, linkId, editingLinkRequest))
-                .isInstanceOf(NotLinkAuthorException.class);
-    }
-
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByNotParticipatedMember() {
@@ -126,13 +116,6 @@ public class ReferenceRoomControllerTest {
     void deleteByInvalidLinkId() {
         assertThatThrownBy(() -> sut.deleteLink(짱구_깃허브_아이디, javaStudyId, -1L))
                 .isInstanceOf(LinkNotFoundException.class);
-    }
-
-    @DisplayName("스터디에 참여했지만 내가 작성하지 않은 링크 공유글을 삭제할 수 없다.")
-    @Test
-    void deleteByUnwrittenMember() {
-        assertThatThrownBy(() -> sut.deleteLink(베루스_깃허브_아이디, javaStudyId, linkId))
-                .isInstanceOf(NotLinkAuthorException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")

@@ -18,7 +18,7 @@ public class EditingLinkRequest {
     @Size(max = 500, message = "링크 URL은 500자를 초과할 수 없습니다.")
     private String linkUrl;
 
-    @Size(max = 25, message = "설명은 50자를 초과할 수 없습니다.")
+    @Size(max = 25, message = "설명은 25자를 초과할 수 없습니다.")
     private String description;
 
     public Link toLink(final Long studyId, final Long memberId) {

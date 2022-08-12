@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -40,6 +42,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 @DisplayName("링크 모음 인수 테스트")
 public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
@@ -58,6 +61,10 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .filter(document("reference-room/create",
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
+                        ),
+                        requestFields(
+                                fieldWithPath("linkUrl").type(JsonFieldType.STRING).description("링크공유 url"),
+                                fieldWithPath("description").type(JsonFieldType.STRING).description("링크공유 설명")
                         )))
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -134,7 +141,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(linksResponse.isHasNext()).isTrue(),
                 () -> assertThat(linksResponse.getLinks())
-                        .containsExactlyInAnyOrderElementsOf(List.of(짱구_응답, 그린론_응답, 디우_응답, 베루스_응답, 짱구_응답2))
+                        .containsExactlyInAnyOrderElementsOf(List.of(그린론_응답, 디우_응답, 베루스_응답, 짱구_응답2, 짱구_응답3))
         );
     }
 

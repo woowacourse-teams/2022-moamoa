@@ -32,7 +32,7 @@ public class StudyRelatedSteps extends Steps {
                 .statusCode(HttpStatus.OK.value());
     }
 
-    public long 리뷰를_작성한다(String content) {
+    public Long 리뷰를_작성한다(String content) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(HttpHeaders.AUTHORIZATION, token)
@@ -46,11 +46,11 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reviews/", ""));
         } catch (Exception e) {
             Assertions.fail("리뷰 작성 실패");
-            return -1;
+            return null;
         }
     }
 
-    public long 링크를_공유한다(final CreatingLinkRequest request) {
+    public Long 링크를_공유한다(final CreatingLinkRequest request) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(AUTHORIZATION, token)
@@ -64,7 +64,7 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reference-room/links/", ""));
         } catch (Exception e) {
             Assertions.fail("링크 공유 작성 실패");
-            return -1;
+            return null;
         }
     }
 }

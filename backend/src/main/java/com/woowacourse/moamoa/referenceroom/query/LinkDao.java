@@ -21,12 +21,12 @@ public class LinkDao {
 
     public Slice<LinkData> findAllByStudyId(final Long studyId, final Pageable pageable) {
         final String sql = "SELECT link.id, link.link_url, link.description, link.created_date, link.last_modified_date, "
-                + " member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM link "
                 + "JOIN member ON link.member_id = member.id "
                 + "WHERE link.deleted = false "
                 + "AND link.study_id = :studyId "
-                + "ORDER BY link.created_date DESC";
+                + "ORDER BY link.created_date, id DESC";
         final MapSqlParameterSource params = new MapSqlParameterSource("studyId", studyId);
 
         final List<LinkData> linkData = namedParameterJdbcTemplate.query(sql, params, rowMapper());

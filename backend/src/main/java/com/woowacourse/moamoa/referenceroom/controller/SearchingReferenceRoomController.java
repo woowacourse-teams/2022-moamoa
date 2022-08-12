@@ -23,7 +23,7 @@ public class SearchingReferenceRoomController {
     public ResponseEntity<LinksResponse> getLinks(
             @AuthenticationPrincipal final Long githubId,
             @PathVariable("study-id") final Long studyId,
-            @PageableDefault(size = 5) final Pageable pageable
+            @PageableDefault(size = 9) final Pageable pageable
     ) {
         final LinksResponse linksResponse = searchingReferenceRoomService.getLinks(githubId, studyId, pageable);
         return ResponseEntity.ok().body(linksResponse);

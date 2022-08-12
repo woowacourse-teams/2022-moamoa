@@ -76,10 +76,6 @@ public class Link extends BaseEntity {
         return id;
     }
 
-    public AssociatedStudy getAssociatedStudy() {
-        return associatedStudy;
-    }
-
     public String getLinkUrl() {
         return linkUrl;
     }

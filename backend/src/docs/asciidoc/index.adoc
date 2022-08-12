@@ -49,7 +49,7 @@ operation::studies/myStudy[snippets='http-request,http-response']
 == 스터디룸
 
 === 링크 공유글 생성
-operation::reference-room/create[snippets='http-request,request-headers,http-response']
+operation::reference-room/create[snippets='http-request,request-headers,request-fields,http-response']
 
 === 링크 공유글 전체 조회
 operation::reference-room/list[snippets='http-request,request-headers,http-response']
