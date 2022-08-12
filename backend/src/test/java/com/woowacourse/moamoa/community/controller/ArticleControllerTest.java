@@ -6,8 +6,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
+import com.woowacourse.moamoa.community.domain.NoticeArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
-import com.woowacourse.moamoa.community.query.CommunityArticleDao;
+import com.woowacourse.moamoa.community.domain.repository.NoticeArticleRepository;
+import com.woowacourse.moamoa.community.query.ArticleDao;
+import com.woowacourse.moamoa.community.service.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
@@ -42,7 +45,10 @@ public class ArticleControllerTest {
     private CommunityArticleRepository communityArticleRepository;
 
     @Autowired
-    private CommunityArticleDao communityArticleDao;
+    private NoticeArticleRepository noticeArticleRepository;
+
+    @Autowired
+    private ArticleDao articleDao;
 
     private StudyService studyService;
     private ArticleController sut;
@@ -51,7 +57,8 @@ public class ArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(new ArticleService(memberRepository, studyRepository,
-                communityArticleRepository, communityArticleDao));
+                articleDao,
+                new ArticleRepositoryFactory(communityArticleRepository, noticeArticleRepository)));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -75,6 +82,29 @@ public class ArticleControllerTest {
         assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
         assertThat(communityArticleRepository.findById(articleId).get())
                 .isEqualTo(new CommunityArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study));
+    }
+
+    @DisplayName("커뮤니티 공지사항을 작성한다.")
+    @Test
+    void createNoticeArticle() {
+        // arrange
+        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
+        Study study = studyService
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+
+        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+
+        // act
+        ResponseEntity<Void> response = sut.createArticle(member.getId(), study.getId(), "notice", request);
+
+        // assert
+        String location = response.getHeaders().getLocation().getPath();
+        Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
+        assertThat(noticeArticleRepository.findById(articleId).get())
+                .isEqualTo(new NoticeArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study));
     }
 
     @DisplayName("사용자가 없는 경우 게시글 작성 시 예외가 발생한다.")

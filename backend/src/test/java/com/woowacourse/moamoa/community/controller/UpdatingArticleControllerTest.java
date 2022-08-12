@@ -5,9 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.community.domain.Article;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
-import com.woowacourse.moamoa.community.query.CommunityArticleDao;
+import com.woowacourse.moamoa.community.domain.repository.NoticeArticleRepository;
+import com.woowacourse.moamoa.community.query.ArticleDao;
+import com.woowacourse.moamoa.community.service.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
@@ -39,10 +42,13 @@ public class UpdatingArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private NoticeArticleRepository noticeArticleRepository;
+
+    @Autowired
     private CommunityArticleRepository communityArticleRepository;
 
     @Autowired
-    private CommunityArticleDao communityArticleDao;
+    private ArticleDao articleDao;
 
     private StudyService studyService;
     private ArticleController sut;
@@ -52,7 +58,8 @@ public class UpdatingArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         articleService = new ArticleService(memberRepository, studyRepository,
-                communityArticleRepository, communityArticleDao);
+                articleDao,
+                new ArticleRepositoryFactory(communityArticleRepository, noticeArticleRepository));
         sut = new ArticleController(articleService);
     }
 
@@ -63,15 +70,15 @@ public class UpdatingArticleControllerTest {
         Member member = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
-        CommunityArticle article = articleService
-                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
+        Article article = articleService
+                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"), "community");
 
         // act
         final ResponseEntity<Void> response = sut.updateArticle(member.getId(), study.getId(), "community", article.getId(),
                 new ArticleRequest("제목 수정", "내용 수정"));
 
         // assert
-        CommunityArticle actualArticle = communityArticleRepository.findById(article.getId()).orElseThrow();
+        Article actualArticle = communityArticleRepository.findById(article.getId()).orElseThrow();
         CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", member.getId(), study);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -104,8 +111,8 @@ public class UpdatingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = articleService.createArticle(member.getId(), study.getId(),
-                request);
+        final Article article = articleService.createArticle(member.getId(), study.getId(),
+                request, "community");
 
         // act & assert
         assertThatThrownBy(() -> sut

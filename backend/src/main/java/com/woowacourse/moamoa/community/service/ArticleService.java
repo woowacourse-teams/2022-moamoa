@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.community.service;
 
-import com.woowacourse.moamoa.community.domain.CommunityArticle;
-import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
-import com.woowacourse.moamoa.community.query.CommunityArticleDao;
-import com.woowacourse.moamoa.community.query.data.CommunityArticleData;
+import com.woowacourse.moamoa.community.domain.Article;
+import com.woowacourse.moamoa.community.query.ArticleDao;
+import com.woowacourse.moamoa.community.query.data.ArticleData;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.community.service.exception.UnviewableArticleException;
@@ -19,6 +18,7 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,61 +30,65 @@ public class ArticleService {
 
     private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
-    private final CommunityArticleRepository communityArticleRepository;
-    private final CommunityArticleDao communityArticleDao;
+    private final ArticleDao articleDao;
+    private final ArticleRepositoryFactory factory;
 
+    @Autowired
     public ArticleService(final MemberRepository memberRepository,
                           final StudyRepository studyRepository,
-                          final CommunityArticleRepository communityArticleRepository,
-                          final CommunityArticleDao communityArticleDao) {
+                          final ArticleDao articleDao,
+                          ArticleRepositoryFactory factory) {
         this.memberRepository = memberRepository;
         this.studyRepository = studyRepository;
-        this.communityArticleRepository = communityArticleRepository;
-        this.communityArticleDao = communityArticleDao;
+        this.articleDao = articleDao;
+        this.factory = factory;
     }
 
     @Transactional
-    public CommunityArticle createArticle(final Long memberId, final Long studyId,
-                                          final ArticleRequest request) {
+    public Article createArticle(final Long memberId, final Long studyId,
+                                 final ArticleRequest request, final String articleType) {
         final Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
-        return communityArticleRepository.save(CommunityArticle.write(member, study, request));
+        return factory.getRepository(articleType).save(Article.write(member, study, request, articleType));
     }
 
-    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final CommunityArticle article = communityArticleRepository.findById(articleId)
+    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId,
+                                      final String articleType) {
+        final Article article = factory.getRepository(articleType).findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!article.isViewableBy(studyId, memberId)) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
-        final CommunityArticleData data = communityArticleDao.getById(articleId)
+        final ArticleData data = articleDao.getById(articleId, articleType)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
         return new ArticleResponse(data);
     }
 
     @Transactional
-    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final CommunityArticle article = communityArticleRepository.findById(articleId)
+    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId,
+                              final String articleType) {
+        final Article article = factory.getRepository(articleType).findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!article.isEditableBy(studyId, memberId)) {
             throw new UneditableArticleException();
         }
 
-        communityArticleRepository.deleteById(articleId);
+        factory.getRepository(articleType).deleteById(articleId);
     }
 
-    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable) {
+    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable,
+                                                String articleType) {
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
         if (!study.isParticipant(memberId)) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
-        final Page<CommunityArticleData> page = communityArticleDao.getAllByStudyId(studyId, pageable);
+        final Page<ArticleData> page = articleDao.getAllByStudyId(studyId, pageable, articleType);
 
         final List<ArticleSummaryResponse> articles = page.getContent().stream()
                 .map(ArticleSummaryResponse::new)
@@ -95,8 +99,8 @@ public class ArticleService {
 
     @Transactional
     public void updateArticle(final Long memberId, final Long studyId, final Long articleId,
-                              final ArticleRequest request) {
-        final CommunityArticle article = communityArticleRepository.findById(articleId)
+                              final ArticleRequest request, final String articleType) {
+        final Article article = factory.getRepository(articleType).findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!article.isEditableBy(studyId, memberId)) {

@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.community.domain.CommunityArticle;
+import com.woowacourse.moamoa.community.domain.Article;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
-import com.woowacourse.moamoa.community.query.CommunityArticleDao;
+import com.woowacourse.moamoa.community.domain.repository.NoticeArticleRepository;
+import com.woowacourse.moamoa.community.query.ArticleDao;
+import com.woowacourse.moamoa.community.service.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
@@ -48,17 +50,21 @@ public class GettingCommunityArticleSummariesControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
+    private NoticeArticleRepository noticeArticleRepository;
+
+    @Autowired
     private CommunityArticleRepository communityArticleRepository;
 
     @Autowired
-    private CommunityArticleDao communityArticleDao;
+    private ArticleDao articleDao;
 
     private ArticleController sut;
 
     @BeforeEach
     void setUp() {
         articleService = new ArticleService(memberRepository, studyRepository,
-                communityArticleRepository, communityArticleDao);
+                articleDao,
+                new ArticleRepositoryFactory(communityArticleRepository, noticeArticleRepository));
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(articleService);
     }
@@ -71,14 +77,14 @@ public class GettingCommunityArticleSummariesControllerTest {
 
         Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        articleService.createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"));
-        articleService.createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"));
-        CommunityArticle article3 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"));
-        CommunityArticle article4 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"));
-        CommunityArticle article5 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"));
+        articleService.createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), "community");
+        articleService.createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), "community");
+        Article article3 = articleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), "community");
+        Article article4 = articleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), "community");
+        Article article5 = articleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), "community");
 
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(), "community",

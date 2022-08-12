@@ -2,37 +2,38 @@ package com.woowacourse.moamoa.community.domain.repository;
 
 import com.woowacourse.moamoa.community.domain.Article;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
+import com.woowacourse.moamoa.community.domain.NoticeArticle;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CommunityArticleRepository implements ArticleRepository {
+public class NoticeArticleRepository implements ArticleRepository {
 
-    private final JpaCommunityArticleRepository jpaCommunityArticleRepository;
+    private final JpaNoticeArticleRepository noticeArticleRepository;
 
-    public CommunityArticleRepository(
-            final JpaCommunityArticleRepository jpaCommunityArticleRepository) {
-        this.jpaCommunityArticleRepository = jpaCommunityArticleRepository;
+    public NoticeArticleRepository(
+            final JpaNoticeArticleRepository noticeArticleRepository) {
+        this.noticeArticleRepository = noticeArticleRepository;
     }
 
     @Override
     public Article save(Article article) {
-        return jpaCommunityArticleRepository.save((CommunityArticle) article);
+        return noticeArticleRepository.save((NoticeArticle) article);
     }
 
     @Override
     public Optional<Article> findById(Long id) {
-        final CommunityArticle article = jpaCommunityArticleRepository.findById(id).orElseThrow(
+        final NoticeArticle article = noticeArticleRepository.findById(id).orElseThrow(
                 () -> new ArticleNotFoundException(id));
         return Optional.of(article);
     }
 
     public void deleteById(final Long articleId) {
-        jpaCommunityArticleRepository.deleteById(articleId);
+        noticeArticleRepository.deleteById(articleId);
     }
 
     public boolean existsById(final Long id) {
-        return jpaCommunityArticleRepository.existsById(id);
+        return noticeArticleRepository.existsById(id);
     }
 }

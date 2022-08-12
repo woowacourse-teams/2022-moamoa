@@ -146,7 +146,7 @@ public class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("스터디에 참여한 참가자가 아닌 경우, NotParticipatedMemberException이 발생하고 401을 반환한다.")
     @Test
     void unauthorizedByNotParticipant() throws Exception {
-        when(articleService.createArticle(any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
+        when(articleService.createArticle(any(), any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
 
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 

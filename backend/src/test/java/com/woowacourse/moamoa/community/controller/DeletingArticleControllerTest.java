@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.community.domain.CommunityArticle;
+import com.woowacourse.moamoa.community.domain.Article;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
-import com.woowacourse.moamoa.community.query.CommunityArticleDao;
+import com.woowacourse.moamoa.community.domain.repository.NoticeArticleRepository;
+import com.woowacourse.moamoa.community.query.ArticleDao;
+import com.woowacourse.moamoa.community.service.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
@@ -40,7 +42,10 @@ public class DeletingArticleControllerTest {
     private CommunityArticleRepository communityArticleRepository;
 
     @Autowired
-    private CommunityArticleDao communityArticleDao;
+    private NoticeArticleRepository noticeArticleRepository;
+
+    @Autowired
+    private ArticleDao articleDao;
 
     private StudyService studyService;
     private ArticleController sut;
@@ -50,7 +55,8 @@ public class DeletingArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         articleService = new ArticleService(memberRepository, studyRepository,
-                communityArticleRepository, communityArticleDao);
+                articleDao,
+                new ArticleRepositoryFactory(communityArticleRepository, noticeArticleRepository));
         sut = new ArticleController(articleService);
     }
 
@@ -64,8 +70,8 @@ public class DeletingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        CommunityArticle article = articleService.createArticle(member.getId(), study.getId(),
-                request);
+        Article article = articleService.createArticle(member.getId(), study.getId(),
+                request, "community");
 
         //act
         sut.deleteArticle(member.getId(), study.getId(), "community", article.getId());
@@ -98,8 +104,8 @@ public class DeletingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = articleService.createArticle(member.getId(), study.getId(),
-                request);
+        final Article article = articleService.createArticle(member.getId(), study.getId(),
+                request, "community");
 
         // act & assert
         assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), "community", article.getId()))
