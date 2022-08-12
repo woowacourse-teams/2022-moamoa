@@ -76,7 +76,6 @@ class AuthServiceTest {
         final String refreshToken = token.getRefreshToken();
 
         final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
-
         assertThat(refreshToken).isNotBlank();
         assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }

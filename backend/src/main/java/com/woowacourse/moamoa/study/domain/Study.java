@@ -5,10 +5,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-import com.woowacourse.moamoa.study.service.response.MyRoleResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -50,9 +48,9 @@ public class Study {
         this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    private Study(final Long id, final Content content, final Participants participants,
-                  final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
-                  final LocalDateTime createdAt
+    public Study(final Long id, final Content content, final Participants participants,
+                 final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+                 final LocalDateTime createdAt
     ) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
@@ -84,8 +82,12 @@ public class Study {
                 recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
-    public boolean isWritableReviews(final Long memberId) {
-        return participants.isAlreadyParticipated(memberId) && !studyPlanner.isPreparing();
+    public boolean isReviewWritable(final Long memberId) {
+        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
+    }
+
+    public boolean isParticipant(final Long memberId) {
+        return participants.isParticipation(memberId);
     }
 
     public void participate(final Long memberId) {
@@ -119,10 +121,10 @@ public class Study {
     }
 
     public MemberRole getRole(final Long memberId) {
-        if (Objects.equals(participants.getOwnerId(), memberId)) {
+        if (participants.isOwner(memberId)) {
             return MemberRole.OWNER;
         }
-        if (participants.isParticipate(memberId)) {
+        if (participants.isParticipation(memberId)) {
             return MemberRole.MEMBER;
         }
         return MemberRole.NON_MEMBER;

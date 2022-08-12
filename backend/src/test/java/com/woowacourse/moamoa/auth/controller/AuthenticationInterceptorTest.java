@@ -4,16 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
+import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-
-import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
 class AuthenticationInterceptorTest extends WebMVCTest {
 

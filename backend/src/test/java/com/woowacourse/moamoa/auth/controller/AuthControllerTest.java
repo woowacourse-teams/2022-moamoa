@@ -8,10 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
+import com.woowacourse.moamoa.auth.service.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class AuthControllerTest extends WebMVCTest {
+
+    @MockBean
+    AuthService authService;
 
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test

@@ -167,10 +167,6 @@ export const useForm: UseForm = () => {
     const {
       validate,
       fieldElement: { name, value },
-      min,
-      max,
-      minLength,
-      maxLength,
     } = field;
 
     // Custom Validation

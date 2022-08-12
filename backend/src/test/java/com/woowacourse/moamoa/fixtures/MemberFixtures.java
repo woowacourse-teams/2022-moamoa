@@ -1,4 +1,4 @@
-package com.woowacourse.fixtures;
+package com.woowacourse.moamoa.fixtures;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.query.data.MemberData;
