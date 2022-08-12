@@ -17,7 +17,7 @@ class AccessTokenController {
   }
 
   static setTokenExpiredMsTime(newTime: number) {
-    this._tokenExpiredMsTime = Math.floor(newTime * 0.8);
+    this._tokenExpiredMsTime = Math.max(Math.floor(newTime * 0.8), newTime - 5 * 60000);
   }
 
   static get tokenExpiredMsTime() {
