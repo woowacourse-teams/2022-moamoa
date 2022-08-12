@@ -8,31 +8,28 @@ import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
-import com.woowacourse.moamoa.community.service.CommunityArticleService;
+import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
-import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class DeletingCommunityArticleControllerTest {
+public class UpdatingArticleControllerTest {
 
-    CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
+    CreatingStudyRequestBuilder javaStudyBuilder = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
     @Autowired
@@ -48,66 +45,72 @@ public class DeletingCommunityArticleControllerTest {
     private CommunityArticleDao communityArticleDao;
 
     private StudyService studyService;
-    private CommunityArticleController sut;
-    private CommunityArticleService communityArticleService;
+    private ArticleController sut;
+    private ArticleService articleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        communityArticleService = new CommunityArticleService(memberRepository, studyRepository,
+        articleService = new ArticleService(memberRepository, studyRepository,
                 communityArticleRepository, communityArticleDao);
-        sut = new CommunityArticleController(communityArticleService);
+        sut = new ArticleController(articleService);
     }
 
-    @DisplayName("스터디 커뮤니티 게시글을 삭제한다.")
+    @DisplayName("게시글을 수정한다.")
     @Test
-    void deleteCommunityArticle() {
+    void updateArticle() {
         // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-
+        Member member = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+        CommunityArticle article = articleService
+                .createArticle(member.getId(), study.getId(), new ArticleRequest("제목", "내용"));
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
-                request);
+        // act
+        final ResponseEntity<Void> response = sut.updateArticle(member.getId(), study.getId(), "community", article.getId(),
+                new ArticleRequest("제목 수정", "내용 수정"));
 
-        //act
-        sut.deleteArticle(member.getId(), study.getId(), article.getId());
+        // assert
+        CommunityArticle actualArticle = communityArticleRepository.findById(article.getId()).orElseThrow();
+        CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", member.getId(), study);
 
-        //assert
-        assertThat(communityArticleRepository.existsById(article.getId())).isFalse();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(actualArticle).isEqualTo(expectArticle);
     }
 
-    @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")
+    @DisplayName("게시글이 없는 경우 수정 시 예외가 발생한다.")
     @Test
-    void throwExceptionWhenGettingToNotFoundArticle() {
+    void throwExceptionWhenUpdateToNotFoundArticle() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), study.getId(), 1L))
+        assertThatThrownBy(
+                () -> sut.updateArticle(member.getId(), study.getId(), "community",
+                        1L, new ArticleRequest("제목 수정", "내용 수정")))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("게시글을 삭제할 수 없는 경우 예외가 발생한다.")
+    @DisplayName("게시글을 수정할 수 없는 경우 예외가 발생한다.")
     @Test
-    void throwExceptionWhenDeletingByNotParticipant() {
+    void throwExceptionWhenUpdateByNotParticipant() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
+        final CommunityArticle article = articleService.createArticle(member.getId(), study.getId(),
                 request);
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId()))
+        assertThatThrownBy(() -> sut
+                .updateArticle(other.getId(), study.getId(), "community",
+                        article.getId(), new ArticleRequest("제목 수정", "내용 수정")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 }

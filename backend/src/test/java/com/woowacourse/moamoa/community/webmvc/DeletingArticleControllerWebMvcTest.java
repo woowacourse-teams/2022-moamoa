@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
-public class DeletingCommunityArticleControllerWebMvcTest extends WebMVCTest {
+public class DeletingArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
