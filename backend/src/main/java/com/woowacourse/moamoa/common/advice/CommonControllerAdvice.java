@@ -52,7 +52,7 @@ public class CommonControllerAdvice {
     @ExceptionHandler(RefreshTokenExpirationException.class)
     public ResponseEntity<ErrorResponse> handle(RefreshTokenExpirationException e) {
         log.debug("RefreshTokenExpirationException : {}", e.getMessage());
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage(), 4001));
+        return ResponseEntity.status(UNAUTHORIZED).body(new ErrorResponse(e.getMessage(), 4001));
     }
 
     @ExceptionHandler(NotFoundException.class)
