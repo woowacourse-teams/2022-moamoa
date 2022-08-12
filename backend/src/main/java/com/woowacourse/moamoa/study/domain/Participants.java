@@ -49,7 +49,7 @@ public class Participants {
         size = size + 1;
     }
 
-    boolean isParticipation(Long memberId) {
+    public boolean isParticipation(final Long memberId) {
         return participants.contains(new Participant(memberId)) || isOwner(memberId);
     }
 
@@ -81,7 +81,7 @@ public class Participants {
     }
 
     @Override
-    public int hashCode()  {
+    public int hashCode() {
         return Objects.hash(size, getParticipants());
     }
 

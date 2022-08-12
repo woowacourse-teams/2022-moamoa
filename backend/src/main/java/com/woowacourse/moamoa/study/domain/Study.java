@@ -49,8 +49,8 @@ public class Study {
     }
 
     public Study(final Long id, final Content content, final Participants participants,
-                  final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
-                  final LocalDateTime createdAt
+                 final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+                 final LocalDateTime createdAt
     ) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
@@ -82,12 +82,12 @@ public class Study {
                 recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
-    public boolean isParticipant(final Long memberId) {
-        return participants.isParticipation(memberId);
+    public boolean isReviewWritable(final Long memberId) {
+        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
     }
 
-    public boolean isWritableReviews(final Long memberId) {
-        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
+    public boolean isParticipant(final Long memberId) {
+        return participants.isParticipation(memberId);
     }
 
     public void participate(final Long memberId) {

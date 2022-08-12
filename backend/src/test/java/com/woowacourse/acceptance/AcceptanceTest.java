@@ -102,6 +102,7 @@ public class AcceptanceTest {
         jdbcTemplate.update("TRUNCATE TABLE study_member");
         jdbcTemplate.update("TRUNCATE TABLE review");
         jdbcTemplate.update("TRUNCATE TABLE study");
+        jdbcTemplate.update("TRUNCATE TABLE link");
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
         jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
         jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");

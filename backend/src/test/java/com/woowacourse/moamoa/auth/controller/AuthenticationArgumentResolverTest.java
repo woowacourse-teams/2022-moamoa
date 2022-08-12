@@ -4,28 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-
+import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 
 class AuthenticationArgumentResolverTest extends WebMVCTest {
-
-    @MockBean
-    protected HttpServletRequest httpServletRequest;
-
-    @MockBean
-    protected NativeWebRequest nativeWebRequest;
 
     @Autowired
     private AuthenticationArgumentResolver authenticationArgumentResolver;

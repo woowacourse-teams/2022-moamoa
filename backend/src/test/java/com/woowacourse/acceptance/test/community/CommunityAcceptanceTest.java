@@ -56,7 +56,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .body(objectMapper.writeValueAsString(request))
                 .pathParam("study-id", 스터디_ID)
                 .when().log().all()
-                .filter(document("write/article",
+                .filter(document("article/create",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
                         ),
@@ -87,7 +87,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", articleId)
-                .filter(document("get/article",
+                .filter(document("article/get",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
                         ),
@@ -142,7 +142,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
-                .filter(document("delete/article",
+                .filter(document("article/delete",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
                         ),
@@ -191,7 +191,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .pathParam("study-id", 자바_스터디_ID)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
-                .filter(document("get/articles",
+                .filter(document("article/list",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt 토큰")
                         ),
@@ -294,7 +294,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
                 .pathParam("article-id", 게시글_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(objectMapper.writeValueAsString(request))
-                .filter(document("update/article",
+                .filter(document("article/update",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
                         ),
