@@ -11,7 +11,11 @@ export type ButtonGroupProps = {
 type OptionalButtonGroupProps = MakeOptional<ButtonGroupProps, 'variation'>;
 
 const ButtonGroup: React.FC<OptionalButtonGroupProps> = ({ className, children, variation = 'flex-end' }) => {
-  return <S.ButtonGroup variation={variation}>{children}</S.ButtonGroup>;
+  return (
+    <S.ButtonGroup className={className} variation={variation}>
+      {children}
+    </S.ButtonGroup>
+  );
 };
 
 export default ButtonGroup;

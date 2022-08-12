@@ -1,16 +1,17 @@
+import type { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { QK_FETCH_STUDY_REVIEWS } from '@constants';
 
-import type { DeleteReviewRequestBody, EmptyObject, ReviewId, StudyId } from '@custom-types';
+import type { DeleteReviewRequestBody, ReviewId, StudyId } from '@custom-types';
 
 import { deleteReview } from '@api';
 
 const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { mutateAsync } = useMutation<EmptyObject, Error, DeleteReviewRequestBody>(deleteReview);
+  const { mutateAsync } = useMutation<null, AxiosError, DeleteReviewRequestBody>(deleteReview);
   const queryClient = useQueryClient();
   const refetch = () => {
     queryClient.refetchQueries([QK_FETCH_STUDY_REVIEWS, studyId]);

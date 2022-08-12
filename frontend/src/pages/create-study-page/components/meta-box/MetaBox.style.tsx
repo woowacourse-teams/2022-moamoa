@@ -8,18 +8,20 @@ export const MetaBox = styled.div`
     border: 1px solid ${theme.colors.secondary.dark};
     box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
     border-radius: 6px;
-
-    & > .title {
-      font-size: 16px;
-      padding: 8px 12px;
-      margin: 0;
-      line-height: 1.4;
-
-      border-bottom: 1px solid ${theme.colors.secondary.dark};
-    }
-
-    & > .content {
-      padding: 8px 12px;
-    }
   `}
+`;
+
+export const Title = styled.h2`
+  ${({ theme }) => css`
+    font-size: 16px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
+
+    border-bottom: 1px solid ${theme.colors.secondary.dark};
+  `}
+`;
+
+export const Content = styled.div`
+  padding: 8px 12px;
 `;

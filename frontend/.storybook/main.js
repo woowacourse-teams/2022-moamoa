@@ -20,6 +20,7 @@ module.exports = {
       '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
+      '@auth': resolve(__dirname, '../src/auth'),
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
       '@main-page': resolve(__dirname, '../src/pages/main-page'),

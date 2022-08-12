@@ -59,9 +59,9 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
             </S.UsernameContainer>
           </S.UserInfo>
           {isMyComment && (
-            <S.DropDown isOpen={isOpen}>
+            <S.DropDown>
               <KebabMenu onClick={handleDropDownClick} />
-              <S.DropDownMenu>
+              <S.DropDownMenu isOpen={isOpen}>
                 <li>
                   <button onClick={handleEditReviewBtnClick}>수정</button>
                 </li>

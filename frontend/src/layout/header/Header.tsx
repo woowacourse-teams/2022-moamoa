@@ -1,8 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// TODO: 불필요한 Import , 상수 자체가 필요 없음
-import { PATH, PROFILE_IMAGE_URL } from '@constants';
+import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 import { useUserInfo } from '@hooks/useUserInfo';
@@ -71,7 +70,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
-
   const { logout, isLoggedIn } = useAuth();
   const { userInfo } = useUserInfo();
 
@@ -84,6 +82,10 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     }
     setKeyword(value);
     navigate(PATH.MAIN);
+  };
+
+  const handleLogoutButtonClick = () => {
+    logout();
   };
 
   const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
@@ -110,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           </S.AvatarButton>
           {openDropDownBox && (
             <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
-              <NavButton onClick={logout} ariaLabel="로그아웃">
+              <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
                 <MdOutlineLogout />
                 <span>로그아웃</span>
               </NavButton>
