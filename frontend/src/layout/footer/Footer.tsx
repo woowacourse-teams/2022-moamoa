@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import tw from '@utils/tw';
 
 import * as S from '@layout/footer/Footer.style';

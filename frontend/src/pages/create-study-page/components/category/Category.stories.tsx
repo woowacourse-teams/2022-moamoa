@@ -1,7 +1,5 @@
 import type { Story } from '@storybook/react';
 
-import { css } from '@emotion/react';
-
 import tw from '@utils/tw';
 
 import Category from '@create-study-page/components/category/Category';
