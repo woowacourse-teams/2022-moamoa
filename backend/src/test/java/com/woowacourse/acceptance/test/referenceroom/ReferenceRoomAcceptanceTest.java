@@ -26,6 +26,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -103,6 +104,18 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .filter(document("reference-room/list",
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
+                        ),
+                        responseFields(
+                                fieldWithPath("links[].id").type(JsonFieldType.NUMBER).description("링크공유 ID"),
+                                fieldWithPath("links[].author.id").type(JsonFieldType.NUMBER).description("링크공유 작성자 ID"),
+                                fieldWithPath("links[].author.username").type(JsonFieldType.STRING).description("링크공유 작성자 유저네임"),
+                                fieldWithPath("links[].author.imageUrl").type(JsonFieldType.STRING).description("링크공유 작성자 이미지 URL"),
+                                fieldWithPath("links[].author.profileUrl").type(JsonFieldType.STRING).description("링크공유 작성자 프로필 URL"),
+                                fieldWithPath("links[].linkUrl").type(JsonFieldType.STRING).description("링크공유 URL"),
+                                fieldWithPath("links[].description").type(JsonFieldType.STRING).description("링크공유 설명"),
+                                fieldWithPath("links[].createdDate").type(JsonFieldType.STRING).description("링크공유 생성일자"),
+                                fieldWithPath("links[].lastModifiedDate").type(JsonFieldType.STRING).description("링크공유 수정일자"),
+                                fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("데이터가 더 존재하는지 여부")
                         )))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
