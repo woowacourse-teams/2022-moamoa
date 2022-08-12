@@ -76,7 +76,7 @@ CREATE TABLE study_member
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id BIGINT,
     member_id BIGINT,
-    created_date DATETIME not null,
+    participation_date DATE not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );

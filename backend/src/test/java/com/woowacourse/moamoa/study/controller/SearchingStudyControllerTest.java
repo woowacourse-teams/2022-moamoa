@@ -356,7 +356,7 @@ public class SearchingStudyControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseBody.getMembers())
-                .filteredOn(member -> member.getCreatedDate() != null)
+                .filteredOn(member -> member.getParticipationDate() != null)
                 .hasSize(2)
                 .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
                 .containsExactly(

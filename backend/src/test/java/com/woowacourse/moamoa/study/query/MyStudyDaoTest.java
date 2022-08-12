@@ -69,15 +69,15 @@ class MyStudyDaoTest {
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
         jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 3, '" + now + "')");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (1, 4, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (1, 3, '" + now.toLocalDate() + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (1, 4, '" + now.toLocalDate() + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 1, '" + now + "')");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 2, '" + now + "')");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (2, 4, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (2, 1, '" + now.toLocalDate() + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (2, 2, '" + now.toLocalDate() + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (2, 4, '" + now.toLocalDate() + "')");
 
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 3, '" + now + "')");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, created_date) VALUES (3, 4, '" + now + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (3, 3, '" + now.toLocalDate() + "')");
+        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id, participation_date) VALUES (3, 4, '" + now.toLocalDate() + "')");
     }
 
     @DisplayName("내가 참여한 스터디 목록을 조회한다.")

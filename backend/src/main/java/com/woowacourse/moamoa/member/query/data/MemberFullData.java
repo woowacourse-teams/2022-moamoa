@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.member.query.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,7 +25,7 @@ public class MemberFullData {
 
     private String profileUrl;
 
-    private LocalDateTime createdDate;
+    private LocalDate participationDate;
 
     private int numberOfStudy;
 }
