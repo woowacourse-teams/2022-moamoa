@@ -1,7 +1,5 @@
 import type { Story } from '@storybook/react';
 
-import { css } from '@emotion/react';
-
 import UserDescription from '@study-room-page/components/link-room-tab-panel/components/user-description/UserDescription';
 import type { UserDescriptionProps } from '@study-room-page/components/link-room-tab-panel/components/user-description/UserDescription';
 
