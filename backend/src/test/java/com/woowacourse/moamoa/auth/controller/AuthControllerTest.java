@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ public class AuthControllerTest extends WebMVCTest {
     @Test
     void getJwtToken() throws Exception {
         given(authService.createToken("Authorization code"))
-                .willReturn(new TokenResponseWithRefresh("jwt token", "refreshtoken"));
+                .willReturn(new TokensResponse("jwt token", "refreshtoken"));
 
         mockMvc.perform(post("/api/auth/login?code=Authorization code"))
                 .andExpect(status().isOk())

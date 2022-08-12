@@ -6,8 +6,8 @@ import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
     @Transactional
-    public TokenResponseWithRefresh createToken(final String code) {
+    public TokensResponse createToken(final String code) {
         final String accessToken = oAuthClient.getAccessToken(code);
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
         memberService.saveOrUpdate(githubProfileResponse.toMember());
@@ -34,7 +34,7 @@ public class AuthService {
         final Long githubId = githubProfileResponse.getGithubId();
         final Optional<Token> token = tokenRepository.findByGithubId(githubId);
 
-        final TokenResponseWithRefresh tokenResponse = tokenProvider.createToken(githubProfileResponse.getGithubId());
+        final TokensResponse tokenResponse = tokenProvider.createToken(githubProfileResponse.getGithubId());
 
         if (token.isPresent()) {
             token.get().updateRefreshToken(tokenResponse.getRefreshToken());
@@ -46,7 +46,7 @@ public class AuthService {
         return tokenResponse;
     }
 
-    public TokenResponse refreshToken(final Long githubId, final String refreshToken) {
+    public AccessTokenResponse refreshToken(final Long githubId, final String refreshToken) {
         final Token token = tokenRepository.findByGithubId(githubId)
                 .orElseThrow(TokenNotFoundException::new);
 
@@ -56,7 +56,7 @@ public class AuthService {
 
         String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
 
-        return new TokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
+        return new AccessTokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
     }
 
     @Transactional

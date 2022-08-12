@@ -9,8 +9,8 @@ import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
@@ -54,7 +54,7 @@ class AuthServiceTest {
         Mockito.when(oAuthClient.getProfile("access-token"))
                 .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
         Mockito.when(tokenProvider.createToken(1L))
-                .thenReturn(new TokenResponseWithRefresh("accessToken", "refreshToken"));
+                .thenReturn(new TokensResponse("accessToken", "refreshToken"));
         Mockito.when(tokenProvider.recreationAccessToken(1L, "refreshToken"))
                 .thenReturn("recreationAccessToken");
     }
@@ -75,10 +75,10 @@ class AuthServiceTest {
         final Token token = tokenRepository.findByGithubId(1L).get();
         final String refreshToken = token.getRefreshToken();
 
-        final TokenResponse tokenResponse = authService.refreshToken(1L, refreshToken);
+        final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
 
         assertThat(refreshToken).isNotBlank();
-        assertThat(tokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
+        assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }
 
     @DisplayName("DB에 저장되어 있지 않은 refresh token으로 access token을 발급받을 수 없다.")

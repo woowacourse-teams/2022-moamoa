@@ -2,8 +2,8 @@ package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.auth.service.AuthService;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
-import com.woowacourse.moamoa.auth.service.response.TokenResponseWithRefresh;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +24,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/api/auth/login")
-    public ResponseEntity<TokenResponse> login(@RequestParam final String code) {
-        final TokenResponseWithRefresh tokenResponse = authService.createToken(code);
+    public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
+        final TokensResponse tokenResponse = authService.createToken(code);
 
-        final TokenResponse response = new TokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());
+        final AccessTokenResponse response = new AccessTokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());
         final ResponseCookie cookie = putTokenInCookie(tokenResponse);
 
         return ResponseEntity.ok().header("Set-Cookie", cookie.toString()).body(response);
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<TokenResponse> refreshToken(@AuthenticationPrincipal Long githubId, @CookieValue String refreshToken) {
+    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticationPrincipal Long githubId, @CookieValue String refreshToken) {
         return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
     }
 
@@ -45,7 +45,7 @@ public class AuthController {
         return ResponseEntity.noContent().header("Set-Cookie", removeCookie().toString()).build();
     }
 
-    private ResponseCookie putTokenInCookie(final TokenResponseWithRefresh tokenResponse) {
+    private ResponseCookie putTokenInCookie(final TokensResponse tokenResponse) {
         return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
                 .maxAge(REFRESH_TOKEN_EXPIRATION)
                 .path("/")
