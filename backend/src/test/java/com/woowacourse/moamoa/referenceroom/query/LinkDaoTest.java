@@ -96,10 +96,10 @@ public class LinkDaoTest {
         entityManager.flush();
         entityManager.clear();
 
-        final LinkData 링크1 = new LinkData(link1.getId(), JJANGGU, link1.getLinkUrl(), link1.getDescription(), link1.getCreatedDate(), link1.getLastModifiedDate());
-        final LinkData 링크2 = new LinkData(link2.getId(), GREENLAWN, link2.getLinkUrl(), link2.getDescription(), link2.getCreatedDate(), link2.getLastModifiedDate());
-        final LinkData 링크3 = new LinkData(link3.getId(), DWOO, link3.getLinkUrl(), link3.getDescription(), link3.getCreatedDate(), link3.getLastModifiedDate());
-        final LinkData 링크4 = new LinkData(link4.getId(), VERUS, link4.getLinkUrl(), link4.getDescription(), link4.getCreatedDate(), link4.getLastModifiedDate());
+        final LinkData 링크1 = new LinkData(link1.getId(), JJANGGU, link1.getLinkUrl(), link1.getDescription(), link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate());
+        final LinkData 링크2 = new LinkData(link2.getId(), GREENLAWN, link2.getLinkUrl(), link2.getDescription(), link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate());
+        final LinkData 링크3 = new LinkData(link3.getId(), DWOO, link3.getLinkUrl(), link3.getDescription(), link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate());
+        final LinkData 링크4 = new LinkData(link4.getId(), VERUS, link4.getLinkUrl(), link4.getDescription(), link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate());
 
         linkData = List.of(링크1, 링크2, 링크3, 링크4);
     }

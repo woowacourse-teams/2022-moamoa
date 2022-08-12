@@ -117,16 +117,16 @@ public class SearchingReferenceRoomControllerTest {
 
         final LinkResponse 링크1 = new LinkResponse(
                 new LinkData(link1.getId(), 짱구_응답, link1.getLinkUrl(), link1.getDescription(),
-                        link1.getCreatedDate(), link1.getLastModifiedDate()));
+                        link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크2 = new LinkResponse(
                 new LinkData(link2.getId(), 그린론_응답, link2.getLinkUrl(), link2.getDescription(),
-                        link2.getCreatedDate(), link2.getLastModifiedDate()));
+                        link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크3 = new LinkResponse(
                 new LinkData(link3.getId(), 디우_응답, link3.getLinkUrl(), link3.getDescription(),
-                        link3.getCreatedDate(), link3.getLastModifiedDate()));
+                        link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크4 = new LinkResponse(
                 new LinkData(link4.getId(), 베루스_응답, link4.getLinkUrl(), link4.getDescription(),
-                        link4.getCreatedDate(), link4.getLastModifiedDate()));
+                        link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate()));
 
         linkResponses = List.of(링크1, 링크2, 링크3, 링크4);
     }

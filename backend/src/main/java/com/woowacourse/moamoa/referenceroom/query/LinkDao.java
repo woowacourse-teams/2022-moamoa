@@ -26,7 +26,7 @@ public class LinkDao {
                 + "JOIN member ON link.member_id = member.id "
                 + "WHERE link.deleted = false "
                 + "AND link.study_id = :studyId "
-                + "ORDER BY link.created_date, id DESC";
+                + "ORDER BY link.created_date DESC, link.id DESC";
         final MapSqlParameterSource params = new MapSqlParameterSource("studyId", studyId);
 
         final List<LinkData> linkData = namedParameterJdbcTemplate.query(sql, params, rowMapper());
