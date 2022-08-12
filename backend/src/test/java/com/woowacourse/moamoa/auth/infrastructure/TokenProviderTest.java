@@ -47,7 +47,7 @@ class TokenProviderTest extends WebMVCTest {
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateTokenByValidToken() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         assertThat(tokenProvider.validateToken(token)).isTrue();
     }
@@ -55,7 +55,7 @@ class TokenProviderTest extends WebMVCTest {
     @DisplayName("유효하지 않은 토큰을 검증한다.")
     @Test
     void validateTokenByInvalidToken() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         String invalidToken = token + "dummy";
 
@@ -65,7 +65,7 @@ class TokenProviderTest extends WebMVCTest {
     @DisplayName("JwtToken payload 검증한다.")
     @Test
     void validatePayload() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         assertThat(tokenProvider.getPayload(token)).isEqualTo("1");
     }
@@ -73,7 +73,7 @@ class TokenProviderTest extends WebMVCTest {
     @DisplayName("JwtToken 형식을 검증한다.")
     @Test
     void validateJwtTokenFormat() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         final String[] parts = token.split("\\.");
 

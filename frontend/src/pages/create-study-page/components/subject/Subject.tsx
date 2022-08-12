@@ -24,7 +24,7 @@ const Subject = ({ className }: SubjectProps) => {
       const subjects = tags.filter(({ category }) => category.name === 'subject');
 
       return (
-        <select
+        <S.Select
           id="subject-list"
           css={css`
             width: 100%;
@@ -36,7 +36,7 @@ const Subject = ({ className }: SubjectProps) => {
               {description}
             </option>
           ))}
-        </select>
+        </S.Select>
       );
     }
   };

@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios';
 import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
@@ -33,7 +34,7 @@ const getStudyListWithPage =
   };
 
 const useGetInfiniteStudyList = ({ title, selectedFilters }: UseGetInfiniteStudyListParams) => {
-  return useInfiniteQuery<GetStudyListResponseDataWithPage, Error>(
+  return useInfiniteQuery<GetStudyListResponseDataWithPage, AxiosError>(
     ['infinite-scroll-searched-study-list', title, selectedFilters],
     getStudyListWithPage(title, selectedFilters),
     {

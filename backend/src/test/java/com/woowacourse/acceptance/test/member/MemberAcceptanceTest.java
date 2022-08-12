@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.member;
 
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
@@ -13,7 +14,6 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import io.restassured.RestAssured;
-import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -24,7 +24,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         final String token = 베루스가().로그인한다();
 
         final MemberResponse memberResponse = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(AUTHORIZATION, token)
                 .filter(document("members/me",
                         requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .when().log().all()

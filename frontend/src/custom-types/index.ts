@@ -119,11 +119,16 @@ export type GetTagListResponseData = {
   tags: Array<Tag>;
 };
 
-export type PostTokenRequestParams = {
+export type PostLoginRequestParams = {
   code: string;
 };
-export type PostTokenResponseData = {
-  token: string;
+export type PostLoginResponseData = {
+  accessToken: string;
+  expiredTime: number;
+};
+export type GetTokenResponseData = {
+  accessToken: string;
+  expiredTime: number;
 };
 
 export type GetReviewResponseData = {

@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
+import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider implements TokenProvider {
 
+    private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7일
+
     private final SecretKey key;
     private final long validityInMilliseconds;
 
@@ -27,16 +31,23 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String createToken(final Long payload) {
+    public TokensResponse createToken(final Long payload) {
         final Date now = new Date();
-        final Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setSubject(payload.toString())
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
+        String refreshToken =  Jwts.builder()
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        return new TokensResponse(accessToken, refreshToken);
     }
 
     @Override
@@ -57,11 +68,47 @@ public class JwtTokenProvider implements TokenProvider {
                     .build()
                     .parseClaimsJws(token);
 
-            return !claims.getBody()
-                    .getExpiration()
-                    .before(new Date());
+            Date tokenExpirationDate = claims.getBody().getExpiration();
+            validateTokenExpiration(tokenExpirationDate);
+
+            return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    @Override
+    public String recreationAccessToken(final Long githubId, final String refreshToken) {
+        Jws<Claims> claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(refreshToken);
+
+        Date tokenExpirationDate = claims.getBody().getExpiration();
+        validateTokenExpiration(tokenExpirationDate);
+
+        return createAccessToken(githubId);
+    }
+
+    private void validateTokenExpiration(Date tokenExpirationDate) {
+        if (tokenExpirationDate.before(new Date())) {
+            throw new RefreshTokenExpirationException();
+        }
+    }
+
+    private String createAccessToken(final Long githubId) {
+        final Date now = new Date();
+
+        return Jwts.builder()
+                .setSubject(Long.toString(githubId))
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    @Override
+    public long getValidityInMilliseconds() {
+        return validityInMilliseconds;
     }
 }

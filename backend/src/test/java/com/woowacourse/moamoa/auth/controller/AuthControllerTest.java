@@ -8,11 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.auth.service.AuthService;
-import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class AuthControllerTest extends WebMVCTest {
@@ -23,11 +22,12 @@ public class AuthControllerTest extends WebMVCTest {
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
     void getJwtToken() throws Exception {
-        given(authService.createToken("Authorization code")).willReturn(new TokenResponse("jwt token"));
+        given(authService.createToken("Authorization code"))
+                .willReturn(new TokensResponse("jwt token", "refreshtoken"));
 
-        mockMvc.perform(post("/api/login/token?code=Authorization code"))
+        mockMvc.perform(post("/api/auth/login?code=Authorization code"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("token").value("jwt token"))
+                .andExpect(jsonPath("$.accessToken").value("jwt token"))
                 .andDo(print());
     }
 }

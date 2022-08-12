@@ -30,7 +30,7 @@ public class DeletingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @CsvSource({"one, 1", "1, one"})
     void badRequestByInvalidIdFormat(String studyId, String articleId) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L);
+        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         delete("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)

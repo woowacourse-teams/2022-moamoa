@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS study;
 DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS token;
 
 CREATE TABLE member
 (
@@ -83,13 +84,20 @@ CREATE TABLE study_member
 
 CREATE TABLE article
 (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    content MEDIUMTEXT NOT NULL,
-    author_id BIGINT,
-    study_id BIGINT,
-    created_date DATETIME not null,
-    last_modified_date DATETIME  not null,
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title              VARCHAR(255) NOT NULL,
+    content            MEDIUMTEXT   NOT NULL,
+    author_id          BIGINT,
+    study_id           BIGINT,
+    created_date       DATETIME     not null,
+    last_modified_date DATETIME     not null,
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
+);
+
+CREATE TABLE token
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    github_id BIGINT NOT NULL UNIQUE,
+    refresh_token MEDIUMTEXT
 );

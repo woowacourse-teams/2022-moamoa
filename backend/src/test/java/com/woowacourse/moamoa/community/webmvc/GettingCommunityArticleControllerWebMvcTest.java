@@ -31,7 +31,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @CsvSource({"one, 1", "1, one"})
     void badRequestByInvalidIdFormat(String studyId, String articleId) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L);
+        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
@@ -56,7 +56,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("스터디 ID가 잘못된 형식인 경우 400에러를 반환한다.")
     @Test
     void badRequestByInvalidIdFormat() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L);
+        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         get("/api/studies/{study-id}/community/articles", "one")
@@ -70,7 +70,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @CsvSource({"one,1", "1,one", "-1,3", "1,-1", "1,0"})
     void badRequestByInvalidFormatParam(String page, String size) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L);
+        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")
@@ -85,7 +85,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("페이지 정보 없이 게시글 목록 조회 시 400 에러를 반환한다.")
     @Test
     void badRequestByEmptyPage() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L);
+        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")

@@ -8,7 +8,12 @@ export const PATH = {
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
 };
 
-export const ACCESS_TOKEN_KEY = 'accessToken';
+export const API_ERROR = {
+  EXPIRED_REFRESH_TOKEN: {
+    CODE: 4001,
+    MESSAGE: '오류가 발생했습니다 :(',
+  },
+};
 
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
@@ -98,9 +103,6 @@ export const MEMBER_COUNT = {
     },
   },
 };
-
-export const PROFILE_IMAGE_URL =
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80';
 
 export const REVIEW_LENGTH = {
   MIN: {
