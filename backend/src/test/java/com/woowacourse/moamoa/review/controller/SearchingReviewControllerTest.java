@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.review.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
@@ -17,21 +18,17 @@ import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
-
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 class SearchingReviewControllerTest {
@@ -116,7 +113,6 @@ class SearchingReviewControllerTest {
         javaReviews = List.of(리뷰_내용4, 리뷰_내용3, 리뷰_내용2, 리뷰_내용1);
 
         entityManager.flush();
-        entityManager.clear();
     }
 
     private static Member toMember(MemberData memberData) {

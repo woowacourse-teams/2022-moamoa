@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY, DESCRIPTION_LENGTH, EXCERPT_LENGTH, PATH, TITLE_LENGTH } from '@constants';
+import { DESCRIPTION_LENGTH, EXCERPT_LENGTH, PATH, TITLE_LENGTH } from '@constants';
 
 const studyTitle = 'studyTitle';
 const description = 'description';
@@ -8,8 +8,10 @@ const startDate = 'startDate';
 
 describe('스터디 개설 페이지 폼 유효성 테스트', () => {
   before(() => {
-    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, 'asdfasf');
-    cy.visit(PATH.CREATE_STUDY);
+    cy.visit(`${PATH.LOGIN}?code=hihihih`).then(() => {
+      cy.wait(1000);
+      cy.visit(PATH.CREATE_STUDY);
+    });
   });
 
   beforeEach(() => {

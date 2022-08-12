@@ -42,25 +42,30 @@ public class LoginSteps extends Steps {
     }
 
     private String getIssuedBearerToken() {
-        if (tokenCache.containsKey(githubProfile.getGitgubId())) {
-            return tokenCache.get(githubProfile.getGitgubId());
+        if (tokenCache.containsKey(githubProfile.getGithubId())) {
+            return tokenCache.get(githubProfile.getGithubId());
         }
+
         final String bearerToken = requestBearerToken();
-        tokenCache.put(githubProfile.getGitgubId(), bearerToken);
+        tokenCache.put(githubProfile.getGithubId(), bearerToken);
+
         return bearerToken;
     }
 
     private String requestBearerToken() {
         final String authorizationCode = "Authorization Code";
         mockingGithubServer(authorizationCode, githubProfile);
+
         final String token = RestAssured.given().log().all()
                 .param("code", authorizationCode)
                 .when()
-                .post("/api/login/token")
+                .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().jsonPath().getString("token");
+                .extract().jsonPath().getString("accessToken");
+
         mockServer.reset();
+
         return "Bearer " + token;
     }
 }

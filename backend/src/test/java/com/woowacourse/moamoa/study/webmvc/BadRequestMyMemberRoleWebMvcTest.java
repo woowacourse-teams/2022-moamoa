@@ -16,7 +16,7 @@ public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
     @DisplayName("study Id가 없을 경우 400 에러가 발생한다. ")
     @Test
     void getMyStudiesWithoutStudyId() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/members/me/role")
                 .header(HttpHeaders.AUTHORIZATION, token)
@@ -28,7 +28,7 @@ public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
     @DisplayName("study Id가 String일 경우 400 에러가 발생한다.")
     @Test
     void getMyStudiesWithoutStudyId1() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L);
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/members/me/role")
                         .param("study-id", "one")

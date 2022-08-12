@@ -16,11 +16,8 @@ const maxMemberCountName = 'max-member-count';
 
 const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
   const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(true);
-  const [count, setCount] = useState<number>(1);
 
-  const { removeField } = useFormContext();
-
-  const { register } = useFormContext();
+  const { removeField, register } = useFormContext();
 
   const { handleKeyDown } = usePositiveNumberInput();
 
@@ -52,9 +49,6 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
                 type="number"
                 id={maxMemberCountName}
                 placeholder="최대 인원"
-                onChange={value => {
-                  setCount(Number(value));
-                }}
               />
             </>
           )}

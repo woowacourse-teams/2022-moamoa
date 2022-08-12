@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 // import문과 declare의 충돌로 나머지 declare문은 common.d.ts에 작성했다
 import { theme } from '@styles/theme';
 

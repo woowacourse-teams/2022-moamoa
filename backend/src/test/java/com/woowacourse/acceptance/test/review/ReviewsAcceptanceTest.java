@@ -32,7 +32,6 @@ import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -148,6 +147,12 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         // assert
         final LocalDate 리뷰_생성일 = 지금;
         final LocalDate 리뷰_수정일 = 지금;
+
+        final WriterResponse 짱구 = new WriterResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
+        final ReviewResponse 짱구_리뷰 = new ReviewResponse(짱구_리뷰_ID, 짱구, 리뷰_생성일, 리뷰_수정일, "리뷰 내용1");
+
+        final WriterResponse 그린론 = new WriterResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final ReviewResponse 그린론_리뷰 = new ReviewResponse(그린론_리뷰_ID, 그린론, 리뷰_생성일, 리뷰_생성일, "리뷰 내용2");
 
         final WriterResponse 디우 = new WriterResponse(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL);
         final ReviewResponse 디우_리뷰 = new ReviewResponse(디우_리뷰_ID, 디우, 리뷰_생성일, 리뷰_수정일, "리뷰 내용3");

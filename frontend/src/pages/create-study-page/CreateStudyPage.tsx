@@ -22,7 +22,7 @@ const CreateStudyPage: React.FC = () => {
       <S.CreateStudyPage>
         <FormProvider {...formMethods}>
           <S.Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <h1>스터디 개설하기</h1>
+            <S.PageTitle>스터디 개설하기</S.PageTitle>
             <S.Container>
               <S.Main>
                 <Title />

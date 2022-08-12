@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import { css } from '@emotion/react';
-
 import { getNextYear, getToday } from '@utils';
 
 import { DateYMD } from '@custom-types';

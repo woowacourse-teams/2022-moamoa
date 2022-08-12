@@ -4,18 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-
+import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 
 class AuthenticationArgumentResolverTest extends WebMVCTest {
 
@@ -42,7 +39,7 @@ class AuthenticationArgumentResolverTest extends WebMVCTest {
     @DisplayName("Authorization 인증 타입이 Bearer인 경우 payload를 반환한다.")
     @Test
     void getToken() {
-        String wrongBearerToken = "Bearer " + tokenProvider.createToken(1L);
+        String wrongBearerToken = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         given(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .willReturn(httpServletRequest);

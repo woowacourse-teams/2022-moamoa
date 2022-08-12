@@ -1,10 +1,11 @@
+import type { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, EmptyObject, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
+import type { DateYMD, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
 
 import { putReview } from '@api';
 
@@ -41,7 +42,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<EmptyObject, Error, PutReviewRequestVariables>(putReview);
+  const { mutateAsync } = useMutation<null, AxiosError, PutReviewRequestVariables>(putReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
