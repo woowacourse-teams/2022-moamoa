@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.community.service.CommunityArticleService;
+import com.woowacourse.moamoa.community.service.ArticleService;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +19,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class CreatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
+public class CreatingArticleControllerWebMvcTest extends WebMVCTest {
 
     @MockBean
-    private CommunityArticleService communityArticleService;
+    private ArticleService articleService;
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
@@ -146,7 +146,7 @@ public class CreatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("스터디에 참여한 참가자가 아닌 경우, NotParticipatedMemberException이 발생하고 401을 반환한다.")
     @Test
     void unauthorizedByNotParticipant() throws Exception {
-        when(communityArticleService.createArticle(any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
+        when(articleService.createArticle(any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
 
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
