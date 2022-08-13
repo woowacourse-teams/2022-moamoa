@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { Input } from '@components/input/Input.style';
+
 export const LinkFormContainer = styled.div`
   ${({ theme }) => css`
     width: 480px;
@@ -35,7 +37,7 @@ export const FormLabel = styled.label`
   font-weight: 600;
 `;
 
-export const FormInput = styled.input`
+export const FormInput = styled(Input)`
   ${({ theme }) => css`
     margin-bottom: 8px;
     padding: 8px;
@@ -50,7 +52,7 @@ export const TextAreaContainer = styled.div`
   position: relative;
 `;
 
-export const FormTextArea = styled.textarea`
+export const FormTextArea = styled(Input.withComponent('textarea'))`
   ${({ theme }) => css`
     width: 100%;
     margin-bottom: 8px;
