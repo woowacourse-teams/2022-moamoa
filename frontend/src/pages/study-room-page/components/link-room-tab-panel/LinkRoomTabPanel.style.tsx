@@ -54,7 +54,7 @@ export const LinkList = styled.ul`
   place-items: center;
   gap: 24px;
 
-  ${mqDown('md')} {
+  ${mqDown('lg')} {
     grid-template-columns: repeat(2, 1fr);
   }
 

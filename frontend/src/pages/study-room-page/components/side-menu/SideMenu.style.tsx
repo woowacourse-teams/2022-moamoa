@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { mqDown, mqUp } from '@utils';
+
 export const Sidebar = styled.nav`
   ${({ theme }) => css`
     width: 100%;
@@ -10,5 +12,32 @@ export const Sidebar = styled.nav`
     background-color: ${theme.colors.secondary.light};
     text-align: center;
     z-index: 1;
+
+    ${mqDown('lg')} {
+      display: none;
+    }
+  `}
+`;
+
+export const Bottombar = styled.nav`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: space-between;
+    column-gap: 16px;
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 16px;
+
+    background-color: ${theme.colors.secondary.light};
+    text-align: center;
+    border-top: 1px solid ${theme.colors.secondary.base};
+    z-index: 1;
+
+    ${mqUp('lg')} {
+      display: none;
+    }
   `}
 `;
