@@ -22,6 +22,12 @@ export const PreviewMeatballMenuContainer = styled.div`
     background-color: ${theme.colors.white};
     border-radius: 50%;
     z-index: 3;
+    transition: background-color 0.3s ease;
+
+    &:hover,
+    &:active {
+      background-color: ${theme.colors.secondary.base};
+    }
   `}
 `;
 

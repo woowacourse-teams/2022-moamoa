@@ -5,6 +5,7 @@ import tw from '@utils/tw';
 import type { Link } from '@custom-types';
 
 import DropDownBox from '@components/drop-down-box/DropDownBox';
+import { MeatballMenuSvg } from '@components/svg';
 
 import * as S from '@study-room-page/components/link-room-tab-panel/components/link-item/LinkItem.style';
 import LinkPreview from '@study-room-page/components/link-room-tab-panel/components/link-preview/LinkPreview';
@@ -19,20 +20,6 @@ const previewResult = {
     'https://images.unsplash.com/photo-1572059002053-8cc5ad2f4a38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGdvb2dsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
   domainName: 'naver.com',
 };
-
-const MeatballMenuSvg = () => (
-  <svg
-    stroke="currentColor"
-    fill="currentColor"
-    strokeWidth="0"
-    viewBox="0 0 20 20"
-    height="20"
-    width="20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-  </svg>
-);
 
 const LinkItem: React.FC<LinkItemProps> = ({ linkUrl, author, description }) => {
   // TODO: link preview 가져오기
