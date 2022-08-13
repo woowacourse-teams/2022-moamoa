@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import tw from '@utils/tw';
 
 import type { Tag } from '@custom-types';
 
@@ -58,27 +58,11 @@ const Category = ({ className }: CategoryProps) => {
         <S.Area>
           <S.Label>영역 :</S.Label>
           <S.AreaCheckboxContainer>
-            <Checkbox
-              css={css`
-                margin-right: 4px;
-              `}
-              type="checkbox"
-              id="area-fe"
-              data-tagid={areaFE.id}
-              {...register('area-fe')}
-            />
+            <Checkbox css={tw`mr-4`} type="checkbox" id="area-fe" data-tagid={areaFE.id} {...register('area-fe')} />
             <label htmlFor="area-fe">FE</label>
           </S.AreaCheckboxContainer>
           <S.AreaCheckboxContainer>
-            <Checkbox
-              css={css`
-                margin-right: 4px;
-              `}
-              type="checkbox"
-              id="area-be"
-              data-tagid={areaBE.id}
-              {...register('area-be')}
-            />
+            <Checkbox css={tw`mr-4`} type="checkbox" id="area-be" data-tagid={areaBE.id} {...register('area-be')} />
             <label htmlFor="area-be">BE</label>
           </S.AreaCheckboxContainer>
         </S.Area>
