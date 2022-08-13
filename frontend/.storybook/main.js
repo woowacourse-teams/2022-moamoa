@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -33,6 +34,29 @@ module.exports = {
       '@hooks': resolve(__dirname, '../src/hooks'),
       '@mocks': resolve(__dirname, '../src/mocks'),
     };
+
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'es2022',
+        },
+      },
+      {
+        test: /\.(png|jpg|jpeg)$/i,
+        type: 'asset/resource',
+      },
+    ];
+
+    config.optimization.minimizer = [
+      new ESBuildMinifyPlugin({
+        target: 'es2020',
+      }),
+    ];
 
     return config;
   },
