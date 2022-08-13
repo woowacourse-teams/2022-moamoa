@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.domain.repository;
+package com.woowacourse.moamoa.studyroom.domain.repository.article;
 
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;

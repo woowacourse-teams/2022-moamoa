@@ -3,8 +3,10 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.PermittedParticipants;
+import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -14,8 +16,6 @@ import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,15 +29,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ArticleService {
 
-    private final StudyRepository studyRepository;
+    private final PermittedParticipantsRepository permittedParticipantsRepository;
     private final ArticleRepositoryFactory articleRepositoryFactory;
     private final ArticleDao articleDao;
 
     @Autowired
-    public ArticleService(final StudyRepository studyRepository,
+    public ArticleService(final PermittedParticipantsRepository permittedParticipantsRepository,
                           final ArticleRepositoryFactory articleRepositoryFactory,
                           final ArticleDao articleDao) {
-        this.studyRepository = studyRepository;
+        this.permittedParticipantsRepository = permittedParticipantsRepository;
         this.articleRepositoryFactory = articleRepositoryFactory;
         this.articleDao = articleDao;
     }
@@ -45,9 +45,14 @@ public class ArticleService {
     @Transactional
     public Article createArticle(final Long memberId, final Long studyId,
                                  final ArticleRequest request, final ArticleType articleType) {
-        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final PermittedParticipants permittedParticipants = permittedParticipantsRepository.findByStudyId(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+        final Accessor accessor = new Accessor(memberId, studyId);
+        final Article article = permittedParticipants.write(accessor,
+                request.getTitle(), request.getContent(), articleType);
+
         final ArticleRepository<Article> repository = articleRepositoryFactory.getRepository(articleType);
-        return repository.save(Article.write(memberId, study, request.getTitle(), request.getContent(), articleType));
+        return repository.save(article);
     }
 
     public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId,
@@ -80,9 +85,10 @@ public class ArticleService {
 
     public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable,
                                                 final ArticleType type) {
-        final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
+        final PermittedParticipants permittedParticipants = permittedParticipantsRepository.findByStudyId(studyId)
+                .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isParticipant(memberId)) {
+        if (!permittedParticipants.isPermittedAccessor(new Accessor(memberId, studyId))) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 

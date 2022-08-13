@@ -5,9 +5,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyService;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -15,12 +22,6 @@ import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleExcep
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
-import com.woowacourse.moamoa.member.domain.Member;
-import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.domain.Study;
-import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +40,9 @@ public class GettingArticleControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
+    private PermittedParticipantsRepository permittedParticipantsRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
@@ -54,8 +58,7 @@ public class GettingArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(studyRepository,
-                articleRepositoryFactory, articleDao);
+        articleService = new ArticleService(permittedParticipantsRepository, articleRepositoryFactory, articleDao);
         sut = new ArticleController(articleService);
     }
 
@@ -75,11 +78,13 @@ public class GettingArticleControllerTest {
                 ArticleType.COMMUNITY, article.getId());
 
         //assert
+        final AuthorResponse expectedAuthorResponse = new AuthorResponse(
+                member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()
+        );
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(new ArticleResponse(article.getId(),
-                new AuthorResponse(member.getGithubId(), member.getUsername(), member.getImageUrl(),
-                        member.getProfileUrl()),
-                request.getTitle(), request.getContent(), LocalDate.now(), LocalDate.now()));
+        assertThat(response.getBody()).isEqualTo(
+                new ArticleResponse(article.getId(), expectedAuthorResponse, request.getTitle(), request.getContent(),
+                        LocalDate.now(), LocalDate.now()));
     }
 
     @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")
