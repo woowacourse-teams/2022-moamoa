@@ -7,16 +7,18 @@ import type { GetUserRoleResponseData } from '@custom-types';
 
 import { getUserRole } from '@api';
 
+import CommunityTabPanel from '@study-room-page/components/community-tab-panel/CommunityTabPanel';
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 
-export type TabId = 'notice' | 'material' | 'review';
+export type TabId = 'notice' | 'community' | 'material' | 'review';
 
 export type Tab = { id: TabId; name: string; content: React.ReactNode };
 
 export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
-  const { studyId } = useParams() as { studyId: string };
+  const { studyId: _studyId } = useParams() as { studyId: string };
+  const studyId = Number(_studyId);
 
   const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>('my-role', () =>
     getUserRole({ studyId: Number(studyId) }),
@@ -24,8 +26,9 @@ const useStudyRoomPage = () => {
 
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
+    { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
     { id: 'material', name: '자료실', content: '자료실입니다.' },
-    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={Number(studyId)} /> },
+    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
   ];
 
   const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
