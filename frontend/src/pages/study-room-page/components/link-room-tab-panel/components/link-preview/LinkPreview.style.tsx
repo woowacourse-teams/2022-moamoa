@@ -10,15 +10,8 @@ const onelineEllipsis = css`
   word-break: break-all;
 `;
 
-export const PreviewContainer = styled.div``;
-
-export const PreviewImageContainer = styled.div`
+export const PreviewContainer = styled.div`
   position: relative;
-  height: 140px;
-  margin-bottom: 8px;
-  overflow: hidden;
-
-  border-radius: 15px;
 
   &:hover {
     & > div {
@@ -28,10 +21,18 @@ export const PreviewImageContainer = styled.div`
   }
 `;
 
+export const PreviewImageContainer = styled.div`
+  height: 140px;
+  margin-bottom: 8px;
+  overflow: hidden;
+
+  border-radius: 15px;
+`;
+
 export const PreviewDomain = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    bottom: 8px;
+    bottom: 62px;
     right: 8px;
     width: 110px;
     height: 30px;
@@ -51,31 +52,6 @@ export const PreviewDomain = styled.div`
   `}
 
   ${onelineEllipsis}
-`;
-
-export const PreviewMeatballMenuContainer = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 30px;
-    height: 30px;
-
-    background-color: ${theme.colors.white};
-    border-radius: 50%;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0.2s ease, opacity 0.2s ease;
-  `}
-`;
-
-export const MeatballMenuButton = styled.button`
-  background-color: transparent;
-  border: none;
 `;
 
 export const PreviewContentContainer = styled.div`

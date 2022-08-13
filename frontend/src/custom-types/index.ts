@@ -99,6 +99,15 @@ export type MyStudy = Pick<
 
 export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';
 
+export type Link = {
+  id: number;
+  author: Member;
+  linkUrl: string;
+  description: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+};
+
 export type GetStudyDetailRequestParams = {
   studyId: number;
 };
@@ -188,3 +197,14 @@ export type GetUserRoleResponseData = {
 };
 
 export type GetUserInformationResponseData = Member;
+
+export type GetLinksResponseData = {
+  links: Array<Link>;
+};
+
+export type GetLinkPreviewResponseData = {
+  imageUrl?: string;
+  title: string;
+  description?: string;
+  domainName: string;
+};
