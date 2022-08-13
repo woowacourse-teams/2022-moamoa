@@ -7,6 +7,8 @@ import type { GetUserRoleResponseData } from '@custom-types';
 
 import { getUserRole } from '@api';
 
+import LinkRoomTabPanel from '@study-room-page/components/link-room-tab-panel/LinkRoomTabPanel';
+import LinkItem from '@study-room-page/components/link-room-tab-panel/components/link-item/LinkItem';
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 
 export type TabId = 'notice' | 'material' | 'review';
@@ -24,7 +26,7 @@ const useStudyRoomPage = () => {
 
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
-    { id: 'material', name: '자료실', content: '자료실입니다.' },
+    { id: 'material', name: '자료실', content: <LinkRoomTabPanel /> },
     { id: 'review', name: '후기', content: <ReviewTabPanel studyId={Number(studyId)} /> },
   ];
 

@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 export const LinkItemContainer = styled.div`
   position: relative;
-  width: 300px;
-  height: 250px;
 `;
 
 export const PreviewMeatballMenuContainer = styled.div`
