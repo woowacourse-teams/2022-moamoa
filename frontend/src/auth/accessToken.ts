@@ -5,15 +5,15 @@ import { API_ERROR } from '@constants';
 import { deleteRefreshToken, getAccessToken } from '@api';
 
 class AccessTokenController {
-  private static _accessToken: string | null = null;
+  private static ACCESS_TOKEN_KEY = 'accessToken';
   private static _tokenExpiredMsTime: number = 20 * 60000;
 
   static setAccessToken(newAccessToken: string) {
-    this._accessToken = newAccessToken;
+    window.sessionStorage.setItem(this.ACCESS_TOKEN_KEY, newAccessToken);
   }
 
   static get accessToken() {
-    return this._accessToken;
+    return window.sessionStorage.getItem(this.ACCESS_TOKEN_KEY);
   }
 
   static setTokenExpiredMsTime(newTime: number) {
@@ -25,17 +25,17 @@ class AccessTokenController {
   }
 
   static get hasAccessToken() {
-    return !!this._accessToken;
+    return !!this.accessToken;
   }
 
   static removeAccessToken() {
-    this._accessToken = null;
+    window.sessionStorage.removeItem(this.ACCESS_TOKEN_KEY);
   }
 
   private static async fetchLogout() {
     try {
       await deleteRefreshToken();
-      AccessTokenController.removeAccessToken();
+      this.removeAccessToken();
     } catch (error) {
       alert('로그아웃에 실패했습니다. :(');
       window.location.reload();

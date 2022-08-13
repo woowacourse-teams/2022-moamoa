@@ -113,7 +113,6 @@ class SearchingReviewControllerTest {
         javaReviews = List.of(리뷰_내용4, 리뷰_내용3, 리뷰_내용2, 리뷰_내용1);
 
         entityManager.flush();
-        entityManager.clear();
     }
 
     private static Member toMember(MemberData memberData) {

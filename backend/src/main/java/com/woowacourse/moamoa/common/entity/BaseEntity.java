@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.common.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -16,9 +16,9 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(nullable = false)
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 }

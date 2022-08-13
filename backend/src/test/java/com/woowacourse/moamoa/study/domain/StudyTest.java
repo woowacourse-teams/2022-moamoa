@@ -196,7 +196,7 @@ public class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 createdAt);
 
-        assertThat(sut.isWritableReviews(1L)).isEqualTo(isWritable);
+        assertThat(sut.isReviewWritable(1L)).isEqualTo(isWritable);
     }
 
     private static Stream<Arguments> provideStudyPeriod() {
@@ -233,7 +233,7 @@ public class StudyTest {
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
-        assertThat(sut.isWritableReviews(1L)).isTrue();
+        assertThat(sut.isReviewWritable(1L)).isTrue();
     }
 
     @DisplayName("스터디에 참여한 사용자는 리뷰를 작성할 수 있다.")
@@ -247,7 +247,7 @@ public class StudyTest {
 
         sut.participate(2L);
 
-        assertThat(sut.isWritableReviews(2L)).isTrue();
+        assertThat(sut.isReviewWritable(2L)).isTrue();
     }
 
     @DisplayName("스터디에 참여하지 않은 사용자는 리뷰를 작성할 수 없다.")
@@ -259,7 +259,7 @@ public class StudyTest {
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
-        assertThat(sut.isWritableReviews(2L)).isFalse();
+        assertThat(sut.isReviewWritable(2L)).isFalse();
     }
 
     @DisplayName("스터디에서 나의 역할을 조회한다.")
@@ -326,5 +326,22 @@ public class StudyTest {
 
         // then
         assertThat(sut.getRecruitPlanner().isCloseEnrollment()).isTrue();
+    }
+
+    @DisplayName("참여자는 방장, 참가자만 가능하다.")
+    @ParameterizedTest
+    @CsvSource({"1, 2, 1, true", "1, 2, 2, true", "1, 2, 3, false"})
+    void checkIsParticipant(Long ownerId, Long participantId, Long targetMemberId, boolean expected) {
+        // arrange
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(ownerId);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        sut.participate(participantId);
+
+        // act
+        assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
     }
 }

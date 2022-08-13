@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
@@ -48,6 +49,20 @@ CREATE TABLE review
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
 
+CREATE TABLE link
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    study_id BIGINT NOT NULL,
+    member_id BIGINT NOT NULL,
+    link_url MEDIUMTEXT NOT NULL,
+    description MEDIUMTEXT,
+    created_date DATETIME NOT NULL,
+    last_modified_date DATETIME NOT NULL,
+    deleted boolean NOT NULL,
+    FOREIGN KEY (study_id) REFERENCES study (id),
+    FOREIGN KEY (member_id) REFERENCES member (id)
+);
+
 CREATE TABLE category
 (
     id BIGINT PRIMARY KEY,
@@ -79,6 +94,19 @@ CREATE TABLE study_member
     member_id BIGINT,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
+);
+
+CREATE TABLE article
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title              VARCHAR(255) NOT NULL,
+    content            MEDIUMTEXT   NOT NULL,
+    author_id          BIGINT,
+    study_id           BIGINT,
+    created_date       DATETIME     not null,
+    last_modified_date DATETIME     not null,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (study_id) REFERENCES study (id)
 );
 
 CREATE TABLE token

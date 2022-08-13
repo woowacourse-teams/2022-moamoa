@@ -49,6 +49,7 @@ public class AuthController {
         return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
                 .maxAge(REFRESH_TOKEN_EXPIRATION)
                 .path("/")
+                .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
                 .build();
@@ -58,6 +59,7 @@ public class AuthController {
         return ResponseCookie.from(REFRESH_TOKEN, null)
                 .maxAge(0)
                 .path("/")
+                .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
                 .build();

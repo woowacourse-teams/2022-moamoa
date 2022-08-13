@@ -1,4 +1,4 @@
-package com.woowacourse.fixtures;
+package com.woowacourse.moamoa.fixtures;
 
 public class AuthFixtures {
 
