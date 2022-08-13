@@ -53,7 +53,7 @@ export const PreviewDomain = styled.div`
   ${onelineEllipsis}
 `;
 
-export const PreviewKebabMenuContainer = styled.div`
+export const PreviewMeatballMenuContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
     justify-content: center;
@@ -71,6 +71,11 @@ export const PreviewKebabMenuContainer = styled.div`
     opacity: 0;
     transition: visibility 0.2s ease, opacity 0.2s ease;
   `}
+`;
+
+export const MeatballMenuButton = styled.button`
+  background-color: transparent;
+  border: none;
 `;
 
 export const PreviewContentContainer = styled.div`

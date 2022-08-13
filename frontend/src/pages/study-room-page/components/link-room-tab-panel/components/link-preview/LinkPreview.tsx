@@ -27,6 +27,20 @@ const ArrowRightUpSvg = () => (
   </svg>
 );
 
+const MeatballMenuSvg = () => (
+  <svg
+    stroke="currentColor"
+    fill="currentColor"
+    strokeWidth="0"
+    viewBox="0 0 20 20"
+    height="20"
+    width="20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+  </svg>
+);
+
 const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, onKebabMenuClick: handleKebabMenuClick }) => {
   return (
     <S.PreviewContainer>
@@ -36,9 +50,11 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, onKebabMenuCli
           <ArrowRightUpSvg />
           <span>{previewResult.domainName}</span>
         </S.PreviewDomain>
-        <S.PreviewKebabMenuContainer>
-          <KebabMenu onClick={handleKebabMenuClick} />
-        </S.PreviewKebabMenuContainer>
+        <S.PreviewMeatballMenuContainer>
+          <S.MeatballMenuButton aria-label="수정 삭제 메뉴 버튼" type="button" onClick={handleKebabMenuClick}>
+            <MeatballMenuSvg />
+          </S.MeatballMenuButton>
+        </S.PreviewMeatballMenuContainer>
       </S.PreviewImageContainer>
       <S.PreviewContentContainer>
         <S.PreviewTitle>{previewResult.title}</S.PreviewTitle>
