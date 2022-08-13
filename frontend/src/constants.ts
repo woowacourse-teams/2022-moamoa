@@ -123,6 +123,16 @@ export const LINK_URL_LENGTH = {
       return `${this.VALUE}글자까지 입력할 수 있습니다`;
     },
   },
+  FORMAT: {
+    TEST(text: string) {
+      return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+        text,
+      );
+    },
+    get MESSAGE() {
+      return 'URL을 입력해주세요.';
+    },
+  },
 };
 
 export const LINK_DESCRIPTION_LENGTH = {

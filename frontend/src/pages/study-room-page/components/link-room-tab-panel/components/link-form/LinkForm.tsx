@@ -73,6 +73,7 @@ const LinkForm: React.FC<LinkFormProps> = () => {
               }
               if (val.length > LINK_URL_LENGTH.MAX.VALUE)
                 return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
+              if (!LINK_URL_LENGTH.FORMAT.TEST(val)) return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
               return makeValidationResult(false);
             },
             validationMode: 'change',
