@@ -2,8 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const invalidInputStyle = () => css`
-  border: none !important;
-  outline: 2px solid red !important;
+  border: 1px solid red !important;
 `;
 
 type InputProps = {
@@ -12,8 +11,7 @@ type InputProps = {
 
 export const Input = styled.input<InputProps>`
   ${({ theme, isValid }) => css`
-    box-shadow: 0 0 0 transparent;
-    border-radius: 4px;
+    border-radius: 5px;
     border: 1px solid ${theme.colors.secondary.base};
     background-color: ${theme.colors.white};
     padding: 4px 8px;
