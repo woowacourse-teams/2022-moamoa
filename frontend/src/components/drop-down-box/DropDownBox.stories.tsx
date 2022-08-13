@@ -1,5 +1,5 @@
 import type { Story } from '@storybook/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -7,19 +7,11 @@ import DropDownBox from '@components/drop-down-box/DropDownBox';
 import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
 
 export default {
-  title: 'Components/DropDownBox2',
+  title: 'Components/DropDownBox',
   component: DropDownBox,
-  argTypes: {
-    children: { controls: 'text' },
-    top: { controls: 'text' },
-    right: { controls: 'text' },
-    left: { controls: 'text' },
-    bottom: { controls: 'text' },
-  },
 };
 
 const Template: Story<DropDownBoxProps> = props => {
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleButtonClick = () => {
@@ -32,10 +24,8 @@ const Template: Story<DropDownBoxProps> = props => {
         position: relative;
       `}
     >
-      <button ref={buttonRef} onClick={handleButtonClick}>
-        드롭박스 열기
-      </button>
-      {isOpen && <DropDownBox {...props} buttonRef={buttonRef} onClose={() => setIsOpen(false)} />}
+      <button onClick={handleButtonClick}>드롭박스 열기</button>
+      {isOpen && <DropDownBox {...props} onClose={() => setIsOpen(false)} />}
     </div>
   );
 };
@@ -46,3 +36,4 @@ Default.args = {
   top: '30px',
   left: '0',
 };
+Default.parameters = { controls: { exclude: ['buttonRef', 'onClose'] } };

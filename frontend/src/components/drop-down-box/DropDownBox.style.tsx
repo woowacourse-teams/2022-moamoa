@@ -11,7 +11,6 @@ export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 
     ${bottom && `bottom: ${bottom};`}
     ${left && `left: ${left};`}
     ${right && `right: ${right};`}
-    padding: 16px;
 
     border: 1px solid ${theme.colors.secondary.dark};
     border-radius: 5px;

@@ -3,18 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
+import tw from '@utils/tw';
+
 import { useAuth } from '@hooks/useAuth';
 import { useUserInfo } from '@hooks/useUserInfo';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@layout/header/Header.style';
-import DropDownBox from '@layout/header/components/drop-down-box/DropDownBox';
 import Logo from '@layout/header/components/logo/Logo';
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
 
 export type HeaderProps = {
   className?: string;
@@ -67,7 +69,7 @@ const BiBookmark = () => (
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const { setKeyword } = useContext(SearchContext);
 
-  const [openDropDownBox, setOpenDropDownBox] = useState(false);
+  const [isOpenDropDownBox, setIsOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
   const { logout, isLoggedIn } = useAuth();
@@ -88,11 +90,13 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     logout();
   };
 
-  const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
-  const handleOutsideDropBoxClick = () => setOpenDropDownBox(false);
+  const handleAvatarButtonClick = () => {
+    setIsOpenDropDownBox(prev => !prev);
+  };
+  const handleDropDownBoxClose = () => setIsOpenDropDownBox(false);
 
   return (
-    <S.Row className={className}>
+    <S.Header className={className}>
       <a href={PATH.MAIN}>
         <Logo />
       </a>
@@ -107,17 +111,19 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
               <span>내 스터디</span>
             </NavButton>
           </Link>
-          <S.AvatarButton onClick={handleAvatarButtonClick}>
-            <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
-          </S.AvatarButton>
-          {openDropDownBox && (
-            <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
-              <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-                <MdOutlineLogout />
-                <span>로그아웃</span>
-              </NavButton>
-            </DropDownBox>
-          )}
+          <S.AvatarContainer>
+            <S.AvatarButton onClick={handleAvatarButtonClick}>
+              <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
+            </S.AvatarButton>
+            {isOpenDropDownBox && (
+              <DropDownBox top={'40px'} right={'0'} onClose={handleDropDownBoxClose} css={tw`p-16`}>
+                <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
+                  <MdOutlineLogout />
+                  <span>로그아웃</span>
+                </NavButton>
+              </DropDownBox>
+            )}
+          </S.AvatarContainer>
         </S.Nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
@@ -127,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           </NavButton>
         </a>
       )}
-    </S.Row>
+    </S.Header>
   );
 };
 
