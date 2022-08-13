@@ -22,10 +22,6 @@ export const Date = styled.span`
   `}
 `;
 
-type DropDownProps = {
-  isOpen?: boolean;
-};
-
 export const Content = styled.div`
   line-height: 20px;
 `;
