@@ -76,7 +76,8 @@ public class UpdatingArticleControllerTest {
         // assert
         Article actualArticle = articleRepositoryFactory.getRepository(ArticleType.COMMUNITY).findById(article.getId())
                 .orElseThrow();
-        CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", member.getId(), study);
+        CommunityArticle expectArticle = new CommunityArticle(actualArticle.getId(), "제목 수정", "내용 수정",
+                member.getId(), study, ArticleType.COMMUNITY);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(actualArticle).isEqualTo(expectArticle);

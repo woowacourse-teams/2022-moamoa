@@ -8,6 +8,6 @@ interface NoticeArticleRepository extends JpaRepository<NoticeArticle, Long>, Ar
 
     @Override
     default boolean isSupportType(ArticleType articleType) {
-        return articleType.equals(ArticleType.NOTICE);
+        return articleType.isNotice();
     }
 }

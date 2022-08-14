@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.Study;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -18,17 +20,27 @@ public class NoticeArticle extends Article {
 
     private String content;
 
-    NoticeArticle(final String title, final String content, final Long authorId, final Study study) {
+    public NoticeArticle(final String title, final String content, final Long authorId, final Study study, final ArticleType type) {
         super(null, authorId, study);
+        validateForCreate( authorId, study, type);
         this.title = title;
         this.content = content;
     }
 
     public NoticeArticle(final Long id, final String title, final String content, final Long authorId,
-                            final Study study) {
+                            final Study study, final ArticleType type) {
         super(id, authorId, study);
+        validateForCreate( authorId, study, type);
         this.title = title;
         this.content = content;
+    }
+
+    private void validateForCreate(final Long authorId, final Study study, final ArticleType type) {
+        final MemberRole role = study.getRole(authorId);
+
+        if (!type.isNotice() || !role.isOwner()) {
+            throw new NotParticipatedMemberException();
+        }
     }
 
     @Override

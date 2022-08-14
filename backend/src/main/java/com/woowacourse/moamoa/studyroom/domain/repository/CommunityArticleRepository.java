@@ -8,6 +8,6 @@ interface CommunityArticleRepository extends JpaRepository<CommunityArticle, Lon
 
     @Override
     default boolean isSupportType(ArticleType articleType) {
-        return articleType.equals(ArticleType.COMMUNITY);
+        return articleType.isCommunity();
     }
 }

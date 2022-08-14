@@ -3,9 +3,8 @@ package com.woowacourse.moamoa.studyroom.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.Study;
+
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -55,19 +54,4 @@ public abstract class Article extends BaseEntity {
     }
 
     public abstract void update(Accessor accessor, String title, String content);
-
-    public static Article write(final Long memberId, final Study study,
-                                final String title, final String content, final ArticleType type) {
-        final MemberRole role = study.getRole(memberId);
-
-        if (type == ArticleType.COMMUNITY && !role.equals(MemberRole.NON_MEMBER)) {
-            return new CommunityArticle(title, content, memberId, study);
-        }
-
-        if (type == ArticleType.NOTICE && role.equals(MemberRole.OWNER)) {
-            return new NoticeArticle(title, content, memberId, study);
-        }
-
-        throw new NotParticipatedMemberException();
-    }
 }

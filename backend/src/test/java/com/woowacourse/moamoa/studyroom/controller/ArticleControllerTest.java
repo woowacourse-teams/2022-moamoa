@@ -77,7 +77,8 @@ public class ArticleControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
         assertThat(articleRepositoryFactory.getRepository(ArticleType.COMMUNITY).findById(articleId).get())
-                .isEqualTo(new CommunityArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study));
+                .isEqualTo(new CommunityArticle(articleId, "게시글 제목", "게시글 내용",
+                        member.getId(), study, ArticleType.COMMUNITY));
     }
 
     @DisplayName("커뮤니티 공지사항을 작성한다.")
@@ -100,7 +101,8 @@ public class ArticleControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
         assertThat(articleRepositoryFactory.getRepository(ArticleType.NOTICE).findById(articleId).get())
-                .isEqualTo(new NoticeArticle(articleId, "게시글 제목", "게시글 내용", member.getId(), study));
+                .isEqualTo(new NoticeArticle(articleId, "게시글 제목", "게시글 내용",
+                        member.getId(), study, ArticleType.NOTICE));
     }
 
     @DisplayName("스터디가 없는 경우 게시글 작성 시 예외가 발생한다.")

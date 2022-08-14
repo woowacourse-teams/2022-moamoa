@@ -3,6 +3,8 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -47,7 +49,11 @@ public class ArticleService {
                                  final ArticleRequest request, final ArticleType articleType) {
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
         final ArticleRepository<Article> repository = articleRepositoryFactory.getRepository(articleType);
-        return repository.save(Article.write(memberId, study, request.getTitle(), request.getContent(), articleType));
+
+        if (articleType.isCommunity()) {
+            return repository.save(new CommunityArticle(request.getTitle(), request.getContent(), memberId, study, articleType));
+        }
+        return repository.save(new NoticeArticle(request.getTitle(), request.getContent(), memberId, study, articleType));
     }
 
     public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId,

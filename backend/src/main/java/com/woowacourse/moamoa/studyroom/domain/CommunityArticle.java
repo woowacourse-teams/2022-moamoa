@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.study.domain.MemberRole;
 import com.woowacourse.moamoa.study.domain.Study;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -18,17 +20,27 @@ public class CommunityArticle extends Article {
 
     private String content;
 
-    CommunityArticle(final String title, final String content, final Long authorId, final Study study) {
+    public CommunityArticle(final String title, final String content, final Long authorId, final Study study, final ArticleType type) {
         super(null, authorId, study);
+        validateForCreate( authorId, study, type);
         this.title = title;
         this.content = content;
     }
 
     public CommunityArticle(final Long id, final String title, final String content, final Long authorId,
-                            final Study study) {
+                         final Study study, final ArticleType type) {
         super(id, authorId, study);
+        validateForCreate( authorId, study, type);
         this.title = title;
         this.content = content;
+    }
+
+    private void validateForCreate(final Long authorId, final Study study, final ArticleType type) {
+        final MemberRole role = study.getRole(authorId);
+
+        if (!type.isCommunity() || role.isNonMember()) {
+            throw new NotParticipatedMemberException();
+        }
     }
 
     @Override
@@ -60,3 +72,4 @@ public class CommunityArticle extends Article {
         return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudy().getId());
     }
 }
+

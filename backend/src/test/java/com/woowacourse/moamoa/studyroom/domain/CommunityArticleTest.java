@@ -32,7 +32,7 @@ class CommunityArticleTest {
         final Member another = createMember(2L);
         final Study study = createStudy(1L, owner);
 
-        assertThatThrownBy(() -> Article.write(another.getId(), study, "제목", "내용", ArticleType.COMMUNITY))
+        assertThatThrownBy(() -> new CommunityArticle("제목", "내용", another.getId(), study, ArticleType.COMMUNITY))
             .isInstanceOf(NotParticipatedMemberException.class);
     }
 
@@ -45,7 +45,7 @@ class CommunityArticleTest {
         final Study study = createStudy(1L, owner);
         study.participate(participant.getId());
 
-        final Article communityArticle = Article.write(owner.getId(), study, "제목", "내용", ArticleType.COMMUNITY);
+        final Article communityArticle = new CommunityArticle("제목", "내용", owner.getId(), study, ArticleType.COMMUNITY);
 
         assertThat(communityArticle.isViewableBy(new Accessor(viewerId, study.getId()))).isEqualTo(expected);
     }
@@ -56,7 +56,7 @@ class CommunityArticleTest {
     void deleteArticle(Long studyId, Long wantToViewStudyId, boolean expected) {
         final Member member = createMember(1L);
         final Study study = createStudy(studyId, member);
-        final Article communityArticle = Article.write(member.getId(), study, "제목", "내용", ArticleType.COMMUNITY);
+        final Article communityArticle = new CommunityArticle("제목", "내용", member.getId(), study, ArticleType.COMMUNITY);
 
         assertThat(communityArticle.isViewableBy(new Accessor(member.getId(), wantToViewStudyId))).isEqualTo(expected);
     }
@@ -69,7 +69,7 @@ class CommunityArticleTest {
         final Member participant = createMember(2L);
         final Study study = createStudy(1L, owner);
         study.participate(participant.getId());
-        final Article communityArticle = Article.write(owner.getId(), study, "제목", "내용", ArticleType.COMMUNITY);
+        final Article communityArticle = new CommunityArticle("제목", "내용", owner.getId(), study, ArticleType.COMMUNITY);
 
         assertThat(communityArticle.isEditableBy(new Accessor(editorId, study.getId()))).isEqualTo(expected);
     }
@@ -79,7 +79,7 @@ class CommunityArticleTest {
     void editArticleByInvalidStudyId() {
         final Member member = createMember(1L);
         final Study study = createStudy(1L, member);
-        final Article communityArticle = Article.write(member.getId(), study, "제목", "내용", ArticleType.COMMUNITY);
+        final Article communityArticle = new CommunityArticle("제목", "내용", member.getId(), study, ArticleType.COMMUNITY);
 
         assertThat(communityArticle.isViewableBy(new Accessor(member.getId(), 2L))).isFalse();
     }
