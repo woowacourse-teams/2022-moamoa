@@ -22,6 +22,9 @@ export type TagId = number;
 export type ReviewId = number;
 export type MemberId = number;
 export type CategoryId = number;
+export type LinkId = number;
+export type Page = number;
+export type Size = number;
 
 export type Study = {
   id: StudyId;
@@ -114,8 +117,8 @@ export type GetStudyDetailRequestParams = {
 export type GetStudyDetailResponseData = StudyDetail;
 
 export type GetStudyListRequestParams = {
-  page?: number;
-  size?: number;
+  page?: Page;
+  size?: Size;
   title: string;
   selectedFilters: Array<TagInfo>;
 };
@@ -198,6 +201,11 @@ export type GetUserRoleResponseData = {
 
 export type GetUserInformationResponseData = Member;
 
+export type GetLinksRequestParams = {
+  studyId: StudyId;
+  page?: Page;
+  size?: Size;
+};
 export type GetLinksResponseData = {
   links: Array<Link>;
 };
@@ -208,3 +216,11 @@ export type GetLinkPreviewResponseData = {
   description?: string;
   domainName: string;
 };
+
+export type PostLinkRequestBody = Pick<Link, 'linkUrl' | 'description'>;
+export type PostLinkRequestParams = { studyId: StudyId };
+export type PostLinkRequestVariables = PostLinkRequestBody & PostLinkRequestParams;
+export type PutLinkRequestBody = PostLinkRequestBody;
+export type PutLinkRequestParams = { studyId: StudyId; linkId: LinkId };
+export type PutLinkRequestVariables = PutLinkRequestBody & PutLinkRequestParams;
+export type DeleteLinkRequestParams = PutLinkRequestParams;
