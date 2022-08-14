@@ -18,6 +18,8 @@ const LinkRoomTabPanel: React.FC = () => {
     handleModalClose,
     handleEditLinkButtonnClick,
     handleDeleteLinkButtonClick,
+    handlePostLinkError,
+    handlePostLinkSuccess,
   } = useLinkRoomTabPanel();
 
   const renderLinkList = () => {
@@ -64,7 +66,7 @@ const LinkRoomTabPanel: React.FC = () => {
       {renderLinkList()}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
-          <LinkForm />
+          <LinkForm onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
         </ModalPortal>
       )}
     </Wrapper>

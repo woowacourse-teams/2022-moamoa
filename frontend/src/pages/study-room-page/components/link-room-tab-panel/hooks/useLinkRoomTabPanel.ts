@@ -19,6 +19,17 @@ export const useLinkRoomTabPanel = () => {
     // TODO mutate
   };
 
+  const handlePostLinkSuccess = () => {
+    alert('링크를 등록했습니다 :D');
+    infiniteLinkListQueryResult.refetch();
+    handleModalClose();
+  };
+
+  const handlePostLinkError = (error: Error) => {
+    alert('링크를 등록하지 못했습니다 :(');
+    handleModalClose();
+  };
+
   return {
     infiniteLinkListQueryResult,
     isModalOpen,
@@ -26,5 +37,7 @@ export const useLinkRoomTabPanel = () => {
     handleModalClose,
     handleEditLinkButtonnClick,
     handleDeleteLinkButtonClick,
+    handlePostLinkSuccess,
+    handlePostLinkError,
   };
 };

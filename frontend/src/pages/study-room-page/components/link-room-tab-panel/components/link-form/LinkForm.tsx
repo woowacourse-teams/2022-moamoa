@@ -1,6 +1,14 @@
+import type { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+import { useParams } from 'react-router-dom';
+
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
+
+import type { PostLinkRequestVariables } from '@custom-types';
+
+import { postLink } from '@api';
 
 import { UseFormSubmitResult, makeValidationResult, useForm } from '@hooks/useForm';
 
@@ -11,12 +19,17 @@ import useLetterCount from '@components/letter-counter/useLetterCount';
 
 import * as S from '@study-room-page/components/link-room-tab-panel/components/link-form/LinkForm.style';
 
-export type LinkFormProps = {};
+export type LinkFormProps = {
+  onPostSuccess: () => void;
+  onPostError: (error: Error) => void;
+};
 
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkForm: React.FC<LinkFormProps> = () => {
+const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
+  const { studyId } = useParams<{ studyId: string }>();
+  const { mutateAsync } = useMutation<null, AxiosError, PostLinkRequestVariables>(postLink);
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
   const {
     register,
@@ -34,23 +47,21 @@ const LinkForm: React.FC<LinkFormProps> = () => {
     }
 
     const postData = {
+      studyId: Number(studyId),
       linkUrl: submitResult.values[LINK_URL],
       description: submitResult.values[LINK_DESCRIPTION],
     };
 
-    // return mutateAsync(
-    //   { studyId, content },
-    //   {
-    //     onSuccess: () => {
-    //       reset(LINK_URL);
-    //       reset(LINK_DESCRIPTION);
-    //       onPostSuccess();
-    //     },
-    //     onError: error => {
-    //       onPostError(error);
-    //     },
-    //   },
-    // );
+    return mutateAsync(postData, {
+      onSuccess: () => {
+        reset(LINK_URL);
+        reset(LINK_DESCRIPTION);
+        onPostSuccess();
+      },
+      onError: error => {
+        onPostError(error);
+      },
+    });
   };
 
   return (
