@@ -43,8 +43,8 @@ const LinkRoomTabPanel: React.FC = () => {
                 linkUrl={link.linkUrl}
                 author={link.author}
                 description={link.description}
-                onEditLinkButtonClick={handleEditLinkButtonnClick}
-                onDeleteLinkButtonClick={handleDeleteLinkButtonClick}
+                onEditLinkButtonClick={handleEditLinkButtonnClick(link.id)}
+                onDeleteLinkButtonClick={handleDeleteLinkButtonClick(link.id)}
               />
             </li>
           ))}
