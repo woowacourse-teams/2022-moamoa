@@ -42,34 +42,28 @@ const LinkItem: React.FC<LinkItemProps> = ({
 
   return (
     <S.LinkItemContainer>
-      {previewResult && (
-        <>
-          <S.PreviewMeatballMenuContainer>
-            <S.MeatballMenuButton aria-label="수정 및 삭제 메뉴" type="button" onClick={handleMeatballMenuClick}>
-              <MeatballMenuSvg />
-            </S.MeatballMenuButton>
-            {isOpenDropBox && (
-              <DropDownBox onClose={handleDropDownBoxClose} top="36px" right="-32px">
-                <S.DropBoxButtons>
-                  <li>
-                    <S.DropBoxButton type="button" onClick={handleEditLinkButtonClick}>
-                      수정
-                    </S.DropBoxButton>
-                  </li>
-                  <li>
-                    <S.DropBoxButton type="button" onClick={handleDeleteLinkButtonClick}>
-                      삭제
-                    </S.DropBoxButton>
-                  </li>
-                </S.DropBoxButtons>
-              </DropDownBox>
-            )}
-          </S.PreviewMeatballMenuContainer>
-          <a href={linkUrl}>
-            <LinkPreview previewResult={previewResult} />
-          </a>
-        </>
-      )}
+      <S.PreviewMeatballMenuContainer>
+        <S.MeatballMenuButton aria-label="수정 및 삭제 메뉴" type="button" onClick={handleMeatballMenuClick}>
+          <MeatballMenuSvg />
+        </S.MeatballMenuButton>
+        {isOpenDropBox && (
+          <DropDownBox onClose={handleDropDownBoxClose} top="36px" right="-32px">
+            <S.DropBoxButtons>
+              <li>
+                <S.DropBoxButton type="button" onClick={handleEditLinkButtonClick}>
+                  수정
+                </S.DropBoxButton>
+              </li>
+              <li>
+                <S.DropBoxButton type="button" onClick={handleDeleteLinkButtonClick}>
+                  삭제
+                </S.DropBoxButton>
+              </li>
+            </S.DropBoxButtons>
+          </DropDownBox>
+        )}
+      </S.PreviewMeatballMenuContainer>
+      <a href={linkUrl}>{previewResult && <LinkPreview previewResult={previewResult} />}</a>
       <UserDescription author={author} description={description} css={tw`pl-8 pr-8`} />
     </S.LinkItemContainer>
   );

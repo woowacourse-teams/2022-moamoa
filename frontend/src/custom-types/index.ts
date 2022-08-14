@@ -208,6 +208,7 @@ export type GetLinksRequestParams = {
 };
 export type GetLinksResponseData = {
   links: Array<Link>;
+  hasNext: boolean;
 };
 
 export type GetLinkPreviewResponseData = {

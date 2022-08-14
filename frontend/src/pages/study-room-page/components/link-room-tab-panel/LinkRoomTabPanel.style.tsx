@@ -51,7 +51,6 @@ export const LinkAddButton = styled.button`
 export const LinkList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  place-items: center;
   gap: 24px;
 
   ${mqDown('lg')} {

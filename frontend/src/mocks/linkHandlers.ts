@@ -17,13 +17,11 @@ export const linkHandlers = [
     const startIndex = pageNum * sizeNum;
     const endIndexExclusive = startIndex + sizeNum;
 
-    const selectedLinks = linkJson.links.slice(startIndex, endIndexExclusive);
-
     return res(
       ctx.status(200),
       ctx.json({
-        links: selectedLinks,
-        hasNext: endIndexExclusive < selectedLinks.length,
+        links: linkJson.links.slice(startIndex, endIndexExclusive),
+        hasNext: endIndexExclusive < linkJson.links.length,
       }),
     );
   }),
@@ -34,7 +32,7 @@ export const linkHandlers = [
 
     linkJson.links = [
       {
-        id: 7,
+        id: Math.random() * 100000 + 1000,
         author: {
           username: 'person',
           imageUrl:

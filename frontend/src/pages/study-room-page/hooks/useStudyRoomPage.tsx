@@ -8,7 +8,6 @@ import type { GetUserRoleResponseData } from '@custom-types';
 import { getUserRole } from '@api';
 
 import LinkRoomTabPanel from '@study-room-page/components/link-room-tab-panel/LinkRoomTabPanel';
-import LinkItem from '@study-room-page/components/link-room-tab-panel/components/link-item/LinkItem';
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
 
 export type TabId = 'notice' | 'link-room' | 'review';
