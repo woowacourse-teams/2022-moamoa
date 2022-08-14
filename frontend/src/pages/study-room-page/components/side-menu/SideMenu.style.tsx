@@ -31,7 +31,7 @@ export const Bottombar = styled.nav`
     width: 100%;
     padding: 16px;
 
-    background-color: ${theme.colors.secondary.light};
+    background-color: ${theme.colors.white};
     text-align: center;
     border-top: 1px solid ${theme.colors.secondary.base};
     z-index: 1;

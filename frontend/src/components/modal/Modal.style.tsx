@@ -17,6 +17,7 @@ export const ModalOutside = styled.div`
     height: 100%;
 
     background-color: ${`${theme.colors.secondary.base}33`};
+    z-index: 10;
   `}
 `;
 

@@ -11,7 +11,10 @@ import * as S from '@study-room-page/components/link-room-tab-panel/components/l
 import LinkPreview from '@study-room-page/components/link-room-tab-panel/components/link-preview/LinkPreview';
 import UserDescription from '@study-room-page/components/link-room-tab-panel/components/user-description/UserDescription';
 
-export type LinkItemProps = Pick<Link, 'author' | 'description' | 'linkUrl'>;
+export type LinkItemProps = Pick<Link, 'author' | 'description' | 'linkUrl'> & {
+  onEditLinkButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+  onDeleteLinkButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+};
 
 const previewResult = {
   title: '합성 컴포넌트 어쩌구 저쩌구 쏼라쏼라',
@@ -21,7 +24,13 @@ const previewResult = {
   domainName: 'naver.com',
 };
 
-const LinkItem: React.FC<LinkItemProps> = ({ linkUrl, author, description }) => {
+const LinkItem: React.FC<LinkItemProps> = ({
+  linkUrl,
+  author,
+  description,
+  onEditLinkButtonClick: handleEditLinkButtonClick,
+  onDeleteLinkButtonClick: handleDeleteLinkButtonClick,
+}) => {
   // TODO: link preview 가져오기
   const [isOpenDropBox, setIsOpenDropBox] = useState(false);
 
@@ -30,26 +39,20 @@ const LinkItem: React.FC<LinkItemProps> = ({ linkUrl, author, description }) => 
   };
 
   const handleDropDownBoxClose = () => setIsOpenDropBox(false);
-  const handleEditLinkButtonnClick = () => {
-    // TOOD: open modal
-  };
-  const handleDeleteLinkButtonClick = () => {
-    // TODO mutate
-  };
 
   return (
     <S.LinkItemContainer>
       {previewResult && (
         <>
           <S.PreviewMeatballMenuContainer>
-            <S.MeatballMenuButton aria-label="수정 삭제 메뉴 버튼" type="button" onClick={handleMeatballMenuClick}>
+            <S.MeatballMenuButton aria-label="수정 및 삭제 메뉴" type="button" onClick={handleMeatballMenuClick}>
               <MeatballMenuSvg />
             </S.MeatballMenuButton>
             {isOpenDropBox && (
               <DropDownBox onClose={handleDropDownBoxClose} top="36px" right="-32px">
                 <S.DropBoxButtons>
                   <li>
-                    <S.DropBoxButton type="button" onClick={handleEditLinkButtonnClick}>
+                    <S.DropBoxButton type="button" onClick={handleEditLinkButtonClick}>
                       수정
                     </S.DropBoxButton>
                   </li>

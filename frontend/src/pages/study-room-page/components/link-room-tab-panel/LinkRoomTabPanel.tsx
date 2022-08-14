@@ -1,9 +1,13 @@
+import { useState } from 'react';
+
 import type { Link } from '@custom-types';
 
+import ModalPortal from '@components/modal/Modal';
 import { PlusSvg } from '@components/svg';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/components/link-room-tab-panel/LinkRoomTabPanel.style';
+import LinkForm from '@study-room-page/components/link-room-tab-panel/components/link-form/LinkForm';
 import LinkItem from '@study-room-page/components/link-room-tab-panel/components/link-item/LinkItem';
 
 export type LinkRoomTabPanelProps = {};
@@ -68,10 +72,22 @@ const links: Array<Link> = [
 ];
 
 const LinkRoomTabPanel: React.FC<LinkRoomTabPanelProps> = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLinkAddButtonClick = () => setIsModalOpen(prev => !prev);
+  const handleOutsideModalClick = () => setIsModalOpen(false);
+
+  const handleEditLinkButtonnClick = () => {
+    setIsModalOpen(true);
+  };
+  const handleDeleteLinkButtonClick = () => {
+    // TODO mutate
+  };
+
   return (
     <Wrapper>
       <S.LinkAddButtonContainer>
-        <S.LinkAddButton type="button" onClick={() => {}}>
+        <S.LinkAddButton type="button" onClick={handleLinkAddButtonClick}>
           <S.PlusSvgContainer>
             <PlusSvg />
           </S.PlusSvgContainer>
@@ -81,10 +97,21 @@ const LinkRoomTabPanel: React.FC<LinkRoomTabPanelProps> = () => {
       <S.LinkList>
         {links.map(link => (
           <li key={link.id}>
-            <LinkItem linkUrl={link.linkUrl} author={link.author} description={link.description} />
+            <LinkItem
+              linkUrl={link.linkUrl}
+              author={link.author}
+              description={link.description}
+              onEditLinkButtonClick={handleEditLinkButtonnClick}
+              onDeleteLinkButtonClick={handleDeleteLinkButtonClick}
+            />
           </li>
         ))}
       </S.LinkList>
+      {isModalOpen && (
+        <ModalPortal onModalOutsideClick={handleOutsideModalClick}>
+          <LinkForm />
+        </ModalPortal>
+      )}
     </Wrapper>
   );
 };
