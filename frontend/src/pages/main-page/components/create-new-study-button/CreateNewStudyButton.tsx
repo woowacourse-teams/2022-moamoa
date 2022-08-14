@@ -1,5 +1,3 @@
-import { theme } from '@styles/theme';
-
 import { PencilSvg } from '@components/svg';
 
 import * as S from '@main-page/components/create-new-study-button/CreateNewStudyButton.style';
