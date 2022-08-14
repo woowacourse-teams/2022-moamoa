@@ -12,12 +12,11 @@ import { useLinkRoomTabPanel } from '@study-room-page/components/link-room-tab-p
 
 const LinkRoomTabPanel: React.FC = () => {
   const {
+    studyId,
     infiniteLinkListQueryResult,
     isModalOpen,
     handleLinkAddButtonClick,
     handleModalClose,
-    handleEditLinkButtonnClick,
-    handleDeleteLinkButtonClick,
     handlePostLinkError,
     handlePostLinkSuccess,
   } = useLinkRoomTabPanel();
@@ -40,11 +39,11 @@ const LinkRoomTabPanel: React.FC = () => {
           {links.map(link => (
             <li key={link.id}>
               <LinkItem
+                studyId={studyId}
+                id={link.id}
                 linkUrl={link.linkUrl}
                 author={link.author}
                 description={link.description}
-                onEditLinkButtonClick={handleEditLinkButtonnClick(link.id)}
-                onDeleteLinkButtonClick={handleDeleteLinkButtonClick(link.id)}
               />
             </li>
           ))}

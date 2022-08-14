@@ -54,4 +54,8 @@ export const DropBoxButton = styled.button`
   background-color: transparent;
   border: none;
   white-space: nowrap;
+
+  &:hover {
+    font-weight: 600;
+  }
 `;

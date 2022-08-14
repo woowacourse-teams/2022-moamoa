@@ -6,9 +6,9 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { PostLinkRequestVariables } from '@custom-types';
+import type { Link, LinkId, PutLinkRequestVariables } from '@custom-types';
 
-import { postLink } from '@api';
+import { putLink } from '@api';
 
 import { UseFormSubmitResult, makeValidationResult, useForm } from '@hooks/useForm';
 
@@ -17,20 +17,25 @@ import Button from '@components/button/Button';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 
-import * as S from '@study-room-page/components/link-room-tab-panel/components/link-form/LinkForm.style';
+import * as S from '@study-room-page/components/link-room-tab-panel/components/link-edit-form/LinkEditForm.style';
 
 export type LinkFormProps = {
-  onPostSuccess: () => void;
-  onPostError: (error: Error) => void;
+  linkId: LinkId;
+  originalContent: Pick<Link, 'linkUrl' | 'description'>;
+  onPutSuccess: () => void;
+  onPutError: (error: Error) => void;
 };
 
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
+const LinkEditForm: React.FC<LinkFormProps> = ({ linkId, originalContent, onPutSuccess, onPutError }) => {
   const { studyId } = useParams<{ studyId: string }>();
-  const { mutateAsync } = useMutation<null, AxiosError, PostLinkRequestVariables>(postLink);
-  const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
+  const { mutateAsync } = useMutation<null, AxiosError, PutLinkRequestVariables>(putLink);
+  const { count, maxCount, setCount } = useLetterCount(
+    LINK_DESCRIPTION_LENGTH.MAX.VALUE,
+    originalContent.description.length,
+  );
   const {
     register,
     handleSubmit,
@@ -45,18 +50,19 @@ const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
       return;
     }
 
-    const postData = {
+    const putData = {
       studyId: Number(studyId),
+      linkId,
       linkUrl: submitResult.values[LINK_URL],
       description: submitResult.values[LINK_DESCRIPTION],
     };
 
-    return mutateAsync(postData, {
+    return mutateAsync(putData, {
       onSuccess: () => {
-        onPostSuccess();
+        onPutSuccess();
       },
       onError: error => {
-        onPostError(error);
+        onPutError(error);
       },
     });
   };
@@ -74,6 +80,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
           id={LINK_URL}
           placeholder="https://moamoa.space"
           isValid={isLinkValid}
+          defaultValue={originalContent.linkUrl}
           {...register(LINK_URL, {
             validate: (val: string) => {
               if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
@@ -96,6 +103,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
             id={LINK_DESCRIPTION}
             placeholder="링크에 관한 간단한 설명"
             isValid={isDescValid}
+            defaultValue={originalContent.description}
             {...register(LINK_DESCRIPTION, {
               validate: (val: string) => {
                 if (val.length < LINK_DESCRIPTION_LENGTH.MIN.VALUE) {
@@ -122,4 +130,4 @@ const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
   );
 };
 
-export default LinkForm;
+export default LinkEditForm;

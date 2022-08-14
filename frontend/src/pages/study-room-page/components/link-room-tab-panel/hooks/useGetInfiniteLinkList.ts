@@ -27,9 +27,10 @@ const getLinkListWithPage =
     return { ...data, page: pageParam.page + 1 };
   };
 
+export const QK_FETCH_LINKS = 'infinite-study-links';
 export const useGetInfiniteLinkList = ({ studyId }: UseGetInfiniteLinkListParams) => {
   return useInfiniteQuery<GetLinkListResponseDataWithPage, AxiosError>(
-    ['infinite-study-links', studyId],
+    [QK_FETCH_LINKS, studyId],
     getLinkListWithPage(studyId),
     {
       getNextPageParam: (lastPage): NextPageParam => {
