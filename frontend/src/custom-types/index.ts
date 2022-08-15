@@ -211,11 +211,14 @@ export type GetLinksResponseData = {
   hasNext: boolean;
 };
 
+export type GetLinkPreviewRequestParams = {
+  linkUrl: string;
+};
 export type GetLinkPreviewResponseData = {
   imageUrl?: string;
   title: string;
   description?: string;
-  domainName: string;
+  domainName?: string;
 };
 
 export type PostLinkRequestBody = Pick<Link, 'linkUrl' | 'description'>;

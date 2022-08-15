@@ -7,9 +7,10 @@ import * as S from '@study-room-page/components/link-room-tab-panel/components/l
 
 export type LinkPreviewProps = {
   previewResult: GetLinkPreviewResponseData;
+  linkUrl: string;
 };
 
-const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult }) => {
+const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => {
   return (
     <S.PreviewContainer>
       <S.PreviewImageContainer>
@@ -21,7 +22,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult }) => {
       </S.PreviewDomain>
       <S.PreviewContentContainer>
         <S.PreviewTitle>{previewResult.title}</S.PreviewTitle>
-        <S.PreviewDescription>{previewResult.description ?? previewResult.domainName}</S.PreviewDescription>
+        <S.PreviewDescription>{previewResult.description ?? previewResult.domainName ?? linkUrl}</S.PreviewDescription>
       </S.PreviewContentContainer>
     </S.PreviewContainer>
   );

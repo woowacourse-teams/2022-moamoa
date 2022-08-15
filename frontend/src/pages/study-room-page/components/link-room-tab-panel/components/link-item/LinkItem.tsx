@@ -1,6 +1,6 @@
 import tw from '@utils/tw';
 
-import type { Link, StudyId } from '@custom-types';
+import type { GetLinkPreviewResponseData, Link, StudyId } from '@custom-types';
 
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import ModalPortal from '@components/modal/Modal';
@@ -19,7 +19,7 @@ export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUr
 const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, author, description }) => {
   const {
     userInfo,
-    previewResult,
+    linkPreviewQueryResult,
     isOpenDropBox,
     isModalOpen,
     handleMeatballMenuClick,
@@ -29,12 +29,26 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     handleDeleteLinkButtonClick,
     handlePutLinkSuccess,
     handlePutLinkError,
-  } = useLinkItem({ studyId, linkId });
+  } = useLinkItem({ studyId, linkId, linkUrl });
 
   const isMyLink = author.id === userInfo.id;
   const originalContent = {
     linkUrl,
     description,
+  };
+
+  const renderLinkPreview = () => {
+    const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
+
+    const defaultPreviewResult: GetLinkPreviewResponseData = {
+      title: '%Error%',
+      description: '링크 불러오기에 실패했습니다 :(',
+    };
+    if (isFetching) return <div>로딩중...</div>;
+
+    if (isError || !isSuccess) return <LinkPreview previewResult={defaultPreviewResult} linkUrl={linkUrl} />;
+
+    return <LinkPreview previewResult={data} linkUrl={linkUrl} />;
   };
 
   return (
@@ -63,7 +77,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             )}
           </S.PreviewMeatballMenuContainer>
         )}
-        <a href={linkUrl}>{previewResult && <LinkPreview previewResult={previewResult} />}</a>
+        <a href={linkUrl}>{renderLinkPreview()}</a>
         <UserDescription author={author} description={description} css={tw`pl-8 pr-8`} />
       </S.LinkItemContainer>
       {isModalOpen && (

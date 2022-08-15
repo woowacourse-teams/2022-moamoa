@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-const user = {
+export const user = {
   id: 20,
   username: 'tco0427',
   imageUrl:
@@ -20,7 +20,8 @@ export const memberHandlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        role: selectedRole,
+        role: 'OWNER',
+        // role: selectedRole,
       }),
     );
   }),

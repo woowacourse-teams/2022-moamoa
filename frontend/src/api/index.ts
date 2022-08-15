@@ -23,3 +23,5 @@ export { default as deleteLink } from '@api/deleteLink';
 
 export { default as getMyStudyList } from '@api/getMyStudyList';
 export { default as postJoiningStudy } from '@api/postJoiningStudy';
+
+export { default as getLinkPreview } from '@api/getLinkPreview';

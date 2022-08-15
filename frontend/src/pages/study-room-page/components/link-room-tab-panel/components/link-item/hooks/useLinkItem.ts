@@ -10,22 +10,18 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import { QK_FETCH_LINKS } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinkList';
 
+import { useGetLinkPreview } from './useGetLinkPreview';
+
 export type UseLinkItemParams = {
   studyId: StudyId;
   linkId: LinkId;
+  linkUrl: string;
 };
 
-const previewResult = {
-  title: '합성 컴포넌트 어쩌구 저쩌구 쏼라쏼라',
-  description: '카카오 엔터테인먼트 FE 기술 블로그',
-  imageUrl:
-    'https://images.unsplash.com/photo-1572059002053-8cc5ad2f4a38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGdvb2dsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
-  domainName: 'naver.com',
-};
-
-export const useLinkItem = ({ studyId, linkId }: UseLinkItemParams) => {
+export const useLinkItem = ({ studyId, linkId, linkUrl }: UseLinkItemParams) => {
   const { mutate } = useMutation<null, AxiosError, DeleteLinkRequestParams>(deleteLink);
-  // TODO: link preview 가져오기
+  const linkPreviewQueryResult = useGetLinkPreview({ linkUrl });
+
   const [isOpenDropBox, setIsOpenDropBox] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -71,7 +67,7 @@ export const useLinkItem = ({ studyId, linkId }: UseLinkItemParams) => {
 
   return {
     userInfo,
-    previewResult,
+    linkPreviewQueryResult,
     isOpenDropBox,
     isModalOpen,
     handleMeatballMenuClick,
