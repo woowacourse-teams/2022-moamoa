@@ -6,7 +6,7 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { PostLinkRequestVariables } from '@custom-types';
+import type { Member, PostLinkRequestVariables } from '@custom-types';
 
 import { postLink } from '@api';
 
@@ -20,6 +20,7 @@ import useLetterCount from '@components/letter-counter/useLetterCount';
 import * as S from '@study-room-page/components/link-room-tab-panel/components/link-form/LinkForm.style';
 
 export type LinkFormProps = {
+  author: Member;
   onPostSuccess: () => void;
   onPostError: (error: Error) => void;
 };
@@ -27,7 +28,7 @@ export type LinkFormProps = {
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
+const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError }) => {
   const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = useMutation<null, AxiosError, PostLinkRequestVariables>(postLink);
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
@@ -64,7 +65,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onPostSuccess, onPostError }) => {
   return (
     <S.LinkFormContainer>
       <S.AuthorInfoContainer>
-        <Avatar size="xs" profileImg="" profileAlt="" />
+        <Avatar size="xs" profileImg={author.imageUrl} profileAlt={`${author.username} 프로필`} />
         <S.AuthorName>person</S.AuthorName>
       </S.AuthorInfoContainer>
       <S.Form onSubmit={handleSubmit(onSubmit)}>

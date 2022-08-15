@@ -13,6 +13,7 @@ import { useLinkRoomTabPanel } from '@study-room-page/components/link-room-tab-p
 const LinkRoomTabPanel: React.FC = () => {
   const {
     studyId,
+    userInfo,
     infiniteLinkListQueryResult,
     isModalOpen,
     handleLinkAddButtonClick,
@@ -65,7 +66,7 @@ const LinkRoomTabPanel: React.FC = () => {
       {renderLinkList()}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
-          <LinkForm onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
+          <LinkForm author={userInfo} onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
         </ModalPortal>
       )}
     </Wrapper>

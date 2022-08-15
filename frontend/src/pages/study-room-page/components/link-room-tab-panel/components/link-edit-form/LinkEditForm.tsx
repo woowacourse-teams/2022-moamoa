@@ -6,7 +6,7 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { Link, LinkId, PutLinkRequestVariables } from '@custom-types';
+import type { Link, LinkId, Member, PutLinkRequestVariables } from '@custom-types';
 
 import { putLink } from '@api';
 
@@ -21,6 +21,7 @@ import * as S from '@study-room-page/components/link-room-tab-panel/components/l
 
 export type LinkFormProps = {
   linkId: LinkId;
+  author: Member;
   originalContent: Pick<Link, 'linkUrl' | 'description'>;
   onPutSuccess: () => void;
   onPutError: (error: Error) => void;
@@ -29,7 +30,7 @@ export type LinkFormProps = {
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkEditForm: React.FC<LinkFormProps> = ({ linkId, originalContent, onPutSuccess, onPutError }) => {
+const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
   const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = useMutation<null, AxiosError, PutLinkRequestVariables>(putLink);
   const { count, maxCount, setCount } = useLetterCount(
@@ -70,7 +71,7 @@ const LinkEditForm: React.FC<LinkFormProps> = ({ linkId, originalContent, onPutS
   return (
     <S.LinkFormContainer>
       <S.AuthorInfoContainer>
-        <Avatar size="xs" profileImg="" profileAlt="" />
+        <Avatar size="xs" profileImg={author.imageUrl} profileAlt={`${author.username} 프로필`} />
         <S.AuthorName>person</S.AuthorName>
       </S.AuthorInfoContainer>
       <S.Form onSubmit={handleSubmit(onSubmit)}>

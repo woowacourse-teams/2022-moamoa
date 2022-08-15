@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 
 import linkJson from '@mocks/links.json';
+import { user } from '@mocks/memberHandlers';
 
 import type { PostLinkRequestBody, PutLinkRequestBody } from '@custom-types';
 
@@ -33,13 +34,7 @@ export const linkHandlers = [
     linkJson.links = [
       {
         id: Math.random() * 100000 + 1000,
-        author: {
-          username: 'person',
-          imageUrl:
-            'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-          profileUrl: 'github.com/jjanggu',
-          id: 1,
-        },
+        author: user,
         linkUrl,
         description,
         createdDate: '2022-09-13',
