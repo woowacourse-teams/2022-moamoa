@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -16,6 +17,7 @@ import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,22 @@ public class StudyService {
 
         for (Study study : studies) {
             study.changeStatus(now);
+        }
+    }
+
+    public void updateStudy(Long githubId, Long studyId, CreatingStudyRequest request) {
+        Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+        Member member = memberRepository.findByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        checkOwner(study, member);
+        study.update(request);
+    }
+
+    private void checkOwner(Study study, Member member) {
+        if (!Objects.equals(study.getParticipants().getOwnerId(), member.getId())) {
+            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
         }
     }
 }
