@@ -10,12 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @NoArgsConstructor
-@Getter
 public abstract class Article extends BaseEntity {
 
     @Id
@@ -27,25 +25,39 @@ public abstract class Article extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_id")
-    private PermittedParticipants permittedParticipants;
+    private StudyRoom studyRoom;
 
-    public Article(final Long id, final Long authorId, PermittedParticipants permittedParticipants) {
+    public Article(final Long id, final Long authorId, StudyRoom studyRoom) {
         this.id = id;
         this.authorId = authorId;
-        this.permittedParticipants = permittedParticipants;
+        this.studyRoom = studyRoom;
     }
 
     public boolean isViewableBy(final Accessor accessor) {
-        return permittedParticipants.isPermittedAccessor(accessor);
+        return studyRoom.isPermittedAccessor(accessor);
     }
 
     public boolean isEditableBy(final Accessor accessor) {
-        return permittedParticipants.isPermittedAccessor(accessor) && isAuthor(accessor);
+        return studyRoom.isPermittedAccessor(accessor) && isAuthor(accessor);
     }
 
     private boolean isAuthor(final Accessor accessor) {
         return this.authorId.equals(accessor.getMemberId());
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    final protected Long getAuthorId() {
+        return authorId;
+    }
+
+    final protected StudyRoom getStudyRoom() {
+        return studyRoom;
+    }
+
     public abstract void update(Accessor accessor, String title, String content);
+
+    public abstract void update(Accessor accessor, Content<?> content);
 }

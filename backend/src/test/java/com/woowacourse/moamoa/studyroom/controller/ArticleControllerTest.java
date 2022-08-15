@@ -15,14 +15,14 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
-import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.PermittedParticipants;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.postarticle.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.postarticle.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
+import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,10 +48,10 @@ public class ArticleControllerTest {
     private ArticleRepositoryFactory articleRepositoryFactory;
 
     @Autowired
-    private PermittedParticipantsRepository permittedParticipantsRepository;
+    private StudyRoomRepository studyRoomRepository;
 
     @Autowired
-    private ArticleDao articleDao;
+    private PostArticleDao postArticleDao;
 
     private StudyService studyService;
     private ArticleController sut;
@@ -60,7 +60,7 @@ public class ArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(
-                new ArticleService(permittedParticipantsRepository, articleRepositoryFactory, articleDao));
+                new ArticleService(studyRoomRepository, articleRepositoryFactory, postArticleDao));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -71,7 +71,7 @@ public class ArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        PostArticleRequest request = new PostArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), COMMUNITY, request);
@@ -82,12 +82,12 @@ public class ArticleControllerTest {
 
         Article actualArticle = articleRepositoryFactory.getRepository(COMMUNITY).findById(articleId)
                 .orElseThrow();
-        PermittedParticipants expectPermittedParticipants = new PermittedParticipants(study.getId(), owner.getId(), Set.of());
+        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
         assertThat(actualArticle).isEqualTo(
-                new CommunityArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectPermittedParticipants)
+                new CommunityArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
         );
     }
 
@@ -99,7 +99,7 @@ public class ArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        PostArticleRequest request = new PostArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), NOTICE, request);
@@ -109,12 +109,12 @@ public class ArticleControllerTest {
         Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
         Article actualArticle = articleRepositoryFactory.getRepository(NOTICE).findById(articleId).orElseThrow();
 
-        PermittedParticipants expectPermittedParticipants = new PermittedParticipants(study.getId(), owner.getId(), Set.of());
+        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
         assertThat(actualArticle).isEqualTo(
-                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectPermittedParticipants)
+                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
         );
     }
 
@@ -126,7 +126,7 @@ public class ArticleControllerTest {
 
         // act & assert
         assertThatThrownBy(() -> sut.createArticle(member.getId(), 1L, COMMUNITY,
-                new ArticleRequest("제목", "내용")
+                new PostArticleRequest("제목", "내용")
         ))
                 .isInstanceOf(StudyNotFoundException.class);
     }

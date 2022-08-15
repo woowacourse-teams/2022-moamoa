@@ -4,7 +4,7 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import java.net.URI;
@@ -33,54 +33,54 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long memberId,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-type") final ArticleType type,
-                                              @Valid @RequestBody final ArticleRequest request
+                                              @Valid @RequestBody final PostArticleRequest request
     ) {
-        final Article article = articleService.createArticle(id, studyId, request, type);
+        final Article article = articleService.createArticle(memberId, studyId, request, type);
         final URI location = URI.create("/api/studies/" + studyId + "/" + type.lowerName() + "/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
-    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long memberId,
                                                       @PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-type") final ArticleType articleType,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = articleService.getArticle(id, studyId, articleId, articleType);
+        ArticleResponse response = articleService.getPostArticle(memberId, studyId, articleId, articleType);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("{article-id}")
-    public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long memberId,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
                                               @PathVariable("article-type") final ArticleType type
     ) {
-        articleService.deleteArticle(id, studyId, articleId, type);
+        articleService.deleteArticle(memberId, studyId, articleId, type);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
+    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long memberId,
                                                                 @PathVariable("study-id") final Long studyId,
                                                                 @PathVariable("article-type") final ArticleType type,
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, type);
+        ArticleSummariesResponse response = articleService.getPostArticles(memberId, studyId, pageable, type);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{article-id}")
-    public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long memberId,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
                                               @PathVariable("article-type") final ArticleType type,
-                                              @Valid @RequestBody final ArticleRequest request
+                                              @Valid @RequestBody final PostArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request, type);
+        articleService.updateArticle(memberId, studyId, articleId, request, type);
         return ResponseEntity.noContent().build();
     }
 }

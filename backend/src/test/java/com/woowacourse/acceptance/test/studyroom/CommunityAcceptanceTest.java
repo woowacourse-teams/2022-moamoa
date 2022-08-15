@@ -24,7 +24,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -47,7 +47,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
         String 토큰 = 그린론이().로그인한다();
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        PostArticleRequest request = new PostArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         final String location = RestAssured.given(spec).log().all()
@@ -285,7 +285,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("게시글 제목", "게시글 내용");
         String 토큰 = 그린론이().로그인한다();
 
-        final ArticleRequest request = new ArticleRequest("게시글 제목 수정", "게시글 내용 수정");
+        final PostArticleRequest request = new PostArticleRequest("게시글 제목 수정", "게시글 내용 수정");
 
         // act
         RestAssured.given(spec).log().all()

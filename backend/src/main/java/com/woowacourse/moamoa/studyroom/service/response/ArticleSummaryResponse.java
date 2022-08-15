@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service.response;
 
-import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
+import com.woowacourse.moamoa.studyroom.query.data.PostArticleData;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class ArticleSummaryResponse {
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
 
-    public ArticleSummaryResponse(ArticleData data) {
+    public ArticleSummaryResponse(PostArticleData data) {
         this.id = data.getId();
         this.author = new AuthorResponse(data.getMemberData());
         this.title = data.getTitle();

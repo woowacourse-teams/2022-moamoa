@@ -13,14 +13,14 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
+import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ public class DeletingArticleControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private PermittedParticipantsRepository permittedParticipantsRepository;
+    private StudyRoomRepository studyRoomRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -46,7 +46,7 @@ public class DeletingArticleControllerTest {
     private ArticleRepositoryFactory articleRepositoryFactory;
 
     @Autowired
-    private ArticleDao articleDao;
+    private PostArticleDao postArticleDao;
 
     private StudyService studyService;
     private ArticleController sut;
@@ -55,8 +55,8 @@ public class DeletingArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(permittedParticipantsRepository,
-                articleRepositoryFactory, articleDao);
+        articleService = new ArticleService(studyRoomRepository,
+                articleRepositoryFactory, postArticleDao);
         sut = new ArticleController(articleService);
     }
 
@@ -69,7 +69,7 @@ public class DeletingArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        PostArticleRequest request = new PostArticleRequest("게시글 제목", "게시글 내용");
         Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
 
         //act
@@ -103,7 +103,7 @@ public class DeletingArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        PostArticleRequest request = new PostArticleRequest("게시글 제목", "게시글 내용");
         Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
 
         // act & assert

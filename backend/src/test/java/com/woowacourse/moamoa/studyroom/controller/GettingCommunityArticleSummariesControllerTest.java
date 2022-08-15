@@ -7,12 +7,12 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
+import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
@@ -47,7 +47,7 @@ public class GettingCommunityArticleSummariesControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private PermittedParticipantsRepository permittedParticipantsRepository;
+    private StudyRoomRepository studyRoomRepository;
 
     @Autowired
     private StudyRepository studyRepository;
@@ -56,14 +56,14 @@ public class GettingCommunityArticleSummariesControllerTest {
     private ArticleRepositoryFactory articleRepositoryFactory;
 
     @Autowired
-    private ArticleDao articleDao;
+    private PostArticleDao postArticleDao;
 
     private ArticleController sut;
 
     @BeforeEach
     void setUp() {
-        articleService = new ArticleService(permittedParticipantsRepository,
-                articleRepositoryFactory, articleDao);
+        articleService = new ArticleService(studyRoomRepository,
+                articleRepositoryFactory, postArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(articleService);
     }
@@ -77,15 +77,15 @@ public class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new PostArticleRequest("제목1", "내용1"), ArticleType.COMMUNITY);
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new PostArticleRequest("제목2", "내용2"), ArticleType.COMMUNITY);
         Article article3 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new PostArticleRequest("제목3", "내용3"), ArticleType.COMMUNITY);
         Article article4 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new PostArticleRequest("제목4", "내용4"), ArticleType.COMMUNITY);
         Article article5 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new PostArticleRequest("제목5", "내용5"), ArticleType.COMMUNITY);
 
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(),

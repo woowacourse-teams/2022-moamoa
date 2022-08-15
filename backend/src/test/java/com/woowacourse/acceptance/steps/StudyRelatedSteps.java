@@ -4,9 +4,9 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
@@ -50,7 +50,7 @@ public class StudyRelatedSteps extends Steps {
             return null;
         }
     }
-    public Long 링크를_공유한다(final CreatingLinkRequest request) {
+    public Long 링크를_공유한다(final LinkArticleRequest request) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(AUTHORIZATION, token)
@@ -73,7 +73,7 @@ public class StudyRelatedSteps extends Steps {
             final String location = RestAssured.given().log().all()
                     .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
                     .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
+                    .body(objectMapper.writeValueAsString(new PostArticleRequest(title, content)))
                     .pathParam("study-id", studyId)
                     .when().log().all()
                     .post("/api/studies/{study-id}/notice/articles")
@@ -92,7 +92,7 @@ public class StudyRelatedSteps extends Steps {
             final String location = RestAssured.given().log().all()
                     .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
                     .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
+                    .body(objectMapper.writeValueAsString(new PostArticleRequest(title, content)))
                     .pathParam("study-id", studyId)
                     .when().log().all()
                     .post("/api/studies/{study-id}/community/articles")
