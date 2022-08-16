@@ -42,8 +42,8 @@ CREATE TABLE review
     study_id BIGINT NOT NULL,
     member_id BIGINT NOT NULL,
     content MEDIUMTEXT,
-    created_date DATETIME not null,
-    last_modified_date DATETIME  not null,
+    created_date DATE not null,
+    last_modified_date DATE  not null,
     deleted boolean not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)

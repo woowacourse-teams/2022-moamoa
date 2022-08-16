@@ -27,6 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://dev.moamoa.space", "https://moamoa.space")
                 .allowedMethods(ALLOW_METHODS)
                 .exposedHeaders(HttpHeaders.LOCATION)
+                .exposedHeaders("Set-Cookie")
                 .allowCredentials(true);
     }
 
