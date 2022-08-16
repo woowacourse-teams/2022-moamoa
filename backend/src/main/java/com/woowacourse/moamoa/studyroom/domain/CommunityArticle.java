@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import com.woowacourse.moamoa.study.domain.Study;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,15 +17,16 @@ public class CommunityArticle extends Article {
 
     private String content;
 
-    CommunityArticle(final String title, final String content, final Long authorId, final Study study) {
-        super(null, authorId, study);
+    CommunityArticle(final String title, final String content, final Long authorId,
+                     final StudyRoom studyRoom) {
+        super(null, authorId, studyRoom);
         this.title = title;
         this.content = content;
     }
 
     public CommunityArticle(final Long id, final String title, final String content, final Long authorId,
-                            final Study study) {
-        super(id, authorId, study);
+                            final StudyRoom studyRoom) {
+        super(id, authorId, studyRoom);
         this.title = title;
         this.content = content;
     }
@@ -52,11 +52,11 @@ public class CommunityArticle extends Article {
         final CommunityArticle that = (CommunityArticle) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
                 && Objects.equals(getContent(), that.getContent()) && Objects.equals(getAuthorId(),
-                that.getAuthorId()) && Objects.equals(getStudy().getId(), that.getStudy().getId());
+                that.getAuthorId()) && Objects.equals(getStudyRoom(), that.getStudyRoom());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudy().getId());
+        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyRoom());
     }
 }

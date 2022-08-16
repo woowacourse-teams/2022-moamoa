@@ -7,7 +7,8 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.repository.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
@@ -46,6 +47,9 @@ public class GettingCommunityArticleSummariesControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private StudyRoomRepository studyRoomRepository;
+
+    @Autowired
     private StudyRepository studyRepository;
 
     @Autowired
@@ -58,7 +62,7 @@ public class GettingCommunityArticleSummariesControllerTest {
 
     @BeforeEach
     void setUp() {
-        articleService = new ArticleService(studyRepository,
+        articleService = new ArticleService(studyRoomRepository,
                 articleRepositoryFactory, articleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(articleService);
