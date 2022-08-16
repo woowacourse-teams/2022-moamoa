@@ -34,10 +34,10 @@ public class LinkArticle extends Article {
     }
 
     @Override
-    public void update(final Accessor accessor, final Content<?> content) {
+    public void update(final Accessor accessor, final Content content) {
         if (!isEditableBy(accessor) && !content.getClass().equals(LinkContent.class)) {
             throw new IllegalArgumentException();
         }
-        this.content.update((LinkContent) content);
+        this.content = (LinkContent) content;
     }
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Embeddable
-public class PostContent implements Content<PostContent> {
+public class PostContent implements Content {
 
     private String title;
 
@@ -16,11 +16,6 @@ public class PostContent implements Content<PostContent> {
     public PostContent(final String title, final String content) {
         this.title = title;
         this.content = content;
-    }
-
-    public void update(PostContent content) {
-        this.title = content.title;
-        this.content = content.content;
     }
 
     @Override

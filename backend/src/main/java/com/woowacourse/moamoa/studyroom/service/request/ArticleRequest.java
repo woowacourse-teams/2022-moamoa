@@ -4,5 +4,5 @@ import com.woowacourse.moamoa.studyroom.domain.Content;
 
 public interface ArticleRequest {
 
-    Content<?> toContent();
+    Content toContent();
 }

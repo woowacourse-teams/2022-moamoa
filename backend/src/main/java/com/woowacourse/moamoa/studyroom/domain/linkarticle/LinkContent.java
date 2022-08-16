@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LinkContent implements Content<LinkContent> {
+public class LinkContent implements Content {
 
     private String linkUrl;
 
@@ -16,11 +16,5 @@ public class LinkContent implements Content<LinkContent> {
     public LinkContent(final String linkUrl, final String description) {
         this.linkUrl = linkUrl;
         this.description = description;
-    }
-
-    @Override
-    public void update(final LinkContent content) {
-        this.linkUrl = content.linkUrl;
-        this.description = content.description;
     }
 }

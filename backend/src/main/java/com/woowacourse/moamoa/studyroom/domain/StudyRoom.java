@@ -41,7 +41,7 @@ public class StudyRoom {
         return studyId.equals(accessor.getStudyId()) && permittedAccessors.isPermittedAccessor(accessor);
     }
 
-    public Article writeArticle(final Accessor accessor, final Content<?> content, final ArticleType type) {
+    public Article writeArticle(final Accessor accessor, final Content content, final ArticleType type) {
         if (!type.isValidContentType(content)) {
             throw new IllegalArgumentException();
         }

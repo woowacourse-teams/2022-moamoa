@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/studies/{study-id}/reference-room/links")
 public class LinkArticleController {
 
     private final ArticleService articleService;
@@ -27,7 +29,7 @@ public class LinkArticleController {
         this.articleService = articleService;
     }
 
-    @PostMapping("/api/studies/{study-id}/reference-room/links")
+    @PostMapping
     public ResponseEntity<Void> createLink(
             @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -37,7 +39,7 @@ public class LinkArticleController {
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
-    @GetMapping("/api/studies/{study-id}/reference-room/links")
+    @GetMapping
     public ResponseEntity<LinkArticlesResponse> getLinkArticles(
             @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -48,7 +50,7 @@ public class LinkArticleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/api/studies/{study-id}/reference-room/links/{link-id}")
+    @DeleteMapping("/{link-id}")
     public ResponseEntity<Void> deleteLink(
             @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -58,7 +60,7 @@ public class LinkArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/studies/{study-id}/reference-room/links/{link-id}")
+    @PutMapping("/{link-id}")
     public ResponseEntity<Void> updateLink(
             @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,

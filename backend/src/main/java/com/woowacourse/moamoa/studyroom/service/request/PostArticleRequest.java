@@ -25,7 +25,7 @@ public class PostArticleRequest implements ArticleRequest {
     }
 
     @Override
-    public Content<?> toContent() {
+    public Content toContent() {
         return new PostContent(title, content);
     }
 }

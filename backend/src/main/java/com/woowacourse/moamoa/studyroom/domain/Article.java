@@ -57,5 +57,5 @@ public abstract class Article extends BaseEntity {
         return studyRoom;
     }
 
-    public abstract void update(Accessor accessor, Content<?> content);
+    public abstract void update(Accessor accessor, Content content);
 }

@@ -22,11 +22,11 @@ public abstract class PostArticle extends Article {
     }
 
     @Override
-    public void update(final Accessor accessor, final Content<?> content) {
+    public void update(final Accessor accessor, final Content content) {
         if (!isEditableBy(accessor) && !content.getClass().equals(PostContent.class)) {
             throw new IllegalArgumentException();
         }
-        this.content.update((PostContent) content);
+        this.content = (PostContent) content;
     }
 
     protected PostContent getContent() {

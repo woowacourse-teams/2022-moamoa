@@ -21,7 +21,7 @@ public class LinkArticleRequest implements ArticleRequest {
     private String description;
 
     @Override
-    public Content<?> toContent() {
+    public Content toContent() {
         return new LinkContent(linkUrl, description);
     }
 }
