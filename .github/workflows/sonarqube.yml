@@ -5,20 +5,13 @@ on:
       - develop
     types: [opened, synchronize]
 
-defaults:
-  run:
-    working-directory: ./backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, '🖥 backend')
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
-
-  analysis:
-    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     env:
       SONARQUBE_PROJECT_KEY: moamoa
       SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
@@ -28,7 +21,7 @@ jobs:
       client-secret: ${{ secrets.CLIENT_SECRET }}
       jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
       jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
-      
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
