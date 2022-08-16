@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 
+import { communityHandlers } from '@mocks/communityHandler';
 import detailStudyHandlers from '@mocks/detailStudyHandlers';
 import { memberHandlers } from '@mocks/memberHandlers';
 import { myHandlers } from '@mocks/myHandlers';
@@ -63,4 +64,5 @@ export const handlers = [
   ...reviewHandlers,
   ...tokenHandlers,
   ...memberHandlers,
+  ...communityHandlers,
 ];
