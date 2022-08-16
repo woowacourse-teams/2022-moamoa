@@ -49,6 +49,10 @@ public class Participants {
         size = size + 1;
     }
 
+    public void leave(final Participant participant) {
+        participants.remove(participant);
+    }
+
     public boolean isParticipation(final Long memberId) {
         return participants.contains(new Participant(memberId)) || isOwner(memberId);
     }

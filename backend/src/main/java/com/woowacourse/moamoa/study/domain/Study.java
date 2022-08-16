@@ -108,6 +108,10 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
+    public void leave(final Participant participant) {
+        participants.leave(participant);
+    }
+
     public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }

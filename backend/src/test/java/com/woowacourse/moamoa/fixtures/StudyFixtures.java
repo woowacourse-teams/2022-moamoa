@@ -9,7 +9,7 @@ import com.woowacourse.moamoa.study.domain.RecruitStatus;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
-import com.woowacourse.moamoa.study.service.StudyResponse;
+import com.woowacourse.moamoa.study.service.response.StudyResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

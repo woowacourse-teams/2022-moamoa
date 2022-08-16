@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.service;
+package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
