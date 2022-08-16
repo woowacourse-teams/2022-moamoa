@@ -128,10 +128,10 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
         베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
 
-        long 짱구_리뷰_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
-        long 그린론_리뷰_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용2");
         long 디우_리뷰_ID = 디우가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용3");
         long 베루스_리뷰_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용4");
+        짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
+        그린론이().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용2");
         짱구가().로그인하고().스터디에(리액트_스터디_ID).리뷰를_작성한다("리뷰 내용5");
 
         // act
@@ -161,7 +161,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final ReviewResponse 베루스_리뷰 = new ReviewResponse(베루스_리뷰_ID, 베루스, 리뷰_생성일, 리뷰_수정일, "리뷰 내용4");
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
-        assertThat(reviewsResponse.getReviews()).containsExactly(베루스_리뷰, 디우_리뷰);
+        assertThat(reviewsResponse.getReviews()).containsExactly(디우_리뷰, 베루스_리뷰);
     }
 
     @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 삭제할 수 있다.")

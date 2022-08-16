@@ -64,7 +64,7 @@ public class CreatingStudyRequest {
     }
 
     public String getMaxMemberCount() {
-        return maxMemberCount == null ? "" : String.valueOf(maxMemberCount);
+        return maxMemberCount == null ? null : String.valueOf(maxMemberCount);
     }
 
     public String getEnrollmentEndDate() {
