@@ -12,5 +12,5 @@ public interface TokenProvider {
 
     String recreationAccessToken(final Long githubId, final String refreshToken);
 
-    long getValidityInMilliseconds();
+    long getAccessExpireLength();
 }

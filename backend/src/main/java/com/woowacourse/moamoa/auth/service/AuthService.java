@@ -56,7 +56,7 @@ public class AuthService {
 
         String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
 
-        return new AccessTokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
+        return new AccessTokenResponse(accessToken, tokenProvider.getAccessExpireLength());
     }
 
     @Transactional
@@ -68,6 +68,6 @@ public class AuthService {
     }
 
     public long getExpireTime() {
-        return tokenProvider.getValidityInMilliseconds();
+        return tokenProvider.getAccessExpireLength();
     }
 }

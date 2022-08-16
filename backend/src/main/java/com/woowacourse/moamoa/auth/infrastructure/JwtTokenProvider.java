@@ -1,14 +1,15 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
+import static io.jsonwebtoken.SignatureAlgorithm.HS256;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,17 +18,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider implements TokenProvider {
 
-    private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7일
-
-    private final SecretKey key;
-    private final long validityInMilliseconds;
+    private final SecretKey accessKey;
+    private final SecretKey refreshKey;
+    private final long accessExpireLength;
+    private final long refreshExpireLength;
 
     public JwtTokenProvider(
-            @Value("${security.jwt.token.secret-key}") final String secretKey,
-            @Value("${security.jwt.token.expire-length}") final long validityInMilliseconds
+            @Value("${security.jwt.token.access-secret-key}") final String accessSecretKey,
+            @Value("${security.jwt.token.access-expire-length}") final long accessExpireLength,
+            @Value("${security.jwt.token.refresh-secret-key}") final String refreshSecretKey,
+            @Value("${security.jwt.token.refresh-expire-length}") final long refreshExpireLength
     ) {
-        this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.validityInMilliseconds = validityInMilliseconds;
+        this.accessKey = Keys.hmacShaKeyFor(accessSecretKey.getBytes(UTF_8));
+        this.refreshKey = Keys.hmacShaKeyFor(refreshSecretKey.getBytes(UTF_8));
+        this.accessExpireLength = accessExpireLength;
+        this.refreshExpireLength = refreshExpireLength;
     }
 
     @Override
@@ -37,14 +42,14 @@ public class JwtTokenProvider implements TokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(payload.toString())
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(now.getTime() + accessExpireLength))
+                .signWith(accessKey, HS256)
                 .compact();
 
         String refreshToken =  Jwts.builder()
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(now.getTime() + refreshExpireLength))
+                .signWith(refreshKey, HS256)
                 .compact();
 
         return new TokensResponse(accessToken, refreshToken);
@@ -53,7 +58,7 @@ public class JwtTokenProvider implements TokenProvider {
     @Override
     public String getPayload(final String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(accessKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -64,7 +69,7 @@ public class JwtTokenProvider implements TokenProvider {
     public boolean validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
+                    .setSigningKey(accessKey)
                     .build()
                     .parseClaimsJws(token);
 
@@ -80,7 +85,7 @@ public class JwtTokenProvider implements TokenProvider {
     @Override
     public String recreationAccessToken(final Long githubId, final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(refreshKey)
                 .build()
                 .parseClaimsJws(refreshToken);
 
@@ -102,13 +107,13 @@ public class JwtTokenProvider implements TokenProvider {
         return Jwts.builder()
                 .setSubject(Long.toString(githubId))
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(now.getTime() + accessExpireLength))
+                .signWith(accessKey, HS256)
                 .compact();
     }
 
     @Override
-    public long getValidityInMilliseconds() {
-        return validityInMilliseconds;
+    public long getAccessExpireLength() {
+        return accessExpireLength;
     }
 }
