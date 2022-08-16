@@ -42,7 +42,7 @@ public class CreatingStudyStep extends Steps {
     public long 생성한다() {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, token)
+                    .cookie("accessToken", token)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(builder.build()))
                     .when().log().all()

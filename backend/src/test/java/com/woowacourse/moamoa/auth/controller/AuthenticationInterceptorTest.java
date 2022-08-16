@@ -6,11 +6,9 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
 class AuthenticationInterceptorTest extends WebMVCTest {
@@ -27,16 +25,16 @@ class AuthenticationInterceptorTest extends WebMVCTest {
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateValidToken() {
-        final String token = tokenProvider.createToken(1L).getAccessToken();
-        String bearerToken = "Bearer " + token;
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final Vector<String> cookies = new Vector<>();
+        cookies.add(ACCESS_TOKEN + "=" + token);
 
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.POST.toString());
         given(httpServletRequest.getRequestURI())
                 .willReturn("/api/studies");
-        given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
-                .willReturn(Collections.enumeration(List.of(bearerToken)));
-
+        given(httpServletRequest.getHeaders("Cookie"))
+                .willReturn(cookies.elements());
         given(httpServletRequest.getAttribute("payload")).willReturn("1");
 
         assertThat(authenticationInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
@@ -47,13 +45,15 @@ class AuthenticationInterceptorTest extends WebMVCTest {
     @Test
     void validateInvalidToken() {
         String token = "Bearer " + "Invalid token";
+        final Vector<String> cookies = new Vector<>();
+        cookies.add(ACCESS_TOKEN + "=" + token);
 
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.POST.toString());
         given(httpServletRequest.getRequestURI())
                 .willReturn("/api/studies");
-        given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
-                .willReturn(Collections.enumeration(List.of(token)));
+        given(httpServletRequest.getHeaders("Cookie"))
+                .willReturn(cookies.elements());
 
         assertThatThrownBy(() -> authenticationInterceptor.preHandle(httpServletRequest, null, null))
                 .isInstanceOf(UnauthorizedException.class)

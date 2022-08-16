@@ -62,7 +62,7 @@ public class LoginSteps extends Steps {
                 .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().jsonPath().getString("accessToken");
+                .extract().cookie("accessToken");
 
         mockServer.reset();
 

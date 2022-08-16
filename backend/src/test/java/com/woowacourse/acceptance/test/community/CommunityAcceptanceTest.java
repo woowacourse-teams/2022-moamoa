@@ -12,7 +12,6 @@ import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -51,15 +50,12 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         final String location = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(objectMapper.writeValueAsString(request))
                 .pathParam("study-id", 스터디_ID)
                 .when().log().all()
                 .filter(document("article/create",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 ID")
                         ),
@@ -83,14 +79,11 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         final ArticleResponse actualResponse = RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", articleId)
                 .filter(document("article/get",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 ID"),
                                 parameterWithName("article-id").description("게시글 식별 ID")
@@ -139,13 +132,10 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .filter(document("article/delete",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 번호"),
                                 parameterWithName("article-id").description("게시글 식별 번호")
@@ -159,7 +149,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         // assert
         RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .when().log().all()
@@ -187,14 +177,11 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 자바_스터디_ID)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .filter(document("article/list",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID")
                         ),
@@ -256,7 +243,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/community/articles")
@@ -289,15 +276,12 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(objectMapper.writeValueAsString(request))
                 .filter(document("article/update",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 번호"),
                                 parameterWithName("article-id").description("게시글 식별 번호")
@@ -315,7 +299,7 @@ public class CommunityAcceptanceTest extends AcceptanceTest {
         // assert
         final ArticleResponse response = RestAssured
                 .given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
+                .cookie(ACCESS_TOKEN, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .when().log().all()

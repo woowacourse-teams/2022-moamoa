@@ -22,8 +22,6 @@ import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -59,14 +57,11 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
 
         RestAssured.given(spec).log().all()
                 .filter(document("reference-room/create",
-                        requestHeaders(
-                                headerWithName("Authorization").description("Bearer Token")
-                        ),
                         requestFields(
                                 fieldWithPath("linkUrl").type(JsonFieldType.STRING).description("링크공유 url"),
                                 fieldWithPath("description").type(JsonFieldType.STRING).description("링크공유 설명")
                         )))
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .cookie(ACCESS_TOKEN, jwtToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", javaStudyId)
                 .body(request)
@@ -101,9 +96,6 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final String token = 짱구가().로그인한다();
         final LinksResponse linksResponse = RestAssured.given(spec).log().all()
                 .filter(document("reference-room/list",
-                        requestHeaders(
-                                headerWithName("Authorization").description("Bearer Token")
-                        ),
                         responseFields(
                                 fieldWithPath("links[].id").type(JsonFieldType.NUMBER).description("링크공유 ID"),
                                 fieldWithPath("links[].author.id").type(JsonFieldType.NUMBER).description("링크공유 작성자 ID"),
@@ -116,7 +108,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                                 fieldWithPath("links[].lastModifiedDate").type(JsonFieldType.STRING).description("링크공유 수정일자"),
                                 fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("데이터가 더 존재하는지 여부")
                         )))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .param("page", 1)
                 .param("size", 5)
@@ -171,11 +163,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 "수정된 링크 설명입니다.");
 
         RestAssured.given(spec).log().all()
-                .filter(document("reference-room/update",
-                        requestHeaders(
-                                headerWithName("Authorization").description("Bearer Token")
-                        )))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .filter(document("reference-room/update"))
+                .cookie(ACCESS_TOKEN, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디_ID)
@@ -186,7 +175,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
 
         final LinksResponse response = RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")
@@ -216,11 +205,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final String token = 짱구가().로그인한다();
 
         RestAssured.given(spec).log().all()
-                .filter(document("reference-room/delete",
-                        requestHeaders(
-                                headerWithName("Authorization").description("Bearer Token")
-                        )))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .filter(document("reference-room/delete"))
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .pathParam("link-id", 짱구_링크공유_ID)
                 .when().log().all()
@@ -228,7 +214,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
 
         final LinksResponse response = RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")

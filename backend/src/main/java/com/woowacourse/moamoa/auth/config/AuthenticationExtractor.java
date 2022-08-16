@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.auth.config;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.COOKIE;
 
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +11,19 @@ public class AuthenticationExtractor {
     private static final String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
 
     public static String extract(HttpServletRequest request) {
-        Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
+        Enumeration<String> headers = request.getHeaders(COOKIE);
 
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
+            final String[] splitValue = value.split("=");
 
-            if ((value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase()))) {
-                String authHeaderValue = value.substring(BEARER_TYPE.length()).trim();
-                request.setAttribute(ACCESS_TOKEN_TYPE, value.substring(0, BEARER_TYPE.length()).trim());
+            if (splitValue.length < 2) {
+                return null;
+            }
+
+            if (splitValue[0].equals("accessToken") && splitValue[1].toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
+                String authHeaderValue = splitValue[1].substring(BEARER_TYPE.length()).trim();
+                request.setAttribute(ACCESS_TOKEN_TYPE, splitValue[1].substring(0, BEARER_TYPE.length()).trim());
                 int commaIndex = authHeaderValue.indexOf(',');
 
                 if (commaIndex > 0) {

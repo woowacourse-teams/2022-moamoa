@@ -7,10 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 class BadRequestReviewWebMvcTest extends WebMVCTest {
@@ -22,7 +21,7 @@ class BadRequestReviewWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new WriteReviewRequest(""));
 
         mockMvc.perform(post("/api/studies/1/reviews")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())
@@ -35,7 +34,7 @@ class BadRequestReviewWebMvcTest extends WebMVCTest {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(post("/api/studies/1/reviews")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isBadRequest());

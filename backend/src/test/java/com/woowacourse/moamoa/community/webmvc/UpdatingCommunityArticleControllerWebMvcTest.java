@@ -6,13 +6,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
@@ -23,7 +23,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", 1L, 1L)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
         )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -37,7 +37,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -51,7 +51,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
         )
@@ -67,7 +67,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
         )
@@ -83,7 +83,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
         )
@@ -99,7 +99,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
         )
@@ -114,7 +114,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
         )
@@ -129,7 +129,7 @@ public class UpdatingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
         )

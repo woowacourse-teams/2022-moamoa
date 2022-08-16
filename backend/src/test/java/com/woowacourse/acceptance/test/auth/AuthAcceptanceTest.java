@@ -2,15 +2,8 @@ package com.woowacourse.acceptance.test.auth;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -46,18 +39,14 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/login",
-                        requestParameters(parameterWithName("code").description("Authorization code")),
-                        responseFields(
-                                fieldWithPath("accessToken").type(STRING).description("사용자 토큰"),
-                                fieldWithPath("expiredTime").type(NUMBER).description("유효시간")
-                        )))
+                        requestParameters(parameterWithName("code").description("Authorization code"))))
                 .queryParam("code", authorizationCode)
                 .when()
                 .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("accessToken", notNullValue())
-                .body("expiredTime", notNullValue());
+                .cookie("accessToken", notNullValue())
+                .cookie("refreshToken", notNullValue());
     }
 
     @DisplayName("RefreshToken 으로 AccessToken 을 재발급한다.")
@@ -67,16 +56,15 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         final Token foundToken = tokenRepository.findByGithubId(4L).get();
 
         RestAssured.given(spec).log().all()
-                .filter(document("auth/refresh",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .filter(document("auth/refresh"))
                 .cookie("refreshToken", foundToken.getRefreshToken())
+                .cookie(ACCESS_TOKEN, token)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
                 .when()
                 .get("/api/auth/refresh")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("accessToken", notNullValue());
+                .cookie("accessToken", notNullValue());
     }
 
     @DisplayName("로그아웃시에 쿠키를 제거해준다.")
@@ -86,11 +74,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         final Token foundToken = tokenRepository.findByGithubId(4L).get();
 
         RestAssured.given(spec).log().all()
-                .filter(document("auth/logout",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
-                .cookie("refreshToken", foundToken.getRefreshToken())
+                .filter(document("auth/logout"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
+                .cookie("refreshToken", foundToken.getRefreshToken())
+                .cookie(ACCESS_TOKEN, token)
                 .when()
                 .delete("/api/auth/logout")
                 .then().log().all()
@@ -149,9 +136,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().jsonPath().getString("accessToken");
+                .extract().cookie("accessToken");
+
         mockServer.reset();
-        return "Bearer " + token;
+        return token;
     }
 
     private void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {

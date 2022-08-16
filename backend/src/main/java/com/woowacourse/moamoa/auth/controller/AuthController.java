@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private static final String REFRESH_TOKEN = "refreshToken";
-    private static final int REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60;
+    private static final String ACCESS_TOKEN = "accessToken";
 
     private final AuthService authService;
 
@@ -27,27 +27,38 @@ public class AuthController {
     public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
         final TokensResponse tokenResponse = authService.createToken(code);
 
-        final AccessTokenResponse response = new AccessTokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());
-        final ResponseCookie cookie = putTokenInCookie(tokenResponse);
+        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, tokenResponse.getAccessToken(),
+                tokenResponse.getAccessExpireLength());
+        final ResponseCookie refreshCookie = putInCookie(REFRESH_TOKEN, tokenResponse.getRefreshToken(),
+                tokenResponse.getRefreshExpireLength());
 
-        return ResponseEntity.ok().header("Set-Cookie", cookie.toString()).body(response);
+        return ResponseEntity.ok()
+                .header("Set-Cookie", accessCookie.toString(), refreshCookie.toString())
+                .build();
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticationPrincipal Long githubId, @CookieValue String refreshToken) {
-        return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
+    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticationPrincipal Long githubId,
+                                                            @CookieValue String refreshToken) {
+        final AccessTokenResponse response = authService.refreshToken(githubId, refreshToken);
+        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, response.getAccessToken(),
+                response.getExpiredTime());
+
+        return ResponseEntity.ok().header("Set-Cookie", accessCookie.toString()).build();
     }
 
     @DeleteMapping("/api/auth/logout")
     public ResponseEntity<Void> logout(@AuthenticationPrincipal Long githubId) {
         authService.logout(githubId);
 
-        return ResponseEntity.noContent().header("Set-Cookie", removeCookie().toString()).build();
+        return ResponseEntity.noContent()
+                .header("Set-Cookie", removeCookie(REFRESH_TOKEN).toString(), removeCookie(ACCESS_TOKEN).toString())
+                .build();
     }
 
-    private ResponseCookie putTokenInCookie(final TokensResponse tokenResponse) {
-        return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
-                .maxAge(REFRESH_TOKEN_EXPIRATION)
+    private ResponseCookie putInCookie(final String cookieName, final String cookieValue, final long cookieAge) {
+        return ResponseCookie.from(cookieName, cookieValue)
+                .maxAge(cookieAge)
                 .path("/")
                 .sameSite("None")
                 .secure(true)
@@ -55,8 +66,18 @@ public class AuthController {
                 .build();
     }
 
-    private ResponseCookie removeCookie() {
-        return ResponseCookie.from(REFRESH_TOKEN, null)
+    private ResponseCookie putRefreshTokenInCookie(final TokensResponse tokenResponse) {
+        return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
+                .maxAge(tokenResponse.getRefreshExpireLength())
+                .path("/")
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+    }
+
+    private ResponseCookie removeCookie(final String cookieName) {
+        return ResponseCookie.from(cookieName, null)
                 .maxAge(0)
                 .path("/")
                 .sameSite("None")

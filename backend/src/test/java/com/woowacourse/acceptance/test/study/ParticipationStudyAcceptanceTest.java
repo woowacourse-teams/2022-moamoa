@@ -2,7 +2,6 @@ package com.woowacourse.acceptance.test.study;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -25,8 +24,8 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
 
         RestAssured.given(spec).log().all()
                 .filter(document("studies/participant"))
+                .cookie(ACCESS_TOKEN, token)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .post("/api/studies/{study-id}")

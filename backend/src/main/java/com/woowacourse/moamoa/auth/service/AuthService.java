@@ -54,9 +54,7 @@ public class AuthService {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
 
-        String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
-
-        return new AccessTokenResponse(accessToken, tokenProvider.getAccessExpireLength());
+        return tokenProvider.recreationAccessToken(githubId, refreshToken);
     }
 
     @Transactional
@@ -65,9 +63,5 @@ public class AuthService {
                 .orElseThrow(TokenNotFoundException::new);
 
         tokenRepository.delete(token);
-    }
-
-    public long getExpireTime() {
-        return tokenProvider.getAccessExpireLength();
     }
 }

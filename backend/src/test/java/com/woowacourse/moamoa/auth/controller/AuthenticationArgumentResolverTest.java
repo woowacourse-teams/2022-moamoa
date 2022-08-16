@@ -6,13 +6,11 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 
 class AuthenticationArgumentResolverTest extends WebMVCTest {
 
@@ -23,12 +21,13 @@ class AuthenticationArgumentResolverTest extends WebMVCTest {
     @Test
     void validAuthorizationTypeIsBearer() {
         String wrongBearerToken = "Basic " + tokenProvider.createToken(1L);
+        final Vector<String> cookies = new Vector<>();
+        cookies.add(ACCESS_TOKEN + "=" + wrongBearerToken);
 
         given(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .willReturn(httpServletRequest);
-
-        given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
-                .willReturn(Collections.enumeration(List.of(wrongBearerToken)));
+        given(httpServletRequest.getHeaders("Cookie"))
+                .willReturn(cookies.elements());
 
         assertThatThrownBy(
                 () -> authenticationArgumentResolver.resolveArgument(null, null, nativeWebRequest, null))
@@ -40,12 +39,13 @@ class AuthenticationArgumentResolverTest extends WebMVCTest {
     @Test
     void getToken() {
         String wrongBearerToken = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final Vector<String> cookies = new Vector<>();
+        cookies.add(ACCESS_TOKEN + "=" + wrongBearerToken);
 
         given(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .willReturn(httpServletRequest);
-
-        given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
-                .willReturn(Collections.enumeration(List.of(wrongBearerToken)));
+        given(httpServletRequest.getHeaders("Cookie"))
+                .willReturn(cookies.elements());
 
         assertThat(authenticationArgumentResolver.resolveArgument(null, null, nativeWebRequest, null))
                 .isEqualTo(1L);

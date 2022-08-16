@@ -11,23 +11,16 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필
 import static com.woowacourse.acceptance.fixture.StudyFixtures.리액트_스터디_제목;
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바_스터디_제목;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그명;
-import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그명;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -44,7 +37,6 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -65,7 +57,7 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         // act
         final MyStudiesResponse body = RestAssured.given(spec).log().all()
                 .filter(document("studies/myStudy"))
-                .header(AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .when().log().all()
                 .get("/api/my/studies")
                 .then().log().all()
@@ -101,13 +93,12 @@ public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         // act & assert
         RestAssured.given(spec).log().all()
                 .filter(document("members/me/role",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token")),
                         requestParameters(parameterWithName("study-id").description("스터디 ID")),
                         responseFields(
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("해당 스터디에서 사용자의 역할"))))
                 .filter(document("members/me/role"))
+                .cookie(ACCESS_TOKEN, token)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
                 .queryParam("study-id", 자바_스터디_ID)
                 .when()
                 .get("/api/members/me/role")

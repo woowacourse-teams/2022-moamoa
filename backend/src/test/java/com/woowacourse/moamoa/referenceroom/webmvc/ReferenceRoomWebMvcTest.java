@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 public class ReferenceRoomWebMvcTest extends WebMVCTest {
@@ -21,7 +21,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(null, "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())
@@ -35,7 +35,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("", "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())
@@ -54,7 +54,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
                         + "일이삼사오육앗싸오십일"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())
@@ -68,7 +68,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
 
         mockMvc.perform(post("/api/studies/one/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())
@@ -81,7 +81,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/studies/1/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .cookie(new Cookie(ACCESS_TOKEN, "Bearer " + token))
                         .param("page", "one"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -93,7 +93,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/studies/1/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .cookie(new Cookie(ACCESS_TOKEN, "Bearer " + token))
                         .param("size", "one"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -106,7 +106,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
         final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
 
         mockMvc.perform(post("/api/studies/one/reference-room/links")
-                        .header(HttpHeaders.AUTHORIZATION, invalidToken)
+                        .cookie(new Cookie(ACCESS_TOKEN, invalidToken))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andDo(print())

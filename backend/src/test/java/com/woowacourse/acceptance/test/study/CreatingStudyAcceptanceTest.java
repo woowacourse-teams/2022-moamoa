@@ -2,14 +2,9 @@ package com.woowacourse.acceptance.test.study;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -37,7 +32,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
     void get401WhenUsingInvalidToken(String invalidToken) {
         RestAssured
                 .given().log().all()
-                .header(AUTHORIZATION, invalidToken)
+                .cookie(ACCESS_TOKEN, invalidToken)
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()
@@ -64,7 +59,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, jwtToken)
+                .cookie(ACCESS_TOKEN, jwtToken)
                 .body(param)
                 .when().log().all()
                 .post("/api/studies")
@@ -112,7 +107,7 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, jwtToken)
+                .cookie(ACCESS_TOKEN, jwtToken)
                 .body(body)
                 .when().log().all()
                 .post("/api/studies")
@@ -136,9 +131,8 @@ public class CreatingStudyAcceptanceTest extends AcceptanceTest {
         final String jwtToken = 짱구가().로그인한다();
 
         final String location = RestAssured.given(spec).log().all()
-                .filter(document("studies/create",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
-                .header(AUTHORIZATION, jwtToken)
+                .filter(document("studies/create"))
+                .cookie(ACCESS_TOKEN, jwtToken)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
                         "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(

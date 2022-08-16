@@ -30,6 +30,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 @Import({JwtTokenProvider.class, AuthRequestMatchConfig.class, MockedServiceObjectsBeanRegister.class})
 public abstract class WebMVCTest {
 
+    protected static final String ACCESS_TOKEN = "accessToken";
+
     @Autowired
     protected MockMvc mockMvc;
 

@@ -1,11 +1,11 @@
 package com.woowacourse.moamoa.community.webmvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,7 +34,7 @@ public class DeletingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                         delete("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
-                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .cookie(new Cookie("accessToken", token))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());

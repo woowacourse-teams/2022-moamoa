@@ -1,17 +1,16 @@
 package com.woowacourse.moamoa.community.webmvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.HttpHeaders;
 
 public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
@@ -21,7 +20,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedGetArticleByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles/{article-id}", 1L, 1L)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
         )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -35,7 +34,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -47,7 +46,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedGetArticleListByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                         get("/api/studies/{study-id}/community/articles?page=0&size=3", 1L)
-                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .cookie(new Cookie(ACCESS_TOKEN, token))
                 )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -60,7 +59,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                         get("/api/studies/{study-id}/community/articles", "one")
-                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .cookie(new Cookie(ACCESS_TOKEN, token))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -74,7 +73,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .param("page", page)
                         .param("size", size)
         )
@@ -89,7 +88,7 @@ public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .param("page", "")
                         .param("size", "5")
         )

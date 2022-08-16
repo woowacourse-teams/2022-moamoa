@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.auth.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -12,7 +13,7 @@ class AuthenticationExtractorTest {
     @Test
     void getPayload() {
         final MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        mockHttpServletRequest.addHeader("Authorization", "Bearer token");
+        mockHttpServletRequest.setCookies(new Cookie("accessToken", "Bearer token"));
 
         final String expected = AuthenticationExtractor.extract(mockHttpServletRequest);
 

@@ -4,6 +4,7 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -52,7 +53,7 @@ public class JwtTokenProvider implements TokenProvider {
                 .signWith(refreshKey, HS256)
                 .compact();
 
-        return new TokensResponse(accessToken, refreshToken);
+        return new TokensResponse(accessToken, refreshToken, accessExpireLength, refreshExpireLength);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String recreationAccessToken(final Long githubId, final String refreshToken) {
+    public AccessTokenResponse recreationAccessToken(final Long githubId, final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(refreshKey)
                 .build()
@@ -92,7 +93,7 @@ public class JwtTokenProvider implements TokenProvider {
         Date tokenExpirationDate = claims.getBody().getExpiration();
         validateTokenExpiration(tokenExpirationDate);
 
-        return createAccessToken(githubId);
+        return new AccessTokenResponse(createAccessToken(githubId), accessExpireLength);
     }
 
     private void validateTokenExpiration(Date tokenExpirationDate) {
@@ -110,10 +111,5 @@ public class JwtTokenProvider implements TokenProvider {
                 .setExpiration(new Date(now.getTime() + accessExpireLength))
                 .signWith(accessKey, HS256)
                 .compact();
-    }
-
-    @Override
-    public long getAccessExpireLength() {
-        return accessExpireLength;
     }
 }

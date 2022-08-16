@@ -5,10 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
@@ -19,8 +18,8 @@ public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(get("/api/members/me/role")
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
@@ -32,7 +31,7 @@ public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(get("/api/members/me/role")
                         .param("study-id", "one")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .cookie(new Cookie(ACCESS_TOKEN, token))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andDo(print());

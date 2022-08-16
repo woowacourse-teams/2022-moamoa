@@ -54,9 +54,9 @@ class AuthServiceTest {
         Mockito.when(oAuthClient.getProfile("access-token"))
                 .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
         Mockito.when(tokenProvider.createToken(1L))
-                .thenReturn(new TokensResponse("accessToken", "refreshToken"));
+                .thenReturn(new TokensResponse("accessToken", "refreshToken", 1800000, 604800000));
         Mockito.when(tokenProvider.recreationAccessToken(1L, "refreshToken"))
-                .thenReturn("recreationAccessToken");
+                .thenReturn(new AccessTokenResponse("recreationAccessToken", 1800000));
     }
 
     @DisplayName("RefreshToken 을 저장한다.")

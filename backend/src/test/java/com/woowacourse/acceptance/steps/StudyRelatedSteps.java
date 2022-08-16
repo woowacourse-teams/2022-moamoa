@@ -1,6 +1,5 @@
 package com.woowacourse.acceptance.steps;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -15,6 +14,8 @@ import org.springframework.http.MediaType;
 
 public class StudyRelatedSteps extends Steps {
 
+    private static final String ACCESS_TOKEN = "accessToken";
+
     private final Long studyId;
     private final String token;
 
@@ -26,7 +27,7 @@ public class StudyRelatedSteps extends Steps {
     public void 참여한다() {
         RestAssured.given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .when().log().all()
                 .post("/api/studies/" + studyId)
                 .then().log().all()
@@ -36,7 +37,7 @@ public class StudyRelatedSteps extends Steps {
     public Long 리뷰를_작성한다(String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, token)
+                    .cookie(ACCESS_TOKEN, token)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .pathParams("study-id", studyId)
                     .body(objectMapper.writeValueAsString(new WriteReviewRequest(content)))
@@ -54,7 +55,7 @@ public class StudyRelatedSteps extends Steps {
     public Long 링크를_공유한다(final CreatingLinkRequest request) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(AUTHORIZATION, token)
+                    .cookie(ACCESS_TOKEN, token)
                     .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .pathParams("study-id", studyId)
                     .body(objectMapper.writeValueAsString(request))
@@ -72,7 +73,7 @@ public class StudyRelatedSteps extends Steps {
     public Long 게시글을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
+                    .cookie(ACCESS_TOKEN, token)
                     .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
                     .pathParam("study-id", studyId)

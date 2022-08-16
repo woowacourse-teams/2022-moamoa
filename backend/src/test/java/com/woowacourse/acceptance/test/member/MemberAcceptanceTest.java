@@ -1,14 +1,11 @@
 package com.woowacourse.acceptance.test.member;
 
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -24,9 +21,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         final String token = 베루스가().로그인한다();
 
         final MemberResponse memberResponse = RestAssured.given(spec).log().all()
-                .header(AUTHORIZATION, token)
-                .filter(document("members/me",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
+                .cookie(ACCESS_TOKEN, token)
+                .filter(document("members/me"))
                 .when().log().all()
                 .get("/api/members/me")
                 .then().log().all()

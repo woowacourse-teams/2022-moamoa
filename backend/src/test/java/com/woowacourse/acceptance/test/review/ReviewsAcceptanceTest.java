@@ -53,7 +53,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
         // act & assert
         RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디)
@@ -176,7 +176,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         // act
         RestAssured.given(spec).log().all()
                 .filter(document("reviews/delete"))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디_ID)
                 .pathParam("review-id", 짱구_리뷰_ID)
@@ -211,7 +211,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         // act
         RestAssured.given(spec).log().all()
                 .filter(document("reviews/update"))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디_ID)

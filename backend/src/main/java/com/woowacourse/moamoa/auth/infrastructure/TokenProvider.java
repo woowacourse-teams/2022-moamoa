@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 
 public interface TokenProvider {
@@ -10,7 +11,5 @@ public interface TokenProvider {
 
     boolean validateToken(final String token);
 
-    String recreationAccessToken(final Long githubId, final String refreshToken);
-
-    long getAccessExpireLength();
+    AccessTokenResponse recreationAccessToken(final Long githubId, final String refreshToken);
 }

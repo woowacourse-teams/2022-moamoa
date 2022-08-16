@@ -42,6 +42,7 @@ import org.springframework.web.client.RestTemplate;
 public class AcceptanceTest {
 
     private static final String OUTPUT_DIRECTORY = "build/generated-snippets";
+    protected static final String ACCESS_TOKEN = "accessToken";
 
     protected RequestSpecification spec;
 
