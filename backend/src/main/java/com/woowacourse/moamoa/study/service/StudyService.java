@@ -52,12 +52,13 @@ public class StudyService {
         return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
     }
 
-    private static RecruitPlanner getRecruitPlanner(final CreatingStudyRequest request, final Participants participants) {
-        final RecruitPlanner temporaryRecruitPlanner = request.mapToRecruitPlan();
-        if (request.getMaxMemberCount() != null && participants.getSize() == temporaryRecruitPlanner.getMax()) {
-            return new RecruitPlanner(temporaryRecruitPlanner.getMax(), RECRUITMENT_END, temporaryRecruitPlanner.getEnrollmentEndDate());
+    private RecruitPlanner getRecruitPlanner(final CreatingStudyRequest request, final Participants participants) {
+        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+        if (recruitPlanner.isMemberMax(request.getMaxMemberCount(), participants.getSize())) {
+            return new RecruitPlanner(recruitPlanner.getMax(), RECRUITMENT_END, recruitPlanner.getEnrollmentEndDate());
         }
-        return temporaryRecruitPlanner;
+
+        return recruitPlanner;
     }
 
     public void participateStudy(final Long githubId, final Long studyId) {
