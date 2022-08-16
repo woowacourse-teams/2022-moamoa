@@ -36,7 +36,7 @@ public class MemberDao {
     }
 
     private String countStudyNumber() {
-        return countOwnerStudy() + " + " + countParticipationStudy();
+        return countParticipationStudy() + " + " + countOwnerStudy();
     }
 
     private String countParticipationStudy() {
