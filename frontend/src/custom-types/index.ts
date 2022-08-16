@@ -215,10 +215,10 @@ export type GetLinkPreviewRequestParams = {
   linkUrl: string;
 };
 export type GetLinkPreviewResponseData = {
-  imageUrl?: string;
   title: string;
-  description?: string;
-  domainName?: string;
+  description: string | null;
+  imageUrl: string | null;
+  domainName: string | null;
 };
 
 export type PostLinkRequestBody = Pick<Link, 'linkUrl' | 'description'>;
