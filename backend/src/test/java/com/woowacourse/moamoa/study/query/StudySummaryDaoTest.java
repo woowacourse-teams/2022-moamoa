@@ -20,7 +20,6 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
-import com.woowacourse.moamoa.tag.query.TagDao;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class StudySummaryDaoTest {
@@ -53,13 +51,7 @@ public class StudySummaryDaoTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private TagDao tagDao;
-
-    @Autowired
     private EntityManager em;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     private Member jjanggu;
     private Member greenlawn;

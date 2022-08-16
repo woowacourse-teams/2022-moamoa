@@ -14,6 +14,7 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민_깃허브_�
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -77,20 +78,17 @@ public class SearchingReferenceRoomControllerTest {
                 new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구);
-        final Member greenlawn = memberRepository.save(그린론);
-        final Member dwoo = memberRepository.save(디우);
-        final Member verus = memberRepository.save(베루스);
-        memberRepository.save(병민);
+        final Member jjanggu = memberRepository.save(짱구());
+        final Member greenlawn = memberRepository.save(그린론());
+        final Member dwoo = memberRepository.save(디우());
+        final Member verus = memberRepository.save(베루스());
+        memberRepository.save(병민());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
 
