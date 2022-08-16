@@ -99,7 +99,6 @@ bootJar {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "moamoa"
         property "sonar.sources", "src"
         property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"
