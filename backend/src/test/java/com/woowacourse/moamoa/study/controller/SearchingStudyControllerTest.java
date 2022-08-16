@@ -1,5 +1,10 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.HTTP_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_신청서;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -32,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class SearchingStudyControllerTest {
@@ -80,35 +84,19 @@ public class SearchingStudyControllerTest {
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail").description("그린론의 우당탕탕 자바 스터디입니다.")
-                .startDate(LocalDate.now()).tagIds(List.of(1L, 2L, 3L)).maxMemberCount(10)
-                .build();
+        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
         javaStudyId = studyService.createStudy(jjanggu.getGithubId(), javaStudyRequest).getId();
 
-        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
-                .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail").description("디우의 뤼액트 스터디입니다.")
-                .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
-                .tagIds(List.of(2L, 4L, 5L)).maxMemberCount(5)
-                .build();
+        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
         reactStudyId = studyService.createStudy(dwoo.getGithubId(), reactStudyRequest).getId();
 
-        CreatingStudyRequest javaScriptStudyRequest = CreatingStudyRequest.builder()
-                .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail").description("자바스크립트 설명")
-                .startDate(LocalDate.now()).tagIds(List.of(2L, 4L))
-                .build();
+        CreatingStudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
         javaScriptId = studyService.createStudy(jjanggu.getGithubId(), javaScriptStudyRequest).getId();
 
-        CreatingStudyRequest httpStudyRequest = CreatingStudyRequest.builder()
-                .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail").description("HTTP 설명")
-                .startDate(LocalDate.now()).tagIds(List.of(2L, 3L))
-                .build();
+        CreatingStudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
         httpStudyId = studyService.createStudy(jjanggu.getGithubId(), httpStudyRequest).getId();
 
-        CreatingStudyRequest algorithmStudyRequest = CreatingStudyRequest.builder()
-                .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail").description("알고리즘 설명")
-                .startDate(LocalDate.now()).tagIds(List.of())
-                .build();
+        CreatingStudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
         algorithmStudyId = studyService.createStudy(jjanggu.getGithubId(), algorithmStudyRequest).getId();
 
         CreatingStudyRequest linuxStudyRequest = CreatingStudyRequest.builder()

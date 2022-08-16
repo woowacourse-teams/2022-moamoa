@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import tw from '@utils/tw';
 
 import { useFormContext } from '@hooks/useForm';
 
@@ -24,13 +24,7 @@ const Subject = ({ className }: SubjectProps) => {
       const subjects = tags.filter(({ category }) => category.name === 'subject');
 
       return (
-        <S.Select
-          id="subject-list"
-          css={css`
-            width: 100%;
-          `}
-          {...register('subject')}
-        >
+        <S.Select id="subject-list" css={tw`w-full`} {...register('subject')}>
           {subjects.map(({ id, name, description }) => (
             <option selected={name === 'Etc'} key={id} value={id}>
               {description}

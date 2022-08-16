@@ -161,7 +161,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
         final ReviewResponse 베루스_리뷰 = new ReviewResponse(베루스_리뷰_ID, 베루스, 리뷰_생성일, 리뷰_수정일, "리뷰 내용4");
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
-        assertThat(reviewsResponse.getReviews()).containsExactly(베루스_리뷰, 디우_리뷰);
+        assertThat(reviewsResponse.getReviews()).containsExactlyInAnyOrder(디우_리뷰, 베루스_리뷰);
     }
 
     @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 삭제할 수 있다.")
