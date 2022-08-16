@@ -6,16 +6,13 @@ on:
       - develop
     types: [opened, synchronize]
 
-defaults:
-  run:
-    working-directory: ./backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
+    if: contains(github.event.pull_request.labels.*.name, 'backend')
+    defaults:
+      run:
+        working-directory: ./backend
         
   analysis:
     runs-on: ubuntu-latest
