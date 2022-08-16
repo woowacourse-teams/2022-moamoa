@@ -99,7 +99,6 @@ bootJar {
 
 sonarqube {
     properties {
-        property "sonar.host.url", "https://dev.moamoa.space"
         property "sonar.projectKey", "moamoa"
         property "sonar.sources", "src"
         property "sonar.language", "java"
