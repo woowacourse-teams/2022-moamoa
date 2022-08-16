@@ -51,6 +51,7 @@ public class Participants {
 
     public void leave(final Participant participant) {
         participants.remove(participant);
+        size--;
     }
 
     public boolean isParticipation(final Long memberId) {
