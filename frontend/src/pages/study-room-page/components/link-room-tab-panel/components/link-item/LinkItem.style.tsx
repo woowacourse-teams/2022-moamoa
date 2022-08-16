@@ -41,6 +41,8 @@ export const DropBoxButtons = styled.ul`
     row-gap: 8px;
     padding: 8px;
 
+    background-color: ${theme.colors.white};
+
     & > li:first-of-type {
       padding-bottom: 8px;
       border-bottom: 1px solid ${theme.colors.secondary.base};

@@ -40,13 +40,15 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
   const renderLinkPreview = () => {
     const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
 
-    const defaultPreviewResult: GetLinkPreviewResponseData = {
+    const errorPreviewResult: GetLinkPreviewResponseData = {
       title: '%Error%',
       description: '링크 불러오기에 실패했습니다 :(',
+      imageUrl: null,
+      domainName: null,
     };
     if (isFetching) return <div>로딩중...</div>;
 
-    if (isError || !isSuccess) return <LinkPreview previewResult={defaultPreviewResult} linkUrl={linkUrl} />;
+    if (isError || !isSuccess) return <LinkPreview previewResult={errorPreviewResult} linkUrl={linkUrl} />;
 
     return <LinkPreview previewResult={data} linkUrl={linkUrl} />;
   };
