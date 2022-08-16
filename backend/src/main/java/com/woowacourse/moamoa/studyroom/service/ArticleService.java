@@ -36,7 +36,7 @@ public class ArticleService {
     private final StudyRoomRepository studyRoomRepository;
     private final ArticleRepositoryFactory articleRepositoryFactory;
     private final PostArticleDao postArticleDao;
-    private LinkArticleDao linkArticleDao;
+    private final LinkArticleDao linkArticleDao;
 
     @Autowired
     public ArticleService(final StudyRoomRepository studyRoomRepository,
@@ -47,15 +47,6 @@ public class ArticleService {
         this.articleRepositoryFactory = articleRepositoryFactory;
         this.postArticleDao = postArticleDao;
         this.linkArticleDao = linkArticleDao;
-    }
-
-
-    public ArticleService(final StudyRoomRepository studyRoomRepository,
-                          final ArticleRepositoryFactory articleRepositoryFactory,
-                          final PostArticleDao postArticleDao) {
-        this.studyRoomRepository = studyRoomRepository;
-        this.articleRepositoryFactory = articleRepositoryFactory;
-        this.postArticleDao = postArticleDao;
     }
 
     @Transactional

@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/studies/{study-id}/{article-type}/articles")
-public class ArticleController {
+public class PostArticleController {
 
     private final ArticleService articleService;
 
-    public ArticleController(final ArticleService articleService) {
+    public PostArticleController(final ArticleService articleService) {
         this.articleService = articleService;
     }
 

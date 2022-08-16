@@ -9,6 +9,7 @@ import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
@@ -56,16 +57,19 @@ public class GettingCommunityArticleSummariesControllerTest {
     private ArticleRepositoryFactory articleRepositoryFactory;
 
     @Autowired
+    private LinkArticleDao linkArticleDao;
+
+    @Autowired
     private PostArticleDao postArticleDao;
 
-    private ArticleController sut;
+    private PostArticleController sut;
 
     @BeforeEach
     void setUp() {
         articleService = new ArticleService(studyRoomRepository,
-                articleRepositoryFactory, postArticleDao);
+                articleRepositoryFactory, postArticleDao, linkArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new ArticleController(articleService);
+        sut = new PostArticleController(articleService);
     }
 
     @DisplayName("스터디 커뮤니티 글 목록을 조회한다.")

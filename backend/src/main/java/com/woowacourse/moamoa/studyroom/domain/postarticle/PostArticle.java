@@ -22,14 +22,6 @@ public abstract class PostArticle extends Article {
     }
 
     @Override
-    public void update(final Accessor accessor, final String title, final String content) {
-        if (!isEditableBy(accessor)) {
-            throw new IllegalArgumentException();
-        }
-        this.content.update(new PostContent(title, content));
-    }
-
-    @Override
     public void update(final Accessor accessor, final Content<?> content) {
         if (!isEditableBy(accessor) && !content.getClass().equals(PostContent.class)) {
             throw new IllegalArgumentException();

@@ -15,6 +15,7 @@ import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -31,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class GettingArticleControllerTest {
+public class GettingPostArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -51,15 +52,18 @@ public class GettingArticleControllerTest {
     @Autowired
     private PostArticleDao postArticleDao;
 
+    @Autowired
+    private LinkArticleDao linkArticleDao;
+
     private StudyService studyService;
-    private ArticleController sut;
+    private PostArticleController sut;
     private ArticleService articleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(studyRoomRepository, articleRepositoryFactory, postArticleDao);
-        sut = new ArticleController(articleService);
+        articleService = new ArticleService(studyRoomRepository, articleRepositoryFactory, postArticleDao, linkArticleDao);
+        sut = new PostArticleController(articleService);
     }
 
     @DisplayName("스터디 게시글을 단건 조회한다.")

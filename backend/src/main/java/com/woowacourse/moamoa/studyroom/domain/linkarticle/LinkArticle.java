@@ -34,11 +34,6 @@ public class LinkArticle extends Article {
     }
 
     @Override
-    public void update(final Accessor accessor, final String title, final String content) {
-
-    }
-
-    @Override
     public void update(final Accessor accessor, final Content<?> content) {
         if (!isEditableBy(accessor) && !content.getClass().equals(LinkContent.class)) {
             throw new IllegalArgumentException();

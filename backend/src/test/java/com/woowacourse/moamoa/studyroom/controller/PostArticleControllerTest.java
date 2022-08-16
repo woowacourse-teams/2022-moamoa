@@ -20,6 +20,7 @@ import com.woowacourse.moamoa.studyroom.domain.postarticle.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.PostArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.PostArticleRequest;
@@ -33,7 +34,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class ArticleControllerTest {
+public class PostArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -53,14 +54,17 @@ public class ArticleControllerTest {
     @Autowired
     private PostArticleDao postArticleDao;
 
+    @Autowired
+    private LinkArticleDao linkArticleDao;
+
     private StudyService studyService;
-    private ArticleController sut;
+    private PostArticleController sut;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new ArticleController(
-                new ArticleService(studyRoomRepository, articleRepositoryFactory, postArticleDao));
+        sut = new PostArticleController(
+                new ArticleService(studyRoomRepository, articleRepositoryFactory, postArticleDao, linkArticleDao));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
