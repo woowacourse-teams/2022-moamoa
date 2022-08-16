@@ -33,7 +33,7 @@ jobs:
         run: sudo chmod 755 gradlew
         
       - name: Sonaqube Analysis        
-        run: ./gradlew test sonarqube
+        run: ./gradlew build sonarqube
              -Dsonar.host.url=${{ env.SONARQUBE_URL }}
              -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
              -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
