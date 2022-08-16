@@ -12,6 +12,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
+import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
@@ -79,5 +80,12 @@ class StudyParticipantControllerTest {
     void notLeaveByNonParticipatedMember() {
         assertThatThrownBy(() -> sut.leaveStudy(greenlawn.getId(), javaStudy.getId()))
                 .isInstanceOf(NotParticipatedMemberException.class);
+    }
+
+    @DisplayName("스터디장은 스터디를 탈퇴할 수 없다.")
+    @Test
+    void notLeaveByOwner() {
+        assertThatThrownBy(() -> sut.leaveStudy(jjanggu.getId(), javaStudy.getId()))
+                .isInstanceOf(OwnerCanNotLeaveException.class);
     }
 }

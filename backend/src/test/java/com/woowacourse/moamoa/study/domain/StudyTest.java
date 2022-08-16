@@ -342,6 +342,6 @@ public class StudyTest {
         sut.participate(participantId);
 
         // act
-        assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
+        assertThat(sut.isParticipantOrOwner(targetMemberId)).isEqualTo(expected);
     }
 }

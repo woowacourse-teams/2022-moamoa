@@ -83,11 +83,15 @@ public class Study {
     }
 
     public boolean isReviewWritable(final Long memberId) {
-        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
+        return participants.isParticipationOrOwner(memberId) && !studyPlanner.isPreparing();
     }
 
     public boolean isParticipant(final Long memberId) {
         return participants.isParticipation(memberId);
+    }
+
+    public boolean isParticipantOrOwner(final Long memberId) {
+        return participants.isParticipationOrOwner(memberId);
     }
 
     public void participate(final Long memberId) {
@@ -128,9 +132,13 @@ public class Study {
         if (participants.isOwner(memberId)) {
             return MemberRole.OWNER;
         }
-        if (participants.isParticipation(memberId)) {
+        if (participants.isParticipationOrOwner(memberId)) {
             return MemberRole.MEMBER;
         }
         return MemberRole.NON_MEMBER;
+    }
+
+    public boolean isOwner(final Long memberId) {
+        return participants.isOwner(memberId);
     }
 }

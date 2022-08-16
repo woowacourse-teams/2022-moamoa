@@ -41,7 +41,7 @@ public class Participants {
     }
 
     void participate(Long memberId) {
-        if (isParticipation(memberId)) {
+        if (isParticipationOrOwner(memberId)) {
             throw new FailureParticipationException();
         }
 
@@ -54,6 +54,10 @@ public class Participants {
     }
 
     public boolean isParticipation(final Long memberId) {
+        return participants.contains(new Participant(memberId));
+    }
+
+    public boolean isParticipationOrOwner(final Long memberId) {
         return participants.contains(new Participant(memberId)) || isOwner(memberId);
     }
 

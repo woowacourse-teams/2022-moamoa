@@ -6,6 +6,7 @@ import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMem
 import com.woowacourse.moamoa.study.domain.Participant;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,10 @@ public class StudyParticipantService {
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
+
+        if (study.isOwner(memberId)) {
+            throw new OwnerCanNotLeaveException();
+        }
 
         if (!study.isParticipant(memberId)) {
             throw new NotParticipatedMemberException();
