@@ -13,7 +13,7 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -37,7 +37,7 @@ public class DeletingArticleControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private PermittedParticipantsRepository permittedParticipantsRepository;
+    private StudyRoomRepository studyRoomRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -55,7 +55,7 @@ public class DeletingArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(permittedParticipantsRepository,
+        articleService = new ArticleService(studyRoomRepository,
                 articleRepositoryFactory, articleDao);
         sut = new ArticleController(articleService);
     }

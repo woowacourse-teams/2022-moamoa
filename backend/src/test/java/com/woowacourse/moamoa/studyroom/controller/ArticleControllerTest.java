@@ -17,8 +17,8 @@ import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.PermittedParticipants;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
@@ -48,7 +48,7 @@ public class ArticleControllerTest {
     private ArticleRepositoryFactory articleRepositoryFactory;
 
     @Autowired
-    private PermittedParticipantsRepository permittedParticipantsRepository;
+    private StudyRoomRepository studyRoomRepository;
 
     @Autowired
     private ArticleDao articleDao;
@@ -60,7 +60,7 @@ public class ArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new ArticleController(
-                new ArticleService(permittedParticipantsRepository, articleRepositoryFactory, articleDao));
+                new ArticleService(studyRoomRepository, articleRepositoryFactory, articleDao));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -82,12 +82,12 @@ public class ArticleControllerTest {
 
         Article actualArticle = articleRepositoryFactory.getRepository(COMMUNITY).findById(articleId)
                 .orElseThrow();
-        PermittedParticipants expectPermittedParticipants = new PermittedParticipants(study.getId(), owner.getId(), Set.of());
+        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
         assertThat(actualArticle).isEqualTo(
-                new CommunityArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectPermittedParticipants)
+                new CommunityArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
         );
     }
 
@@ -109,12 +109,12 @@ public class ArticleControllerTest {
         Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
         Article actualArticle = articleRepositoryFactory.getRepository(NOTICE).findById(articleId).orElseThrow();
 
-        PermittedParticipants expectPermittedParticipants = new PermittedParticipants(study.getId(), owner.getId(), Set.of());
+        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
         assertThat(actualArticle).isEqualTo(
-                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectPermittedParticipants)
+                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
         );
     }
 

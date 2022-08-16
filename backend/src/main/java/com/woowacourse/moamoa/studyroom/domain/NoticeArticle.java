@@ -18,15 +18,15 @@ public class NoticeArticle extends Article {
     private String content;
 
     NoticeArticle(final String title, final String content, final Long authorId,
-                  final PermittedParticipants permittedParticipants) {
-        super(null, authorId, permittedParticipants);
+                  final StudyRoom studyRoom) {
+        super(null, authorId, studyRoom);
         this.title = title;
         this.content = content;
     }
 
     public NoticeArticle(final Long id, final String title, final String content, final Long authorId,
-                         final PermittedParticipants permittedParticipants) {
-        super(id, authorId, permittedParticipants);
+                         final StudyRoom studyRoom) {
+        super(id, authorId, studyRoom);
         this.title = title;
         this.content = content;
     }
@@ -52,11 +52,11 @@ public class NoticeArticle extends Article {
         final NoticeArticle that = (NoticeArticle) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
                 && Objects.equals(getContent(), that.getContent()) && Objects.equals(getAuthorId(),
-                that.getAuthorId()) && Objects.equals(getPermittedParticipants(), that.getPermittedParticipants());
+                that.getAuthorId()) && Objects.equals(getStudyRoom(), that.getStudyRoom());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getPermittedParticipants());
+        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyRoom());
     }
 }

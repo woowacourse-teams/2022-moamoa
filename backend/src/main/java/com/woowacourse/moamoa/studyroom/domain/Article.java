@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.studyroom.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
+import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,20 +28,20 @@ public abstract class Article extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_id")
-    private PermittedParticipants permittedParticipants;
+    private StudyRoom studyRoom;
 
-    public Article(final Long id, final Long authorId, PermittedParticipants permittedParticipants) {
+    public Article(final Long id, final Long authorId, StudyRoom studyRoom) {
         this.id = id;
         this.authorId = authorId;
-        this.permittedParticipants = permittedParticipants;
+        this.studyRoom = studyRoom;
     }
 
     public boolean isViewableBy(final Accessor accessor) {
-        return permittedParticipants.isPermittedAccessor(accessor);
+        return studyRoom.isPermittedAccessor(accessor);
     }
 
     public boolean isEditableBy(final Accessor accessor) {
-        return permittedParticipants.isPermittedAccessor(accessor) && isAuthor(accessor);
+        return studyRoom.isPermittedAccessor(accessor) && isAuthor(accessor);
     }
 
     private boolean isAuthor(final Accessor accessor) {
@@ -48,4 +49,16 @@ public abstract class Article extends BaseEntity {
     }
 
     public abstract void update(Accessor accessor, String title, String content);
+
+    public Article write(final Accessor accessor, final StudyRoom studyRoom, final String title, final String content, final ArticleType type) {
+        if (type == ArticleType.COMMUNITY && studyRoom.isPermittedAccessor(accessor)) {
+            return new CommunityArticle(title, content, accessor.getMemberId(), studyRoom);
+        }
+
+        if (type == ArticleType.NOTICE && studyRoom.isOwner(accessor)) {
+            return new NoticeArticle(title, content, accessor.getMemberId(), studyRoom);
+        }
+
+        throw new NotParticipatedMemberException();
+    }
 }

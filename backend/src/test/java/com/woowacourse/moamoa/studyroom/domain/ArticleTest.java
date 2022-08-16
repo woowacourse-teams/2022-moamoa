@@ -22,10 +22,10 @@ class ArticleTest {
         long studyId = 1L;
         Member owner = createMember(1L);
         Member another = createMember(2L);
-        PermittedParticipants permittedParticipants = createPermittedAccessors(studyId, owner);
+        StudyRoom studyRoom = createPermittedAccessors(studyId, owner);
         Accessor accessor = new Accessor(another.getId(), 1L);
 
-        assertThatThrownBy(() -> permittedParticipants.write(accessor, "제목", "내용", COMMUNITY))
+        assertThatThrownBy(() -> studyRoom.write(accessor, "제목", "내용", COMMUNITY))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 
@@ -36,9 +36,9 @@ class ArticleTest {
         long studyId = 1L;
         Member owner = createMember(1L);
         Member participant = createMember(2L);
-        PermittedParticipants permittedParticipants = createPermittedAccessors(studyId, owner, participant);
+        StudyRoom studyRoom = createPermittedAccessors(studyId, owner, participant);
         Accessor accessor = new Accessor(owner.getId(), studyId);
-        Article article = permittedParticipants.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
 
         assertThat(article.isViewableBy(new Accessor(viewerId, studyId))).isEqualTo(expected);
     }
@@ -48,9 +48,9 @@ class ArticleTest {
     @CsvSource({"1,1,true", "1,2,false"})
     void deleteArticle(Long studyId, Long wantToViewStudyId, boolean expected) {
         Member member = createMember(1L);
-        PermittedParticipants permittedParticipants = createPermittedAccessors(studyId, member);
+        StudyRoom studyRoom = createPermittedAccessors(studyId, member);
         Accessor accessor = new Accessor(member.getId(), studyId);
-        Article article = permittedParticipants.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
 
         assertThat(article.isViewableBy(new Accessor(member.getId(), wantToViewStudyId))).isEqualTo(expected);
     }
@@ -61,9 +61,9 @@ class ArticleTest {
     void updateArticle(Long editorId, boolean expected) {
         Member owner = createMember(1L);
         Member participant = createMember(2L);
-        PermittedParticipants permittedParticipants = createPermittedAccessors(1L, owner, participant);
+        StudyRoom studyRoom = createPermittedAccessors(1L, owner, participant);
         Accessor accessor = new Accessor(owner.getId(), 1L);
-        Article article = permittedParticipants.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
 
         assertThat(article.isEditableBy(new Accessor(editorId, 1L))).isEqualTo(expected);
     }
@@ -72,16 +72,16 @@ class ArticleTest {
     @Test
     void editArticleByInvalidStudyId() {
         Member member = createMember(1L);
-        PermittedParticipants permittedParticipants = createPermittedAccessors(1L, member);
+        StudyRoom studyRoom = createPermittedAccessors(1L, member);
         Accessor accessor = new Accessor(member.getId(), 1L);
-        Article article = permittedParticipants.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
 
         assertThat(article.isViewableBy(new Accessor(member.getId(), 2L))).isFalse();
     }
 
-    private PermittedParticipants createPermittedAccessors(long studyId, Member owner, Member... participant) {
+    private StudyRoom createPermittedAccessors(long studyId, Member owner, Member... participant) {
         final Set<Long> participants = Stream.of(participant).map(Member::getId).collect(Collectors.toSet());
-        return new PermittedParticipants(studyId, owner.getId(), participants);
+        return new StudyRoom(studyId, owner.getId(), participants);
     }
 
     private Member createMember(final long id) {

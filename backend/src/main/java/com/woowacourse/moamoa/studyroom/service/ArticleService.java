@@ -3,8 +3,8 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.PermittedParticipants;
-import com.woowacourse.moamoa.studyroom.domain.repository.permmitedParticipants.PermittedParticipantsRepository;
+import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -29,15 +29,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ArticleService {
 
-    private final PermittedParticipantsRepository permittedParticipantsRepository;
+    private final StudyRoomRepository studyRoomRepository;
     private final ArticleRepositoryFactory articleRepositoryFactory;
     private final ArticleDao articleDao;
 
     @Autowired
-    public ArticleService(final PermittedParticipantsRepository permittedParticipantsRepository,
+    public ArticleService(final StudyRoomRepository studyRoomRepository,
                           final ArticleRepositoryFactory articleRepositoryFactory,
                           final ArticleDao articleDao) {
-        this.permittedParticipantsRepository = permittedParticipantsRepository;
+        this.studyRoomRepository = studyRoomRepository;
         this.articleRepositoryFactory = articleRepositoryFactory;
         this.articleDao = articleDao;
     }
@@ -45,12 +45,10 @@ public class ArticleService {
     @Transactional
     public Article createArticle(final Long memberId, final Long studyId,
                                  final ArticleRequest request, final ArticleType articleType) {
-        final PermittedParticipants permittedParticipants = permittedParticipantsRepository.findByStudyId(studyId)
+        final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final Accessor accessor = new Accessor(memberId, studyId);
-        final Article article = permittedParticipants.write(accessor,
-                request.getTitle(), request.getContent(), articleType);
-
+        final Article article = studyRoom.write(accessor, request.getTitle(), request.getContent(), articleType);
         final ArticleRepository<Article> repository = articleRepositoryFactory.getRepository(articleType);
         return repository.save(article);
     }
@@ -85,10 +83,10 @@ public class ArticleService {
 
     public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable,
                                                 final ArticleType type) {
-        final PermittedParticipants permittedParticipants = permittedParticipantsRepository.findByStudyId(studyId)
+        final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!permittedParticipants.isPermittedAccessor(new Accessor(memberId, studyId))) {
+        if (!studyRoom.isPermittedAccessor(new Accessor(memberId, studyId))) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
