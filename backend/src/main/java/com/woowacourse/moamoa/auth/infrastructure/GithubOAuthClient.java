@@ -41,6 +41,8 @@ public class GithubOAuthClient implements OAuthClient {
         에러 처리를 위해서는 body의 필드를 확인하여 처리해야 하므로 Map을 사용했다.
         Access Token 요청이 정상적인 경우 body로 access_token, token_type, scope를 응답한다.
      */
+
+    @SuppressWarnings("unchecked")
     @Override
     public String getAccessToken(final String code) {
         final AccessTokenRequest accessTokenRequest = new AccessTokenRequest(clientId, clientSecret, code);
