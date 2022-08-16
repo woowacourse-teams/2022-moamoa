@@ -11,7 +11,8 @@ export type LinkPreviewProps = {
 };
 
 const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => {
-  const domain = new URL(previewResult.domainName ?? linkUrl);
+  const domain = new URL(linkUrl);
+
   return (
     <S.PreviewContainer>
       <S.PreviewImageContainer>
