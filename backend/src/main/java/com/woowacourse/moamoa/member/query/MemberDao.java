@@ -39,12 +39,12 @@ public class MemberDao {
         return countOwnerStudy() + " + " + countParticipationStudy();
     }
 
-    private String countOwnerStudy() {
+    private String countParticipationStudy() {
         return "((SELECT count(case when (study_member.member_id = member.id) then 1 end) "
                 + "FROM study JOIN study_member ON study.id = study_member.study_id) ";
     }
 
-    private String countParticipationStudy() {
+    private String countOwnerStudy() {
         return "(SELECT count(case when (study.owner_id = member.id) then 1 end) "
                 + "FROM study)) as number_of_study ";
     }
