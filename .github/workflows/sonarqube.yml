@@ -1,19 +1,22 @@
 name: moamoa-sonarqube
-
 on:
   pull_request:
     branches:
       - develop
     types: [opened, synchronize]
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'backend')
-    defaults:
-      run:
-        working-directory: ./backend
-        
+    if: contains(github.event.pull_request.labels.*.name, '🖥backend')
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
   analysis:
     runs-on: ubuntu-latest
     env:
@@ -43,7 +46,6 @@ jobs:
              -Doauth2.github.client-secret=${{ env.client-secret }} 
              -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
              -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
-
       - name: Comment Sonarqube URL
         uses: actions/github-script@v4
         with:
