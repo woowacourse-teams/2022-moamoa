@@ -1,13 +1,13 @@
 package com.woowacourse.moamoa.review.controller;
 
-import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
-import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.디우_응답;
-import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.베루스_응답;
-import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -112,7 +112,7 @@ class SearchingReviewControllerTest {
                 LocalDate.now(), "리뷰 내용3");
         final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(베루스_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용4");
-        javaReviews = List.of(리뷰_내용1, 리뷰_내용2, 리뷰_내용3, 리뷰_내용4);
+        javaReviews = List.of(리뷰_내용4, 리뷰_내용3, 리뷰_내용2, 리뷰_내용1);
 
         entityManager.flush();
     }

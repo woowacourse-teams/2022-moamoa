@@ -1,15 +1,15 @@
 package com.woowacourse.moamoa.study.query;
 
-import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.디우;
-import static com.woowacourse.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.StudyFixtures.HTTP_스터디;
-import static com.woowacourse.fixtures.StudyFixtures.리눅스_스터디;
-import static com.woowacourse.fixtures.StudyFixtures.리액트_스터디;
-import static com.woowacourse.fixtures.StudyFixtures.알고리즘_스터디;
-import static com.woowacourse.fixtures.StudyFixtures.자바_스터디;
-import static com.woowacourse.fixtures.StudyFixtures.자바스크립트_스터디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.HTTP_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;

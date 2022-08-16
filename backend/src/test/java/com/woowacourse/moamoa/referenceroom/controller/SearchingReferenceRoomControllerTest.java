@@ -77,11 +77,11 @@ public class SearchingReferenceRoomControllerTest {
                 new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구);
-        final Member greenlawn = memberRepository.save(그린론);
-        final Member dwoo = memberRepository.save(디우);
-        final Member verus = memberRepository.save(베루스);
-        memberRepository.save(병민);
+        final Member jjanggu = memberRepository.save(짱구());
+        final Member greenlawn = memberRepository.save(그린론());
+        final Member dwoo = memberRepository.save(디우());
+        final Member verus = memberRepository.save(베루스());
+        memberRepository.save(병민());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());

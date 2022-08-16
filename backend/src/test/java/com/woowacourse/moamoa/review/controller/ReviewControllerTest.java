@@ -1,10 +1,10 @@
 package com.woowacourse.moamoa.review.controller;
 
-import static com.woowacourse.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_깃허브_아이디;
-import static com.woowacourse.fixtures.MemberFixtures.그린론_응답;
-import static com.woowacourse.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;

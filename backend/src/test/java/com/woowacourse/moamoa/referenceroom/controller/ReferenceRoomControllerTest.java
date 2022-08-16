@@ -56,9 +56,9 @@ public class ReferenceRoomControllerTest {
         sut = new ReferenceRoomController(new ReferenceRoomService(memberRepository, studyRepository, linkRepository));
 
         // 사용자 추가
-        jjangguId = memberRepository.save(짱구).getId();
-        verusId = memberRepository.save(베루스).getId();
-        dwooId = memberRepository.save(디우).getId();
+        jjangguId = memberRepository.save(짱구()).getId();
+        verusId = memberRepository.save(베루스()).getId();
+        dwooId = memberRepository.save(디우()).getId();
 
         // 스터디 생성
         final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
