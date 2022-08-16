@@ -10,22 +10,17 @@ import com.woowacourse.moamoa.community.domain.repository.CommunityArticleReposi
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleResponse;
 import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import java.time.LocalDate;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 @RepositoryTest
 public class GettingCommunityArticleControllerTest {
 
-    CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
+    StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
     @Autowired

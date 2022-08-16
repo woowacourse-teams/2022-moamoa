@@ -17,7 +17,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ import org.springframework.http.ResponseEntity;
 @RepositoryTest
 public class CommunityArticleControllerTest {
 
-    CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
+    StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
     @Autowired

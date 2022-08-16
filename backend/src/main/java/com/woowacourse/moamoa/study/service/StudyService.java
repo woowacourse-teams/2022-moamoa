@@ -13,7 +13,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +38,7 @@ public class StudyService {
         this.dateTimeSystem = dateTimeSystem;
     }
 
-    public Study createStudy(final Long githubId, final CreatingStudyRequest request) {
+    public Study createStudy(final Long githubId, final StudyRequest request) {
         final LocalDateTime createdAt = dateTimeSystem.now();
         final Member owner = findMemberBy(githubId);
 
@@ -49,7 +49,8 @@ public class StudyService {
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
 
-        return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+        return studyRepository.save(
+                new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
     }
 
     public void participateStudy(final Long githubId, final Long studyId) {
@@ -77,14 +78,16 @@ public class StudyService {
         }
     }
 
-    public void updateStudy(Long githubId, Long studyId, CreatingStudyRequest request) {
+    public void updateStudy(Long githubId, Long studyId, StudyRequest request) {
         Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
         checkOwner(study, member);
-        study.update(request);
+
+        study.update(request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
+                request.mapToStudyPlanner(LocalDate.now()));
     }
 
     private void checkOwner(Study study, Member member) {

@@ -5,7 +5,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -131,10 +130,12 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void update(CreatingStudyRequest request) {
-        this.content = request.mapToContent();
-        this.recruitPlanner = request.mapToRecruitPlan();
-        this.attachedTags = request.mapToAttachedTags();
-        this.studyPlanner = request.mapToStudyPlanner(LocalDate.now());
+    public void update(Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
+                       StudyPlanner studyPlanner
+    ) {
+        this.content = content;
+        this.recruitPlanner = recruitPlanner;
+        this.attachedTags = attachedTags;
+        this.studyPlanner = studyPlanner;
     }
 }

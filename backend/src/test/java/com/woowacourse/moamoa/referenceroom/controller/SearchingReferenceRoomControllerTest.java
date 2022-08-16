@@ -36,7 +36,7 @@ import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -88,7 +88,7 @@ public class SearchingReferenceRoomControllerTest {
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
 

@@ -21,7 +21,7 @@ import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +64,7 @@ public class ReferenceRoomControllerTest {
         // 스터디 생성
         final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         final LocalDate startDate = LocalDate.now();
-        final CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        final StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
         studyService.participateStudy(베루스_깃허브_아이디, javaStudyId);
