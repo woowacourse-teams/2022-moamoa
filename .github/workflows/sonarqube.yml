@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./backend/
+    working-directory: ./backend
 
 jobs:
   build:
@@ -24,17 +24,21 @@ jobs:
       SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
       SONARQUBE_TOKEN : ${{ secrets.SONARQUBE_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
+      
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+        
       - name: gradlew permission change
         run: sudo chmod 755 gradlew
+        
       - name: Sonaqube Analysis        
         run: ./gradlew test sonarqube
              -Dsonar.host.url=${{ env.SONARQUBE_URL }}
              -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
              -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
              -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+             
       - name: Comment Sonarqube URL
         uses: actions/github-script@v4
         with:
