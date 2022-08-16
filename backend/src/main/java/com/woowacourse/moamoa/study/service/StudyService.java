@@ -42,6 +42,7 @@ public class StudyService {
 
         final Participants participants = request.mapToParticipants(owner.getId());
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();

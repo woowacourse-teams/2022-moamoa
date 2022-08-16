@@ -57,7 +57,7 @@ public class Participants {
         return ownerId.equals(memberId);
     }
 
-    int getSize() {
+    public int getSize() {
         return size;
     }
 

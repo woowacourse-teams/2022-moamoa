@@ -1,18 +1,30 @@
 package com.woowacourse.moamoa.study.query;
 
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.HTTP_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.study.domain.Study;
+import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Set;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 class StudyDetailsDaoTest {
@@ -21,53 +33,41 @@ class StudyDetailsDaoTest {
     private StudyDetailsDao sut;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private StudyRepository studyRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private EntityManager entityManager;
+
+    private Member 짱구;
+    private Member 그린론;
+    private Member 디우;
+    private Member 베루스;
+
+    private Study 자바_스터디;
+    private Study 리액트_스터디;
+    private Study 자바스크립트_스터디;
+    private Study HTTP_스터디;
+    private Study 알고리즘_스터디;
+    private Study 리눅스_스터디;
 
     @BeforeEach
     void initDataBase() {
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (1, 1, 'jjanggu', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (2, 2, 'greenlawn', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (3, 3, 'dwoo', 'https://image', 'github.com')");
-        jdbcTemplate.update("INSERT INTO member(id, github_id, username, image_url, profile_url) VALUES (4, 4, 'verus', 'https://image', 'github.com')");
+        짱구 = memberRepository.save(짱구());
+        그린론 = memberRepository.save(그린론());
+        디우 = memberRepository.save(디우());
+        베루스 = memberRepository.save(베루스());
 
-        final LocalDateTime now = LocalDateTime.now();
+        자바_스터디 = studyRepository.save(자바_스터디(짱구.getId(), Set.of(그린론.getId(), 디우.getId())));
+        리액트_스터디 = studyRepository.save(리액트_스터디(디우.getId(), Set.of(짱구.getId(), 그린론.getId(), 베루스.getId())));
+        자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디(그린론.getId(), Set.of(디우.getId(), 베루스.getId())));
+        HTTP_스터디 = studyRepository.save(HTTP_스터디(디우.getId(), Set.of(베루스.getId(), 짱구.getId())));
+        알고리즘_스터디 = studyRepository.save(알고리즘_스터디(베루스.getId(), Set.of(그린론.getId(), 디우.getId())));
+        리눅스_스터디 = studyRepository.save(리눅스_스터디(베루스.getId(), Set.of(그린론.getId(), 디우.getId())));
 
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (1, 'Java 스터디', '자바 설명', 'java thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 우당탕탕 자바 스터디입니다.', 3, 10, '" + now + "', '2021-12-08', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id) "
-                + "VALUES (2, 'React 스터디', '리액트 설명', 'react thumbnail', 'RECRUITMENT_START', 'PREPARE', '디우의 뤼액트 스터디입니다.', 4, 5, '" + now + "', '2021-11-09', '2021-11-10', '2021-12-08', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (3, 'javaScript 스터디', '자바스크립트 설명', 'javascript thumbnail', 'RECRUITMENT_START', 'PREPARE', '그린론의 자바스크립트 접해보기', 3, 20, '" + now + "', '2022-08-03', 2)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, max_member_count, created_at, start_date, owner_id) "
-                + "VALUES (4, 'HTTP 스터디', 'HTTP 설명', 'http thumbnail', 'RECRUITMENT_END', 'PREPARE', '디우의 HTTP 정복하기', 5, '" + now + "', '2022-08-03', 3)");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date) "
-                + "VALUES (5, '알고리즘 스터디', '알고리즘 설명', 'algorithm thumbnail', 'RECRUITMENT_END', 'PREPARE', '알고리즘을 TDD로 풀자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06')");
-        jdbcTemplate.update("INSERT INTO study(id, title, excerpt, thumbnail, recruitment_status, study_status, description, current_member_count, created_at, owner_id, start_date, enrollment_end_date, end_date) "
-                + "VALUES (6, 'Linux 스터디', '리눅스 설명', 'linux thumbnail', 'RECRUITMENT_END', 'PREPARE', 'Linux를 공부하자의 베루스입니다.', 1, '" + now + "', 4, '2021-12-06', '2021-12-07', '2022-01-07')");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 1)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (1, 3)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 4)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (2, 5)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (3, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 2)");
-        jdbcTemplate.update("INSERT INTO study_tag(study_id, tag_id) VALUES (4, 3)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (1, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 1)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 2)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (2, 4)");
-
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 3)");
-        jdbcTemplate.update("INSERT INTO study_member(study_id, member_id) VALUES (3, 4)");
+        entityManager.flush();
     }
 
 
@@ -75,17 +75,19 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasEnrollmentEndDateAndEndDateStudyDetails() {
         // 알고리즘 스터디는 모집 기간과 스터디 종료일자가 없음
-        final StudyDetailsData actual = sut.findBy(5L).orElseThrow();
+        final StudyDetailsData actual = sut.findBy(알고리즘_스터디.getId()).orElseThrow();
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
-                .id(5L).title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
-                .status("RECRUITMENT_END").description("알고리즘을 TDD로 풀자의 베루스입니다.").createdDate(actual.getCreatedDate())
+                .id(알고리즘_스터디.getId()).title(알고리즘_스터디.getContent().getTitle())
+                .excerpt(알고리즘_스터디.getContent().getExcerpt()).thumbnail(알고리즘_스터디.getContent().getThumbnail())
+                .status(알고리즘_스터디.getRecruitPlanner().getRecruitStatus().toString())
+                .description(알고리즘_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participants
-                .currentMemberCount(1)
-                .owner(new MemberData(4L, "verus", "https://image", "github.com"))
+                .currentMemberCount(알고리즘_스터디.getParticipants().getSize())
+                .owner(new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()))
                 // Study Period
-                .startDate(LocalDate.of(2021, 12, 6))
+                .startDate(알고리즘_스터디.getStudyPlanner().getStartDate())
                 .build();
 
         assertStudyContent(actual, expect);
@@ -97,19 +99,19 @@ class StudyDetailsDaoTest {
     @Test
     void getNotHasMaxMemberCountStudyDetails() {
         // Linux 스터디는 최대 인원 정보가 없음
-        final StudyDetailsData actual = sut.findBy(6L).orElseThrow();
+        final StudyDetailsData actual = sut.findBy(리눅스_스터디.getId()).orElseThrow();
 
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
-                .id(6L).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
-                .status("RECRUITMENT_END").description("Linux를 공부하자의 베루스입니다.").createdDate(actual.getCreatedDate())
+                .id(리눅스_스터디.getId()).title(리눅스_스터디.getContent().getTitle()).excerpt(리눅스_스터디.getContent().getExcerpt()).thumbnail(리눅스_스터디.getContent().getThumbnail())
+                .status(리눅스_스터디.getRecruitPlanner().getRecruitStatus().toString()).description(리눅스_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participant
-                .currentMemberCount(1)
-                .owner(new MemberData(4L, "verus", "https://image", "github.com"))
+                .currentMemberCount(리눅스_스터디.getParticipants().getSize())
+                .owner(new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()))
                 // Study Period
-                .startDate(LocalDate.of(2021, 12, 6))
-                .enrollmentEndDate(LocalDate.of(2021, 12, 7))
-                .endDate(LocalDate.of(2022, 1, 7))
+                .startDate(리눅스_스터디.getStudyPlanner().getStartDate())
+                .enrollmentEndDate(리눅스_스터디.getRecruitPlanner().getEnrollmentEndDate())
+                .endDate(리눅스_스터디.getStudyPlanner().getEndDate())
                 .build();
 
         assertStudyContent(actual, expect);
