@@ -8,6 +8,8 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -75,14 +77,8 @@ class SearchingReviewControllerTest {
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
-        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
-                .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
-                .startDate(startDate)
-                .build();
+        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
         javaStudy = studyService.createStudy(1L, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);

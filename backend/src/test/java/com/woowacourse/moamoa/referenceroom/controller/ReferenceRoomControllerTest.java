@@ -6,6 +6,7 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -63,10 +64,7 @@ public class ReferenceRoomControllerTest {
         // 스터디 생성
         final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         final LocalDate startDate = LocalDate.now();
-        final CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        final CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
         studyService.participateStudy(베루스_깃허브_아이디, javaStudyId);

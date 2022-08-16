@@ -18,6 +18,8 @@ import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰3;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰3_내용;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰4;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰4_내용;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_신청서;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -84,14 +86,8 @@ class ReviewDaoTest {
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
-        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
-                .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
-                .startDate(startDate)
-                .build();
+        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
         reactStudy = createStudyService.createStudy(1L, reactStudyRequest);
