@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,15 @@ public class StudyController {
                                                  @PathVariable("study-id") final Long studyId
     ) {
         studyService.participateStudy(githubId, studyId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{study-id}")
+    public ResponseEntity<Void> upodateStudy(@AuthenticationPrincipal final Long githubId,
+                                             @PathVariable("study-id") final Long studyId,
+                                             @Valid @RequestBody(required = false) final CreatingStudyRequest request
+    ) {
+        studyService.updateStudy(githubId, studyId, request);
         return ResponseEntity.ok().build();
     }
 }
