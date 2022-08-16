@@ -75,9 +75,4 @@ public class RecruitPlanner {
     boolean hasCapacity() {
         return max != null;
     }
-
-
-    public boolean isMemberMax(final String maxMemberCount, final int size) {
-        return maxMemberCount != null && size == this.getMax();
-    }
 }
