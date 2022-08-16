@@ -40,13 +40,17 @@ public class Participants {
                 .collect(Collectors.toSet());
     }
 
+    public static Participants createBy(Long ownerId) {
+        return new Participants(ownerId, new HashSet<>());
+    }
+
     void participate(Long memberId) {
         if (isParticipationOrOwner(memberId)) {
             throw new FailureParticipationException();
         }
 
         participants.add(new Participant(memberId));
-        size = size + 1;
+        size++;
     }
 
     public void leave(final Participant participant) {
@@ -54,12 +58,12 @@ public class Participants {
         size--;
     }
 
-    public boolean isParticipation(final Long memberId) {
-        return participants.contains(new Participant(memberId));
+    boolean isParticipationOrOwner(final Long memberId) {
+        return participants.contains(new Participant(memberId)) || isOwner(memberId);
     }
 
-    public boolean isParticipationOrOwner(final Long memberId) {
-        return participants.contains(new Participant(memberId)) || isOwner(memberId);
+    boolean isParticipation(final Long memberId) {
+        return participants.contains(new Participant(memberId));
     }
 
     boolean isOwner(Long memberId) {
@@ -92,9 +96,5 @@ public class Participants {
     @Override
     public int hashCode() {
         return Objects.hash(size, getParticipants());
-    }
-
-    public static Participants createBy(Long ownerId) {
-        return new Participants(ownerId, new HashSet<>());
     }
 }

@@ -5,21 +5,20 @@ import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_STAR
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
-
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import static java.time.LocalDateTime.now;
-
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-
+import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -343,5 +342,53 @@ public class StudyTest {
 
         // act
         assertThat(sut.isParticipantOrOwner(targetMemberId)).isEqualTo(expected);
+    }
+
+    @DisplayName("스터디장은 탈퇴할 수 없다.")
+    @Test
+    void notLeaveOwner() {
+        final Participant owner = new Participant(1L);
+
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(owner.getMemberId());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        assertThatThrownBy(() -> sut.leave(owner))
+                .isInstanceOf(OwnerCanNotLeaveException.class);
+    }
+
+    @DisplayName("스터디에 참여하지 않은 회원은 탈퇴할 수 없다.")
+    @Test
+    void notLeaveNonParticipatedMember() {
+        final Participant owner = new Participant(1L);
+        final Participant participant = new Participant(2L);
+
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(owner.getMemberId());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        assertThatThrownBy(() -> sut.leave(participant))
+                .isInstanceOf(NotParticipatedMemberException.class);
+    }
+
+    @DisplayName("스터디원은 탈퇴할 수 있다.")
+    @Test
+    void LeaveParticipatedMember() {
+        final Participant owner = new Participant(1L);
+        final Participant participant = new Participant(2L);
+
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(owner.getMemberId());
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        sut.participate(participant.getMemberId());
+
+        assertDoesNotThrow(() -> sut.leave(participant));
     }
 }

@@ -36,7 +36,7 @@ public class StudyParticipantAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .when().log().all()
-                .delete("/api/studies/{study-id}/participants")
+                .delete("/api/studies/{study-id}/members")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
