@@ -1,6 +1,8 @@
 name: moamoa-sonarqube
 on:
   pull_request:
+    paths:
+      - './backend/**'
     branches:
       - develop
     types: [opened, synchronize]
@@ -8,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, '🖥 backend')
+#     if: contains(github.event.pull_request.labels.*.name, '🖥 backend')
     defaults:
       run:
         working-directory: ./backend
