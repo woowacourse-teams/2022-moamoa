@@ -30,7 +30,7 @@ import com.woowacourse.moamoa.referenceroom.query.data.LinkData;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -100,10 +100,10 @@ public class SearchingReferenceRoomControllerTest {
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository,
                 linkRepository);
 
-        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
-        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
-        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
-        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+        final LinkRequest request1 = new LinkRequest("https://github.com/sc0116", "짱구 링크.");
+        final LinkRequest request2 = new LinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final LinkRequest request3 = new LinkRequest("https://github.com/tco0427", "디우 링크.");
+        final LinkRequest request4 = new LinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
         final Link link1 = linkService.createLink(짱구_깃허브_아이디, javaStudy.getId(), request1);
         final Link link2 = linkService.createLink(그린론_깃허브_아이디, javaStudy.getId(), request2);

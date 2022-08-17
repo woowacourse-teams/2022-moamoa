@@ -30,8 +30,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
-import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.response.AuthorResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
@@ -54,8 +53,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long javaStudyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
         final String jwtToken = 짱구가().로그인한다();
-        final CreatingLinkRequest request =
-                new CreatingLinkRequest("https://github.com/sc0116", "링크에 대한 간단한 소개입니다.");
+        final LinkRequest request =
+                new LinkRequest("https://github.com/sc0116", "링크에 대한 간단한 소개입니다.");
 
         RestAssured.given(spec).log().all()
                 .filter(document("reference-room/create",
@@ -86,10 +85,10 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
         베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
 
-        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
-        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
-        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
-        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+        final LinkRequest request1 = new LinkRequest("https://github.com/sc0116", "짱구 링크.");
+        final LinkRequest request2 = new LinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final LinkRequest request3 = new LinkRequest("https://github.com/tco0427", "디우 링크.");
+        final LinkRequest request4 = new LinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
         final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
         final Long 그린론_링크공유_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request2);
@@ -160,14 +159,14 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 수정할 수 있다.")
     @Test
     void updateLink() {
-        final CreatingLinkRequest creatingLinkRequest = new CreatingLinkRequest("https://github.com/sc0116",
+        final LinkRequest creatingLinkRequest = new LinkRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(creatingLinkRequest);
         final String token = 짱구가().로그인한다();
 
-        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com/woowacourse",
+        final LinkRequest linkRequest = new LinkRequest("https://github.com/woowacourse",
                 "수정된 링크 설명입니다.");
 
         RestAssured.given(spec).log().all()
@@ -180,7 +179,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디_ID)
                 .pathParam("link-id", 짱구_링크공유_ID)
-                .body(editingLinkRequest)
+                .body(linkRequest)
                 .when().log().all()
                 .put("/api/studies/{study-id}/reference-room/links/{link-id}")
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
@@ -198,8 +197,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final LocalDate 링크_수정일 = 지금;
 
         final AuthorResponse 짱구 = new AuthorResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
-        final LinkResponse 짱구_링크 = new LinkResponse(짱구_링크공유_ID, 짱구, editingLinkRequest.getLinkUrl(),
-                editingLinkRequest.getDescription(), 링크_생성일, 링크_수정일);
+        final LinkResponse 짱구_링크 = new LinkResponse(짱구_링크공유_ID, 짱구, linkRequest.getLinkUrl(),
+                linkRequest.getDescription(), 링크_생성일, 링크_수정일);
 
         assertThat(response.getLinks()).containsExactlyInAnyOrder(짱구_링크);
         assertThat(response.isHasNext()).isFalse();
@@ -208,11 +207,11 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 삭제할 수 있다.")
     @Test
     void deleteLink() {
-        final CreatingLinkRequest creatingLinkRequest = new CreatingLinkRequest("https://github.com/sc0116",
+        final LinkRequest linkRequest = new LinkRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(creatingLinkRequest);
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkRequest);
         final String token = 짱구가().로그인한다();
 
         RestAssured.given(spec).log().all()
@@ -247,8 +246,8 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long javaStudyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
         final String jwtToken = 짱구가().로그인한다();
-        final CreatingLinkRequest request =
-                new CreatingLinkRequest("github.com/sc0116", "링크에 대한 간단한 소개입니다.");
+        final LinkRequest request =
+                new LinkRequest("github.com/sc0116", "링크에 대한 간단한 소개입니다.");
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, jwtToken)

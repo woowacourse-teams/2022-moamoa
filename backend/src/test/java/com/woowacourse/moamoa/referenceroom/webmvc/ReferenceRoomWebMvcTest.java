@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @Test
     void requestByNullLinkUrl() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(null, "설명"));
+        final String content = objectMapper.writeValueAsString(new LinkRequest(null, "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -34,7 +34,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @Test
     void requestByBlankLinkUrl() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("", "설명"));
+        final String content = objectMapper.writeValueAsString(new LinkRequest("", "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -48,7 +48,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @Test
     void requestBy40LengthExceededDescription() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크",
+        final String content = objectMapper.writeValueAsString(new LinkRequest("링크",
                 "일이삼사오육칠팔구십"
                         + "일이삼사오육칠팔이십"
                         + "일이삼사오육칠팔삼십"
@@ -67,7 +67,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @Test
     void requestByInvalidStudyId() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
+        final String content = objectMapper.writeValueAsString(new LinkRequest("링크", "설명"));
 
         mockMvc.perform(post("/api/studies/one/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, token)
@@ -105,7 +105,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     @Test
     void requestByInvalidToken() throws Exception {
         final String invalidToken = "Bearer Invalid Token";
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest("링크", "설명"));
+        final String content = objectMapper.writeValueAsString(new LinkRequest("링크", "설명"));
 
         mockMvc.perform(post("/api/studies/one/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, invalidToken)
@@ -124,7 +124,7 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
     })
     void requestByInvalidLinkUrl(final String url) throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(url, "설명"));
+        final String content = objectMapper.writeValueAsString(new LinkRequest(url, "설명"));
 
         mockMvc.perform(post("/api/studies/1/reference-room/links")
                         .header(HttpHeaders.AUTHORIZATION, token)

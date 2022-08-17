@@ -13,7 +13,7 @@ import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.query.data.LinkData;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
@@ -77,10 +77,10 @@ public class LinkDaoTest {
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository, linkRepository);
 
-        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
-        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
-        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
-        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+        final LinkRequest request1 = new LinkRequest("https://github.com/sc0116", "짱구 링크.");
+        final LinkRequest request2 = new LinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final LinkRequest request3 = new LinkRequest("https://github.com/tco0427", "디우 링크.");
+        final LinkRequest request4 = new LinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
         final Link link1 = linkService.createLink(JJANGGU.getGithubId(), javaStudy.getId(), request1);
         final Link link2 = linkService.createLink(GREENLAWN.getGithubId(), javaStudy.getId(), request2);

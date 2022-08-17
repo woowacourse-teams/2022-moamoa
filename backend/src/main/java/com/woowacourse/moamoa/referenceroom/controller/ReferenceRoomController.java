@@ -2,8 +2,7 @@ package com.woowacourse.moamoa.referenceroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
-import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +26,9 @@ public class ReferenceRoomController {
     public ResponseEntity<Void> createLink(
             @AuthenticationPrincipal final Long githubId,
             @PathVariable("study-id") final Long studyId,
-            @Valid @RequestBody final CreatingLinkRequest creatingLinkRequest
+            @Valid @RequestBody final LinkRequest linkRequest
     ) {
-        final Long id = referenceRoomService.createLink(githubId, studyId, creatingLinkRequest).getId();
+        final Long id = referenceRoomService.createLink(githubId, studyId, linkRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -38,9 +37,9 @@ public class ReferenceRoomController {
             @AuthenticationPrincipal final Long githubId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
-            @Valid @RequestBody final EditingLinkRequest editingLinkRequest
+            @Valid @RequestBody final LinkRequest linkRequest
     ) {
-        referenceRoomService.updateLink(githubId, studyId, linkId, editingLinkRequest);
+        referenceRoomService.updateLink(githubId, studyId, linkId, linkRequest);
         return ResponseEntity.noContent().build();
     }
 

@@ -13,12 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class EditingLinkRequest {
+public class LinkRequest {
 
     @NotBlank(message = "공유할 링크 URL을 입력해 주세요.")
     @Pattern(
             regexp = "^((http(s?))\\:\\/\\/)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/\\S*)?$",
-//            regexp = "^((http|https)://)(www.)?([a-zA-Z0-9]+)\\.[a-z]+([a-zA-z0-9.?#]+)?",
             message = "Link 형식이 유효하지 않습니다."
     )
     @Size(max = 500, message = "링크 URL은 500자를 초과할 수 없습니다.")

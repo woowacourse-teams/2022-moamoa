@@ -9,8 +9,7 @@ import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
-import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
+import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -28,7 +27,7 @@ public class ReferenceRoomService {
     private final StudyRepository studyRepository;
     private final LinkRepository linkRepository;
 
-    public Link createLink(final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
+    public Link createLink(final Long githubId, final Long studyId, final LinkRequest linkRequest) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
@@ -38,12 +37,12 @@ public class ReferenceRoomService {
             throw new NotCreatingLinkException();
         }
 
-        final Link link = creatingLinkRequest.toLink(studyId, member.getId());
+        final Link link = linkRequest.toLink(studyId, member.getId());
         return linkRepository.save(link);
     }
 
     public void updateLink(
-            final Long githubId, final Long studyId, final Long linkId, final EditingLinkRequest editingLinkRequest
+            final Long githubId, final Long studyId, final Long linkId, final LinkRequest linkRequest
     ) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -56,7 +55,7 @@ public class ReferenceRoomService {
             throw new NotParticipatedMemberException();
         }
 
-        final Link updatedLink = editingLinkRequest.toLink(studyId, member.getId());
+        final Link updatedLink = linkRequest.toLink(studyId, member.getId());
         link.update(updatedLink);
     }
 
