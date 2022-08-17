@@ -1,6 +1,6 @@
 import type { MakeOptional, Tag } from '@custom-types';
 
-import { CrownSvg, TrashCanSvg } from '@components/svg';
+import { CrownSvg } from '@components/svg';
 
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
@@ -42,9 +42,6 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
           <S.Period>
             <span>{startDate}</span> ~ <span>{endDate || ''}</span>
           </S.Period>
-          <S.TrashButton>
-            <TrashCanSvg />
-          </S.TrashButton>
         </S.Bottom>
       </S.Container>
     </S.MyStudyCard>
