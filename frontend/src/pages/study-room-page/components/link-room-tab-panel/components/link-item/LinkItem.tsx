@@ -79,7 +79,9 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             )}
           </S.PreviewMeatballMenuContainer>
         )}
-        <a href={linkUrl}>{renderLinkPreview()}</a>
+        <a href={linkUrl} rel="noreferrer" target="_blank">
+          {renderLinkPreview()}
+        </a>
         <UserDescription author={author} description={description} css={tw`pl-8 pr-8`} />
       </S.LinkItemContainer>
       {isModalOpen && (
