@@ -17,7 +17,6 @@ import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,15 +83,7 @@ public class StudyService {
         Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
-        checkOwner(study, member);
-
-        study.update(request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
+        study.update(member.getId(), request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
                 request.mapToStudyPlanner(LocalDate.now()));
-    }
-
-    private void checkOwner(Study study, Member member) {
-        if (!Objects.equals(study.getParticipants().getOwnerId(), member.getId())) {
-            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
-        }
     }
 }

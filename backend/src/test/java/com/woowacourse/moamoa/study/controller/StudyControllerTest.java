@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.study.controller;
 
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -217,27 +216,6 @@ public class StudyControllerTest {
 
         // then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
-    }
-
-    @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
-    @Test
-    public void updateStudyWithParticipant() {
-        // given
-        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
-                new DateTimeSystem()));
-
-        final StudyRequest studyRequest = 자바_스터디_신청서(LocalDate.now());
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, studyRequest);
-        final String location = createdResponse.getHeaders().getLocation().getPath();
-        final long studyId = getStudyIdBy(location);
-
-        final Member participant = memberRepository.findByGithubId(2L).get();
-        studyController.participateStudy(participant.getGithubId(), studyId);
-
-        // when & then
-        final StudyRequest updatingStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
-        assertThatThrownBy(() -> studyController.updateStudy(2L, studyId, updatingStudyRequest))
-                .isInstanceOf(UnauthorizedException.class);
     }
 
     private long getStudyIdBy(final String location) {

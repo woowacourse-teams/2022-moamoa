@@ -3,10 +3,12 @@ package com.woowacourse.moamoa.study.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -130,12 +132,19 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void update(Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
+    public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
                        StudyPlanner studyPlanner
     ) {
+        checkOwner(memberId);
         this.content = content;
         this.recruitPlanner = recruitPlanner;
         this.attachedTags = attachedTags;
         this.studyPlanner = studyPlanner;
+    }
+
+    private void checkOwner(Long memberId) {
+        if (!Objects.equals(getParticipants().getOwnerId(), memberId)) {
+            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
+        }
     }
 }
