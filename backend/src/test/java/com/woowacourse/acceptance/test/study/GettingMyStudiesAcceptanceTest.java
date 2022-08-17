@@ -11,12 +11,8 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필
 import static com.woowacourse.acceptance.fixture.StudyFixtures.리액트_스터디_제목;
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바_스터디_제목;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그명;
-import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.리액트_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
-import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_설명;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그명;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
@@ -44,13 +40,12 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
+class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test

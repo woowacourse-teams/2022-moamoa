@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class UnauthorizedReviewWebMvcTest extends WebMVCTest {
+class UnauthorizedReviewWebMvcTest extends WebMVCTest {
 
     @DisplayName("유효하지 않은 토큰으로 리뷰 작성하려는 경우 401 에러을 반환한다.")
     @Test

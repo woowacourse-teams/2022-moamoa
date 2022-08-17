@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.community.webmvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,7 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
-public class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
+class GettingCommunityArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 조회할 경우 401을 반환한다.")
     @ParameterizedTest

@@ -27,7 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class CommunityArticleControllerTest {
+class CommunityArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -85,8 +85,12 @@ public class CommunityArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
+        final Long memberId = member.getId() + 1L;
+        final Long studyId = study.getId();
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
+
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(member.getId() + 1, study.getId(), new ArticleRequest("제목", "내용")))
+        assertThatThrownBy(() -> sut.createArticle(memberId, studyId, articleRequest))
                 .isInstanceOf(MemberNotFoundException.class);
     }
 
@@ -96,8 +100,11 @@ public class CommunityArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
+        Long memberId = member.getId();
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
+
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(member.getId(), 1L, new ArticleRequest("제목", "내용")))
+        assertThatThrownBy(() -> sut.createArticle(memberId, 1L, articleRequest))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 }

@@ -182,8 +182,8 @@ class MyStudyServiceTest {
                         tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
-        assertThat(tags.get(4).size()).isZero();
-        assertThat(tags.get(5).size()).isZero();
+        assertThat(tags.get(4)).isEmpty();
+        assertThat(tags.get(5)).isEmpty();
     }
 
     @DisplayName("존재하지 않은 내가 참여한 스터디 조회 시 예외 발생")

@@ -115,7 +115,7 @@ class SearchingReviewControllerTest {
 
     @DisplayName("스터디의 전체 후기를 조회할 수 있다.")
     @Test
-    public void getAllReviews() {
+    void getAllReviews() {
         final ResponseEntity<ReviewsResponse> reviewsResponse = sut.getReviews(javaStudy.getId(), SizeRequest.empty());
 
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -126,7 +126,7 @@ class SearchingReviewControllerTest {
 
     @DisplayName("원하는 갯수 만큼 스터디의 후기를 조회할 수 있다.")
     @Test
-    public void getReviewsByStudy() {
+    void getReviewsByStudy() {
         final ResponseEntity<ReviewsResponse> reviewsResponse = sut.getReviews(javaStudy.getId(), new SizeRequest(2));
 
         assertThat(reviewsResponse.getStatusCode()).isEqualTo(HttpStatus.OK);

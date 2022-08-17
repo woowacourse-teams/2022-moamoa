@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class StudyControllerTest {
+class StudyControllerTest {
 
     @Autowired
     private StudyRepository studyRepository;
@@ -159,7 +159,7 @@ public class StudyControllerTest {
 
     @DisplayName("회원은 스터디에 참여할 수 있다.")
     @Test
-    public void participateStudy() {
+    void participateStudy() {
         // given
         StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
                 new DateTimeSystem()));
@@ -191,7 +191,7 @@ public class StudyControllerTest {
 
     @DisplayName("최대인원이 한 명인 경우 바로 모집 종료가 되어야 한다.")
     @Test
-    public void createdStudyWithMaxSizeOne() {
+    void createdStudyWithMaxSizeOne() {
         // given
         StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
                 new DateTimeSystem()));

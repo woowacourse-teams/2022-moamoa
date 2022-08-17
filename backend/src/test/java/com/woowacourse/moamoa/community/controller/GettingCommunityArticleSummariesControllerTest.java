@@ -9,7 +9,6 @@ import com.woowacourse.moamoa.community.domain.CommunityArticle;
 import com.woowacourse.moamoa.community.domain.repository.CommunityArticleRepository;
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
-import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.community.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
@@ -17,14 +16,11 @@ import com.woowacourse.moamoa.community.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.community.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class GettingCommunityArticleSummariesControllerTest {
+class GettingCommunityArticleSummariesControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -108,8 +104,11 @@ public class GettingCommunityArticleSummariesControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
+        final Long memberId = member.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 3);
+
         // act & assert
-        assertThatThrownBy(() -> sut.getArticles(member.getId(), 1L, PageRequest.of(0, 3)))
+        assertThatThrownBy(() -> sut.getArticles(memberId, 1L, pageRequest))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 
@@ -123,8 +122,12 @@ public class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
+        final Long otherId = other.getId();
+        final Long studyId = study.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 3);
+
         // act & assert
-        assertThatThrownBy(() -> sut.getArticles(other.getId(), study.getId(), PageRequest.of(0, 3)))
+        assertThatThrownBy(() -> sut.getArticles(otherId, studyId, pageRequest))
                 .isInstanceOf(UnviewableArticleException.class);
     }
 }

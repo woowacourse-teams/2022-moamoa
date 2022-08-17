@@ -39,7 +39,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @DisplayName("리뷰 인수 테스트")
-public class ReviewsAcceptanceTest extends AcceptanceTest {
+class ReviewsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("리뷰를 작성한다.")
     @Test
@@ -117,7 +117,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("원하는 갯수만큼 스터디에 달린 리뷰 목록을 조회할 수 있다.")
     @Test
-    public void getReviewsBySize() {
+    void getReviewsBySize() {
         // arrange
         final LocalDate 지금 = LocalDate.now();
 
@@ -194,7 +194,7 @@ public class ReviewsAcceptanceTest extends AcceptanceTest {
                 .extract().as(ReviewsResponse.class);
 
         assertThat(response.getReviews()).isEmpty();
-        assertThat(response.getTotalCount()).isEqualTo(0);
+        assertThat(response.getTotalCount()).isZero();
     }
 
     @DisplayName("자신이 참여한 스터디에 작성한 리뷰를 수정할 수 있다.")

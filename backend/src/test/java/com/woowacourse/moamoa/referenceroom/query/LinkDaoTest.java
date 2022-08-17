@@ -29,7 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
 @RepositoryTest
-public class LinkDaoTest {
+class LinkDaoTest {
 
     private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
     private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");

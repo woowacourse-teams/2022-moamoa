@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-public class AuthControllerTest extends WebMVCTest {
+class AuthControllerTest extends WebMVCTest {
 
     @MockBean
     AuthService authService;

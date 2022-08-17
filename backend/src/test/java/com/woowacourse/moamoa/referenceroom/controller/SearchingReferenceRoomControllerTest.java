@@ -49,7 +49,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class SearchingReferenceRoomControllerTest {
+class SearchingReferenceRoomControllerTest {
 
     @Autowired
     private LinkDao linkDao;
@@ -146,7 +146,10 @@ public class SearchingReferenceRoomControllerTest {
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유글을 조회할 수 없다.")
     @Test
     void getLinksByNotParticipatedMember() {
-        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudy.getId(), PageRequest.of(0, 5)))
+        final Long javaStudyId = javaStudy.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 5);
+
+        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudyId, pageRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }

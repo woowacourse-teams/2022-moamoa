@@ -39,7 +39,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 @RepositoryTest
-public class StudySummaryDaoTest {
+class StudySummaryDaoTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -132,7 +132,7 @@ public class StudySummaryDaoTest {
     @DisplayName("페이징 정보를 사용해 스터디 목록 조회")
     @ParameterizedTest
     @MethodSource("providePageableAndExpect")
-    public void findAllByPageable(Pageable pageable, List<Tuple> expectedTuples, boolean expectedHasNext) {
+    void findAllByPageable(Pageable pageable, List<Tuple> expectedTuples, boolean expectedHasNext) {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(), pageable);
 
         assertThat(response.hasNext()).isEqualTo(expectedHasNext);
@@ -162,7 +162,7 @@ public class StudySummaryDaoTest {
 
     @DisplayName("키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
-    public void findByTitleContaining() {
+    void findByTitleContaining() {
         final Slice<StudySummaryData> response = studySummaryDao
                 .searchBy("java", SearchingTags.emptyTags(), PageRequest.of(0, 3));
 
@@ -179,7 +179,7 @@ public class StudySummaryDaoTest {
 
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
-    public void findByBlankTitle() {
+    void findByBlankTitle() {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(),
                 PageRequest.of(0, 5));
 

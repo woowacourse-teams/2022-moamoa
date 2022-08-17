@@ -32,8 +32,9 @@ class CommunityArticleTest {
         final Member owner = createMember(1L);
         final Member another = createMember(2L);
         final Study study = createStudy(1L, owner);
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
 
-        assertThatThrownBy(() -> CommunityArticle.write(another, study, new ArticleRequest("제목", "내용")))
+        assertThatThrownBy(() -> CommunityArticle.write(another, study, articleRequest))
             .isInstanceOf(NotParticipatedMemberException.class);
     }
 

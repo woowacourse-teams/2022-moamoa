@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class MemberControllerTest {
+class MemberControllerTest {
 
     @Autowired
     MemberDao memberDao;

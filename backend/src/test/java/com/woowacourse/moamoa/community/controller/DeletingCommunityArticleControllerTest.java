@@ -10,18 +10,13 @@ import com.woowacourse.moamoa.community.domain.repository.CommunityArticleReposi
 import com.woowacourse.moamoa.community.query.CommunityArticleDao;
 import com.woowacourse.moamoa.community.service.CommunityArticleService;
 import com.woowacourse.moamoa.community.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.community.service.exception.NotArticleAuthorException;
-import com.woowacourse.moamoa.community.service.exception.NotRelatedArticleException;
 import com.woowacourse.moamoa.community.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.community.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class DeletingCommunityArticleControllerTest {
+class DeletingCommunityArticleControllerTest {
 
     CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -87,8 +82,11 @@ public class DeletingCommunityArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
+        final Long memberId = member.getId();
+        final Long studyId = study.getId();
+
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), study.getId(), 1L))
+        assertThatThrownBy(() -> sut.deleteArticle(memberId, studyId, 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -106,8 +104,12 @@ public class DeletingCommunityArticleControllerTest {
         final CommunityArticle article = communityArticleService.createArticle(member.getId(), study.getId(),
                 request);
 
+        final Long otherId = other.getId();
+        final Long studyId = study.getId();
+        final Long articleId = article.getId();
+
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(otherId, studyId, articleId))
                 .isInstanceOf(UneditableArticleException.class);
     }
 }
