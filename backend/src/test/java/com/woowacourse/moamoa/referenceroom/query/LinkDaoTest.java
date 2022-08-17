@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.query;
 
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -27,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class LinkDaoTest {
@@ -45,9 +45,6 @@ public class LinkDaoTest {
 
     @Autowired
     private LinkRepository linkRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private EntityManager entityManager;
@@ -71,10 +68,7 @@ public class LinkDaoTest {
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(JJANGGU.getGithubId(), javaStudyRequest);
 

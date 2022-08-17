@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import tw from '@utils/tw';
 
 import Button from '@components/button/Button';
 
@@ -17,11 +17,7 @@ const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: 
         <MetaBox.Title>스터디 개설</MetaBox.Title>
         <MetaBox.Content>
           <Button
-            css={css`
-              border-radius: 6px;
-              font-size: 16px;
-              padding: 12px 10px;
-            `}
+            css={tw`rounded-[6px] text-16 py-12 px-10`}
             fluid={true}
             onClick={handlePublishButtonClick}
             outline={true}

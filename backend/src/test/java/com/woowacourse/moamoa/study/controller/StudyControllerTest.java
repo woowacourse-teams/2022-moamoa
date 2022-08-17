@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -153,5 +154,39 @@ public class StudyControllerTest {
         // when
         assertThatThrownBy(() -> sut.createStudy(100L, creatingStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
                 .isInstanceOf(UnauthorizedException.class);
+    }
+
+    @DisplayName("최대인원이 한 명인 경우 바로 모집 종료가 되어야 한다.")
+    @Test
+    public void createdStudyWithMaxSizeOne() {
+        // given
+        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
+        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(1)
+                .tagIds(List.of(1L, 2L))
+                .build();
+
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, creatingStudyRequest);
+
+        // when
+        final String location = createdResponse.getHeaders().getLocation().getPath();
+        final long studyId = getStudyIdBy(location);
+        final Study study = studyRepository.findById(studyId).orElseThrow();
+
+        // then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
+    }
+
+    private long getStudyIdBy(final String location) {
+        final String[] splitLocation = location.split("/");
+        return Long.parseLong(splitLocation[3]);
     }
 }
