@@ -36,29 +36,21 @@ public abstract class Article extends BaseEntity {
         this.studyRoom = studyRoom;
     }
 
-    public boolean isViewableBy(final Accessor accessor) {
+    protected final boolean isPermittedAccessor(final Accessor accessor) {
         return studyRoom.isPermittedAccessor(accessor);
     }
 
-    public boolean isEditableBy(final Accessor accessor) {
-        return studyRoom.isPermittedAccessor(accessor) && isAuthor(accessor);
+    protected final boolean isAuthor(final Accessor accessor) {
+        return this.authorId.equals(accessor.getMemberId());
     }
 
-    private boolean isAuthor(final Accessor accessor) {
-        return this.authorId.equals(accessor.getMemberId());
+    protected final boolean isOwner(final Accessor accessor) {
+        return studyRoom.isOwner(accessor);
     }
 
     public abstract void update(Accessor accessor, String title, String content);
 
-    public Article write(final Accessor accessor, final StudyRoom studyRoom, final String title, final String content, final ArticleType type) {
-        if (type == ArticleType.COMMUNITY && studyRoom.isPermittedAccessor(accessor)) {
-            return new CommunityArticle(title, content, accessor.getMemberId(), studyRoom);
-        }
+    public abstract boolean isEditableBy(final Accessor accessor);
 
-        if (type == ArticleType.NOTICE && studyRoom.isOwner(accessor)) {
-            return new NoticeArticle(title, content, accessor.getMemberId(), studyRoom);
-        }
-
-        throw new NotParticipatedMemberException();
-    }
+    public abstract boolean isViewableBy(final Accessor accessor);
 }

@@ -32,6 +32,16 @@ public class CommunityArticle extends Article {
     }
 
     @Override
+    public boolean isViewableBy(final Accessor accessor) {
+        return isPermittedAccessor(accessor);
+    }
+
+    @Override
+    public boolean isEditableBy(final Accessor accessor) {
+        return isPermittedAccessor(accessor) && isAuthor(accessor);
+    }
+
+    @Override
     public void update(final Accessor accessor, final String title, final String content) {
         if (!isEditableBy(accessor)) {
             throw new IllegalArgumentException();

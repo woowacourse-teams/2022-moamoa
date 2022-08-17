@@ -68,7 +68,7 @@ public class StudyRelatedSteps extends Steps {
         }
     }
 
-    public long 공지사항을_작성한다(final String title, final String content) {
+    public Long 공지사항을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
@@ -83,11 +83,11 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/notice/articles/", ""));
         } catch (Exception e) {
             Assertions.fail("공지사항 작성 실패");
-            return -1;
+            return null;
         }
     }
 
-    public long 게시글을_작성한다(final String title, final String content) {
+    public Long 게시글을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
@@ -102,7 +102,7 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/community/articles/", ""));
         } catch (Exception e) {
             Assertions.fail("게시글 작성 실패");
-            return -1;
+            return null;
         }
     }
 }

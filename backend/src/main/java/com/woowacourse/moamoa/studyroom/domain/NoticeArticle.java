@@ -32,7 +32,17 @@ public class NoticeArticle extends Article {
     }
 
     @Override
-    public void update(final Accessor accessor, final String title, final String content) {
+    public final boolean isViewableBy(final Accessor accessor) {
+        return isPermittedAccessor(accessor);
+    }
+
+    @Override
+    public final boolean isEditableBy(final Accessor accessor) {
+        return isOwner(accessor);
+    }
+
+    @Override
+    public final void update(final Accessor accessor, final String title, final String content) {
         if (!isEditableBy(accessor)) {
             throw new IllegalArgumentException();
         }

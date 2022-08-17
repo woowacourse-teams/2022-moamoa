@@ -39,14 +39,14 @@ public class ArticleDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Optional<ArticleData> getById(final Long communityId, ArticleType type) {
+    public Optional<ArticleData> getById(final Long articleId, ArticleType type) {
         final String sql = "SELECT {}.id as article_id, {}.title as article_title, {}.content as article_content, "
                 + "{}.created_date as article_created_date, {}.last_modified_date as article_last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM {} JOIN member ON {}.author_id = member.id "
                 + "WHERE {}.id = :{}Id";
 
-        final Map<String, Long> params = Map.of(nameOf(type) + "Id", communityId);
+        final Map<String, Long> params = Map.of(nameOf(type) + "Id", articleId);
         return namedParameterJdbcTemplate.query(sql.replaceAll("\\{\\}", nameOf(type)), params, ROW_MAPPER).stream().findAny();
     }
 
