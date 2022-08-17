@@ -32,8 +32,8 @@ jobs:
       - name: Sonaqube Analysis        
         run: ./gradlew build sonarqube
              -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
-             -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
-             -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+             -Dsonar.projectName=${{ env.SONAR_PROJECT_KEY }}-${{ env.PR_NUMBER }}
              -Dsonar.login=${{ env.SONAR_TOKEN }}
              -Doauth2.github.client-id=${{ env.client-id }} 
              -Doauth2.github.client-secret=${{ env.client-secret }} 
@@ -43,10 +43,10 @@ jobs:
         uses: actions/github-script@v4
         with:
           script: |
-            const { SONARQUBE_PROJECT_KEY, SONAR_HOST_URL, PR_NUMBER } = process.env
+            const { SONAR_PROJECT_KEY, SONAR_HOST_URL, PR_NUMBER } = process.env
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${ SONAR_HOST_URL }/dashboard?id=${ SONARQUBE_PROJECT_KEY })`
+              body: `📊 ${ SONAR_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${ SONAR_HOST_URL }/dashboard?id=${ SONAR_PROJECT_KEY })`
             })
