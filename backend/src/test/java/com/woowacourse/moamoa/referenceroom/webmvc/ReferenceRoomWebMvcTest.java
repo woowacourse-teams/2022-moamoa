@@ -9,6 +9,8 @@ import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -111,5 +113,24 @@ public class ReferenceRoomWebMvcTest extends WebMVCTest {
                         .content(content))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
+    }
+
+    @DisplayName("유효하지 않은 URL인 경우 400을 반환한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "moamoa.space",
+            "aslfijexjsla",
+            "https::::.com"
+    })
+    void requestByInvalidLinkUrl(final String url) throws Exception {
+        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final String content = objectMapper.writeValueAsString(new CreatingLinkRequest(url, "설명"));
+
+        mockMvc.perform(post("/api/studies/1/reference-room/links")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }

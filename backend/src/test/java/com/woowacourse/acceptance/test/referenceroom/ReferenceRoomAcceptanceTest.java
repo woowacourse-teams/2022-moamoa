@@ -239,4 +239,25 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         assertThat(response.getLinks()).isEmpty();
         assertThat(response.isHasNext()).isFalse();
     }
+
+    @DisplayName("유효하지 않은 링크를 작성한 경우 예외 처리한다.")
+    @Test
+    void shareByInvalidLink() {
+        final LocalDate 지금 = LocalDate.now();
+        final Long javaStudyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+
+        final String jwtToken = 짱구가().로그인한다();
+        final CreatingLinkRequest request =
+                new CreatingLinkRequest("github.com/sc0116", "링크에 대한 간단한 소개입니다.");
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", javaStudyId)
+                .body(request)
+                .when().log().all()
+                .post("/api/studies/{study-id}/reference-room/links")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
 }
