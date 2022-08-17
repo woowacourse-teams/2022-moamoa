@@ -3,7 +3,9 @@ name: Deploy Frontend Dev
 on:
   push:
     branches: ["develop"]
-
+    paths:
+      - 'frontend/**'
+      
 defaults:
   run:
     working-directory: frontend
