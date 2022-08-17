@@ -6,7 +6,7 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { Member, PostLinkRequestVariables } from '@custom-types';
+import type { Member, Noop, PostLinkRequestVariables } from '@custom-types';
 
 import { postLink } from '@api';
 
@@ -21,7 +21,7 @@ import * as S from '@study-room-page/components/link-room-tab-panel/components/l
 
 export type LinkFormProps = {
   author: Member;
-  onPostSuccess: () => void;
+  onPostSuccess: Noop;
   onPostError: (error: Error) => void;
 };
 

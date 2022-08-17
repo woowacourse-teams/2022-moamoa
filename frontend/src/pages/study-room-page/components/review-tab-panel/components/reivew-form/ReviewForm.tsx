@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import type { Member, PostReviewRequestVariables, StudyId } from '@custom-types';
+import type { Member, Noop, PostReviewRequestVariables, StudyId } from '@custom-types';
 
 import { postReview } from '@api';
 
@@ -20,7 +20,7 @@ import * as S from '@study-room-page/components/review-tab-panel/components/reiv
 export type ReviewFormProps = {
   studyId: StudyId;
   author: Member;
-  onPostSuccess: () => void;
+  onPostSuccess: Noop;
   onPostError: (e: Error) => void;
 };
 

@@ -6,7 +6,7 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { Link, LinkId, Member, PutLinkRequestVariables } from '@custom-types';
+import type { Link, LinkId, Member, Noop, PutLinkRequestVariables } from '@custom-types';
 
 import { putLink } from '@api';
 
@@ -23,7 +23,7 @@ export type LinkFormProps = {
   linkId: LinkId;
   author: Member;
   originalContent: Pick<Link, 'linkUrl' | 'description'>;
-  onPutSuccess: () => void;
+  onPutSuccess: Noop;
   onPutError: (error: Error) => void;
 };
 

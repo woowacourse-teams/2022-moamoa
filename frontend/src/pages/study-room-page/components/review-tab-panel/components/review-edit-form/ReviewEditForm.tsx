@@ -5,7 +5,7 @@ import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
+import type { DateYMD, Member, Noop, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
 
 import { putReview } from '@api';
 
@@ -25,9 +25,9 @@ export type ReviewEditFormProps = {
   originalContent: string;
   date: DateYMD;
   author: Member;
-  onEditSuccess: () => void;
+  onEditSuccess: Noop;
   onEditError: (e: Error) => void;
-  onCancelEditBtnClick: () => void;
+  onCancelEditBtnClick: Noop;
 };
 
 const ReviewEditForm: React.FC<ReviewEditFormProps> = ({

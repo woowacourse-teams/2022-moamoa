@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 
+import type { Noop } from '@custom-types';
+
 import * as S from '@components/drop-down-box/DropDownBox.style';
 
 export type DropDownBoxProps = {
   className?: string;
   children: React.ReactNode;
-  onClose: () => void;
+  onClose: Noop;
   top?: string;
   bottom?: string;
   left?: string;
