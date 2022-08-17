@@ -16,7 +16,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
   return (
     <S.PreviewContainer>
       <S.PreviewImageContainer>
-        <CenterImage src={previewResult.imageUrl ?? undefined} alt={`${previewResult.title} 썸네일`} />
+        <CenterImage src={previewResult.imageUrl} alt={`${previewResult.title} 썸네일`} />
       </S.PreviewImageContainer>
       <S.PreviewDomain>
         <RightUpArrowSvg />

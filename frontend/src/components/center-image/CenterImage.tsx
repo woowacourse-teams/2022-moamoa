@@ -4,7 +4,7 @@ import * as S from '@components/center-image/CenterImage.style';
 
 export type ImageProps = {
   className?: string;
-  src?: string;
+  src?: string | null;
   alt: string;
 };
 
