@@ -9,6 +9,7 @@ import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
@@ -283,8 +284,10 @@ public class StudyTest {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now().minusDays(3));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(4));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1),
+                IN_PROGRESS);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(4));
 
         // when
         sut.changeStatus(LocalDate.now().plusDays(2));
@@ -301,7 +304,8 @@ public class StudyTest {
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         // when
         sut.changeStatus(LocalDate.now());
@@ -318,7 +322,8 @@ public class StudyTest {
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         // when
         sut.changeStatus(LocalDate.now());
@@ -336,7 +341,8 @@ public class StudyTest {
         final Participants participants = Participants.createBy(ownerId);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         sut.participate(participantId);
 
@@ -353,7 +359,8 @@ public class StudyTest {
         final Participants participants = Participants.createBy(owner.getMemberId());
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         assertThatThrownBy(() -> sut.leave(owner))
                 .isInstanceOf(OwnerCanNotLeaveException.class);
@@ -369,7 +376,8 @@ public class StudyTest {
         final Participants participants = Participants.createBy(owner.getMemberId());
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         assertThatThrownBy(() -> sut.leave(participant))
                 .isInstanceOf(NotParticipatedMemberException.class);
@@ -385,11 +393,14 @@ public class StudyTest {
         final Participants participants = Participants.createBy(owner.getMemberId());
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
+                now().minusDays(2));
 
         sut.participate(participant.getMemberId());
 
-        assertDoesNotThrow(() -> sut.leave(participant));
-        assertThat(sut.getParticipants().getSize()).isOne();
+        assertAll(
+                () -> assertDoesNotThrow(() -> sut.leave(participant)),
+                () -> assertThat(sut.getParticipants()).isEqualTo(new Participants(owner.getMemberId(), Set.of()))
+        );
     }
 }
