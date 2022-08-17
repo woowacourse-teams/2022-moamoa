@@ -33,17 +33,3 @@ Default.args = {
   isSelected: false,
 };
 Default.parameters = { controls: { exclude: ['isSelected', 'onClick'] } };
-
-export const Clicked = Template.bind({});
-Clicked.args = {
-  children: '공지사항',
-  isSelected: true,
-};
-Clicked.parameters = { controls: { exclude: ['isSelected', 'onClick'] } };
-
-export const Unclicked = Template.bind({});
-Unclicked.args = {
-  children: '공지사항',
-  isSelected: false,
-};
-Unclicked.parameters = { controls: { exclude: ['isSelected', 'onClick'] } };

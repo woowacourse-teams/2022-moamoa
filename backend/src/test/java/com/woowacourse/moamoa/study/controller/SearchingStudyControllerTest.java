@@ -21,7 +21,7 @@ import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
@@ -84,22 +84,22 @@ public class SearchingStudyControllerTest {
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
         javaStudyId = studyService.createStudy(jjanggu.getGithubId(), javaStudyRequest).getId();
 
-        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
+        StudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
         reactStudyId = studyService.createStudy(dwoo.getGithubId(), reactStudyRequest).getId();
 
-        CreatingStudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
+        StudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
         javaScriptId = studyService.createStudy(jjanggu.getGithubId(), javaScriptStudyRequest).getId();
 
-        CreatingStudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
+        StudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
         httpStudyId = studyService.createStudy(jjanggu.getGithubId(), httpStudyRequest).getId();
 
-        CreatingStudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
+        StudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
         algorithmStudyId = studyService.createStudy(jjanggu.getGithubId(), algorithmStudyRequest).getId();
 
-        CreatingStudyRequest linuxStudyRequest = CreatingStudyRequest.builder()
+        StudyRequest linuxStudyRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail").description("Linux를 공부하자의 베루스입니다.")
                 .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
                 .tagIds(List.of())
@@ -235,7 +235,7 @@ public class SearchingStudyControllerTest {
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
-    public void mentgetStudyDetails() {
+    public void getStudyDetails() {
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(javaStudyId).title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
@@ -309,7 +309,6 @@ public class SearchingStudyControllerTest {
     @DisplayName("스터디 참여자와 부착된 태그가 없는 스터디의 세부사항 조회")
     @Test
     void getNotHasParticipantsAndAttachedTagsStudyDetails() {
-
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(linuxStudyId).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
@@ -335,6 +334,24 @@ public class SearchingStudyControllerTest {
         assertStudyParticipants(actual, expect, expectParticipants);
         assertStudyPeriod(actual, expect);
         assertAttachedTags(actual.getTags(), expectAttachedTags);
+    }
+
+    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수와 가입날짜도 함께 조회한다.")
+    @Test
+    public void findStudyDetailsWithNumberOfStudy() {
+        final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
+
+        final StudyDetailResponse responseBody = response.getBody();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseBody.getMembers())
+                .filteredOn(member -> member.getParticipationDate() != null)
+                .hasSize(2)
+                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
+                .containsExactlyInAnyOrder(
+                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
+                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
+                );
     }
 
     private void assertStudyContent(final StudyDetailResponse actual, final StudyDetailsData expect) {

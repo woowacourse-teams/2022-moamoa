@@ -1,14 +1,14 @@
 package com.woowacourse.acceptance.steps;
 
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import java.time.LocalDate;
 
 public class SetRequiredDataToCreatingStudySteps extends Steps {
 
     private final String token;
-    private final CreatingStudyRequestBuilder builder;
+    private final StudyRequestBuilder builder;
 
-    SetRequiredDataToCreatingStudySteps(final String token, final CreatingStudyRequestBuilder builder) {
+    SetRequiredDataToCreatingStudySteps(final String token, final StudyRequestBuilder builder) {
         this.token = token;
         this.builder = builder;
     }

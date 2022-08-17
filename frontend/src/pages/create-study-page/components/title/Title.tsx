@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TITLE_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import type { FieldElement } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 
@@ -13,6 +14,8 @@ const Title: React.FC = () => {
   const { errors } = formState;
   const [count, setCount] = useState(0);
   const isValid = !!errors['title']?.hasError;
+
+  const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
     <S.Container>
@@ -37,7 +40,7 @@ const Title: React.FC = () => {
             return makeValidationResult(false);
           },
           validationMode: 'change',
-          onChange: e => setCount(e.target.value.length),
+          onChange: handleTitleChange,
           minLength: TITLE_LENGTH.MIN.VALUE,
           maxLength: TITLE_LENGTH.MAX.VALUE,
           required: true,
