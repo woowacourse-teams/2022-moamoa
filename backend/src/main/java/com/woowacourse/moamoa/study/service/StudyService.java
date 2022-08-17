@@ -51,12 +51,6 @@ public class StudyService {
                 new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
     }
 
-    public void participateStudy(final Long githubId, final Long studyId) {
-        final Member member = findMemberBy(githubId);
-        final Study study = findStudyBy(studyId);
-        study.participate(member.getId());
-    }
-
     private Study findStudyBy(final Long studyId) {
         return studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);

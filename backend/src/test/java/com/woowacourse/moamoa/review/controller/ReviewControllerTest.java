@@ -20,6 +20,7 @@ import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
@@ -67,7 +68,8 @@ public class ReviewControllerTest {
 
         Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
 
-        studyService.participateStudy(greelawn.getGithubId(), javaStudy.getId());
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greelawn.getId(), javaStudy.getId());
 
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
