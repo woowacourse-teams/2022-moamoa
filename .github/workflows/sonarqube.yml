@@ -24,6 +24,10 @@ jobs:
       SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
       SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
+      client-id: ${{ secrets.CLIENT_ID }}
+      client-secret: ${{ secrets.CLIENT_SECRET }}
+      jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
+      jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
       
     steps:
       - name: Checkout source code
@@ -38,6 +42,10 @@ jobs:
              -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
              -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
              -Dsonar.login=${{ env.SONAR_TOKEN }}
+             -Doauth2.github.client-id=${{ env.client-id }} 
+             -Doauth2.github.client-secret=${{ env.client-secret }} 
+             -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
+             -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
              
       - name: Comment Sonarqube URL
         uses: actions/github-script@v4
