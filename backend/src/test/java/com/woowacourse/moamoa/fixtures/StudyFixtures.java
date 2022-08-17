@@ -38,7 +38,7 @@ import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -149,51 +149,51 @@ public class StudyFixtures {
                 OS_스터디_계획, OS_스터디_태그, LocalDateTime.now());
     }
 
-    public static CreatingStudyRequest 자바_스터디_신청서(LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 자바_스터디_신청서(LocalDate now) {
+        return StudyRequest.builder()
                 .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
                 .startDate(now)
                 .build();
     }
 
-    public static CreatingStudyRequest 자바_스터디_신청서(List<Long> tagIds, int maxMemberCount, LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 자바_스터디_신청서(List<Long> tagIds, int maxMemberCount, LocalDate now) {
+        return StudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail").description("그린론의 우당탕탕 자바 스터디입니다.")
                 .startDate(now).tagIds(tagIds).maxMemberCount(maxMemberCount)
                 .build();
     }
 
-    public static CreatingStudyRequest 리액트_스터디_신청서(LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 리액트_스터디_신청서(LocalDate now) {
+        return StudyRequest.builder()
                 .title("react 스터디").excerpt("리액트 설명").thumbnail("react image").description("리액트 소개")
                 .startDate(now)
                 .build();
     }
 
-    public static CreatingStudyRequest 리액트_스터디_신청서(List<Long> tagIds, int maxMemberCount, LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 리액트_스터디_신청서(List<Long> tagIds, int maxMemberCount, LocalDate now) {
+        return StudyRequest.builder()
                 .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail").description("디우의 뤼액트 스터디입니다.")
                 .startDate(LocalDate.now()).endDate(now).enrollmentEndDate(LocalDate.now())
                 .tagIds(tagIds).maxMemberCount(maxMemberCount)
                 .build();
     }
 
-    public static CreatingStudyRequest 자바스크립트_스터디_신청서(List<Long> tagIds, LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 자바스크립트_스터디_신청서(List<Long> tagIds, LocalDate now) {
+        return StudyRequest.builder()
                 .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail").description("자바스크립트 설명")
                 .startDate(now).tagIds(tagIds)
                 .build();
     }
 
-    public static CreatingStudyRequest HTTP_스터디_신청서(List<Long> tagIds, LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest HTTP_스터디_신청서(List<Long> tagIds, LocalDate now) {
+        return StudyRequest.builder()
                 .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail").description("HTTP 설명")
                 .startDate(now).tagIds(tagIds)
                 .build();
     }
 
-    public static CreatingStudyRequest 알고리즘_스터디_신청서(List<Long> tagIds, LocalDate now) {
-        return CreatingStudyRequest.builder()
+    public static StudyRequest 알고리즘_스터디_신청서(List<Long> tagIds, LocalDate now) {
+        return StudyRequest.builder()
                 .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail").description("알고리즘 설명")
                 .startDate(now).tagIds(tagIds)
                 .build();

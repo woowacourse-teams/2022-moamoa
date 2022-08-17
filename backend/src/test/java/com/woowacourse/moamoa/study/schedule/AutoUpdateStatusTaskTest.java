@@ -13,7 +13,7 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -63,7 +63,7 @@ class AutoUpdateStatusTaskTest {
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, dateTimeSystem);
 
-        CreatingStudyRequest javaRequest = CreatingStudyRequest.builder()
+        StudyRequest javaRequest = StudyRequest.builder()
                 .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
                 .description("그린론의 우당탕탕 자바 스터디입니다.")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(3))
@@ -71,7 +71,7 @@ class AutoUpdateStatusTaskTest {
                 .build();
         javaStudyId = studyService.createStudy(1L, javaRequest).getId();
 
-        CreatingStudyRequest reactRequest = CreatingStudyRequest.builder()
+        StudyRequest reactRequest = StudyRequest.builder()
                 .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
                 .description("디우의 뤼액트 스터디입니다.")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(2))
@@ -79,7 +79,7 @@ class AutoUpdateStatusTaskTest {
                 .build();
         reactStudyId = studyService.createStudy(1L, reactRequest).getId();
 
-        CreatingStudyRequest javascriptRequest = CreatingStudyRequest.builder()
+        StudyRequest javascriptRequest = StudyRequest.builder()
                 .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
                 .description("그린론의 자바스크립트 접해보기")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
@@ -87,14 +87,14 @@ class AutoUpdateStatusTaskTest {
                 .build();
         javascriptStudyId = studyService.createStudy(1L, javascriptRequest).getId();
 
-        CreatingStudyRequest httpRequest = CreatingStudyRequest.builder()
+        StudyRequest httpRequest = StudyRequest.builder()
                 .title("Http 스터디").excerpt("Http 설명").thumbnail("http thumbnail")
                 .description("그린론의 HTTP 접해보기")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
                 .build();
         httpStudyId = studyService.createStudy(1L, httpRequest).getId();
 
-        CreatingStudyRequest linuxRequest = CreatingStudyRequest.builder()
+        StudyRequest linuxRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
                 .description("Linux를 공부하자의 베루스입니다.")
                 .startDate(dateTimeSystem.now().toLocalDate())
@@ -102,7 +102,7 @@ class AutoUpdateStatusTaskTest {
                 .build();
         linuxStudyId = studyService.createStudy(1L, linuxRequest).getId();
 
-        CreatingStudyRequest algorithmRequest = CreatingStudyRequest.builder()
+        StudyRequest algorithmRequest = StudyRequest.builder()
                 .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
                 .description("알고리즘을 TDD로 풀자의 베루스입니다.")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(2))

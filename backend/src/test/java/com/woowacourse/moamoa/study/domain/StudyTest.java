@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMem
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -402,5 +403,24 @@ public class StudyTest {
                 () -> assertDoesNotThrow(() -> sut.leave(participant)),
                 () -> assertThat(sut.getParticipants()).isEqualTo(new Participants(owner.getMemberId(), Set.of()))
         );
+    }
+
+    @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
+    @Test
+    public void updateStudyWithParticipant() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        final Content updatingContent = new Content("새로운 title", "새로운 excerpt", "새로운 thumbnail", "새로운 description");
+        final RecruitPlanner updatingRecruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner updatingStudyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+
+        // when & then
+        assertThatThrownBy(() -> sut.update(2L, updatingContent, updatingRecruitPlanner, null, updatingStudyPlanner))
+                .isInstanceOf(UnauthorizedException.class);
     }
 }

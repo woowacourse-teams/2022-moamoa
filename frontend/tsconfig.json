@@ -44,5 +44,5 @@
     },
     "typeRoots": ["src/custom-types"]
   },
-  "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
+  "include": ["src"]
 }

@@ -10,7 +10,7 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ class StudyParticipantControllerTest {
         // given
         StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
                 new DateTimeSystem()));
-        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
+        final StudyRequest studyRequest = StudyRequest.builder()
                 .title("Java")
                 .excerpt("java excerpt")
                 .thumbnail("java image")
@@ -55,7 +55,7 @@ class StudyParticipantControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getGithubId(), creatingStudyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getGithubId(), studyRequest);
 
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();

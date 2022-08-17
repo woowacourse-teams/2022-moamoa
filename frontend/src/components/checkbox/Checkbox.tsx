@@ -1,4 +1,4 @@
-import * as S from './Checkbox.style';
+import * as S from '@components/checkbox/Checkbox.style';
 
 export type CheckboxProps = React.HTMLProps<HTMLInputElement>;
 

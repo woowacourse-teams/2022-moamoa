@@ -8,6 +8,14 @@ export default {
   component: StudyMemberSection,
 };
 
+const owner = {
+  id: 1,
+  username: 'nan-noo',
+  profileUrl: '/',
+  imageUrl:
+    'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+};
+
 const members = [
   {
     id: 9640683,
@@ -102,4 +110,4 @@ const Template: Story<StudyMemberSectionProps> = props => (
 );
 
 export const Default = Template.bind({});
-Default.args = { members };
+Default.args = { owner, members };
