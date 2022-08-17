@@ -11,7 +11,6 @@ export const Sidebar = styled.nav`
 
     background-color: ${theme.colors.secondary.light};
     text-align: center;
-    z-index: 1;
 
     ${mqDown('lg')} {
       display: none;
@@ -28,13 +27,14 @@ export const Bottombar = styled.nav`
     position: fixed;
     left: 0;
     bottom: 0;
+    z-index: 1;
+
     width: 100%;
     padding: 16px;
 
     background-color: ${theme.colors.white};
     text-align: center;
     border-top: 1px solid ${theme.colors.secondary.base};
-    z-index: 1;
 
     ${mqUp('lg')} {
       display: none;

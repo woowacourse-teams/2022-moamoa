@@ -14,12 +14,13 @@ export const PreviewMeatballMenuContainer = styled.div`
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 3;
+
     width: 30px;
     height: 30px;
 
     background-color: ${theme.colors.white};
     border-radius: 50%;
-    z-index: 3;
     transition: background-color 0.3s ease;
 
     &:hover,

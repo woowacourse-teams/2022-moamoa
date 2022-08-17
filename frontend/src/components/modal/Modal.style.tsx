@@ -13,11 +13,12 @@ export const ModalOutside = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 10;
+
     width: 100vw;
     height: 100%;
 
     background-color: ${`${theme.colors.secondary.base}33`};
-    z-index: 10;
   `}
 `;
 
