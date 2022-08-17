@@ -78,11 +78,6 @@ export type StudyReview = {
   content: string;
 };
 
-export type TagInfo = {
-  id: TagId;
-  categoryName: string;
-};
-
 export type Tag = {
   id: TagId;
   name: string;
@@ -92,6 +87,7 @@ export type Tag = {
     name: string;
   };
 };
+export type TagInfo = Pick<Tag, 'id'> & { categoryName: Tag['category']['name'] };
 
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
 
@@ -112,121 +108,3 @@ export type Link = {
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
 };
-
-export type GetStudyDetailRequestParams = {
-  studyId: number;
-};
-export type GetStudyDetailResponseData = StudyDetail;
-
-export type GetStudiesRequestParams = {
-  page?: Page;
-  size?: Size;
-  title: string;
-  selectedFilters: Array<TagInfo>;
-};
-export type GetStudiesResponseData = {
-  studies: Array<Study>;
-  hasNext: boolean;
-};
-
-export type GetTagsResponseData = {
-  tags: Array<Tag>;
-};
-
-export type PostLoginRequestParams = {
-  code: string;
-};
-export type PostLoginResponseData = {
-  accessToken: string;
-  expiredTime: number;
-};
-export type GetTokenResponseData = {
-  accessToken: string;
-  expiredTime: number;
-};
-
-export type GetReviewResponseData = {
-  reviews: Array<StudyReview>;
-  totalCount: number;
-};
-export type GetReviewRequestParams = {
-  studyId: number;
-  size?: number;
-};
-export type PostReviewRequestParams = {
-  studyId: StudyId;
-};
-export type PostReviewRequestBody = {
-  content: string;
-};
-export type PostReviewRequestVariables = PostReviewRequestParams & PostReviewRequestBody;
-
-export type PatchReviewRequestParams = {
-  studyId: number;
-  reviewId: number;
-};
-export type PutReviewRequestBody = {
-  content: string;
-};
-export type PutReviewRequestVariables = PatchReviewRequestParams & PutReviewRequestBody;
-
-export type DeleteReviewRequestBody = {
-  studyId: StudyId;
-  reviewId: ReviewId;
-};
-
-export type GetMyStudiesResponseData = {
-  studies: Array<MyStudy>;
-};
-
-export type PostJoiningStudyRequestParams = {
-  studyId: StudyId;
-};
-
-export type PostNewStudyRequestBody = {
-  tagIds?: Array<TagId>;
-  thumbnail: string;
-} & MakeOptional<
-  Pick<
-    StudyDetail,
-    'title' | 'excerpt' | 'description' | 'maxMemberCount' | 'enrollmentEndDate' | 'startDate' | 'endDate' | 'owner'
-  >,
-  'maxMemberCount' | 'enrollmentEndDate' | 'endDate' | 'owner'
->;
-
-export type GetUserRoleRequestParams = {
-  studyId: StudyId;
-};
-export type GetUserRoleResponseData = {
-  role: UserRole;
-};
-
-export type GetUserInformationResponseData = Member;
-
-export type GetLinksRequestParams = {
-  studyId: StudyId;
-  page?: Page;
-  size?: Size;
-};
-export type GetLinksResponseData = {
-  links: Array<Link>;
-  hasNext: boolean;
-};
-
-export type GetLinkPreviewRequestParams = {
-  linkUrl: string;
-};
-export type GetLinkPreviewResponseData = {
-  title: string;
-  description: string | null;
-  imageUrl: string | null;
-  domainName: string | null;
-};
-
-export type PostLinkRequestBody = Pick<Link, 'linkUrl' | 'description'>;
-export type PostLinkRequestParams = { studyId: StudyId };
-export type PostLinkRequestVariables = PostLinkRequestBody & PostLinkRequestParams;
-export type PutLinkRequestBody = PostLinkRequestBody;
-export type PutLinkRequestParams = { studyId: StudyId; linkId: LinkId };
-export type PutLinkRequestVariables = PutLinkRequestBody & PutLinkRequestParams;
-export type DeleteLinkRequestParams = PutLinkRequestParams;

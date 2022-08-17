@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import linkJson from '@mocks/links.json';
 import { user } from '@mocks/memberHandlers';
 
-import type { PostLinkRequestBody, PutLinkRequestBody } from '@custom-types';
+import { PostLinkRequestBody, PutLinkRequestBody } from '@api/link';
 
 export const linkHandlers = [
   rest.get('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {

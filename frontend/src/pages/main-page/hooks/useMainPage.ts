@@ -5,11 +5,11 @@ import { PATH } from '@constants';
 
 import type { TagInfo } from '@custom-types';
 
+import { useGetInfiniteStudies } from '@api/studies';
+
 import { useAuth } from '@hooks/useAuth';
 
 import { SearchContext } from '@context/search/SearchProvider';
-
-import { useGetInfiniteStudies } from '@main-page/hooks/useGetInfiniteStudies';
 
 const useMainPage = () => {
   const navigate = useNavigate();

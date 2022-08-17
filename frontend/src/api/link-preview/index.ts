@@ -1,9 +1,19 @@
 import axios from 'axios';
 import type { AxiosError } from 'axios';
-
-import type { GetLinkPreviewRequestParams, GetLinkPreviewResponseData } from '@custom-types';
+import { useQuery } from 'react-query';
 
 import AccessTokenController from '@auth/accessToken';
+
+// get
+export type GetLinkPreviewRequestParams = {
+  linkUrl: string;
+};
+export type GetLinkPreviewResponseData = {
+  title: string;
+  description: string | null;
+  imageUrl: string | null;
+  domainName: string | null;
+};
 
 const axiosInstance = axios.create({
   // TODO: 링크 미리보기 서버 배포 url로 변경 필요
@@ -48,9 +58,11 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-const getLinkPreview = async ({ linkUrl }: GetLinkPreviewRequestParams) => {
+export const getLinkPreview = async ({ linkUrl }: GetLinkPreviewRequestParams) => {
   const response = await axiosInstance.get<GetLinkPreviewResponseData>(`/api/link-preview?linkUrl=${linkUrl}`);
   return response.data;
 };
 
-export default getLinkPreview;
+export const useGetLinkPreview = ({ linkUrl }: GetLinkPreviewRequestParams) => {
+  return useQuery<GetLinkPreviewResponseData, AxiosError>(['link-preview', linkUrl], () => getLinkPreview({ linkUrl }));
+};

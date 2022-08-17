@@ -1,10 +1,11 @@
 import tw from '@utils/tw';
 
+import { useGetTags } from '@api/tags';
+
 import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import * as S from '@create-study-page/components/subject/Subject.style';
-import { useGetTags } from '@create-study-page/hooks/useGetTags';
 
 type SubjectProps = {
   className?: string;

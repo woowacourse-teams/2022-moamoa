@@ -13,7 +13,7 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200), ctx.json(study));
   }),
-  rest.post('/api/studies/:studyId', (req, res, ctx) => {
+  rest.post('/api/studies/:studyId/memebers', (req, res, ctx) => {
     // const studyId = req.params.studyId;
 
     return res(ctx.status(200));

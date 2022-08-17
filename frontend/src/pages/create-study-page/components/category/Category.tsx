@@ -2,13 +2,14 @@ import tw from '@utils/tw';
 
 import type { Tag } from '@custom-types';
 
+import { useGetTags } from '@api/tags';
+
 import { useFormContext } from '@hooks/useForm';
 
 import Checkbox from '@components/checkbox/Checkbox';
 
 import * as S from '@create-study-page/components/category/Category.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import { useGetTags } from '@create-study-page/hooks/useGetTags';
 
 export type CategoryProps = {
   className?: string;

@@ -1,10 +1,8 @@
-import type { AxiosError } from 'axios';
 import { useRef } from 'react';
-import { useQuery } from 'react-query';
 
-import type { GetTagsResponseData, Tag, TagInfo } from '@custom-types';
+import type { Tag, TagInfo } from '@custom-types';
 
-import { getTags } from '@api';
+import { useGetTags } from '@api/tags';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 
@@ -27,7 +25,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError } = useQuery<GetTagsResponseData, AxiosError>('filters', getTags);
+  const { data, isLoading, isError } = useGetTags();
 
   const generationTags = filterByCategory(data?.tags, 1);
   const areaTags = filterByCategory(data?.tags, 2);

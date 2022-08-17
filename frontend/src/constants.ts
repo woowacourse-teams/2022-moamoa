@@ -24,9 +24,6 @@ export const DEFAULT_LINK_QUERY_PARAM = {
   SIZE: 9,
 };
 
-export const QK_FETCH_STUDY_DETAIL = 'fetch_study_detail';
-export const QK_FETCH_STUDY_REVIEWS = 'fetch_study_reviews';
-
 export const DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT = 6;
 export const DEFAULT_LOAD_STUDY_REVIEW_COUNT = 6;
 

@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
 
-import { deleteRefreshToken } from '@api';
+import { useDeleteLogout } from '@api/auth';
 
 import AccessTokenController from '@auth/accessToken';
 
@@ -14,7 +14,7 @@ export const useAuth = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const { fetchUserInfo } = useUserInfo();
 
-  const { mutate } = useMutation<null, AxiosError, null>(deleteRefreshToken);
+  const { mutate } = useDeleteLogout();
 
   const login = (accesssToken: string) => {
     AccessTokenController.setAccessToken(accesssToken);

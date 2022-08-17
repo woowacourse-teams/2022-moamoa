@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useUserInfo } from '@hooks/useUserInfo';
+import { useGetInfiniteLinks } from '@api/links';
 
-import { useGetInfiniteLinks } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinks';
+import { useUserInfo } from '@hooks/useUserInfo';
 
 export const useLinkRoomTabPanel = () => {
   const { studyId } = useParams<{ studyId: string }>();

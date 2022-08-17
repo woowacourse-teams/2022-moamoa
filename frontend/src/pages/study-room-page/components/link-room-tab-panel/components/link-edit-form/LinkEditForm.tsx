@@ -6,9 +6,9 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { Link, LinkId, Member, Noop, PutLinkRequestVariables } from '@custom-types';
+import type { Link, LinkId, Member, Noop } from '@custom-types';
 
-import { putLink } from '@api';
+import { usePutLink } from '@api/link';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
@@ -33,7 +33,7 @@ const LINK_DESCRIPTION = 'link-description';
 
 const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
   const { studyId } = useParams<{ studyId: string }>();
-  const { mutateAsync } = useMutation<null, AxiosError, PutLinkRequestVariables>(putLink);
+  const { mutateAsync } = usePutLink();
   const { count, maxCount, setCount } = useLetterCount(
     LINK_DESCRIPTION_LENGTH.MAX.VALUE,
     originalContent.description.length,

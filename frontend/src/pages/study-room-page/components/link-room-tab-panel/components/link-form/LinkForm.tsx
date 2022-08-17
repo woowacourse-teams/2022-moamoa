@@ -6,9 +6,9 @@ import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import type { Member, Noop, PostLinkRequestVariables } from '@custom-types';
+import type { Member, Noop } from '@custom-types';
 
-import { postLink } from '@api';
+import { usePostLink } from '@api/link';
 
 import { UseFormSubmitResult, makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
@@ -31,7 +31,7 @@ const LINK_DESCRIPTION = 'link-description';
 
 const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError }) => {
   const { studyId } = useParams<{ studyId: string }>();
-  const { mutateAsync } = useMutation<null, AxiosError, PostLinkRequestVariables>(postLink);
+  const { mutateAsync } = usePostLink();
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
   const {
     register,

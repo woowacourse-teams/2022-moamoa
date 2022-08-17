@@ -1,11 +1,7 @@
-import type { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { GetUserRoleResponseData } from '@custom-types';
-
-import { getUserRole } from '@api';
+import { useGetUserRole } from '@api/member';
 
 import LinkRoomTabPanel from '@study-room-page/components/link-room-tab-panel/LinkRoomTabPanel';
 import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
@@ -19,9 +15,7 @@ export type Tabs = Array<Tab>;
 const useStudyRoomPage = () => {
   const { studyId } = useParams() as { studyId: string };
 
-  const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>('my-role', () =>
-    getUserRole({ studyId: Number(studyId) }),
-  );
+  const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },

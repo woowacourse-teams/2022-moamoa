@@ -1,11 +1,8 @@
-import type { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-
 import { REVIEW_LENGTH } from '@constants';
 
-import type { Member, Noop, PostReviewRequestVariables, StudyId } from '@custom-types';
+import type { Member, Noop, StudyId } from '@custom-types';
 
-import { postReview } from '@api';
+import { usePostReview } from '@api/review';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
@@ -27,7 +24,7 @@ export type ReviewFormProps = {
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit, reset } = useForm();
-  const { mutateAsync } = useMutation<null, AxiosError, PostReviewRequestVariables>(postReview);
+  const { mutateAsync } = usePostReview();
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {

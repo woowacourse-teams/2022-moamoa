@@ -1,15 +1,13 @@
-import type { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
-import type { DeleteLinkRequestParams, LinkId, StudyId } from '@custom-types';
+import type { LinkId, StudyId } from '@custom-types';
 
-import { deleteLink } from '@api';
+import { useDeleteLink } from '@api/link';
+import { useGetLinkPreview } from '@api/link-preview';
+import { QK_LINKS } from '@api/links';
 
 import { useUserInfo } from '@hooks/useUserInfo';
-
-import { useGetLinkPreview } from '@study-room-page/components/link-room-tab-panel/components/link-item/hooks/useGetLinkPreview';
-import { QK_FETCH_LINKS } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinks';
 
 export type UseLinkItemParams = {
   studyId: StudyId;
@@ -18,7 +16,7 @@ export type UseLinkItemParams = {
 };
 
 export const useLinkItem = ({ studyId, linkId, linkUrl }: UseLinkItemParams) => {
-  const { mutate } = useMutation<null, AxiosError, DeleteLinkRequestParams>(deleteLink);
+  const { mutate } = useDeleteLink();
   const linkPreviewQueryResult = useGetLinkPreview({ linkUrl });
 
   const [isOpenDropBox, setIsOpenDropBox] = useState(false);
@@ -28,7 +26,7 @@ export const useLinkItem = ({ studyId, linkId, linkUrl }: UseLinkItemParams) => 
 
   const queryClient = useQueryClient();
   const refetch = () => {
-    queryClient.refetchQueries([QK_FETCH_LINKS, studyId]);
+    queryClient.refetchQueries([QK_LINKS, studyId]);
   };
 
   const handleMeatballMenuClick = () => {

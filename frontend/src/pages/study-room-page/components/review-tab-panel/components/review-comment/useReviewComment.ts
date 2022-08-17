@@ -1,20 +1,18 @@
-import type { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
-import { QK_FETCH_STUDY_REVIEWS } from '@constants';
+import type { ReviewId, StudyId } from '@custom-types';
 
-import type { DeleteReviewRequestBody, ReviewId, StudyId } from '@custom-types';
-
-import { deleteReview } from '@api';
+import { useDeleteReview } from '@api/review';
+import { QK_STUDY_REVIEWS } from '@api/reviews';
 
 const useReviewComment = (id: ReviewId, studyId: StudyId) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { mutateAsync } = useMutation<null, AxiosError, DeleteReviewRequestBody>(deleteReview);
+  const { mutateAsync } = useDeleteReview();
   const queryClient = useQueryClient();
   const refetch = () => {
-    queryClient.refetchQueries([QK_FETCH_STUDY_REVIEWS, studyId]);
+    queryClient.refetchQueries([QK_STUDY_REVIEWS, studyId]);
   };
 
   const handleKebabMenuClick = () => {
