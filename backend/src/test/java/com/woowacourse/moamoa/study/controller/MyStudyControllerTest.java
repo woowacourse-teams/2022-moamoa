@@ -193,7 +193,7 @@ class MyStudyControllerTest {
                 );
 
 
-        assertThat(tags.get(3).size()).isZero();
-        assertThat(tags.get(4).size()).isZero();
+        assertThat(tags.get(3)).isEmpty();
+        assertThat(tags.get(4)).isEmpty();
     }
 }

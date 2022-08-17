@@ -39,7 +39,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-public class CommunityAcceptanceTest extends AcceptanceTest {
+class CommunityAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("커뮤니티에 글을 작성한다.")
     @Test

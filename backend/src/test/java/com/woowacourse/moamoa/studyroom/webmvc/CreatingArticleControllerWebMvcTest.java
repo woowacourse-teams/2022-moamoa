@@ -19,7 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class CreatingArticleControllerWebMvcTest extends WebMVCTest {
+class CreatingArticleControllerWebMvcTest extends WebMVCTest {
 
     @MockBean
     private ArticleService articleService;

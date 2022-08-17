@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
+class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 수정할 경우 401을 반환한다.")
     @ParameterizedTest

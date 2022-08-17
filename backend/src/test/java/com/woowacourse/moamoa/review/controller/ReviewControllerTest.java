@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class ReviewControllerTest {
+class ReviewControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class ReferenceRoomWebMvcTest extends WebMVCTest {
+class ReferenceRoomWebMvcTest extends WebMVCTest {
 
     @DisplayName("필수 데이터인 링크 URL이 null인 경우 400을 반환한다.")
     @Test

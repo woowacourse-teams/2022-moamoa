@@ -14,11 +14,6 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
     private static final int MINIMUM_SIZE = 1;
 
     @Override
-    public boolean supportsParameter(final MethodParameter parameter) {
-        return super.supportsParameter(parameter);
-    }
-
-    @Override
     public Pageable resolveArgument(final MethodParameter methodParameter,
                                     final ModelAndViewContainer mavContainer,
                                     final NativeWebRequest webRequest,

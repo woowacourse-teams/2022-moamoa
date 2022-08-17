@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class ReferenceRoomControllerTest {
+class ReferenceRoomControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;

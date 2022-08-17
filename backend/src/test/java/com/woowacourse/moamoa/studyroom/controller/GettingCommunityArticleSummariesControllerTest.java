@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
+import static com.woowacourse.moamoa.studyroom.domain.ArticleType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -34,7 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class GettingCommunityArticleSummariesControllerTest {
+class GettingCommunityArticleSummariesControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -77,19 +78,19 @@ public class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), COMMUNITY);
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), COMMUNITY);
         Article article3 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), COMMUNITY);
         Article article4 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), COMMUNITY);
         Article article5 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), ArticleType.COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), COMMUNITY);
 
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(),
-                ArticleType.COMMUNITY, PageRequest.of(0, 3));
+                COMMUNITY, PageRequest.of(0, 3));
 
         // assert
         AuthorResponse author = new AuthorResponse(1L, "그린론", "http://image", "http://profile");
@@ -112,8 +113,11 @@ public class GettingCommunityArticleSummariesControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
+        final Long memberId = member.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 3);
+
         // act & assert
-        assertThatThrownBy(() -> sut.getArticles(member.getId(), 1L, ArticleType.COMMUNITY, PageRequest.of(0, 3)))
+        assertThatThrownBy(() -> sut.getArticles(memberId, 1L, COMMUNITY, pageRequest))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 
@@ -127,9 +131,12 @@ public class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
+        final Long otherId = other.getId();
+        final Long studyId = study.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 3);
+
         // act & assert
-        assertThatThrownBy(
-                () -> sut.getArticles(other.getId(), study.getId(), ArticleType.COMMUNITY, PageRequest.of(0, 3)))
+        assertThatThrownBy(() -> sut.getArticles(otherId, studyId, COMMUNITY, pageRequest))
                 .isInstanceOf(UnviewableArticleException.class);
     }
 }
