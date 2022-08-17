@@ -35,6 +35,7 @@ jobs:
              -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
              -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
              -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+             -Dsonar.branch.name=develop
              -Doauth2.github.client-id=${{ env.client-id }} 
              -Doauth2.github.client-secret=${{ env.client-secret }} 
              -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
