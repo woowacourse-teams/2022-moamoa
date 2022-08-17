@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.member.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.member.query.data.MemberFullData;
+import com.woowacourse.moamoa.member.query.data.ParticipatingMemberData;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MemberDao {
 
-    private static final RowMapper<MemberFullData> MEMBER_FULL_DATA_ROW_MAPPER = createMemberFullDataRowMapper();
+    private static final RowMapper<ParticipatingMemberData> MEMBER_FULL_DATA_ROW_MAPPER = createMemberFullDataRowMapper();
 
     private static final RowMapper<MemberData> MEMBER_DATA_ROW_MAPPER = createMemberDataRowMapper();
 
@@ -24,7 +24,7 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<MemberFullData> findMembersByStudyId(final Long studyId) {
+    public List<ParticipatingMemberData> findMembersByStudyId(final Long studyId) {
         final String sql = "SELECT member.id, github_id, username, image_url, profile_url, "
                 + "study_member.participation_date as participation_date, "
                 + countStudyNumber()
@@ -61,7 +61,7 @@ public class MemberDao {
         }
     }
 
-    private static RowMapper<MemberFullData> createMemberFullDataRowMapper() {
+    private static RowMapper<ParticipatingMemberData> createMemberFullDataRowMapper() {
         return (resultSet, resultNumber) -> {
             Long githubId = resultSet.getLong("github_id");
             String username = resultSet.getString("username");
@@ -69,7 +69,7 @@ public class MemberDao {
             String profileUrl = resultSet.getString("profile_url");
             LocalDate participationDate = resultSet.getDate("participation_date").toLocalDate();
             int numberOfStudy = resultSet.getInt("number_of_study");
-            return new MemberFullData(githubId, username, imageUrl, profileUrl, participationDate, numberOfStudy);
+            return new ParticipatingMemberData(githubId, username, imageUrl, profileUrl, participationDate, numberOfStudy);
         };
     }
 

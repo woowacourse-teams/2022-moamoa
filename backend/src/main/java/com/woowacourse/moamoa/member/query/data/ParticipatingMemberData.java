@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class MemberFullData {
+public class ParticipatingMemberData {
 
     @JsonProperty("id")
     private Long githubId;
