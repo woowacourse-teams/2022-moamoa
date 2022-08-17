@@ -27,8 +27,9 @@ import com.woowacourse.moamoa.review.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -77,15 +78,16 @@ class SearchingReviewControllerTest {
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
-        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        StudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
         javaStudy = studyService.createStudy(1L, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);
-        
-        studyService.participateStudy(greenlawn.getGithubId(), javaStudy.getId());
-        studyService.participateStudy(dwoo.getGithubId(), javaStudy.getId());
-        studyService.participateStudy(verus.getGithubId(), javaStudy.getId());
+
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
+        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);

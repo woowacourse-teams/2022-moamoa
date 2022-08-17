@@ -25,7 +25,7 @@ import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립�
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립트_스터디_요약;
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립트_스터디_제목;
 
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 
 public class AfterLoginSteps extends Steps {
 
@@ -36,21 +36,21 @@ public class AfterLoginSteps extends Steps {
     }
 
     public SetRequiredDataToCreatingStudySteps 자바_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(자바_스터디_제목).excerpt(자바_스터디_요약).description(자바_스터디_설명).thumbnail(자바_스터디_썸네일);
 
         return new SetRequiredDataToCreatingStudySteps(token, builder);
     }
 
     public SetRequiredDataToCreatingStudySteps 리액트_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(리액트_스터디_제목).excerpt(리액트_스터디_요약).description(리액트_스터디_설명).thumbnail(리액트_스터디_썸네일);
 
         return new SetRequiredDataToCreatingStudySteps(token, builder);
     }
 
     public SetRequiredDataToCreatingStudySteps 자바스크립트_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(자바스크립트_스터디_제목).excerpt(자바스크립트_스터디_요약)
                 .description(자바스크립트_스터디_설명).thumbnail(자바스크립트_스터디_썸네일);
 
@@ -58,7 +58,7 @@ public class AfterLoginSteps extends Steps {
     }
 
     public SetRequiredDataToCreatingStudySteps HTTP_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(HTTP_스터디_제목).excerpt(HTTP_스터디_요약)
                 .description(HTTP_스터디_설명).thumbnail(HTTP_스터디_썸네일);
 
@@ -66,7 +66,7 @@ public class AfterLoginSteps extends Steps {
     }
 
     public SetRequiredDataToCreatingStudySteps 알고리즘_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(알고리즘_스터디_제목).excerpt(알고리즘_스터디_요약)
                 .description(알고리즘_스터디_설명).thumbnail(알고리즘_스터디_썸네일);
 
@@ -74,7 +74,7 @@ public class AfterLoginSteps extends Steps {
     }
 
     public SetRequiredDataToCreatingStudySteps 리눅스_스터디를() {
-        CreatingStudyRequestBuilder builder = new CreatingStudyRequestBuilder()
+        StudyRequestBuilder builder = new StudyRequestBuilder()
                 .title(리눅스_스터디_제목).excerpt(리눅스_스터디_요약)
                 .description(리눅스_스터디_설명).thumbnail(리눅스_스터디_썸네일);
 

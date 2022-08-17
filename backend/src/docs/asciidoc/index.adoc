@@ -51,6 +51,12 @@ operation::studies/details[snippets='http-request,http-response']
 === 참여한 스터디 목록 조회
 operation::studies/myStudy[snippets='http-request,http-response']
 
+=== 스터디 상세 정보 수정
+operation::studies/update[snippets='http-request,http-response']
+
+=== 스터디 탈퇴
+operation::studies/leave[snippets='http-request,request-headers,http-response']
+
 [[Comunity]]
 == 커뮤니티
 

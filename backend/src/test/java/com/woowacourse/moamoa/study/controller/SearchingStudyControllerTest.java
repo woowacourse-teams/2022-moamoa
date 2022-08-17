@@ -20,8 +20,9 @@ import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
@@ -84,37 +85,39 @@ class SearchingStudyControllerTest {
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
         javaStudyId = studyService.createStudy(jjanggu.getGithubId(), javaStudyRequest).getId();
 
-        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
+        StudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
         reactStudyId = studyService.createStudy(dwoo.getGithubId(), reactStudyRequest).getId();
 
-        CreatingStudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
+        StudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
         javaScriptId = studyService.createStudy(jjanggu.getGithubId(), javaScriptStudyRequest).getId();
 
-        CreatingStudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
+        StudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
         httpStudyId = studyService.createStudy(jjanggu.getGithubId(), httpStudyRequest).getId();
 
-        CreatingStudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
+        StudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
         algorithmStudyId = studyService.createStudy(jjanggu.getGithubId(), algorithmStudyRequest).getId();
 
-        CreatingStudyRequest linuxStudyRequest = CreatingStudyRequest.builder()
+        StudyRequest linuxStudyRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail").description("Linux를 공부하자의 베루스입니다.")
                 .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
                 .tagIds(List.of())
                 .build();
         linuxStudyId = studyService.createStudy(verus.getGithubId(), linuxStudyRequest).getId();
 
-        studyService.participateStudy(dwoo.getGithubId(), javaStudyId);
-        studyService.participateStudy(verus.getGithubId(), javaStudyId);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        
+        participantService.participateStudy(dwoo.getId(), javaStudyId);
+        participantService.participateStudy(verus.getId(), javaStudyId);
 
-        studyService.participateStudy(jjanggu.getGithubId(), reactStudyId);
-        studyService.participateStudy(greenlawn.getGithubId(), reactStudyId);
-        studyService.participateStudy(verus.getGithubId(), reactStudyId);
+        participantService.participateStudy(jjanggu.getId(), reactStudyId);
+        participantService.participateStudy(greenlawn.getId(), reactStudyId);
+        participantService.participateStudy(verus.getId(), reactStudyId);
 
-        studyService.participateStudy(dwoo.getGithubId(), javaScriptId);
-        studyService.participateStudy(verus.getGithubId(), javaScriptId);
+        participantService.participateStudy(dwoo.getId(), javaScriptId);
+        participantService.participateStudy(verus.getId(), javaScriptId);
 
         entityManager.flush();
         entityManager.clear();

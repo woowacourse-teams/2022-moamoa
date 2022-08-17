@@ -3,8 +3,11 @@ package com.woowacourse.moamoa.study.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -42,15 +45,17 @@ public class Study {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Study(final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
-                 final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
+    public Study(
+            final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
+            final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
     ) {
         this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
     }
 
-    public Study(final Long id, final Content content, final Participants participants,
-                 final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
-                 final LocalDateTime createdAt
+    public Study(
+            final Long id, final Content content, final Participants participants,
+            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
+            final LocalDateTime createdAt
     ) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
@@ -68,18 +73,6 @@ public class Study {
         this.studyPlanner = studyPlanner;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
-    }
-
-    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
-        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
-                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
-    }
-
-    private boolean isRecruitedOrStartStudyBeforeCreatedAt(final RecruitPlanner recruitPlanner,
-                                                           final StudyPlanner studyPlanner,
-                                                           final LocalDateTime createdAt) {
-        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
-                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
     public boolean isReviewWritable(final Long memberId) {
@@ -108,6 +101,32 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
+    public void leave(final Participant participant) {
+        verifyCanLeave(participant);
+        participants.leave(participant);
+    }
+
+    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
+        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
+                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
+    }
+
+    private boolean isRecruitedOrStartStudyBeforeCreatedAt(
+            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final LocalDateTime createdAt
+    ) {
+        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
+    }
+
+    private void verifyCanLeave(final Participant participant) {
+        if (participants.isOwner(participant.getMemberId())) {
+            throw new OwnerCanNotLeaveException();
+        }
+        if (!participants.isParticipation(participant.getMemberId())) {
+            throw new NotParticipatedMemberException();
+        }
+    }
+
     public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }
@@ -128,5 +147,21 @@ public class Study {
             return MemberRole.MEMBER;
         }
         return MemberRole.NON_MEMBER;
+    }
+
+    public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
+                       StudyPlanner studyPlanner
+    ) {
+        checkOwner(memberId);
+        this.content = content;
+        this.recruitPlanner = recruitPlanner;
+        this.attachedTags = attachedTags;
+        this.studyPlanner = studyPlanner;
+    }
+
+    private void checkOwner(Long memberId) {
+        if (!participants.isOwner(memberId)) {
+            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
+        }
     }
 }

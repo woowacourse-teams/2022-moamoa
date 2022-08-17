@@ -16,8 +16,9 @@ import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -67,12 +68,14 @@ class LinkDaoTest {
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(JJANGGU.getGithubId(), javaStudyRequest);
-        createStudyService.participateStudy(GREENLAWN.getGithubId(), javaStudy.getId());
-        createStudyService.participateStudy(DWOO.getGithubId(), javaStudy.getId());
-        createStudyService.participateStudy(VERUS.getGithubId(), javaStudy.getId());
+
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
+        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository, linkRepository);
