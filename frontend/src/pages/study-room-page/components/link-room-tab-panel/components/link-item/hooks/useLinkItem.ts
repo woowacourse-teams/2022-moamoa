@@ -8,9 +8,8 @@ import { deleteLink } from '@api';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
+import { useGetLinkPreview } from '@study-room-page/components/link-room-tab-panel/components/link-item/hooks/useGetLinkPreview';
 import { QK_FETCH_LINKS } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinks';
-
-import { useGetLinkPreview } from './useGetLinkPreview';
 
 export type UseLinkItemParams = {
   studyId: StudyId;
