@@ -1,5 +1,3 @@
-import type { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';

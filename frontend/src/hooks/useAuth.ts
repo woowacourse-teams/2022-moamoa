@@ -1,6 +1,4 @@
-import { AxiosError } from 'axios';
 import { useContext } from 'react';
-import { useMutation } from 'react-query';
 
 import { useDeleteLogout } from '@api/auth';
 

@@ -1,4 +1,4 @@
-import type { GetLinkPreviewResponseData } from '@custom-types';
+import { GetLinkPreviewResponseData } from '@api/link-preview';
 
 import CenterImage from '@components/center-image/CenterImage';
 import { RightUpArrowSvg } from '@components/svg';

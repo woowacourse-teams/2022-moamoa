@@ -1,6 +1,8 @@
 import tw from '@utils/tw';
 
-import type { GetLinkPreviewResponseData, Link, StudyId } from '@custom-types';
+import type { Link, StudyId } from '@custom-types';
+
+import type { GetLinkPreviewResponseData } from '@api/link-preview';
 
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import ModalPortal from '@components/modal/Modal';
