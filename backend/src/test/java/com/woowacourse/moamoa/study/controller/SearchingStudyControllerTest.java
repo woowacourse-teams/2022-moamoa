@@ -40,7 +40,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class SearchingStudyControllerTest {
+class SearchingStudyControllerTest {
 
     private SearchingStudyController sut;
 
@@ -131,7 +131,7 @@ public class SearchingStudyControllerTest {
 
     @DisplayName("페이징 정보로 스터디 목록 조회")
     @Test
-    public void getStudies() {
+    void getStudies() {
         ResponseEntity<StudiesResponse> response = sut.getStudies(PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -212,7 +212,7 @@ public class SearchingStudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().isHasNext()).isFalse();
-        assertThat(response.getBody().getStudies()).hasSize(0);
+        assertThat(response.getBody().getStudies()).isEmpty();
     }
 
     @DisplayName("같은 종류의 필터들은 OR 조건으로 스터디 목록을 조회")
@@ -238,7 +238,7 @@ public class SearchingStudyControllerTest {
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
-    public void getStudyDetails() {
+    void getStudyDetails() {
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(javaStudyId).title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
@@ -273,7 +273,7 @@ public class SearchingStudyControllerTest {
 
     @DisplayName("선택적으로 입력 가능한 정보를 포함한 스터디 상세 정보를 조회할 수 있다.")
     @Test
-    public void getStudyDetailsWithOptional() {
+    void getStudyDetailsWithOptional() {
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(reactStudyId).title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")

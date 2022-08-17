@@ -10,7 +10,7 @@ import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class LinkTest {
+class LinkTest {
 
     @DisplayName("링크 공유를 수정한다.")
     @Test
@@ -68,8 +68,9 @@ public class LinkTest {
     void deleteByNotAuthor() {
         final Link link = new Link(new AssociatedStudy(1L), new Author(1L), "link", "설명");
         final Author nonAuthor = new Author(2L);
+        final AssociatedStudy associatedStudy = new AssociatedStudy(1L);
 
-        assertThatThrownBy(() -> link.delete(new AssociatedStudy(1L), nonAuthor))
+        assertThatThrownBy(() -> link.delete(associatedStudy, nonAuthor))
                 .isInstanceOf(NotLinkAuthorException.class);
     }
 
@@ -78,8 +79,9 @@ public class LinkTest {
     void deleteByNotBelongToStudy() {
         final Link link = new Link(new AssociatedStudy(1L), new Author(1L), "link", "설명");
         final AssociatedStudy unrelatedStudy = new AssociatedStudy(2L);
+        final Author author = new Author(1L);
 
-        assertThatThrownBy(() -> link.delete(unrelatedStudy, new Author(1L)))
+        assertThatThrownBy(() -> link.delete(unrelatedStudy, author))
                 .isInstanceOf(NotRelatedLinkException.class);
     }
 }

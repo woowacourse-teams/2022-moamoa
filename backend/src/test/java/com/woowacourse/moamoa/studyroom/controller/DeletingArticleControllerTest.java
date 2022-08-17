@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class DeletingArticleControllerTest {
+class DeletingArticleControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -88,8 +88,11 @@ public class DeletingArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
+        final Long memberId = member.getId();
+        final Long studyId = study.getId();
+
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(member.getId(), study.getId(), 1L, COMMUNITY))
+        assertThatThrownBy(() -> sut.deleteArticle(memberId, studyId, 1L, COMMUNITY))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -106,8 +109,12 @@ public class DeletingArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
 
+        final Long otherId = other.getId();
+        final Long studyId = study.getId();
+        final Long articleId = article.getId();
+
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(other.getId(), study.getId(), article.getId(), COMMUNITY))
+        assertThatThrownBy(() -> sut.deleteArticle(otherId, studyId, articleId, COMMUNITY))
                 .isInstanceOf(UneditableArticleException.class);
     }
 }

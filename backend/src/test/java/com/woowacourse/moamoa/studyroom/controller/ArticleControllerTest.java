@@ -33,7 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class ArticleControllerTest {
+class ArticleControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -124,9 +124,12 @@ public class ArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
+        final Long memberId = member.getId();
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
+
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(member.getId(), 1L, COMMUNITY,
-                new ArticleRequest("제목", "내용")
+        assertThatThrownBy(() -> sut.createArticle(memberId, 1L, COMMUNITY,
+                articleRequest
         ))
                 .isInstanceOf(StudyNotFoundException.class);
     }

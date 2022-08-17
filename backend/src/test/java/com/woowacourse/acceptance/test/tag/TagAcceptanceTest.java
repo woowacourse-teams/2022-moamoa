@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-public class TagAcceptanceTest extends AcceptanceTest {
+class TagAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("전체 태그 목록을 조회한다.")
     @Test

@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
+import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -12,12 +13,11 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -33,7 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class UpdatingArticleControllerTest {
+class UpdatingArticleControllerTest {
 
     StudyRequestBuilder javaStudyBuilder = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -73,15 +73,15 @@ public class UpdatingArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         Article article = articleService
-                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), ArticleType.COMMUNITY);
+                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), COMMUNITY);
 
         // act
         final ResponseEntity<Void> response = sut
-                .updateArticle(owner.getId(), study.getId(), article.getId(), ArticleType.COMMUNITY,
+                .updateArticle(owner.getId(), study.getId(), article.getId(), COMMUNITY,
                         new ArticleRequest("제목 수정", "내용 수정"));
 
         // assert
-        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(ArticleType.COMMUNITY);
+        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(COMMUNITY);
         Article actualArticle = articleRepository.findById(article.getId()).orElseThrow();
 
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
@@ -100,12 +100,14 @@ public class UpdatingArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
+        final Long memberId = member.getId();
+        final Long studyId = study.getId();
+        final ArticleRequest articleRequest = new ArticleRequest("제목 수정", "내용 수정");
+
         // act & assert
         assertThatThrownBy(() ->
-                sut.updateArticle(member.getId(), study.getId(), 1L, ArticleType.COMMUNITY,
-                        new ArticleRequest("제목 수정", "내용 수정"))
-        )
-                .isInstanceOf(ArticleNotFoundException.class);
+                sut.updateArticle(memberId, studyId, 1L, COMMUNITY, articleRequest)
+        ).isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("게시글을 수정할 수 없는 경우 예외가 발생한다.")
@@ -120,13 +122,17 @@ public class UpdatingArticleControllerTest {
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final Article article = articleService
-                .createArticle(member.getId(), study.getId(), request, ArticleType.COMMUNITY);
+                .createArticle(member.getId(), study.getId(), request, COMMUNITY);
+
+        final Long otherId = other.getId();
+        final Long studyId = study.getId();
+        final Long articleId = article.getId();
+        final ArticleRequest articleRequest = new ArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
         assertThatThrownBy(() ->
-                sut.updateArticle(other.getId(), study.getId(), article.getId(), ArticleType.COMMUNITY,
-                        new ArticleRequest("제목 수정", "내용 수정"))
-        )
-                .isInstanceOf(UneditableArticleException.class);
+                sut.updateArticle(otherId, studyId, articleId, COMMUNITY,
+                        articleRequest
+        )).isInstanceOf(UneditableArticleException.class);
     }
 }

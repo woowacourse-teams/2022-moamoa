@@ -61,7 +61,7 @@ class AuthServiceTest {
 
     @DisplayName("RefreshToken 을 저장한다.")
     @Test
-    public void saveRefreshToken() {
+    void saveRefreshToken() {
         authService.createToken("authorization-code");
         final Token token = tokenRepository.findByGithubId(1L).get();
 
@@ -70,7 +70,7 @@ class AuthServiceTest {
 
     @DisplayName("RefreshToken 을 이용하여 AccessToken 을 업데이트한다.")
     @Test
-    public void updateRefreshToken() {
+    void updateRefreshToken() {
         authService.createToken("authorization-code");
         final Token token = tokenRepository.findByGithubId(1L).get();
         final String refreshToken = token.getRefreshToken();
@@ -82,14 +82,14 @@ class AuthServiceTest {
 
     @DisplayName("DB에 저장되어 있지 않은 refresh token으로 access token을 발급받을 수 없다.")
     @Test
-    public void validateRefreshToken() {
+    void validateRefreshToken() {
         assertThatThrownBy(() -> authService.refreshToken(1L, "InvalidRefreshToken"))
                 .isInstanceOf(UnauthorizedException.class);
     }
 
     @DisplayName("refresh token을 통해 access token을 발급받을 수 있다.")
     @Test
-    public void recreationAccessToken() {
+    void recreationAccessToken() {
         authService.createToken("authorization-code");
         final Token token = tokenRepository.findByGithubId(1L).get();
 
@@ -98,7 +98,7 @@ class AuthServiceTest {
 
     @DisplayName("로그아웃을 하면 Token 을 제거한다.")
     @Test
-    public void logout() {
+    void logout() {
         authService.createToken("authorization-code");
         final Token token = tokenRepository.findByGithubId(1L).get();
 
@@ -107,6 +107,6 @@ class AuthServiceTest {
         final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
 
         assertThat(token).isNotNull();
-        assertThat(foundToken.isEmpty()).isTrue();
+        assertThat(foundToken).isEmpty();
     }
 }

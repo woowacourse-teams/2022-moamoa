@@ -5,7 +5,7 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CorsAcceptanceTest extends AcceptanceTest {
+class CorsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("cors 적용 여부 확인")
     @Test

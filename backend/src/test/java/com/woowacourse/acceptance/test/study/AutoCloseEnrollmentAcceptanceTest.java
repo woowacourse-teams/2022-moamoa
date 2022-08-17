@@ -1,7 +1,6 @@
 package com.woowacourse.acceptance.test.study;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.contains;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import java.util.Set;
@@ -14,7 +13,7 @@ import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.Task;
 import org.springframework.scheduling.config.TriggerTask;
 
-public class AutoCloseEnrollmentAcceptanceTest extends AcceptanceTest {
+class AutoCloseEnrollmentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private ScheduledAnnotationBeanPostProcessor processor;
