@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import { css } from '@emotion/react';
 
+import tw from '@utils/tw';
+
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
 
@@ -19,11 +21,7 @@ const Template: Story<DropDownBoxProps> = props => {
   };
 
   return (
-    <div
-      css={css`
-        position: relative;
-      `}
-    >
+    <div css={tw`relative`}>
       <button onClick={handleButtonClick}>드롭박스 열기</button>
       {isOpen && <DropDownBox {...props} onClose={() => setIsOpen(false)} />}
     </div>
