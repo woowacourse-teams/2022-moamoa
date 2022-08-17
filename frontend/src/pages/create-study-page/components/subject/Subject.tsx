@@ -1,10 +1,11 @@
 import tw from '@utils/tw';
 
+import { useGetTags } from '@api/tags';
+
 import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import * as S from '@create-study-page/components/subject/Subject.style';
-import useGetTagList from '@create-study-page/hooks/useGetTagList';
 
 type SubjectProps = {
   className?: string;
@@ -12,7 +13,7 @@ type SubjectProps = {
 
 const Subject = ({ className }: SubjectProps) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError } = useGetTagList();
+  const { data, isLoading, isError } = useGetTags();
 
   const render = () => {
     if (isLoading) return <div>loading...</div>;

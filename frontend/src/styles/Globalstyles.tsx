@@ -188,7 +188,8 @@ const GlobalStyles = () => {
           resize: none;
         }
 
-        input {
+        input,
+        textarea {
           background-color: ${theme.colors.white};
           &::placeholder {
             color: ${theme.colors.secondary.dark};

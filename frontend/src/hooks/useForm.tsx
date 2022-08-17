@@ -9,7 +9,7 @@ type FieldErrors = Record<FieldName, FieldValidationResult>;
 type FieldValidationResult = { hasError: boolean; errorMessage?: string };
 type ValidateHandler = (val: any) => FieldValidationResult;
 type ChangeHandler = React.ChangeEventHandler<FieldElement>;
-type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+export type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 type ValidationMode = 'change' | 'submit';
 
 type Field = {

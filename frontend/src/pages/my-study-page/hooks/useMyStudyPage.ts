@@ -2,14 +2,14 @@ import { useMemo } from 'react';
 
 import type { MyStudy, StudyStatus } from '@custom-types';
 
-import useGetMyStudy from '@my-study-page/hooks/useGetMyStudy';
+import { useGetMyStudies } from '@api/my-studies';
 
 const filterStudiesByStatus = (studies: Array<MyStudy>, status: StudyStatus) => {
   return studies.filter(({ studyStatus }) => studyStatus === status);
 };
 
 export const useMyStudyPage = () => {
-  const myStudyQueryResult = useGetMyStudy();
+  const myStudyQueryResult = useGetMyStudies();
 
   const filteredStudies: Record<string, Array<MyStudy>> = useMemo(() => {
     const studies = myStudyQueryResult.data?.studies ?? [];

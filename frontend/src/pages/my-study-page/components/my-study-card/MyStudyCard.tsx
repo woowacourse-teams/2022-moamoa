@@ -1,5 +1,7 @@
 import type { MakeOptional, Tag } from '@custom-types';
 
+import { CrownSvg, TrashCanSvg } from '@components/svg';
+
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
 export type MyStudyCardProps = {
@@ -12,24 +14,6 @@ export type MyStudyCardProps = {
 };
 
 type OptionalMyStudyCardProps = MakeOptional<MyStudyCardProps, 'disabled'>;
-
-const TbCrown = () => (
-  <svg
-    stroke="currentColor"
-    fill="none"
-    strokeWidth="2"
-    viewBox="0 0 24 24"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    height="20"
-    width="20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <desc></desc>
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-    <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
-  </svg>
-);
 
 const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
   title,
@@ -45,7 +29,7 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
         <S.Top>
           <S.Title>{title}</S.Title>
           <S.Owner>
-            <TbCrown />
+            <CrownSvg />
             {ownerName}
           </S.Owner>
           <S.Tags>

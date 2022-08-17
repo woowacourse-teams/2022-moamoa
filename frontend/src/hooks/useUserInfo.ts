@@ -1,23 +1,12 @@
-import type { AxiosError } from 'axios';
 import { useContext, useEffect } from 'react';
-import { useQuery } from 'react-query';
 
-import type { GetUserInformationResponseData } from '@custom-types';
-
-import { getUserInformation } from '@api';
+import { useGetUserInformation } from '@api/member';
 
 import { UserInfoContext } from '@context/userInfo/UserInfoProvider';
 
 export const useUserInfo = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const {
-    data,
-    refetch: fetchUserInfo,
-    isError,
-    isSuccess,
-  } = useQuery<GetUserInformationResponseData, AxiosError>('user-info', getUserInformation, {
-    enabled: false,
-  });
+  const { data, refetch: fetchUserInfo, isError, isSuccess } = useGetUserInformation();
 
   useEffect(() => {
     if (!data || isError || !isSuccess) return;

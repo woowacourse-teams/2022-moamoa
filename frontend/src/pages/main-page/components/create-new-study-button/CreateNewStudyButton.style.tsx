@@ -26,5 +26,9 @@ export const CreateNewStudyButton = styled.button`
     &:active {
       background-color: ${theme.colors.primary.dark};
     }
+
+    & > svg {
+      stroke: ${theme.colors.white};
+    }
   `}
 `;

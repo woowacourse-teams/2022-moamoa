@@ -35,6 +35,19 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: join(__dirname, '../public/index.html'),
       favicon: join(__dirname, '../public/favicon.png'),
+      meta: {
+        description: { name: 'description', contnet: '스터디를 쉽고, 편리하게! 스터디 아카이브 모아모아입니다' },
+        'og:title': { property: 'og:title', content: '모아모아' },
+        'og:type': { property: 'og:type', content: 'website' },
+        'og:description': {
+          name: 'og:description',
+          contnet: '스터디를 쉽고, 편리하게! 스터디 아카이브 모아모아입니다',
+        },
+        'og:url': { property: 'og:url', content: 'https://moamoa.space' },
+        'og:image': { property: 'og:image', content: '%PUBLIC_URL%/open-graph-image.png' },
+        'og:image:width': { property: 'og:url', content: 1200 },
+        'og:image:height': { property: 'og:url', content: 630 },
+      },
     }),
     new CleanWebpackPlugin(),
   ],

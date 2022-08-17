@@ -3,6 +3,7 @@ import { changeDateSeperator } from '@utils';
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
 import Avatar from '@components/avatar/Avatar';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
 import KebabMenu from '@components/kebab-menu/KebabMenu';
 
 import * as S from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment.style';
@@ -22,7 +23,8 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
   const {
     isOpen,
     isEditing,
-    handleDropDownClick,
+    handleKebabMenuClick,
+    handleDropDownBoxClose,
     handleEditReviewBtnClick,
     handleDeleteReviewBtnClick,
     handleCancelEditBtnClick,
@@ -59,17 +61,25 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
             </S.UsernameContainer>
           </S.UserInfo>
           {isMyComment && (
-            <S.DropDown>
-              <KebabMenu onClick={handleDropDownClick} />
-              <S.DropDownMenu isOpen={isOpen}>
-                <li>
-                  <button onClick={handleEditReviewBtnClick}>수정</button>
-                </li>
-                <li>
-                  <button onClick={handleDeleteReviewBtnClick}>삭제</button>
-                </li>
-              </S.DropDownMenu>
-            </S.DropDown>
+            <S.KebabMenuContainer>
+              <KebabMenu onClick={handleKebabMenuClick} />
+              {isOpen && (
+                <DropDownBox onClose={handleDropDownBoxClose} top="calc(100% + 3px)" right="6px">
+                  <S.DropBoxButtonList>
+                    <li>
+                      <S.DropBoxButton type="button" onClick={handleEditReviewBtnClick}>
+                        수정
+                      </S.DropBoxButton>
+                    </li>
+                    <li>
+                      <S.DropBoxButton type="button" onClick={handleDeleteReviewBtnClick}>
+                        삭제
+                      </S.DropBoxButton>
+                    </li>
+                  </S.DropBoxButtonList>
+                </DropDownBox>
+              )}
+            </S.KebabMenuContainer>
           )}
         </S.ReviewCommentHead>
         <S.ReviewCommentBody>
