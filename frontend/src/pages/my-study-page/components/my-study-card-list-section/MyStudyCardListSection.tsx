@@ -1,8 +1,15 @@
+import { AxiosError } from 'axios';
+import { useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
 import type { MakeOptional, MyStudy } from '@custom-types';
+
+import { QK_MY_STUDIES } from '@api/my-studies';
+import { useDeleteMyStudy } from '@api/my-study';
+
+import { TrashCanSvg } from '@components/svg';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
@@ -16,37 +23,34 @@ export type MyStudyCardListSectionProps = {
 
 type OptionalMyStudyCardListSectionProps = MakeOptional<MyStudyCardListSectionProps, 'disabled'>;
 
-const HiOutlineTrash = () => (
-  <svg
-    stroke="currentColor"
-    fill="none"
-    strokeWidth="0"
-    viewBox="0 0 24 24"
-    height="20"
-    width="20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-    ></path>
-  </svg>
-);
-
 const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
   className,
   sectionTitle,
   studies,
   disabled = false,
 }) => {
-  const handleTrashButtonClick = (studyName: string) => () => {
-    if (!confirm(`정말 '${studyName}'을(를) 탈퇴하실 건가요? :(`)) return;
+  const queryClient = useQueryClient();
+  const { mutate } = useDeleteMyStudy();
 
-    // TODO: mutate
-    alert('탈퇴');
-  };
+  const handleTrashButtonClick =
+    ({ title, id }: Pick<MyStudy, 'title' | 'id'>) =>
+    () => {
+      if (!confirm(`정말 '${title}'을(를) 탈퇴하실 건가요? :(`)) return;
+
+      mutate(
+        { studyId: id },
+        {
+          onError: error => {
+            if (error instanceof AxiosError) console.error(error.message);
+            alert('문제가 발생하여 스터디를 탈퇴하지 못했습니다');
+          },
+          onSuccess: () => {
+            queryClient.refetchQueries(QK_MY_STUDIES);
+            alert('스터디를 탈퇴했습니다.');
+          },
+        },
+      );
+    };
 
   return (
     <S.MyStudyCardListSection className={className}>
@@ -67,8 +71,8 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
                   disabled={disabled}
                 />
               </Link>
-              <S.TrashButton type="button" onClick={handleTrashButtonClick(study.title)}>
-                <HiOutlineTrash />
+              <S.TrashButton type="button" onClick={handleTrashButtonClick(study)}>
+                <TrashCanSvg />
               </S.TrashButton>
             </S.MyStudyCardItem>
           ))

@@ -1,6 +1,6 @@
 import type { MakeOptional, Tag } from '@custom-types';
 
-import { CrownSvg, TrashCanSvg } from '@components/svg';
+import { CrownSvg } from '@components/svg';
 
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
