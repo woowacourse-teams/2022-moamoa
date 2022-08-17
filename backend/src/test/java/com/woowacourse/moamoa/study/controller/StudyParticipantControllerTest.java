@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class StudyParticipantControllerTest {
+class StudyParticipantControllerTest {
 
     @Autowired
     private StudyRepository studyRepository;
@@ -39,7 +39,7 @@ public class StudyParticipantControllerTest {
 
     @DisplayName("회원은 스터디에 참여할 수 있다.")
     @Test
-    public void participateStudy() {
+    void participateStudy() {
         // given
         StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
                 new DateTimeSystem()));

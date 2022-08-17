@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
-public class StudyParticipantAcceptanceTest extends AcceptanceTest {
+class StudyParticipantAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("아직 스터디에 가입되지 않은 회원은 스터디에 참여가 가능하다.")
     @Test
-    public void participateStudy() {
+    void participateStudy() {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).모집인원은(10).생성한다();
         String token = 디우가().로그인한다();
