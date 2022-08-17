@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import OriginalCheckbox from '@components/checkbox/Checkbox';
 
-export { Input } from '@create-study-page/components/input/Input.style';
+export { Input } from '@components/input/Input.style';
 
 export const MaxMemberCount = styled.div``;
 

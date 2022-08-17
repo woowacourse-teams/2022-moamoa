@@ -309,7 +309,6 @@ class SearchingStudyControllerTest {
     @DisplayName("스터디 참여자와 부착된 태그가 없는 스터디의 세부사항 조회")
     @Test
     void getNotHasParticipantsAndAttachedTagsStudyDetails() {
-
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(linuxStudyId).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
@@ -335,6 +334,24 @@ class SearchingStudyControllerTest {
         assertStudyParticipants(actual, expect, expectParticipants);
         assertStudyPeriod(actual, expect);
         assertAttachedTags(actual.getTags(), expectAttachedTags);
+    }
+
+    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수와 가입날짜도 함께 조회한다.")
+    @Test
+    public void findStudyDetailsWithNumberOfStudy() {
+        final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
+
+        final StudyDetailResponse responseBody = response.getBody();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseBody.getMembers())
+                .filteredOn(member -> member.getParticipationDate() != null)
+                .hasSize(2)
+                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
+                .containsExactlyInAnyOrder(
+                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
+                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
+                );
     }
 
     private void assertStudyContent(final StudyDetailResponse actual, final StudyDetailsData expect) {

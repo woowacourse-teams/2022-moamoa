@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 
 import { API_ERROR } from '@constants';
 
-import { deleteRefreshToken, getAccessToken } from '@api';
+import { deleteLogout, getRefresh } from '@api/auth';
 
 class AccessTokenController {
   private static ACCESS_TOKEN_KEY = 'accessToken';
@@ -34,7 +34,7 @@ class AccessTokenController {
 
   private static async fetchLogout() {
     try {
-      await deleteRefreshToken();
+      await deleteLogout();
       this.removeAccessToken();
     } catch (error) {
       alert('로그아웃에 실패했습니다. :(');
@@ -44,7 +44,7 @@ class AccessTokenController {
 
   static async fetchAccessTokenWithRefresh() {
     try {
-      const data = await getAccessToken();
+      const data = await getRefresh();
       this.setAccessToken(data.accessToken);
       this.setTokenExpiredMsTime(data.expiredTime);
 

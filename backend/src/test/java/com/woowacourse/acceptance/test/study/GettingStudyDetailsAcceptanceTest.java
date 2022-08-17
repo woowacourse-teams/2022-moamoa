@@ -83,6 +83,8 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("members.username", contains(짱구_이름, 그린론_이름, 베루스_이름))
                 .body("members.imageUrl", contains(짱구_이미지_URL, 그린론_이미지_URL, 베루스_이미지_URL))
                 .body("members.profileUrl", contains(짱구_프로필_URL, 그린론_프로필_URL, 베루스_프로필_URL))
+                .body("members.participationDate", not(empty()))
+                .body("members.numberOfStudy", contains(1, 1, 1))
                 .body("tags.id", not(empty()))
                 .body("tags.name", contains("4기", "FE", "React"));
     }

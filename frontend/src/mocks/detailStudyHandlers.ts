@@ -7,11 +7,13 @@ const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {
     const studyId = req.params.studyId;
 
+    if (!studyId) return res(ctx.status(400), ctx.json({ message: '스터디 아이디가 없음' }));
+
     const study = studiesJSON.studies.find(study => String(study.id) === studyId);
 
     return res(ctx.status(200), ctx.json(study));
   }),
-  rest.post('/api/studies/:studyId', (req, res, ctx) => {
+  rest.post('/api/studies/:studyId/memebers', (req, res, ctx) => {
     // const studyId = req.params.studyId;
 
     return res(ctx.status(200));
