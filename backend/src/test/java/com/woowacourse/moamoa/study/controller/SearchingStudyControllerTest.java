@@ -15,6 +15,7 @@ import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
@@ -32,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class SearchingStudyControllerTest {
@@ -118,15 +118,17 @@ public class SearchingStudyControllerTest {
                 .build();
         linuxStudyId = studyService.createStudy(verus.getGithubId(), linuxStudyRequest).getId();
 
-        studyService.participateStudy(dwoo.getGithubId(), javaStudyId);
-        studyService.participateStudy(verus.getGithubId(), javaStudyId);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        
+        participantService.participateStudy(dwoo.getId(), javaStudyId);
+        participantService.participateStudy(verus.getId(), javaStudyId);
 
-        studyService.participateStudy(jjanggu.getGithubId(), reactStudyId);
-        studyService.participateStudy(greenlawn.getGithubId(), reactStudyId);
-        studyService.participateStudy(verus.getGithubId(), reactStudyId);
+        participantService.participateStudy(jjanggu.getId(), reactStudyId);
+        participantService.participateStudy(greenlawn.getId(), reactStudyId);
+        participantService.participateStudy(verus.getId(), reactStudyId);
 
-        studyService.participateStudy(dwoo.getGithubId(), javaScriptId);
-        studyService.participateStudy(verus.getGithubId(), javaScriptId);
+        participantService.participateStudy(dwoo.getId(), javaScriptId);
+        participantService.participateStudy(verus.getId(), javaScriptId);
 
         entityManager.flush();
         entityManager.clear();

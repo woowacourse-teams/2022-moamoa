@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.review.service.response.ReviewResponse;
 import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -24,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
 public class ReviewControllerTest {
@@ -67,7 +67,8 @@ public class ReviewControllerTest {
 
         Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
 
-        studyService.participateStudy(verus.getGithubId(), javaStudy.getId());
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);

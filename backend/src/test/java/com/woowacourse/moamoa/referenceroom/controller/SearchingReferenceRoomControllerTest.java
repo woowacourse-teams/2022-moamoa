@@ -34,6 +34,7 @@ import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
@@ -94,9 +95,10 @@ public class SearchingReferenceRoomControllerTest {
 
         javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
 
-        studyService.participateStudy(그린론_깃허브_아이디, javaStudy.getId());
-        studyService.participateStudy(디우_깃허브_아이디, javaStudy.getId());
-        studyService.participateStudy(베루스_깃허브_아이디, javaStudy.getId());
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
+        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository,
