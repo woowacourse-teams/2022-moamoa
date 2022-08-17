@@ -34,7 +34,7 @@ import com.woowacourse.moamoa.review.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -86,8 +86,8 @@ class ReviewDaoTest {
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
-        CreatingStudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
+        StudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
         reactStudy = createStudyService.createStudy(1L, reactStudyRequest);

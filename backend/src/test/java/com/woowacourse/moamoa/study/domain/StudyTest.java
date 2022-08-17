@@ -5,21 +5,18 @@ import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_STAR
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
-
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import static java.time.LocalDateTime.now;
-
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -343,5 +340,24 @@ public class StudyTest {
 
         // act
         assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
+    }
+
+    @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
+    @Test
+    public void updateStudyWithParticipant() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = Participants.createBy(1L);
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        final Content updatingContent = new Content("새로운 title", "새로운 excerpt", "새로운 thumbnail", "새로운 description");
+        final RecruitPlanner updatingRecruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner updatingStudyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+
+        // when & then
+        assertThatThrownBy(() -> sut.update(2L, updatingContent, updatingRecruitPlanner, null, updatingStudyPlanner))
+                .isInstanceOf(UnauthorizedException.class);
     }
 }
