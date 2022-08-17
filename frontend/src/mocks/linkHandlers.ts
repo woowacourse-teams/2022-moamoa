@@ -18,10 +18,11 @@ export const linkHandlers = [
     const startIndex = pageNum * sizeNum;
     const endIndexExclusive = startIndex + sizeNum;
 
+    const { links } = linkJson;
     return res(
       ctx.status(200),
       ctx.json({
-        links: linkJson.links.slice(startIndex, endIndexExclusive),
+        links: links.slice(startIndex, endIndexExclusive),
         hasNext: endIndexExclusive < linkJson.links.length,
       }),
     );
@@ -31,6 +32,7 @@ export const linkHandlers = [
     if (!linkUrl || !description)
       return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
 
+    const { links } = linkJson;
     linkJson.links = [
       {
         id: Math.random() * 100000 + 1000,
@@ -40,7 +42,7 @@ export const linkHandlers = [
         createdDate: '2022-09-13',
         lastModifiedDate: '2022-09-13',
       },
-      ...linkJson.links,
+      ...links,
     ];
 
     return res(ctx.status(201));
@@ -53,25 +55,31 @@ export const linkHandlers = [
     if (!linkUrl || !description)
       return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
 
-    const isExist = linkJson.links.some(link => link.id === linkId);
+    const { links } = linkJson;
+    const isExist = links.some(link => link.id === linkId);
     if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 링크 없음' }));
 
-    linkJson.links.forEach(link => {
-      if (link.id === linkId) {
-        link.linkUrl = linkUrl;
-        link.description = description;
-      }
+    linkJson.links = links.map(link => {
+      if (link.id === linkId)
+        return {
+          ...link,
+          linkUrl,
+          description,
+        };
+      return link;
     });
     return res(ctx.status(204));
   }),
   rest.delete('/api/studies/:studyId/reference-room/links/:linkId', (req, res, ctx) => {
     const linkId = Number(req.params.linkId);
+    const { links } = linkJson;
+
     if (!linkId) return res(ctx.status(400), ctx.json({ message: '링크 아이디가 없음' }));
 
-    const isExist = linkJson.links.some(link => link.id === linkId);
+    const isExist = links.some(link => link.id === linkId);
     if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 링크 없음' }));
 
-    const filteredLinks = linkJson.links.filter(link => link.id !== linkId);
+    const filteredLinks = links.filter(link => link.id !== linkId);
     linkJson.links = filteredLinks;
     return res(ctx.status(204));
   }),
