@@ -2,7 +2,7 @@ name: moamoa-sonarqube
 on:
   pull_request:
     paths:
-      - './backend/**'
+      - 'backend/**'
     branches:
       - develop
     types: [opened, synchronize]
