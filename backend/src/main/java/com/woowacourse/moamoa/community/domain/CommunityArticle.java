@@ -55,7 +55,7 @@ public class CommunityArticle extends BaseEntity {
     }
 
     public static CommunityArticle write(final Member member, final Study study, final ArticleRequest request) {
-        if (!study.isParticipantOrOwner(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotParticipatedMemberException();
         }
 
@@ -68,7 +68,7 @@ public class CommunityArticle extends BaseEntity {
     }
 
     public boolean isViewableBy(final Long studyId, final Long memberId) {
-        return isBelongTo(studyId) && study.isParticipantOrOwner(memberId);
+        return isBelongTo(studyId) && study.isParticipant(memberId);
     }
 
     public boolean isEditableBy(final Long studyId, final Long memberId) {

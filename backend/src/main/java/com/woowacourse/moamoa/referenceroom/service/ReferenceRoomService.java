@@ -34,7 +34,7 @@ public class ReferenceRoomService {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isParticipantOrOwner(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotCreatingLinkException();
         }
 
@@ -52,7 +52,7 @@ public class ReferenceRoomService {
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
-        if (!study.isParticipantOrOwner(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotParticipatedMemberException();
         }
 
@@ -68,7 +68,7 @@ public class ReferenceRoomService {
         final Link link = linkRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
-        if (!study.isParticipantOrOwner(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotParticipatedMemberException();
         }
 

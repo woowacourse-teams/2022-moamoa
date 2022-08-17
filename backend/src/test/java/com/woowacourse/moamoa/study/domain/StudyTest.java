@@ -347,7 +347,7 @@ public class StudyTest {
         sut.participate(participantId);
 
         // act
-        assertThat(sut.isParticipantOrOwner(targetMemberId)).isEqualTo(expected);
+        assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
     }
 
     @DisplayName("스터디장은 탈퇴할 수 없다.")

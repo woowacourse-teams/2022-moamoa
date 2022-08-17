@@ -80,7 +80,7 @@ public class CommunityArticleService {
     public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable) {
         final Study study = studyRepository.findById(studyId).orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isParticipantOrOwner(memberId)) {
+        if (!study.isParticipant(memberId)) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 

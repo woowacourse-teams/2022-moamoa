@@ -31,7 +31,7 @@ public class SearchingReferenceRoomService {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isParticipantOrOwner(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotParticipatedMemberException();
         }
 

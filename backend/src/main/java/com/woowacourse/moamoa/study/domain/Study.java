@@ -78,7 +78,7 @@ public class Study {
         return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
     }
 
-    public boolean isParticipantOrOwner(final Long memberId) {
+    public boolean isParticipant(final Long memberId) {
         return participants.isParticipation(memberId);
     }
 
