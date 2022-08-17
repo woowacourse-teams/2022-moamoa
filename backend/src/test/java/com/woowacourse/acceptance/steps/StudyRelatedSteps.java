@@ -31,7 +31,7 @@ public class StudyRelatedSteps extends Steps {
                 .when().log().all()
                 .post("/api/studies/{study-id}/members")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     public Long 리뷰를_작성한다(String content) {

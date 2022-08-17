@@ -101,7 +101,7 @@ public class Study {
     }
 
     public void leave(final Participant participant) {
-        verifyOwnerOrParticipant(participant);
+        verifyCanLeave(participant);
         participants.leave(participant);
     }
 
@@ -117,7 +117,7 @@ public class Study {
                 recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
     }
 
-    private void verifyOwnerOrParticipant(final Participant participant) {
+    private void verifyCanLeave(final Participant participant) {
         if (participants.isOwner(participant.getMemberId())) {
             throw new OwnerCanNotLeaveException();
         }

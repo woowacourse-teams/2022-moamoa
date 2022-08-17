@@ -38,7 +38,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .post("/api/studies/{study-id}/members")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @DisplayName("스터디를 탈퇴한다.")
@@ -60,7 +60,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
                 .when().log().all()
                 .delete("/api/studies/{study-id}/members")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
 
         final StudyDetailResponse studyDetailResponse = RestAssured.given().log().all()
                 .pathParam("study-id", studyId)

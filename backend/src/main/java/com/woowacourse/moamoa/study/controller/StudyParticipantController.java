@@ -22,7 +22,7 @@ public class StudyParticipantController {
             @AuthenticatedMember final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
         studyParticipantService.participateStudy(memberId, studyId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping
@@ -30,6 +30,6 @@ public class StudyParticipantController {
             @AuthenticatedMember final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
         studyParticipantService.leaveStudy(memberId, studyId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

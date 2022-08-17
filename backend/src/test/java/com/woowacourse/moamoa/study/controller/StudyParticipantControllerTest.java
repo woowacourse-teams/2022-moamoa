@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
@@ -66,7 +66,7 @@ class StudyParticipantControllerTest {
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
-        assertThat(response.getStatusCode()).isEqualTo(OK);
+        assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
     }
 
     private long getStudyIdBy(final String location) {
