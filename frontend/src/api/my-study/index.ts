@@ -18,3 +18,17 @@ export const postMyStudy = async ({ studyId }: PostMyStudyRequestParams) => {
 };
 
 export const usePostMyStudy = () => useMutation<null, AxiosError, PostMyStudyRequestParams>(postMyStudy);
+
+// delete - quit study
+export type DeleteMyStudyRequestParams = {
+  studyId: StudyId;
+};
+
+export const deleteMyStudy = async ({ studyId }: DeleteMyStudyRequestParams) => {
+  const response = await axiosInstance.delete<null, AxiosResponse<null>, DeleteMyStudyRequestParams>(
+    `/api/studies/${studyId}/members`,
+  );
+  return response.data;
+};
+
+export const useDeleteMyStudy = () => useMutation<null, AxiosError, DeleteMyStudyRequestParams>(deleteMyStudy);
