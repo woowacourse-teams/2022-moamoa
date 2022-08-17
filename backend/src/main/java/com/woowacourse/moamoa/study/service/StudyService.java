@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -77,13 +76,11 @@ public class StudyService {
         }
     }
 
-    public void updateStudy(Long githubId, Long studyId, StudyRequest request) {
+    public void updateStudy(Long memberId, Long studyId, StudyRequest request) {
         Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
-        Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(MemberNotFoundException::new);
 
-        study.update(member.getId(), request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
+        study.update(memberId, request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
                 request.mapToStudyPlanner(LocalDate.now()));
     }
 }

@@ -8,7 +8,6 @@ import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -143,7 +142,7 @@ public class Study {
     }
 
     private void checkOwner(Long memberId) {
-        if (!Objects.equals(getParticipants().getOwnerId(), memberId)) {
+        if (!participants.isOwner(memberId)) {
             throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
         }
     }
