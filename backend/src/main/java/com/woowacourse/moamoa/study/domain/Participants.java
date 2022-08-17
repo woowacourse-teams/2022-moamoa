@@ -59,7 +59,7 @@ public class Participants {
     }
 
     boolean isParticipationOrOwner(final Long memberId) {
-        return participants.contains(new Participant(memberId)) || isOwner(memberId);
+        return isParticipation(memberId) || isOwner(memberId);
     }
 
     boolean isParticipation(final Long memberId) {

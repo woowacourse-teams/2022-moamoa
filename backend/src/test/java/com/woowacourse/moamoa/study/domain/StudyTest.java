@@ -390,5 +390,6 @@ public class StudyTest {
         sut.participate(participant.getMemberId());
 
         assertDoesNotThrow(() -> sut.leave(participant));
+        assertThat(sut.getParticipants().getSize()).isOne();
     }
 }
