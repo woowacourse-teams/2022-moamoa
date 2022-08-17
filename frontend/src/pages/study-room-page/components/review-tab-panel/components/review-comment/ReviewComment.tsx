@@ -65,7 +65,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
               <KebabMenu onClick={handleKebabMenuClick} />
               {isOpen && (
                 <DropDownBox onClose={handleDropDownBoxClose} top="calc(100% + 3px)" right="6px">
-                  <S.DropBoxButtons>
+                  <S.DropBoxButtonList>
                     <li>
                       <S.DropBoxButton type="button" onClick={handleEditReviewBtnClick}>
                         수정
@@ -76,7 +76,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
                         삭제
                       </S.DropBoxButton>
                     </li>
-                  </S.DropBoxButtons>
+                  </S.DropBoxButtonList>
                 </DropDownBox>
               )}
             </S.KebabMenuContainer>

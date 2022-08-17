@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import { useGetInfiniteLinkList } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinkList';
+import { useGetInfiniteLinks } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinks';
 
 export const useLinkRoomTabPanel = () => {
   const { studyId } = useParams<{ studyId: string }>();
   const { fetchUserInfo, userInfo } = useUserInfo();
-  const infiniteLinkListQueryResult = useGetInfiniteLinkList({ studyId: Number(studyId) });
+  const infiniteLinksQueryResult = useGetInfiniteLinks({ studyId: Number(studyId) });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -21,7 +21,7 @@ export const useLinkRoomTabPanel = () => {
 
   const handlePostLinkSuccess = () => {
     alert('링크를 등록했습니다 :D');
-    infiniteLinkListQueryResult.refetch();
+    infiniteLinksQueryResult.refetch();
     handleModalClose();
   };
 
@@ -33,7 +33,7 @@ export const useLinkRoomTabPanel = () => {
   return {
     studyId: Number(studyId),
     userInfo,
-    infiniteLinkListQueryResult,
+    infiniteLinksQueryResult,
     isModalOpen,
     handleLinkAddButtonClick,
     handleModalClose,

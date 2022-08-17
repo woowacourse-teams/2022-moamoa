@@ -9,7 +9,7 @@ import { useAuth } from '@hooks/useAuth';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import useGetInfiniteStudyList from '@main-page/hooks/useGetInfiniteStudyList';
+import { useGetInfiniteStudies } from '@main-page/hooks/useGetInfiniteStudies';
 
 const useMainPage = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const useMainPage = () => {
   const { keyword } = useContext(SearchContext);
   const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
 
-  const studyListQueryResult = useGetInfiniteStudyList({
+  const studiesQueryResult = useGetInfiniteStudies({
     title: keyword,
     selectedFilters,
   });
@@ -43,7 +43,7 @@ const useMainPage = () => {
   };
 
   return {
-    studyListQueryResult,
+    studiesQueryResult,
     selectedFilters,
     handleFilterButtonClick,
     handleCreateNewStudyButtonClick,

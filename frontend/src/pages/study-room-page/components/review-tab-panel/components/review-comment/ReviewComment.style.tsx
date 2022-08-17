@@ -30,7 +30,7 @@ export const KebabMenuContainer = styled.div`
   position: relative;
 `;
 
-export const DropBoxButtons = styled.ul`
+export const DropBoxButtonList = styled.ul`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

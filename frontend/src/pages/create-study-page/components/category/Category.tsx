@@ -8,7 +8,7 @@ import Checkbox from '@components/checkbox/Checkbox';
 
 import * as S from '@create-study-page/components/category/Category.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import useGetTagList from '@create-study-page/hooks/useGetTagList';
+import { useGetTags } from '@create-study-page/hooks/useGetTags';
 
 export type CategoryProps = {
   className?: string;
@@ -29,7 +29,7 @@ const getClassifiedTags = (tags: Array<Tag>) => {
 
 const Category = ({ className }: CategoryProps) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError, isSuccess } = useGetTagList();
+  const { data, isLoading, isError, isSuccess } = useGetTags();
 
   const renderContent = () => {
     if (isLoading) return <div>loading...</div>;

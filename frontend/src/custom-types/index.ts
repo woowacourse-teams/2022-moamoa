@@ -118,18 +118,18 @@ export type GetStudyDetailRequestParams = {
 };
 export type GetStudyDetailResponseData = StudyDetail;
 
-export type GetStudyListRequestParams = {
+export type GetStudiesRequestParams = {
   page?: Page;
   size?: Size;
   title: string;
   selectedFilters: Array<TagInfo>;
 };
-export type GetStudyListResponseData = {
+export type GetStudiesResponseData = {
   studies: Array<Study>;
   hasNext: boolean;
 };
 
-export type GetTagListResponseData = {
+export type GetTagsResponseData = {
   tags: Array<Tag>;
 };
 
@@ -175,7 +175,7 @@ export type DeleteReviewRequestBody = {
   reviewId: ReviewId;
 };
 
-export type GetMyStudyResponseData = {
+export type GetMyStudiesResponseData = {
   studies: Array<MyStudy>;
 };
 

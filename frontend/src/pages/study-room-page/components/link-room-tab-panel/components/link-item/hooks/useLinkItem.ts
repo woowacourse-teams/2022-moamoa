@@ -8,7 +8,7 @@ import { deleteLink } from '@api';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import { QK_FETCH_LINKS } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinkList';
+import { QK_FETCH_LINKS } from '@study-room-page/components/link-room-tab-panel/hooks/useGetInfiniteLinks';
 
 import { useGetLinkPreview } from './useGetLinkPreview';
 

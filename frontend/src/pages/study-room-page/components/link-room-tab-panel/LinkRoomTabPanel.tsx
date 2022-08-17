@@ -14,7 +14,7 @@ const LinkRoomTabPanel: React.FC = () => {
   const {
     studyId,
     userInfo,
-    infiniteLinkListQueryResult,
+    infiniteLinksQueryResult,
     isModalOpen,
     handleLinkAddButtonClick,
     handleModalClose,
@@ -23,7 +23,7 @@ const LinkRoomTabPanel: React.FC = () => {
   } = useLinkRoomTabPanel();
 
   const renderLinkList = () => {
-    const { data, isError, isSuccess, fetchNextPage } = infiniteLinkListQueryResult;
+    const { data, isError, isSuccess, fetchNextPage } = infiniteLinksQueryResult;
     if (isError || !isSuccess) {
       return <div>에러가 발생했습니다</div>;
     }

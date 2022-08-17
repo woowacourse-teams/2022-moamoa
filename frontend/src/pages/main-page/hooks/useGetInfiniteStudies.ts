@@ -3,17 +3,17 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
-import type { GetStudyListRequestParams, GetStudyListResponseData, TagInfo } from '@custom-types';
+import type { GetStudiesRequestParams, GetStudiesResponseData, TagInfo } from '@custom-types';
 
-import { getStudyList } from '@api';
+import { getStudies } from '@api';
 
 type PageParam = { page: number };
 
-type GetStudyListResponseDataWithPage = GetStudyListResponseData & {
+type GetStudiesResponseDataWithPage = GetStudiesResponseData & {
   page: number;
 };
 
-type UseGetInfiniteStudyListParams = Pick<GetStudyListRequestParams, 'title' | 'selectedFilters'>;
+type UseGetInfiniteStudiesParams = Pick<GetStudiesRequestParams, 'title' | 'selectedFilters'>;
 
 type NextPageParam = PageParam | undefined;
 
@@ -21,10 +21,10 @@ const defaultParam: PageParam = {
   page: DEFAULT_STUDY_CARD_QUERY_PARAM.PAGE,
 };
 
-const getStudyListWithPage =
+const getStudiesWithPage =
   (title: string, selectedFilters: Array<TagInfo>) =>
-  async ({ pageParam = defaultParam }): Promise<GetStudyListResponseDataWithPage> => {
-    const data = await getStudyList({
+  async ({ pageParam = defaultParam }): Promise<GetStudiesResponseDataWithPage> => {
+    const data = await getStudies({
       ...pageParam,
       title,
       selectedFilters,
@@ -33,10 +33,10 @@ const getStudyListWithPage =
     return { ...data, page: pageParam.page + 1 };
   };
 
-const useGetInfiniteStudyList = ({ title, selectedFilters }: UseGetInfiniteStudyListParams) => {
-  return useInfiniteQuery<GetStudyListResponseDataWithPage, AxiosError>(
+export const useGetInfiniteStudies = ({ title, selectedFilters }: UseGetInfiniteStudiesParams) => {
+  return useInfiniteQuery<GetStudiesResponseDataWithPage, AxiosError>(
     ['infinite-scroll-searched-study-list', title, selectedFilters],
-    getStudyListWithPage(title, selectedFilters),
+    getStudiesWithPage(title, selectedFilters),
     {
       getNextPageParam: (lastPage): NextPageParam => {
         if (!lastPage.hasNext) return;
@@ -45,5 +45,3 @@ const useGetInfiniteStudyList = ({ title, selectedFilters }: UseGetInfiniteStudy
     },
   );
 };
-
-export default useGetInfiniteStudyList;

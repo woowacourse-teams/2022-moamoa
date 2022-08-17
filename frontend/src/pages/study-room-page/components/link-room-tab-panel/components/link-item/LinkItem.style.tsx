@@ -34,7 +34,7 @@ export const MeatballMenuButton = styled.button`
   border: none;
 `;
 
-export const DropBoxButtons = styled.ul`
+export const DropBoxButtonList = styled.ul`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

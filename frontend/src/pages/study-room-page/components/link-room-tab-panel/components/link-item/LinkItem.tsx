@@ -63,7 +63,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             </S.MeatballMenuButton>
             {isOpenDropBox && (
               <DropDownBox onClose={handleDropDownBoxClose} top="36px" right="-32px">
-                <S.DropBoxButtons>
+                <S.DropBoxButtonList>
                   <li>
                     <S.DropBoxButton type="button" onClick={handleEditLinkButtonClick}>
                       수정
@@ -74,7 +74,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
                       삭제
                     </S.DropBoxButton>
                   </li>
-                </S.DropBoxButtons>
+                </S.DropBoxButtonList>
               </DropDownBox>
             )}
           </S.PreviewMeatballMenuContainer>
