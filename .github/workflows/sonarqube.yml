@@ -1,34 +1,27 @@
 name: moamoa-sonarqube
-
 on:
   pull_request:
     branches:
       - develop
     types: [opened, synchronize]
 
-defaults:
-  run:
-    working-directory: ./backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
-        
-  analysis:
-    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, '🖥 backend')
+    defaults:
+      run:
+        working-directory: ./backend
     env:
       SONARQUBE_PROJECT_KEY: moamoa
-      SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
-      SONARQUBE_TOKEN : ${{ secrets.SONARQUBE_TOKEN }}
+      SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
       client-id: ${{ secrets.CLIENT_ID }}
       client-secret: ${{ secrets.CLIENT_SECRET }}
       jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
       jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
-      
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
@@ -38,23 +31,23 @@ jobs:
         
       - name: Sonaqube Analysis        
         run: ./gradlew build sonarqube
-             -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+             -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
              -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
              -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
-             -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+             -Dsonar.login=${{ env.SONAR_TOKEN }}
+             -Dsonar.branch.name=develop
              -Doauth2.github.client-id=${{ env.client-id }} 
              -Doauth2.github.client-secret=${{ env.client-secret }} 
              -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
              -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
-
       - name: Comment Sonarqube URL
         uses: actions/github-script@v4
         with:
           script: |
-            const { SONARQUBE_PROJECT_KEY, SONARQUBE_URL, PR_NUMBER } = process.env
+            const { SONARQUBE_PROJECT_KEY, SONAR_HOST_URL, PR_NUMBER } = process.env
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${SONARQUBE_URL})`
+              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${ SONAR_HOST_URL }/dashboard?id=${ SONARQUBE_PROJECT_KEY })`
             })
