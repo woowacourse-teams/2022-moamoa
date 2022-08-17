@@ -21,7 +21,6 @@ public class GithubOAuthClient implements OAuthClient {
 
     private static final String ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
     private static final String PROFILE_URL = "https://api.github.com/user";
-    private static final String CANT_GET_ACCESS_TOKEN_MESSAGE = "Access Token을 가져올 수 없습니다.";
 
     private final String clientId;
     private final String clientSecret;
@@ -59,13 +58,13 @@ public class GithubOAuthClient implements OAuthClient {
             if (response.getStatusCode().is2xxSuccessful()) {
                 Map<Object, Object> body = (Map<Object, Object>) Objects.requireNonNull(response.getBody());
                 if (body.containsKey("error")) {
-                    throw new UnauthorizedException(CANT_GET_ACCESS_TOKEN_MESSAGE);
+                    throw new UnauthorizedException("Access Token을 가져올 수 없습니다.");
                 }
                 return String.valueOf(body.get("access_token"));
             }
-            throw new UnauthorizedException(CANT_GET_ACCESS_TOKEN_MESSAGE);
+            throw new UnauthorizedException("Access Token을 가져올 수 없습니다.");
         } catch (HttpClientErrorException e) {
-            throw new UnauthorizedException(CANT_GET_ACCESS_TOKEN_MESSAGE);
+            throw new UnauthorizedException("Access Token을 가져올 수 없습니다.");
         }
     }
 
