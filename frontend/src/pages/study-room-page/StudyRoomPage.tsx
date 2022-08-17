@@ -28,7 +28,7 @@ const StudyRoomPage: React.FC = () => {
     <Wrapper>
       <S.Container>
         <SideMenu
-          css={tw`sticky top-100 left-0 self-start`}
+          css={tw`sticky top-100 left-0 z-1 self-start`}
           activeTabId={activeTab.id}
           tabs={tabs}
           onTabButtonClick={handleTabButtonClick}

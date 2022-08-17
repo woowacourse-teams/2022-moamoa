@@ -1,6 +1,6 @@
 package com.woowacourse.acceptance.steps;
 
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.springframework.http.MediaType;
 public class CreatingStudyStep extends Steps {
 
     private final String token;
-    private final CreatingStudyRequestBuilder builder;
+    private final StudyRequestBuilder builder;
 
-    CreatingStudyStep(final String token, final CreatingStudyRequestBuilder builder) {
+    CreatingStudyStep(final String token, final StudyRequestBuilder builder) {
         this.token = token;
         this.builder = builder;
     }
