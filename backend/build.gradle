@@ -64,8 +64,8 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.enabled true
-        csv.enabled false
-        html.enabled false
+        csv.enabled true
+        html.enabled true
     }
 }
 
@@ -103,7 +103,7 @@ sonarqube {
         property "sonar.sources", "src"
         property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.profile", "Sonar way"
+        property "sonar.profile", "moamoa"
         property "sonar.java.binaries", "${buildDir}/classes"
         property "sonar.test.inclusions", "**/*Test.java"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
