@@ -10,7 +10,7 @@ import type { DateYMD, Member, Noop, PutReviewRequestVariables, ReviewId, StudyI
 import { putReview } from '@api';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
-import type { UseFormSubmitResult } from '@hooks/useForm';
+import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import Button from '@components/button/Button';
@@ -64,6 +64,8 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
     );
   };
 
+  const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
+
   return (
     <S.ReviewEditForm onSubmit={handleSubmit(onSubmit)}>
       <S.ReviewFormHead>
@@ -89,7 +91,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: e => setCount(e.target.value.length),
+            onChange: handleReviewChange,
             minLength: REVIEW_LENGTH.MIN.VALUE,
             maxLength: REVIEW_LENGTH.MAX.VALUE,
           })}

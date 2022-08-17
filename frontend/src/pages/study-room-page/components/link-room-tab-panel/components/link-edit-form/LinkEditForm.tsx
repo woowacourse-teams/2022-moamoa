@@ -10,7 +10,8 @@ import type { Link, LinkId, Member, Noop, PutLinkRequestVariables } from '@custo
 
 import { putLink } from '@api';
 
-import { UseFormSubmitResult, makeValidationResult, useForm } from '@hooks/useForm';
+import { makeValidationResult, useForm } from '@hooks/useForm';
+import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import Button from '@components/button/Button';
@@ -68,6 +69,9 @@ const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent
     });
   };
 
+  const handleLinkDescriptionChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) =>
+    setCount(value.length);
+
   return (
     <S.LinkFormContainer>
       <S.AuthorInfoContainer>
@@ -115,7 +119,7 @@ const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent
                 return makeValidationResult(false);
               },
               validationMode: 'change',
-              onChange: e => setCount(e.target.value.length),
+              onChange: handleLinkDescriptionChange,
               maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
               minLength: LINK_DESCRIPTION_LENGTH.MIN.VALUE,
               required: true,

@@ -8,7 +8,7 @@ import type { Member, Noop, PostReviewRequestVariables, StudyId } from '@custom-
 import { postReview } from '@api';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
-import type { UseFormSubmitResult } from '@hooks/useForm';
+import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import { Button } from '@components/button/Button.style';
@@ -50,6 +50,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
     );
   };
 
+  const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
+
   return (
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
       <S.ReviewFormHead>
@@ -69,7 +71,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: e => setCount(e.target.value.length),
+            onChange: handleReviewChange,
             minLength: REVIEW_LENGTH.MIN.VALUE,
             maxLength: REVIEW_LENGTH.MAX.VALUE,
           })}
