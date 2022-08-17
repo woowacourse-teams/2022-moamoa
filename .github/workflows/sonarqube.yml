@@ -13,9 +13,9 @@ jobs:
       run:
         working-directory: ./backend
     env:
-      SONARQUBE_PROJECT_KEY: moamoa
-      SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
-      SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
+      SONAR_PROJECT_KEY: moamoa
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN : ${{ secrets.SONAR_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
       client-id: ${{ secrets.CLIENT_ID }}
       client-secret: ${{ secrets.CLIENT_SECRET }}
