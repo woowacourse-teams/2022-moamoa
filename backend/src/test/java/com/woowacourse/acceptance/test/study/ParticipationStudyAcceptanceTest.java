@@ -29,8 +29,8 @@ class ParticipationStudyAcceptanceTest extends AcceptanceTest {
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
-                .post("/api/studies/{study-id}")
+                .post("/api/studies/{study-id}/members")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

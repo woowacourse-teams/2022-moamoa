@@ -1,11 +1,12 @@
-package com.woowacourse.moamoa.community.controller;
+package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.community.domain.CommunityArticle;
-import com.woowacourse.moamoa.community.service.CommunityArticleService;
-import com.woowacourse.moamoa.community.service.request.ArticleRequest;
-import com.woowacourse.moamoa.community.service.response.ArticleResponse;
-import com.woowacourse.moamoa.community.service.response.ArticleSummariesResponse;
+import com.woowacourse.moamoa.studyroom.domain.Article;
+import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -22,49 +23,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/studies/{study-id}/community/articles")
-public class CommunityArticleController {
+@RequestMapping("api/studies/{study-id}/{article-type}/articles")
+public class ArticleController {
 
-    private final CommunityArticleService communityArticleService;
+    private final ArticleService articleService;
 
-    public CommunityArticleController(final CommunityArticleService communityArticleService) {
-        this.communityArticleService = communityArticleService;
+    public ArticleController(final ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @PostMapping
     public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
+                                              @PathVariable("article-type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final CommunityArticle article = communityArticleService.createArticle(id, studyId, request);
-        final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
+        final Article article = articleService.createArticle(id, studyId, request, type);
+        final URI location = URI.create("/api/studies/" + studyId + "/" + type.lowerName() + "/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
     public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
                                                       @PathVariable("study-id") final Long studyId,
+                                                      @PathVariable("article-type") final ArticleType articleType,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = communityArticleService.getArticle(id, studyId, articleId);
+        ArticleResponse response = articleService.getArticle(id, studyId, articleId, articleType);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("{article-id}")
     public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-id") final Long articleId
+                                              @PathVariable("article-id") final Long articleId,
+                                              @PathVariable("article-type") final ArticleType type
     ) {
-        communityArticleService.deleteArticle(id, studyId, articleId);
+        articleService.deleteArticle(id, studyId, articleId, type);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
                                                                 @PathVariable("study-id") final Long studyId,
+                                                                @PathVariable("article-type") final ArticleType type,
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = communityArticleService.getArticles(id, studyId, pageable);
+        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, type);
         return ResponseEntity.ok().body(response);
     }
 
@@ -72,9 +77,10 @@ public class CommunityArticleController {
     public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
+                                              @PathVariable("article-type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        communityArticleService.updateArticle(id, studyId, articleId, request);
+        articleService.updateArticle(id, studyId, articleId, request, type);
         return ResponseEntity.noContent().build();
     }
 }
