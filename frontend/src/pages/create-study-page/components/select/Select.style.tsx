@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Input } from '@create-study-page/components/input/Input.style';
+import { Input } from '@components/input/Input.style';
 
 export const Select = styled(Input.withComponent('select'))`
   ${({ theme }) => css`

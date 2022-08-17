@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Input as OriginalInput } from '@create-study-page/components/input/Input.style';
+import { Input as OriginalInput } from '@components/input/Input.style';
 
 export const Container = styled.div`
   position: relative;

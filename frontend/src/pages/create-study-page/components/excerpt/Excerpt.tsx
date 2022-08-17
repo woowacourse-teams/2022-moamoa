@@ -1,6 +1,7 @@
 import { EXCERPT_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import type { FieldElement } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
@@ -19,6 +20,8 @@ const Excerpt = ({ className }: ExcerptProps) => {
   } = useFormContext();
 
   const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE);
+
+  const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
     <S.Excerpt className={className}>
@@ -45,7 +48,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
                   return makeValidationResult(false);
                 },
                 validationMode: 'change',
-                onChange: e => setCount(e.target.value.length),
+                onChange: handleExcerptChange,
                 minLength: EXCERPT_LENGTH.MIN.VALUE,
                 maxLength: EXCERPT_LENGTH.MAX.VALUE,
                 required: true,
