@@ -28,17 +28,6 @@ jobs:
         
       - name: gradlew permission change
         run: sudo chmod 755 gradlew
-        
-      - name: Sonaqube Analysis        
-        run: ./gradlew build sonarqube
-             -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
-             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-             -Dsonar.projectName=${{ env.SONAR_PROJECT_KEY }}-${{ env.PR_NUMBER }}
-             -Dsonar.login=${{ env.SONAR_TOKEN }}
-             -Doauth2.github.client-id=${{ env.client-id }} 
-             -Doauth2.github.client-secret=${{ env.client-secret }} 
-             -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
-             -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
            
       - name: Cache SonarQube packages
         uses: actions/cache@v1
@@ -60,3 +49,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: ./gradlew build sonarqube --info
+             -Doauth2.github.client-id=${{ env.client-id }} 
+             -Doauth2.github.client-secret=${{ env.client-secret }} 
+             -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} 
+             -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
