@@ -18,6 +18,15 @@ public class StudyParticipantService {
     private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
 
+    public void participateStudy(final Long memberId, final Long studyId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        study.participate(memberId);
+    }
+
     public void leaveStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);

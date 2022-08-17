@@ -8,7 +8,6 @@ import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +27,5 @@ public class StudyController {
     ) {
         final Study study = studyService.createStudy(githubId, creatingStudyRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + study.getId())).build();
-    }
-
-    @PostMapping("/{study-id}")
-    public ResponseEntity<Void> participateStudy(@AuthenticationPrincipal final Long githubId,
-                                                 @PathVariable("study-id") final Long studyId
-    ) {
-        studyService.participateStudy(githubId, studyId);
-        return ResponseEntity.ok().build();
     }
 }

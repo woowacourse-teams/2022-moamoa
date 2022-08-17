@@ -27,8 +27,9 @@ public class StudyRelatedSteps extends Steps {
         RestAssured.given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
                 .when().log().all()
-                .post("/api/studies/" + studyId)
+                .post("/api/studies/{study-id}/members")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }

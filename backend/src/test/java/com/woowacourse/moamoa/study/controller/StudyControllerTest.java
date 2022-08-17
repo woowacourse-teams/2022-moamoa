@@ -4,7 +4,6 @@ import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
@@ -154,42 +153,5 @@ public class StudyControllerTest {
         // when
         assertThatThrownBy(() -> sut.createStudy(100L, creatingStudyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
                 .isInstanceOf(UnauthorizedException.class);
-    }
-
-    @DisplayName("회원은 스터디에 참여할 수 있다.")
-    @Test
-    public void participateStudy() {
-        // given
-        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
-                new DateTimeSystem()));
-        final CreatingStudyRequest creatingStudyRequest = CreatingStudyRequest.builder()
-                .title("Java")
-                .excerpt("java excerpt")
-                .thumbnail("java image")
-                .description("자바 스터디 상세설명 입니다.")
-                .startDate(LocalDate.now().plusDays(1))
-                .endDate(LocalDate.now().plusDays(4))
-                .enrollmentEndDate(LocalDate.now().plusDays(2))
-                .maxMemberCount(10)
-                .tagIds(List.of(1L, 2L))
-                .build();
-
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, creatingStudyRequest);
-
-        // when
-        final String location = createdResponse.getHeaders().getLocation().getPath();
-        final long studyId = getStudyIdBy(location);
-
-        final Member participant = memberRepository.findByGithubId(2L).get();
-        final ResponseEntity<Void> response = studyController.participateStudy(participant.getGithubId(),
-                studyId);
-
-        // then
-        assertThat(response.getStatusCode()).isEqualTo(OK);
-    }
-
-    private long getStudyIdBy(final String location) {
-        final String[] splitLocation = location.split("/");
-        return Long.parseLong(splitLocation[3]);
     }
 }
