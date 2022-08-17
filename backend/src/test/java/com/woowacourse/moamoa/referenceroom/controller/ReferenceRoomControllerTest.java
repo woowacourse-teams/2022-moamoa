@@ -3,7 +3,6 @@ package com.woowacourse.moamoa.referenceroom.controller;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
@@ -19,6 +18,7 @@ import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkExc
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.request.LinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
@@ -66,7 +66,9 @@ public class ReferenceRoomControllerTest {
         final StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
-        studyService.participateStudy(베루스_깃허브_아이디, javaStudyId);
+
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(verusId, javaStudyId);
 
         // 링크 공유 생성
         final ReferenceRoomService referenceRoomService =

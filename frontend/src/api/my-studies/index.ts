@@ -5,6 +5,8 @@ import type { MyStudy } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
+export const QK_MY_STUDIES = 'my-studies';
+
 // get
 export type GetMyStudiesResponseData = {
   studies: Array<MyStudy>;
@@ -16,5 +18,5 @@ export const getMyStudies = async () => {
 };
 
 export const useGetMyStudies = () => {
-  return useQuery<GetMyStudiesResponseData, AxiosError>('my-studies', getMyStudies);
+  return useQuery<GetMyStudiesResponseData, AxiosError>(QK_MY_STUDIES, getMyStudies);
 };

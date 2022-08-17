@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.auth.config;
 
+import static org.springframework.http.HttpMethod.*;
+
 import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcherBuilder;
 import lombok.AllArgsConstructor;
@@ -14,7 +16,7 @@ public class AuthRequestMatchConfig {
     @Bean
     public AuthenticationRequestMatcher authenticationRequestMatcher() {
         return new AuthenticationRequestMatcherBuilder()
-                .addUpAuthenticationPath(HttpMethod.POST,
+                .addUpAuthenticationPath(POST,
                         "/api/studies",
                         "/api/studies/\\d+/reviews",
                         "/api/studies/\\d+/reviews/\\d+",

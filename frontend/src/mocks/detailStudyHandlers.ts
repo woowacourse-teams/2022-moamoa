@@ -13,11 +13,6 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200), ctx.json(study));
   }),
-  rest.post('/api/studies/:studyId/memebers', (req, res, ctx) => {
-    // const studyId = req.params.studyId;
-
-    return res(ctx.status(200));
-  }),
   rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {
     const size = req.url.searchParams.get('size');
     if (size) {
