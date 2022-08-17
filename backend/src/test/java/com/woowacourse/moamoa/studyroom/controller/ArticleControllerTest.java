@@ -13,13 +13,13 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequestBuilder;
+import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -35,7 +35,7 @@ import org.springframework.http.ResponseEntity;
 @RepositoryTest
 public class ArticleControllerTest {
 
-    CreatingStudyRequestBuilder javaStudyRequest = new CreatingStudyRequestBuilder()
+    StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
     @Autowired
