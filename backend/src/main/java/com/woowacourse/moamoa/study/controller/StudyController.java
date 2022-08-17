@@ -32,18 +32,11 @@ public class StudyController {
         return ResponseEntity.created(URI.create("/api/studies/" + study.getId())).build();
     }
 
-    @PostMapping("/{study-id}")
-    public ResponseEntity<Void> participateStudy(@AuthenticationPrincipal final Long githubId,
-                                                 @PathVariable("study-id") final Long studyId
-    ) {
-        studyService.participateStudy(githubId, studyId);
-        return ResponseEntity.ok().build();
-    }
-
     @PutMapping("/{study-id}")
-    public ResponseEntity<Void> updateStudy(@AuthenticatedMember final Long memberId,
-                                             @PathVariable("study-id") final Long studyId,
-                                             @Valid @RequestBody(required = false) final StudyRequest request
+    public ResponseEntity<Void> updateStudy(
+            @AuthenticatedMember final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @Valid @RequestBody(required = false) final StudyRequest request
     ) {
         studyService.updateStudy(memberId, studyId, request);
         return ResponseEntity.ok().build();
