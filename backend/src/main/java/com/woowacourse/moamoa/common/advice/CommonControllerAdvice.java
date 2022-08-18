@@ -13,6 +13,8 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import io.jsonwebtoken.JwtException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -46,6 +48,7 @@ public class CommonControllerAdvice {
     @ExceptionHandler({UnauthorizedException.class, JwtException.class})
     public ResponseEntity<Void> handleUnauthorized(final Exception e) {
         log.debug("UnauthorizedException : {}", e.getMessage());
+        log.debug("Exception Stack Trace : \n{}", e.getStackTrace());
         return ResponseEntity.status(UNAUTHORIZED).build();
     }
 
