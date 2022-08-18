@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.MoamoaApplication;
 import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private final String[] allowedOrigins;
+
+    public WebConfig(@Value("${moamoa.allow-origins}") final String[] allowedOrigins) {
+        this.allowedOrigins = allowedOrigins;
+    }
 
     private static final String[] ALLOW_METHODS = {"GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "OPTIONS", "PATCH"};
 
@@ -24,15 +31,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("https://dev.moamoa.space", "https://moamoa.space")
+                .allowedOrigins(allowedOrigins)
                 .allowedMethods(ALLOW_METHODS)
                 .exposedHeaders(HttpHeaders.LOCATION)
                 .exposedHeaders("Set-Cookie")
                 .allowCredentials(true);
-    }
-
-    @Bean
-    public Logger logger() {
-        return LoggerFactory.getLogger(MoamoaApplication.class);
     }
 }
