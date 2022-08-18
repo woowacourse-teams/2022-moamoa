@@ -1,7 +1,7 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
-import type { MakeOptional, StudyDetail, TagId } from '@custom-types';
+import type { MakeOptional, StudyDetail, StudyId, TagId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -44,3 +44,13 @@ export const useGetStudy = ({ studyId }: GetStudyRequestParams) => {
 };
 
 // put
+export type PutStudyRequestParams = { studyId: StudyId };
+export type PutStudyRequestBody = PostStudyRequestBody;
+export type PutStudyRequestVariables = PutStudyRequestParams & { editedStudy: PutStudyRequestBody };
+
+export const putStudy = async ({ studyId, editedStudy }: PutStudyRequestVariables) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>>(`/api/studies/${studyId}`, editedStudy);
+  return response.data;
+};
+
+export const usePutStudy = () => useMutation<null, AxiosError, PutStudyRequestVariables>(putStudy);

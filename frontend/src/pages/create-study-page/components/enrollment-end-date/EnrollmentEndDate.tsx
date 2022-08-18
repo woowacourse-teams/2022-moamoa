@@ -2,16 +2,19 @@ import { useMemo } from 'react';
 
 import { getNextYear, getToday } from '@utils';
 
+import type { StudyDetail } from '@custom-types';
+
 import { useFormContext } from '@hooks/useForm';
 
 import * as S from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
-type PeriodProps = {
+export type PeriodProps = {
   className?: string;
+  originalEnrollmentEndDate?: StudyDetail['enrollmentEndDate'];
 };
 
-const EnrollmentEndDate = ({ className }: PeriodProps) => {
+const EnrollmentEndDate: React.FC<PeriodProps> = ({ className, originalEnrollmentEndDate }) => {
   const { register } = useFormContext();
   const today = useMemo(() => getToday('-'), []);
   const nextYear = getNextYear(today, '-');
@@ -24,10 +27,11 @@ const EnrollmentEndDate = ({ className }: PeriodProps) => {
           <div>
             <S.Label htmlFor="enrollment-end-date">마감일자 :</S.Label>
             <S.Input
-              type="date"
               id="enrollment-end-date"
+              type="date"
               min={today}
               max={nextYear}
+              defaultValue={originalEnrollmentEndDate}
               {...register('enrollment-end-date')}
             />
           </div>

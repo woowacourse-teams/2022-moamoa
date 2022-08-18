@@ -1,5 +1,7 @@
 import { EXCERPT_LENGTH } from '@constants';
 
+import type { StudyDetail } from '@custom-types';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
@@ -9,17 +11,20 @@ import useLetterCount from '@components/letter-counter/useLetterCount';
 import * as S from '@create-study-page/components/excerpt/Excerpt.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
-type ExcerptProps = {
+export type ExcerptProps = {
   className?: string;
+  originalExcerpt?: StudyDetail['description'];
 };
 
-const Excerpt = ({ className }: ExcerptProps) => {
+const Excerpt = ({ className, originalExcerpt }: ExcerptProps) => {
   const {
     formState: { errors },
     register,
   } = useFormContext();
 
-  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE);
+  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
+
+  const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
@@ -38,6 +43,7 @@ const Excerpt = ({ className }: ExcerptProps) => {
               id="excerpt"
               placeholder="*한줄소개를 입력해주세요"
               isValid={!!errors['excerpt']?.hasError}
+              defaultValue={originalExcerpt}
               {...register('excerpt', {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {

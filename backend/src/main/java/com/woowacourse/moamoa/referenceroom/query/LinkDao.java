@@ -26,8 +26,11 @@ public class LinkDao {
                 + "JOIN member ON link.member_id = member.id "
                 + "WHERE link.deleted = false "
                 + "AND link.study_id = :studyId "
-                + "ORDER BY link.created_date DESC, link.id DESC";
-        final MapSqlParameterSource params = new MapSqlParameterSource("studyId", studyId);
+                + "ORDER BY link.created_date DESC, link.id DESC "
+                + "LIMIT :limit OFFSET :offset";
+        final MapSqlParameterSource params = new MapSqlParameterSource("studyId", studyId)
+                .addValue("limit", pageable.getPageSize() + 1)
+                .addValue("offset", pageable.getOffset());
 
         final List<LinkData> linkData = namedParameterJdbcTemplate.query(sql, params, rowMapper());
         return new SliceImpl<>(getCurrentPageLinks(linkData, pageable), pageable, hasNext(linkData, pageable));

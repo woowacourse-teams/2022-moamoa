@@ -28,8 +28,6 @@ Default.args = {
       id: 66201614,
       title: '2022-daily-planner',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 32,
-      maxMemberCount: 40,
       startDate: '2022-07-23',
       endDate: '2022-08-15',
       owner: {
@@ -54,8 +52,6 @@ Default.args = {
       id: 48145504,
       title: '2022-lv3-algorithm-study',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 29,
-      maxMemberCount: 32,
       startDate: '2022-07-17',
       endDate: '2022-08-10',
       owner: {
@@ -78,8 +74,6 @@ Default.args = {
       id: 97061298,
       title: '2022-woowahan-bansanghwe',
       studyStatus: 'DONE',
-      currentMemberCount: 34,
-      maxMemberCount: 40,
       startDate: '2022-07-06',
       endDate: '2022-08-10',
       owner: {
@@ -101,8 +95,6 @@ Default.args = {
       id: 49435359,
       title: '2022-gugu-spring-study',
       studyStatus: 'PREPARE',
-      currentMemberCount: 4,
-      maxMemberCount: 37,
       startDate: '2022-07-01',
       endDate: '2022-08-15',
       owner: {
@@ -123,8 +115,6 @@ Default.args = {
       id: 16574939,
       title: '2022-ConquerCS',
       studyStatus: 'DONE',
-      currentMemberCount: 26,
-      maxMemberCount: 35,
       startDate: '2022-07-05',
       endDate: '2022-08-21',
       owner: {
@@ -147,8 +137,6 @@ Default.args = {
       id: 96544840,
       title: '2022-looking-for-the-sound-of-an-object',
       studyStatus: 'DONE',
-      currentMemberCount: 29,
-      maxMemberCount: 40,
       startDate: '2022-07-08',
       endDate: '2022-08-09',
       owner: {
@@ -172,8 +160,6 @@ Default.args = {
       id: 46933900,
       title: '2022-kotudy',
       studyStatus: 'DONE',
-      currentMemberCount: 28,
-      maxMemberCount: 33,
       startDate: '2022-07-18',
       endDate: '2022-08-15',
       owner: {
@@ -191,8 +177,6 @@ Default.args = {
       id: 15671727,
       title: '2022-no-posting-you-die',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 33,
-      maxMemberCount: 39,
       startDate: '2022-07-11',
       endDate: '2022-08-09',
       owner: {
@@ -219,8 +203,6 @@ Default.args = {
       id: 23314301,
       title: '2022-Real-MySQL',
       studyStatus: 'DONE',
-      currentMemberCount: 26,
-      maxMemberCount: 35,
       startDate: '2022-07-28',
       endDate: '2022-08-02',
       owner: {
@@ -241,8 +223,6 @@ Default.args = {
       id: 55674066,
       title: '2022-weekly-log',
       studyStatus: 'DONE',
-      currentMemberCount: 8,
-      maxMemberCount: 30,
       startDate: '2022-07-14',
       endDate: '2022-08-07',
       owner: {
@@ -257,8 +237,6 @@ Default.args = {
       id: 83602317,
       title: '2022-spring-study',
       studyStatus: 'PREPARE',
-      currentMemberCount: 5,
-      maxMemberCount: 12,
       startDate: '2022-07-21',
       endDate: '2022-08-18',
       owner: {
@@ -282,8 +260,6 @@ Default.args = {
       id: 203695,
       title: 'http-network-basic-level2-study',
       studyStatus: 'PREPARE',
-      currentMemberCount: 12,
-      maxMemberCount: 32,
       startDate: '2022-07-01',
       endDate: '2022-08-22',
       owner: {
@@ -301,8 +277,6 @@ Default.args = {
       id: 15132719,
       title: '2022-code-review-study-2',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 5,
-      maxMemberCount: 36,
       startDate: '2022-07-14',
       endDate: '2022-08-23',
       owner: {
@@ -328,8 +302,6 @@ Default.args = {
       id: 94627904,
       title: '2022-http-web-basic-for-all-developer',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 37,
-      maxMemberCount: 40,
       startDate: '2022-07-14',
       endDate: '2022-08-08',
       owner: {
@@ -350,8 +322,6 @@ Default.args = {
       id: 36433985,
       title: '2022-woowa-retrospect',
       studyStatus: 'PREPARE',
-      currentMemberCount: 35,
-      maxMemberCount: 35,
       startDate: '2022-07-22',
       endDate: '2022-08-14',
       owner: {
@@ -370,8 +340,6 @@ Default.args = {
       id: 17465610,
       title: '2022-http-network-basic-study',
       studyStatus: 'IN_PROGRESS',
-      currentMemberCount: 9,
-      maxMemberCount: 22,
       startDate: '2022-07-01',
       endDate: '2022-08-12',
       owner: {
@@ -397,8 +365,6 @@ Default.args = {
       id: 79836854,
       title: '2022-lv2-effective-java-interview',
       studyStatus: 'DONE',
-      currentMemberCount: 30,
-      maxMemberCount: 36,
       startDate: '2022-07-29',
       endDate: '2022-08-07',
       owner: {
@@ -422,8 +388,6 @@ Default.args = {
       id: 74269566,
       title: '2022-book-muscle',
       studyStatus: 'PREPARE',
-      currentMemberCount: 19,
-      maxMemberCount: 38,
       startDate: '2022-07-19',
       endDate: '2022-08-26',
       owner: {
@@ -447,8 +411,6 @@ Default.args = {
       id: 28669351,
       title: '2022-woowahan-everybook',
       studyStatus: 'DONE',
-      currentMemberCount: 27,
-      maxMemberCount: 33,
       startDate: '2022-07-17',
       endDate: '2022-08-05',
       owner: {

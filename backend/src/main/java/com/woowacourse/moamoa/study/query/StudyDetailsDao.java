@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.query;
 
-import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.query.data.OwnerData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsDataBuilder;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
@@ -27,7 +27,8 @@ public class StudyDetailsDao {
                     "SELECT study.id, title, excerpt, thumbnail, recruitment_status, description, current_member_count, "
                             + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
                             + "member.github_id as owner_github_id, member.username as owner_username, "
-                            + "member.image_url as owner_image_url, member.profile_url as owner_profile_url "
+                            + "member.image_url as owner_image_url, member.profile_url as owner_profile_url, created_at as participation_date, "
+                            + countOfStudy()
                             + "FROM study JOIN member ON study.owner_id = member.id "
                             + "WHERE study.id = ?";
             final StudyDetailsData data = jdbcTemplate.query(sql, new StudyDetailsDataExtractor(), studyId);
@@ -35,6 +36,12 @@ public class StudyDetailsDao {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    private String countOfStudy() {
+        return "((SELECT count(case when (study_member.member_id = member.id) then 1 end) FROM study JOIN study_member ON study.id = study_member.study_id) "
+                + "+ "
+                + "(SELECT count(case when (study.owner_id = member.id) then 1 end) FROM study)) as number_of_study ";
     }
 
     private static class StudyDetailsDataExtractor implements ResultSetExtractor<StudyDetailsData> {
@@ -89,9 +96,12 @@ public class StudyDetailsDao {
             String imageUrl = rs.getString("owner_image_url");
             String profileUrl = rs.getString("owner_profile_url");
 
+            int numberOfStudy = rs.getInt("number_of_study");
+            LocalDate participationDate = rs.getObject("participation_date", LocalDate.class);
+
             builder.currentMemberCount(currentMaxCount)
                     .maxMemberCount(maxMemberCount)
-                    .owner(new MemberData(githubId, username, imageUrl, profileUrl));
+                    .owner(new OwnerData(githubId, username, imageUrl, profileUrl, participationDate, numberOfStudy));
         }
     }
 }

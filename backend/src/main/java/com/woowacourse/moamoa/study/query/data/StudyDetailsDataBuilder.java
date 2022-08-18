@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.study.query.data;
 
 import static java.util.Objects.requireNonNull;
 
-import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.query.data.OwnerData;
 import java.time.LocalDate;
 
 public class StudyDetailsDataBuilder {
@@ -13,7 +13,7 @@ public class StudyDetailsDataBuilder {
     private String thumbnail;
     private String recruitmentStatus;
     private String description;
-    private MemberData owner;
+    private OwnerData owner;
     private Integer currentMemberCount;
     private Integer maxMemberCount;
     private LocalDate createdDate;
@@ -53,7 +53,7 @@ public class StudyDetailsDataBuilder {
         return this;
     }
 
-    public StudyDetailsDataBuilder owner(MemberData owner) {
+    public StudyDetailsDataBuilder owner(OwnerData owner) {
         this.owner = owner;
         return this;
     }

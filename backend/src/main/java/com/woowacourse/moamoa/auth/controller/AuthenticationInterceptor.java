@@ -31,7 +31,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             final String token = AuthenticationExtractor.extract(request);
             validateToken(token, request.getRequestURI());
 
-            request.setAttribute("payload", tokenProvider.getPayload(token));
+            request.setAttribute("payload", token);
         }
 
         return true;

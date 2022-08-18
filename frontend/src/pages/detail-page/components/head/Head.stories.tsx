@@ -22,12 +22,68 @@ Default.args = {
   endDate: '2022-07-18',
   excerpt: '모아모아 최고~~',
   tags: [
-    { id: 1, name: 'CS' },
-    { id: 2, name: 'JavaScript' },
-    { id: 3, name: 'React' },
-    { id: 4, name: 'Spring' },
-    { id: 5, name: 'TypeScript' },
-    { id: 6, name: 'Network' },
-    { id: 7, name: 'JPA' },
+    {
+      id: 1,
+      name: 'CS',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 2,
+      name: 'JavaScript',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 3,
+      name: 'React',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 4,
+      name: 'Spring',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 5,
+      name: 'TypeScript',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 6,
+      name: 'Network',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
+    {
+      id: 7,
+      name: 'JPA',
+      description: '컴퓨터과학',
+      category: {
+        id: 1,
+        name: 'subject',
+      },
+    },
   ],
 };

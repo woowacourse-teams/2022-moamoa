@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.query.data;
 
-import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.member.query.data.OwnerData;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class StudyDetailsData {
     private final String recruitmentStatus;
     private final String description;
     private final LocalDate createdDate;
-    private final MemberData owner;
+    private final OwnerData owner;
     private final Integer currentMemberCount;
     private final Integer maxMemberCount;
     private final LocalDate enrollmentEndDate;

@@ -1,4 +1,4 @@
-import type { Tag, TagInfo } from '@custom-types';
+import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
 import * as S from '@main-page/components/filter-section/filter-button-list/FilterButtonList.style';
 import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
@@ -6,10 +6,10 @@ import FilterButton from '@main-page/components/filter-section/filter-button/Fil
 export type FilterButtonListProps = {
   filters: Array<Tag>;
   selectedFilters: Array<TagInfo>;
-  onFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onFilterButtonClick: (id: TagId, categoryName: CategoryName) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const isSelected = (id: number, categoryName: string, selectedFilters: Array<{ id: number; categoryName: string }>) =>
+const isSelected = (id: TagId, categoryName: CategoryName, selectedFilters: Array<TagInfo>) =>
   selectedFilters.some(filter => filter.id === id && filter.categoryName === categoryName);
 
 const FilterButtonList: React.FC<FilterButtonListProps> = ({

@@ -1,6 +1,8 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
+import type { CategoryName, Tag, TagInfo } from '@custom-types';
+
 import type { FilterButtonListProps } from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 
@@ -9,14 +11,14 @@ export default {
   component: FilterButtonList,
 };
 
-const filters = [
+const filters: Array<Tag> = [
   {
     id: 1,
     name: 'JS',
     description: '자바스크립트',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -25,7 +27,7 @@ const filters = [
     description: '자바',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -34,7 +36,7 @@ const filters = [
     description: '리액트',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -43,7 +45,7 @@ const filters = [
     description: '스프링',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -52,7 +54,7 @@ const filters = [
     description: '컴퓨터사이언스',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -61,7 +63,7 @@ const filters = [
     description: '타입스크립트',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
   {
@@ -70,15 +72,15 @@ const filters = [
     description: '코드리뷰',
     category: {
       id: 3,
-      name: 'tag',
+      name: 'subject',
     },
   },
 ];
 
 const Template: Story<FilterButtonListProps> = () => {
-  const [selectedFilters, setSelectedFilters] = useState<Array<{ id: number; categoryName: string }>>([]);
+  const [selectedFilters, setSelectedFilters] = useState<Array<TagInfo>>([]);
 
-  const handleFilterButtonClick = (id: number, categoryName: string) => () => {
+  const handleFilterButtonClick = (id: number, categoryName: CategoryName) => () => {
     setSelectedFilters(prev => {
       if (prev.some(filter => filter.id === id && filter.categoryName === categoryName)) {
         return prev.filter(filter => filter.id !== id || filter.categoryName !== categoryName);

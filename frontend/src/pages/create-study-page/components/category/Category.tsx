@@ -1,6 +1,8 @@
 import tw from '@utils/tw';
 
-import type { Tag } from '@custom-types';
+import type { StudyDetail, Tag } from '@custom-types';
+
+import { useGetTags } from '@api/tags';
 
 import { useGetTags } from '@api/tags';
 
@@ -13,6 +15,8 @@ import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 export type CategoryProps = {
   className?: string;
+  originalGeneration?: Tag;
+  originalAreas?: StudyDetail['tags'];
 };
 
 const getClassifiedTags = (tags: Array<Tag>) => {
@@ -28,7 +32,7 @@ const getClassifiedTags = (tags: Array<Tag>) => {
   };
 };
 
-const Category = ({ className }: CategoryProps) => {
+const Category: React.FC<CategoryProps> = ({ className, originalGeneration, originalAreas }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
@@ -47,7 +51,7 @@ const Category = ({ className }: CategoryProps) => {
       <>
         <S.Generation>
           <S.Label htmlFor="generation">기수 :</S.Label>
-          <S.Select id="generation" {...register('generation')}>
+          <S.Select id="generation" defaultValue={originalGeneration?.id} {...register('generation')}>
             <option>선택 안함</option>
             {generations.map(({ id, name }) => (
               <option key={id} value={id}>
@@ -59,11 +63,25 @@ const Category = ({ className }: CategoryProps) => {
         <S.Area>
           <S.Label>영역 :</S.Label>
           <S.AreaCheckboxContainer>
-            <Checkbox css={tw`mr-4`} type="checkbox" id="area-fe" data-tagid={areaFE.id} {...register('area-fe')} />
+            <Checkbox
+              css={tw`mr-4`}
+              type="checkbox"
+              id="area-fe"
+              dataTagId={areaFE.id}
+              defaultChecked={originalAreas?.some(tag => tag.id === areaFE.id)}
+              {...register('area-fe')}
+            />
             <label htmlFor="area-fe">FE</label>
           </S.AreaCheckboxContainer>
           <S.AreaCheckboxContainer>
-            <Checkbox css={tw`mr-4`} type="checkbox" id="area-be" data-tagid={areaBE.id} {...register('area-be')} />
+            <Checkbox
+              css={tw`mr-4`}
+              type="checkbox"
+              id="area-be"
+              dataTagId={areaBE.id}
+              defaultChecked={originalAreas?.some(tag => tag.id === areaBE.id)}
+              {...register('area-be')}
+            />
             <label htmlFor="area-be">BE</label>
           </S.AreaCheckboxContainer>
         </S.Area>

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
+import type { StudyDetail } from '@custom-types';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
@@ -15,7 +17,11 @@ const studyDescriptionTabIds = {
 
 type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds];
 
-const DescriptionTab = () => {
+export type DescriptionTabProps = {
+  originalDescription?: StudyDetail['description'];
+};
+
+const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) => {
   const {
     formState: { errors },
     register,
@@ -75,6 +81,7 @@ const DescriptionTab = () => {
                 id="description"
                 placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
                 isValid={isValid}
+                defaultValue={originalDescription}
                 {...register('description', {
                   validate: (val: string) => {
                     if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
