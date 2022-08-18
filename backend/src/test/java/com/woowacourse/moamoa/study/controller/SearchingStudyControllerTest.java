@@ -245,7 +245,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(3).maxMemberCount(10)
-                .owner(new OwnerData(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com", 5))
+                .owner(new OwnerData(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com", LocalDate.now(), 5))
                 // Study Period
                 .startDate(LocalDate.now())
                 .build();
@@ -280,7 +280,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
-                .owner(new OwnerData(dwoo.getGithubId(), "dwoo", "https://image", "github.com", 3))
+                .owner(new OwnerData(dwoo.getGithubId(), "dwoo", "https://image", "github.com", LocalDate.now(),3))
                 // Study Period
                 .enrollmentEndDate(LocalDate.now())
                 .startDate(LocalDate.now())
@@ -318,7 +318,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(1)
-                .owner(new OwnerData(verus.getGithubId(), "verus", "https://image", "github.com", 4))
+                .owner(new OwnerData(verus.getGithubId(), "verus", "https://image", "github.com", LocalDate.now(), 4))
                 // Study Period
                 .startDate(LocalDate.now())
                 .enrollmentEndDate(LocalDate.now())
