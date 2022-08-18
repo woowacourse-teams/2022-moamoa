@@ -4,7 +4,7 @@ import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { Owner, StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { CrownSvg } from '@components/svg';
 
@@ -13,7 +13,7 @@ import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemb
 import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';
 
 export type StudyMemberSectionProps = {
-  owner: Owner;
+  owner: StudyDetail['owner'];
   members: StudyDetail['members'];
 };
 
@@ -40,8 +40,9 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
-                startDate={changeDateSeperator('2022-07-15')}
-                studyCount={10}
+                // TODO: api 완성 되면 변경
+                startDate={(owner.participationDate && changeDateSeperator(owner.participationDate)) ?? '2022.08.19'}
+                studyCount={owner.numberOfStudy ?? 10}
               />
             </a>
           </S.Owner>
@@ -69,23 +70,25 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
             <StudyMemberCard
               username={owner.username}
               imageUrl={owner.imageUrl}
-              startDate={changeDateSeperator('2022-07-15')}
+              startDate={changeDateSeperator(owner.participationDate)}
               studyCount={10}
             />
           </a>
         </S.Owner>
-        {members.slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT - 1).map(({ id, username, imageUrl, profileUrl }) => (
-          <li key={id}>
-            <a href={profileUrl}>
-              <StudyMemberCard
-                username={username}
-                imageUrl={imageUrl}
-                startDate={changeDateSeperator('2022-07-15')}
-                studyCount={10}
-              />
-            </a>
-          </li>
-        ))}
+        {members
+          .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT - 1)
+          .map(({ id, username, imageUrl, profileUrl, participationDate }) => (
+            <li key={id}>
+              <a href={profileUrl}>
+                <StudyMemberCard
+                  username={username}
+                  imageUrl={imageUrl}
+                  startDate={changeDateSeperator(participationDate)}
+                  studyCount={10}
+                />
+              </a>
+            </li>
+          ))}
       </>
     );
   };
