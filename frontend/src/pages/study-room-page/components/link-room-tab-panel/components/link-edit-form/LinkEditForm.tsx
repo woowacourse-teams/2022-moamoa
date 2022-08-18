@@ -74,7 +74,7 @@ const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent
     <S.LinkFormContainer>
       <S.AuthorInfoContainer>
         <Avatar size="xs" profileImg={author.imageUrl} profileAlt={`${author.username} 프로필`} />
-        <S.AuthorName>person</S.AuthorName>
+        <S.AuthorName>{author.username}</S.AuthorName>
       </S.AuthorInfoContainer>
       <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.FormLabel htmlFor={LINK_URL}>링크*</S.FormLabel>
