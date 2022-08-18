@@ -4,7 +4,7 @@ import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { Member, Owner } from '@custom-types';
+import type { Owner, StudyDetail } from '@custom-types';
 
 import { CrownSvg } from '@components/svg';
 
@@ -14,7 +14,7 @@ import * as S from '@detail-page/components/study-member-section/StudyMemberSect
 
 export type StudyMemberSectionProps = {
   owner: Owner;
-  members: Array<Member>;
+  members: StudyDetail['members'];
 };
 
 const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members }) => {
@@ -45,14 +45,14 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
               />
             </a>
           </S.Owner>
-          {members.map(({ id, username, imageUrl, profileUrl }) => (
+          {members.map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
             <li key={id}>
               <a href={profileUrl}>
                 <StudyMemberCard
                   username={username}
                   imageUrl={imageUrl}
-                  startDate={changeDateSeperator('2022-07-15')}
-                  studyCount={10}
+                  startDate={changeDateSeperator(participationDate)}
+                  studyCount={numberOfStudy}
                 />
               </a>
             </li>

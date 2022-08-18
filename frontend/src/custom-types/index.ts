@@ -53,7 +53,7 @@ export type Tag = {
     name: CategoryName;
   };
 };
-export type TagInfo = Pick<Tag, 'id'> & { categoryName: Tag['category']['name'] };
+export type TagInfo = Pick<Tag, 'id'> & { categoryName: CategoryName };
 
 export type StudyDetail = {
   id: StudyId;
@@ -68,8 +68,8 @@ export type StudyDetail = {
   enrollmentEndDate?: DateYMD;
   startDate: DateYMD;
   endDate?: DateYMD;
-  owner: Owner;
-  members: Array<Member>;
+  owner: Owner & { participationDate: DateYMD; numberOfStudy: number };
+  members: Array<Member & { participationDate: DateYMD; numberOfStudy: number }>;
   tags: Array<Tag>;
 };
 
@@ -85,11 +85,10 @@ export type StudyReview = {
 
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
 
-export type MyStudy = Pick<
-  StudyDetail,
-  'id' | 'title' | 'currentMemberCount' | 'maxMemberCount' | 'startDate' | 'endDate' | 'owner' | 'tags'
-> & {
+export type MyStudy = Pick<StudyDetail, 'id' | 'title' | 'startDate' | 'endDate'> & {
   studyStatus: StudyStatus;
+  tags: Array<Pick<Tag, 'id' | 'name'>>;
+  owner: Owner;
 };
 
 export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';

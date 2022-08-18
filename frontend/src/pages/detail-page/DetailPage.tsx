@@ -55,8 +55,8 @@ const DetailPage: React.FC = () => {
         title={title}
         recruitmentStatus={recruitmentStatus}
         excerpt={excerpt}
-        startDate={changeDateSeperator(startDate)}
-        endDate={endDate && changeDateSeperator(endDate)}
+        startDate={startDate}
+        endDate={endDate}
         tags={tags}
         isOwner={userRoleQueryResult.data?.role === 'OWNER'}
       />

@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
+import { changeDateSeperator } from '@utils';
+
 import type { StudyDetail } from '@custom-types';
 
 import StudyChip from '@components/study-chip/StudyChip';
@@ -42,7 +44,8 @@ const Head: React.FC<HeadProps> = ({
         )}
       </S.TitleContainer>
       <S.ExtraInfoContainer>
-        <span>시작일: {startDate}</span> ~ <span>종료일: {endDate || '없음'}</span>
+        <span>시작일: {changeDateSeperator(startDate)}</span> ~
+        <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
       </S.ExtraInfoContainer>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
       <S.TagContainer>
