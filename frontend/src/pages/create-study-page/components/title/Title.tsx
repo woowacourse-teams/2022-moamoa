@@ -8,6 +8,7 @@ import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
 import * as S from '@create-study-page/components/title/Title.style';
 
@@ -17,8 +18,9 @@ export type TitleProps = {
 
 const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   const { register, formState } = useFormContext();
+  const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
+
   const { errors } = formState;
-  const [count, setCount] = useState(0);
   const isValid = !!errors['title']?.hasError;
 
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
@@ -26,7 +28,7 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   return (
     <S.Container>
       <S.LetterCounterContainer>
-        <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
+        <LetterCounter count={count} maxCount={maxCount} />
       </S.LetterCounterContainer>
       {/* TODO: HiddenLabel Component 생성 */}
       <S.Label htmlFor="title">스터디 이름</S.Label>

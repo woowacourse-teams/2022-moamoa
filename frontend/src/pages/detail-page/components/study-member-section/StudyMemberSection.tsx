@@ -40,9 +40,8 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
-                // TODO: api 완성 되면 변경
-                startDate={(owner.participationDate && changeDateSeperator(owner.participationDate)) ?? '2022.08.19'}
-                studyCount={owner.numberOfStudy ?? 10}
+                startDate={changeDateSeperator(owner.participationDate)}
+                studyCount={owner.numberOfStudy}
               />
             </a>
           </S.Owner>
@@ -71,20 +70,20 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
               username={owner.username}
               imageUrl={owner.imageUrl}
               startDate={changeDateSeperator(owner.participationDate)}
-              studyCount={10}
+              studyCount={owner.numberOfStudy}
             />
           </a>
         </S.Owner>
         {members
           .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT - 1)
-          .map(({ id, username, imageUrl, profileUrl, participationDate }) => (
+          .map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
             <li key={id}>
               <a href={profileUrl}>
                 <StudyMemberCard
                   username={username}
                   imageUrl={imageUrl}
                   startDate={changeDateSeperator(participationDate)}
-                  studyCount={10}
+                  studyCount={numberOfStudy}
                 />
               </a>
             </li>
