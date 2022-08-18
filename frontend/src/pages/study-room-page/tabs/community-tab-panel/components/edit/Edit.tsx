@@ -31,9 +31,11 @@ const Edit = () => {
     const { title, content } = values;
 
     const numStudyId = Number(studyId);
+    const numArticleId = Number(articleId);
     mutateAsync(
       {
         studyId: numStudyId,
+        articleId: numArticleId,
         title,
         content,
       },
