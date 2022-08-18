@@ -1,9 +1,9 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
+import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 import SideMenu from '@study-room-page/tabs/side-menu/SideMenu';
 import type { SideMenuProps } from '@study-room-page/tabs/side-menu/SideMenu';
-import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export default {
   title: 'Components/SideMenu',
@@ -13,7 +13,7 @@ export default {
 const Template: Story<SideMenuProps> = () => {
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
-    { id: 'material', name: '자료실', content: '자료실입니다.' },
+    { id: 'link-room', name: '자료실', content: '자료실입니다.' },
     { id: 'review', name: '후기', content: '후기입니다.' },
   ];
 

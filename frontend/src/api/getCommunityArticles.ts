@@ -1,6 +1,6 @@
 import type { GetCommunityArticleResponseData } from '@custom-types';
 
-import { axiosInstance } from '@api';
+import axiosInstance from '@api/axiosInstance';
 
 type GetCommunityArticlesArgs = {
   studyId: number;

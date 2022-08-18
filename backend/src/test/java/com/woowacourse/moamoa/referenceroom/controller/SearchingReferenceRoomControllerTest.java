@@ -14,6 +14,7 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민_깃허브_�
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -34,8 +35,9 @@ import com.woowacourse.moamoa.referenceroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -48,7 +50,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-public class SearchingReferenceRoomControllerTest {
+class SearchingReferenceRoomControllerTest {
 
     @Autowired
     private LinkDao linkDao;
@@ -77,26 +79,24 @@ public class SearchingReferenceRoomControllerTest {
                 new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구);
-        final Member greenlawn = memberRepository.save(그린론);
-        final Member dwoo = memberRepository.save(디우);
-        final Member verus = memberRepository.save(베루스);
-        memberRepository.save(병민);
+        final Member jjanggu = memberRepository.save(짱구());
+        final Member greenlawn = memberRepository.save(그린론());
+        final Member dwoo = memberRepository.save(디우());
+        final Member verus = memberRepository.save(베루스());
+        memberRepository.save(병민());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
 
-        studyService.participateStudy(그린론_깃허브_아이디, javaStudy.getId());
-        studyService.participateStudy(디우_깃허브_아이디, javaStudy.getId());
-        studyService.participateStudy(베루스_깃허브_아이디, javaStudy.getId());
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
+        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository,
@@ -148,7 +148,10 @@ public class SearchingReferenceRoomControllerTest {
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유글을 조회할 수 없다.")
     @Test
     void getLinksByNotParticipatedMember() {
-        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudy.getId(), PageRequest.of(0, 5)))
+        final Long javaStudyId = javaStudy.getId();
+        final PageRequest pageRequest = PageRequest.of(0, 5);
+
+        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudyId, pageRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }

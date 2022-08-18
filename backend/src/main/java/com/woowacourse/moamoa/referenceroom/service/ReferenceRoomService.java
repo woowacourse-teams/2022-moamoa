@@ -34,7 +34,7 @@ public class ReferenceRoomService {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        if (!study.isReviewWritable(member.getId())) {
+        if (!study.isParticipant(member.getId())) {
             throw new NotCreatingLinkException();
         }
 

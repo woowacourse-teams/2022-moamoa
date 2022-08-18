@@ -61,7 +61,7 @@ class OAuthClientTest {
 
         mockServer.verify();
 
-        assertThat(accessTokenResponse.get("access_token")).isEqualTo(accessToken);
+        assertThat(accessTokenResponse).containsEntry("access_token", accessToken);
     }
 
     @DisplayName("token을 받아서 사용자 프로필을 조회한다.")

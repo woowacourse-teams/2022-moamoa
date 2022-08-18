@@ -20,7 +20,7 @@ export const SearchBarContainer = styled.div`
   }
 `;
 
-export const Row = styled.header`
+export const Header = styled.header`
   ${({ theme }) => css`
     display: flex;
     justify-content: space-between;
@@ -47,6 +47,10 @@ export const Row = styled.header`
 export const Nav = styled.nav`
   display: flex;
   column-gap: 16px;
+`;
+
+export const AvatarContainer = styled.div`
+  position: relative;
 `;
 
 export const AvatarButton = styled.button`

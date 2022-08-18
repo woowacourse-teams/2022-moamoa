@@ -43,11 +43,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
+class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("스터디 요약 정보 외에 상세 정보를 포함하여 조회할 수 있다.")
     @Test
-    public void getStudyDetails() {
+    void getStudyDetails() {
         LocalDate 지금 = LocalDate.now();
         long 리액트_스터디 = 디우가().로그인하고().리액트_스터디를()
                 .시작일자는(지금).모집종료일자는(지금.plusDays(4)).종료일자는(지금.plusDays(10))
@@ -83,13 +83,15 @@ public class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("members.username", contains(짱구_이름, 그린론_이름, 베루스_이름))
                 .body("members.imageUrl", contains(짱구_이미지_URL, 그린론_이미지_URL, 베루스_이미지_URL))
                 .body("members.profileUrl", contains(짱구_프로필_URL, 그린론_프로필_URL, 베루스_프로필_URL))
+                .body("members.participationDate", not(empty()))
+                .body("members.numberOfStudy", contains(1, 1, 1))
                 .body("tags.id", not(empty()))
                 .body("tags.name", contains("4기", "FE", "React"));
     }
 
     @DisplayName("선택 데이터가 없는 스터디 세부사항을 조회한다.")
     @Test
-    public void getNotHasOptionalDataStudyDetails() {
+    void getNotHasOptionalDataStudyDetails() {
         LocalDate 지금 = LocalDate.now();
         final long 알고리즘_스터디 = 베루스가().로그인하고().알고리즘_스터디를().시작일자는(지금).생성한다();
 

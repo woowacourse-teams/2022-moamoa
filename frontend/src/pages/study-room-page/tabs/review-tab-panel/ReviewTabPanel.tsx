@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
+import { useGetStudyReviews } from '@api/reviews';
+
 import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
-
-import useGetStudyReviews from '@detail-page/hooks/useGetStudyReviews';
 
 import * as S from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel.style';
 import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';

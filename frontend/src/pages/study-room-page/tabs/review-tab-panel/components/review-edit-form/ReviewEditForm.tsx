@@ -1,16 +1,13 @@
-import type { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-
 import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, Member, PutReviewRequestVariables, ReviewId, StudyId } from '@custom-types';
+import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
 
-import { putReview } from '@api';
+import { usePutReview } from '@api/review';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
-import type { UseFormSubmitResult } from '@hooks/useForm';
+import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import Button from '@components/button/Button';
@@ -25,9 +22,9 @@ export type ReviewEditFormProps = {
   originalContent: string;
   date: DateYMD;
   author: Member;
-  onEditSuccess: () => void;
+  onEditSuccess: Noop;
   onEditError: (e: Error) => void;
-  onCancelEditBtnClick: () => void;
+  onCancelEditBtnClick: Noop;
 };
 
 const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
@@ -42,7 +39,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useMutation<null, AxiosError, PutReviewRequestVariables>(putReview);
+  const { mutateAsync } = usePutReview();
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -63,6 +60,8 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
       },
     );
   };
+
+  const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
     <S.ReviewEditForm onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +88,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: e => setCount(e.target.value.length),
+            onChange: handleReviewChange,
             minLength: REVIEW_LENGTH.MIN.VALUE,
             maxLength: REVIEW_LENGTH.MAX.VALUE,
           })}

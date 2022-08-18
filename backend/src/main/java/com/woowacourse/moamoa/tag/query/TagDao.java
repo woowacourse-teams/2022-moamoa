@@ -64,6 +64,10 @@ public class TagDao {
     }
 
     public Map<Long, List<TagSummaryData>> findTagsByStudyIds(final List<Long> studyIds) {
+        if (studyIds.isEmpty()) {
+            return new HashMap<>();
+        }
+
         final String sql = "SELECT tag.id tag_id, tag.name tag_name, study.id study_id "
                 + "FROM tag "
                 + "JOIN study_tag ON tag.id = study_tag.tag_id "

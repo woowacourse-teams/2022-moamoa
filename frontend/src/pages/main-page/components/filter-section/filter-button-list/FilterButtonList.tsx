@@ -18,7 +18,7 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
   onFilterButtonClick: handleFilterButtonClick,
 }) => {
   return (
-    <S.FilterButtons>
+    <S.FilterButtonList>
       {filters.map(({ id, name, description, category }) => (
         <li key={id}>
           <FilterButton
@@ -29,7 +29,7 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
           />
         </li>
       ))}
-    </S.FilterButtons>
+    </S.FilterButtonList>
   );
 };
 

@@ -4,15 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -77,6 +74,6 @@ class TokenProviderTest extends WebMVCTest {
 
         final String[] parts = token.split("\\.");
 
-        assertThat(parts.length).isEqualTo(3);
+        assertThat(parts).hasSize(3);
     }
 }

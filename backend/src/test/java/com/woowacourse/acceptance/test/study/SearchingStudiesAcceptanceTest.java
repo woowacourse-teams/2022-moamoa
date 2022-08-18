@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("키워드 검색 인수 테스트")
-public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
+class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
@@ -60,7 +60,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     @DisplayName("잘못된 페이징 정보로 목록을 검색시 400에러를 응답한다.")
     @ParameterizedTest
     @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
-    public void response400WhenRequestByInvalidPagingInfo(String page, String size) {
+    void response400WhenRequestByInvalidPagingInfo(String page, String size) {
         RestAssured.given().log().all()
                 .queryParam("title", "java")
                 .queryParam("page", page)
@@ -74,7 +74,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이지 정보 없이 목록 검색시 400에러를 응답한다.")
     @Test
-    public void getStudiesByDefaultPage() {
+    void getStudiesByDefaultPage() {
         RestAssured.given().log().all()
                 .queryParam("title", "java")
                 .queryParam("size", 5)
@@ -87,7 +87,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("사이즈 정보 없이 목록 조회시 400에러를 응답한다.")
     @Test
-    public void getStudiesByDefaultSize() {
+    void getStudiesByDefaultSize() {
         RestAssured.given().log().all()
                 .queryParam("title", "java")
                 .queryParam("page", 0)
@@ -100,7 +100,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이징 정보 및 키워드가 없는 경우에는 기본페이징 정보를 사용해 전체 스터디 목록에서 조회한다.")
     @Test
-    public void getStudiesByDefaultPagingInfo() {
+    void getStudiesByDefaultPagingInfo() {
         RestAssured.given(spec).log().all()
                 .filter(document("studies/search"))
                 .when().log().all()
@@ -162,7 +162,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("필터로 필터링하여 스터디 목록을 조회한다.")
     @Test
-    public void getStudiesByFilter() {
+    void getStudiesByFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
                 .queryParam("area", 3)
@@ -183,7 +183,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("필터로 필터링한 내용과 제목 검색을 함께 조합해 스터디 목록을 조회한다.")
     @Test
-    public void getStudiesByFilterAndTitle() {
+    void getStudiesByFilterAndTitle() {
         RestAssured.given(spec).log().all()
                 .filter(document("studies/searchWithTags"))
                 .queryParam("title", "ja")
@@ -205,7 +205,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("같은 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
     @Test
-    public void getStudiesBySameCategoryFilter() {
+    void getStudiesBySameCategoryFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
                 .queryParam("area", 3)
@@ -228,7 +228,7 @@ public class SearchingStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")
     @Test
-    public void getStudiesByAnotherCategoryFilter() {
+    void getStudiesByAnotherCategoryFilter() {
         RestAssured.given().log().all()
                 .queryParam("title", "")
                 .queryParam("area", 3)

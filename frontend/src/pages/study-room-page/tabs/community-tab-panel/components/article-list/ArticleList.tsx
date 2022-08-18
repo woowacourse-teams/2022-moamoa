@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { CommunityArticle } from '@custom-types';
 
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';

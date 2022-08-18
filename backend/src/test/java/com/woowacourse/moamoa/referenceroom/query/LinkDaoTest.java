@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.query;
 
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -15,8 +16,9 @@ import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,10 +28,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-public class LinkDaoTest {
+class LinkDaoTest {
 
     private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
     private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
@@ -44,9 +45,6 @@ public class LinkDaoTest {
 
     @Autowired
     private LinkRepository linkRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private EntityManager entityManager;
@@ -70,15 +68,14 @@ public class LinkDaoTest {
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
-        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(JJANGGU.getGithubId(), javaStudyRequest);
-        createStudyService.participateStudy(GREENLAWN.getGithubId(), javaStudy.getId());
-        createStudyService.participateStudy(DWOO.getGithubId(), javaStudy.getId());
-        createStudyService.participateStudy(VERUS.getGithubId(), javaStudy.getId());
+
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
+        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
+        participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository, linkRepository);

@@ -14,11 +14,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
+class ParticipationStudyAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("아직 스터디에 가입되지 않은 회원은 스터디에 참여가 가능하다.")
     @Test
-    public void participateStudy() {
+    void participateStudy() {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).모집인원은(10).생성한다();
         String token = 디우가().로그인한다();
@@ -29,8 +29,8 @@ public class ParticipationStudyAcceptanceTest extends AcceptanceTest {
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
-                .post("/api/studies/{study-id}")
+                .post("/api/studies/{study-id}/members")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

@@ -1,14 +1,11 @@
-import type { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-
 import { REVIEW_LENGTH } from '@constants';
 
-import type { Member, PostReviewRequestVariables, StudyId } from '@custom-types';
+import type { Member, Noop, StudyId } from '@custom-types';
 
-import { postReview } from '@api';
+import { usePostReview } from '@api/review';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
-import type { UseFormSubmitResult } from '@hooks/useForm';
+import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import { Button } from '@components/button/Button.style';
@@ -20,14 +17,14 @@ import * as S from '@study-room-page/tabs/review-tab-panel/components/reivew-for
 export type ReviewFormProps = {
   studyId: StudyId;
   author: Member;
-  onPostSuccess: () => void;
+  onPostSuccess: Noop;
   onPostError: (e: Error) => void;
 };
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit, reset } = useForm();
-  const { mutateAsync } = useMutation<null, AxiosError, PostReviewRequestVariables>(postReview);
+  const { mutateAsync } = usePostReview();
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -50,6 +47,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
     );
   };
 
+  const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
+
   return (
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
       <S.ReviewFormHead>
@@ -69,7 +68,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: e => setCount(e.target.value.length),
+            onChange: handleReviewChange,
             minLength: REVIEW_LENGTH.MIN.VALUE,
             maxLength: REVIEW_LENGTH.MAX.VALUE,
           })}

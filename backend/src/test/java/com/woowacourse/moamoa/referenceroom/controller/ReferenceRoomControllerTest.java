@@ -3,9 +3,9 @@ package com.woowacourse.moamoa.referenceroom.controller;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -19,8 +19,9 @@ import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMem
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
+import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class ReferenceRoomControllerTest {
+class ReferenceRoomControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -56,20 +57,19 @@ public class ReferenceRoomControllerTest {
         sut = new ReferenceRoomController(new ReferenceRoomService(memberRepository, studyRepository, linkRepository));
 
         // 사용자 추가
-        jjangguId = memberRepository.save(짱구).getId();
-        verusId = memberRepository.save(베루스).getId();
-        dwooId = memberRepository.save(디우).getId();
+        jjangguId = memberRepository.save(짱구()).getId();
+        verusId = memberRepository.save(베루스()).getId();
+        dwooId = memberRepository.save(디우()).getId();
 
         // 스터디 생성
         final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         final LocalDate startDate = LocalDate.now();
-        final CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
-                .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개")
-                .startDate(startDate)
-                .build();
+        final StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
-        studyService.participateStudy(베루스_깃허브_아이디, javaStudyId);
+
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        participantService.participateStudy(verusId, javaStudyId);
 
         // 링크 공유 생성
         final ReferenceRoomService referenceRoomService =

@@ -1,29 +1,24 @@
-import type { AxiosError } from 'axios';
-import { useMutation, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
-
-import { getUserRole, postJoiningStudy } from '@api';
+import { useGetUserRole } from '@api/member';
+import { usePostMyStudy } from '@api/my-study';
+import { useGetStudy } from '@api/study';
 
 import { useAuth } from '@hooks/useAuth';
-
-import useGetDetail from '@detail-page/hooks/useGetDetail';
 
 const useDetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
   const { isLoggedIn } = useAuth();
 
-  const detailQueryResult = useGetDetail(Number(studyId));
+  const detailQueryResult = useGetStudy({ studyId: Number(studyId) });
 
-  const { mutate } = useMutation<null, AxiosError, PostJoiningStudyRequestParams>(postJoiningStudy);
-  const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>(
-    'my-role',
-    () => getUserRole({ studyId: Number(studyId) }),
-    {
+  const { mutate } = usePostMyStudy();
+  const userRoleQueryResult = useGetUserRole({
+    studyId: Number(studyId),
+    options: {
       enabled: isLoggedIn,
     },
-  );
+  });
 
   const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {

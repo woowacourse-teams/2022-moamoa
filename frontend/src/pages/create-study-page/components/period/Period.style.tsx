@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export { Input } from '@create-study-page/components/input/Input.style';
+export { Input } from '@components/input/Input.style';
 
 export const Period = styled.div``;
 

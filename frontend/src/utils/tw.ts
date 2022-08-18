@@ -33,6 +33,7 @@ const flex = {
   'flex-auto': 'flex: 1 1 auto',
   'flex-initial': 'flex: 0 1 auto',
   'flex-none': 'flex: none',
+  'flex-col': 'flex-direction: column',
 };
 
 const justifyContent = {
@@ -90,6 +91,7 @@ const gap = arr0_to_100.reduce((acc, cur) => {
 const widthPx = arr0_to_300.reduce((acc, cur) => {
   acc[`w-${cur}`] = `width: ${cur}px`;
   acc[`max-w-${cur}`] = `max-width: ${cur}px`;
+  acc[`min-w-${cur}`] = `min-width: ${cur}px`;
   return acc;
 }, {} as Record<string, string>);
 
@@ -258,7 +260,8 @@ const tw = (template: TemplateStringsArray, ...args: Array<string>) => {
       if (arbitararyValue) {
         // py-[12px]에서 ['py-', '[12px]']로 짜르고 마지막 요소를 빼낸다
         console.log('s', s);
-        const shortCssProperty = s.split('-').slice(0, -1)[0];
+        const shortCssProperty = s.split('-').slice(0, -1).join('-');
+        console.log('shortCssProperty', shortCssProperty);
         const fullCssProperties = cssPropertyForArbitararyValue[shortCssProperty as cssShortPropertyKey];
         const cssTexts = fullCssProperties.map(fullCssProp => {
           return `${fullCssProp}: ${arbitararyValue}`;

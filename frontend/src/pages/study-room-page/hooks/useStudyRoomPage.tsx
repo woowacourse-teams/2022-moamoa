@@ -1,16 +1,13 @@
-import type { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { GetUserRoleResponseData } from '@custom-types';
-
-import { getUserRole } from '@api';
+import { useGetUserRole } from '@api/member';
 
 import CommunityTabPanel from '@study-room-page/tabs/community-tab-panel/CommunityTabPanel';
+import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
 import ReviewTabPanel from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel';
 
-export type TabId = 'notice' | 'community' | 'material' | 'review';
+export type TabId = 'notice' | 'community' | 'link-room' | 'review';
 
 export type Tab = { id: TabId; name: string; content: React.ReactNode };
 
@@ -21,14 +18,12 @@ const useStudyRoomPage = () => {
   // const studyId = Number(_studyId);
   const studyId = 1;
 
-  const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>('my-role', () =>
-    getUserRole({ studyId: Number(studyId) }),
-  );
+  const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
     { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
-    { id: 'material', name: '자료실', content: '자료실입니다.' },
+    { id: 'link-room', name: '링크 모음', content: <LinkRoomTabPanel /> },
     { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
   ];
 

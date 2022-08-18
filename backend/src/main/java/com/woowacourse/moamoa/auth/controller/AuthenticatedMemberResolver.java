@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;

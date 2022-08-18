@@ -7,8 +7,8 @@ import tw from '@utils/tw';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/StudyRoomPage.style';
-import SideMenu from '@study-room-page/tabs/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
+import SideMenu from '@study-room-page/tabs/side-menu/SideMenu';
 
 const StudyRoomPage: React.FC = () => {
   const { tabs, activeTab, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
@@ -28,7 +28,7 @@ const StudyRoomPage: React.FC = () => {
     <Wrapper>
       <S.Container>
         <SideMenu
-          css={tw`sticky top-100 left-0 self-start`}
+          css={tw`sticky top-100 left-0 z-1 self-start`}
           activeTabId={activeTab.id}
           tabs={tabs}
           onTabButtonClick={handleTabButtonClick}
