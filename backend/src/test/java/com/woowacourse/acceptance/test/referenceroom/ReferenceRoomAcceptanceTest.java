@@ -118,7 +118,7 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                         )))
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
-                .param("page", 1)
+                .param("page", 0)
                 .param("size", 5)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")

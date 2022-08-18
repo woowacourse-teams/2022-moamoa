@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.controller;
 
+import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticationPrincipal Long githubId, @CookieValue String refreshToken) {
+    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long githubId, @CookieValue String refreshToken) {
         return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
     }
 

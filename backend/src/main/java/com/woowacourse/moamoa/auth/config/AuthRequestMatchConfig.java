@@ -23,6 +23,7 @@ public class AuthRequestMatchConfig {
                         "/api/studies")
                 .addUpAuthenticationPath(GET,
                         "/api/my/studies",
+                        "/api/auth/refresh",
                         "/api/members/me",
                         "/api/members/me/role",
                         "/api/studies/\\w+/community/articles/\\w+",
