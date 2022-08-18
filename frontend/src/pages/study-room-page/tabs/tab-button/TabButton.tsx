@@ -1,4 +1,4 @@
-import * as S from '@study-room-page/components/tab-button/TabButton.style';
+import * as S from '@study-room-page/tabs/tab-button/TabButton.style';
 
 export type TabButtonProps = {
   className?: string;

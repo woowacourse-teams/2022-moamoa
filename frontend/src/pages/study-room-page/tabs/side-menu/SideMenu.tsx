@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import * as S from '@study-room-page/components/side-menu/SideMenu.style';
-import TabButton from '@study-room-page/components/tab-button/TabButton';
+import * as S from '@study-room-page/tabs/side-menu/SideMenu.style';
+import TabButton from '@study-room-page/tabs/tab-button/TabButton';
 import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export type SideMenuProps = {

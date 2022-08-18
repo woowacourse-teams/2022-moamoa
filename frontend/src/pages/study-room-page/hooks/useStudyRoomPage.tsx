@@ -7,8 +7,8 @@ import type { GetUserRoleResponseData } from '@custom-types';
 
 import { getUserRole } from '@api';
 
-import CommunityTabPanel from '@study-room-page/components/community-tab-panel/CommunityTabPanel';
-import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
+import CommunityTabPanel from '@study-room-page/tabs/community-tab-panel/CommunityTabPanel';
+import ReviewTabPanel from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel';
 
 export type TabId = 'notice' | 'community' | 'material' | 'review';
 
@@ -17,8 +17,9 @@ export type Tab = { id: TabId; name: string; content: React.ReactNode };
 export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
-  const { studyId: _studyId } = useParams() as { studyId: string };
-  const studyId = Number(_studyId);
+  // const { studyId: _studyId } = useParams() as { studyId: string };
+  // const studyId = Number(_studyId);
+  const studyId = 1;
 
   const userRoleQueryResult = useQuery<GetUserRoleResponseData, AxiosError>('my-role', () =>
     getUserRole({ studyId: Number(studyId) }),
@@ -31,7 +32,7 @@ const useStudyRoomPage = () => {
     { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
   ];
 
-  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
+  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[1].id);
 
   const activeTab = tabs.find(({ id }) => id === activeTabId) as Tab;
 

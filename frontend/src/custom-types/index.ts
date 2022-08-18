@@ -99,6 +99,14 @@ export type MyStudy = Pick<
 
 export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';
 
+export type CommunityArticle = {
+  id: number;
+  author: Member;
+  title: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+};
+
 export type GetStudyDetailRequestParams = {
   studyId: number;
 };
@@ -188,3 +196,10 @@ export type GetUserRoleResponseData = {
 };
 
 export type GetUserInformationResponseData = Member;
+
+export type GetCommunityArticleResponseData = {
+  articles: Array<CommunityArticle>;
+  currentPage: number;
+  lastPage: number;
+  totalCount: number;
+};

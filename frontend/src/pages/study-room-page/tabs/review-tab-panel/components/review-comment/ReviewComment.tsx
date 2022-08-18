@@ -5,9 +5,9 @@ import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 import Avatar from '@components/avatar/Avatar';
 import KebabMenu from '@components/kebab-menu/KebabMenu';
 
-import * as S from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment.style';
-import useReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/useReviewComment';
-import ReviewEditForm from '@study-room-page/components/review-tab-panel/components/review-edit-form/ReviewEditForm';
+import * as S from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment.style';
+import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
+import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
 
 export type ReviewCommentProps = {
   id: ReviewId;

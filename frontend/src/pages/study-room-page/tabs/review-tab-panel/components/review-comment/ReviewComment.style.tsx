@@ -7,7 +7,7 @@ export {
   Username,
   UsernameContainer,
   UsernameLink,
-} from '@study-room-page/components/review-tab-panel/components/review-edit-form/ReviewEditForm.style';
+} from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm.style';
 
 export const Author = styled.div`
   display: flex;

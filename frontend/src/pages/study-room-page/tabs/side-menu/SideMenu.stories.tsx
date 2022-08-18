@@ -1,8 +1,8 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import SideMenu from '@study-room-page/components/side-menu/SideMenu';
-import type { SideMenuProps } from '@study-room-page/components/side-menu/SideMenu';
+import SideMenu from '@study-room-page/tabs/side-menu/SideMenu';
+import type { SideMenuProps } from '@study-room-page/tabs/side-menu/SideMenu';
 import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export default {

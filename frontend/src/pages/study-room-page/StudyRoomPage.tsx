@@ -7,17 +7,17 @@ import tw from '@utils/tw';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/StudyRoomPage.style';
-import SideMenu from '@study-room-page/components/side-menu/SideMenu';
+import SideMenu from '@study-room-page/tabs/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
 
 const StudyRoomPage: React.FC = () => {
   const { tabs, activeTab, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
   const { data, isError, isSuccess } = userRoleQueryResult;
 
-  if (isSuccess && data.role === 'NON_MEMBER') {
-    alert('잘못된 접근입니다.');
-    return <Navigate to={PATH.MAIN} replace={true} />;
-  }
+  // if (isSuccess && data.role === 'NON_MEMBER') {
+  //   alert('잘못된 접근입니다.');
+  //   return <Navigate to={PATH.MAIN} replace={true} />;
+  // }
 
   if (isError) {
     alert('오류가 발생했습니다.');

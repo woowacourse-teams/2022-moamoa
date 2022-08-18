@@ -8,7 +8,7 @@ import {
   ReviewFormBody,
   ReviewFormFooter,
   ReviewFormHead,
-} from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
+} from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm.style';
 
 export {
   ReviewFormBody,
@@ -16,7 +16,7 @@ export {
   ReviewFormHead,
   Textarea,
   Username,
-} from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm.style';
+} from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm.style';
 
 export const Date = styled.span`
   ${({ theme }) => css`

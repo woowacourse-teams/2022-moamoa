@@ -7,9 +7,9 @@ import Wrapper from '@components/wrapper/Wrapper';
 
 import useGetStudyReviews from '@detail-page/hooks/useGetStudyReviews';
 
-import * as S from '@study-room-page/components/review-tab-panel/ReviewTabPanel.style';
-import ReviewForm from '@study-room-page/components/review-tab-panel/components/reivew-form/ReviewForm';
-import ReviewComment from '@study-room-page/components/review-tab-panel/components/review-comment/ReviewComment';
+import * as S from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel.style';
+import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
+import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';
 
 export type ReviewTabPanelProps = {
   studyId: number;
