@@ -1,29 +1,24 @@
-import { useMutation, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import type { EmptyObject, GetUserRoleResponseData, PostJoiningStudyRequestParams } from '@custom-types';
-
-import { postJoiningStudy } from '@api';
-import getUserRole from '@api/getUserRole';
+import { useGetUserRole } from '@api/member';
+import { usePostMyStudy } from '@api/my-study';
+import { useGetStudy } from '@api/study';
 
 import { useAuth } from '@hooks/useAuth';
-
-import useGetDetail from '@detail-page/hooks/useGetDetail';
 
 const useDetailPage = () => {
   const { studyId } = useParams() as { studyId: string };
   const { isLoggedIn } = useAuth();
 
-  const detailQueryResult = useGetDetail(Number(studyId));
+  const detailQueryResult = useGetStudy({ studyId: Number(studyId) });
 
-  const { mutate } = useMutation<EmptyObject, Error, PostJoiningStudyRequestParams>(postJoiningStudy);
-  const userRoleQueryResult = useQuery<GetUserRoleResponseData, Error>(
-    'my-role',
-    () => getUserRole({ studyId: Number(studyId) }),
-    {
+  const { mutate } = usePostMyStudy();
+  const userRoleQueryResult = useGetUserRole({
+    studyId: Number(studyId),
+    options: {
       enabled: isLoggedIn,
     },
-  );
+  });
 
   const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {
@@ -40,6 +35,7 @@ const useDetailPage = () => {
         onSuccess: () => {
           alert('가입했습니다 :D');
           detailQueryResult.refetch();
+          userRoleQueryResult.refetch();
         },
       },
     );

@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class AssociatedStudy {
 
     @Column(name = "study_id", nullable = false)

@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.auth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,18 +12,11 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.jdbc.Sql;
 
-@SpringBootTest
-class TokenProviderTest {
+class TokenProviderTest extends WebMVCTest {
 
     private static final String TEST_SECRET_KEY = "9d0bd354d2a68141d2ced83c26fe3fb72046783c19e7b727a45804d7d80c96a1541f9decbc3833519bd168ff7735d15a0e0737f40b20977bece9d8c0220425a1";
-
-    @Autowired
-    private TokenProvider tokenProvider;
 
     @DisplayName("만료된 토큰인지 확인한다")
     @Test
@@ -50,7 +44,7 @@ class TokenProviderTest {
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateTokenByValidToken() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         assertThat(tokenProvider.validateToken(token)).isTrue();
     }
@@ -58,7 +52,7 @@ class TokenProviderTest {
     @DisplayName("유효하지 않은 토큰을 검증한다.")
     @Test
     void validateTokenByInvalidToken() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         String invalidToken = token + "dummy";
 
@@ -68,7 +62,7 @@ class TokenProviderTest {
     @DisplayName("JwtToken payload 검증한다.")
     @Test
     void validatePayload() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         assertThat(tokenProvider.getPayload(token)).isEqualTo("1");
     }
@@ -76,10 +70,10 @@ class TokenProviderTest {
     @DisplayName("JwtToken 형식을 검증한다.")
     @Test
     void validateJwtTokenFormat() {
-        String token = tokenProvider.createToken(1L);
+        String token = tokenProvider.createToken(1L).getAccessToken();
 
         final String[] parts = token.split("\\.");
 
-        assertThat(parts.length).isEqualTo(3);
+        assertThat(parts).hasSize(3);
     }
 }

@@ -1,9 +1,8 @@
 import { useRef } from 'react';
-import { useQuery } from 'react-query';
 
-import type { GetTagListResponseData, Tag, TagInfo } from '@custom-types';
+import type { Tag, TagInfo } from '@custom-types';
 
-import { getTagList } from '@api';
+import { useGetTags } from '@api/tags';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 
@@ -26,7 +25,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 }) => {
   const sliderRef = useRef<HTMLElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery<GetTagListResponseData, Error>('filters', getTagList);
+  const { data, isLoading, isError } = useGetTags();
 
   const generationTags = filterByCategory(data?.tags, 1);
   const areaTags = filterByCategory(data?.tags, 2);
@@ -63,7 +62,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
-        {isError && <div>{error.message}</div>}
+        {isError && <div>필터 불러오기에 실패했습니다.</div>}
         <FilterButtonList
           filters={areaTags}
           selectedFilters={selectedFilters}

@@ -1,11 +1,14 @@
+import { AxiosError } from 'axios';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
 
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
+
+import AccessTokenController from '@auth/accessToken';
 
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
@@ -28,23 +31,35 @@ if ($root) {
         refetchOnWindowFocus: false,
       },
     },
+    queryCache: new QueryCache({
+      onError: error => {
+        if (!(error instanceof AxiosError)) return;
+        if (error.response?.status === 401) {
+          alert(`문제가 발생했습니다. 관리자에게 문의해주세요 :( ${error.message}`);
+          window.location.reload();
+        }
+      },
+    }),
   });
-  root.render(
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <UserInfoProvider>
-          <LoginProvider>
-            <SearchProvider>
-              <GlobalStyles />
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </SearchProvider>
-          </LoginProvider>
-        </UserInfoProvider>
-      </QueryClientProvider>
-    </ThemeProvider>,
-  );
+
+  AccessTokenController.fetchAccessTokenWithRefresh().finally(() => {
+    root.render(
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <UserInfoProvider>
+            <LoginProvider>
+              <SearchProvider>
+                <GlobalStyles />
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </SearchProvider>
+            </LoginProvider>
+          </UserInfoProvider>
+        </QueryClientProvider>
+      </ThemeProvider>,
+    );
+  });
 } else {
   throw new Error('root element is not exist');
 }

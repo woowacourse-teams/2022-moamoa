@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { TbCrown } from 'react-icons/tb';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
 import type { Member, Owner } from '@custom-types';
+
+import { CrownSvg } from '@components/svg';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
@@ -35,7 +36,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         <>
           <S.Owner key={owner.id}>
             <a href={owner.profileUrl}>
-              <TbCrown size={20} />
+              <CrownSvg />
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
@@ -64,7 +65,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
       <>
         <S.Owner key={owner.id}>
           <a href={owner.profileUrl}>
-            <TbCrown size={20} />
+            <CrownSvg />
             <StudyMemberCard
               username={owner.username}
               imageUrl={owner.imageUrl}
@@ -95,7 +96,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         스터디원 <span>{totalMembers.length}명</span>
       </S.Title>
       <S.MemberList>{renderMembers()}</S.MemberList>
-      {members.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
+      {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}

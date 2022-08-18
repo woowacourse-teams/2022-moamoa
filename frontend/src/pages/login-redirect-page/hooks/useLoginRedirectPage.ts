@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { useMutation } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { PostTokenRequestParams, PostTokenResponseData } from '@custom-types';
+import { usePostLogin } from '@api/auth';
 
-import { postAccessToken } from '@api';
+import AccessTokenController from '@auth/accessToken';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -17,7 +16,7 @@ const useLoginRedirectPage = () => {
 
   const { login } = useAuth();
 
-  const { mutate } = useMutation<PostTokenResponseData, Error, PostTokenRequestParams>(postAccessToken);
+  const { mutate } = usePostLogin();
 
   useEffect(() => {
     if (!codeParam) {
@@ -29,12 +28,18 @@ const useLoginRedirectPage = () => {
     mutate(
       { code: codeParam },
       {
-        onError: error => {
-          alert(error.message ?? '로그인에 실패했습니다.');
+        onError: () => {
+          alert('로그인에 실패했습니다.');
           navigate(PATH.MAIN, { replace: true });
         },
         onSuccess: data => {
-          login(data.token);
+          login(data.accessToken);
+          AccessTokenController.setTokenExpiredMsTime(data.expiredTime);
+
+          setTimeout(() => {
+            AccessTokenController.fetchAccessTokenWithRefresh();
+          }, AccessTokenController.tokenExpiredMsTime);
+
           navigate(PATH.MAIN, { replace: true });
         },
       },
