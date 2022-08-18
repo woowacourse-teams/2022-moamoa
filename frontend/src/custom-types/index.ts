@@ -28,14 +28,6 @@ export type LinkId = number;
 export type Page = number;
 export type Size = number;
 
-export type Study = {
-  id: StudyId;
-  title: string;
-  excerpt: string;
-  thumbnail: string;
-  recruitmentStatus: RecruitmentStatus;
-};
-
 export type Owner = {
   id: MemberId;
   username: string;
@@ -50,7 +42,18 @@ export type Member = {
   profileUrl: string;
 };
 
-export type StudyTag = { id: TagId; name: string };
+export type CategoryName = 'generation' | 'area' | 'subject';
+
+export type Tag = {
+  id: TagId;
+  name: string;
+  description: string;
+  category: {
+    id: CategoryId;
+    name: CategoryName;
+  };
+};
+export type TagInfo = Pick<Tag, 'id'> & { categoryName: Tag['category']['name'] };
 
 export type StudyDetail = {
   id: StudyId;
@@ -61,33 +64,24 @@ export type StudyDetail = {
   description: string;
   currentMemberCount: number;
   maxMemberCount?: number;
-  createdDate: string;
-  enrollmentEndDate?: string;
-  startDate: string;
-  endDate?: string;
+  createdDate: DateYMD;
+  enrollmentEndDate?: DateYMD;
+  startDate: DateYMD;
+  endDate?: DateYMD;
   owner: Owner;
   members: Array<Member>;
-  tags: Array<StudyTag>;
-} & Study;
+  tags: Array<Tag>;
+};
+
+export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' | 'recruitmentStatus'>;
 
 export type StudyReview = {
   id: ReviewId;
   member: Member;
   createdDate: DateYMD;
-  lastModifiedDate: string;
+  lastModifiedDate: DateYMD;
   content: string;
 };
-
-export type Tag = {
-  id: TagId;
-  name: string;
-  description: string;
-  category: {
-    id: CategoryId;
-    name: string;
-  };
-};
-export type TagInfo = Pick<Tag, 'id'> & { categoryName: Tag['category']['name'] };
 
 export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
 

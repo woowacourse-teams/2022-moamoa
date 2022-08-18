@@ -17,6 +17,8 @@ import { useAuth } from '@hooks/useAuth';
 
 import { Footer, Header, Main } from '@layout';
 
+import EditStudyPage from '@edit-study-page/EditStudyPage';
+
 const App = () => {
   const { isLoggedIn } = useAuth();
 
@@ -42,6 +44,10 @@ const App = () => {
           <Route
             path={PATH.STUDY_ROOM()}
             element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={PATH.EDIT_STUDY()}
+            element={isLoggedIn ? <EditStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
           />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

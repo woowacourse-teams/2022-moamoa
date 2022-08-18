@@ -1,3 +1,7 @@
+import { Link } from 'react-router-dom';
+
+import { PATH } from '@constants';
+
 import type { StudyDetail } from '@custom-types';
 
 import StudyChip from '@components/study-chip/StudyChip';
@@ -7,12 +11,21 @@ import * as S from '@detail-page/components/head/Head.style';
 
 export type HeadProps = Pick<
   StudyDetail,
-  'title' | 'recruitmentStatus' | 'startDate' | 'endDate' | 'excerpt' | 'tags'
+  'id' | 'title' | 'recruitmentStatus' | 'startDate' | 'endDate' | 'excerpt' | 'tags'
 > & {
   isOwner: boolean;
 };
 
-const Head: React.FC<HeadProps> = ({ title, recruitmentStatus, startDate, endDate, excerpt, tags, isOwner }) => {
+const Head: React.FC<HeadProps> = ({
+  id: studyId,
+  title,
+  recruitmentStatus,
+  startDate,
+  endDate,
+  excerpt,
+  tags,
+  isOwner,
+}) => {
   return (
     <S.Head>
       <S.TitleContainer>
@@ -22,7 +35,9 @@ const Head: React.FC<HeadProps> = ({ title, recruitmentStatus, startDate, endDat
         </S.Title>
         {isOwner && (
           <S.ButtonsContainer>
-            <S.Button>수정</S.Button>
+            <Link to={PATH.EDIT_STUDY(studyId)}>
+              <S.Button type="button">수정</S.Button>
+            </Link>
           </S.ButtonsContainer>
         )}
       </S.TitleContainer>

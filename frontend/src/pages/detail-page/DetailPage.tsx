@@ -51,6 +51,7 @@ const DetailPage: React.FC = () => {
   return (
     <Wrapper>
       <Head
+        id={id}
         title={title}
         recruitmentStatus={recruitmentStatus}
         excerpt={excerpt}

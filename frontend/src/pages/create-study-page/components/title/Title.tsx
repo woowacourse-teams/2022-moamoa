@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { TITLE_LENGTH } from '@constants';
 
+import type { StudyDetail } from '@custom-types';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
@@ -9,7 +11,11 @@ import LetterCounter from '@components/letter-counter/LetterCounter';
 
 import * as S from '@create-study-page/components/title/Title.style';
 
-const Title: React.FC = () => {
+export type TitleProps = {
+  originalTitle?: StudyDetail['title'];
+};
+
+const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   const { register, formState } = useFormContext();
   const { errors } = formState;
   const [count, setCount] = useState(0);
@@ -29,6 +35,7 @@ const Title: React.FC = () => {
         type="text"
         placeholder="*스터디 이름"
         isValid={isValid}
+        defaultValue={originalTitle}
         {...register('title', {
           validate: (val: string) => {
             if (val.length < TITLE_LENGTH.MIN.VALUE) {
