@@ -2,8 +2,6 @@ import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { changeDateSeperator } from '@utils';
-
 import Divider from '@components/divider/Divider';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
