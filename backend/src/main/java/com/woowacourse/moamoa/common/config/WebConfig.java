@@ -24,11 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("https://dev.moamoa.space", "https://moamoa.space")
                 .allowedMethods(ALLOW_METHODS)
-                .exposedHeaders(HttpHeaders.LOCATION)
-                .exposedHeaders("Set-Cookie")
-                .allowCredentials(true);
+                .exposedHeaders(HttpHeaders.LOCATION);
     }
 
     @Bean

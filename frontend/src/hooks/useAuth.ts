@@ -1,36 +1,24 @@
 import { useContext } from 'react';
 
-import { useDeleteLogout } from '@api/auth';
-
-import AccessTokenController from '@auth/accessToken';
-
-import { useUserInfo } from '@hooks/useUserInfo';
+import { ACCESS_TOKEN_KEY } from '@constants';
 
 import { LoginContext } from '@context/login/LoginProvider';
+
+import { useUserInfo } from './useUserInfo';
 
 export const useAuth = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const { fetchUserInfo } = useUserInfo();
 
-  const { mutate } = useDeleteLogout();
-
   const login = (accesssToken: string) => {
-    AccessTokenController.setAccessToken(accesssToken);
+    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accesssToken);
     setIsLoggedIn(true);
     fetchUserInfo();
   };
 
   const logout = () => {
-    mutate(null, {
-      onError: () => {
-        alert('로그아웃에 실패했습니다. 새로고침 해주세요.');
-      },
-      onSuccess: () => {
-        AccessTokenController.removeAccessToken();
-        setIsLoggedIn(false);
-        alert('로그아웃 되었습니다.');
-      },
-    });
+    window.sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+    setIsLoggedIn(false);
   };
 
   return { isLoggedIn, login, logout };

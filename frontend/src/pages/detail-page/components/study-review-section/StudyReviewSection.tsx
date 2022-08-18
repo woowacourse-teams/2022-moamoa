@@ -2,11 +2,10 @@ import { useState } from 'react';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
-import { useGetStudyReviews } from '@api/reviews';
-
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
 import * as S from '@detail-page/components/study-review-section/StudyReviewSection.style';
+import useGetStudyReviews from '@detail-page/hooks/useGetStudyReviews';
 
 export type StudyReviewSectionProps = {
   studyId: number;

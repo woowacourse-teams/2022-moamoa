@@ -1,15 +1,12 @@
-import tw from '@utils/tw';
+import { css } from '@emotion/react';
 
 import type { Tag } from '@custom-types';
 
-import { useGetTags } from '@api/tags';
-
 import { useFormContext } from '@hooks/useForm';
-
-import Checkbox from '@components/checkbox/Checkbox';
 
 import * as S from '@create-study-page/components/category/Category.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import useGetTagList from '@create-study-page/hooks/useGetTagList';
 
 export type CategoryProps = {
   className?: string;
@@ -30,7 +27,7 @@ const getClassifiedTags = (tags: Array<Tag>) => {
 
 const Category = ({ className }: CategoryProps) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError, isSuccess } = useGetTags();
+  const { data, isLoading, isError, isSuccess } = useGetTagList();
 
   const renderContent = () => {
     if (isLoading) return <div>loading...</div>;
@@ -45,28 +42,76 @@ const Category = ({ className }: CategoryProps) => {
 
     return (
       <>
-        <S.Generation>
-          <S.Label htmlFor="generation">기수 :</S.Label>
-          <S.Select id="generation" {...register('generation')}>
+        <div
+          css={css`
+            margin-bottom: 6px;
+          `}
+        >
+          <label
+            css={css`
+              margin-right: 10px;
+            `}
+            htmlFor="generation"
+          >
+            기수 :
+          </label>
+          <select id="generation" {...register('generation')}>
             <option>선택 안함</option>
             {generations.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>
             ))}
-          </S.Select>
-        </S.Generation>
-        <S.Area>
-          <S.Label>영역 :</S.Label>
-          <S.AreaCheckboxContainer>
-            <Checkbox css={tw`mr-4`} type="checkbox" id="area-fe" data-tagid={areaFE.id} {...register('area-fe')} />
+          </select>
+        </div>
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
+          <span
+            css={css`
+              margin-right: 10px;
+            `}
+          >
+            영역 :
+          </span>
+          {}
+          <div
+            css={css`
+              display: flex;
+              margin-right: 8px;
+            `}
+          >
+            <input
+              css={css`
+                margin-right: 4px;
+              `}
+              type="checkbox"
+              id="area-fe"
+              data-tagid={areaFE.id}
+              {...register('area-fe')}
+            />
             <label htmlFor="area-fe">FE</label>
-          </S.AreaCheckboxContainer>
-          <S.AreaCheckboxContainer>
-            <Checkbox css={tw`mr-4`} type="checkbox" id="area-be" data-tagid={areaBE.id} {...register('area-be')} />
+          </div>
+          <div
+            css={css`
+              display: flex;
+              margin-right: 8px;
+            `}
+          >
+            <input
+              css={css`
+                margin-right: 4px;
+              `}
+              type="checkbox"
+              id="area-be"
+              data-tagid={areaBE.id}
+              {...register('area-be')}
+            />
             <label htmlFor="area-be">BE</label>
-          </S.AreaCheckboxContainer>
-        </S.Area>
+          </div>
+        </div>
       </>
     );
   };

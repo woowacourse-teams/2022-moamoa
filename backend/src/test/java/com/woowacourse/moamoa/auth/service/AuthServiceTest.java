@@ -1,112 +1,46 @@
 package com.woowacourse.moamoa.auth.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.auth.domain.Token;
-import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
+import com.woowacourse.moamoa.auth.controller.AuthController;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
-import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
-import com.woowacourse.moamoa.auth.service.response.TokensResponse;
-import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.MemberDao;
-import com.woowacourse.moamoa.member.service.MemberService;
-import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
+import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
-@RepositoryTest
+@WebMvcTest(controllers = {AuthController.class})
 class AuthServiceTest {
 
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private AuthService authService;
 
-    private OAuthClient oAuthClient;
-
+    @MockBean
     private TokenProvider tokenProvider;
 
-    private MemberService memberService;
+    @MockBean
+    private AuthenticationRequestMatcher authenticationRequestMatcher;
 
-    @Autowired
-    private TokenRepository tokenRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private MemberDao memberDao;
-
-    @BeforeEach
-    void setUp() {
-        memberService = new MemberService(memberRepository, memberDao);
-        tokenProvider = Mockito.mock(TokenProvider.class);
-        oAuthClient = Mockito.mock(OAuthClient.class);
-        authService = new AuthService(memberService, tokenProvider, oAuthClient, tokenRepository);
-
-        Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
-        Mockito.when(oAuthClient.getProfile("access-token"))
-                .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
-        Mockito.when(tokenProvider.createToken(1L))
-                .thenReturn(new TokensResponse("accessToken", "refreshToken"));
-        Mockito.when(tokenProvider.recreationAccessToken(1L, "refreshToken"))
-                .thenReturn("recreationAccessToken");
-    }
-
-    @DisplayName("RefreshToken 을 저장한다.")
+    @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
-    void saveRefreshToken() {
-        authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+    void getTokenByAuthorizationCode() throws Exception {
+        when(authService.createToken("authorization-code")).thenReturn(new TokenResponse("this is jwt-token"));
 
-        assertThat(token.getRefreshToken()).isEqualTo("refreshToken");
-    }
-
-    @DisplayName("RefreshToken 을 이용하여 AccessToken 을 업데이트한다.")
-    @Test
-    void updateRefreshToken() {
-        authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
-        final String refreshToken = token.getRefreshToken();
-
-        final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
-        assertThat(refreshToken).isNotBlank();
-        assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
-    }
-
-    @DisplayName("DB에 저장되어 있지 않은 refresh token으로 access token을 발급받을 수 없다.")
-    @Test
-    void validateRefreshToken() {
-        assertThatThrownBy(() -> authService.refreshToken(1L, "InvalidRefreshToken"))
-                .isInstanceOf(UnauthorizedException.class);
-    }
-
-    @DisplayName("refresh token을 통해 access token을 발급받을 수 있다.")
-    @Test
-    void recreationAccessToken() {
-        authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
-
-        assertDoesNotThrow(() -> authService.refreshToken(1L, token.getRefreshToken()));
-    }
-
-    @DisplayName("로그아웃을 하면 Token 을 제거한다.")
-    @Test
-    void logout() {
-        authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
-
-        authService.logout(token.getGithubId());
-
-        final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
-
-        assertThat(token).isNotNull();
-        assertThat(foundToken).isEmpty();
+        mockMvc.perform(post("/api/login/token")
+                        .param("code", "authorization-code"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("token").value("this is jwt-token"))
+                .andDo(print());
     }
 }

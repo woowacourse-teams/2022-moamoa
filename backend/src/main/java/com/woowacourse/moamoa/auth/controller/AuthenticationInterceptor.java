@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.auth.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
+import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcherBuilder;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
@@ -21,7 +22,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+                             final Object handler) {
         
         if (isPreflight(request)) {
             return true;
@@ -29,9 +31,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         if (authenticationRequestMatcher.isRequiredAuth(request)) {
             final String token = AuthenticationExtractor.extract(request);
-            validateToken(token, request.getRequestURI());
+            validateToken(token);
 
-            request.setAttribute("payload", token);
+            request.setAttribute("payload", tokenProvider.getPayload(token));
         }
 
         return true;
@@ -41,10 +43,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return HttpMethod.OPTIONS.matches(request.getMethod());
     }
 
-    private void validateToken(String token, String requestURI) {
-        if (requestURI.equals("/api/auth/refresh") && token != null) {
-            return;
-        }
+    private void validateToken(String token) {
         if (token == null || !tokenProvider.validateToken(token)) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }

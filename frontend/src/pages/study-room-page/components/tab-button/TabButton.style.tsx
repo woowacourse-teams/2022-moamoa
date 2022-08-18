@@ -1,7 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { TabButtonProps } from '@study-room-page/components/tab-button/TabButton';
+import { TabButtonProps } from './TabButton';
 
 const applySelectedStyle = (theme: Theme) => css`
   color: ${theme.colors.primary.base};

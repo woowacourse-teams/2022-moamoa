@@ -11,6 +11,4 @@ public interface MemberRepository {
     Optional<Member> findByGithubId(Long githubId);
 
     List<Member> findAllById(Iterable<Long> ids);
-
-    Optional<Member> findById(Long id);
 }

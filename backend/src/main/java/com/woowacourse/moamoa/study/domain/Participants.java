@@ -40,33 +40,24 @@ public class Participants {
                 .collect(Collectors.toSet());
     }
 
-    public static Participants createBy(Long ownerId) {
-        return new Participants(ownerId, new HashSet<>());
-    }
-
     void participate(Long memberId) {
-        if (isParticipation(memberId)) {
+        if (isAlreadyParticipated(memberId)) {
             throw new FailureParticipationException();
         }
 
         participants.add(new Participant(memberId));
-        size++;
+        size = size + 1;
     }
 
-    public void leave(final Participant participant) {
-        participants.remove(participant);
-        size--;
+    boolean isAlreadyParticipated(Long memberId) {
+        return participants.contains(new Participant(memberId)) || ownerId.equals(memberId);
     }
 
-    boolean isParticipation(final Long memberId) {
-        return participants.contains(new Participant(memberId)) || isOwner(memberId);
+    public boolean isParticipate(Long memberId) {
+        return participants.contains(new Participant(memberId));
     }
 
-    boolean isOwner(Long memberId) {
-        return ownerId.equals(memberId);
-    }
-
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
@@ -90,7 +81,11 @@ public class Participants {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()  {
         return Objects.hash(size, getParticipants());
+    }
+
+    public static Participants createBy(Long ownerId) {
+        return new Participants(ownerId, new HashSet<>());
     }
 }

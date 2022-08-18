@@ -65,13 +65,12 @@ export const ReviewEditFormHead = styled(ReviewFormHead)``;
 export const ReviewEditFormBody = styled(ReviewFormBody)``;
 
 export const ReviewEditFormFooter = styled(ReviewFormFooter)`
+  ${ButtonGroup} {
+    column-gap: 10px;
+  }
   button {
     border-radius: 4px;
     padding: 8px 10px;
     font-size: 12px;
   }
-`;
-
-export const ReviewEditFormFooterButtonGroup = styled(ButtonGroup)`
-  column-gap: 10px;
 `;

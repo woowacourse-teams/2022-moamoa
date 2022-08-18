@@ -12,7 +12,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,19 +36,23 @@ public class StudyService {
         this.dateTimeSystem = dateTimeSystem;
     }
 
-    public Study createStudy(final Long githubId, final StudyRequest request) {
+    public Study createStudy(final Long githubId, final CreatingStudyRequest request) {
         final LocalDateTime createdAt = dateTimeSystem.now();
         final Member owner = findMemberBy(githubId);
 
         final Participants participants = request.mapToParticipants(owner.getId());
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
 
-        return studyRepository.save(
-                new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+        return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+    }
+
+    public void participateStudy(final Long githubId, final Long studyId) {
+        final Member member = findMemberBy(githubId);
+        final Study study = findStudyBy(studyId);
+        study.participate(member.getId());
     }
 
     private Study findStudyBy(final Long studyId) {
@@ -68,13 +72,5 @@ public class StudyService {
         for (Study study : studies) {
             study.changeStatus(now);
         }
-    }
-
-    public void updateStudy(Long memberId, Long studyId, StudyRequest request) {
-        Study study = studyRepository.findById(studyId)
-                .orElseThrow(StudyNotFoundException::new);
-
-        study.update(memberId, request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
-                request.mapToStudyPlanner(LocalDate.now()));
     }
 }

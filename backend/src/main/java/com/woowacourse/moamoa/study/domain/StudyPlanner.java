@@ -12,10 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)

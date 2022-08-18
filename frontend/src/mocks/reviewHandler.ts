@@ -1,6 +1,5 @@
 import { rest } from 'msw';
 
-import { user } from '@mocks/memberHandlers';
 import reviewJSON from '@mocks/reviews.json';
 
 import { isObject } from '@utils';
@@ -36,7 +35,13 @@ export const reviewHandlers = [
 
     const review = {
       id: 1,
-      member: user,
+      member: {
+        id: 20,
+        username: 'tco0427',
+        imageUrl:
+          'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+        profileUrl: 'github.com',
+      },
       content,
       createdDate: '2022-07-12',
       lastModifiedDate: '',

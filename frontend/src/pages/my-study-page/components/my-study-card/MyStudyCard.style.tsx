@@ -81,3 +81,20 @@ export const MyStudyCard = styled.div<Pick<MyStudyCardProps, 'disabled'>>`
     ${disabled && disabledStyle(theme)}
   `}
 `;
+
+export const TrashButton = styled.button`
+  ${({ theme }) => css`
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    & > svg {
+      stroke: ${theme.colors.primary.base};
+
+      &:hover,
+      &:active {
+        stroke: ${theme.colors.primary.dark};
+      }
+    }
+  `};
+`;

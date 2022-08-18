@@ -4,16 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
-class AuthenticationInterceptorTest extends WebMVCTest {
+@SpringBootTest
+class AuthenticationInterceptorTest {
+
+    @MockBean
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @DisplayName("Preflight 요청인지 확인한다.")
     @Test
@@ -27,7 +41,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateValidToken() {
-        final String token = tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L);
         String bearerToken = "Bearer " + token;
 
         given(httpServletRequest.getMethod())

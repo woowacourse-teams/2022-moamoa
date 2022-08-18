@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
-
 export const Container = styled.div`
   position: relative;
 `;
@@ -26,13 +24,6 @@ export const Input = styled.input`
           stroke: ${theme.colors.primary.light};
         }
       }
-    }
-
-    ${mqDown('md')} {
-      font-size: 18px;
-    }
-    ${mqDown('sm')} {
-      font-size: 16px;
     }
   `}
 `;

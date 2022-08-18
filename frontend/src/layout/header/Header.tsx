@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
+import { BiBookmark } from 'react-icons/bi';
+import { MdOutlineLogin, MdOutlineLogout } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { PATH } from '@constants';
-
-import tw from '@utils/tw';
+import { PATH, PROFILE_IMAGE_URL } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 import { useUserInfo } from '@hooks/useUserInfo';
@@ -11,13 +11,12 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import * as S from '@layout/header/Header.style';
+import DropDownBox from '@layout/header/components/drop-down-box/DropDownBox';
 import Logo from '@layout/header/components/logo/Logo';
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import { BookmarkSvg, LoginSvg, LogoutSvg } from '@components/svg';
 
 export type HeaderProps = {
   className?: string;
@@ -26,9 +25,10 @@ export type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const { setKeyword } = useContext(SearchContext);
 
-  const [isOpenDropDownBox, setIsOpenDropDownBox] = useState(false);
+  const [openDropDownBox, setOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
+
   const { logout, isLoggedIn } = useAuth();
   const { userInfo } = useUserInfo();
 
@@ -43,17 +43,11 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     navigate(PATH.MAIN);
   };
 
-  const handleLogoutButtonClick = () => {
-    logout();
-  };
-
-  const handleAvatarButtonClick = () => {
-    setIsOpenDropDownBox(prev => !prev);
-  };
-  const handleDropDownBoxClose = () => setIsOpenDropDownBox(false);
+  const handleAvatarButtonClick = () => setOpenDropDownBox(prev => !prev);
+  const handleOutsideDropBoxClick = () => setOpenDropDownBox(false);
 
   return (
-    <S.Header className={className}>
+    <S.Row className={className}>
       <a href={PATH.MAIN}>
         <Logo />
       </a>
@@ -64,33 +58,31 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         <S.Nav>
           <Link to={PATH.MY_STUDY}>
             <NavButton ariaLabel="내 스터디">
-              <BookmarkSvg />
+              <BiBookmark size={20} />
               <span>내 스터디</span>
             </NavButton>
           </Link>
-          <S.AvatarContainer>
-            <S.AvatarButton onClick={handleAvatarButtonClick}>
-              <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
-            </S.AvatarButton>
-            {isOpenDropDownBox && (
-              <DropDownBox top={'40px'} right={'0'} onClose={handleDropDownBoxClose} css={tw`p-16`}>
-                <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-                  <LogoutSvg />
-                  <span>로그아웃</span>
-                </NavButton>
-              </DropDownBox>
-            )}
-          </S.AvatarContainer>
+          <S.AvatarButton onClick={handleAvatarButtonClick}>
+            <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
+          </S.AvatarButton>
+          {openDropDownBox && (
+            <DropDownBox top={'70px'} right={'50px'} onOutOfBoxClick={handleOutsideDropBoxClick}>
+              <NavButton onClick={logout} ariaLabel="로그아웃">
+                <MdOutlineLogout size={20} />
+                <span>로그아웃</span>
+              </NavButton>
+            </DropDownBox>
+          )}
         </S.Nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
           <NavButton ariaLabel="로그인">
-            <LoginSvg />
+            <MdOutlineLogin size={20} />
             <span>로그인</span>
           </NavButton>
         </a>
       )}
-    </S.Header>
+    </S.Row>
   );
 };
 

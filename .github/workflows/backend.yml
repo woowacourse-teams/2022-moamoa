@@ -5,12 +5,9 @@ on:
     branches:
       - main
   pull_request:
-    paths:
-      - 'backend/**'
     branches:
       - main
       - develop
-    types: [opened, synchronize]
 
 defaults:
   run:
@@ -18,17 +15,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest     
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      SONAR_PROJECT_KEY: moamoa
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      SONAR_TOKEN : ${{ secrets.SONAR_TOKEN }}
-      PR_NUMBER: ${{ github.event.pull_request.number }}
-      client-id: ${{ secrets.CLIENT_ID }}
-      client-secret: ${{ secrets.CLIENT_SECRET }}
-      jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
-      jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+    runs-on: ubuntu-latest                            
     steps:                                            
       - name: Checkout
         uses: actions/checkout@v3                     
@@ -43,12 +30,9 @@ jobs:
         run: ./gradlew build --exclude-task test --exclude-task asciidoctor
 
       - name: Test  
+        env: 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
         run: ./gradlew test -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
-        
-      - name: SonarQube
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew sonarqube --info       
-      

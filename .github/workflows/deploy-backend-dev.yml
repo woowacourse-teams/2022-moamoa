@@ -10,8 +10,6 @@ name: Deploy Backend Dev
 on:
   push:   
     branches : develop
-    paths:
-      - 'backend/**'
 
 defaults:
   run:
@@ -40,13 +38,6 @@ jobs:
           jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
           jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
         run: ./gradlew test -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
-        
-      - name: SonarQube
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew sonarqube --info 
         
       - name : Deploy
         run: |

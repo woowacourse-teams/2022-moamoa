@@ -5,22 +5,21 @@ import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_STAR
 import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
-import static java.time.LocalDateTime.now;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
+import static java.time.LocalDateTime.now;
+
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
-import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +27,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class StudyTest {
+public class StudyTest {
 
     @DisplayName("생성일자는 스터디 시작일자보다 클 수 없다.")
     @Test
@@ -45,10 +44,8 @@ class StudyTest {
         final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
-
         assertThatThrownBy(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -67,10 +64,8 @@ class StudyTest {
         final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
 
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
-
         assertThatThrownBy(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -109,16 +104,14 @@ class StudyTest {
         final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
         final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
-
         assertThatCode(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("새로운 사용자는 스터디에 가입할 수 있다.")
     @Test
-    void participate() {
+    public void participate() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
@@ -133,7 +126,7 @@ class StudyTest {
 
     @DisplayName("기존 참여자는 스터디에 가입할 수 없다.")
     @Test
-    void participateTwice() {
+    public void participateTwice() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
@@ -177,7 +170,7 @@ class StudyTest {
 
     @DisplayName("마지막 인원이 참여시 스터디 모집은 종료된다.")
     @Test
-    void closeStudyByLastParticipant() {
+    public void closeStudyByLastParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
@@ -203,7 +196,7 @@ class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 createdAt);
 
-        assertThat(sut.isReviewWritable(1L)).isEqualTo(isWritable);
+        assertThat(sut.isWritableReviews(1L)).isEqualTo(isWritable);
     }
 
     private static Stream<Arguments> provideStudyPeriod() {
@@ -240,7 +233,7 @@ class StudyTest {
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
-        assertThat(sut.isReviewWritable(1L)).isTrue();
+        assertThat(sut.isWritableReviews(1L)).isTrue();
     }
 
     @DisplayName("스터디에 참여한 사용자는 리뷰를 작성할 수 있다.")
@@ -254,7 +247,7 @@ class StudyTest {
 
         sut.participate(2L);
 
-        assertThat(sut.isReviewWritable(2L)).isTrue();
+        assertThat(sut.isWritableReviews(2L)).isTrue();
     }
 
     @DisplayName("스터디에 참여하지 않은 사용자는 리뷰를 작성할 수 없다.")
@@ -266,7 +259,7 @@ class StudyTest {
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
 
-        assertThat(sut.isReviewWritable(2L)).isFalse();
+        assertThat(sut.isWritableReviews(2L)).isFalse();
     }
 
     @DisplayName("스터디에서 나의 역할을 조회한다.")
@@ -286,15 +279,13 @@ class StudyTest {
 
     @DisplayName("스터디 종료기간이 넘으면 자동으로 종료 상태가 된다.")
     @Test
-    void autoCloseStudyStatus() {
+    public void autoCloseStudyStatus() {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now().minusDays(3));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1),
-                IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(4));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1), IN_PROGRESS);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(4));
 
         // when
         sut.changeStatus(LocalDate.now().plusDays(2));
@@ -305,14 +296,13 @@ class StudyTest {
 
     @DisplayName("스터디 시작기간(StartDate)이 되면 자동으로 진행중 상태가 된다.")
     @Test
-    void updateInProgressStatus() {
+    public void updateInProgressStatus() {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
 
         // when
         sut.changeStatus(LocalDate.now());
@@ -323,97 +313,7 @@ class StudyTest {
 
     @DisplayName("모집 기간이 지난 스터디는 자동으로 모집이 종료된다.")
     @Test
-    void autoCloseEnrollment() {
-        // given
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
-
-        // when
-        sut.changeStatus(LocalDate.now());
-
-        // then
-        assertThat(sut.getRecruitPlanner().isCloseEnrollment()).isTrue();
-    }
-
-    @DisplayName("참여자는 방장, 참가자만 가능하다.")
-    @ParameterizedTest
-    @CsvSource({"1, 2, 1, true", "1, 2, 2, true", "1, 2, 3, false"})
-    void checkIsParticipant(Long ownerId, Long participantId, Long targetMemberId, boolean expected) {
-        // arrange
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(ownerId);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
-
-        sut.participate(participantId);
-
-        // act
-        assertThat(sut.isParticipant(targetMemberId)).isEqualTo(expected);
-    }
-
-    @DisplayName("스터디장은 탈퇴할 수 없다.")
-    @Test
-    void notLeaveOwner() {
-        final Participant owner = new Participant(1L);
-
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
-
-        assertThatThrownBy(() -> sut.leave(owner))
-                .isInstanceOf(OwnerCanNotLeaveException.class);
-    }
-
-    @DisplayName("스터디에 참여하지 않은 회원은 탈퇴할 수 없다.")
-    @Test
-    void notLeaveNonParticipatedMember() {
-        final Participant owner = new Participant(1L);
-        final Participant participant = new Participant(2L);
-
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
-
-        assertThatThrownBy(() -> sut.leave(participant))
-                .isInstanceOf(NotParticipatedMemberException.class);
-    }
-
-    @DisplayName("스터디원은 탈퇴할 수 있다.")
-    @Test
-    void LeaveParticipatedMember() {
-        final Participant owner = new Participant(1L);
-        final Participant participant = new Participant(2L);
-
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
-
-        sut.participate(participant.getMemberId());
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> sut.leave(participant)),
-                () -> assertThat(sut.getParticipants()).isEqualTo(new Participants(owner.getMemberId(), Set.of()))
-        );
-    }
-
-    @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
-    @Test
-    public void updateStudyWithParticipant() {
+    public void autoCloseEnrollment() {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
@@ -421,12 +321,10 @@ class StudyTest {
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
 
-        final Content updatingContent = new Content("새로운 title", "새로운 excerpt", "새로운 thumbnail", "새로운 description");
-        final RecruitPlanner updatingRecruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner updatingStudyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        // when
+        sut.changeStatus(LocalDate.now());
 
-        // when & then
-        assertThatThrownBy(() -> sut.update(2L, updatingContent, updatingRecruitPlanner, null, updatingStudyPlanner))
-                .isInstanceOf(UnauthorizedException.class);
+        // then
+        assertThat(sut.getRecruitPlanner().isCloseEnrollment()).isTrue();
     }
 }

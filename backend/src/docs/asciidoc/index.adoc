@@ -12,12 +12,6 @@
 === Github 로그인
 operation::auth/login[snippets='http-request,request-parameters,http-response,response-fields']
 
-=== 리프래시 토큰
-operation::auth/refresh[snippets='http-request,http-response']
-
-=== 로그아웃
-operation::auth/logout[snippets='http-request,http-response']
-
 [[Member]]
 == 회원
 
@@ -50,45 +44,6 @@ operation::studies/details[snippets='http-request,http-response']
 
 === 참여한 스터디 목록 조회
 operation::studies/myStudy[snippets='http-request,http-response']
-
-=== 스터디 상세 정보 수정
-operation::studies/update[snippets='http-request,http-response']
-
-=== 스터디 탈퇴
-operation::studies/leave[snippets='http-request,request-headers,http-response']
-
-[[Comunity]]
-== 커뮤니티
-
-=== 커뮤니티 생성
-operation::article/create[snippets='http-request,request-headers,request-fields,http-response']
-
-=== 커뮤니티 단건 조회
-operation::article/get[snippets='http-request,request-headers,http-response,response-fields']
-
-=== 커뮤니티 전체 조회
-operation::article/list[snippets='http-request,request-headers,http-response,response-fields']
-
-=== 커뮤니티 수정
-operation::article/update[snippets='http-request,request-headers,http-response']
-
-=== 커뮤니티 삭제
-operation::article/delete[snippets='http-request,request-headers,http-response']
-
-[[Reference-Room]]
-== 링크 공유
-
-=== 링크 공유글 생성
-operation::reference-room/create[snippets='http-request,request-headers,request-fields,http-response']
-
-=== 링크 공유글 전체 조회
-operation::reference-room/list[snippets='http-request,request-headers,http-response,response-fields']
-
-=== 링크 공유글 수정
-operation::reference-room/update[snippets='http-request,request-headers,http-response']
-
-=== 링크 공유글 삭제
-operation::reference-room/delete[snippets='http-request,request-headers,http-response']
 
 [[Tag]]
 == 태그

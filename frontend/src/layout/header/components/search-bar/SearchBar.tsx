@@ -1,6 +1,6 @@
-import * as S from '@layout/header/components/search-bar/SearchBar.style';
+import { FiSearch } from 'react-icons/fi';
 
-import { SearchSvg } from '@components/svg';
+import * as S from '@layout/header/components/search-bar/SearchBar.style';
 
 export type SearchBarProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, inputName: string) => void;
@@ -13,7 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }
       <form onSubmit={e => onSubmit(e, inputName)}>
         <S.Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
         <S.Button aria-label="검색하기">
-          <SearchSvg />
+          <FiSearch />
         </S.Button>
       </form>
     </S.Container>

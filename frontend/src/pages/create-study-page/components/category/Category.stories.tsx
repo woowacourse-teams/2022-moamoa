@@ -1,6 +1,6 @@
 import type { Story } from '@storybook/react';
 
-import tw from '@utils/tw';
+import { css } from '@emotion/react';
 
 import Category from '@create-study-page/components/category/Category';
 import type { CategoryProps } from '@create-study-page/components/category/Category';
@@ -11,7 +11,11 @@ export default {
 };
 
 const Template: Story<CategoryProps> = props => (
-  <div css={tw`max-w-[400px]`}>
+  <div
+    css={css`
+      max-width: 400px;
+    `}
+  >
     <Category {...props} />
   </div>
 );

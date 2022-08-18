@@ -32,7 +32,7 @@ public class ReviewService {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
-        if (!study.isReviewWritable(member.getId())) {
+        if (!study.isWritableReviews(member.getId())) {
             throw new WritingReviewBadRequestException();
         }
 

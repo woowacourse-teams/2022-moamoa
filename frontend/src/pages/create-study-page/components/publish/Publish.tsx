@@ -1,4 +1,6 @@
-import tw from '@utils/tw';
+import { css } from '@emotion/react';
+
+import { useFormContext } from '@hooks/useForm';
 
 import Button from '@components/button/Button';
 
@@ -11,16 +13,23 @@ type PublishProps = {
 };
 
 const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
+  const { formState } = useFormContext();
+
   return (
     <S.Publish className={className}>
       <MetaBox>
         <MetaBox.Title>스터디 개설</MetaBox.Title>
         <MetaBox.Content>
           <Button
-            css={tw`rounded-[6px] text-16 py-12 px-10`}
+            css={css`
+              border-radius: 6px;
+              font-size: 16px;
+              padding: 12px 10px;
+            `}
             fluid={true}
             onClick={handlePublishButtonClick}
             outline={true}
+            isLoading={formState.isSubmitting}
           >
             개설하기
           </Button>

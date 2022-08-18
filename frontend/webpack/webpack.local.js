@@ -9,7 +9,6 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'eval-source-map',
   devServer: {
     open: true,
     port: 3000,
@@ -26,7 +25,6 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
       'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
-      'process.env.LINK_PREVIEW_API_URL': JSON.stringify(process.env.LINK_PREVIEW_API_URL),
     }),
   ],
 });

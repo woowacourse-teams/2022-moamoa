@@ -1,17 +1,14 @@
 package com.woowacourse.moamoa.auth.config;
 
-import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = PRIVATE)
 public class AuthenticationExtractor {
 
-    private static final String BEARER_TYPE = "Bearer";
-    private static final String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
+    private static String BEARER_TYPE = "Bearer";
+    private static String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
 
     public static String extract(HttpServletRequest request) {
         Enumeration<String> headers = request.getHeaders(AUTHORIZATION);

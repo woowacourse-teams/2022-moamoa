@@ -20,6 +20,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
+import com.woowacourse.moamoa.tag.query.TagDao;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,9 +38,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-class StudySummaryDaoTest {
+public class StudySummaryDaoTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -51,7 +53,13 @@ class StudySummaryDaoTest {
     private StudyRepository studyRepository;
 
     @Autowired
+    private TagDao tagDao;
+
+    @Autowired
     private EntityManager em;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private Member jjanggu;
     private Member greenlawn;
@@ -60,6 +68,16 @@ class StudySummaryDaoTest {
 
     @BeforeEach
     void initDataBase() {
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+
         jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
         greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
         dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
@@ -132,7 +150,7 @@ class StudySummaryDaoTest {
     @DisplayName("페이징 정보를 사용해 스터디 목록 조회")
     @ParameterizedTest
     @MethodSource("providePageableAndExpect")
-    void findAllByPageable(Pageable pageable, List<Tuple> expectedTuples, boolean expectedHasNext) {
+    public void findAllByPageable(Pageable pageable, List<Tuple> expectedTuples, boolean expectedHasNext) {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(), pageable);
 
         assertThat(response.hasNext()).isEqualTo(expectedHasNext);
@@ -162,7 +180,7 @@ class StudySummaryDaoTest {
 
     @DisplayName("키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
-    void findByTitleContaining() {
+    public void findByTitleContaining() {
         final Slice<StudySummaryData> response = studySummaryDao
                 .searchBy("java", SearchingTags.emptyTags(), PageRequest.of(0, 3));
 
@@ -179,7 +197,7 @@ class StudySummaryDaoTest {
 
     @DisplayName("빈 키워드와 함께 페이징 정보를 사용해 스터디 목록 조회")
     @Test
-    void findByBlankTitle() {
+    public void findByBlankTitle() {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(),
                 PageRequest.of(0, 5));
 

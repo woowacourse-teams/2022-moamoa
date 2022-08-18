@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
@@ -8,10 +7,6 @@ export const SectionTitle = styled.h3`
 
   font-size: 24px;
   font-weight: 700;
-`;
-
-export const MyStudyCardListSection = styled.section`
-  padding: 8px;
 `;
 
 export const MyStudyList = styled.ul`
@@ -32,27 +27,6 @@ export const MyStudyList = styled.ul`
   }
 `;
 
-export const MyStudyCardItem = styled.li`
-  position: relative;
-`;
-
-export const TrashButton = styled.button`
-  ${({ theme }) => css`
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-
-    background-color: transparent;
-    border: none;
-    outline: none;
-
-    & > svg {
-      stroke: ${theme.colors.primary.base};
-
-      &:hover,
-      &:active {
-        stroke: ${theme.colors.primary.light};
-      }
-    }
-  `};
+export const MyStudyCardListSection = styled.section`
+  padding: 8px;
 `;

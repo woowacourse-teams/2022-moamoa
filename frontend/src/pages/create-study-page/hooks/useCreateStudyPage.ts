@@ -4,11 +4,12 @@ import { PATH } from '@constants';
 
 import { getRandomInt } from '@utils';
 
-import { usePostStudy } from '@api/study';
-import type { PostStudyRequestBody } from '@api/study';
+import type { PostNewStudyRequestBody } from '@custom-types';
 
 import { useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
+
+import usePostNewStudy from '@create-study-page/hooks/usePostNewStudy';
 
 const useCreateStudyPage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const useCreateStudyPage = () => {
 
   const formMethods = useForm();
 
-  const { mutateAsync } = usePostStudy();
+  const { mutateAsync } = usePostNewStudy();
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) return;
@@ -44,7 +45,7 @@ const useCreateStudyPage = () => {
 
     const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
 
-    const postData: PostStudyRequestBody = {
+    const postData: PostNewStudyRequestBody = {
       title: values['title'],
       excerpt: values['excerpt'],
       thumbnail,

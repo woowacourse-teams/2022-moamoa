@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { css } from '@emotion/react';
 
-import tw from '@utils/tw';
+import { PATH } from '@constants';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
@@ -28,7 +28,13 @@ const StudyRoomPage: React.FC = () => {
     <Wrapper>
       <S.Container>
         <SideMenu
-          css={tw`sticky top-100 left-0 z-1 self-start`}
+          css={css`
+            position: sticky;
+            top: 100px;
+            left: 0;
+
+            align-self: flex-start;
+          `}
           activeTabId={activeTab.id}
           tabs={tabs}
           onTabButtonClick={handleTabButtonClick}

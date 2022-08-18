@@ -2,13 +2,11 @@ package com.woowacourse.moamoa.study.query.data;
 
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Getter
 public class MyStudySummaryData {
 

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class StudyPlannerTest {
+public class StudyPlannerTest {
 
     @DisplayName("시작일자는 종료일자보다 클 수 없다.")
     @Test
