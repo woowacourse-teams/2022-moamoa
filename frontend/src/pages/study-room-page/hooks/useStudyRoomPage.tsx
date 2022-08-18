@@ -20,7 +20,6 @@ const useStudyRoomPage = () => {
   const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 
   const tabs: Tabs = [
-    { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
     { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
     { id: 'link-room', name: '링크 모음', content: <LinkRoomTabPanel /> },
     { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
