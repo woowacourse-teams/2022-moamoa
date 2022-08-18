@@ -14,9 +14,8 @@ export type Tab = { id: TabId; name: string; content: React.ReactNode };
 export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
-  // const { studyId: _studyId } = useParams() as { studyId: string };
-  // const studyId = Number(_studyId);
-  const studyId = 1;
+  const { studyId: _studyId } = useParams() as { studyId: string };
+  const studyId = Number(_studyId);
 
   const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 

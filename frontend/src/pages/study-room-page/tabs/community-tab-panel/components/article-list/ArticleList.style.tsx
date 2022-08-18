@@ -4,4 +4,6 @@ export const ArticleList = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+
+  margin-bottom: 30px;
 `;

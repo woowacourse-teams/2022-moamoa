@@ -1,11 +1,19 @@
+import type { CommunityArticleMode } from '@custom-types';
+
 export const PATH = {
   MAIN: '/',
   STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
   CREATE_STUDY: '/study/create',
   MY_STUDY: '/my/study',
-  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/study/room/${studyId}`,
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
+  COMMUNITY: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/community`,
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
+  COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/community/article/${articleId}`,
+  COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,
+  COMMUNITY_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/community/article/${articleId}/edit`,
 };
 
 export const API_ERROR = {

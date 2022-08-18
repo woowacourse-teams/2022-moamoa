@@ -118,9 +118,4 @@ export type CommunityArticle = {
   lastModifiedDate: DateYMD;
 };
 
-export type GetCommunityArticleResponseData = {
-  articles: Array<CommunityArticle>;
-  currentPage: number;
-  lastPage: number;
-  totalCount: number;
-};
+export type CommunityArticleMode = 'publish' | 'edit';

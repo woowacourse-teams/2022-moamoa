@@ -1,11 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 
 import * as S from '@study-room-page/tabs/community-tab-panel/components/pagination/Pagination.style';
 
 type PaginationProps = {
   count: number; // 전체 페이지 개수
   defaultPage: number; // 현재 페이지
-  renderItem: (item: any) => ReactNode;
   onNumberButtonClick: (num: number) => void;
 };
 
@@ -14,7 +13,7 @@ const range = (start: number, end: number): Array<number> => {
   return Array.from({ length }, (_, i) => start + i);
 };
 
-const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, renderItem, onNumberButtonClick }) => {
+const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberButtonClick }) => {
   const [page, setPage] = useState<number>(defaultPage);
 
   const handleNumButtonClick = (num: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
