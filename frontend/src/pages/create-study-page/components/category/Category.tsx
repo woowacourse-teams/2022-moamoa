@@ -65,7 +65,7 @@ const Category: React.FC<CategoryProps> = ({ className, originalGeneration, orig
               css={tw`mr-4`}
               type="checkbox"
               id="area-fe"
-              data-tagid={areaFE.id}
+              dataTagId={areaFE.id}
               defaultChecked={originalAreas?.some(tag => tag.id === areaFE.id)}
               {...register('area-fe')}
             />
@@ -76,7 +76,7 @@ const Category: React.FC<CategoryProps> = ({ className, originalGeneration, orig
               css={tw`mr-4`}
               type="checkbox"
               id="area-be"
-              data-tagid={areaBE.id}
+              dataTagId={areaBE.id}
               defaultChecked={originalAreas?.some(tag => tag.id === areaBE.id)}
               {...register('area-be')}
             />
