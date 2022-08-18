@@ -29,7 +29,7 @@ public class LinkDao {
                 + "ORDER BY link.created_date DESC, link.id DESC "
                 + "LIMIT :limit OFFSET :offset";
         final MapSqlParameterSource params = new MapSqlParameterSource("studyId", studyId)
-                .addValue("limit", pageable.getPageSize())
+                .addValue("limit", pageable.getPageSize() + 1)
                 .addValue("offset", pageable.getOffset());
 
         final List<LinkData> linkData = namedParameterJdbcTemplate.query(sql, params, rowMapper());
