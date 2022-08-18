@@ -81,6 +81,12 @@ const padding = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
+const gap = arr0_to_100.reduce((acc, cur) => {
+  acc[`gap-x-${cur}`] = `column-gap: ${cur}px`;
+  acc[`gap-y-${cur}`] = `row-gap: ${cur}px`;
+  return acc;
+}, {} as Record<string, string>);
+
 const widthPx = arr0_to_300.reduce((acc, cur) => {
   acc[`w-${cur}`] = `width: ${cur}px`;
   acc[`max-w-${cur}`] = `max-width: ${cur}px`;
@@ -92,8 +98,9 @@ const width = {
 };
 
 const heightPx = arr0_to_300.reduce((acc, cur) => {
-  acc[`h-${cur}px`] = `height: ${cur}px`;
-  acc[`max-h-${cur}px`] = `max-height: ${cur}px`;
+  acc[`h-${cur}`] = `height: ${cur}px`;
+  acc[`max-h-${cur}`] = `max-height: ${cur}px`;
+  acc[`min-h-${cur}`] = `min-height: ${cur}px`;
   return acc;
 }, {} as Record<string, string>);
 
@@ -172,6 +179,7 @@ const totalStyles = {
   ...alignSelf,
   ...margin,
   ...padding,
+  ...gap,
   ...widthPx,
   ...width,
   ...heightPx,
@@ -206,6 +214,8 @@ const cssPropertyForArbitararyValue = {
 
   // size
   h: ['height'],
+  'min-h': ['min-height'],
+  'max-h': ['max-height'],
   w: ['width'],
   'max-w': ['max-width'],
   'min-w': ['min-width'],
@@ -247,6 +257,7 @@ const tw = (template: TemplateStringsArray, ...args: Array<string>) => {
 
       if (arbitararyValue) {
         // py-[12px]에서 ['py-', '[12px]']로 짜르고 마지막 요소를 빼낸다
+        console.log('s', s);
         const shortCssProperty = s.split('-').slice(0, -1)[0];
         const fullCssProperties = cssPropertyForArbitararyValue[shortCssProperty as cssShortPropertyKey];
         const cssTexts = fullCssProperties.map(fullCssProp => {
@@ -254,6 +265,7 @@ const tw = (template: TemplateStringsArray, ...args: Array<string>) => {
         });
         return cssTexts.join(';');
       }
+
       if (!(s in totalStyles)) {
         throw new Error('올바른 스타일을 입력해 주세요');
       }
