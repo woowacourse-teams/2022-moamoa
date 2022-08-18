@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import Image from '@components/image/Image';
+
 export const Card = styled.div`
   ${({ theme }) => css`
     display: flex;
@@ -23,6 +25,14 @@ export const ImageContainer = styled.div`
   flex-grow: 1;
 
   overflow: hidden;
+`;
+
+export const CardImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
 `;
 
 export const Content = styled.div`

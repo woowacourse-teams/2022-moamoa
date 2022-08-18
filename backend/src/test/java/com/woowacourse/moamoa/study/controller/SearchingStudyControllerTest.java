@@ -1,10 +1,5 @@
 package com.woowacourse.moamoa.study.controller;
 
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.HTTP_스터디_신청서;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_신청서;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_신청서;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_신청서;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -20,9 +15,8 @@ import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
-import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.study.service.request.CreatingStudyRequest;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
@@ -38,9 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @RepositoryTest
-class SearchingStudyControllerTest {
+public class SearchingStudyControllerTest {
 
     private SearchingStudyController sut;
 
@@ -65,6 +60,9 @@ class SearchingStudyControllerTest {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private Long javaStudyId;
     private Long reactStudyId;
     private Long javaScriptId;
@@ -78,6 +76,16 @@ class SearchingStudyControllerTest {
 
     @BeforeEach
     void initDataBase() {
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
+        jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
+
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (1, 'Java', '자바', 3)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (2, '4기', '우테코4기', 1)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (3, 'BE', '백엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (4, 'FE', '프론트엔드', 2)");
+        jdbcTemplate.update("INSERT INTO tag(id, name, description, category_id) VALUES (5, 'React', '리액트', 3)");
+
         jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
         greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
         dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
@@ -85,39 +93,53 @@ class SearchingStudyControllerTest {
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        StudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
+        CreatingStudyRequest javaStudyRequest = CreatingStudyRequest.builder()
+                .title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail").description("그린론의 우당탕탕 자바 스터디입니다.")
+                .startDate(LocalDate.now()).tagIds(List.of(1L, 2L, 3L)).maxMemberCount(10)
+                .build();
         javaStudyId = studyService.createStudy(jjanggu.getGithubId(), javaStudyRequest).getId();
 
-        StudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
+        CreatingStudyRequest reactStudyRequest = CreatingStudyRequest.builder()
+                .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail").description("디우의 뤼액트 스터디입니다.")
+                .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
+                .tagIds(List.of(2L, 4L, 5L)).maxMemberCount(5)
+                .build();
         reactStudyId = studyService.createStudy(dwoo.getGithubId(), reactStudyRequest).getId();
 
-        StudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
+        CreatingStudyRequest javaScriptStudyRequest = CreatingStudyRequest.builder()
+                .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail").description("자바스크립트 설명")
+                .startDate(LocalDate.now()).tagIds(List.of(2L, 4L))
+                .build();
         javaScriptId = studyService.createStudy(jjanggu.getGithubId(), javaScriptStudyRequest).getId();
 
-        StudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
+        CreatingStudyRequest httpStudyRequest = CreatingStudyRequest.builder()
+                .title("HTTP 스터디").excerpt("HTTP 설명").thumbnail("http thumbnail").description("HTTP 설명")
+                .startDate(LocalDate.now()).tagIds(List.of(2L, 3L))
+                .build();
         httpStudyId = studyService.createStudy(jjanggu.getGithubId(), httpStudyRequest).getId();
 
-        StudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
+        CreatingStudyRequest algorithmStudyRequest = CreatingStudyRequest.builder()
+                .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail").description("알고리즘 설명")
+                .startDate(LocalDate.now()).tagIds(List.of())
+                .build();
         algorithmStudyId = studyService.createStudy(jjanggu.getGithubId(), algorithmStudyRequest).getId();
 
-        StudyRequest linuxStudyRequest = StudyRequest.builder()
+        CreatingStudyRequest linuxStudyRequest = CreatingStudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail").description("Linux를 공부하자의 베루스입니다.")
                 .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
                 .tagIds(List.of())
                 .build();
         linuxStudyId = studyService.createStudy(verus.getGithubId(), linuxStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
-        
-        participantService.participateStudy(dwoo.getId(), javaStudyId);
-        participantService.participateStudy(verus.getId(), javaStudyId);
+        studyService.participateStudy(dwoo.getGithubId(), javaStudyId);
+        studyService.participateStudy(verus.getGithubId(), javaStudyId);
 
-        participantService.participateStudy(jjanggu.getId(), reactStudyId);
-        participantService.participateStudy(greenlawn.getId(), reactStudyId);
-        participantService.participateStudy(verus.getId(), reactStudyId);
+        studyService.participateStudy(jjanggu.getGithubId(), reactStudyId);
+        studyService.participateStudy(greenlawn.getGithubId(), reactStudyId);
+        studyService.participateStudy(verus.getGithubId(), reactStudyId);
 
-        participantService.participateStudy(dwoo.getId(), javaScriptId);
-        participantService.participateStudy(verus.getId(), javaScriptId);
+        studyService.participateStudy(dwoo.getGithubId(), javaScriptId);
+        studyService.participateStudy(verus.getGithubId(), javaScriptId);
 
         entityManager.flush();
         entityManager.clear();
@@ -131,7 +153,7 @@ class SearchingStudyControllerTest {
 
     @DisplayName("페이징 정보로 스터디 목록 조회")
     @Test
-    void getStudies() {
+    public void getStudies() {
         ResponseEntity<StudiesResponse> response = sut.getStudies(PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -212,7 +234,7 @@ class SearchingStudyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().isHasNext()).isFalse();
-        assertThat(response.getBody().getStudies()).isEmpty();
+        assertThat(response.getBody().getStudies()).hasSize(0);
     }
 
     @DisplayName("같은 종류의 필터들은 OR 조건으로 스터디 목록을 조회")
@@ -238,7 +260,7 @@ class SearchingStudyControllerTest {
 
     @DisplayName("스터디 상세 정보를 조회할 수 있다.")
     @Test
-    void getStudyDetails() {
+    public void mentgetStudyDetails() {
         StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(javaStudyId).title("Java 스터디").excerpt("자바 설명").thumbnail("java thumbnail")
@@ -273,7 +295,7 @@ class SearchingStudyControllerTest {
 
     @DisplayName("선택적으로 입력 가능한 정보를 포함한 스터디 상세 정보를 조회할 수 있다.")
     @Test
-    void getStudyDetailsWithOptional() {
+    public void getStudyDetailsWithOptional() {
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(reactStudyId).title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
@@ -312,6 +334,7 @@ class SearchingStudyControllerTest {
     @DisplayName("스터디 참여자와 부착된 태그가 없는 스터디의 세부사항 조회")
     @Test
     void getNotHasParticipantsAndAttachedTagsStudyDetails() {
+
         final StudyDetailsData expect = StudyDetailsData.builder()
                 // Study Content
                 .id(linuxStudyId).title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
@@ -337,24 +360,6 @@ class SearchingStudyControllerTest {
         assertStudyParticipants(actual, expect, expectParticipants);
         assertStudyPeriod(actual, expect);
         assertAttachedTags(actual.getTags(), expectAttachedTags);
-    }
-
-    @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수와 가입날짜도 함께 조회한다.")
-    @Test
-    public void findStudyDetailsWithNumberOfStudy() {
-        final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
-
-        final StudyDetailResponse responseBody = response.getBody();
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseBody.getMembers())
-                .filteredOn(member -> member.getParticipationDate() != null)
-                .hasSize(2)
-                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
-                .containsExactlyInAnyOrder(
-                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
-                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
-                );
     }
 
     private void assertStudyContent(final StudyDetailResponse actual, final StudyDetailsData expect) {

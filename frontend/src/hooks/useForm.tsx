@@ -9,7 +9,7 @@ type FieldErrors = Record<FieldName, FieldValidationResult>;
 type FieldValidationResult = { hasError: boolean; errorMessage?: string };
 type ValidateHandler = (val: any) => FieldValidationResult;
 type ChangeHandler = React.ChangeEventHandler<FieldElement>;
-export type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 type ValidationMode = 'change' | 'submit';
 
 type Field = {
@@ -167,6 +167,10 @@ export const useForm: UseForm = () => {
     const {
       validate,
       fieldElement: { name, value },
+      min,
+      max,
+      minLength,
+      maxLength,
     } = field;
 
     // Custom Validation

@@ -1,114 +1,79 @@
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { Textarea as OriginalTextArea } from '@create-study-page/components/textarea/Textarea.style';
 
 export const DescriptionTab = styled.div`
   ${({ theme }) => css`
     border-radius: 6px;
     border: 1px solid ${theme.colors.secondary.dark};
     overflow: hidden;
+    .tab-list-container {
+      padding-left: 10px;
+      padding-top: 10px;
+      background-color: ${theme.colors.secondary.light};
+      border-bottom: 1px solid ${theme.colors.secondary.dark};
+      .tab-list {
+        display: flex;
+        .tab {
+          .tab-item-button {
+            border: none;
+            line-height: 24px;
+            font-weight: 600;
+            padding: 8px 16px;
+            transition: color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+            background-color: inherit;
+            color: ${theme.colors.secondary.base};
 
-    margin-bottom: 20px;
-  `}
-`;
+            margin-bottom: -1px;
 
-export const TabListContainer = styled.div`
-  ${({ theme }) => css`
-    padding-left: 10px;
-    padding-top: 10px;
-    background-color: ${theme.colors.secondary.light};
-    border-bottom: 1px solid ${theme.colors.secondary.dark};
-  `};
-`;
-
-export const TabList = styled.ul`
-  display: flex;
-`;
-
-export const Tab = styled.li``;
-
-type TabItemButtonProps = {
-  isActive: boolean;
-};
-
-const activeTabItemButtonStyle = (theme: Theme) => css`
-  background-color: ${theme.colors.white};
-  color: ${theme.colors.black};
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  border: 1px solid ${theme.colors.secondary.dark};
-  border-bottom: none;
-`;
-
-export const TabItemButton = styled.button<TabItemButtonProps>`
-  ${({ theme, isActive }) => css`
-    border: none;
-    line-height: 24px;
-    font-weight: 600;
-    padding: 8px 16px;
-    transition: color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-    background-color: inherit;
-    color: ${theme.colors.secondary.base};
-
-    margin-bottom: -1px;
-
-    ${isActive && activeTabItemButtonStyle(theme)}
-  `}
-`;
-
-export const Label = styled.label`
-  display: block;
-
-  height: 0;
-  width: 0;
-
-  visibility: hidden;
-`;
-
-export const Textarea = styled(OriginalTextArea)`
-  ${({ theme }) => css`
-    display: block;
-
-    width: 100%;
-    height: 100%;
-    padding: 12px;
-
-    border-radius: 6px;
-    background-color: ${theme.colors.secondary.light};
-    border: 1px solid ${theme.colors.secondary.dark};
-    font-size: 16px;
-
-    &:focus {
+            &.active {
+              background-color: ${theme.colors.white};
+              color: ${theme.colors.black};
+              border-top-left-radius: 12px;
+              border-top-right-radius: 12px;
+              border: 1px solid ${theme.colors.secondary.dark};
+              border-bottom: none;
+            }
+          }
+        }
+      }
+    }
+    .tab-panels-container {
+      padding: 10px;
       background-color: ${theme.colors.white};
+      height: 50vh;
+      .tab-panels {
+        min-height: 100%;
+        height: 100%;
+        .tab-panel {
+          height: 100%;
+          display: none;
+
+          &.active {
+            display: block;
+          }
+
+          .tab-content {
+            height: 100%;
+
+            textarea {
+              display: block;
+
+              width: 100%;
+              height: 100%;
+              padding: 12px;
+
+              border-radius: 6px;
+              background-color: ${theme.colors.secondary.light};
+              border: 1px solid ${theme.colors.secondary.dark};
+              font-size: 16px;
+
+              &:focus {
+                background-color: ${theme.colors.white};
+              }
+            }
+          }
+        }
+      }
     }
   `}
-`;
-
-export const TabPanelsContainer = styled.div`
-  ${({ theme }) => css`
-    padding: 10px;
-    background-color: ${theme.colors.white};
-    height: 50vh;
-  `}
-`;
-
-export const TabPanels = styled.div`
-  min-height: 100%;
-  height: 100%;
-`;
-
-type TabPanelProps = {
-  isActive: boolean;
-};
-
-export const TabPanel = styled.div<TabPanelProps>`
-  ${({ isActive }) => css`
-    height: 100%;
-    display: ${isActive ? 'block' : 'none'};
-  `}
-`;
-
-export const TabContent = styled.div`
-  height: 100%;
 `;

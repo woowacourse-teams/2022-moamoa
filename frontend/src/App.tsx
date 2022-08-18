@@ -9,9 +9,9 @@ import {
 } from '@pages';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { css } from '@emotion/react';
 
-import tw from '@utils/tw';
+import { PATH } from '@constants';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -22,7 +22,15 @@ const App = () => {
 
   return (
     <div>
-      <Header css={tw`fixed top-0 left-0 right-0 z-2`} />
+      <Header
+        css={css`
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 2;
+        `}
+      />
       <Main>
         <Routes>
           <Route path={PATH.MAIN} element={<MainPage />} />

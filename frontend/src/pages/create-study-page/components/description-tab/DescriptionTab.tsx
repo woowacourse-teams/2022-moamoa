@@ -1,4 +1,7 @@
+import cn from 'classnames';
 import { useEffect, useState } from 'react';
+
+import { css } from '@emotion/react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
@@ -26,8 +29,6 @@ const DescriptionTab = () => {
 
   const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
 
-  const isValid = !!errors['description']?.hasError;
-
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
@@ -43,38 +44,49 @@ const DescriptionTab = () => {
 
   return (
     <S.DescriptionTab>
-      <S.TabListContainer>
-        <S.TabList>
-          <S.Tab>
-            <S.TabItemButton
+      <div className="tab-list-container">
+        <ul className="tab-list">
+          <li className="tab">
+            <button
+              className={cn('tab-item-button', { active: activeTab === studyDescriptionTabIds.write })}
               type="button"
-              isActive={activeTab === studyDescriptionTabIds.write}
               onClick={handleNavItemClick(studyDescriptionTabIds.write)}
             >
               Write
-            </S.TabItemButton>
-          </S.Tab>
-          <S.Tab>
-            <S.TabItemButton
+            </button>
+          </li>
+          <li className="tab">
+            <button
+              className={cn('tab-item-button', { active: activeTab === studyDescriptionTabIds.preview })}
               type="button"
-              isActive={activeTab === studyDescriptionTabIds.preview}
               onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
             >
               Preview
-            </S.TabItemButton>
-          </S.Tab>
-        </S.TabList>
-      </S.TabListContainer>
-      <S.TabPanelsContainer>
-        <S.TabPanels>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.write}>
-            <S.TabContent>
-              {/* TODO: HiddenLabel Component 생성 */}
-              <S.Label htmlFor="description">소개글</S.Label>
-              <S.Textarea
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div className="tab-panels-container">
+        <div className="tab-panels">
+          <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.write })}>
+            <div className="tab-content">
+              <label // TODO: HiddenLabel Component 생성
+                htmlFor="description"
+                css={css`
+                  display: block;
+
+                  height: 0;
+                  width: 0;
+
+                  visibility: hidden;
+                `}
+              >
+                소개글
+              </label>
+              <textarea
                 id="description"
                 placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-                isValid={isValid}
+                className={cn({ invalid: !!errors['description']?.hasError })}
                 {...register('description', {
                   validate: (val: string) => {
                     if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
@@ -87,16 +99,16 @@ const DescriptionTab = () => {
                   maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
                   required: true,
                 })}
-              ></S.Textarea>
-            </S.TabContent>
-          </S.TabPanel>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.preview}>
-            <S.TabContent>
+              ></textarea>
+            </div>
+          </div>
+          <div className={cn('tab-panel', { active: activeTab === studyDescriptionTabIds.preview })}>
+            <div className="tab-content">
               <MarkdownRender markdownContent={description} />
-            </S.TabContent>
-          </S.TabPanel>
-        </S.TabPanels>
-      </S.TabPanelsContainer>
+            </div>
+          </div>
+        </div>
+      </div>
     </S.DescriptionTab>
   );
 };

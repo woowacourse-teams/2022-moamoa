@@ -22,34 +22,55 @@ export const Date = styled.span`
   `}
 `;
 
+type DropDownProps = {
+  isOpen?: boolean;
+};
+
 export const Content = styled.div`
   line-height: 20px;
 `;
 
-export const KebabMenuContainer = styled.div`
-  position: relative;
-`;
-
-export const DropBoxButtonList = styled.ul`
+export const DropDownMenu = styled.ul`
   ${({ theme }) => css`
+    position: absolute;
+    top: calc(100% + 3px);
+    right: 6px;
+    z-index: 3;
+
     display: flex;
     flex-direction: column;
     row-gap: 8px;
-    padding: 8px;
+
+    font-size: 24px;
+    padding: 10px;
+
+    background-color: ${theme.colors.white};
+    border: 1px solid ${theme.colors.secondary.dark};
+    border-radius: 5px;
 
     & > li:first-of-type {
       padding-bottom: 8px;
       border-bottom: 1px solid ${theme.colors.secondary.base};
     }
+
+    button {
+      padding: 10px;
+
+      background-color: transparent;
+      border: none;
+      white-space: nowrap;
+    }
   `}
 `;
 
-export const DropBoxButton = styled.button`
-  padding: 10px;
+export const DropDown = styled.div<DropDownProps>`
+  ${({ isOpen }) => css`
+    position: relative;
 
-  background-color: transparent;
-  border: none;
-  white-space: nowrap;
+    ${DropDownMenu} {
+      display: ${isOpen ? 'flex' : 'none'};
+    }
+  `}
 `;
 
 export const ReviewCommentHead = styled.div`

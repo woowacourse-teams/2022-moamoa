@@ -15,6 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @DataJpaTest(includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Repository.class))
-@Import({JpaAuditingConfig.class, CategoryAndTagsSaver.class})
+@Import(JpaAuditingConfig.class)
 public @interface RepositoryTest {
 }

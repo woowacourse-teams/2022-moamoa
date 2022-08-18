@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -25,8 +26,6 @@
       "@constants": ["constants.ts"],
       "@api": ["api/index.ts"],
       "@api/*": ["api/*"],
-      "@auth": ["auth/index.ts"],
-      "@auth/*": ["auth/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
       "@detail-page/*": ["pages/detail-page/*"],
@@ -42,7 +41,8 @@
       "@pages": ["pages/index.ts"],
       "@pages/*": ["pages/*"]
     },
-    "typeRoots": ["src/custom-types"]
+    "typeRoots": ["src/custom-types"],
+    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
   },
-  "include": ["src"]
+  "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
 }

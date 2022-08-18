@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.tag.controller;
 import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;
 import com.woowacourse.moamoa.tag.service.SearchingTagService;
 import com.woowacourse.moamoa.tag.service.response.TagsResponse;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

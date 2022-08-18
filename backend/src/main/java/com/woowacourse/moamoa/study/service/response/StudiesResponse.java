@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service.response;
 
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
+import com.woowacourse.moamoa.study.service.StudyResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import java.util.List;
 import java.util.Map;

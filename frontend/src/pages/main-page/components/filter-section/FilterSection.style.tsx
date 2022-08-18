@@ -7,14 +7,13 @@ export const FilterSectionContainer = styled.div`
   ${({ theme }) => css`
     position: sticky;
     top: 85px;
-    z-index: 1;
-
     max-width: 1280px;
     margin: 0 auto 16px;
     padding: 16px 20px 0;
 
     background-color: ${theme.colors.secondary.light};
     border-bottom: 1px solid ${theme.colors.secondary.dark};
+    z-index: 1;
   `}
 
   ${mqDown('md')} {
@@ -36,12 +35,11 @@ export const RightButtonContainer = styled.div`
     position: absolute;
     top: 0;
     right: 20px;
-    z-index: 2;
-
     height: 100%;
     padding: auto 0;
 
     background-color: ${theme.colors.secondary.light}cc;
+    z-index: 2;
 
     ${mqDown('md')} {
       display: none;

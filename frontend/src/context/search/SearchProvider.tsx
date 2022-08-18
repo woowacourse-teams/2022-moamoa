@@ -1,7 +1,5 @@
 import { ReactNode, createContext, useState } from 'react';
 
-import { noop } from '@utils';
-
 type Props = {
   children: ReactNode;
 };
@@ -15,7 +13,7 @@ type ContextType = {
 
 export const SearchContext = createContext<ContextType>({
   keyword: '',
-  setKeyword: noop,
+  setKeyword: (_: KeywordType | ((_: KeywordType) => KeywordType)) => {},
 });
 
 export const SearchProvider = ({ children }: Props) => {

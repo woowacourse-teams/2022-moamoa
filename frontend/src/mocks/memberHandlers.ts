@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-export const user = {
+const user = {
   id: 20,
   username: 'tco0427',
   imageUrl:
@@ -13,15 +13,14 @@ export const memberHandlers = [
     return res(ctx.status(200), ctx.json(user));
   }),
   rest.get('/api/members/me/role', (req, res, ctx) => {
-    // const studyId = req.url.searchParams.get('study-id');
+    const studyId = req.url.searchParams.get('study-id');
 
-    // const roles = ['OWNER', 'MEMBER', 'NON_MEMBER'];
-    // const selectedRole = roles[Math.floor(Math.random() * roles.length)];
+    const roles = ['OWNER', 'MEMBER', 'NON_MEMBER'];
+    const selectedRole = roles[Math.floor(Math.random() * roles.length)];
     return res(
       ctx.status(200),
       ctx.json({
-        role: 'OWNER',
-        // role: selectedRole,
+        role: selectedRole,
       }),
     );
   }),

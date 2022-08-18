@@ -1,11 +1,13 @@
+import { useMutation } from 'react-query';
+
 import { REVIEW_LENGTH } from '@constants';
 
-import type { Member, Noop, StudyId } from '@custom-types';
+import type { EmptyObject, Member, PostReviewRequestVariables, StudyId } from '@custom-types';
 
-import { usePostReview } from '@api/review';
+import { postReview } from '@api';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
-import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
+import type { UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import { Button } from '@components/button/Button.style';
@@ -17,14 +19,14 @@ import * as S from '@study-room-page/components/review-tab-panel/components/reiv
 export type ReviewFormProps = {
   studyId: StudyId;
   author: Member;
-  onPostSuccess: Noop;
+  onPostSuccess: () => void;
   onPostError: (e: Error) => void;
 };
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess, onPostError }) => {
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE);
   const { register, handleSubmit, reset } = useForm();
-  const { mutateAsync } = usePostReview();
+  const { mutateAsync } = useMutation<EmptyObject, Error, PostReviewRequestVariables>(postReview);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -47,8 +49,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
     );
   };
 
-  const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
-
   return (
     <S.ReviewForm onSubmit={handleSubmit(onSubmit)}>
       <S.ReviewFormHead>
@@ -68,7 +68,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: handleReviewChange,
+            onChange: e => setCount(e.target.value.length),
             minLength: REVIEW_LENGTH.MIN.VALUE,
             maxLength: REVIEW_LENGTH.MAX.VALUE,
           })}

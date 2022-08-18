@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS community;
-DROP TABLE IF EXISTS notice;
 DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
@@ -7,7 +5,6 @@ DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS study;
 DROP TABLE IF EXISTS member;
-DROP TABLE IF EXISTS token;
 
 CREATE TABLE member
 (
@@ -43,23 +40,9 @@ CREATE TABLE review
     study_id BIGINT NOT NULL,
     member_id BIGINT NOT NULL,
     content MEDIUMTEXT,
-    created_date DATE not null,
-    last_modified_date DATE  not null,
+    created_date DATETIME not null,
+    last_modified_date DATETIME  not null,
     deleted boolean not null,
-    FOREIGN KEY (study_id) REFERENCES study (id),
-    FOREIGN KEY (member_id) REFERENCES member (id)
-);
-
-CREATE TABLE link
-(
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    study_id BIGINT NOT NULL,
-    member_id BIGINT NOT NULL,
-    link_url MEDIUMTEXT NOT NULL,
-    description MEDIUMTEXT,
-    created_date DATETIME NOT NULL,
-    last_modified_date DATETIME NOT NULL,
-    deleted boolean NOT NULL,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
@@ -93,40 +76,6 @@ CREATE TABLE study_member
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id BIGINT,
     member_id BIGINT,
-    participation_date DATE not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
-);
-
-CREATE TABLE community
-(
-    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title              VARCHAR(255) NOT NULL,
-    content            MEDIUMTEXT   NOT NULL,
-    author_id          BIGINT,
-    study_id           BIGINT,
-    created_date       DATETIME     not null,
-    last_modified_date DATETIME     not null,
-    FOREIGN KEY (author_id) REFERENCES member (id),
-    FOREIGN KEY (study_id) REFERENCES study (id)
-);
-
-CREATE TABLE notice
-(
-    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title              VARCHAR(255) NOT NULL,
-    content            MEDIUMTEXT   NOT NULL,
-    author_id          BIGINT,
-    study_id           BIGINT,
-    created_date       DATETIME     not null,
-    last_modified_date DATETIME     not null,
-    FOREIGN KEY (author_id) REFERENCES member (id),
-    FOREIGN KEY (study_id) REFERENCES study (id)
-);
-
-CREATE TABLE token
-(
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    github_id BIGINT NOT NULL UNIQUE,
-    refresh_token MEDIUMTEXT
 );

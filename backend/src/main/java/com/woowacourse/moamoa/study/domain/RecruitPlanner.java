@@ -9,10 +9,8 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Embeddable
 @NoArgsConstructor(access = PROTECTED)
 public class RecruitPlanner {
@@ -57,7 +55,7 @@ public class RecruitPlanner {
         recruitStatus = RECRUITMENT_END;
     }
 
-    public LocalDate getEnrollmentEndDate() {
+    LocalDate getEnrollmentEndDate() {
         return enrollmentEndDate;
     }
 
@@ -74,5 +72,9 @@ public class RecruitPlanner {
 
     boolean hasCapacity() {
         return max != null;
+    }
+
+    public RecruitStatus getRecruitStatus() {
+        return recruitStatus;
     }
 }

@@ -14,6 +14,11 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
     private static final int MINIMUM_SIZE = 1;
 
     @Override
+    public boolean supportsParameter(final MethodParameter parameter) {
+        return super.supportsParameter(parameter);
+    }
+
+    @Override
     public Pageable resolveArgument(final MethodParameter methodParameter,
                                     final ModelAndViewContainer mavContainer,
                                     final NativeWebRequest webRequest,
@@ -50,16 +55,11 @@ public class PageableVerificationArgumentResolver extends PageableHandlerMethodA
     }
 
     private boolean isNumeric(final String text) {
-        if (text.isBlank()) {
-            return false;
-        }
-
         for (char character : text.toCharArray()) {
             if (!Character.isDigit(character)) {
                 return false;
             }
         }
-
         return true;
     }
 }

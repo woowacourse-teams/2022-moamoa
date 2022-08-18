@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-export const FilterButtonList = styled.ul`
+export const FilterButtons = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;

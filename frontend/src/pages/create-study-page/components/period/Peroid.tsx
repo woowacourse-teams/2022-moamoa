@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { css } from '@emotion/react';
+
 import { getNextYear, getToday } from '@utils';
 
 import { DateYMD } from '@custom-types';
@@ -23,9 +25,20 @@ const Period = ({ className }: PeriodProps) => {
       <MetaBox>
         <MetaBox.Title>스터디 운영 기간</MetaBox.Title>
         <MetaBox.Content>
-          <S.Container>
-            <S.Label htmlFor="start-date">*스터디 시작 :</S.Label>
-            <S.Input
+          <div
+            css={css`
+              margin-bottom: 12px;
+            `}
+          >
+            <label
+              htmlFor="start-date"
+              css={css`
+                margin-right: 10px;
+              `}
+            >
+              *스터디 시작 :
+            </label>
+            <input
               type="date"
               id="start-date"
               min={today}
@@ -36,11 +49,18 @@ const Period = ({ className }: PeriodProps) => {
                 max: nextYear,
                 required: true,
               })}
-            />
-          </S.Container>
+            ></input>
+          </div>
           <div>
-            <S.Label htmlFor="end-date">스터디 종료 :</S.Label>
-            <S.Input type="date" id="end-date" min={today} max={nextYear} {...register('end-date')} />
+            <label
+              htmlFor="end-date"
+              css={css`
+                margin-right: 10px;
+              `}
+            >
+              스터디 종료 :
+            </label>
+            <input type="date" id="end-date" min={today} max={nextYear} {...register('end-date')}></input>
           </div>
         </MetaBox.Content>
       </MetaBox>

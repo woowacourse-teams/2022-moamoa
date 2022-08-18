@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -21,7 +20,6 @@ module.exports = {
       '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
-      '@auth': resolve(__dirname, '../src/auth'),
       '@context': resolve(__dirname, '../src/context'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
       '@main-page': resolve(__dirname, '../src/pages/main-page'),
@@ -35,27 +33,27 @@ module.exports = {
       '@mocks': resolve(__dirname, '../src/mocks'),
     };
 
-    config.module.rules = [
-      ...config.module.rules,
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'esbuild-loader',
-        options: {
-          loader: 'tsx',
-          target: 'es2022',
+    config.module.rules[0].use[0].options.presets = [
+      require.resolve('@babel/preset-env'),
+      [
+        require.resolve('@babel/preset-react'),
+        {
+          runtime: 'automatic',
+          importSource: '@emotion/react',
         },
-      },
-      {
-        test: /\.(png|jpg|jpeg)$/i,
-        type: 'asset/resource',
-      },
+      ],
     ];
 
-    config.optimization.minimizer = [
-      new ESBuildMinifyPlugin({
-        target: 'es2020',
-      }),
+    config.module.rules[0].use[0].options.plugins = [
+      [
+        require.resolve('@emotion/babel-plugin'),
+        {
+          sourceMap: true,
+          autoLabel: 'dev-only',
+          labelFormat: '[local]',
+          cssPropOptimization: true,
+        },
+      ],
     ];
 
     return config;

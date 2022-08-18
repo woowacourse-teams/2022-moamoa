@@ -7,7 +7,7 @@ import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ReviewTest {
+public class ReviewTest {
 
     private final Long writtenMemberId = 1L;
     private final Long unwrittenMemberId = 2L;
@@ -28,9 +28,8 @@ class ReviewTest {
     void updateReviewException() {
         final Review review = new Review(new AssociatedStudy(1L), new Reviewer(writtenMemberId), "content");
         final String updatedContent = "update content";
-        final Reviewer reviewer = new Reviewer(unwrittenMemberId);
 
-        assertThatThrownBy(() -> review.updateContent(reviewer, updatedContent))
+        assertThatThrownBy(() -> review.updateContent(new Reviewer(unwrittenMemberId), updatedContent))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
@@ -48,9 +47,8 @@ class ReviewTest {
     @Test
     void deleteReviewException() {
         final Review review = new Review(new AssociatedStudy(1L), new Reviewer(writtenMemberId), "content");
-        final Reviewer reviewer = new Reviewer(unwrittenMemberId);
 
-        assertThatThrownBy(() -> review.delete(reviewer))
+        assertThatThrownBy(() -> review.delete(new Reviewer(unwrittenMemberId)))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 }

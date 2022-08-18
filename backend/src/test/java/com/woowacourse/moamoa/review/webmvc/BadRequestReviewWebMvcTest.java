@@ -5,20 +5,48 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.WebMVCTest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.auth.config.AuthRequestMatchConfig;
+import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
+import com.woowacourse.moamoa.review.controller.ReviewController;
+import com.woowacourse.moamoa.review.controller.SearchingReviewController;
+import com.woowacourse.moamoa.review.service.ReviewService;
+import com.woowacourse.moamoa.review.service.SearchingReviewService;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-class BadRequestReviewWebMvcTest extends WebMVCTest {
+@WebMvcTest(controllers = {ReviewController.class, SearchingReviewController.class})
+@Import({JwtTokenProvider.class, AuthRequestMatchConfig.class})
+public class BadRequestReviewWebMvcTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private ReviewService reviewService;
+
+    @MockBean
+    private SearchingReviewService searchingReviewService;
 
     @DisplayName("필수 데이터인 후기 내용이 공백인 경우 400을 반환한다.")
     @Test
     void requestByBlankContent() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final String token = "Bearer " + tokenProvider.createToken(1L);
         final String content = objectMapper.writeValueAsString(new WriteReviewRequest(""));
 
         mockMvc.perform(post("/api/studies/1/reviews")
@@ -32,7 +60,7 @@ class BadRequestReviewWebMvcTest extends WebMVCTest {
     @DisplayName("필수 데이터인 후기 내용이 null 값인 경우 400을 반환한다.")
     @Test
     void requestByEmptyContent() throws Exception {
-        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final String token = "Bearer " + tokenProvider.createToken(1L);
 
         mockMvc.perform(post("/api/studies/1/reviews")
                         .header(HttpHeaders.AUTHORIZATION, token)

@@ -14,4 +14,8 @@ public class StudyOwnerAndTagsData {
 
     private MemberData owner;
     private List<TagSummaryData> tags;
+
+    public void addTag(TagSummaryData tagSummaryData) {
+        this.tags.add(tagSummaryData);
+    }
 }

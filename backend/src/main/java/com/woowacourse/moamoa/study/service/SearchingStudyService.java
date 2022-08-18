@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.member.query.MemberDao;
-import com.woowacourse.moamoa.member.query.data.ParticipatingMemberData;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.study.query.SearchingTags;
 import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
@@ -56,8 +56,7 @@ public class SearchingStudyService {
     public StudyDetailResponse getStudyDetails(final Long studyId) {
         final StudyDetailsData content = studyDetailsDao.findBy(studyId)
                 .orElseThrow(StudyNotFoundException::new);
-        final List<ParticipatingMemberData> participants = memberDao.findMembersByStudyId(studyId);
-
+        final List<MemberData> participants = memberDao.findMembersByStudyId(studyId);
         final List<TagData> attachedTags = tagDao.findTagsByStudyId(studyId);
         return new StudyDetailResponse(content, participants, attachedTags);
     }

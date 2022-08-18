@@ -9,12 +9,10 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
       'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
-      'process.env.LINK_PREVIEW_API_URL': JSON.stringify(process.env.LINK_PREVIEW_API_URL),
     }),
   ],
 });
