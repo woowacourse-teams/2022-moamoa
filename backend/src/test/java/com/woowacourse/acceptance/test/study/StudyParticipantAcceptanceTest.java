@@ -5,11 +5,8 @@ import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -18,7 +15,6 @@ import io.restassured.RestAssured;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 class StudyParticipantAcceptanceTest extends AcceptanceTest {
@@ -33,7 +29,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
         RestAssured.given(spec).log().all()
                 .filter(document("studies/participant"))
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .post("/api/studies/{study-id}/members")
@@ -51,11 +47,8 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
         final String token = 디우가().로그인한다();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/leave",
-                        requestHeaders(
-                                headerWithName("Authorization").description("JWT Token")
-                        )))
-                .header(HttpHeaders.AUTHORIZATION, token)
+                .filter(document("studies/leave"))
+                .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", studyId)
                 .when().log().all()
                 .delete("/api/studies/{study-id}/members")

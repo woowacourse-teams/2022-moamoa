@@ -39,7 +39,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("스터디 ID가 잘못된 형식인 경우 400에러를 반환한다.")
     @Test
     void badRequestByInvalidStudyIdFormat() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "one")
@@ -53,7 +53,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @NullAndEmptySource
     void badRequestByNullOrEmptyTitle(String title) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "1")
@@ -69,7 +69,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @NullAndEmptySource
     void badRequestByNullOrEmptyContent(String content) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "1")
@@ -85,7 +85,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @ValueSource(strings = {"   ", "\t", "\n"})
     void badRequestByBlankTitle(String title) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "1")
@@ -101,7 +101,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @ValueSource(strings = {"   ", "\t", "\n"})
     void badRequestByBlankContent(String content) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 post("/api/studies/{study-id}/community/articles", "1")
@@ -116,7 +116,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("제목은 30자 이하여야 한다.")
     @Test
     void badRequestByInvalidLengthTitle() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         post("/api/studies/{study-id}/community/articles", "1")
@@ -131,7 +131,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("내용은 5000자 이하여야 한다.")
     @Test
     void badRequestByInvalidLengthContent() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         post("/api/studies/{study-id}/community/articles", "1")
@@ -148,7 +148,7 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedByNotParticipant() throws Exception {
         when(articleService.createArticle(any(), any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
 
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         post("/api/studies/{study-id}/community/articles", "1")

@@ -13,7 +13,7 @@ class AuthenticationExtractorTest {
     @Test
     void getPayload() {
         final MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        mockHttpServletRequest.setCookies(new Cookie("accessToken", "Bearer token"));
+        mockHttpServletRequest.setCookies(new Cookie("accessToken", "token"));
 
         final String expected = AuthenticationExtractor.extract(mockHttpServletRequest);
 

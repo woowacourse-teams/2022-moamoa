@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.auth.config;
 import static org.springframework.http.HttpHeaders.COOKIE;
 import static lombok.AccessLevel.PRIVATE;
 
+import java.util.Arrays;
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import lombok.NoArgsConstructor;
@@ -18,20 +19,26 @@ public class AuthenticationExtractor {
 
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
-            final String[] splitValue = value.split("=");
 
-            if (splitValue.length < 2) {
+            final String accessToken = Arrays.stream(value.split(" "))
+                    .filter(str -> str.startsWith("accessToken"))
+                    .findAny().orElseThrow();
+
+            final String[] splitAccessToken = accessToken.split("=");
+
+            if (splitAccessToken.length < 2) {
                 return null;
             }
 
-            if (splitValue[0].equals("accessToken") && splitValue[1].toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
-                String authHeaderValue = splitValue[1].substring(BEARER_TYPE.length()).trim();
-                request.setAttribute(ACCESS_TOKEN_TYPE, splitValue[1].substring(0, BEARER_TYPE.length()).trim());
+            if (splitAccessToken[0].equals("accessToken")) {
+                String authHeaderValue = splitAccessToken[1];
+                request.setAttribute(ACCESS_TOKEN_TYPE, splitAccessToken[1]);
                 int commaIndex = authHeaderValue.indexOf(',');
 
                 if (commaIndex > 0) {
                     authHeaderValue = authHeaderValue.substring(0, commaIndex);
                 }
+
                 return authHeaderValue;
             }
         }

@@ -25,7 +25,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateValidToken() {
-        final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
         final Vector<String> cookies = new Vector<>();
         cookies.add(ACCESS_TOKEN + "=" + token);
 

@@ -66,6 +66,6 @@ public class LoginSteps extends Steps {
 
         mockServer.reset();
 
-        return "Bearer " + token;
+        return token;
     }
 }

@@ -5,9 +5,6 @@ import static com.woowacourse.acceptance.fixture.TagFixtures.우테코4기_태�
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.springframework.http.HttpHeaders.ACCEPT;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -44,9 +41,8 @@ public class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/update",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
-                .header(AUTHORIZATION, accessToken)
+                .filter(document("studies/update"))
+                .cookie(ACCESS_TOKEN, accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", studyId)

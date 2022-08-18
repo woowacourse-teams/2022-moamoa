@@ -33,7 +33,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @CsvSource({"one, 1", "1, one"})
     void badRequestByInvalidIdFormat(String studyId, String articleId) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
@@ -47,7 +47,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @NullAndEmptySource
     void badRequestByNullOrEmptyTitle(String title) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
@@ -63,7 +63,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @NullAndEmptySource
     void badRequestByNullOrEmptyContent(String content) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
@@ -79,7 +79,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @ValueSource(strings = {"   ", "\t", "\n"})
     void badRequestByBlankTitle(String title) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
@@ -95,7 +95,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @ValueSource(strings = {"   ", "\t", "\n"})
     void badRequestByBlankContent(String content) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
@@ -110,7 +110,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("제목은 30자 이하여야 한다.")
     @Test
     void badRequestByInvalidLengthTitle() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")
@@ -125,7 +125,7 @@ class UpdatingArticleControllerWebMvcTest extends WebMVCTest {
     @DisplayName("내용은 5000자 이하여야 한다.")
     @Test
     void badRequestByInvalidLengthContent() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                 put("/api/studies/{study-id}/community/articles/{article-id}", "1", "1")

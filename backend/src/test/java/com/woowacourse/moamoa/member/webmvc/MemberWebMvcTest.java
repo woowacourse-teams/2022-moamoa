@@ -36,7 +36,7 @@ class MemberWebMvcTest extends WebMVCTest {
         final String token = tokenProvider.createToken(1L).getAccessToken();
         given(memberService.getByGithubId(any())).willThrow(MemberNotFoundException.class);
 
-        mockMvc.perform(get("/api/members/me").cookie(new Cookie(ACCESS_TOKEN, "Bearer " + token)))
+        mockMvc.perform(get("/api/members/me").cookie(new Cookie(ACCESS_TOKEN, token)))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

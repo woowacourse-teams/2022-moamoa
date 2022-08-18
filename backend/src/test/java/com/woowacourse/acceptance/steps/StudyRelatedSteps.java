@@ -73,7 +73,7 @@ public class StudyRelatedSteps extends Steps {
     public Long 공지사항을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
+                    .cookie(ACCESS_TOKEN, token)
                     .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
                     .pathParam("study-id", studyId)

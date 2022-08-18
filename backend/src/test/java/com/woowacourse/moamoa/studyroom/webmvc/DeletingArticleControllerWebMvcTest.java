@@ -16,7 +16,7 @@ class DeletingArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"", "Bearer InvalidToken", "Invalid"})
+    @ValueSource(strings = {"", "Invalid"})
     void unauthorizedByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                         delete("/api/studies/{study-id}/community/articles/{article-id}", 1L, 1L)
@@ -30,7 +30,7 @@ class DeletingArticleControllerWebMvcTest extends WebMVCTest {
     @ParameterizedTest
     @CsvSource({"one, 1", "1, one"})
     void badRequestByInvalidIdFormat(String studyId, String articleId) throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
+        final String token = tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
                         delete("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
