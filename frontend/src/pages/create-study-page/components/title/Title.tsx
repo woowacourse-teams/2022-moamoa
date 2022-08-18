@@ -1,55 +1,41 @@
-import cn from 'classnames';
-import { useState } from 'react';
-
-import { css } from '@emotion/react';
-
 import { TITLE_LENGTH } from '@constants';
 
+import type { StudyDetail } from '@custom-types';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import type { FieldElement } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
-const Title: React.FC = () => {
+import * as S from '@create-study-page/components/title/Title.style';
+
+export type TitleProps = {
+  originalTitle?: StudyDetail['title'];
+};
+
+const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   const { register, formState } = useFormContext();
+  const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
+
   const { errors } = formState;
-  const [count, setCount] = useState(0);
+  const isValid = !!errors['title']?.hasError;
+
+  const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <div
-      css={css`
-        position: relative;
-      `}
-    >
-      <div
-        css={css`
-          position: absolute;
-          right: 4px;
-          bottom: 2px;
-
-          display: flex;
-          justify-content: flex-end;
-        `}
-      >
-        <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      </div>
-      <label // TODO: HiddenLabel Component 생성
-        htmlFor="title"
-        css={css`
-          display: block;
-
-          height: 0;
-          width: 0;
-
-          visibility: hidden;
-        `}
-      >
-        스터디 이름
-      </label>
-      <input
+    <S.Container>
+      <S.LetterCounterContainer>
+        <LetterCounter count={count} maxCount={maxCount} />
+      </S.LetterCounterContainer>
+      {/* TODO: HiddenLabel Component 생성 */}
+      <S.Label htmlFor="title">스터디 이름</S.Label>
+      <S.Input
         id="title"
-        className={cn('title-input', { invalid: !!errors['title']?.hasError })}
         type="text"
         placeholder="*스터디 이름"
+        isValid={isValid}
+        defaultValue={originalTitle}
         {...register('title', {
           validate: (val: string) => {
             if (val.length < TITLE_LENGTH.MIN.VALUE) {
@@ -61,13 +47,13 @@ const Title: React.FC = () => {
             return makeValidationResult(false);
           },
           validationMode: 'change',
-          onChange: e => setCount(e.target.value.length),
+          onChange: handleTitleChange,
           minLength: TITLE_LENGTH.MIN.VALUE,
           maxLength: TITLE_LENGTH.MAX.VALUE,
           required: true,
         })}
       />
-    </div>
+    </S.Container>
   );
 };
 

@@ -22,7 +22,7 @@ public class ReviewDao {
                 + "FROM review JOIN member ON review.member_id = member.id "
                 + "WHERE review.deleted = false "
                 + "AND review.study_id = :studyId "
-                + "ORDER BY review.created_date DESC ";
+                + "ORDER BY review.created_date DESC, review.id DESC";
 
         return namedParameterJdbcTemplate.query(sql, Map.of("studyId", studyId), rowMapper());
     }

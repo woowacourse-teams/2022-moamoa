@@ -3,20 +3,19 @@ package com.woowacourse.moamoa.member.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberController {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
-    public MemberController(final MemberService memberService) {
-        this.memberService = memberService;
-    }
-
-    @RequestMapping("/api/members/me")
+    @GetMapping("/api/members/me")
     public ResponseEntity<MemberResponse> getCurrentMember(
             @AuthenticationPrincipal Long githubId
     ) {

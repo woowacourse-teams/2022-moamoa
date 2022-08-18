@@ -14,10 +14,10 @@ import StudyCard from '@main-page/components/study-card/StudyCard';
 import useMainPage from '@main-page/hooks/useMainPage';
 
 const MainPage: React.FC = () => {
-  const { studyListQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
+  const { studiesQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
     useMainPage();
 
-  const { isFetching, isError, isSuccess, data, fetchNextPage } = studyListQueryResult;
+  const { isFetching, isError, isSuccess, data, fetchNextPage } = studiesQueryResult;
 
   const renderStudyList = () => {
     if (isError || !isSuccess) {

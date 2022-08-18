@@ -5,11 +5,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.moamoa.MoamoaApplication;
-import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
-import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.MoamoaApplication;
+import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 
 @SpringBootTest(
         webEnvironment = WebEnvironment.RANDOM_PORT,
@@ -61,7 +61,7 @@ class OAuthClientTest {
 
         mockServer.verify();
 
-        assertThat(accessTokenResponse.get("access_token")).isEqualTo(accessToken);
+        assertThat(accessTokenResponse).containsEntry("access_token", accessToken);
     }
 
     @DisplayName("token을 받아서 사용자 프로필을 조회한다.")

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -26,11 +25,15 @@
       "@constants": ["constants.ts"],
       "@api": ["api/index.ts"],
       "@api/*": ["api/*"],
+      "@auth": ["auth/index.ts"],
+      "@auth/*": ["auth/*"],
       "@context/*": ["context/*"],
       "@main-page/*": ["pages/main-page/*"],
       "@detail-page/*": ["pages/detail-page/*"],
       "@create-study-page/*": ["pages/create-study-page/*"],
+      "@edit-study-page/*": ["pages/edit-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
+      "@community-tab/*": ["pages/study-room-page/tabs/community-tab-panel/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
       "@login-redirect-page/*": ["pages/login-redirect-page/*"],
       "@error-page/*": ["pages/error-page/*"],
@@ -41,8 +44,7 @@
       "@pages": ["pages/index.ts"],
       "@pages/*": ["pages/*"]
     },
-    "typeRoots": ["src/custom-types"],
-    "types": ["cypress", "@testing-library/cypress"] //https://docs.cypress.io/guides/tooling/typescript-support#Configure-tsconfig-json
+    "typeRoots": ["src/custom-types"]
   },
-  "include": ["src", "node_modules/cypress", "cypress/**/*.cy.ts", "cypress/**/*.cy.tsx"]
+  "include": ["src"]
 }

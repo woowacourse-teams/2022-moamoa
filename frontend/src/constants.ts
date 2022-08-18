@@ -2,21 +2,34 @@ export const PATH = {
   MAIN: '/',
   STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
   CREATE_STUDY: '/study/create',
+  EDIT_STUDY: (studyId: ':studyId' | number = ':studyId') => `/study/edit/${studyId}`,
   MY_STUDY: '/my/study',
-  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/study/room/${studyId}`,
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
+  COMMUNITY: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/community`,
+  COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/community/article/${articleId}`,
+  COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,
+  COMMUNITY_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/community/article/${articleId}/edit`,
 };
 
-export const ACCESS_TOKEN_KEY = 'accessToken';
+export const API_ERROR = {
+  EXPIRED_REFRESH_TOKEN: {
+    CODE: 4001,
+    MESSAGE: '오류가 발생했습니다 :(',
+  },
+};
 
 export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 12,
 };
-
-export const QK_FETCH_STUDY_DETAIL = 'fetch_study_detail';
-export const QK_FETCH_STUDY_REVIEWS = 'fetch_study_reviews';
+export const DEFAULT_LINK_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 9,
+};
 
 export const DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT = 6;
 export const DEFAULT_LOAD_STUDY_REVIEW_COUNT = 6;
@@ -28,15 +41,6 @@ export const BREAK_POINTS = {
   lg: 992,
   xl: 1280,
   xxl: 1400,
-};
-
-export const VALIDATIONS = {
-  EXCERPT: {
-    LENGTH: {
-      MIN: 1,
-      MAX: 50,
-    },
-  },
 };
 
 export const EXCERPT_LENGTH = {
@@ -99,9 +103,6 @@ export const MEMBER_COUNT = {
   },
 };
 
-export const PROFILE_IMAGE_URL =
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80';
-
 export const REVIEW_LENGTH = {
   MIN: {
     VALUE: 1,
@@ -111,6 +112,46 @@ export const REVIEW_LENGTH = {
   },
   MAX: {
     VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const LINK_URL_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 1000,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+  FORMAT: {
+    TEST(text: string) {
+      return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+        text,
+      );
+    },
+    get MESSAGE() {
+      return 'URL을 입력해주세요.';
+    },
+  },
+};
+
+export const LINK_DESCRIPTION_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 40,
     get MESSAGE() {
       return `${this.VALUE}글자까지 입력할 수 있습니다`;
     },

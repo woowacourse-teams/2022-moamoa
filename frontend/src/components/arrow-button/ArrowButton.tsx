@@ -1,6 +1,5 @@
-import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-
 import * as S from '@components/arrow-button/ArrowButton.style';
+import { LeftDirectionSvg, RightDirectionSvg } from '@components/svg';
 
 export type SlideButtonProps = {
   direction: 'right' | 'left';
@@ -15,7 +14,7 @@ const SlideButton: React.FC<SlideButtonProps> = ({
 }) => {
   return (
     <S.Button type="button" aria-label={ariaLabel} onClick={handleSlideButtonClick}>
-      {direction === 'right' ? <BsChevronRight /> : <BsChevronLeft />}
+      {direction === 'right' ? <RightDirectionSvg /> : <LeftDirectionSvg />}
     </S.Button>
   );
 };

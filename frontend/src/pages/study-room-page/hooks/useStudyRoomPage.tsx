@@ -1,33 +1,31 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { GetUserRoleResponseData } from '@custom-types';
+import { useGetUserRole } from '@api/member';
 
-import getUserRole from '@api/getUserRole';
+import CommunityTabPanel from '@study-room-page/tabs/community-tab-panel/CommunityTabPanel';
+import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
+import ReviewTabPanel from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel';
 
-import ReviewTabPanel from '@study-room-page/components/review-tab-panel/ReviewTabPanel';
-
-export type TabId = 'notice' | 'material' | 'review';
+export type TabId = 'notice' | 'community' | 'link-room' | 'review';
 
 export type Tab = { id: TabId; name: string; content: React.ReactNode };
 
 export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
-  const { studyId } = useParams() as { studyId: string };
+  const { studyId: _studyId } = useParams() as { studyId: string };
+  const studyId = Number(_studyId);
 
-  const userRoleQueryResult = useQuery<GetUserRoleResponseData, Error>('my-role', () =>
-    getUserRole({ studyId: Number(studyId) }),
-  );
+  const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 
   const tabs: Tabs = [
-    { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
-    { id: 'material', name: '자료실', content: '자료실입니다.' },
-    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={Number(studyId)} /> },
+    { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
+    { id: 'link-room', name: '링크 모음', content: <LinkRoomTabPanel /> },
+    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
   ];
 
-  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
+  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[1].id);
 
   const activeTab = tabs.find(({ id }) => id === activeTabId) as Tab;
 

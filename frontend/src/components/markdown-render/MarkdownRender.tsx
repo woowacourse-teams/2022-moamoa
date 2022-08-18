@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 
 import { css } from '@emotion/react';
 
+import tw from '@utils/tw';
+
 import markdown from '@styles/markdown';
 
 type MarkdownRenderProps = {
@@ -20,12 +22,7 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
   }, [contentRef, markdownContent]);
 
   return (
-    <div
-      css={css`
-        overflow-y: scroll;
-        height: 100%;
-      `}
-    >
+    <div css={tw`overflow-y-scroll h-full`}>
       <div
         css={css`
           ${markdown}

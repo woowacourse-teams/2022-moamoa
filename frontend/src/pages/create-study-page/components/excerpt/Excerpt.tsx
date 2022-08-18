@@ -1,10 +1,9 @@
-import cn from 'classnames';
-
-import { css } from '@emotion/react';
-
 import { EXCERPT_LENGTH } from '@constants';
 
+import type { StudyDetail } from '@custom-types';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import type { FieldElement } from '@hooks/useForm';
 
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
@@ -12,57 +11,37 @@ import useLetterCount from '@components/letter-counter/useLetterCount';
 import * as S from '@create-study-page/components/excerpt/Excerpt.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
-type ExcerptProps = {
+export type ExcerptProps = {
   className?: string;
+  originalExcerpt?: StudyDetail['description'];
 };
 
-const Excerpt = ({ className }: ExcerptProps) => {
+const Excerpt = ({ className, originalExcerpt }: ExcerptProps) => {
   const {
     formState: { errors },
     register,
   } = useFormContext();
 
-  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE);
+  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
+
+  const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
     <S.Excerpt className={className}>
       <MetaBox>
         <MetaBox.Title>한줄소개</MetaBox.Title>
         <MetaBox.Content>
-          <div
-            css={css`
-              position: relative;
-            `}
-          >
-            <div
-              css={css`
-                position: absolute;
-                right: 4px;
-                bottom: 2px;
-
-                display: flex;
-                justify-content: flex-end;
-              `}
-            >
+          <S.Container>
+            <S.LetterCounterContainer>
               <LetterCounter count={count} maxCount={maxCount} />
-            </div>
-            <label // TODO: HiddenLabel Component 생성
-              htmlFor="excerpt"
-              css={css`
-                display: block;
-
-                height: 0;
-                width: 0;
-
-                visibility: hidden;
-              `}
-            >
-              소개글
-            </label>
-            <textarea
+            </S.LetterCounterContainer>
+            {/* TODO: HiddenLabel Component 생성 */}
+            <S.Label htmlFor="excerpt">소개글</S.Label>
+            <S.Textarea
               id="excerpt"
               placeholder="*한줄소개를 입력해주세요"
-              className={cn({ invalid: !!errors['excerpt']?.hasError })}
+              isValid={!!errors['excerpt']?.hasError}
+              defaultValue={originalExcerpt}
               {...register('excerpt', {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
@@ -73,13 +52,13 @@ const Excerpt = ({ className }: ExcerptProps) => {
                   return makeValidationResult(false);
                 },
                 validationMode: 'change',
-                onChange: e => setCount(e.target.value.length),
+                onChange: handleExcerptChange,
                 minLength: EXCERPT_LENGTH.MIN.VALUE,
                 maxLength: EXCERPT_LENGTH.MAX.VALUE,
                 required: true,
               })}
             />
-          </div>
+          </S.Container>
         </MetaBox.Content>
       </MetaBox>
     </S.Excerpt>

@@ -2,8 +2,6 @@ import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { changeDateSeperator } from '@utils';
-
 import Divider from '@components/divider/Divider';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -51,12 +49,14 @@ const DetailPage: React.FC = () => {
   return (
     <Wrapper>
       <Head
+        id={id}
         title={title}
         recruitmentStatus={recruitmentStatus}
         excerpt={excerpt}
-        startDate={changeDateSeperator(startDate)}
-        endDate={endDate && changeDateSeperator(endDate)}
+        startDate={startDate}
+        endDate={endDate}
         tags={tags}
+        isOwner={userRoleQueryResult.data?.role === 'OWNER'}
       />
       <Divider space={2} />
       <S.Main>

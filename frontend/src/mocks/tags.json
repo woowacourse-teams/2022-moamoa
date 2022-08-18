@@ -107,6 +107,15 @@
         "id": 3,
         "name": "subject"
       }
+    },
+    {
+      "id": 9,
+      "name": "Etc",
+      "description": "기타",
+      "category": {
+        "id": 3,
+        "name": "subject"
+      }
     }
   ]
 }

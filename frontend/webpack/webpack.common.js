@@ -4,10 +4,11 @@ const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
+
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
-  devtool: 'eval-source-map',
   output: {
     filename: 'main.js',
     path: join(__dirname, '../dist'),
@@ -18,7 +19,11 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'es2022',
+        },
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -30,6 +35,19 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: join(__dirname, '../public/index.html'),
       favicon: join(__dirname, '../public/favicon.png'),
+      meta: {
+        description: { name: 'description', contnet: '스터디를 쉽고, 편리하게! 스터디 아카이브 모아모아입니다' },
+        'og:title': { property: 'og:title', content: '모아모아' },
+        'og:type': { property: 'og:type', content: 'website' },
+        'og:description': {
+          name: 'og:description',
+          contnet: '스터디를 쉽고, 편리하게! 스터디 아카이브 모아모아입니다',
+        },
+        'og:url': { property: 'og:url', content: 'https://moamoa.space' },
+        'og:image': { property: 'og:image', content: '%PUBLIC_URL%/open-graph-image.png' },
+        'og:image:width': { property: 'og:url', content: 1200 },
+        'og:image:height': { property: 'og:url', content: 630 },
+      },
     }),
     new CleanWebpackPlugin(),
   ],
@@ -46,17 +64,27 @@ module.exports = {
       '@utils': resolve(__dirname, '../src/utils'),
       '@constants': resolve(__dirname, '../src/constants.ts'),
       '@api': resolve(__dirname, '../src/api'),
+      '@auth': resolve(__dirname, '../src/auth'),
       '@context': resolve(__dirname, '../src/context'),
       '@main-page': resolve(__dirname, '../src/pages/main-page'),
       '@detail-page': resolve(__dirname, '../src/pages/detail-page'),
       '@create-study-page': resolve(__dirname, '../src/pages/create-study-page'),
+      '@edit-study-page': resolve(__dirname, '../src/pages/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
+      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
       '@error-page': resolve(__dirname, '../src/pages/error-page'),
       '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
       '@layout': resolve(__dirname, '../src/layout'),
       '@hooks': resolve(__dirname, '../src/hooks'),
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2020',
+      }),
+    ],
   },
 };
