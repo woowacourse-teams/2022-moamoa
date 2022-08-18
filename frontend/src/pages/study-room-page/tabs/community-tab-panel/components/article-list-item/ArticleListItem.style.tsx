@@ -15,8 +15,8 @@ export const Main = styled.div`
   flex: 1;
 `;
 
-export const Title = styled.h2`
-  color: #1382ce;
+export const Title = styled.h3`
+  ${({ theme }) => css``}
 `;
 
 export const Content = styled.div``;

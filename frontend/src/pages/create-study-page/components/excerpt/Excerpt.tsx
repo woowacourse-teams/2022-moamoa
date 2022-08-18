@@ -26,8 +26,6 @@ const Excerpt = ({ className, originalExcerpt }: ExcerptProps) => {
 
   const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
-  const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
-
   return (
     <S.Excerpt className={className}>
       <MetaBox>
