@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { useGetCommunityArticle, usePostCommunityArticle } from '@api/community';
+import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
@@ -18,7 +18,7 @@ const Edit = () => {
   const numArticleId = Number(articleId);
 
   const getCommunityArticleQueryResult = useGetCommunityArticle(numStudyId, numArticleId);
-  const { mutateAsync } = usePostCommunityArticle();
+  const { mutateAsync } = usePutCommunityArticle();
 
   const handleGoToArticlePageButtonClick = () => {
     navigate(`${PATH.COMMUNITY_ARTICLE(studyId, articleId)}`);

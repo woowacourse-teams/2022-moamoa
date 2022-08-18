@@ -6,8 +6,8 @@ export const PATH = {
   MY_STUDY: '/my/study',
   STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
-  COMMUNITY: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/community`,
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
+  COMMUNITY: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/community`,
   COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
     `/studyroom/${studyId}/community/article/${articleId}`,
   COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,

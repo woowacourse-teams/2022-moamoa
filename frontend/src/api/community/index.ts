@@ -33,12 +33,20 @@ export type PostCommunityArticleRequestBody = {
   content: string;
 };
 export type PostCommunityArticleRequestVariables = PostCommunityArticleRequestParams & PostCommunityArticleRequestBody;
-
 export type PostCommunityArticleResponseData = {
   studyId: number;
   title: string;
   content: string;
 };
+
+export type PutCommunityArticleRequestParams = {
+  studyId: number;
+};
+export type PutCommunityArticleRequestBody = {
+  title: string;
+  content: string;
+};
+export type PutCommunityArticleRequestVariables = PutCommunityArticleRequestParams & PutCommunityArticleRequestBody;
 
 export type DeleteCommunityArticleRequestParams = {
   studyId: number;
@@ -82,6 +90,18 @@ const postCommunityArticle = async ({ studyId, title, content }: PostCommunityAr
   return response.data;
 };
 
+const putCommunityArticle = async ({ studyId, title, content }: PutCommunityArticleRequestVariables) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, PostCommunityArticleRequestBody>(
+    `/api/studies/${studyId}/community/articles`,
+    {
+      title,
+      content,
+    },
+  );
+
+  return response.data;
+};
+
 const deleteCommunityArticle = async ({ studyId, articleId }: DeleteCommunityArticleRequestParams) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>>(
     `/api/studies/${studyId}/community/articles/${articleId}`,
@@ -100,6 +120,10 @@ export const useGetCommunityArticle = (studyId: number, articleId: number) => {
 
 export const usePostCommunityArticle = () => {
   return useMutation<null, AxiosError, PostCommunityArticleRequestVariables>(postCommunityArticle);
+};
+
+export const usePutCommunityArticle = () => {
+  return useMutation<null, AxiosError, PostCommunityArticleRequestVariables>(putCommunityArticle);
 };
 
 export const useDeleteCommunityArticle = () => {
