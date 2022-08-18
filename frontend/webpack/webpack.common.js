@@ -72,6 +72,7 @@ module.exports = {
       '@edit-study-page': resolve(__dirname, '../src/pages/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
+      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
       '@error-page': resolve(__dirname, '../src/pages/error-page'),
       '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
       '@layout': resolve(__dirname, '../src/layout'),

@@ -1,0 +1,53 @@
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+import { PATH } from '@constants';
+
+import { useGetCommunityArticles } from '@api/community';
+
+import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
+import * as S from '@study-room-page/tabs/community-tab-panel/components/article-list/ArticleList.style';
+
+import Pagination from '@community-tab/components/pagination/Pagination';
+
+type ArticleListProps = {
+  className?: string;
+};
+
+const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
+  const { studyId } = useParams<{ studyId: string }>();
+  const numStudyId = Number(studyId);
+  const [page, setPage] = useState<number>(1);
+  const { isFetching, isSuccess, isError, data } = useGetCommunityArticles(numStudyId, page);
+
+  if (isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError || !isSuccess) {
+    return <div>에러가 발생했습니다</div>;
+  }
+
+  const { articles, lastPage, currentPage } = data;
+
+  return (
+    <>
+      <S.ArticleList className={className}>
+        {articles.map(article => (
+          <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+            <ArticleListItem key={article.id} {...article}></ArticleListItem>
+          </Link>
+        ))}
+      </S.ArticleList>
+      <Pagination
+        count={lastPage}
+        defaultPage={currentPage}
+        onNumberButtonClick={num => {
+          setPage(num);
+        }}
+      />
+    </>
+  );
+};
+
+export default ArticleList;

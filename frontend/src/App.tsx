@@ -42,7 +42,19 @@ const App = () => {
             element={isLoggedIn ? <MyStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
           />
           <Route
-            path={PATH.STUDY_ROOM()}
+            path={`${PATH.STUDY_ROOM()}/*`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={`${PATH.COMMUNITY_ARTICLE()}`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={`${PATH.COMMUNITY_PUBLISH()}`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={`${PATH.COMMUNITY_EDIT()}`}
             element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
           />
           <Route

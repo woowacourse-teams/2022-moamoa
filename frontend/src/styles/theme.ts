@@ -8,6 +8,7 @@ export const COLORS = {
   GRAY300: '#9ea7aa',
   WHITE: '#ffffff',
   BLACK: '#000000',
+  RED: '#ef5e51',
 } as const;
 
 export const theme = {
@@ -27,6 +28,7 @@ export const theme = {
     },
     white: COLORS.WHITE,
     black: COLORS.BLACK,
+    red: COLORS.RED,
   },
 };
 

@@ -101,3 +101,14 @@ export type Link = {
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
 };
+
+export type CommunityArticle = {
+  id: number;
+  author: Member;
+  title: string;
+  content: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+};
+
+export type CommunityArticleMode = 'publish' | 'edit';

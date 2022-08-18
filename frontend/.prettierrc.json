@@ -35,6 +35,7 @@
     "^@edit-study-page/(.*)$",
     "^@my-study-page/(.*)$",
     "^@study-room-page/(.*)$",
+    "^@community-tab/(.*)$",
     "^@error-page/(.*)$",
     "^@login-redirect-page/(.*)$",
     "^@webpack-page/(.*)$",

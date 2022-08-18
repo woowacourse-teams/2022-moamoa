@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import * as S from '@components/checkbox/Checkbox.style';
 
-export type CheckboxProps = React.HTMLProps<HTMLInputElement> & { dataTagId: number };
+export type CheckboxProps = React.HTMLProps<HTMLInputElement> & { dataTagId?: number };
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ className, id, checked, onChange, dataTagId }, ref) => {
   return (
@@ -13,7 +13,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ className, id, c
       className={className}
       checked={checked}
       onChange={onChange}
-      data-tagid={dataTagId}
+      data-tagid={dataTagId} // TODO: 도메인 빼자
     />
   );
 });
