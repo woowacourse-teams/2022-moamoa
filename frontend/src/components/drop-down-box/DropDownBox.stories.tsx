@@ -1,8 +1,6 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
-
 import tw from '@utils/tw';
 
 import DropDownBox from '@components/drop-down-box/DropDownBox';

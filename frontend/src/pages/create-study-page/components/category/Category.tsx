@@ -4,8 +4,6 @@ import type { StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
-import { useGetTags } from '@api/tags';
-
 import { useFormContext } from '@hooks/useForm';
 
 import Checkbox from '@components/checkbox/Checkbox';

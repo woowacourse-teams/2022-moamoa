@@ -1,5 +1,3 @@
-import type { CommunityArticleMode } from '@custom-types';
-
 export const PATH = {
   MAIN: '/',
   STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,

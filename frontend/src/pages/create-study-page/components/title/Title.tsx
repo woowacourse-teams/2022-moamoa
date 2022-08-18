@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { TITLE_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';

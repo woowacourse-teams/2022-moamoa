@@ -15,9 +15,7 @@ export const Main = styled.div`
   flex: 1;
 `;
 
-export const Title = styled.h3`
-  ${({ theme }) => css``}
-`;
+export const Title = styled.h3``;
 
 export const Content = styled.div``;
 

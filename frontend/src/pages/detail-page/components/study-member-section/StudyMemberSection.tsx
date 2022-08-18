@@ -8,8 +8,6 @@ import type { StudyDetail } from '@custom-types';
 
 import { CrownSvg } from '@components/svg';
 
-import { CrownSvg } from '@components/svg';
-
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
 import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';

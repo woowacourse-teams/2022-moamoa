@@ -7,8 +7,6 @@ import type { CategoryName, TagId, TagInfo } from '@custom-types';
 
 import { useGetInfiniteStudies } from '@api/studies';
 
-import { useGetInfiniteStudies } from '@api/studies';
-
 import { useAuth } from '@hooks/useAuth';
 
 import { SearchContext } from '@context/search/SearchProvider';
