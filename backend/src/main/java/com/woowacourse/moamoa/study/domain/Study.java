@@ -3,10 +3,11 @@ package com.woowacourse.moamoa.study.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.exception.InvalidUpdatingException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -152,6 +153,19 @@ public class Study {
     public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
                        StudyPlanner studyPlanner
     ) {
+        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
+                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
+            throw new InvalidUpdatingException();
+        }
+
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidUpdatingException();
+        }
+
+        if ((recruitPlanner.getMax() != null && recruitPlanner.getMax() < participants.getSize())) {
+            throw new InvalidUpdatingException();
+        }
+
         checkOwner(memberId);
         this.content = content;
         this.recruitPlanner = recruitPlanner;

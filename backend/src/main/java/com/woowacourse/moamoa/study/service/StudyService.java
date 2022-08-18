@@ -11,7 +11,6 @@ import com.woowacourse.moamoa.study.domain.RecruitPlanner;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.exception.InvalidUpdatingException;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
@@ -78,13 +77,6 @@ public class StudyService {
         final Content content = request.mapToContent();
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
-
-        if ((recruitPlanner.getMax() != null && recruitPlanner.getMax() < study.getParticipants().getSize()) ||
-                (recruitPlanner.getEnrollmentEndDate() != null && recruitPlanner.getEnrollmentEndDate()
-                        .isBefore(LocalDate.now()))
-        ) {
-            throw new InvalidUpdatingException();
-        }
 
         study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);
     }
