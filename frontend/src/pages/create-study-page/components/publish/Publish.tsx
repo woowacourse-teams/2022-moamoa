@@ -7,14 +7,21 @@ import * as S from '@create-study-page/components/publish/Publish.style';
 
 type PublishProps = {
   className?: string;
+  title?: string;
+  buttonText?: string;
   onPublishButtonClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: PublishProps) => {
+const Publish = ({
+  className,
+  title = '스터디 개설',
+  buttonText = '개설하기',
+  onPublishButtonClick: handlePublishButtonClick,
+}: PublishProps) => {
   return (
     <S.Publish className={className}>
       <MetaBox>
-        <MetaBox.Title>스터디 개설</MetaBox.Title>
+        <MetaBox.Title>{title}</MetaBox.Title>
         <MetaBox.Content>
           <Button
             css={tw`rounded-[6px] text-16 py-12 px-10`}
@@ -22,7 +29,7 @@ const Publish = ({ className, onPublishButtonClick: handlePublishButtonClick }: 
             onClick={handlePublishButtonClick}
             outline={true}
           >
-            개설하기
+            {buttonText}
           </Button>
         </MetaBox.Content>
       </MetaBox>

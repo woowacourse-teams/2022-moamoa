@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { TagInfo } from '@custom-types';
+import type { CategoryName, TagId, TagInfo } from '@custom-types';
 
 import { useGetInfiniteStudies } from '@api/studies';
 
@@ -24,7 +24,7 @@ const useMainPage = () => {
     selectedFilters,
   });
 
-  const handleFilterButtonClick = (id: number, categoryName: string) => () => {
+  const handleFilterButtonClick = (id: TagId, categoryName: CategoryName) => () => {
     setSelectedFilters(prev => {
       if (prev.some(filter => filter.id === id && filter.categoryName === categoryName)) {
         return prev.filter(filter => !(filter.id === id && filter.categoryName === categoryName));

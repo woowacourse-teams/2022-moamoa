@@ -2,7 +2,6 @@ import Avatar from '@components/avatar/Avatar';
 
 import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 
-// TODO: studyCount, startDate api 명세에 필요
 export type StudyMemberCardProps = {
   username: string;
   imageUrl: string;

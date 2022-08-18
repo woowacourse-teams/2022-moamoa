@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { getNextYear, getToday } from '@utils';
 
-import { DateYMD } from '@custom-types';
+import type { DateYMD, StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 
@@ -11,9 +11,11 @@ import * as S from '@create-study-page/components/period/Period.style';
 
 type PeriodProps = {
   className?: string;
+  originalStartDate?: StudyDetail['startDate'];
+  originalEndDate?: StudyDetail['endDate'];
 };
 
-const Period = ({ className }: PeriodProps) => {
+const Period: React.FC<PeriodProps> = ({ className, originalStartDate, originalEndDate }) => {
   const { register } = useFormContext();
   const today = useMemo(() => getToday('-'), []) as DateYMD;
   const nextYear = getNextYear(today, '-') as DateYMD;
@@ -28,11 +30,9 @@ const Period = ({ className }: PeriodProps) => {
             <S.Input
               type="date"
               id="start-date"
-              min={today}
-              max={nextYear}
-              defaultValue={today}
+              defaultValue={originalStartDate || today}
               {...register('start-date', {
-                min: today,
+                min: originalStartDate || today,
                 max: nextYear,
                 required: true,
               })}
@@ -40,7 +40,15 @@ const Period = ({ className }: PeriodProps) => {
           </S.Container>
           <div>
             <S.Label htmlFor="end-date">스터디 종료 :</S.Label>
-            <S.Input type="date" id="end-date" min={today} max={nextYear} {...register('end-date')} />
+            <S.Input
+              type="date"
+              id="end-date"
+              defaultValue={originalEndDate}
+              {...register('end-date', {
+                min: today,
+                max: nextYear,
+              })}
+            />
           </div>
         </MetaBox.Content>
       </MetaBox>

@@ -8,7 +8,7 @@ import DescriptionTab from '@create-study-page/components/description-tab/Descri
 import EnrollmentEndDate from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate';
 import Excerpt from '@create-study-page/components/excerpt/Excerpt';
 import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
-import Period from '@create-study-page/components/period/Peroid';
+import Period from '@create-study-page/components/period/Period';
 import Publish from '@create-study-page/components/publish/Publish';
 import Subject from '@create-study-page/components/subject/Subject';
 import Title from '@create-study-page/components/title/Title';

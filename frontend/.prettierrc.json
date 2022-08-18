@@ -32,6 +32,7 @@
     "^@main-page/(.*)$",
     "^@detail-page/(.*)$",
     "^@create-study-page/(.*)$",
+    "^@edit-study-page/(.*)$",
     "^@my-study-page/(.*)$",
     "^@study-room-page/(.*)$",
     "^@error-page/(.*)$",

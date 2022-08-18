@@ -31,6 +31,7 @@
       "@main-page/*": ["pages/main-page/*"],
       "@detail-page/*": ["pages/detail-page/*"],
       "@create-study-page/*": ["pages/create-study-page/*"],
+      "@edit-study-page/*": ["pages/edit-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
       "@login-redirect-page/*": ["pages/login-redirect-page/*"],
