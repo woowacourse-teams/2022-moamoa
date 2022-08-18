@@ -45,7 +45,7 @@ const Edit = () => {
           navigate(PATH.COMMUNITY(numStudyId));
         },
         onError: () => {
-          alert('글 작성 실패!');
+          alert('글 수정 실패!');
         },
       },
     );
