@@ -40,7 +40,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
         ))}
       </S.ArticleList>
       <Pagination
-        count={lastPage}
+        count={lastPage - 1}
         defaultPage={currentPage}
         onNumberButtonClick={num => {
           setPage(num);
