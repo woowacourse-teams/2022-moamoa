@@ -26,6 +26,7 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
       'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
+      'process.env.LINK_PREVIEW_API_URL': JSON.stringify(process.env.LINK_PREVIEW_API_URL),
     }),
   ],
 });

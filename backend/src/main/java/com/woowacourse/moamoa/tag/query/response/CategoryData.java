@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.tag.query.response;
 
-import com.woowacourse.moamoa.tag.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

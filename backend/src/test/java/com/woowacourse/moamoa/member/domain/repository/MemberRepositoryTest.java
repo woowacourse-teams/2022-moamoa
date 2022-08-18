@@ -76,7 +76,7 @@ class MemberRepositoryTest {
 
     @DisplayName("member id들로 각각 일치하는 Member들을 찾은 후 반환한다.")
     @Test
-    public void findAllById() {
+    void findAllById() {
         final Long memberId1 = memberRepository.findByGithubId(1L).get().getId();
         final Long memberId2 = memberRepository.findByGithubId(2L).get().getId();
 

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import * as S from '@components/card/Card.style';
+import CenterImage from '@components/center-image/CenterImage';
 
 export type CardProps = {
   thumbnailUrl: string;
@@ -14,7 +15,7 @@ const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt,
   return (
     <S.Card>
       <S.ImageContainer>
-        <S.CardImage src={thumbnailUrl} alt={thumbnailAlt} />
+        <CenterImage src={thumbnailUrl} alt={thumbnailAlt} />
       </S.ImageContainer>
       <S.Content>
         <S.Title>{title}</S.Title>

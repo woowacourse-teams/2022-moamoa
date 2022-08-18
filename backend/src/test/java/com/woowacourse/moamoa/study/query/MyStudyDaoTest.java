@@ -126,7 +126,7 @@ class MyStudyDaoTest {
     void findStudyOwnersByEmptyStudyId() {
         final Map<Long, MemberData> owners = myStudyDao.findOwners(List.of());
 
-        assertThat(owners.size()).isZero();
+        assertThat(owners).isEmpty();
     }
 
     @DisplayName("스터디 ID가 비어있을 경우, 스터디 태그 빈 맵을 반환한다.")
@@ -134,6 +134,6 @@ class MyStudyDaoTest {
     void findStudyTagsByEmptyStudyId() {
         final Map<Long, List<TagSummaryData>> tags = myStudyDao.findTags(List.of());
 
-        assertThat(tags.size()).isZero();
+        assertThat(tags).isEmpty();
     }
 }

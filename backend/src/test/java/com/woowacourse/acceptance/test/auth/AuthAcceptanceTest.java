@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-public class AuthAcceptanceTest extends AcceptanceTest {
+class AuthAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -69,7 +69,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그아웃시에 쿠키를 제거해준다.")
     @Test
-    public void logout() {
+    void logout() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
         final Token foundToken = tokenRepository.findByGithubId(4L).get();
 

@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-public class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
+class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test

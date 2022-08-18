@@ -43,7 +43,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 @DisplayName("링크 모음 인수 테스트")
-public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
+class ReferenceRoomAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("참여한 스터디의 링크 공유실에 정상적으로 글을 작성한다.")
     @Test
@@ -110,7 +110,7 @@ public class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                         )))
                 .cookie(ACCESS_TOKEN, token)
                 .pathParam("study-id", 자바_스터디_ID)
-                .param("page", 1)
+                .param("page", 0)
                 .param("size", 5)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")

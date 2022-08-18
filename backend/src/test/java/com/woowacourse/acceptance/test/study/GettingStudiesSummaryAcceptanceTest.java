@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.study.service.StudyResponse;
+import com.woowacourse.moamoa.study.service.response.StudyResponse;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import io.restassured.RestAssured;
@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("스터디 목록 조회 인수 테스트")
-public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
+class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     private Long javaStudyId;
     private Long reactStudyId;
@@ -76,7 +76,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("첫번째 페이지의 스터디 목록을 조회 한다.")
     @Test
-    public void getFirstPageOfStudies() {
+    void getFirstPageOfStudies() {
         final StudiesResponse studiesResponse = RestAssured.given(spec).log().all()
                 .filter(document("studies/summary"))
                 .queryParam("page", 0)
@@ -104,7 +104,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("마지막 페이지의 스터디 목록을 조회 한다.")
     @Test
-    public void getLastPageOfStudies() {
+    void getLastPageOfStudies() {
         final StudiesResponse studiesResponse = RestAssured.given(spec).log().all()
                 .filter(document("studies/summary"))
                 .queryParam("page", 1)
@@ -133,7 +133,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
     @DisplayName("잘못된 페이징 정보로 목록을 조회시 400에러를 응답한다.")
     @ParameterizedTest
     @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
-    public void response400WhenRequestByInvalidPagingInfo(String page, String size) {
+    void response400WhenRequestByInvalidPagingInfo(String page, String size) {
         RestAssured.given(spec).log().all()
                 .filter(document("studies/summary"))
                 .queryParam("page", page)
@@ -147,7 +147,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이지 정보 없이 목록 조회시 400에러를 응답한다.")
     @Test
-    public void getStudiesByDefaultPage() {
+    void getStudiesByDefaultPage() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies?size=5")
@@ -158,7 +158,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("사이즈 정보 없이 목록 조회시 400에러를 응답한다.")
     @Test
-    public void getStudiesByDefaultSize() {
+    void getStudiesByDefaultSize() {
         RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies?page=0")
@@ -169,7 +169,7 @@ public class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("페이징 정보가 없는 경우에는 기본값을 사용해 스터디 목록을 조회한다.")
     @Test
-    public void getStudiesByDefaultPagingInfo() {
+    void getStudiesByDefaultPagingInfo() {
         final StudiesResponse studiesResponse = RestAssured.given().log().all()
                 .when().log().all()
                 .get("/api/studies")

@@ -16,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-public class MemberWebMvcTest extends WebMVCTest {
+class MemberWebMvcTest extends WebMVCTest {
 
     @MockBean
     MemberService memberService;

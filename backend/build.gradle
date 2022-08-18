@@ -1,10 +1,10 @@
 plugins {
-    id 'org.sonarqube' version '3.3'
-    id 'jacoco'
     id 'org.springframework.boot' version '2.6.9'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'org.asciidoctor.jvm.convert' version "3.3.2"
+    id "org.sonarqube" version "3.4.0.2513"
+    id 'jacoco'
 }
 
 group = 'com.woowacourse'
@@ -64,8 +64,8 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.enabled true
-        csv.enabled false
-        html.enabled false
+        csv.enabled true
+        html.enabled true
     }
 }
 
@@ -99,11 +99,11 @@ bootJar {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "moamoa"
+        property "sonar.projectKey", "woowacourse-teams_2022-moamoa_AYKqauCybW85TfLm8Krq"
         property "sonar.sources", "src"
         property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.profile", "Sonar way"
+        property "sonar.profile", "moamoa"
         property "sonar.java.binaries", "${buildDir}/classes"
         property "sonar.test.inclusions", "**/*Test.java"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"

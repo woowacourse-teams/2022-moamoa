@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-public class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
+class BadRequestMyMemberRoleWebMvcTest extends WebMVCTest {
 
     @DisplayName("study Id가 없을 경우 400 에러가 발생한다. ")
     @Test

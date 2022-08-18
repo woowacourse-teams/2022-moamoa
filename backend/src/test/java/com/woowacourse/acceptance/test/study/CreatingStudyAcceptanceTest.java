@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 
-public class CreatingStudyAcceptanceTest extends AcceptanceTest {
+class CreatingStudyAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유효하지 않은 토큰으로 스터디 개설 시 401을 반환한다.")
     @ParameterizedTest
