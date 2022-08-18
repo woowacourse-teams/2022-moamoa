@@ -259,9 +259,7 @@ const tw = (template: TemplateStringsArray, ...args: Array<string>) => {
 
       if (arbitararyValue) {
         // py-[12px]에서 ['py-', '[12px]']로 짜르고 마지막 요소를 빼낸다
-        console.log('s', s);
         const shortCssProperty = s.split('-').slice(0, -1).join('-');
-        console.log('shortCssProperty', shortCssProperty);
         const fullCssProperties = cssPropertyForArbitararyValue[shortCssProperty as cssShortPropertyKey];
         const cssTexts = fullCssProperties.map(fullCssProp => {
           return `${fullCssProp}: ${arbitararyValue}`;
