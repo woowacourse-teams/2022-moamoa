@@ -22,7 +22,7 @@ const Excerpt = ({ className, originalExcerpt }: ExcerptProps) => {
     register,
   } = useFormContext();
 
-  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE);
+  const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
 
   const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 

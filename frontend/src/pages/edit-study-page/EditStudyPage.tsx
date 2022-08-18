@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+
+import { PATH } from '@constants';
+
 import { FormProvider } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
@@ -16,8 +20,15 @@ import * as S from '@edit-study-page/EditStudyPage.style';
 import useEditStudyPage from '@edit-study-page/hooks/useEditStudyPage';
 
 const EditStudyPage: React.FC = () => {
-  const { formMethods, onSubmit, studyQueryResult } = useEditStudyPage();
+  const { studyId, formMethods, onSubmit, navigate, studyQueryResult } = useEditStudyPage();
   const { isError, isSuccess, isFetching, data } = studyQueryResult;
+
+  useEffect(() => {
+    if (!studyId) {
+      alert('잘못된 접근입니다.');
+      navigate(PATH.MAIN);
+    }
+  }, []);
 
   if (isFetching) return <div>로딩중...</div>;
   if (isError || !isSuccess) return <div>에러가 발생했습니다 :(</div>;
@@ -36,7 +47,7 @@ const EditStudyPage: React.FC = () => {
               </S.Main>
               <S.Sidebar>
                 <li>
-                  <Publish />
+                  <Publish title="스터디 수정" buttonText="수정하기" />
                 </li>
                 <li>
                   <MaxMemberCount originalMaxMemberCount={data.maxMemberCount} />

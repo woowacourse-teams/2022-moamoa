@@ -24,6 +24,7 @@ const useEditStudyPage = () => {
     const areaBeField = formMethods.getField('area-be')?.fieldElement;
     const feTagId = areaFeField?.getAttribute('data-tagid');
     const beTagId = areaBeField?.getAttribute('data-tagid');
+
     return {
       feTagId,
       beTagId,
@@ -74,7 +75,9 @@ const useEditStudyPage = () => {
   };
 
   return {
+    studyId,
     onSubmit,
+    navigate,
     formMethods,
     studyQueryResult,
   };
