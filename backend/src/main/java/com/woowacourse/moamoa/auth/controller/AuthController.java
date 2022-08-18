@@ -66,16 +66,6 @@ public class AuthController {
                 .build();
     }
 
-    private ResponseCookie putRefreshTokenInCookie(final TokensResponse tokenResponse) {
-        return ResponseCookie.from(REFRESH_TOKEN, tokenResponse.getRefreshToken())
-                .maxAge(tokenResponse.getRefreshExpireLength())
-                .path("/")
-                .sameSite("None")
-                .secure(true)
-                .httpOnly(true)
-                .build();
-    }
-
     private ResponseCookie removeCookie(final String cookieName) {
         return ResponseCookie.from(cookieName, null)
                 .maxAge(0)
