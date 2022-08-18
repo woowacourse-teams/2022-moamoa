@@ -79,6 +79,8 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("owner.username", is(디우_이름))
                 .body("owner.imageUrl", is(디우_이미지_URL))
                 .body("owner.profileUrl", is(디우_프로필_URL))
+                .body("owner.participantDate", not(empty()))
+                .body("owner.numberOfStudy", is(1))
                 .body("members.id", not(empty()))
                 .body("members.username", contains(짱구_이름, 그린론_이름, 베루스_이름))
                 .body("members.imageUrl", contains(짱구_이미지_URL, 그린론_이미지_URL, 베루스_이미지_URL))

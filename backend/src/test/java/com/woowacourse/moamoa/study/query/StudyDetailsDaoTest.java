@@ -19,6 +19,7 @@ import com.woowacourse.moamoa.member.query.data.OwnerData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
+import java.time.LocalDate;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,7 +86,7 @@ class StudyDetailsDaoTest {
                 .description(알고리즘_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participants
                 .currentMemberCount(알고리즘_스터디.getParticipants().getSize())
-                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), 5))
+                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
                 // Study Period
                 .startDate(알고리즘_스터디.getStudyPlanner().getStartDate())
                 .build();
@@ -107,7 +108,7 @@ class StudyDetailsDaoTest {
                 .status(리눅스_스터디.getRecruitPlanner().getRecruitStatus().toString()).description(리눅스_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participant
                 .currentMemberCount(리눅스_스터디.getParticipants().getSize())
-                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), 5))
+                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
                 // Study Period
                 .startDate(리눅스_스터디.getStudyPlanner().getStartDate())
                 .enrollmentEndDate(리눅스_스터디.getRecruitPlanner().getEnrollmentEndDate())

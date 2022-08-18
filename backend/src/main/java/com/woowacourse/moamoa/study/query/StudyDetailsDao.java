@@ -27,7 +27,7 @@ public class StudyDetailsDao {
                     "SELECT study.id, title, excerpt, thumbnail, recruitment_status, description, current_member_count, "
                             + "max_member_count, created_at, enrollment_end_date, start_date, end_date, owner_id, "
                             + "member.github_id as owner_github_id, member.username as owner_username, "
-                            + "member.image_url as owner_image_url, member.profile_url as owner_profile_url, "
+                            + "member.image_url as owner_image_url, member.profile_url as owner_profile_url, created_at as participation_date, "
                             + countOfStudy()
                             + "FROM study JOIN member ON study.owner_id = member.id "
                             + "WHERE study.id = ?";
@@ -97,10 +97,11 @@ public class StudyDetailsDao {
             String profileUrl = rs.getString("owner_profile_url");
 
             int numberOfStudy = rs.getInt("number_of_study");
+            LocalDate participationDate = rs.getObject("participation_date", LocalDate.class);
 
             builder.currentMemberCount(currentMaxCount)
                     .maxMemberCount(maxMemberCount)
-                    .owner(new OwnerData(githubId, username, imageUrl, profileUrl, numberOfStudy));
+                    .owner(new OwnerData(githubId, username, imageUrl, profileUrl, participationDate, numberOfStudy));
         }
     }
 }
