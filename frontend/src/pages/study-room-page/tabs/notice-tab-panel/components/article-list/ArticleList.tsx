@@ -1,3 +1,6 @@
+import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
+import * as S from '@notice-tab/components/article-list/ArticleList.style';
+import Pagination from '@notice-tab/components/pagination/Pagination';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -5,12 +8,7 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import { useGetCommunityArticles } from '@api/community';
-
-import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
-import * as S from '@study-room-page/tabs/community-tab-panel/components/article-list/ArticleList.style';
-
-import Pagination from '@community-tab/components/pagination/Pagination';
+import { useGetNoticeArticles } from '@api/notice';
 
 type ArticleListProps = {
   className?: string;
@@ -20,7 +18,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
   const { studyId } = useParams<{ studyId: string }>();
   const numStudyId = Number(studyId);
   const [page, setPage] = useState<number>(1);
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticles(numStudyId, page);
+  const { isFetching, isSuccess, isError, data } = useGetNoticeArticles(numStudyId, page);
 
   if (isFetching) {
     return <div css={tw`h-full`}>Loading...</div>;
@@ -33,10 +31,10 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
   const { articles, lastPage, currentPage } = data;
 
   return (
-    <S.Container>
+    <S.Container className={className}>
       <S.ArticleList>
         {articles.map(article => (
-          <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+          <Link key={article.id} to={PATH.NOTICE_ARTICLE(studyId, article.id)}>
             <ArticleListItem key={article.id} {...article}></ArticleListItem>
           </Link>
         ))}
