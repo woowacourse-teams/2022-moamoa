@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import type { Tag, TagInfo } from '@custom-types';
+import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
@@ -11,7 +11,7 @@ import FilterButtonList from '@main-page/components/filter-section/filter-button
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
-  onFilterButtonClick: (id: number, categoryName: string) => React.MouseEventHandler<HTMLButtonElement>;
+  onFilterButtonClick: (id: TagId, categoryName: CategoryName) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const SCROLL_DIST = 100;

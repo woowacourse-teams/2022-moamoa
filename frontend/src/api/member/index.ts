@@ -25,7 +25,7 @@ export const getUserRole = async ({ studyId }: GetUserRoleRequestParams) => {
 };
 
 export const useGetUserRole = ({ studyId, options }: UseGetUserRole) =>
-  useQuery<GetUserRoleResponseData, AxiosError>('my-role', () => getUserRole({ studyId }), options);
+  useQuery<GetUserRoleResponseData, AxiosError>(['my-role', studyId], () => getUserRole({ studyId }), options);
 
 // user info
 export type GetUserInformationResponseData = Member;

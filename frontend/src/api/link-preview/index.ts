@@ -16,7 +16,6 @@ export type GetLinkPreviewResponseData = {
 };
 
 const axiosInstance = axios.create({
-  // TODO: 링크 미리보기 서버 배포 url로 변경 필요
   baseURL: process.env.LINK_PREVIEW_API_URL,
   headers: {
     'Content-Type': 'application/json',

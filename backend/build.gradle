@@ -99,7 +99,7 @@ bootJar {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "woowacourse-teams_2022-moamoa_AYKqauCybW85TfLm8Krq"
+        property "sonar.projectKey", "woowacourse-teams_2022-moamoa_AYKvd_z4VbW_bWBvgn13"
         property "sonar.sources", "src"
         property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"

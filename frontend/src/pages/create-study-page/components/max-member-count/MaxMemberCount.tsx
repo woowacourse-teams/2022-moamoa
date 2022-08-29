@@ -2,19 +2,22 @@ import { useState } from 'react';
 
 import { MEMBER_COUNT } from '@constants';
 
+import { StudyDetail } from '@custom-types';
+
 import { useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
 import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
-type MaxMemberCountProps = {
+export type MaxMemberCountProps = {
   className?: string;
+  originalMaxMemberCount?: StudyDetail['maxMemberCount'];
 };
 
 const maxMemberCountName = 'max-member-count';
 
-const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
+const MaxMemberCount = ({ className, originalMaxMemberCount }: MaxMemberCountProps) => {
   const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(true);
 
   const { removeField, register } = useFormContext();
@@ -41,14 +44,15 @@ const MaxMemberCount = ({ className }: MaxMemberCountProps) => {
             <>
               <S.Label htmlFor={maxMemberCountName}>최대 인원 :</S.Label>
               <S.Input
+                id={maxMemberCountName}
+                type="number"
+                placeholder="최대 인원"
+                defaultValue={originalMaxMemberCount}
+                onKeyDown={handleKeyDown}
                 {...register(maxMemberCountName, {
                   min: MEMBER_COUNT.MIN.VALUE,
                   max: MEMBER_COUNT.MAX.VALUE,
                 })}
-                onKeyDown={handleKeyDown}
-                type="number"
-                id={maxMemberCountName}
-                placeholder="최대 인원"
               />
             </>
           )}

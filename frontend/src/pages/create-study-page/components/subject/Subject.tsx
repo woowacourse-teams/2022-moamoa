@@ -1,5 +1,7 @@
 import tw from '@utils/tw';
 
+import type { StudyDetail } from '@custom-types';
+
 import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
@@ -7,11 +9,12 @@ import { useFormContext } from '@hooks/useForm';
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 import * as S from '@create-study-page/components/subject/Subject.style';
 
-type SubjectProps = {
+export type SubjectProps = {
   className?: string;
+  originalSubjects?: StudyDetail['tags'];
 };
 
-const Subject = ({ className }: SubjectProps) => {
+const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
@@ -23,11 +26,17 @@ const Subject = ({ className }: SubjectProps) => {
     if (data?.tags) {
       const { tags } = data;
       const subjects = tags.filter(({ category }) => category.name === 'subject');
+      const etcTagId = subjects.find(tag => tag.name === 'Etc');
 
       return (
-        <S.Select id="subject-list" css={tw`w-full`} {...register('subject')}>
-          {subjects.map(({ id, name, description }) => (
-            <option selected={name === 'Etc'} key={id} value={id}>
+        <S.Select
+          id="subject-list"
+          defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
+          css={tw`w-full`}
+          {...register('subject')}
+        >
+          {subjects.map(({ id, description }) => (
+            <option key={id} value={id}>
               {description}
             </option>
           ))}

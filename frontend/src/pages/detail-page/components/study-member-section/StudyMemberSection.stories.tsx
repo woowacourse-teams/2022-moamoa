@@ -1,5 +1,7 @@
 import type { Story } from '@storybook/react';
 
+import { StudyDetail } from '@custom-types';
+
 import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
 import type { StudyMemberSectionProps } from '@detail-page/components/study-member-section/StudyMemberSection';
 
@@ -8,21 +10,25 @@ export default {
   component: StudyMemberSection,
 };
 
-const owner = {
+const owner: StudyDetail['owner'] = {
   id: 1,
   username: 'nan-noo',
   profileUrl: '/',
   imageUrl:
     'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+  participationDate: '2022-08-18',
+  numberOfStudy: 1,
 };
 
-const members = [
+const members: StudyDetail['members'] = [
   {
     id: 9640683,
     username: 'KRlzeg',
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 753744,
@@ -30,6 +36,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 3556702,
@@ -37,6 +45,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 3761959,
@@ -44,6 +54,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 5579984,
@@ -51,6 +63,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 6340085,
@@ -58,6 +72,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 3639124,
@@ -65,6 +81,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 7768553,
@@ -72,6 +90,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 7809398,
@@ -79,6 +99,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 6813815,
@@ -86,6 +108,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 3692005,
@@ -93,6 +117,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
   {
     id: 6073472,
@@ -100,6 +126,8 @@ const members = [
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
     profileUrl: 'https://github.com/airman5573',
+    participationDate: '2022-08-18',
+    numberOfStudy: 1,
   },
 ];
 
