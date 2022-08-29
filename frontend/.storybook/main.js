@@ -29,6 +29,7 @@ module.exports = {
       '@edit-study-page': resolve(__dirname, '../src/pages/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
       '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
+      '@notice-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/notice-tab-panel'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
       '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
       '@error-page': resolve(__dirname, '../src/pages/error-page'),
