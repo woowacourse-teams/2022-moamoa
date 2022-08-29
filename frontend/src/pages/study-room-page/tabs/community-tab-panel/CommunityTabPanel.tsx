@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -12,8 +11,6 @@ import ArticleList from '@community-tab/components/article-list/ArticleList';
 import Article from '@community-tab/components/article/Article';
 import Edit from '@community-tab/components/edit/Edit';
 import Publish from '@community-tab/components/publish/Publish';
-
-AxiosError;
 
 type CommunityTabPanelProps = {
   studyId: number;
