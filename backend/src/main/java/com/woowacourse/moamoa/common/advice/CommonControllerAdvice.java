@@ -12,9 +12,8 @@ import com.woowacourse.moamoa.common.exception.NotFoundException;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
+import com.woowacourse.moamoa.study.service.exception.InvalidUpdatingException;
 import io.jsonwebtoken.JwtException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,6 +34,7 @@ public class CommonControllerAdvice {
     }
 
     @ExceptionHandler({
+            InvalidUpdatingException.class,
             InvalidFormatException.class,
             InvalidPeriodException.class,
             BadRequestException.class,
