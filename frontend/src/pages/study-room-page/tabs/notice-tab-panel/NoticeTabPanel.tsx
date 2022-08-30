@@ -3,11 +3,14 @@ import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
 import Edit from '@notice-tab/components/edit/Edit';
 import Publish from '@notice-tab/components/publish/Publish';
+import usePermission from '@notice-tab/hooks/usePermission';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
 import tw from '@utils/tw';
+
+import { useGetUserRole } from '@api/member';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
@@ -18,7 +21,7 @@ type NoticeTabPanelProps = {
 const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
   const { articleId } = useParams<{ articleId: string }>();
   const navigate = useNavigate();
-
+  const { hasPermission: isOwner } = usePermission(studyId, 'OWNER');
   const lastPath = window.location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
@@ -34,9 +37,11 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
       <div css={tw`flex flex-col h-full`}>
         <ArticleList css={tw`flex-1`} />
         <div css={tw`flex justify-end`}>
-          <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
-            글쓰기
-          </S.Button>
+          {isOwner && (
+            <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
+              글쓰기
+            </S.Button>
+          )}
         </div>
       </div>
     );
