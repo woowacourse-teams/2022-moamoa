@@ -112,3 +112,14 @@ export type CommunityArticle = {
 };
 
 export type CommunityArticleMode = 'publish' | 'edit';
+
+export type NoticeArticle = {
+  id: number;
+  author: Member;
+  title: string;
+  content: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+};
+
+export type NoticeArticleMode = 'publish' | 'edit';

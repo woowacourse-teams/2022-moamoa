@@ -10,6 +10,6 @@ export const Container = styled.div`
 export const ArticleList = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
   row-gap: 10px;
+  flex: 1;
 `;

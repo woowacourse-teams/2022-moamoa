@@ -1,3 +1,4 @@
+import NoticeTabPanel from '@notice-tab/NoticeTabPanel';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -20,12 +21,13 @@ const useStudyRoomPage = () => {
   const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
 
   const tabs: Tabs = [
+    { id: 'notice', name: '공지사항', content: <NoticeTabPanel studyId={studyId} /> },
     { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
     { id: 'link-room', name: '링크 모음', content: <LinkRoomTabPanel /> },
     { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
   ];
 
-  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[1].id);
+  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
 
   const activeTab = tabs.find(({ id }) => id === activeTabId) as Tab;
 

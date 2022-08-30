@@ -7,12 +7,20 @@ export const PATH = {
   STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
   REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
+
   COMMUNITY: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/community`,
   COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
     `/studyroom/${studyId}/community/article/${articleId}`,
   COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,
   COMMUNITY_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
     `/studyroom/${studyId}/community/article/${articleId}/edit`,
+
+  NOTICE: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}/notice`,
+  NOTICE_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/notice/article/${articleId}`,
+  NOTICE_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/notice/article/publish`,
+  NOTICE_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
+    `/studyroom/${studyId}/notice/article/${articleId}/edit`,
 };
 
 export const API_ERROR = {

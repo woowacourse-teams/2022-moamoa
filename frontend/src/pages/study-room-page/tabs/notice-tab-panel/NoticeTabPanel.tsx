@@ -1,3 +1,8 @@
+import * as S from '@notice-tab/NoticeTabPanel.style';
+import ArticleList from '@notice-tab/components/article-list/ArticleList';
+import Article from '@notice-tab/components/article/Article';
+import Edit from '@notice-tab/components/edit/Edit';
+import Publish from '@notice-tab/components/publish/Publish';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -6,17 +11,11 @@ import tw from '@utils/tw';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@community-tab/CommunityTabPanel.style';
-import ArticleList from '@community-tab/components/article-list/ArticleList';
-import Article from '@community-tab/components/article/Article';
-import Edit from '@community-tab/components/edit/Edit';
-import Publish from '@community-tab/components/publish/Publish';
-
-type CommunityTabPanelProps = {
+type NoticeTabPanelProps = {
   studyId: number;
 };
 
-const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
+const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
   const { articleId } = useParams<{ articleId: string }>();
   const navigate = useNavigate();
 
@@ -27,12 +26,12 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
   const handleGoToPublishPageButtonClick = () => {
-    navigate(`${PATH.COMMUNITY_PUBLISH(studyId)}`);
+    navigate(`${PATH.NOTICE_PUBLISH(studyId)}`);
   };
 
   const renderArticleListPage = () => {
     return (
-      <div css={tw`flex flex-col h-full pb-40`}>
+      <div css={tw`flex flex-col h-full`}>
         <ArticleList css={tw`flex-1`} />
         <div css={tw`flex justify-end`}>
           <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
@@ -62,11 +61,11 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
   return (
     <Wrapper css={tw`h-full`}>
       <div css={tw`h-full`}>
-        <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
-        <div css={tw`h-full`}>{render()}</div>
+        <h1 css={tw`text-center text-30 mb-40`}>공지사항</h1>
+        <div css={tw`h-full pb-40`}>{render()}</div>
       </div>
     </Wrapper>
   );
 };
 
-export default CommunityTabPanel;
+export default NoticeTabPanel;
