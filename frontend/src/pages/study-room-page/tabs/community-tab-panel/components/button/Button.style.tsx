@@ -33,7 +33,6 @@ export const Button = styled.button<ButtonProps>`
     font-size: 13px;
     border-radius: 3px;
     text-decoration: none !important;
-    cursor: pointer;
     vertical-align: middle;
     text-shadow: none;
     box-shadow: none;
