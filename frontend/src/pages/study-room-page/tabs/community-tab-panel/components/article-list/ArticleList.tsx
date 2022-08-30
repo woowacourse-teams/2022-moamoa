@@ -32,6 +32,10 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
 
   const { articles, lastPage, currentPage } = data;
 
+  if (articles.length === 0) {
+    return <div css={tw`h-full`}>게시글이 없습니다</div>;
+  }
+
   return (
     <S.Container>
       <S.ArticleList>
