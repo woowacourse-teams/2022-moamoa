@@ -20,13 +20,13 @@ const MainPage: React.FC = () => {
   const { isFetching, isError, isSuccess, data, fetchNextPage } = studiesQueryResult;
 
   const renderStudyList = () => {
-    if (isError || !isSuccess) {
+    if (isError) {
       return <div>에러가 발생했습니다</div>;
     }
 
-    const searchedStudies = data.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
+    const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) ?? [];
 
-    if (searchedStudies.length === 0) {
+    if (isSuccess && searchedStudies.length === 0) {
       return <div>검색 결과가 없습니다</div>;
     }
 
