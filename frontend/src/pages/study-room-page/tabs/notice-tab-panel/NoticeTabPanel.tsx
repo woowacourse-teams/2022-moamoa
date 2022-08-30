@@ -3,6 +3,7 @@ import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
 import Edit from '@notice-tab/components/edit/Edit';
 import Publish from '@notice-tab/components/publish/Publish';
+import usePermission from '@notice-tab/hooks/usePermission';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -20,9 +21,7 @@ type NoticeTabPanelProps = {
 const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
   const { articleId } = useParams<{ articleId: string }>();
   const navigate = useNavigate();
-  const { data, isSuccess, isError } = useGetUserRole({ studyId });
-
-  const isOwner = isSuccess && !isError && data.role === 'OWNER';
+  const { hasPermission: isOwner } = usePermission(studyId, 'OWNER');
   const lastPath = window.location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
