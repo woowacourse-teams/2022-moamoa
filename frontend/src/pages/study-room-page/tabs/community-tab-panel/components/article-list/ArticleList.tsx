@@ -23,17 +23,17 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
   const { isFetching, isSuccess, isError, data } = useGetCommunityArticles(numStudyId, page);
 
   if (isFetching) {
-    return <div css={tw`h-full`}>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (isError || !isSuccess) {
-    return <div css={tw`h-full`}>에러가 발생했습니다</div>;
+    return <div>에러가 발생했습니다</div>;
   }
 
   const { articles, lastPage, currentPage } = data;
 
   if (articles.length === 0) {
-    return <div css={tw`h-full`}>게시글이 없습니다</div>;
+    return <div>게시글이 없습니다</div>;
   }
 
   return (

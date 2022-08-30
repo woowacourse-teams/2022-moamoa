@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: 100%;
+  row-gap: 20px;
 `;
 
 export const ArticleList = styled.div`

@@ -32,8 +32,10 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   const renderArticleListPage = () => {
     return (
-      <div css={tw`flex flex-col h-full pb-40`}>
-        <ArticleList css={tw`flex-1`} />
+      <div css={tw`flex flex-col gap-y-40`}>
+        <div css={tw`flex-1 min-h-[500px]`}>
+          <ArticleList />
+        </div>
         <div css={tw`flex justify-end`}>
           <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
             글쓰기
@@ -60,10 +62,10 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
   };
 
   return (
-    <Wrapper css={tw`h-full`}>
-      <div css={tw`h-full`}>
+    <Wrapper>
+      <div>
         <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
-        <div css={tw`h-full`}>{render()}</div>
+        <div>{render()}</div>
       </div>
     </Wrapper>
   );

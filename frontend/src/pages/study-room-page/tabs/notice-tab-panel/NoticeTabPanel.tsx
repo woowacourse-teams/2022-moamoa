@@ -34,8 +34,10 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
 
   const renderArticleListPage = () => {
     return (
-      <div css={tw`flex flex-col h-full`}>
-        <ArticleList css={tw`flex-1`} />
+      <div css={tw`flex flex-col gap-y-40`}>
+        <div css={tw`flex-1 min-h-[500px]`}>
+          <ArticleList />
+        </div>
         <div css={tw`flex justify-end`}>
           {isOwner && (
             <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
@@ -64,10 +66,10 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
   };
 
   return (
-    <Wrapper css={tw`h-full`}>
-      <div css={tw`h-full`}>
+    <Wrapper>
+      <div>
         <h1 css={tw`text-center text-30 mb-40`}>공지사항</h1>
-        <div css={tw`h-full pb-40`}>{render()}</div>
+        <div>{render()}</div>
       </div>
     </Wrapper>
   );

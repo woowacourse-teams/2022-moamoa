@@ -28,6 +28,8 @@ export type LinkId = number;
 export type Page = number;
 export type Size = number;
 
+export type SitePage = 'home' | 'studyroom';
+
 export type Owner = {
   id: MemberId;
   username: string;

@@ -25,7 +25,7 @@ const StudyRoomPage: React.FC = () => {
   }
 
   return (
-    <Wrapper css={tw`h-full`}>
+    <Wrapper>
       <S.Container>
         <SideMenu
           css={tw`sticky top-100 left-0 z-1 self-start`}
