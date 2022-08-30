@@ -9,7 +9,6 @@ type MainProps = {
 const Main: React.FC<MainProps> = ({ children }) => {
   const { pathname } = useLocation();
   const isStudyRoomPage = pathname.split('/')[1] === 'studyroom';
-  console.log('isStudyRoomPage : ', isStudyRoomPage);
   return <S.Main page={isStudyRoomPage ? 'studyroom' : undefined}>{children}</S.Main>;
 };
 
