@@ -5,6 +5,7 @@ import detailStudyHandlers from '@mocks/detailStudyHandlers';
 import { linkHandlers } from '@mocks/linkHandlers';
 import { memberHandlers } from '@mocks/memberHandlers';
 import { myHandlers } from '@mocks/myHandlers';
+import { noticeHandlers } from '@mocks/noticeHandler';
 import { reviewHandlers } from '@mocks/reviewHandler';
 import studyJSON from '@mocks/studies.json';
 import { tagHandlers } from '@mocks/tagHandlers';
@@ -67,4 +68,5 @@ export const handlers = [
   ...memberHandlers,
   ...linkHandlers,
   ...communityHandlers,
+  ...noticeHandlers,
 ];

@@ -28,6 +28,8 @@ export type LinkId = number;
 export type Page = number;
 export type Size = number;
 
+export type SitePage = 'home' | 'studyroom';
+
 export type Owner = {
   id: MemberId;
   username: string;
@@ -112,3 +114,14 @@ export type CommunityArticle = {
 };
 
 export type CommunityArticleMode = 'publish' | 'edit';
+
+export type NoticeArticle = {
+  id: number;
+  author: Member;
+  title: string;
+  content: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+};
+
+export type NoticeArticleMode = 'publish' | 'edit';

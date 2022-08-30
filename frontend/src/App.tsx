@@ -58,6 +58,18 @@ const App = () => {
             element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
           />
           <Route
+            path={`${PATH.NOTICE_ARTICLE()}`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={`${PATH.NOTICE_PUBLISH()}`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
+            path={`${PATH.NOTICE_EDIT()}`}
+            element={isLoggedIn ? <StudyRoomPage /> : <Navigate to={PATH.MAIN} replace={true} />}
+          />
+          <Route
             path={PATH.EDIT_STUDY()}
             element={isLoggedIn ? <EditStudyPage /> : <Navigate to={PATH.MAIN} replace={true} />}
           />

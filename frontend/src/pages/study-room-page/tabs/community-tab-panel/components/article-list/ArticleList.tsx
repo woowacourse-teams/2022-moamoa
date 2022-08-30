@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
+import tw from '@utils/tw';
+
 import { useGetCommunityArticles } from '@api/community';
 
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
@@ -30,9 +32,13 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
 
   const { articles, lastPage, currentPage } = data;
 
+  if (articles.length === 0) {
+    return <div>게시글이 없습니다</div>;
+  }
+
   return (
-    <>
-      <S.ArticleList className={className}>
+    <S.Container>
+      <S.ArticleList>
         {articles.map(article => (
           <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
             <ArticleListItem key={article.id} {...article}></ArticleListItem>
@@ -46,7 +52,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
           setPage(num);
         }}
       />
-    </>
+    </S.Container>
   );
 };
 

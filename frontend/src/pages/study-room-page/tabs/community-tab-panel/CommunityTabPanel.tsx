@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -12,8 +11,6 @@ import ArticleList from '@community-tab/components/article-list/ArticleList';
 import Article from '@community-tab/components/article/Article';
 import Edit from '@community-tab/components/edit/Edit';
 import Publish from '@community-tab/components/publish/Publish';
-
-AxiosError;
 
 type CommunityTabPanelProps = {
   studyId: number;
@@ -35,14 +32,16 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   const renderArticleListPage = () => {
     return (
-      <>
-        <ArticleList />
+      <div css={tw`flex flex-col gap-y-40`}>
+        <div css={tw`flex-1 min-h-[500px]`}>
+          <ArticleList />
+        </div>
         <div css={tw`flex justify-end`}>
           <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
             글쓰기
           </S.Button>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -64,12 +63,10 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   return (
     <Wrapper>
-      <S.CommunityTabPanel>
-        <S.Board>
-          <h1 css={tw`text-center text-30 mb-40`}>커뮤니티 게시판</h1>
-          <div css={tw`min-h-[300px]`}>{render()}</div>
-        </S.Board>
-      </S.CommunityTabPanel>
+      <div>
+        <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
+        <div>{render()}</div>
+      </div>
     </Wrapper>
   );
 };
