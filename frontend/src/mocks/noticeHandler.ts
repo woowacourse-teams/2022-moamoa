@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 
-import { PostNoticeArticleRequestBody } from '@api/notice';
+import { ApiNoticeArticle } from '@api/notice';
 
 export const noticeHandlers = [
   rest.get('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
@@ -43,7 +43,7 @@ export const noticeHandlers = [
 
     return res(ctx.status(200), ctx.json(article[0]));
   }),
-  rest.post<PostNoticeArticleRequestBody>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
+  rest.post<ApiNoticeArticle['post']['body']>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 

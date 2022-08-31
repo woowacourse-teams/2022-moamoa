@@ -2,7 +2,7 @@ import tw from '@utils/tw';
 
 import type { Link, StudyId } from '@custom-types';
 
-import type { GetLinkPreviewResponseData } from '@api/link-preview';
+import type { ApiLinkPreview } from '@api/link-preview';
 
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import ModalPortal from '@components/modal/Modal';
@@ -42,7 +42,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
   const renderLinkPreview = () => {
     const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
 
-    const errorPreviewResult: GetLinkPreviewResponseData = {
+    const errorPreviewResult: ApiLinkPreview['get']['responseData'] = {
       title: '%Error%',
       description: '링크 불러오기에 실패했습니다 :(',
       imageUrl: null,

@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/memberHandlers';
 import studiesJSON from '@mocks/studies.json';
 
-import type { PostStudyRequestBody, PutStudyRequestBody } from '@api/study';
+import type { ApiStudy } from '@api/study';
 
 const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {
@@ -15,7 +15,7 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200), ctx.json(study));
   }),
-  rest.post<PostStudyRequestBody>('/api/studies', (req, res, ctx) => {
+  rest.post<ApiStudy['post']['body']>('/api/studies', (req, res, ctx) => {
     const studyId = req.params.studyId;
     const { thumbnail, title, description, excerpt, enrollmentEndDate, endDate, startDate, maxMemberCount } = req.body;
 
@@ -77,7 +77,7 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200));
   }),
-  rest.put<PutStudyRequestBody>('/api/studies/:studyId', (req, res, ctx) => {
+  rest.put<ApiStudy['put']['body']>('/api/studies/:studyId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     const editedStudy = req.body;
 

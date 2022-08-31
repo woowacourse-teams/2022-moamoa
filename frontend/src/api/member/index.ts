@@ -5,37 +5,49 @@ import type { Member, StudyId, UserRole } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-// study role
-export type GetUserRoleRequestParams = {
-  studyId: StudyId;
-};
-export type GetUserRoleResponseData = {
-  role: UserRole;
-};
-type UseGetUserRole = GetUserRoleRequestParams & {
-  options?: Omit<
-    UseQueryOptions<GetUserRoleResponseData, AxiosError, GetUserRoleResponseData, QueryKey>,
-    'queryKey' | 'queryFn'
-  >;
+export type ApiUserRole = {
+  get: {
+    params: {
+      studyId: StudyId;
+    };
+    responseData: {
+      role: UserRole;
+    };
+    variables: ApiUserRole['get']['params'] & {
+      options?: Omit<
+        UseQueryOptions<ApiUserRole['get']['responseData'], AxiosError, ApiUserRole['get']['responseData'], QueryKey>,
+        'queryKey' | 'queryFn'
+      >;
+    };
+  };
 };
 
-export const getUserRole = async ({ studyId }: GetUserRoleRequestParams) => {
-  const response = await axiosInstance.get<GetUserRoleResponseData>(`/api/members/me/role?study-id=${studyId}`);
+export type ApiUserInformation = {
+  get: {
+    responseData: Member;
+  };
+};
+
+export const getUserRole = async ({ studyId }: ApiUserRole['get']['variables']) => {
+  const response = await axiosInstance.get<ApiUserRole['get']['responseData']>(
+    `/api/members/me/role?study-id=${studyId}`,
+  );
   return response.data;
 };
 
-export const useGetUserRole = ({ studyId, options }: UseGetUserRole) =>
-  useQuery<GetUserRoleResponseData, AxiosError>(['my-role', studyId], () => getUserRole({ studyId }), options);
-
-// user info
-export type GetUserInformationResponseData = Member;
+export const useGetUserRole = ({ studyId, options }: ApiUserRole['get']['variables']) =>
+  useQuery<ApiUserRole['get']['responseData'], AxiosError>(
+    ['my-role', studyId],
+    () => getUserRole({ studyId }),
+    options,
+  );
 
 export const getUserInformation = async () => {
-  const response = await axiosInstance.get<GetUserInformationResponseData>(`/api/members/me`);
+  const response = await axiosInstance.get<ApiUserInformation['get']['responseData']>(`/api/members/me`);
   return response.data;
 };
 
 export const useGetUserInformation = () =>
-  useQuery<GetUserInformationResponseData, AxiosError>('user-info', getUserInformation, {
+  useQuery<ApiUserInformation['get']['responseData'], AxiosError>('user-info', getUserInformation, {
     enabled: false,
   });

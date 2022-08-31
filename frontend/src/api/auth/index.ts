@@ -3,25 +3,38 @@ import { useMutation } from 'react-query';
 
 import axiosInstance from '@api/axiosInstance';
 
-// login
-export type PostLoginRequestParams = {
-  code: string;
-};
-export type PostLoginResponseData = {
-  accessToken: string;
-  expiredTime: number;
+export type ApiLogin = {
+  post: {
+    params: { code: string };
+    responseData: {
+      accessToken: string;
+      expiredTime: number;
+    };
+    variables: ApiLogin['post']['params'];
+  };
 };
 
-export const postLogin = async ({ code }: PostLoginRequestParams) => {
+export type ApiRefreshToken = {
+  get: {
+    responseData: {
+      accessToken: string;
+      expiredTime: number;
+    };
+  };
+};
+
+// login
+export const postLogin = async ({ code }: ApiLogin['post']['variables']) => {
   const response = await axiosInstance.post<
-    PostLoginResponseData,
-    AxiosResponse<PostLoginResponseData>,
-    PostLoginRequestParams
+    ApiLogin['post']['responseData'],
+    AxiosResponse<ApiLogin['post']['responseData']>,
+    ApiLogin['post']['variables']
   >(`/api/auth/login?code=${code}`);
   return response.data;
 };
 
-export const usePostLogin = () => useMutation<PostLoginResponseData, AxiosError, PostLoginRequestParams>(postLogin);
+export const usePostLogin = () =>
+  useMutation<ApiLogin['post']['responseData'], AxiosError, ApiLogin['post']['variables']>(postLogin);
 
 // logout
 export const deleteLogout = async () => {
@@ -31,13 +44,7 @@ export const deleteLogout = async () => {
 
 export const useDeleteLogout = () => useMutation<null, AxiosError, null>(deleteLogout);
 
-// refresh
-export type GetRefreshResponseData = {
-  accessToken: string;
-  expiredTime: number;
-};
-
 export const getRefresh = async () => {
-  const response = await axiosInstance.get<GetRefreshResponseData>(`/api/auth/refresh`);
+  const response = await axiosInstance.get<ApiRefreshToken['get']['responseData']>(`/api/auth/refresh`);
   return response.data;
 };

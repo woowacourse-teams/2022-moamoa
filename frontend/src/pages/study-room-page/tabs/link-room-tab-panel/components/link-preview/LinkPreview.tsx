@@ -1,4 +1,4 @@
-import { GetLinkPreviewResponseData } from '@api/link-preview';
+import { ApiLinkPreview } from '@api/link-preview';
 
 import CenterImage from '@components/center-image/CenterImage';
 import { RightUpArrowSvg } from '@components/svg';
@@ -6,7 +6,7 @@ import { RightUpArrowSvg } from '@components/svg';
 import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview.style';
 
 export type LinkPreviewProps = {
-  previewResult: GetLinkPreviewResponseData;
+  previewResult: ApiLinkPreview['get']['responseData'];
   linkUrl: string;
 };
 

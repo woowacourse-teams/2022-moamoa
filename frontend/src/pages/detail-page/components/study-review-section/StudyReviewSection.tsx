@@ -16,7 +16,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   const [isMoreButtonVisible, setIsMoreButtonVisible] = useState<boolean>(true);
   const showAll = !isMoreButtonVisible;
   const size = showAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
-  const { data, isError, isFetching, isSuccess } = useGetStudyReviews(Number(studyId), size);
+  const { data, isError, isFetching, isSuccess } = useGetStudyReviews({ studyId: Number(studyId), size });
 
   const handleMoreButtonClick = () => {
     setIsMoreButtonVisible(prev => !prev);

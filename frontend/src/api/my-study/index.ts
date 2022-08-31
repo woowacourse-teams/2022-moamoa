@@ -5,30 +5,34 @@ import type { StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-// post - join study
-export type PostMyStudyRequestParams = {
-  studyId: StudyId;
+export type ApiMyStudy = {
+  post: {
+    params: {
+      studyId: StudyId;
+    };
+    variables: ApiMyStudy['post']['params'];
+  };
+  delete: {
+    params: { studyId: StudyId };
+    variables: ApiMyStudy['delete']['params'];
+  };
 };
 
-export const postMyStudy = async ({ studyId }: PostMyStudyRequestParams) => {
-  const response = await axiosInstance.post<null, AxiosResponse<null>, PostMyStudyRequestParams>(
+// TODO: postMyStudy -> postSignUpMyStudy
+export const postMyStudy = async ({ studyId }: ApiMyStudy['post']['variables']) => {
+  const response = await axiosInstance.post<null, AxiosResponse<null>, ApiMyStudy['post']['variables']>(
     `/api/studies/${studyId}/members`,
   );
   return response.data;
 };
 
-export const usePostMyStudy = () => useMutation<null, AxiosError, PostMyStudyRequestParams>(postMyStudy);
+export const usePostMyStudy = () => useMutation<null, AxiosError, ApiMyStudy['post']['variables']>(postMyStudy);
 
-// delete - quit study
-export type DeleteMyStudyRequestParams = {
-  studyId: StudyId;
-};
-
-export const deleteMyStudy = async ({ studyId }: DeleteMyStudyRequestParams) => {
-  const response = await axiosInstance.delete<null, AxiosResponse<null>, DeleteMyStudyRequestParams>(
+export const deleteMyStudy = async ({ studyId }: ApiMyStudy['delete']['variables']) => {
+  const response = await axiosInstance.delete<null, AxiosResponse<null>, ApiMyStudy['delete']['variables']>(
     `/api/studies/${studyId}/members`,
   );
   return response.data;
 };
 
-export const useDeleteMyStudy = () => useMutation<null, AxiosError, DeleteMyStudyRequestParams>(deleteMyStudy);
+export const useDeleteMyStudy = () => useMutation<null, AxiosError, ApiMyStudy['delete']['variables']>(deleteMyStudy);
