@@ -16,7 +16,7 @@ export type ReviewTabPanelProps = {
 };
 
 const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
-  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews(studyId);
+  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
   const { userInfo, fetchUserInfo } = useUserInfo();
 
   useEffect(() => {

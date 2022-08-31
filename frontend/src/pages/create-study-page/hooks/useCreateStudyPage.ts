@@ -5,7 +5,7 @@ import { PATH } from '@constants';
 import { getRandomInt } from '@utils';
 
 import { usePostStudy } from '@api/study';
-import type { PostStudyRequestBody } from '@api/study';
+import type { ApiStudy } from '@api/study';
 
 import { useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
@@ -44,7 +44,7 @@ const useCreateStudyPage = () => {
 
     const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
 
-    const postData: PostStudyRequestBody = {
+    const postData: ApiStudy['post']['body'] = {
       title: values['title'],
       excerpt: values['excerpt'],
       thumbnail,
