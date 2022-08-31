@@ -17,3 +17,10 @@ spring:
     url: jdbc:h2:mem:~/moamoa;MODE=MYSQL
   profiles:
     include: security
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
