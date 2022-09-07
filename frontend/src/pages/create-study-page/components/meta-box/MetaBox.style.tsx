@@ -13,7 +13,7 @@ export const MetaBox = styled.div`
 
 export const Title = styled.h2`
   ${({ theme }) => css`
-    font-size: 16px;
+    font-size: ${theme.fontSize.md};
     padding: 8px 12px;
     margin: 0;
     line-height: 1.4;

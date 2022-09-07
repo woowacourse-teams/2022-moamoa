@@ -29,7 +29,7 @@ export const Input = styled(OriginalInput)`
   ${({ theme }) => css`
     display: block;
     width: 100%;
-    font-size: 24px;
+    font-size: ${theme.fontSize.xl};
     line-height: 24px;
 
     border-radius: 4px;

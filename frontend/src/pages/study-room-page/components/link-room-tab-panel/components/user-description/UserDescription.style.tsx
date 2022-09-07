@@ -17,7 +17,7 @@ export const Container = styled.div`
 export const Description = styled.p`
   margin-left: 8px;
 
-  font-size: 12px;
+  font-size: ${theme.fontSize.sm};
 
   ${twoLineEllipsis}
 `;

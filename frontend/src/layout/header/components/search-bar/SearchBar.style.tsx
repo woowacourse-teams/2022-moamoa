@@ -13,7 +13,7 @@ export const Input = styled.input`
     padding: 8px 40px;
     overflow: hidden;
 
-    font-size: 20px;
+    font-size: ${theme.fontSize.lg};
     border-radius: 20px;
     border: 3px solid ${theme.colors.primary.base};
 
@@ -29,10 +29,10 @@ export const Input = styled.input`
     }
 
     ${mqDown('md')} {
-      font-size: 18px;
+      font-size: ${theme.fontSize.lg};
     }
     ${mqDown('sm')} {
-      font-size: 16px;
+      font-size: ${theme.fontSize.md};
     }
   `}
 `;
@@ -48,7 +48,7 @@ export const Button = styled.button`
     bottom: 0;
 
     padding-right: 20px;
-    font-size: 20px;
+    font-size: ${theme.fontSize.lg};
 
     background: transparent;
     border: none;

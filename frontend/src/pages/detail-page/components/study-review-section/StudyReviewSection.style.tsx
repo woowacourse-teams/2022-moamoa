@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
@@ -9,14 +10,16 @@ export const ReviewSection = styled.section`
 `;
 
 export const ReviewTitle = styled.h3`
-  margin-bottom: 30px;
+  ${({ theme }) => css`
+    margin-bottom: 30px;
 
-  font-size: 24px;
-  font-weight: 700;
+    font-size: ${theme.fontSize.xl};
+    font-weight: ${theme.fontWeight.bold};
 
-  & > span {
-    font-size: 16px;
-  }
+    & > span {
+      font-size: ${theme.fontSize.md};
+    }
+  `}
 `;
 
 export const ReviewList = styled.ul`

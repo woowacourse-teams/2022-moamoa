@@ -30,7 +30,7 @@ export const Button = styled.button<ButtonProps>`
       opacity: 0.8;
     }
 
-    font-size: 13px;
+    font-size: ${theme.fontSize.sm};
     border-radius: 3px;
     text-decoration: none !important;
     vertical-align: middle;

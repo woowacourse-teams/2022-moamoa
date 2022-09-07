@@ -10,14 +10,16 @@ export const StudyMemberSection = styled.section`
 `;
 
 export const Title = styled.h3`
-  margin-bottom: 30px;
+  ${({ theme }) => css`
+    margin-bottom: 30px;
 
-  font-size: 24px;
-  font-weight: 700;
+    font-size: ${theme.fontSize.xl};
+    font-weight: ${theme.fontWeight.bold};
 
-  & > span {
-    font-size: 16px;
-  }
+    & > span {
+      font-size: ${theme.fontSize.md};
+    }
+  `}
 `;
 
 export const MemberList = styled.ul`

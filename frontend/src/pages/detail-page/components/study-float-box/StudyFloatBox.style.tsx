@@ -15,34 +15,40 @@ export const StudyFloatBox = styled.div`
 export const StudyInfo = styled.div``;
 
 export const EnrollmentEndDate = styled.p`
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    margin-bottom: 20px;
 
-  font-size: 20px;
+    font-size: ${theme.fontSize.lg};
 
-  & > span {
-    padding-right: 4px;
+    & > span {
+      padding-right: 4px;
 
-    font-size: 24px;
-    font-weight: 700;
-  }
+      font-size: ${theme.fontSize.xl};
+      font-weight: ${theme.fontWeight.bold};
+    }
+  `}
 `;
 
 export const MemberCount = styled.p`
-  display: flex;
-  justify-content: space-between;
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
 
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 
-  & > span {
-    font-size: 20px;
-  }
+    & > span {
+      font-size: ${theme.fontSize.lg};
+    }
+  `}
 `;
 
 export const Owner = styled.p`
-  display: flex;
-  justify-content: space-between;
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
 
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 
-  font-size: 20px;
+    font-size: ${theme.fontSize.lg};
+  `}
 `;

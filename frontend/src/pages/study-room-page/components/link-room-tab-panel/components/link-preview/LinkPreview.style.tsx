@@ -46,8 +46,8 @@ export const PreviewDomain = styled.div`
     transition: visibility 0.2s ease, opacity 0.2s ease;
 
     & > span {
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: ${theme.fontWeight.bold};
+      font-size: ${theme.fontSize.sm};
     }
   `}
 
@@ -59,9 +59,11 @@ export const PreviewContentContainer = styled.div`
 `;
 
 export const PreviewTitle = styled.p`
-  margin-bottom: 8px;
+  ${({ theme }) => css`
+    margin-bottom: 8px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 
   ${onelineEllipsis}
 `;
@@ -70,7 +72,7 @@ export const PreviewDescription = styled.p`
   ${({ theme }) => css`
     margin-bottom: 8px;
 
-    font-size: 14px;
+    font-size: ${theme.fontSize.sm};
     color: ${theme.colors.secondary.dark};
   `}
 

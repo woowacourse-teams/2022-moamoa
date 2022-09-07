@@ -22,9 +22,11 @@ export const AuthorInfoContainer = styled.div`
 `;
 
 export const AuthorName = styled.p`
-  margin-left: 8px;
+  ${({ theme }) => css`
+    margin-left: 8px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const Form = styled.form`
@@ -34,7 +36,9 @@ export const Form = styled.form`
 `;
 
 export const FormLabel = styled.label`
-  font-weight: 600;
+  ${({ theme }) => css`
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const FormInput = styled(Input)`

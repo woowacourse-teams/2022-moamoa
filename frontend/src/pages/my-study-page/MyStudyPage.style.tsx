@@ -1,8 +1,11 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const PageTitle = styled.h1`
-  font-size: 32px;
-  text-align: center;
+export const PageTitle = styled.h2`
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.xxl};
+    text-align: center;
+  `}
 `;
 
 export const SectionContainer = styled.div`

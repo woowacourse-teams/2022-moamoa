@@ -23,7 +23,7 @@ export const Button = styled.button<ButtonProps>`
     min-height: 30px;
 
     text-align: center;
-    font-size: 20px;
+    font-size: ${theme.fontSize.lg};
     color: ${theme.colors.white};
 
     border: none;

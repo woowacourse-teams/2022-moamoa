@@ -20,7 +20,7 @@ export {
 
 export const Date = styled.span`
   ${({ theme }) => css`
-    font-size: 12px;
+    font-size: ${theme.fontSize.sm};
     color: ${theme.colors.secondary.dark};
   `}
 `;
@@ -40,8 +40,10 @@ export const UsernameContainer = styled.div`
 `;
 
 export const UsernameLink = styled.a`
-  font-size: 20px;
-  font-weight: 700;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.lg};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const CancelButton = styled(Button)`
@@ -65,11 +67,13 @@ export const ReviewEditFormHead = styled(ReviewFormHead)``;
 export const ReviewEditFormBody = styled(ReviewFormBody)``;
 
 export const ReviewEditFormFooter = styled(ReviewFormFooter)`
-  button {
-    border-radius: 4px;
-    padding: 8px 10px;
-    font-size: 12px;
-  }
+  ${({ theme }) => css`
+    button {
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: ${theme.fontSize.sm};
+    }
+  `}
 `;
 
 export const ReviewEditFormFooterButtonGroup = styled(ButtonGroup)`

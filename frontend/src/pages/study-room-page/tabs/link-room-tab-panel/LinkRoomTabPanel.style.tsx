@@ -35,7 +35,7 @@ export const LinkAddButton = styled.button`
     border: none;
 
     & > span {
-      font-size: 20px;
+      font-size: ${theme.fontSize.lg};
       color: ${theme.colors.primary.base};
     }
 

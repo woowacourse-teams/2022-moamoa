@@ -26,9 +26,11 @@ export const AuthorInfoContainer = styled.div`
 `;
 
 export const AuthorName = styled.span`
-  margin-bottom: 4px;
+  ${({ theme }) => css`
+    margin-bottom: 4px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const ReviewDate = styled.span`

@@ -52,13 +52,15 @@ export const DropBoxButtonList = styled.ul`
 `;
 
 export const DropBoxButton = styled.button`
-  padding: 10px;
+  ${({ theme }) => css`
+    padding: 10px;
 
-  background-color: transparent;
-  border: none;
-  white-space: nowrap;
+    background-color: transparent;
+    border: none;
+    white-space: nowrap;
 
-  &:hover {
-    font-weight: 600;
-  }
+    &:hover {
+      font-weight: ${theme.fontWeight.bold};
+    }
+  `}
 `;
