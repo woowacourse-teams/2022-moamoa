@@ -7,7 +7,6 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
@@ -70,17 +69,23 @@ class SearchingReferenceRoomControllerTest {
 
     private List<LinkResponse> linkResponses;
 
+    private Member 짱구;
+    private Member 그린론;
+    private Member 디우;
+    private Member 베루스;
+    private Member 병민;
+
     @BeforeEach
     void setUp() {
         sut = new SearchingReferenceRoomController(
                 new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구());
-        final Member greenlawn = memberRepository.save(그린론());
-        final Member dwoo = memberRepository.save(디우());
-        final Member verus = memberRepository.save(베루스());
-        memberRepository.save(병민());
+        짱구 = memberRepository.save(짱구());
+        그린론 = memberRepository.save(그린론());
+        디우 = memberRepository.save(디우());
+        베루스 = memberRepository.save(베루스());
+        병민 = memberRepository.save(병민());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -91,9 +96,9 @@ class SearchingReferenceRoomControllerTest {
         javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
-        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
-        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
-        participantService.participateStudy(verus.getId(), javaStudy.getId());
+        participantService.participateStudy(그린론.getId(), javaStudy.getId());
+        participantService.participateStudy(디우.getId(), javaStudy.getId());
+        participantService.participateStudy(베루스.getId(), javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository,
@@ -104,10 +109,10 @@ class SearchingReferenceRoomControllerTest {
         final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
         final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
-        final Link link1 = linkService.createLink(jjanggu.getId(), javaStudy.getId(), request1);
-        final Link link2 = linkService.createLink(greenlawn.getId(), javaStudy.getId(), request2);
-        final Link link3 = linkService.createLink(dwoo.getId(), javaStudy.getId(), request3);
-        final Link link4 = linkService.createLink(verus.getId(), javaStudy.getId(), request4);
+        final Link link1 = linkService.createLink(짱구.getId(), javaStudy.getId(), request1);
+        final Link link2 = linkService.createLink(그린론.getId(), javaStudy.getId(), request2);
+        final Link link3 = linkService.createLink(디우.getId(), javaStudy.getId(), request3);
+        final Link link4 = linkService.createLink(베루스.getId(), javaStudy.getId(), request4);
 
         entityManager.flush();
         entityManager.clear();
@@ -131,7 +136,7 @@ class SearchingReferenceRoomControllerTest {
     @DisplayName("링크 공유글 전체 목록 조회를 할 수 있다.")
     @Test
     void getLinks() {
-        final ResponseEntity<LinksResponse> links = sut.getLinks(짱구_깃허브_아이디, javaStudy.getId(), PageRequest.of(0, 5));
+        final ResponseEntity<LinksResponse> links = sut.getLinks(짱구.getId(), javaStudy.getId(), PageRequest.of(0, 5));
 
         assertAll(
                 () -> assertThat(links.getStatusCode()).isEqualTo(HttpStatus.OK),
@@ -148,7 +153,7 @@ class SearchingReferenceRoomControllerTest {
         final Long javaStudyId = javaStudy.getId();
         final PageRequest pageRequest = PageRequest.of(0, 5);
 
-        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudyId, pageRequest))
+        assertThatThrownBy(() -> sut.getLinks(병민.getId(), javaStudyId, pageRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }
