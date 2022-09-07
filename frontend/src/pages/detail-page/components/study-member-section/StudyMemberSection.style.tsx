@@ -4,9 +4,11 @@ import styled from '@emotion/styled';
 import { mqDown } from '@utils';
 
 export const StudyMemberSection = styled.section`
-  padding: 16px;
+  ${({ theme }) => css`
+    padding: 16px;
 
-  border-radius: ${theme.radius.md};
+    border-radius: ${theme.radius.md};
+  `}
 `;
 
 export const Title = styled.h3`

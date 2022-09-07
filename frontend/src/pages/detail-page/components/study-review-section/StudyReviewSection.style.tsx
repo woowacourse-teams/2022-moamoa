@@ -4,9 +4,11 @@ import styled from '@emotion/styled';
 import { mqDown } from '@utils';
 
 export const ReviewSection = styled.section`
-  padding: 16px;
+  ${({ theme }) => css`
+    padding: 16px;
 
-  border-radius: ${theme.radius.md};
+    border-radius: ${theme.radius.md};
+  `}
 `;
 
 export const ReviewTitle = styled.h3`
