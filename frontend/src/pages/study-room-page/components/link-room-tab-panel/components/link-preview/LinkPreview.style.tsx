@@ -22,11 +22,13 @@ export const PreviewContainer = styled.div`
 `;
 
 export const PreviewImageContainer = styled.div`
-  height: 140px;
-  margin-bottom: 8px;
-  overflow: hidden;
+  ${({ theme }) => css`
+    height: 140px;
+    margin-bottom: 8px;
+    overflow: hidden;
 
-  border-radius: ${theme.radius.md};
+    border-radius: ${theme.radius.md};
+  `}
 `;
 
 export const PreviewDomain = styled.div`
