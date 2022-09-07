@@ -10,7 +10,7 @@ export const LinkFormContainer = styled.div`
     padding: 16px;
 
     background-color: ${theme.colors.white};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;
 
@@ -47,7 +47,7 @@ export const FormInput = styled(Input)`
     padding: 8px;
 
     border: 1px solid ${theme.colors.secondary.base};
-    border-radius: 10px;
+    border-radius: ${theme.radius.sm};
     background-color: ${theme.colors.secondary.light};
   `}
 `;
@@ -63,7 +63,7 @@ export const FormTextArea = styled(Input.withComponent('textarea'))`
     padding: 8px;
 
     border: 1px solid ${theme.colors.secondary.base};
-    border-radius: 10px;
+    border-radius: ${theme.radius.sm};
     background-color: ${theme.colors.secondary.light};
   `}
 `;

@@ -45,7 +45,7 @@ export const ReviewFormFooter = styled.div`
     border-top: 1px solid ${theme.colors.secondary.base};
 
     button {
-      border-radius: 4px;
+      border-radius: ${theme.radius.xs};
       padding: 8px 10px;
       font-size: ${theme.fontSize.sm};
     }
@@ -57,6 +57,6 @@ export const ButtonGroup = styled.div``;
 export const ReviewForm = styled.form`
   ${({ theme }) => css`
     border: 1px solid ${theme.colors.secondary.dark};
-    border-radius: 4px;
+    border-radius: ${theme.radius.xs};
   `}
 `;

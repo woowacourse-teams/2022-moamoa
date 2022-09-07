@@ -13,7 +13,7 @@ export const TagChip = styled.div`
     text-align: center;
     color: ${theme.colors.primary.base};
 
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
     border: 2px solid ${theme.colors.primary.base};
     background-color: ${theme.colors.white};
   `}

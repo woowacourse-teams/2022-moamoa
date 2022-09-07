@@ -37,7 +37,7 @@ export const Avatar = styled.div`
     width: 36px;
     min-width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
     box-shadow: 0 1px 5px 0 ${theme.colors.secondary.dark};
     overflow: hidden;
     transition: opacity 0.2s ease;

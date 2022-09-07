@@ -7,7 +7,7 @@ export const StudyReviewCard = styled.div`
     max-height: 150px;
     padding: 16px;
 
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
     box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
   `}
 `;

@@ -77,7 +77,7 @@ export const MyStudyCard = styled.div<Pick<MyStudyCardProps, 'disabled'>>`
     height: 100%;
 
     border: 3px solid ${theme.colors.primary.base};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
     box-shadow: 4px 4px 0 0 ${theme.colors.secondary.dark};
 
     ${disabled && disabledStyle(theme)}

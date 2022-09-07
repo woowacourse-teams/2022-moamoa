@@ -24,7 +24,7 @@ export const PaginationButton = styled.button<PaginationButtonProps>`
     background-color: transparent;
     outline: 0px;
     line-height: 1.5;
-    border-radius: 4px;
+    border-radius: ${theme.radius.xs};
     text-align: center;
     min-width: ${buttonWidth};
     height: ${buttonHeight};

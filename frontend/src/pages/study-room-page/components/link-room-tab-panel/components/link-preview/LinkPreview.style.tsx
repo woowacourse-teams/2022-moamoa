@@ -26,7 +26,7 @@ export const PreviewImageContainer = styled.div`
   margin-bottom: 8px;
   overflow: hidden;
 
-  border-radius: 15px;
+  border-radius: ${theme.radius.md};
 `;
 
 export const PreviewDomain = styled.div`
@@ -39,7 +39,7 @@ export const PreviewDomain = styled.div`
     padding: 4px;
 
     background-color: ${theme.colors.white};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
     text-align: center;
     visibility: hidden;
     opacity: 0;

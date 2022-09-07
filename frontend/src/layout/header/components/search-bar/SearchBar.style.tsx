@@ -14,7 +14,7 @@ export const Input = styled.input`
     overflow: hidden;
 
     font-size: ${theme.fontSize.lg};
-    border-radius: 20px;
+    border-radius: ${theme.radius.lg};
     border: 3px solid ${theme.colors.primary.base};
 
     text-align: center;

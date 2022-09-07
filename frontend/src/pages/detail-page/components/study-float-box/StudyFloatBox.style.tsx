@@ -8,7 +8,7 @@ export const StudyFloatBox = styled.div`
     background: ${theme.colors.white};
     border: 3px solid ${theme.colors.primary.base};
     box-shadow: 8px 8px 0 ${theme.colors.secondary.dark};
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
   `}
 `;
 

@@ -37,7 +37,7 @@ export const Button = styled.button`
     color: ${theme.colors.secondary.dark};
     background-color: transparent;
     border: none;
-    border-radius: 5px;
+    border-radius: ${theme.radius.xs};
     transition: color 0.1s ease;
 
     &:hover,

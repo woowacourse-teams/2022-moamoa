@@ -58,7 +58,7 @@ export const CancelButton = styled(Button)`
 export const ReviewEditForm = styled.form`
   ${({ theme }) => css`
     border: 1px solid ${theme.colors.secondary.dark};
-    border-radius: 4px;
+    border-radius: ${theme.radius.xs};
   `}
 `;
 
@@ -69,7 +69,7 @@ export const ReviewEditFormBody = styled(ReviewFormBody)``;
 export const ReviewEditFormFooter = styled(ReviewFormFooter)`
   ${({ theme }) => css`
     button {
-      border-radius: 4px;
+      border-radius: ${theme.radius.xs};
       padding: 8px 10px;
       font-size: ${theme.fontSize.sm};
     }

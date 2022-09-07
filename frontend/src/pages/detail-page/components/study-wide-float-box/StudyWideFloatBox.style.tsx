@@ -11,7 +11,7 @@ export const StudyWideFloatBox = styled.div`
 
     line-height: 24px;
     background: ${theme.colors.white};
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
   `}
 `;
 

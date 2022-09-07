@@ -120,7 +120,7 @@ const GlobalStyles = () => {
         select,
         textarea,
         input {
-          border-radius: 4px;
+          border-radius: ${theme.radius.xs};
         }
       `}
     />

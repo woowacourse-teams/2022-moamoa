@@ -20,7 +20,7 @@ export const PreviewMeatballMenuContainer = styled.div`
     height: 30px;
 
     background-color: ${theme.colors.white};
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
     transition: background-color 0.3s ease;
 
     &:hover,

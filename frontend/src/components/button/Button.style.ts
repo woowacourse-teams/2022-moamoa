@@ -27,7 +27,7 @@ export const Button = styled.button<ButtonProps>`
     color: ${theme.colors.white};
 
     border: none;
-    border-radius: 10px;
+    border-radius: ${theme.radius.sm};
     background-color: ${theme.colors.primary.base};
 
     white-space: nowrap;

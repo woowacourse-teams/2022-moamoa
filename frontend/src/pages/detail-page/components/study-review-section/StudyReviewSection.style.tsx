@@ -6,7 +6,7 @@ import { mqDown } from '@utils';
 export const ReviewSection = styled.section`
   padding: 16px;
 
-  border-radius: 15px;
+  border-radius: ${theme.radius.md};
 `;
 
 export const ReviewTitle = styled.h3`

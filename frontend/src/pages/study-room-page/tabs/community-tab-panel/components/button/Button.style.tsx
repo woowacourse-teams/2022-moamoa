@@ -31,7 +31,7 @@ export const Button = styled.button<ButtonProps>`
     }
 
     font-size: ${theme.fontSize.sm};
-    border-radius: 3px;
+    border-radius: ${theme.radius.xs};
     text-decoration: none !important;
     vertical-align: middle;
     text-shadow: none;

@@ -15,7 +15,7 @@ export const PlusSvgContainer = styled.span`
     margin-right: 4px;
 
     background-color: ${theme.colors.primary.base};
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
 
     & > svg {
       fill: ${theme.colors.white};

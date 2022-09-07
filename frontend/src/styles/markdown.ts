@@ -292,7 +292,7 @@ const markdown = css`
     background-color: var(--color-canvas-subtle);
     border: solid 1px var(--color-neutral-muted);
     border-bottom-color: var(--color-neutral-muted);
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
     box-shadow: inset 0 -1px 0 var(--color-neutral-muted);
   }
 
@@ -840,7 +840,7 @@ const markdown = css`
     margin: 0;
     font-size: 85%;
     background-color: var(--color-neutral-muted);
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
   }
 
   code br,
@@ -881,7 +881,7 @@ const markdown = css`
     font-size: 85%;
     line-height: 1.45;
     background-color: var(--color-canvas-subtle);
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
   }
 
   pre code,
@@ -947,7 +947,7 @@ const markdown = css`
     pointer-events: none;
     content: '';
     border: 2px solid var(--color-accent-emphasis);
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
   }
 
   .footnotes li:target {

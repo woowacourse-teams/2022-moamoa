@@ -10,7 +10,7 @@ export const StudyMemberCard = styled.div`
 
     background: ${theme.colors.secondary.light};
     box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;
 

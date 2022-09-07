@@ -10,7 +10,7 @@ export const Card = styled.div`
     overflow: hidden;
 
     border: 3px solid ${theme.colors.primary.base};
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
     box-shadow: 8px 8px 0 0 ${theme.colors.secondary.dark};
 
     :hover {

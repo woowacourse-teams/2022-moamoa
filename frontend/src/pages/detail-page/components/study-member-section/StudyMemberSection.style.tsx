@@ -6,7 +6,7 @@ import { mqDown } from '@utils';
 export const StudyMemberSection = styled.section`
   padding: 16px;
 
-  border-radius: 15px;
+  border-radius: ${theme.radius.md};
 `;
 
 export const Title = styled.h3`

@@ -7,7 +7,7 @@ export const MetaBox = styled.div`
     min-width: 255px;
     border: 1px solid ${theme.colors.secondary.dark};
     box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
   `}
 `;
 

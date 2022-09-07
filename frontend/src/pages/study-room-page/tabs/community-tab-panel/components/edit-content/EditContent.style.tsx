@@ -5,7 +5,7 @@ import { Textarea as OriginalTextArea } from '@community-tab/components/textarea
 
 export const EditContent = styled.div`
   ${({ theme }) => css`
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
     border: 1px solid ${theme.colors.secondary.dark};
     overflow: hidden;
 
@@ -74,7 +74,7 @@ export const Textarea = styled(OriginalTextArea)`
     height: 100%;
     padding: 12px;
 
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
     background-color: ${theme.colors.secondary.light};
     border: 1px solid ${theme.colors.secondary.dark};
     font-size: ${theme.fontSize.md};
