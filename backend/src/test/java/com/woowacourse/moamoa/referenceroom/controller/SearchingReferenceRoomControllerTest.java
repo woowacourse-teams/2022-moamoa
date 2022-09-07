@@ -1,13 +1,10 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민_깃허브_아이디;
@@ -107,10 +104,10 @@ class SearchingReferenceRoomControllerTest {
         final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
         final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
-        final Link link1 = linkService.createLink(짱구_깃허브_아이디, javaStudy.getId(), request1);
-        final Link link2 = linkService.createLink(그린론_깃허브_아이디, javaStudy.getId(), request2);
-        final Link link3 = linkService.createLink(디우_깃허브_아이디, javaStudy.getId(), request3);
-        final Link link4 = linkService.createLink(베루스_깃허브_아이디, javaStudy.getId(), request4);
+        final Link link1 = linkService.createLink(jjanggu.getId(), javaStudy.getId(), request1);
+        final Link link2 = linkService.createLink(greenlawn.getId(), javaStudy.getId(), request2);
+        final Link link3 = linkService.createLink(dwoo.getId(), javaStudy.getId(), request3);
+        final Link link4 = linkService.createLink(verus.getId(), javaStudy.getId(), request4);
 
         entityManager.flush();
         entityManager.clear();

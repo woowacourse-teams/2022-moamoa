@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
@@ -25,32 +25,32 @@ public class ReferenceRoomController {
 
     @PostMapping
     public ResponseEntity<Void> createLink(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final CreatingLinkRequest creatingLinkRequest
     ) {
-        final Long id = referenceRoomService.createLink(githubId, studyId, creatingLinkRequest).getId();
+        final Long id = referenceRoomService.createLink(memberId, studyId, creatingLinkRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
     @PutMapping("/{link-id}")
     public ResponseEntity<Void> updateLink(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final EditingLinkRequest editingLinkRequest
     ) {
-        referenceRoomService.updateLink(githubId, studyId, linkId, editingLinkRequest);
+        referenceRoomService.updateLink(memberId, studyId, linkId, editingLinkRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{link-id}")
     public ResponseEntity<Void> deleteLink(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {
-        referenceRoomService.deleteLink(githubId, studyId, linkId);
+        referenceRoomService.deleteLink(memberId, studyId, linkId);
         return ResponseEntity.noContent().build();
     }
 }
