@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.auth.controller;
 
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
@@ -40,8 +40,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/api/auth/logout")
-    public ResponseEntity<Void> logout(@AuthenticationPrincipal Long githubId) {
-        authService.logout(githubId);
+    public ResponseEntity<Void> logout(@AuthenticatedMember Long memberId) {
+        authService.logout(memberId);
 
         return ResponseEntity.noContent().header("Set-Cookie", removeCookie().toString()).build();
     }

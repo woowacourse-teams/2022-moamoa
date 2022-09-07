@@ -2,11 +2,8 @@ package com.woowacourse.moamoa.auth.config;
 
 import com.woowacourse.moamoa.auth.controller.AuthenticatedMemberResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticatedRefreshArgumentResolver;
-import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +18,10 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private final AuthenticatedRefreshArgumentResolver authenticatedRefreshArgumentResolver;
     private final AuthenticationInterceptor authenticationInterceptor;
-    private final AuthenticationArgumentResolver authenticationArgumentResolver;
     private final AuthenticatedMemberResolver authenticatedMemberResolver;
 
     @Override
     public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(authenticationArgumentResolver);
         resolvers.add(authenticatedMemberResolver);
         resolvers.add(authenticatedRefreshArgumentResolver);
     }

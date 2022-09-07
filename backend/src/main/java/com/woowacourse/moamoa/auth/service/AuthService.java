@@ -9,7 +9,10 @@ import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileRes
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final OAuthClient oAuthClient;
     private final TokenRepository tokenRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public TokensResponse createToken(final String code) {
@@ -60,8 +64,10 @@ public class AuthService {
     }
 
     @Transactional
-    public void logout(final Long githubId) {
-        final Token token = tokenRepository.findByGithubId(githubId)
+    public void logout(final Long memberId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token token = tokenRepository.findByGithubId(member.getGithubId())
                 .orElseThrow(TokenNotFoundException::new);
 
         tokenRepository.delete(token);

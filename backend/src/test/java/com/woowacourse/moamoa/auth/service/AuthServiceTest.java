@@ -13,6 +13,7 @@ import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.service.MemberService;
@@ -48,7 +49,7 @@ class AuthServiceTest {
         memberService = new MemberService(memberRepository, memberDao);
         tokenProvider = Mockito.mock(TokenProvider.class);
         oAuthClient = Mockito.mock(OAuthClient.class);
-        authService = new AuthService(memberService, tokenProvider, oAuthClient, tokenRepository);
+        authService = new AuthService(memberService, tokenProvider, oAuthClient, tokenRepository, memberRepository);
 
         Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
         Mockito.when(oAuthClient.getProfile("access-token"))
@@ -100,9 +101,10 @@ class AuthServiceTest {
     @Test
     void logout() {
         authService.createToken("authorization-code");
+        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
         final Token token = tokenRepository.findByGithubId(1L).get();
 
-        authService.logout(token.getGithubId());
+        authService.logout(member.getId());
 
         final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
 
