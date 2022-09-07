@@ -81,8 +81,8 @@ class SearchingReviewControllerTest {
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
         StudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
-        javaStudy = studyService.createStudy(1L, javaStudyRequest);
-        final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);
+        javaStudy = studyService.createStudy(jjanggu.getId(), javaStudyRequest);
+        final Study reactStudy = studyService.createStudy(jjanggu.getId(), reactStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(greenlawn.getId(), javaStudy.getId());

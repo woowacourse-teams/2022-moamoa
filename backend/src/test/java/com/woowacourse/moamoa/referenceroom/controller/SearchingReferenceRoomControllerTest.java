@@ -8,7 +8,6 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -93,7 +92,7 @@ class SearchingReferenceRoomControllerTest {
         final LocalDate startDate = LocalDate.now();
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
-        javaStudy = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest);
+        javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(그린론.getId(), javaStudy.getId());

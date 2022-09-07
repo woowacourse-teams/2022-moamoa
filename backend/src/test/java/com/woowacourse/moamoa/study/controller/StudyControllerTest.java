@@ -7,10 +7,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.AttachedTag;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -38,10 +38,13 @@ class StudyControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    private Member 짱구;
+    private Member 디우;
+
     @BeforeEach
     void initDataBase() {
-        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        짱구 = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
+        디우 = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
     }
 
     @DisplayName("스터디를 생성하여 저장한다.")
@@ -63,7 +66,7 @@ class StudyControllerTest {
                 .build();
 
         // when
-        final ResponseEntity<Void> response = sut.createStudy(1L, studyRequest);
+        final ResponseEntity<Void> response = sut.createStudy(짱구.getId(), studyRequest);
 
         // then
         final String id = response.getHeaders().getLocation().getPath().replace("/api/studies/", "");
@@ -101,7 +104,7 @@ class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(1L, studyRequest))
+        assertThatThrownBy(() -> sut.createStudy(짱구.getId(), studyRequest))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -123,7 +126,7 @@ class StudyControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> response = sut.createStudy(1L, createStudyRequest);
+        final ResponseEntity<Void> response = sut.createStudy(짱구.getId(), createStudyRequest);
         final String id = response.getHeaders()
                 .getLocation()
                 .getPath()
@@ -153,8 +156,8 @@ class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(100L, studyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
-                .isInstanceOf(UnauthorizedException.class);
+        assertThatThrownBy(() -> sut.createStudy(짱구.getId() + 100L, studyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
+                .isInstanceOf(MemberNotFoundException.class);
     }
 
     @DisplayName("최대인원이 한 명인 경우 바로 모집 종료가 되어야 한다.")
@@ -175,7 +178,7 @@ class StudyControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, studyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(짱구.getId(), studyRequest);
 
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();
@@ -205,7 +208,7 @@ class StudyControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, studyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(짱구.getId(), studyRequest);
         final String location = createdResponse.getHeaders().getLocation().getPath();
         final long studyId = getStudyIdBy(location);
         Study study = studyRepository.findById(studyId).orElseThrow();

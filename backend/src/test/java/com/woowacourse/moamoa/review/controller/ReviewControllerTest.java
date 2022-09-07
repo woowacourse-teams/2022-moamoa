@@ -68,7 +68,7 @@ class ReviewControllerTest {
                 .startDate(startDate)
                 .build();
 
-        Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
+        Study javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(그린론.getId(), javaStudy.getId());

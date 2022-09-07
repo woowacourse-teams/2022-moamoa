@@ -89,8 +89,8 @@ class ReviewDaoTest {
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
         StudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
-        javaStudy = createStudyService.createStudy(1L, javaStudyRequest);
-        reactStudy = createStudyService.createStudy(1L, reactStudyRequest);
+        javaStudy = createStudyService.createStudy(짱구.getId(), javaStudyRequest);
+        reactStudy = createStudyService.createStudy(짱구.getId(), reactStudyRequest);
 
         // 리뷰 추가
         final Review firstJavaReview = reviewRepository.save(자바_리뷰1(javaStudy.getId(), 짱구.getId()));

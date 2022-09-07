@@ -70,7 +70,7 @@ class LinkDaoTest {
         final LocalDate startDate = LocalDate.now();
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
-        javaStudy = createStudyService.createStudy(JJANGGU.getId(), javaStudyRequest);
+        javaStudy = createStudyService.createStudy(jjanggu.getId(), javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(greenlawn.getId(), javaStudy.getId());

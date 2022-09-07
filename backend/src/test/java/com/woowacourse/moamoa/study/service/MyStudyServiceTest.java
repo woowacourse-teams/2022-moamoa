@@ -89,7 +89,7 @@ class MyStudyServiceTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void findMyStudies() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getGithubId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -130,7 +130,7 @@ class MyStudyServiceTest {
     @DisplayName("태그가 없는 스터디를 조회한다.")
     @Test
     void findMyStudiesWithoutTags() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getGithubId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -201,7 +201,7 @@ class MyStudyServiceTest {
     @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 스터디 조회 시 예외 발생")
     @Test
     void getMemberRoleNotExistStudy() {
-        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(1L, 10L))
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(짱구.getId(), 10L))
                 .isInstanceOf(StudyNotFoundException.class)
                 .hasMessageContaining("스터디가 존재하지 않습니다.");
     }

@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -25,10 +24,10 @@ public class StudyController {
 
     @PostMapping
     public ResponseEntity<Void> createStudy(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMember final Long memberId,
             @Valid @RequestBody(required = false) final StudyRequest studyRequest
     ) {
-        final Study study = studyService.createStudy(githubId, studyRequest);
+        final Study study = studyService.createStudy(memberId, studyRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + study.getId())).build();
     }
 

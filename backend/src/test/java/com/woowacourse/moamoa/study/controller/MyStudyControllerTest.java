@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
@@ -122,7 +121,7 @@ class MyStudyControllerTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void getMyStudies() {
-        final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(그린론_깃허브_아이디);
+        final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(그린론.getId());
 
         assertThat(myStudies.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(myStudies.getBody()).isNotNull();
