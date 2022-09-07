@@ -1,4 +1,5 @@
-import { Theme, css } from '@emotion/react';
+import type { Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Pagination = styled.div``;
@@ -38,25 +39,23 @@ export const PaginationButton = styled.button<PaginationButtonProps>`
 `;
 
 export const Inner = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    ul,
-    li {
-      list-style: none;
-      display: inline;
-      padding-left: 0px;
-    }
-    ul {
-      display: flex;
-      row-gap: 10px;
-    }
-    li {
-      min-width: ${buttonWidth};
-      height: ${buttonHeight};
-      text-align: center;
-      vertical-align: middle;
-    }
-  `}
+  ul,
+  li {
+    list-style: none;
+    display: inline;
+    padding-left: 0px;
+  }
+  ul {
+    display: flex;
+    row-gap: 10px;
+  }
+  li {
+    min-width: ${buttonWidth};
+    height: ${buttonHeight};
+    text-align: center;
+    vertical-align: middle;
+  }
 `;

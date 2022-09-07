@@ -3,8 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { useGetCommunityArticles } from '@api/community';
 
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
@@ -12,11 +10,7 @@ import * as S from '@study-room-page/tabs/community-tab-panel/components/article
 
 import Pagination from '@community-tab/components/pagination/Pagination';
 
-type ArticleListProps = {
-  className?: string;
-};
-
-const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
+const ArticleList: React.FC = () => {
   const { studyId } = useParams<{ studyId: string }>();
   const numStudyId = Number(studyId);
   const [page, setPage] = useState<number>(1);
