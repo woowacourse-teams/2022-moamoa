@@ -103,10 +103,6 @@ class MyStudyServiceTest {
 
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
-        for (MyStudyResponse study : studies) {
-            System.out.println("study.getTitle() = " + study.getTitle());
-        }
-
         assertThat(studies)
                 .hasSize(4)
                 .filteredOn(study -> study.getId() != null)
@@ -120,12 +116,12 @@ class MyStudyServiceTest {
 
         assertThat(owners)
                 .hasSize(4)
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags).hasSize(4);
@@ -171,15 +167,15 @@ class MyStudyServiceTest {
 
         assertThat(owners)
                 .hasSize(7)
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags.get(4)).isEmpty();

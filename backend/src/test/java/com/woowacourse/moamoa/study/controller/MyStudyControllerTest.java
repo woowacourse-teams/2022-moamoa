@@ -151,13 +151,13 @@ class MyStudyControllerTest {
 
         assertThat(owners)
                 .hasSize(5)
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .containsExactlyInAnyOrder(
-                        tuple(자바_스터디장.getGithubId(), 자바_스터디장.getUsername(), 자바_스터디장.getImageUrl(), 자바_스터디장.getProfileUrl()),
-                        tuple(리액트_스터디장.getGithubId(), 리액트_스터디장.getUsername(), 리액트_스터디장.getImageUrl(), 리액트_스터디장.getProfileUrl()),
-                        tuple(자바스크립트_스터디장.getGithubId(), 자바스크립트_스터디장.getUsername(), 자바스크립트_스터디장.getImageUrl(), 자바스크립트_스터디장.getProfileUrl()),
-                        tuple(알고리즘_스터디장.getGithubId(), 알고리즘_스터디장.getUsername(), 알고리즘_스터디장.getImageUrl(), 알고리즘_스터디장.getProfileUrl()),
-                        tuple(리눅스_스터디장.getGithubId(), 리눅스_스터디장.getUsername(), 리눅스_스터디장.getImageUrl(), 리눅스_스터디장.getProfileUrl())
+                        tuple(짱구.getId(), 자바_스터디장.getUsername(), 자바_스터디장.getImageUrl(), 자바_스터디장.getProfileUrl()),
+                        tuple(디우.getId(), 리액트_스터디장.getUsername(), 리액트_스터디장.getImageUrl(), 리액트_스터디장.getProfileUrl()),
+                        tuple(그린론.getId(), 자바스크립트_스터디장.getUsername(), 자바스크립트_스터디장.getImageUrl(), 자바스크립트_스터디장.getProfileUrl()),
+                        tuple(베루스.getId(), 알고리즘_스터디장.getUsername(), 알고리즘_스터디장.getImageUrl(), 알고리즘_스터디장.getProfileUrl()),
+                        tuple(베루스.getId(), 리눅스_스터디장.getUsername(), 리눅스_스터디장.getImageUrl(), 리눅스_스터디장.getProfileUrl())
                 );
 
         final List<List<TagSummaryData>> tags = myStudies.getBody()

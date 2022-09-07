@@ -132,12 +132,12 @@ class ReviewDaoTest {
         assertThat(reviews).isNotEmpty();
         assertThat(reviews).hasSize(4)
                 .filteredOn(review -> review.getId() != null)
-                .extracting("member.githubId", "content")
+                .extracting("member.id", "content")
                 .containsExactlyInAnyOrder(
-                        tuple(javaReviews.get(0).getMember().getGithubId(), javaReviews.get(0).getContent()),
-                        tuple(javaReviews.get(1).getMember().getGithubId(), javaReviews.get(1).getContent()),
-                        tuple(javaReviews.get(2).getMember().getGithubId(), javaReviews.get(2).getContent()),
-                        tuple(javaReviews.get(3).getMember().getGithubId(), javaReviews.get(3).getContent())
+                        tuple(javaReviews.get(0).getMember().getId(), javaReviews.get(0).getContent()),
+                        tuple(javaReviews.get(1).getMember().getId(), javaReviews.get(1).getContent()),
+                        tuple(javaReviews.get(2).getMember().getId(), javaReviews.get(2).getContent()),
+                        tuple(javaReviews.get(3).getMember().getId(), javaReviews.get(3).getContent())
                 );
     }
 }

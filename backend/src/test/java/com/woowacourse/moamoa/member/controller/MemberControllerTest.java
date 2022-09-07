@@ -25,29 +25,29 @@ class MemberControllerTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @DisplayName("github Id에 맞는 사용자를 조회한다.")
+    @DisplayName("id에 맞는 사용자를 조회한다.")
     @Test
     void getCurrentMember() {
         final MemberService memberService = new MemberService(memberRepository, memberDao);
-        memberService.saveOrUpdate(new Member(1L, "verus", "image", "profile"));
+        final MemberResponse memberResponse = memberService.saveOrUpdate(new Member(1L, "verus", "image", "profile"));
 
         final MemberController memberController = new MemberController(memberService);
-        final ResponseEntity<MemberResponse> response = memberController.getCurrentMember(1L);
+        final ResponseEntity<MemberResponse> response = memberController.getCurrentMember(memberResponse.getId());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().getId()).isEqualTo(1L);
+        assertThat(response.getBody().getId()).isEqualTo(memberResponse.getId());
         assertThat(response.getBody().getUsername()).isEqualTo("verus");
         assertThat(response.getBody().getProfileUrl()).isEqualTo("profile");
         assertThat(response.getBody().getImageUrl()).isEqualTo("image");
     }
 
-    @DisplayName("github Id에 맞는 사용자가 없는 경우 예외가 발생한다.")
+    @DisplayName("id에 맞는 사용자가 없는 경우 예외가 발생한다.")
     @Test
     void findNotFoundGithubIdMember() {
         final MemberController memberController = new MemberController(new MemberService(memberRepository, memberDao));
 
-        assertThatThrownBy(() -> memberController.getCurrentMember(2L))
-            .isInstanceOf(MemberNotFoundException.class);
+        assertThatThrownBy(() -> memberController.getCurrentMember(1L))
+                .isInstanceOf(MemberNotFoundException.class);
     }
 }
