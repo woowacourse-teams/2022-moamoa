@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.review.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
@@ -49,13 +48,16 @@ class ReviewControllerTest {
 
     private Long 짱구_리뷰;
 
+    private Member 짱구;
+    private Member 그린론;
+
     @BeforeEach
     void setUp() {
         sut = new ReviewController(new ReviewService(reviewRepository, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구());
-        final Member greelawn = memberRepository.save(그린론());
+        짱구 = memberRepository.save(짱구());
+        그린론 = memberRepository.save(그린론());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -69,15 +71,15 @@ class ReviewControllerTest {
         Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
-        participantService.participateStudy(greelawn.getId(), javaStudy.getId());
+        participantService.participateStudy(그린론.getId(), javaStudy.getId());
 
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
 
         짱구_리뷰 = reviewService
-                .writeReview(jjanggu.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
+                .writeReview(짱구.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
         final Long javaReviewId4 = reviewService
-                .writeReview(greelawn.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
+                .writeReview(그린론.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
 
         final ReviewResponse 리뷰_내용1 = new ReviewResponse(짱구_리뷰, new WriterResponse(짱구_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용1");
@@ -93,14 +95,14 @@ class ReviewControllerTest {
     void notUpdate() {
         final EditingReviewRequest request = new EditingReviewRequest("수정한 리뷰 내용입니다.");
 
-        assertThatThrownBy(() -> sut.updateReview(그린론_깃허브_아이디, 짱구_리뷰, request))
+        assertThatThrownBy(() -> sut.updateReview(그린론.getId(), 짱구_리뷰, request))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
     @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
     @Test
     void notDelete() {
-        assertThatThrownBy(() -> sut.deleteReview(그린론_깃허브_아이디, 짱구_리뷰))
+        assertThatThrownBy(() -> sut.deleteReview(그린론.getId(), 짱구_리뷰))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 }

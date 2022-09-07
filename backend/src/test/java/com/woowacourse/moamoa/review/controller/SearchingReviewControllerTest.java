@@ -93,14 +93,14 @@ class SearchingReviewControllerTest {
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
 
         final Long javaReviewId1 = reviewService
-                .writeReview(jjanggu.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
+                .writeReview(jjanggu.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
         final Long javaReviewId2 = reviewService
-                .writeReview(greenlawn.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용2"));
+                .writeReview(greenlawn.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용2"));
         final Long javaReviewId3 = reviewService
-                .writeReview(dwoo.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용3"));
+                .writeReview(dwoo.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용3"));
         final Long javaReviewId4 = reviewService
-                .writeReview(verus.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
-        reviewService.writeReview(jjanggu.getGithubId(), reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
+                .writeReview(verus.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
+        reviewService.writeReview(jjanggu.getId(), reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
 
         final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(짱구_응답), LocalDate.now(),
                 LocalDate.now(), "리뷰 내용1");
