@@ -1,6 +1,7 @@
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
-import * as S from '@main-page/components/filter-button-list/FilterButtonList.style';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+
 import FilterButton from '@main-page/components/filter-button/FilterButton';
 
 export type FilterButtonListProps = {
@@ -18,18 +19,18 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
   onFilterButtonClick: handleFilterButtonClick,
 }) => {
   return (
-    <S.FilterButtonList>
+    <ButtonGroup gap="12px">
       {filters.map(({ id, name, description, category }) => (
         <li key={id}>
           <FilterButton
             name={name}
             description={description}
             isChecked={isSelected(id, category.name, selectedFilters)}
-            onFilterButtonClick={handleFilterButtonClick(id, category.name)}
+            onClick={handleFilterButtonClick(id, category.name)}
           />
         </li>
       ))}
-    </S.FilterButtonList>
+    </ButtonGroup>
   );
 };
 

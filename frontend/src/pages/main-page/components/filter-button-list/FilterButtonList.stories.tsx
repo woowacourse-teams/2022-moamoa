@@ -3,11 +3,12 @@ import { useState } from 'react';
 
 import type { CategoryName, Tag, TagInfo } from '@custom-types';
 
-import type { FilterButtonListProps } from '@main-page/components/filter-button-list/FilterButtonList';
-import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
+import FilterButtonList, {
+  type FilterButtonListProps,
+} from '@main-page/components/filter-button-list/FilterButtonList';
 
 export default {
-  title: 'Components/FilterButtonList',
+  title: 'Pages/MainPage/FilterButtonList',
   component: FilterButtonList,
 };
 
@@ -51,7 +52,7 @@ const filters: Array<Tag> = [
   {
     id: 5,
     name: 'CS',
-    description: '컴퓨터사이언스',
+    description: '컴퓨터과학',
     category: {
       id: 3,
       name: 'subject',
