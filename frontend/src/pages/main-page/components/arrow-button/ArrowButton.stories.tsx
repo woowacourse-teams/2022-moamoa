@@ -1,7 +1,7 @@
 import type { Story } from '@storybook/react';
 
-import SlideButton from '@components/arrow-button/ArrowButton';
-import type { SlideButtonProps } from '@components/arrow-button/ArrowButton';
+import SlideButton from '@main-page/components/arrow-button/ArrowButton';
+import type { SlideButtonProps } from '@main-page/components/arrow-button/ArrowButton';
 
 export default {
   title: 'Components/SlideButton',

@@ -1,5 +1,6 @@
-import * as S from '@components/arrow-button/ArrowButton.style';
 import { LeftDirectionSvg, RightDirectionSvg } from '@components/svg';
+
+import * as S from '@main-page/components/arrow-button/ArrowButton.style';
 
 export type SlideButtonProps = {
   direction: 'right' | 'left';
