@@ -1,4 +1,4 @@
-import * as S from '@design/components/toggle-button/ToggleButton.style';
+import * as S from '@design/components/button/toggle-button/ToggleButton.style';
 
 export type ToggleButtonProps = {
   children: React.ReactNode;

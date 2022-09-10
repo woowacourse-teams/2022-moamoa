@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-import { type ToggleButtonProps } from '@design/components/toggle-button/ToggleButton';
+import { type ToggleButtonProps } from '@design/components/button/toggle-button/ToggleButton';
 
 type StyleToggleButtonProps = Pick<ToggleButtonProps, 'checked' | 'fluid'>;
 

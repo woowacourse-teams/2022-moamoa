@@ -1,7 +1,7 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import ToggleButton, { type ToggleButtonProps } from '@design/components/toggle-button/ToggleButton';
+import ToggleButton, { type ToggleButtonProps } from '@design/components/button/toggle-button/ToggleButton';
 
 export default {
   title: 'Design/Components/ToggleButton',

@@ -2,7 +2,7 @@ import { ReactSVG } from 'react';
 
 import type { CssLength } from '@custom-types';
 
-import * as S from '@design/components/icon-button/IconButton.style';
+import * as S from '@design/components/button/icon-button/IconButton.style';
 
 export type IconButtonProps = {
   children: React.ReactElement<ReactSVG>;

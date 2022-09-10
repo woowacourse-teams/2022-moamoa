@@ -1,6 +1,6 @@
 import { Theme } from '@emotion/react';
 
-import * as S from '@design/components/text-button/TextButton.style';
+import * as S from '@design/components/button/text-button/TextButton.style';
 
 export type TextButtonProps = {
   children: React.ReactNode;

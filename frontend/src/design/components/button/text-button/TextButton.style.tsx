@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type TextButtonProps } from '@design/components/text-button/TextButton';
+import { type TextButtonProps } from '@design/components/button/text-button/TextButton';
 
 type StyleTextButtonProps = Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>;
 

@@ -1,6 +1,6 @@
 import { noop } from '@utils';
 
-import * as S from '@design/components/box-button/BoxButton.style';
+import * as S from '@design/components/button/box-button/BoxButton.style';
 
 export type BoxButtonProps = {
   variant?: 'primary' | 'secondary';

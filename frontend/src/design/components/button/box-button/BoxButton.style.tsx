@@ -1,7 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type BoxButtonProps } from '@design/components/box-button/BoxButton';
+import { type BoxButtonProps } from '@design/components/button/box-button/BoxButton';
 
 type StyleBoxButtonProps = Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant'>;
 
