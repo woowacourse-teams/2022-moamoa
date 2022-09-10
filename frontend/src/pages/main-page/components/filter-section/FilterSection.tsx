@@ -6,8 +6,8 @@ import { useGetTags } from '@api/tags';
 
 import ArrowButton from '@components/arrow-button/ArrowButton';
 
+import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
 import * as S from '@main-page/components/filter-section/FilterSection.style';
-import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;

@@ -1,7 +1,7 @@
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
-import * as S from '@main-page/components/filter-section/filter-button-list/FilterButtonList.style';
-import FilterButton from '@main-page/components/filter-section/filter-button/FilterButton';
+import * as S from '@main-page/components/filter-button-list/FilterButtonList.style';
+import FilterButton from '@main-page/components/filter-button/FilterButton';
 
 export type FilterButtonListProps = {
   filters: Array<Tag>;

@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 import type { CategoryName, Tag, TagInfo } from '@custom-types';
 
-import type { FilterButtonListProps } from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
-import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
+import type { FilterButtonListProps } from '@main-page/components/filter-button-list/FilterButtonList';
+import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
 
 export default {
   title: 'Components/FilterButtonList',
