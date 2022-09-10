@@ -30,6 +30,7 @@ export const ToggleButton = styled.button<StyleToggleButtonProps>`
     border: none;
     border-bottom: 2px solid transparent;
     background-color: transparent;
+    transition: border-bottom 0.2s ease;
 
     &:hover {
       border-bottom: 2px solid ${theme.colors.secondary.base};
@@ -44,7 +45,7 @@ export const ToggleButton = styled.button<StyleToggleButtonProps>`
       fill: ${theme.colors.primary.base};
     }
 
-    & > * {
+    & * {
       color: ${theme.colors.primary.base};
     }
 
