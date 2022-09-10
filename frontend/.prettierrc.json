@@ -29,6 +29,7 @@
     "^@layout/(.*)$",
     "^@pages/(.*)$",
     "^@components/(.*)$",
+    "^@design/(.*)$",
     "^@main-page/(.*)$",
     "^@detail-page/(.*)$",
     "^@create-study-page/(.*)$",

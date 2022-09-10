@@ -43,7 +43,8 @@
       "@hooks/*": ["hooks/*"],
       "@mocks/*": ["mocks/*"],
       "@pages": ["pages/index.ts"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@design/*": ["design/*"]
     },
     "typeRoots": ["src/custom-types"]
   },
