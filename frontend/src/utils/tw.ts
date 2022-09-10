@@ -34,6 +34,7 @@ const flex = {
   'flex-initial': 'flex: 0 1 auto',
   'flex-none': 'flex: none',
   'flex-col': 'flex-direction: column',
+  'flex-grow': 'flex-grow: 1',
 };
 
 const justifyContent = {

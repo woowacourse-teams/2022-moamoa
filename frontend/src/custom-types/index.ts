@@ -2,11 +2,7 @@ export type EmptyObject = Record<string, never>;
 
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type Required<T, K extends keyof T> = T & {
-  [P in K]-?: T[P];
-};
-
-export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<T, K>;
+export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<Pick<T, K>>;
 
 export type Noop = () => void;
 

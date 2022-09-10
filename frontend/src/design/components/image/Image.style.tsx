@@ -6,13 +6,18 @@ import { type ImageProps } from '@design/components/image/Image';
 type StyleImageProps = Pick<ImageProps, 'shape' | 'width' | 'height'>;
 
 export const Image = styled.img<StyleImageProps>`
-  ${({ shape, width, height }) => css`
+  ${({ theme, shape, width, height }) => css`
     width: ${width};
     height: ${height};
 
     object-fit: cover;
     object-position: center;
 
-    ${shape === 'circular' && 'border-radius: 50%;'}
+    border-radius: ${theme.radius.sm};
+
+    ${shape === 'circular' &&
+    css`
+      border-radius: 50%;
+    `}
   `}
 `;
