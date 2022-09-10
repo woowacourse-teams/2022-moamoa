@@ -10,6 +10,7 @@ type StyleCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align'
 export const CardContent = styled.p<StyleCardContentProps>`
   ${({ theme, maxLine, align }) => css`
     width: 100%;
+    height: calc(${theme.fontSize.sm} * ${maxLine});
 
     font-size: ${theme.fontSize.sm};
     line-height: ${theme.fontSize.sm};

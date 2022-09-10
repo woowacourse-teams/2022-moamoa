@@ -41,6 +41,7 @@ const MainPage: React.FC = () => {
                   thumbnailAlt={`${study.title} 스터디 이미지`}
                   title={study.title}
                   excerpt={study.excerpt}
+                  tags={study.tags}
                   isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
                 />
               </Link>

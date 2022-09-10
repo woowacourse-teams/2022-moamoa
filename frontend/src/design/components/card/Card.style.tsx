@@ -17,9 +17,5 @@ export const Card = styled.div<StyleCardProps>`
     overflow: hidden;
 
     background-color: transparent;
-
-    :hover {
-      opacity: 0.9;
-    }
   `}
 `;
