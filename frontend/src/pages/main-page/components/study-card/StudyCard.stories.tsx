@@ -1,7 +1,6 @@
 import type { Story } from '@storybook/react';
 
-import type { StudyCardProps } from '@main-page/components/study-card/StudyCard';
-import StudyCard from '@main-page/components/study-card/StudyCard';
+import StudyCard, { type StudyCardProps } from '@main-page/components/study-card/StudyCard';
 
 export default {
   title: 'Pages/MainPage/StudyCard',

@@ -10,7 +10,6 @@ const applyPrimaryStyle = (theme: Theme) => css`
 
   & > svg {
     stroke: ${theme.colors.white};
-    fill: ${theme.colors.white};
   }
 
   &:hover {
@@ -26,7 +25,6 @@ const applySecondaryStyle = (theme: Theme) => css`
 
   & > svg {
     stroke: ${theme.colors.black};
-    fill: ${theme.colors.black};
   }
 
   &:hover,
