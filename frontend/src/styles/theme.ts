@@ -1,3 +1,5 @@
+export type ThemeColor = typeof COLORS[keyof typeof COLORS];
+
 export const COLORS = {
   YELLOW200: '#FFD54F',
   BLUE100: '#534bae',
@@ -63,5 +65,3 @@ export const theme = {
     circle: '50%',
   },
 };
-
-export type ThemeColor = typeof COLORS[keyof typeof COLORS];
