@@ -7,8 +7,6 @@ import type { Study } from '@custom-types';
 import * as S from '@pages/main-page/components/study-card/StudyCard.style';
 
 import Card from '@design/components/card/Card';
-import CardContent from '@design/components/card/card-content/CardContent';
-import CardHeading from '@design/components/card/card-heading/CardHeading';
 import Chip from '@design/components/chip/Chip';
 import Image from '@design/components/image/Image';
 
@@ -29,17 +27,17 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
           <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} width="100%" height="100%" />
         </div>
         <div>
-          <CardHeading>{title}</CardHeading>
+          <Card.Heading>{title}</Card.Heading>
           <div css={tw`mb-8`}>
-            <CardContent>{excerpt}</CardContent>
+            <Card.Content>{excerpt}</Card.Content>
           </div>
-          <CardContent align="right" maxLine={1}>
+          <Card.Content align="right" maxLine={1}>
             {tags.map(tag => (
               <span key={tag.id} css={tw`mr-8`}>
                 #{tag.name}
               </span>
             ))}
-          </CardContent>
+          </Card.Content>
         </div>
         <div css={tw`absolute top-8 right-8`}>
           <Chip variant={isOpen ? 'primary' : 'secondary'}>{isOpen ? '모집중' : '모집완료'}</Chip>

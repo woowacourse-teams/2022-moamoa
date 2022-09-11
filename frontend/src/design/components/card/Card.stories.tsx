@@ -3,8 +3,6 @@ import type { Story } from '@storybook/react';
 import tw from '@utils/tw';
 
 import Card, { type CardProps } from '@design/components/card/Card';
-import CardContent from '@design/components/card/card-content/CardContent';
-import CardHeading from '@design/components/card/card-heading/CardHeading';
 import Image from '@design/components/image/Image';
 
 export default {
@@ -24,13 +22,13 @@ const ImageHeadingContent: Story<CardProps> = props => (
       />
     </div>
     <div>
-      <CardHeading>카드 제목입니다.</CardHeading>
+      <Card.Heading>카드 제목입니다.</Card.Heading>
       <div css={tw`mb-16`}>
-        <CardContent>
+        <Card.Content>
           이것은 카드 내용입니다. 어떻게 보이나요? 가나다라마바사 아자차카타파하 hihi abcdefagsdfassdfs
-        </CardContent>
+        </Card.Content>
       </div>
-      <CardContent align="right">#JavaScript #React #4기 #FE</CardContent>
+      <Card.Content align="right">#JavaScript #React #4기 #FE</Card.Content>
     </div>
   </Card>
 );
@@ -45,18 +43,18 @@ WithImage.parameters = { controls: { exclude: ['children'] } };
 const HeadingContent: Story<CardProps> = props => (
   <Card {...props}>
     <div css={tw`mb-12`}>
-      <CardHeading>카드 제목입니다.</CardHeading>
+      <Card.Heading>카드 제목입니다.</Card.Heading>
     </div>
     <div css={tw`mb-14`}>
-      <CardContent>hihi</CardContent>
+      <Card.Content>hihi</Card.Content>
     </div>
     <div css={tw`mb-14`}>
-      <CardContent>#JavaScript #React #4기 #FE</CardContent>
+      <Card.Content>#JavaScript #React #4기 #FE</Card.Content>
     </div>
     <div css={tw`mb-14`}>
-      <CardContent>
+      <Card.Content>
         <span>2022-08-31</span> ~ <span>2022-08-31</span>
-      </CardContent>
+      </Card.Content>
     </div>
   </Card>
 );

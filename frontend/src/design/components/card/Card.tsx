@@ -8,6 +8,17 @@ export type CardProps = {
   height: CssLength;
 };
 
+export type CardHeadingProps = {
+  children: string;
+  maxLine?: number;
+};
+
+export type CardContentProps = {
+  children: React.ReactNode;
+  maxLine?: number;
+  align?: 'right' | 'left' | 'center';
+};
+
 const Card: React.FC<CardProps> = ({ children, width = '100%', height }) => {
   return (
     <S.Card width={width} height={height}>
@@ -16,4 +27,19 @@ const Card: React.FC<CardProps> = ({ children, width = '100%', height }) => {
   );
 };
 
-export default Card;
+const CardHeading: React.FC<CardHeadingProps> = ({ children, maxLine = 1 }) => {
+  return <S.CardHeading maxLine={maxLine}>{children}</S.CardHeading>;
+};
+
+const CardContent: React.FC<CardContentProps> = ({ children, maxLine = 2, align = 'left' }) => {
+  return (
+    <S.CardContent maxLine={maxLine} align={align}>
+      {children}
+    </S.CardContent>
+  );
+};
+
+export default Object.assign(Card, {
+  Heading: CardHeading,
+  Content: CardContent,
+});
