@@ -1,7 +1,8 @@
 import type { Story } from '@storybook/react';
 
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
+
+import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
 
 export default {
   title: 'Components/Markdown',

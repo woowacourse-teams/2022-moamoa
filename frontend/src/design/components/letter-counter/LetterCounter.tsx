@@ -1,4 +1,4 @@
-import * as S from '@components/letter-counter/LetterCounter.style';
+import * as S from '@design/components/letter-counter/LetterCounter.style';
 
 export type LetterCounterProps = {
   count: number;
