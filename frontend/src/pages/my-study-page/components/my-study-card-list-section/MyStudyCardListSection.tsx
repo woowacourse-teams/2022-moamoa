@@ -4,31 +4,25 @@ import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { MakeOptional, MyStudy } from '@custom-types';
+import tw from '@utils/tw';
+
+import type { MyStudy } from '@custom-types';
 
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
-import { TrashCanSvg } from '@components/svg';
+import Title from '@design/components/title/Title';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export type MyStudyCardListSectionProps = {
-  className?: string;
   sectionTitle: string;
   studies: Array<MyStudy>;
-  disabled: boolean;
+  end?: boolean;
 };
 
-type OptionalMyStudyCardListSectionProps = MakeOptional<MyStudyCardListSectionProps, 'disabled'>;
-
-const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
-  className,
-  sectionTitle,
-  studies,
-  disabled = false,
-}) => {
+const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ sectionTitle, studies, end = false }) => {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteMyStudy();
 
@@ -53,14 +47,14 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
     };
 
   return (
-    <S.MyStudyCardListSection className={className}>
-      <S.SectionTitle>{sectionTitle}</S.SectionTitle>
+    <section css={tw`p-8`}>
+      <Title.Section>{sectionTitle}</Title.Section>
       <S.MyStudyList>
         {studies.length === 0 ? (
           <li>해당하는 스터디가 없습니다</li>
         ) : (
           studies.map(study => (
-            <S.MyStudyCardItem key={study.id}>
+            <li key={study.id}>
               <Link to={PATH.STUDY_ROOM(study.id)}>
                 <MyStudyCard
                   title={study.title}
@@ -68,17 +62,15 @@ const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
                   tags={study.tags}
                   startDate={study.startDate}
                   endDate={study.endDate}
-                  disabled={disabled}
+                  end={end}
+                  onQuitStudyButtonClick={handleTrashButtonClick(study)}
                 />
               </Link>
-              <S.TrashButton type="button" onClick={handleTrashButtonClick(study)}>
-                <TrashCanSvg />
-              </S.TrashButton>
-            </S.MyStudyCardItem>
+            </li>
           ))
         )}
       </S.MyStudyList>
-    </S.MyStudyCardListSection>
+    </section>
   );
 };
 

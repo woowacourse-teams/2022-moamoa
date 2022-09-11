@@ -7,7 +7,6 @@ import type { Study } from '@custom-types';
 import * as S from '@pages/main-page/components/study-card/StudyCard.style';
 
 import Card from '@design/components/card/Card';
-import Chip from '@design/components/chip/Chip';
 import Image from '@design/components/image/Image';
 import StudyChip from '@design/components/study-chip/StudyChip';
 

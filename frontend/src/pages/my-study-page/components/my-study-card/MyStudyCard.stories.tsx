@@ -4,15 +4,8 @@ import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 import type { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export default {
-  title: 'Components/MyStudyCard',
+  title: 'Pages/MyStudyPage/MyStudyCard',
   component: MyStudyCard,
-  argTypes: {
-    title: { controls: 'text' },
-    ownerName: { controls: 'text' },
-    tags: { controls: 'object' },
-    startDate: { controls: 'text' },
-    endDate: { controls: 'text' },
-  },
 };
 
 const Template: Story<MyStudyCardProps> = props => <MyStudyCard {...props} />;
@@ -37,4 +30,5 @@ Default.args = {
   ],
   startDate: '2022.08.13',
   endDate: '2022.08.20',
+  end: false,
 };

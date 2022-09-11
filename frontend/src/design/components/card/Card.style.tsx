@@ -49,7 +49,7 @@ export const CardHeading = styled.h1<StyleCardHeadingProps>`
 export const CardContent = styled.p<StyleCardContentProps>`
   ${({ theme, maxLine, align, fontSize }) => css`
     width: 100%;
-    height: calc(${theme.fontSize.sm} * ${maxLine});
+    height: calc(${theme.fontSize[fontSize]} * ${maxLine});
 
     font-size: ${theme.fontSize[fontSize]};
     line-height: ${theme.fontSize[fontSize]};
