@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
@@ -369,7 +370,7 @@ class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 now().minusDays(2));
 
-        assertThatThrownBy(() -> sut.leave(owner))
+        assertThatThrownBy(() -> sut.leave(owner, new DateTimeSystem().now().toLocalDate()))
                 .isInstanceOf(OwnerCanNotLeaveException.class);
     }
 
@@ -386,7 +387,7 @@ class StudyTest {
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
                 now().minusDays(2));
 
-        assertThatThrownBy(() -> sut.leave(participant))
+        assertThatThrownBy(() -> sut.leave(participant, new DateTimeSystem().now().toLocalDate()))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 
@@ -406,7 +407,7 @@ class StudyTest {
         sut.participate(participant.getMemberId());
 
         assertAll(
-                () -> assertDoesNotThrow(() -> sut.leave(participant)),
+                () -> assertDoesNotThrow(() -> sut.leave(participant, new DateTimeSystem().now().toLocalDate())),
                 () -> assertThat(sut.getParticipants()).isEqualTo(new Participants(owner.getMemberId(), Set.of()))
         );
     }

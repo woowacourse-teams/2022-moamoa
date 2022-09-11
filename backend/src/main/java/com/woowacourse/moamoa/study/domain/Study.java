@@ -102,9 +102,13 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
-    public void leave(final Participant participant) {
+    public void leave(final Participant participant, final LocalDate now) {
         verifyCanLeave(participant);
         participants.leave(participant);
+
+        if (!isFullOfCapacity() && !recruitPlanner.isRecruitedBeforeThan(now)) {
+            recruitPlanner.startRecruiting();
+        }
     }
 
     private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {

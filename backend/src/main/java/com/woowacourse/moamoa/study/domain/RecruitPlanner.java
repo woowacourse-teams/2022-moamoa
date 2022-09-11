@@ -53,6 +53,10 @@ public class RecruitPlanner {
         return recruitStatus.equals(RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
+    void startRecruiting() {
+        recruitStatus = RECRUITMENT_START;
+    }
+
     void closeRecruiting() {
         recruitStatus = RECRUITMENT_END;
     }

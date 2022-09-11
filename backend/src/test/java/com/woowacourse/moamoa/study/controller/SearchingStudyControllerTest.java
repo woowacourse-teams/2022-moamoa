@@ -107,7 +107,7 @@ class SearchingStudyControllerTest {
                 .build();
         linuxStudyId = studyService.createStudy(verus.getGithubId(), linuxStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         
         participantService.participateStudy(dwoo.getId(), javaStudyId);
         participantService.participateStudy(verus.getId(), javaStudyId);

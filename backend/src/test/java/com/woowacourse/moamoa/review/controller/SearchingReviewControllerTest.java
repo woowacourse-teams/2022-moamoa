@@ -84,7 +84,7 @@ class SearchingReviewControllerTest {
         javaStudy = studyService.createStudy(1L, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(1L, reactStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
         participantService.participateStudy(dwoo.getId(), javaStudy.getId());
         participantService.participateStudy(verus.getId(), javaStudy.getId());

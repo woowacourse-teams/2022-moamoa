@@ -72,7 +72,7 @@ class LinkDaoTest {
 
         javaStudy = createStudyService.createStudy(JJANGGU.getGithubId(), javaStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
         participantService.participateStudy(dwoo.getId(), javaStudy.getId());
         participantService.participateStudy(verus.getId(), javaStudy.getId());

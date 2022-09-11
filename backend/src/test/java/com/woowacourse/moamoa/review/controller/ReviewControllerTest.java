@@ -68,7 +68,7 @@ class ReviewControllerTest {
 
         Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(greelawn.getId(), javaStudy.getId());
 
         // 리뷰 추가
