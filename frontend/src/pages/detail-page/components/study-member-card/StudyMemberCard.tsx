@@ -1,4 +1,5 @@
-import Avatar from '@components/avatar/Avatar';
+import Flex from '@design/components/flex/Flex';
+import Item from '@design/components/item/Item';
 
 import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 
@@ -17,14 +18,13 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
 }) => {
   return (
     <S.StudyMemberCard>
-      <Avatar profileImg={imageUrl} profileAlt={`${username} 프로필 이미지`} size="sm" />
-      <S.MemberDescription>
-        <S.Username>{username}</S.Username>
-        <S.UserStudyInfo>
-          <span>스터디 {studyCount}개</span>
-          <span>{startDate} 가입</span>
-        </S.UserStudyInfo>
-      </S.MemberDescription>
+      <Item src={imageUrl} name={`${username} 프로필`} size="lg">
+        <Item.Heading>{username}</Item.Heading>
+        <Flex justifyContent="space-between" gap="20px">
+          <Item.Content>스터디 {studyCount}개</Item.Content>
+          <Item.Content>{startDate} 가입</Item.Content>
+        </Flex>
+      </Item>
     </S.StudyMemberCard>
   );
 };

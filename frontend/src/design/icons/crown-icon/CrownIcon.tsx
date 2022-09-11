@@ -1,7 +1,9 @@
+import { theme } from '@styles/theme';
+
 const CrownIcon: React.FC = () => (
   <svg
-    stroke="currentColor"
-    fill="none"
+    stroke={theme.colors.tertiary.base}
+    fill={theme.colors.tertiary.base}
     strokeWidth="2"
     viewBox="0 0 24 24"
     strokeLinecap="round"

@@ -7,9 +7,9 @@ import tw from '@utils/tw';
 
 import type { StudyDetail, UserRole } from '@custom-types';
 
-import Button from '@components/button/Button';
-
-import * as S from '@detail-page/components/study-wide-float-box/StudyWideFloatBox.style';
+import { BoxButton } from '@design/components/button';
+import Card from '@design/components/card/Card';
+import Flex from '@design/components/flex/Flex';
 
 export type StudyWideFloatBoxProps = Pick<
   StudyDetail,
@@ -55,33 +55,35 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
-          <Button css={tw`h-full py-0 px-20`} fluid={true} type="button">
+          <BoxButton type="button" fluid>
             이동하기
-          </Button>
+          </BoxButton>
         </Link>
       );
     }
 
     return (
-      <Button css={tw`h-full py-0 px-20`} fluid={true} disabled={!isOpen} onClick={handleRegisterButtonClick}>
+      <BoxButton type="submit" fluid disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '가입하기' : '모집 마감'}
-      </Button>
+      </BoxButton>
     );
   };
 
   return (
-    <S.StudyWideFloatBox>
-      <S.StudyInfo>
-        <S.EnrollmentEndDate>{renderEnrollmentEndDateContent()}</S.EnrollmentEndDate>
-        <S.MemberCount>
-          <span>모집인원</span>
-          <span>
-            {currentMemberCount} / {maxMemberCount ?? '∞'}
-          </span>
-        </S.MemberCount>
-      </S.StudyInfo>
-      <div>{renderButton()}</div>
-    </S.StudyWideFloatBox>
+    <Card backgroundColor="#ffffff" padding="20px" shadow>
+      <Flex justifyContent="space-between" alignItems="center">
+        <div>
+          <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
+          <Card.Content fontSize="md" maxLine={1}>
+            <span css={tw`mr-16`}>모집인원</span>
+            <span>
+              {currentMemberCount} / {maxMemberCount ?? '∞'}
+            </span>
+          </Card.Content>
+        </div>
+        <div>{renderButton()}</div>
+      </Flex>
+    </Card>
   );
 };
 

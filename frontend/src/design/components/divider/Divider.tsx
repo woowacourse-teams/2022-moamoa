@@ -14,7 +14,7 @@ export type DividerProps = {
 
 const Divider: React.FC<DividerProps> = ({
   orientation = 'horizontal',
-  color = '#9ea7aa',
+  color = '#cfd8dc',
   space = '4px',
   width = '100%',
   height = 'auto',

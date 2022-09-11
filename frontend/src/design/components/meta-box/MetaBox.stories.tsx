@@ -3,7 +3,7 @@ import type { Story } from '@storybook/react';
 import MetaBox from '@design/components/meta-box/MetaBox';
 
 export default {
-  title: 'Components/MetaBox',
+  title: 'Design/Components/MetaBox',
   component: MetaBox,
 };
 

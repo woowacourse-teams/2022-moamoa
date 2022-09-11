@@ -2,10 +2,14 @@ import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import Divider from '@components/divider/Divider';
-import Wrapper from '@components/wrapper/Wrapper';
+import tw from '@utils/tw';
 
+import { theme } from '@styles/theme';
+
+import Divider from '@design/components/divider/Divider';
+import Flex from '@design/components/flex/Flex';
 import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
@@ -46,7 +50,6 @@ const DetailPage: React.FC = () => {
   } = data;
 
   // TODO: background에 thumbnail 이미지 사용
-
   return (
     <Wrapper>
       <Head
@@ -59,17 +62,17 @@ const DetailPage: React.FC = () => {
         tags={tags}
         isOwner={userRoleQueryResult.data?.role === 'OWNER'}
       />
-      <Divider space={2} />
-      <S.Main>
-        <S.MainDescription>
-          <S.MarkDownContainer>
+      <Divider space="20px" />
+      <Flex gap="40px">
+        <section css={tw`w-full`}>
+          <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
             <MarkdownRender markdownContent={description} />
-          </S.MarkDownContainer>
-          <Divider space={2} />
+          </section>
+          <Divider space="20px" />
           <StudyMemberSection owner={owner} members={members} />
-        </S.MainDescription>
+        </section>
         <S.FloatButtonContainer>
-          <S.StickyContainer>
+          <div css={tw`sticky top-150 pb-20`}>
             <StudyFloatBox
               studyId={id}
               userRole={userRoleQueryResult.data?.role}
@@ -80,10 +83,10 @@ const DetailPage: React.FC = () => {
               recruitmentStatus={recruitmentStatus}
               onRegisterButtonClick={handleRegisterButtonClick}
             />
-          </S.StickyContainer>
+          </div>
         </S.FloatButtonContainer>
-      </S.Main>
-      <Divider space={2} />
+      </Flex>
+      <Divider space="20px" />
       <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox

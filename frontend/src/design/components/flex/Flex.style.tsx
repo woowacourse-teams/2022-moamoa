@@ -11,7 +11,7 @@ export const Flex = styled.div<StyleFlexProps>`
     ${direction && `flex-direction: ${direction}`};
     ${width && `width: ${width}`};
     ${height && `height: ${height}`};
-    ${gap && `gap: ${gap}`};
+    ${gap && `column-gap: ${gap}`};
     ${alignItems && `align-items: ${alignItems}`};
     ${justifyContent && `justify-content: ${justifyContent}`};
     ${rowGap && `row-gap: ${rowGap}`};

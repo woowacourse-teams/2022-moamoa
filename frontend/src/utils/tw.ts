@@ -1,7 +1,7 @@
 // quick style sheet
 import { css } from '@emotion/react';
 
-const arr0_to_100 = [...Array(101).keys()];
+const arr0_to_200 = [...Array(201).keys()];
 const arr0_to_500 = [...Array(501).keys()];
 
 const layout = {
@@ -63,7 +63,7 @@ const alignSelf = {
   'self-baseline': 'align-self: baseline',
 };
 
-const margin = arr0_to_100.reduce((acc, cur) => {
+const margin = arr0_to_200.reduce((acc, cur) => {
   acc[`mt-${cur}`] = `margin-top: ${cur}px`;
   acc[`mr-${cur}`] = `margin-right: ${cur}px`;
   acc[`mb-${cur}`] = `margin-bottom: ${cur}px`;
@@ -71,7 +71,7 @@ const margin = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
-const padding = arr0_to_100.reduce((acc, cur) => {
+const padding = arr0_to_200.reduce((acc, cur) => {
   acc[`p-${cur}`] = `padding-top: ${cur}px; padding-right: ${cur}px; padding-bottom: ${cur}px; padding-left: ${cur}px`;
   acc[`py-${cur}`] = `padding-top: ${cur}px; padding-bottom: ${cur}px`;
   acc[`px-${cur}`] = `padding-left: ${cur}px; padding-right: ${cur}px`;
@@ -83,7 +83,7 @@ const padding = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
-const gap = arr0_to_100.reduce((acc, cur) => {
+const gap = arr0_to_200.reduce((acc, cur) => {
   acc[`gap-x-${cur}`] = `column-gap: ${cur}px`;
   acc[`gap-y-${cur}`] = `row-gap: ${cur}px`;
   return acc;
@@ -119,7 +119,7 @@ const position = {
   sticky: 'position: sticky',
 };
 
-const trbl = arr0_to_100.reduce((acc, cur) => {
+const trbl = arr0_to_200.reduce((acc, cur) => {
   acc[`top-${cur}`] = `top: ${cur}px`;
   acc[`right-${cur}`] = `right: ${cur}px`;
   acc[`bottom-${cur}`] = `bottom: ${cur}px`;
@@ -127,7 +127,7 @@ const trbl = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
-const zIndex = arr0_to_100.reduce((acc, cur) => {
+const zIndex = arr0_to_200.reduce((acc, cur) => {
   acc[`z-${cur}`] = `z-index: ${cur}`;
   return acc;
 }, {} as Record<string, string>);
@@ -159,7 +159,7 @@ const textAlign = {
   'text-end': 'text-align: end',
 };
 
-const borderRadius = arr0_to_100.reduce((acc, cur) => {
+const borderRadius = arr0_to_200.reduce((acc, cur) => {
   acc[`rounded-${cur}`] = `border-radius: ${cur}px`;
   acc[`rounded-t-${cur}`] = `border-top-left-radius: ${cur}px; border-top-right-radius: ${cur}px`;
   acc[`rounded-r-${cur}`] = `border-top-right-radius: ${cur}px; border-bottom-right-radius: ${cur}px`;
@@ -169,7 +169,7 @@ const borderRadius = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
-const fontSize = arr0_to_100.reduce((acc, cur) => {
+const fontSize = arr0_to_200.reduce((acc, cur) => {
   acc[`text-${cur}`] = `font-size: ${cur}px`;
   return acc;
 }, {} as Record<string, string>);

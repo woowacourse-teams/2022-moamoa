@@ -9,6 +9,7 @@ import * as S from '@pages/main-page/components/study-card/StudyCard.style';
 import Card from '@design/components/card/Card';
 import Chip from '@design/components/chip/Chip';
 import Image from '@design/components/image/Image';
+import StudyChip from '@design/components/study-chip/StudyChip';
 
 export type StudyCardProps = {
   thumbnailUrl: Study['thumbnail'];
@@ -40,7 +41,7 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
           </Card.Content>
         </div>
         <div css={tw`absolute top-8 right-8`}>
-          <Chip variant={isOpen ? 'primary' : 'secondary'}>{isOpen ? '모집중' : '모집완료'}</Chip>
+          <StudyChip isOpen={isOpen} />
         </div>
       </Card>
     </S.StudyCardContainer>

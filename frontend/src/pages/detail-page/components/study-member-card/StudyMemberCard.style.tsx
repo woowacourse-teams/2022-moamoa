@@ -1,48 +1,10 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const StudyMemberCard = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    align-items: center;
+  transition: transform 0.2s ease;
 
-    padding: 12px;
-
-    background: ${theme.colors.secondary.light};
-    box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
-    border-radius: ${theme.radius.md};
-  `}
-`;
-
-export const MemberDescription = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    row-gap: 4px;
-
-    padding-left: 12px;
-
-    font-size: ${theme.fontSize.sm};
-  `}
-`;
-
-export const Username = styled.p`
-  ${({ theme }) => css`
-    font-size: ${theme.fontSize.lg};
-    font-weight: ${theme.fontWeight.bold};
-  `}
-`;
-
-export const UserStudyInfo = styled.p`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: space-between;
-    column-gap: 20px;
-
-    & > span {
-      font-size: ${theme.fontSize.md};
-      color: ${theme.colors.secondary.dark};
-    }
-  `}
+  :hover {
+    opacity: 0.9;
+    transform: translate3d(0, -5px, 0);
+  }
 `;

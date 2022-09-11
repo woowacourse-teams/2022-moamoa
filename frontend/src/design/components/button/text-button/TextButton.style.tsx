@@ -7,11 +7,6 @@ type StyleTextButtonProps = Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSiz
 
 export const TextButton = styled.button<StyleTextButtonProps>`
   ${({ theme, fluid, variant, fontSize }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 4px;
-
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;
 
