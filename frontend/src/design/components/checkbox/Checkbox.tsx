@@ -1,23 +1,29 @@
 import { forwardRef } from 'react';
 
+import { noop } from '@utils';
+
 import * as S from '@design/components/checkbox/Checkbox.style';
 
 export type CheckboxProps = {
-  children: string;
-  checked: boolean;
+  children?: string;
+  id?: string;
+  checked?: boolean;
   dataTagId?: number;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  defaultChecked?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ children, checked, onChange, dataTagId, ...props }, ref) => {
+  ({ id, children, checked, onChange: handleChange = noop, dataTagId, defaultChecked, ...props }, ref) => {
     return (
       <label>
         <S.Checkbox
+          id={id}
           ref={ref}
           type="checkbox"
           checked={checked}
-          onChange={onChange}
+          defaultChecked={defaultChecked}
+          onChange={handleChange}
           data-tagid={dataTagId} // TODO: 도메인 빼자
           {...props}
         />

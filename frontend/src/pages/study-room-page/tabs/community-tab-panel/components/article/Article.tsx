@@ -11,7 +11,8 @@ import { useGetUserInformation } from '@api/member';
 import { useAuth } from '@hooks/useAuth';
 
 import Avatar from '@components/avatar/Avatar';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
+
+import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
 
 import * as S from '@study-room-page/tabs/community-tab-panel/components/article/Article.style';
 

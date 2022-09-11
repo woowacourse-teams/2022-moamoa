@@ -5,7 +5,7 @@ import { TITLE_LENGTH } from '@constants';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import LetterCounter from '@design/components/letter-counter/LetterCounter';
 
 import * as S from '@community-tab/components/edit-title/EditTitle.style';
 

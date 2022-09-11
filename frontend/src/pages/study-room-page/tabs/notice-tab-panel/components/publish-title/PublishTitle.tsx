@@ -6,7 +6,7 @@ import { TITLE_LENGTH } from '@constants';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import LetterCounter from '@design/components/letter-counter/LetterCounter';
 
 const PublishTitle: React.FC = () => {
   const { register, formState } = useFormContext();

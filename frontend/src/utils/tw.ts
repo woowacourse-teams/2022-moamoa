@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 
 const arr0_to_100 = [...Array(101).keys()];
-const arr0_to_300 = [...Array(301).keys()];
+const arr0_to_500 = [...Array(501).keys()];
 
 const layout = {
   block: 'display: block',
@@ -89,7 +89,7 @@ const gap = arr0_to_100.reduce((acc, cur) => {
   return acc;
 }, {} as Record<string, string>);
 
-const widthPx = arr0_to_300.reduce((acc, cur) => {
+const widthPx = arr0_to_500.reduce((acc, cur) => {
   acc[`w-${cur}`] = `width: ${cur}px`;
   acc[`max-w-${cur}`] = `max-width: ${cur}px`;
   acc[`min-w-${cur}`] = `min-width: ${cur}px`;
@@ -100,7 +100,7 @@ const width = {
   'w-full': 'width: 100%',
 };
 
-const heightPx = arr0_to_300.reduce((acc, cur) => {
+const heightPx = arr0_to_500.reduce((acc, cur) => {
   acc[`h-${cur}`] = `height: ${cur}px`;
   acc[`max-h-${cur}`] = `max-height: ${cur}px`;
   acc[`min-h-${cur}`] = `min-height: ${cur}px`;

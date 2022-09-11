@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
+import tw from '@utils/tw';
+
 import type { StudyDetail } from '@custom-types';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-
-import * as S from '@create-study-page/components/description-tab/DescriptionTab.style';
+import { ToggleButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Label from '@design/components/label/Label';
+import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
+import MetaBox from '@design/components/meta-box/MetaBox';
+import Textarea from '@design/components/textarea/Textarea';
 
 const studyDescriptionTabIds = {
   write: 'write',
@@ -47,64 +52,67 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
     setDescription(description);
   }, [activeTab]);
 
+  const renderTabContent = () => {
+    if (activeTab === studyDescriptionTabIds.write)
+      return (
+        <>
+          <Label htmlFor="description" hidden>
+            소개글
+          </Label>
+          <Textarea
+            id="description"
+            placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+            invalid={isValid}
+            defaultValue={originalDescription}
+            {...register('description', {
+              validate: (val: string) => {
+                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+                }
+                return makeValidationResult(false);
+              },
+              validationMode: 'change',
+              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+              required: true,
+            })}
+          ></Textarea>
+        </>
+      );
+
+    return <MarkdownRender markdownContent={description} />;
+  };
+
   return (
-    <S.DescriptionTab>
-      <S.TabListContainer>
-        <S.TabList>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === studyDescriptionTabIds.write}
-              onClick={handleNavItemClick(studyDescriptionTabIds.write)}
-            >
-              Write
-            </S.TabItemButton>
-          </S.Tab>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === studyDescriptionTabIds.preview}
-              onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
-            >
-              Preview
-            </S.TabItemButton>
-          </S.Tab>
-        </S.TabList>
-      </S.TabListContainer>
-      <S.TabPanelsContainer>
-        <S.TabPanels>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.write}>
-            <S.TabContent>
-              {/* TODO: HiddenLabel Component 생성 */}
-              <S.Label htmlFor="description">소개글</S.Label>
-              <S.Textarea
-                id="description"
-                placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-                isValid={isValid}
-                defaultValue={originalDescription}
-                {...register('description', {
-                  validate: (val: string) => {
-                    if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                      return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                    }
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-                  maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-                  required: true,
-                })}
-              ></S.Textarea>
-            </S.TabContent>
-          </S.TabPanel>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.preview}>
-            <S.TabContent>
-              <MarkdownRender markdownContent={description} />
-            </S.TabContent>
-          </S.TabPanel>
-        </S.TabPanels>
-      </S.TabPanelsContainer>
-    </S.DescriptionTab>
+    <div css={tw`mb-20`}>
+      <MetaBox>
+        <MetaBox.Title>
+          <ButtonGroup gap="8px">
+            <li>
+              <ToggleButton
+                variant="secondary"
+                checked={activeTab === studyDescriptionTabIds.write}
+                onClick={handleNavItemClick(studyDescriptionTabIds.write)}
+              >
+                Write
+              </ToggleButton>
+            </li>
+            <li>
+              <ToggleButton
+                variant="secondary"
+                checked={activeTab === studyDescriptionTabIds.preview}
+                onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
+              >
+                Preview
+              </ToggleButton>
+            </li>
+          </ButtonGroup>
+        </MetaBox.Title>
+        <MetaBox.Content>
+          <div css={tw`h-400`}>{renderTabContent()}</div>
+        </MetaBox.Content>
+      </MetaBox>
+    </div>
   );
 };
 

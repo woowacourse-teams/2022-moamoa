@@ -5,7 +5,7 @@ import { DESCRIPTION_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
 
 const PublishContentTabIds = {
   write: 'write',

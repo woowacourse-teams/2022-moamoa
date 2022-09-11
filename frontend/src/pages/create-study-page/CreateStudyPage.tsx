@@ -2,6 +2,9 @@ import { FormProvider } from '@hooks/useForm';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
+import Form from '@design/components/form/Form';
+import PageTitle from '@design/components/page-title/PageTitle';
+
 import * as S from '@create-study-page/CreateStudyPage.style';
 import Category from '@create-study-page/components/category/Category';
 import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
@@ -19,40 +22,38 @@ const CreateStudyPage: React.FC = () => {
 
   return (
     <Wrapper>
-      <S.CreateStudyPage>
-        <FormProvider {...formMethods}>
-          <S.Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-            <S.PageTitle>스터디 개설하기</S.PageTitle>
-            <S.Container>
-              <S.Main>
-                <Title />
-                <DescriptionTab />
-                <Excerpt />
-              </S.Main>
-              <S.Sidebar>
-                <li>
-                  <Publish />
-                </li>
-                <li>
-                  <MaxMemberCount />
-                </li>
-                <li>
-                  <Category />
-                </li>
-                <li>
-                  <Subject />
-                </li>
-                <li>
-                  <Period />
-                </li>
-                <li>
-                  <EnrollmentEndDate />
-                </li>
-              </S.Sidebar>
-            </S.Container>
-          </S.Form>
-        </FormProvider>
-      </S.CreateStudyPage>
+      <FormProvider {...formMethods}>
+        <PageTitle>스터디 개설하기</PageTitle>
+        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <S.Container>
+            <S.Main>
+              <Title />
+              <DescriptionTab />
+              <Excerpt />
+            </S.Main>
+            <S.Sidebar>
+              <li>
+                <Publish />
+              </li>
+              <li>
+                <MaxMemberCount />
+              </li>
+              <li>
+                <Category />
+              </li>
+              <li>
+                <Subject />
+              </li>
+              <li>
+                <Period />
+              </li>
+              <li>
+                <EnrollmentEndDate />
+              </li>
+            </S.Sidebar>
+          </S.Container>
+        </Form>
+      </FormProvider>
     </Wrapper>
   );
 };

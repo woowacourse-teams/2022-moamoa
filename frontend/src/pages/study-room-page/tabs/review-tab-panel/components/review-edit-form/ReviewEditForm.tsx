@@ -11,8 +11,9 @@ import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import Avatar from '@components/avatar/Avatar';
 import Button from '@components/button/Button';
-import LetterCounter from '@components/letter-counter/LetterCounter';
-import useLetterCount from '@components/letter-counter/useLetterCount';
+
+import LetterCounter from '@design/components/letter-counter/LetterCounter';
+import useLetterCount from '@design/components/letter-counter/useLetterCount';
 
 import * as S from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm.style';
 

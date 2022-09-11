@@ -1,20 +1,18 @@
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/subject/Subject.style';
+import Label from '@design/components/label/Label';
+import MetaBox from '@design/components/meta-box/MetaBox';
+import Select from '@design/components/select/Select';
 
 export type SubjectProps = {
-  className?: string;
   originalSubjects?: StudyDetail['tags'];
 };
 
-const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
+const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
@@ -29,10 +27,10 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
       const etcTagId = subjects.find(tag => tag.name === 'Etc');
 
       return (
-        <S.Select
+        <Select
           id="subject-list"
           defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
-          css={tw`w-full`}
+          fluid
           {...register('subject')}
         >
           {subjects.map(({ id, description }) => (
@@ -40,20 +38,18 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
               {description}
             </option>
           ))}
-        </S.Select>
+        </Select>
       );
     }
   };
 
   return (
-    <S.Subject className={className}>
-      <MetaBox>
-        <MetaBox.Title>
-          <label htmlFor="subject-list">주제</label>
-        </MetaBox.Title>
-        <MetaBox.Content>{render()}</MetaBox.Content>
-      </MetaBox>
-    </S.Subject>
+    <MetaBox>
+      <MetaBox.Title>
+        <Label htmlFor="subject-list">주제</Label>
+      </MetaBox.Title>
+      <MetaBox.Content>{render()}</MetaBox.Content>
+    </MetaBox>
   );
 };
 

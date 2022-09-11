@@ -3,6 +3,7 @@ import { memo } from 'react';
 import tw from '@utils/tw';
 
 import { ToggleButton } from '@design/components/button';
+import Flex from '@design/components/flex/Flex';
 
 import * as S from '@main-page/components/filter-button/FilterButton.style';
 
@@ -15,13 +16,15 @@ export type FilterButtonProps = {
 
 const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecked, onClick: handleClick }) => {
   return (
-    <div css={tw`flex items-center h-70 mb-8`}>
-      <ToggleButton checked={isChecked} onClick={handleClick}>
-        <div css={tw`flex flex-col w-80`}>
-          <S.Name>{name}</S.Name>
-          <S.Description>{description}</S.Description>
-        </div>
-      </ToggleButton>
+    <div css={tw`mb-8`}>
+      <Flex alignItems="center" height="70px">
+        <ToggleButton checked={isChecked} onClick={handleClick}>
+          <Flex direction="column" width="80px">
+            <S.Name>{name}</S.Name>
+            <S.Description>{description}</S.Description>
+          </Flex>
+        </ToggleButton>
+      </Flex>
     </div>
   );
 };

@@ -3,8 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { PATH } from '@constants';
 
 import Divider from '@components/divider/Divider';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
+
+import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
 
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';

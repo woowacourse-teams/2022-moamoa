@@ -6,13 +6,13 @@ import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import Checkbox from '@components/checkbox/Checkbox';
-
-import * as S from '@create-study-page/components/category/Category.style';
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import Checkbox from '@design/components/checkbox/Checkbox';
+import Flex from '@design/components/flex/Flex';
+import Label from '@design/components/label/Label';
+import MetaBox from '@design/components/meta-box/MetaBox';
+import Select from '@design/components/select/Select';
 
 export type CategoryProps = {
-  className?: string;
   originalGeneration?: Tag;
   originalAreas?: StudyDetail['tags'];
 };
@@ -30,7 +30,7 @@ const getClassifiedTags = (tags: Array<Tag>) => {
   };
 };
 
-const Category: React.FC<CategoryProps> = ({ className, originalGeneration, originalAreas }) => {
+const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
@@ -47,53 +47,47 @@ const Category: React.FC<CategoryProps> = ({ className, originalGeneration, orig
 
     return (
       <>
-        <S.Generation>
-          <S.Label htmlFor="generation">기수 :</S.Label>
-          <S.Select id="generation" defaultValue={originalGeneration?.id} {...register('generation')}>
-            <option>선택 안함</option>
-            {generations.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </S.Select>
-        </S.Generation>
-        <S.Area>
-          <S.Label>영역 :</S.Label>
-          <S.AreaCheckboxContainer>
-            <Checkbox
-              css={tw`mr-4`}
-              type="checkbox"
-              id="area-fe"
-              dataTagId={areaFE.id}
-              defaultChecked={originalAreas?.some(tag => tag.id === areaFE.id)}
-              {...register('area-fe')}
-            />
-            <label htmlFor="area-fe">FE</label>
-          </S.AreaCheckboxContainer>
-          <S.AreaCheckboxContainer>
-            <Checkbox
-              css={tw`mr-4`}
-              type="checkbox"
-              id="area-be"
-              dataTagId={areaBE.id}
-              defaultChecked={originalAreas?.some(tag => tag.id === areaBE.id)}
-              {...register('area-be')}
-            />
-            <label htmlFor="area-be">BE</label>
-          </S.AreaCheckboxContainer>
-        </S.Area>
+        <Flex gap="8px" alignItems="center">
+          <Label htmlFor="generation">기수 :</Label>
+          <div css={tw`flex-grow`}>
+            <Select id="generation" defaultValue={originalGeneration?.id} fluid {...register('generation')}>
+              <option>선택 안함</option>
+              {generations.map(({ id, name }) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </Flex>
+        <Flex gap="8px">
+          <Label>영역 :</Label>
+          <Checkbox
+            id="area-fe"
+            dataTagId={areaFE.id}
+            defaultChecked={originalAreas?.some(tag => tag.id === areaFE.id)}
+            {...register('area-fe')}
+          >
+            FE
+          </Checkbox>
+          <Checkbox
+            id="area-be"
+            dataTagId={areaBE.id}
+            defaultChecked={originalAreas?.some(tag => tag.id === areaBE.id)}
+            {...register('area-be')}
+          >
+            BE
+          </Checkbox>
+        </Flex>
       </>
     );
   };
 
   return (
-    <S.Category className={className}>
-      <MetaBox>
-        <MetaBox.Title>스터디 분류</MetaBox.Title>
-        <MetaBox.Content>{renderContent()}</MetaBox.Content>
-      </MetaBox>
-    </S.Category>
+    <MetaBox>
+      <MetaBox.Title>스터디 분류</MetaBox.Title>
+      <MetaBox.Content>{renderContent()}</MetaBox.Content>
+    </MetaBox>
   );
 };
 

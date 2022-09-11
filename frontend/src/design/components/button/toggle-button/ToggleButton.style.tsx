@@ -5,19 +5,21 @@ import { mqDown } from '@utils';
 
 import { type ToggleButtonProps } from '@design/components/button/toggle-button/ToggleButton';
 
-type StyleToggleButtonProps = Pick<ToggleButtonProps, 'checked' | 'fluid'>;
+type StyleToggleButtonProps = Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant'>;
 
 const applyCheckedStyle = (theme: Theme) => css`
+  color: ${theme.colors.primary.base};
   border-bottom: 2px solid ${theme.colors.primary.base};
 
   &:hover,
   &:active {
+    color: ${theme.colors.primary.base};
     border-bottom: 2px solid ${theme.colors.primary.base};
   }
 `;
 
 export const ToggleButton = styled.button<StyleToggleButtonProps>`
-  ${({ theme, checked, fluid }) => css`
+  ${({ theme, checked, fluid, variant }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +28,7 @@ export const ToggleButton = styled.button<StyleToggleButtonProps>`
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;
 
-    color: ${theme.colors.primary.base};
+    color: ${variant === 'secondary' ? theme.colors.secondary.dark : theme.colors.primary.base};
     border: none;
     border-bottom: 2px solid transparent;
     background-color: transparent;

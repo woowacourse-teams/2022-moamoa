@@ -13,8 +13,10 @@ export type InputProps = {
   disabled?: boolean;
   fontSize?: keyof Theme['fontSize'];
   fluid?: boolean;
-  invalid: boolean;
+  invalid?: boolean;
+  defaultValue?: string | number;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 };
 
 const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
@@ -25,9 +27,11 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       placeholder,
       disabled = false,
       fontSize = 'md',
-      invalid,
+      invalid = false,
       fluid = false,
+      defaultValue,
       onChange: handleChange = noop,
+      onKeyDown: handleKeyDown = noop,
       ...props
     },
     ref,
@@ -39,10 +43,12 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
         type={type}
         placeholder={placeholder}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         disabled={disabled}
         fontSize={fontSize}
         invalid={invalid}
         fluid={fluid}
+        defaultValue={defaultValue}
         {...props}
       />
     );
