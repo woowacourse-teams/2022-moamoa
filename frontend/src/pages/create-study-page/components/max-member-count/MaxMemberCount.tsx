@@ -22,7 +22,7 @@ export type MaxMemberCountProps = {
 const maxMemberCountName = 'max-member-count';
 
 const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
-  const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(false);
+  const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(originalMaxMemberCount ? true : false);
 
   const { removeField, register } = useFormContext();
 
