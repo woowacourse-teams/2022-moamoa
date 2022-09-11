@@ -41,7 +41,7 @@ public class StudyService {
         final Member owner = findMemberBy(githubId);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan(participants.getSize());
 
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
@@ -75,7 +75,7 @@ public class StudyService {
                 .orElseThrow(StudyNotFoundException::new);
 
         final Content content = request.mapToContent();
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan(study.getParticipants().getSize());
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
 
         study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);

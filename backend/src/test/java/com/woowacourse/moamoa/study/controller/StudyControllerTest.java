@@ -23,6 +23,7 @@ import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ class StudyControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @BeforeEach
     void initDataBase() {
@@ -186,7 +190,7 @@ class StudyControllerTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
     }
 
-    @DisplayName("스터디 상세 정보를 업데이트할 수 있다.")
+    @DisplayName("스터디 상세 정보를 업데이트할 수 있다. - 스터디 모집 인원이 1명인 경우")
     @Test
     void updateStudyDetails() {
         // given
@@ -233,6 +237,66 @@ class StudyControllerTest {
         assertThat(study.getContent().getDescription()).isEqualTo("변경된 상세설명");
         assertThat(study.getRecruitPlanner().getMax()).isEqualTo(10);
         assertThat(study.getAttachedTags().getAttachedTags().get(0)).isEqualTo(new AttachedTag(1L));
+    }
+
+    @DisplayName("스터디 상세 정보를 업데이트할 수 있다. - 스터디 모집 인원이 2명 이상 이고, 모집 인원이 찬 경우")
+    @Test
+    void updateStudyDetailsIfMoreThanTwoMember() {
+        // given
+        StudyController studyController = new StudyController(new StudyService(studyRepository, memberRepository,
+                new DateTimeSystem()));
+
+        final StudyRequest studyRequest = StudyRequest.builder()
+                .title("Java")
+                .excerpt("java excerpt")
+                .thumbnail("java image")
+                .description("자바 스터디 상세설명 입니다.")
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(3)
+                .tagIds(List.of(1L, 2L))
+                .build();
+
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(1L, studyRequest);
+        final String location = createdResponse.getHeaders().getLocation().getPath();
+        final long studyId = getStudyIdBy(location);
+        Study study = studyRepository.findById(studyId).orElseThrow();
+
+        final Member green = memberRepository.save(new Member(3L, "lawn", "https://image", "github.com"));
+        final Member verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+
+        study.participate(green.getId());
+        study.participate(verus.getId());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        final StudyRequest updatingStudyRequest = StudyRequest.builder()
+                .title("변경된 title")
+                .excerpt("변경된 excerpt")
+                .thumbnail("변경된 image")
+                .description("변경된 상세설명")
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(4))
+                .enrollmentEndDate(LocalDate.now().plusDays(2))
+                .maxMemberCount(3)
+                .tagIds(List.of(1L))
+                .build();
+
+        // when
+        studyController.updateStudy(study.getParticipants().getOwnerId(), studyId, updatingStudyRequest);
+
+        // then
+        final Study updatedStudy = studyRepository.findById(studyId).orElseThrow();
+
+        assertThat(updatedStudy.getContent().getTitle()).isEqualTo("변경된 title");
+        assertThat(updatedStudy.getContent().getExcerpt()).isEqualTo("변경된 excerpt");
+        assertThat(updatedStudy.getContent().getThumbnail()).isEqualTo("변경된 image");
+        assertThat(updatedStudy.getContent().getDescription()).isEqualTo("변경된 상세설명");
+        assertThat(updatedStudy.getRecruitPlanner().getMax()).isEqualTo(3);
+        assertThat(updatedStudy.getRecruitPlanner().getRecruitStatus()).isEqualTo(study.getRecruitPlanner().getRecruitStatus());
+        assertThat(updatedStudy.getAttachedTags().getAttachedTags().get(0)).isEqualTo(new AttachedTag(1L));
     }
 
     private long getStudyIdBy(final String location) {
