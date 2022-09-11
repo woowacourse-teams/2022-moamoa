@@ -1,7 +1,7 @@
 import { ErrorPage } from '@pages';
 import type { Story } from '@storybook/react';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 export default {
   title: 'Pages/ErrorPage',

@@ -2,9 +2,9 @@ import type { Link } from '@custom-types';
 
 import ModalPortal from '@components/modal/Modal';
 import { PlusSvg } from '@components/svg';
-import Wrapper from '@components/wrapper/Wrapper';
 
 import InfiniteScroll from '@design/components/infinite-scroll/InfiniteScroll';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/components/link-room-tab-panel/LinkRoomTabPanel.style';
 import LinkForm from '@study-room-page/components/link-room-tab-panel/components/link-form/LinkForm';

@@ -1,4 +1,4 @@
-import Wrapper from '@components/wrapper/Wrapper';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import useLoginRedirectPage from '@login-redirect-page/hooks/useLoginRedirectPage';
 

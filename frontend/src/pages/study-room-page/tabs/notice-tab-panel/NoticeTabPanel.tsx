@@ -10,7 +10,7 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 type NoticeTabPanelProps = {
   studyId: number;

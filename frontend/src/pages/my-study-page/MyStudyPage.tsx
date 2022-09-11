@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 
 import Divider from '@components/divider/Divider';
-import Wrapper from '@components/wrapper/Wrapper';
+
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import * as S from '@my-study-page/MyStudyPage.style';
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';

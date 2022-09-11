@@ -4,7 +4,7 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import * as S from '@community-tab/CommunityTabPanel.style';
 import ArticleList from '@community-tab/components/article-list/ArticleList';

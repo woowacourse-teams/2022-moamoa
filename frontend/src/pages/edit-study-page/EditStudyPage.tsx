@@ -4,10 +4,9 @@ import { PATH } from '@constants';
 
 import { FormProvider } from '@hooks/useForm';
 
-import Wrapper from '@components/wrapper/Wrapper';
-
 import Form from '@design/components/form/Form';
-import PageTitle from '@design/components/page-title/PageTitle';
+import PageTitle from '@design/components/title/Title';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import Category from '@create-study-page/components/category/Category';
 import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
@@ -39,7 +38,7 @@ const EditStudyPage: React.FC = () => {
   return (
     <Wrapper>
       <FormProvider {...formMethods}>
-        <PageTitle>스터디 수정하기</PageTitle>
+        <PageTitle.Page>스터디 수정하기</PageTitle.Page>
         <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <S.Container>
             <S.Main>

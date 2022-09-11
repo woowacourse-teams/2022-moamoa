@@ -4,7 +4,7 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import Wrapper from '@design/components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/StudyRoomPage.style';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
