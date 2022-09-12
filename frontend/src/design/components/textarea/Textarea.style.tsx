@@ -3,17 +3,17 @@ import styled from '@emotion/styled';
 
 import { TextareaProps } from '@design/components/textarea/Textarea';
 
-type StyleTextareaProps = Required<Pick<TextareaProps, 'fontSize' | 'invalid' | 'fluid'>>;
+type StyleTextareaProps = Required<Pick<TextareaProps, 'fontSize' | 'invalid' | 'fluid' | 'border'>>;
 
 export const Textarea = styled.textarea<StyleTextareaProps>`
-  ${({ theme, fontSize, fluid, invalid }) => css`
+  ${({ theme, fontSize, fluid, invalid, border }) => css`
     width: ${fluid ? '100%' : 'auto'};
     height: 100%;
     padding: 8px;
 
     font-size: ${theme.fontSize[fontSize]};
     border-radius: ${theme.radius.sm};
-    border: 1px solid ${theme.colors.secondary.base};
+    border: ${border ? `1px solid ${theme.colors.secondary.base}` : 'none'};
     background-color: ${theme.colors.secondary.light};
     outline: none;
     overflow: auto;

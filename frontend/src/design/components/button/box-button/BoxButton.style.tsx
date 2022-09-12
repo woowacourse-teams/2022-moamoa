@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { type BoxButtonProps } from '@design/components/button/box-button/BoxButton';
 
-type StyleBoxButtonProps = Required<Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant' | 'padding'>>;
+type StyleBoxButtonProps = Required<Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant' | 'padding' | 'fontSize'>>;
 
 const applyFilledButtonStyle = (theme: Theme) => css`
   border: none;
@@ -41,14 +41,14 @@ const applyOutlineButtonStyle = (theme: Theme) => css`
 `;
 
 export const BoxButton = styled.button<StyleBoxButtonProps>`
-  ${({ theme, fluid, disabled, variant, padding }) => css`
+  ${({ theme, fluid, disabled, variant, padding, fontSize }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: ${padding};
     min-height: 30px;
 
     border-radius: ${theme.radius.sm};
     text-align: center;
-    font-size: ${theme.fontSize.lg};
+    font-size: ${theme.fontSize[fontSize]};
     color: ${theme.colors.white};
 
     ${variant === 'secondary' ? applyOutlineButtonStyle(theme) : applyFilledButtonStyle(theme)}

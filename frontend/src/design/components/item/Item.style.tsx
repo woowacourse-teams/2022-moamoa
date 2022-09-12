@@ -11,7 +11,7 @@ export const Item = styled.div`
 
     padding: 8px;
 
-    background: ${theme.colors.secondary.light};
+    background: transparent;
     border-radius: ${theme.radius.sm};
   `}
 `;
