@@ -8,10 +8,10 @@ type StyleDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'righ
 export const DropDownBox = styled.div<StyleDropDownBox>`
   ${({ theme, top, bottom, left, right, padding }) => css`
     position: absolute;
-    ${top && `top: ${top};`}
-    ${bottom && `bottom: ${bottom};`}
-    ${left && `left: ${left};`}
-    ${right && `right: ${right};`}
+    ${(top || top === 0) && `top: ${top};`}
+    ${(bottom || bottom === 0) && `bottom: ${bottom};`}
+    ${(left || left === 0) && `left: ${left};`}
+    ${(right || right === 0) && `right: ${right};`}
     z-index: 3;
     white-space: nowrap;
 

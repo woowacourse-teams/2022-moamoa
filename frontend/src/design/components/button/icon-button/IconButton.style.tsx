@@ -1,9 +1,11 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import type { MakeRequired } from '@custom-types';
+
 import { IconButtonProps } from './IconButton';
 
-type StyleIconButtonProps = Pick<IconButtonProps, 'variant' | 'height' | 'width'>;
+type StyleIconButtonProps = MakeRequired<Pick<IconButtonProps, 'variant' | 'height' | 'width' | 'fontSize'>, 'variant'>;
 
 const applyPrimaryStyle = (theme: Theme) => css`
   background-color: ${theme.colors.primary.base};
@@ -34,7 +36,7 @@ const applySecondaryStyle = (theme: Theme) => css`
 `;
 
 export const IconButton = styled.button<StyleIconButtonProps>`
-  ${({ theme, variant, height, width }) => css`
+  ${({ theme, variant, height, width, fontSize }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +44,7 @@ export const IconButton = styled.button<StyleIconButtonProps>`
     width: ${width};
     height: ${height};
 
+    ${fontSize && `font-size: ${theme.fontSize[fontSize]};`}
     border: none;
     border-radius: ${theme.radius.circle};
     transition: background-color 0.2s ease;

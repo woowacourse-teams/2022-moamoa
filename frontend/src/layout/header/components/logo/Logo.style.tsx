@@ -3,21 +3,8 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-export const Row = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const ImageContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  width: 40px;
   margin-right: 4px;
-  img {
-    width: 100%;
-  }
 
   ${mqDown('lg')} {
     margin-right: 0;

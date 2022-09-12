@@ -3,23 +3,6 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-export const SearchBarContainer = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 100%;
-  max-width: 400px;
-
-  ${mqDown('lg')} {
-    position: static;
-    left: 0;
-    top: 0;
-    transform: none;
-  }
-`;
-
 export const Header = styled.header`
   ${({ theme }) => css`
     display: flex;
@@ -27,7 +10,11 @@ export const Header = styled.header`
     align-items: center;
     column-gap: 20px;
 
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
 
     padding: 20px 40px;
 
@@ -44,16 +31,19 @@ export const Header = styled.header`
   `}
 `;
 
-export const Nav = styled.nav`
-  display: flex;
-  column-gap: 16px;
-`;
+export const SearchBarContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
-export const AvatarContainer = styled.div`
-  position: relative;
-`;
+  width: 100%;
+  max-width: 400px;
 
-export const AvatarButton = styled.button`
-  border: none;
-  background-color: transparent;
+  ${mqDown('lg')} {
+    position: static;
+    left: 0;
+    top: 0;
+    transform: none;
+  }
 `;
