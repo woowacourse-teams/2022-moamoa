@@ -15,12 +15,14 @@ export type TitleProps = {
   originalTitle?: StudyDetail['title'];
 };
 
+const TITLE = 'title';
+
 const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   const { register, formState } = useFormContext();
   const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
 
   const { errors } = formState;
-  const isValid = !!errors['title']?.hasError;
+  const isTitleValid = !errors[TITLE]?.hasError;
 
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
@@ -29,19 +31,19 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
       <div css={tw`absolute right-4 bottom-2`}>
         <LetterCounter count={count} maxCount={maxCount} />
       </div>
-      <Label htmlFor="title" hidden>
+      <Label htmlFor={TITLE} hidden>
         스터디 이름
       </Label>
       <div css={tw`mb-20`}>
         <Input
-          id="title"
+          id={TITLE}
           type="text"
           placeholder="*스터디 이름"
-          invalid={isValid}
+          invalid={!isTitleValid}
           fluid
           defaultValue={originalTitle}
           fontSize="xl"
-          {...register('title', {
+          {...register(TITLE, {
             validate: (val: string) => {
               if (val.length < TITLE_LENGTH.MIN.VALUE) {
                 return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);

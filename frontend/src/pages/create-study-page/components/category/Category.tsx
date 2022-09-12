@@ -17,8 +17,12 @@ export type CategoryProps = {
   originalAreas?: StudyDetail['tags'];
 };
 
+const GENERATION = 'generation';
+const AREA_FE = 'area-fe';
+const AREA_BE = 'area-be';
+
 const getClassifiedTags = (tags: Array<Tag>) => {
-  const generations = tags.filter(({ category }) => category.name === 'generation'); // TODO: 기수 정렬하기. 서버에서 order를 줘도 되겠다
+  const generations = tags.filter(({ category }) => category.name === GENERATION); // TODO: 기수 정렬하기. 서버에서 order를 줘도 되겠다
   const areas = tags.filter(({ category }) => category.name === 'area');
   const areaFE = areas.find(({ name }) => name.toLowerCase() === 'fe');
   const areaBE = areas.find(({ name }) => name.toLowerCase() === 'be');
@@ -48,9 +52,9 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
     return (
       <>
         <Flex gap="8px" alignItems="center">
-          <Label htmlFor="generation">기수 :</Label>
+          <Label htmlFor={GENERATION}>기수 :</Label>
           <div css={tw`flex-grow`}>
-            <Select id="generation" defaultValue={originalGeneration?.id} fluid {...register('generation')}>
+            <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
               <option>선택 안함</option>
               {generations.map(({ id, name }) => (
                 <option key={id} value={id}>
@@ -63,18 +67,18 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
         <Flex gap="8px">
           <Label>영역 :</Label>
           <Checkbox
-            id="area-fe"
+            id={AREA_FE}
             dataTagId={areaFE.id}
             defaultChecked={originalAreas?.some(tag => tag.id === areaFE.id)}
-            {...register('area-fe')}
+            {...register(AREA_FE)}
           >
             FE
           </Checkbox>
           <Checkbox
-            id="area-be"
+            id={AREA_BE}
             dataTagId={areaBE.id}
             defaultChecked={originalAreas?.some(tag => tag.id === areaBE.id)}
-            {...register('area-be')}
+            {...register(AREA_BE)}
           >
             BE
           </Checkbox>

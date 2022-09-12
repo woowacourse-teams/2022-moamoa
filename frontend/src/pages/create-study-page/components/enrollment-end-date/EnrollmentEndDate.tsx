@@ -16,6 +16,8 @@ export type PeriodProps = {
   originalEnrollmentEndDate?: StudyDetail['enrollmentEndDate'];
 };
 
+const ENROLLMENT_END_DATE = 'enrollment-end-date';
+
 const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate }) => {
   const { register } = useFormContext();
   const today = useMemo(() => getToday('-'), []) as DateYMD;
@@ -30,12 +32,12 @@ const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate })
       <MetaBox.Title>스터디 신청 마감일</MetaBox.Title>
       <MetaBox.Content>
         <Flex gap="10px" alignItems="center">
-          <Label htmlFor="enrollment-end-date">마감일자 :</Label>
+          <Label htmlFor={ENROLLMENT_END_DATE}>마감일자 :</Label>
           <Input
-            id="enrollment-end-date"
+            id={ENROLLMENT_END_DATE}
             type="date"
             defaultValue={originalEnrollmentEndDate}
-            {...register('enrollment-end-date', {
+            {...register(ENROLLMENT_END_DATE, {
               min: minEndDate,
               max: maxEndDate,
             })}

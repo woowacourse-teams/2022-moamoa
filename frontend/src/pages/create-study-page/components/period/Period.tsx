@@ -17,6 +17,9 @@ type PeriodProps = {
   originalEndDate?: StudyDetail['endDate'];
 };
 
+const START_DATE = 'start-date';
+const END_DATE = 'end-date';
+
 const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) => {
   const { register } = useFormContext();
 
@@ -39,12 +42,12 @@ const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) =
       <MetaBox.Title>스터디 운영 기간</MetaBox.Title>
       <MetaBox.Content>
         <div css={tw`mb-12`}>
-          <Label htmlFor="start-date">*스터디 시작 :</Label>
+          <Label htmlFor={START_DATE}>*스터디 시작 :</Label>
           <Input
             type="date"
-            id="start-date"
+            id={START_DATE}
             defaultValue={originalStartDate || today}
-            {...register('start-date', {
+            {...register(START_DATE, {
               min: minStartDate,
               max: maxStartDate,
               required: true,
@@ -52,12 +55,12 @@ const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) =
           />
         </div>
         <div>
-          <Label htmlFor="end-date">스터디 종료 :</Label>
+          <Label htmlFor={END_DATE}>스터디 종료 :</Label>
           <Input
             type="date"
-            id="end-date"
+            id={END_DATE}
             defaultValue={originalEndDate}
-            {...register('end-date', {
+            {...register(END_DATE, {
               min: minEndDate,
               max: maxEndDate,
             })}

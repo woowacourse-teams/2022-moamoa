@@ -17,11 +17,15 @@ export type ExcerptProps = {
   originalExcerpt?: StudyDetail['description'];
 };
 
+const EXCERPT = 'excerpt';
+
 const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
   const {
     formState: { errors },
     register,
   } = useFormContext();
+
+  const isExcerptValid = !errors[EXCERPT]?.hasError;
 
   const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
 
@@ -31,7 +35,7 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
     <div>
       <MetaBox>
         <MetaBox.Title>
-          <Label htmlFor="excerpt">한 줄 소개</Label>
+          <Label htmlFor={EXCERPT}>한 줄 소개</Label>
         </MetaBox.Title>
         <MetaBox.Content>
           <div css={tw`relative`}>
@@ -39,11 +43,11 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
               <LetterCounter count={count} maxCount={maxCount} />
             </div>
             <Textarea
-              id="excerpt"
+              id={EXCERPT}
               placeholder="*한줄소개를 입력해주세요"
-              invalid={!!errors['excerpt']?.hasError}
+              invalid={!isExcerptValid}
               defaultValue={originalExcerpt}
-              {...register('excerpt', {
+              {...register(EXCERPT, {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
                     return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);

@@ -19,7 +19,7 @@ export type MaxMemberCountProps = {
   originalMaxMemberCount?: StudyDetail['maxMemberCount'];
 };
 
-const maxMemberCountName = 'max-member-count';
+const MAX_MEMBER_COUNT = 'max-member-count';
 
 const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
   const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(originalMaxMemberCount ? true : false);
@@ -30,7 +30,7 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
 
   const handleNoSelectCheckboxChange = () => {
     setWillSelectMaxMember(prev => {
-      if (prev) removeField(maxMemberCountName);
+      if (prev) removeField(MAX_MEMBER_COUNT);
       return !prev;
     });
   };
@@ -45,16 +45,16 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
         </Flex>
         {willSelectMaxMember && (
           <Flex gap="8px" alignItems="center">
-            <Label htmlFor={maxMemberCountName}>최대 인원 :</Label>
+            <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
             <div css={tw`flex-grow`}>
               <Input
-                id={maxMemberCountName}
+                id={MAX_MEMBER_COUNT}
                 type="number"
                 fluid
                 placeholder="최대 인원"
                 defaultValue={originalMaxMemberCount}
                 onKeyDown={handleKeyDown}
-                {...register(maxMemberCountName, {
+                {...register(MAX_MEMBER_COUNT, {
                   min: MEMBER_COUNT.MIN.VALUE,
                   max: MEMBER_COUNT.MAX.VALUE,
                 })}

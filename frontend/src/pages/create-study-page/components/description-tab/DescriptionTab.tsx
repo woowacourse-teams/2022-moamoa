@@ -26,6 +26,8 @@ export type DescriptionTabProps = {
   originalDescription?: StudyDetail['description'];
 };
 
+const DESCRIPTION = 'description';
+
 const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) => {
   const {
     formState: { errors },
@@ -37,14 +39,14 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
 
   const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
 
-  const isValid = !!errors['description']?.hasError;
+  const isValid = !errors[DESCRIPTION]?.hasError;
 
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
   useEffect(() => {
-    const field = getField('description');
+    const field = getField(DESCRIPTION);
     if (!field) return;
     if (activeTab !== studyDescriptionTabIds.preview) return;
 
@@ -56,15 +58,15 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
     if (activeTab === studyDescriptionTabIds.write)
       return (
         <>
-          <Label htmlFor="description" hidden>
+          <Label htmlFor={DESCRIPTION} hidden>
             소개글
           </Label>
           <Textarea
-            id="description"
+            id={DESCRIPTION}
             placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-            invalid={isValid}
+            invalid={!isValid}
             defaultValue={originalDescription}
-            {...register('description', {
+            {...register(DESCRIPTION, {
               validate: (val: string) => {
                 if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
                   return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
