@@ -10,8 +10,6 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import { useGetUserRole } from '@api/member';
-
 import Wrapper from '@components/wrapper/Wrapper';
 
 type NoticeTabPanelProps = {
@@ -67,10 +65,7 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
 
   return (
     <Wrapper>
-      <div>
-        <h1 css={tw`text-center text-30 mb-40`}>공지사항</h1>
-        <div>{render()}</div>
-      </div>
+      <div>{render()}</div>
     </Wrapper>
   );
 };

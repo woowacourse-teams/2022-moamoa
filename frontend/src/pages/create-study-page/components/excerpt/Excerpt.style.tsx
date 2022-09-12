@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Textarea as OriginalTextarea } from '@create-study-page/components/textarea/Textarea.style';
@@ -27,8 +28,11 @@ export const LetterCounterContainer = styled.div`
 `;
 
 export const Textarea = styled(OriginalTextarea)`
-  display: block;
-  min-height: 50px;
-  width: 100%;
-  font-size: 16px;
+  ${({ theme }) => css`
+    display: block;
+    min-height: 50px;
+    width: 100%;
+
+    font-size: ${theme.fontSize.md};
+  `}
 `;

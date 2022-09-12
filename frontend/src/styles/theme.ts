@@ -30,6 +30,38 @@ export const theme = {
     black: COLORS.BLACK,
     red: COLORS.RED,
   },
+  screens: {
+    xs: 0,
+    sm: '576px',
+    md: '768px',
+    lg: '992px',
+    xl: '1280px',
+    xxl: '1400px',
+  },
+  fontSize: {
+    xs: '8px',
+    sm: '12px',
+    md: '16px',
+    lg: '20px',
+    xl: '24px',
+    xxl: '32px',
+    xxxl: '40px',
+  },
+  fontWeight: {
+    light: 300,
+    normal: 400,
+    bold: 600,
+    bolder: 800,
+  },
+  radius: {
+    none: 0,
+    xs: '5px',
+    sm: '10px',
+    md: '15px',
+    lg: '20px',
+    xl: '25px',
+    circle: '50%',
+  },
 };
 
 export type ThemeColor = typeof COLORS[keyof typeof COLORS];

@@ -10,24 +10,28 @@ export const StudyMemberCard = styled.div`
 
     background: ${theme.colors.secondary.light};
     box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;
 
 export const MemberDescription = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  row-gap: 4px;
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    row-gap: 4px;
 
-  padding-left: 12px;
+    padding-left: 12px;
 
-  font-size: 12px;
+    font-size: ${theme.fontSize.sm};
+  `}
 `;
 
 export const Username = styled.p`
-  font-size: 20px;
-  font-weight: 700;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.lg};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const UserStudyInfo = styled.p`
@@ -37,7 +41,7 @@ export const UserStudyInfo = styled.p`
     column-gap: 20px;
 
     & > span {
-      font-size: 16px;
+      font-size: ${theme.fontSize.md};
       color: ${theme.colors.secondary.dark};
     }
   `}

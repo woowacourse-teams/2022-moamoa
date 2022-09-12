@@ -29,10 +29,10 @@ export const Input = styled(OriginalInput)`
   ${({ theme }) => css`
     display: block;
     width: 100%;
-    font-size: 24px;
+    font-size: ${theme.fontSize.xl};
     line-height: 24px;
 
-    border-radius: 4px;
+    border-radius: ${theme.radius.xs};
     border: 1px solid ${theme.colors.secondary.dark};
     background-color: ${theme.colors.white};
     color: ${theme.colors.black};

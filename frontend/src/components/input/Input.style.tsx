@@ -11,7 +11,7 @@ type InputProps = {
 
 export const Input = styled.input<InputProps>`
   ${({ theme, isValid }) => css`
-    border-radius: 5px;
+    border-radius: ${theme.radius.xs};
     border: 1px solid ${theme.colors.secondary.base};
     background-color: ${theme.colors.white};
     padding: 4px 8px;

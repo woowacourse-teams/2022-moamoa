@@ -13,7 +13,7 @@ export const Button = styled.button`
     text-align: center;
     background-color: ${theme.colors.secondary.light};
     border: 1px solid ${theme.colors.secondary.base};
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
 
     transition: transform 0.2s ease;
 

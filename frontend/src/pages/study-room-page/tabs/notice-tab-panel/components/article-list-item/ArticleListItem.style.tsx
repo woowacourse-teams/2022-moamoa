@@ -20,13 +20,15 @@ export const Title = styled.h3``;
 export const Content = styled.div``;
 
 export const MoreInfo = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 20px;
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
 
-  text-align: center;
-  font-size: 13px;
-  line-height: 20px;
+    text-align: center;
+    font-size: ${theme.fontSize.sm};
+    line-height: 20px;
+  `}
 `;
 
 export const Author = styled.div`

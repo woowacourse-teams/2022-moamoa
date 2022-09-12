@@ -17,7 +17,7 @@ export const Author = styled.div`
 
 export const Date = styled.span`
   ${({ theme }) => css`
-    font-size: 16px;
+    font-size: ${theme.fontSize.md};
     color: ${theme.colors.secondary.dark};
   `}
 `;

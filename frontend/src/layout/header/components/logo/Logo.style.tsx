@@ -27,8 +27,8 @@ export const ImageContainer = styled.div`
 export const BorderText = styled.h1`
   ${({ theme }) => css`
     color: ${theme.colors.primary.base};
-    font-size: 40px;
-    font-weight: 800;
+    font-size: ${theme.fontSize.xxxl};
+    font-weight: ${theme.fontWeight.bolder};
     -webkit-text-stroke: 1px ${theme.colors.primary.dark};
 
     ${mqDown('lg')} {

@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
@@ -12,10 +13,12 @@ export const CreateStudyPage = styled.div``;
 export const Form = styled.form``;
 
 export const PageTitle = styled.h1`
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    margin-bottom: 20px;
 
-  font-size: 32px;
-  font-weight: 700;
+    font-size: ${theme.fontSize.xxl};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const DescriptionTab = styled(OriginalDesriptionTab)`
