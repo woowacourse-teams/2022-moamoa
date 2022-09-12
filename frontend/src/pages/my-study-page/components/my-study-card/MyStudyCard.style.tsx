@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { itemHoverTransitionStyle } from '@styles/theme';
+
 import { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
 type StyleMyStudyCardProps = Pick<MyStudyCardProps, 'end'>;
@@ -24,11 +26,6 @@ export const MyStudyCard = styled.div<StyleMyStudyCardProps>`
 
     ${end && endedStyle(theme)}
 
-    transition: transform 0.2s ease;
-
-    :hover {
-      opacity: 0.9;
-      transform: translate3d(0, -5px, 0);
-    }
+    ${itemHoverTransitionStyle()}
   `}
 `;

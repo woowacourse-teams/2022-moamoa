@@ -1,3 +1,5 @@
+import { css } from '@emotion/react';
+
 export type ThemeColor = typeof COLORS[keyof typeof COLORS];
 
 export const COLORS = {
@@ -65,3 +67,12 @@ export const theme = {
     circle: '50%',
   },
 };
+
+export const itemHoverTransitionStyle = () => css`
+  transition: transform 0.2s ease;
+
+  :hover {
+    opacity: 0.9;
+    transform: translate3d(0, -5px, 0);
+  }
+`;
