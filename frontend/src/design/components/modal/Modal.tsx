@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 
-import * as S from '@components/modal/Modal.style';
+import * as S from '@design/components/modal/Modal.style';
 
 export type ModalProps = {
   children: React.ReactNode;

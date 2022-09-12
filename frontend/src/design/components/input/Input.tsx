@@ -8,7 +8,7 @@ import * as S from '@design/components/input/Input.style';
 
 export type InputProps = {
   id: string;
-  type: 'text' | 'number' | 'date';
+  type: 'text' | 'number' | 'date' | 'url';
   placeholder?: string;
   disabled?: boolean;
   fontSize?: keyof Theme['fontSize'];

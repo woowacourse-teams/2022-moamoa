@@ -1,3 +1,5 @@
+import { Theme } from '@emotion/react';
+
 import * as S from '@design/components/button/toggle-button/ToggleButton.style';
 
 export type ToggleButtonProps = {
@@ -5,6 +7,7 @@ export type ToggleButtonProps = {
   variant?: 'primary' | 'secondary';
   fluid?: boolean;
   checked: boolean;
+  fontSize?: keyof Theme['fontSize'];
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -13,10 +16,18 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   checked,
   fluid = false,
   variant = 'primary',
+  fontSize = 'md',
   onClick: handleClick,
 }) => {
   return (
-    <S.ToggleButton type="button" fluid={fluid} checked={checked} onClick={handleClick} variant={variant}>
+    <S.ToggleButton
+      type="button"
+      fluid={fluid}
+      checked={checked}
+      onClick={handleClick}
+      variant={variant}
+      fontSize={fontSize}
+    >
       {children}
     </S.ToggleButton>
   );

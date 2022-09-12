@@ -1,5 +1,7 @@
 import { noop } from '@utils';
 
+import type { CssLength } from '@custom-types';
+
 import * as S from '@design/components/button/box-button/BoxButton.style';
 
 export type BoxButtonProps = {
@@ -8,6 +10,7 @@ export type BoxButtonProps = {
   type: 'submit' | 'button';
   fluid?: boolean;
   disabled?: boolean;
+  padding?: `${CssLength} ${CssLength}` | CssLength;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -17,10 +20,18 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   variant = 'primary',
   fluid = true,
   disabled = false,
+  padding = '20px 10px',
   onClick: handleClick = noop,
 }) => {
   return (
-    <S.BoxButton type={type} fluid={fluid} disabled={disabled} variant={variant} onClick={handleClick}>
+    <S.BoxButton
+      type={type}
+      fluid={fluid}
+      disabled={disabled}
+      variant={variant}
+      padding={padding}
+      onClick={handleClick}
+    >
       {children}
     </S.BoxButton>
   );

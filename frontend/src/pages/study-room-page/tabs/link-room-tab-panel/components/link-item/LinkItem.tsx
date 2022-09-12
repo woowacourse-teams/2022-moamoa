@@ -4,12 +4,14 @@ import type { Link, StudyId } from '@custom-types';
 
 import type { ApiLinkPreview } from '@api/link-preview';
 
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import ModalPortal from '@components/modal/Modal';
-import { MeatballMenuSvg } from '@components/svg';
+import { IconButton, TextButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Divider from '@design/components/divider/Divider';
+import DropDownBox from '@design/components/drop-down-box/DropDownBox';
+import ModalPortal from '@design/components/modal/Modal';
+import { MeatballMenuIcon } from '@design/icons';
 
 import LinkEditForm from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm';
-import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem.style';
 import { useLinkItem } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/hooks/useLinkItem';
 import LinkPreview from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview';
 import UserDescription from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
@@ -57,35 +59,44 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
 
   return (
     <>
-      <S.LinkItemContainer>
+      <div css={tw`relative`}>
         {isMyLink && (
-          <S.PreviewMeatballMenuContainer>
-            <S.MeatballMenuButton aria-label="수정 및 삭제 메뉴" type="button" onClick={handleMeatballMenuClick}>
-              <MeatballMenuSvg />
-            </S.MeatballMenuButton>
+          <div css={tw`absolute top-8 right-8 z-3`}>
+            <IconButton
+              ariaLabel="수정 및 삭제 메뉴"
+              onClick={handleMeatballMenuClick}
+              width="30px"
+              height="30px"
+              variant="secondary"
+            >
+              <MeatballMenuIcon />
+            </IconButton>
             {isOpenDropBox && (
-              <DropDownBox onClose={handleDropDownBoxClose} top="36px" right="-32px">
-                <S.DropBoxButtonList>
+              <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
+                <ButtonGroup orientation="vertical">
                   <li>
-                    <S.DropBoxButton type="button" onClick={handleEditLinkButtonClick}>
+                    <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
                       수정
-                    </S.DropBoxButton>
+                    </TextButton>
                   </li>
                   <li>
-                    <S.DropBoxButton type="button" onClick={handleDeleteLinkButtonClick}>
-                      삭제
-                    </S.DropBoxButton>
+                    <Divider space="8px" />
                   </li>
-                </S.DropBoxButtonList>
+                  <li>
+                    <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
+                      삭제
+                    </TextButton>
+                  </li>
+                </ButtonGroup>
               </DropDownBox>
             )}
-          </S.PreviewMeatballMenuContainer>
+          </div>
         )}
         <a href={linkUrl} rel="noreferrer" target="_blank">
           {renderLinkPreview()}
         </a>
-        <UserDescription author={author} description={description} css={tw`pl-8 pr-8`} />
-      </S.LinkItemContainer>
+        <UserDescription author={author} description={description} />
+      </div>
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
           <LinkEditForm

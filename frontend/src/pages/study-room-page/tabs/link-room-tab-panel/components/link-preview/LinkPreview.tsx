@@ -1,7 +1,10 @@
+import tw from '@utils/tw';
+
 import { ApiLinkPreview } from '@api/link-preview';
 
-import CenterImage from '@components/center-image/CenterImage';
-import { RightUpArrowSvg } from '@components/svg';
+import Card from '@design/components/card/Card';
+import Image from '@design/components/image/Image';
+import { RightUpArrowIcon } from '@design/icons';
 
 import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview.style';
 
@@ -15,17 +18,25 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
 
   return (
     <S.PreviewContainer>
-      <S.PreviewImageContainer>
-        <CenterImage src={previewResult.imageUrl} alt={`${previewResult.title} 썸네일`} />
-      </S.PreviewImageContainer>
-      <S.PreviewDomain>
-        <RightUpArrowSvg />
-        <span>{domain.hostname.replace('www.', '')}</span>
-      </S.PreviewDomain>
-      <S.PreviewContentContainer>
-        <S.PreviewTitle>{previewResult.title}</S.PreviewTitle>
-        <S.PreviewDescription>{previewResult.description ?? previewResult.domainName ?? linkUrl}</S.PreviewDescription>
-      </S.PreviewContentContainer>
+      <Card height="240px">
+        <div css={tw`mb-16 flex-grow overflow-hidden`}>
+          <Image
+            shape="rectangular"
+            alt={`${previewResult.title} 썸네일`}
+            src={previewResult.imageUrl}
+            width="100%"
+            height="100%"
+          />
+        </div>
+        <S.PreviewDomain>
+          <RightUpArrowIcon />
+          <span>{domain.hostname.replace('www.', '')}</span>
+        </S.PreviewDomain>
+        <div>
+          <Card.Heading>{previewResult.title}</Card.Heading>
+          <Card.Content>{previewResult.description}</Card.Content>
+        </div>
+      </Card>
     </S.PreviewContainer>
   );
 };

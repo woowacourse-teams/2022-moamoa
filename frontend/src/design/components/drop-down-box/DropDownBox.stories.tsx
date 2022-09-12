@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 import tw from '@utils/tw';
 
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
+import DropDownBox from '@design/components/drop-down-box/DropDownBox';
+import type { DropDownBoxProps } from '@design/components/drop-down-box/DropDownBox';
 
 export default {
-  title: 'Components/DropDownBox',
+  title: 'Design/Components/DropDownBox',
   component: DropDownBox,
 };
 
@@ -30,6 +30,7 @@ export const Default = Template.bind({});
 Default.args = {
   children: 'hihi',
   top: '30px',
-  left: '0',
+  left: 0,
+  padding: '16px',
 };
 Default.parameters = { controls: { exclude: ['buttonRef', 'onClose'] } };

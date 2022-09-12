@@ -30,5 +30,5 @@ export const ItemContent = styled.p`
     font-size: ${theme.fontSize.sm};
   `}
 
-  ${nLineEllipsis(1)};
+  ${nLineEllipsis(2)};
 `;

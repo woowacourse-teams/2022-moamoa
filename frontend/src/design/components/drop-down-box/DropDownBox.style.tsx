@@ -1,10 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
+import { type DropDownBoxProps } from '@design/components/drop-down-box/DropDownBox';
 
-export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right'>>`
-  ${({ theme, top, bottom, left, right }) => css`
+type StyleDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right' | 'padding'>;
+
+export const DropDownBox = styled.div<StyleDropDownBox>`
+  ${({ theme, top, bottom, left, right, padding }) => css`
     position: absolute;
     ${top && `top: ${top};`}
     ${bottom && `bottom: ${bottom};`}
@@ -12,6 +14,8 @@ export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 
     ${right && `right: ${right};`}
     z-index: 3;
     white-space: nowrap;
+
+    ${padding && `padding: ${padding};`}
 
     border: 1px solid ${theme.colors.secondary.dark};
     border-radius: ${theme.radius.xs};

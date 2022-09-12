@@ -3,8 +3,9 @@ import { changeDateSeperator } from '@utils';
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
 import Avatar from '@components/avatar/Avatar';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
 import KebabMenu from '@components/kebab-menu/KebabMenu';
+
+import DropDownBox from '@design/components/drop-down-box/DropDownBox';
 
 import * as S from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment.style';
 import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';

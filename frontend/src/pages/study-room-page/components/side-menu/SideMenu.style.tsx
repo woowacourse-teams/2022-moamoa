@@ -5,6 +5,11 @@ import { mqDown, mqUp } from '@utils';
 
 export const Sidebar = styled.nav`
   ${({ theme }) => css`
+    position: sticky;
+    top: 100px;
+    left: 0;
+    z-index: 1;
+
     width: 100%;
     max-width: 180px;
     padding: 16px;

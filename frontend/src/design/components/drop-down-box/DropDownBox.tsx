@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 
-import type { Noop } from '@custom-types';
+import type { CssLength, Noop } from '@custom-types';
 
-import * as S from '@components/drop-down-box/DropDownBox.style';
+import * as S from '@design/components/drop-down-box/DropDownBox.style';
 
 export type DropDownBoxProps = {
-  className?: string;
   children: React.ReactNode;
   onClose: Noop;
-  top?: string;
-  bottom?: string;
-  left?: string;
-  right?: string;
+  top?: CssLength;
+  bottom?: CssLength;
+  left?: CssLength;
+  right?: CssLength;
+  padding?: CssLength;
 };
 
-const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, onClose: handleClose, ...positions }) => {
+const DropDownBox: React.FC<DropDownBoxProps> = ({ children, onClose: handleClose, padding, ...positions }) => {
   useEffect(() => {
     // 이벤트 전파가 끝나기 전에 document에 click event listener가 붙기 때문에
     // click event listener를 add하는 일을 다음 frame으로 늦춘다
@@ -24,7 +24,7 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, onClose:
   }, []);
 
   return (
-    <S.DropDownBox className={className} {...positions}>
+    <S.DropDownBox {...positions} padding={padding}>
       {children}
     </S.DropDownBox>
   );

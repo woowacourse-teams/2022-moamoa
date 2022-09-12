@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { useAuth } from '@hooks/useAuth';
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -16,8 +14,9 @@ import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
 import { BookmarkSvg, LoginSvg, LogoutSvg } from '@components/svg';
+
+import DropDownBox from '@design/components/drop-down-box/DropDownBox';
 
 export type HeaderProps = {
   className?: string;
@@ -73,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
               <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
             </S.AvatarButton>
             {isOpenDropDownBox && (
-              <DropDownBox top={'40px'} right={'0'} onClose={handleDropDownBoxClose} css={tw`p-16`}>
+              <DropDownBox top="40px" right={0} onClose={handleDropDownBoxClose} padding="16px">
                 <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
                   <LogoutSvg />
                   <span>로그아웃</span>
