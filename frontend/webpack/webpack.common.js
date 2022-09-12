@@ -4,8 +4,6 @@ const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
-
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
@@ -19,11 +17,7 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'esbuild-loader',
-        options: {
-          loader: 'tsx',
-          target: 'es2022',
-        },
+        loader: 'babel-loader',
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -80,12 +74,5 @@ module.exports = {
       '@hooks': resolve(__dirname, '../src/hooks'),
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
-  },
-  optimization: {
-    minimizer: [
-      new ESBuildMinifyPlugin({
-        target: 'es2020',
-      }),
-    ],
   },
 };
