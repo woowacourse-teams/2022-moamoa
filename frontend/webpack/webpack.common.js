@@ -3,8 +3,11 @@ const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
-module.exports = {
+const smp = new SpeedMeasurePlugin();
+
+module.exports = smp.wrap({
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
@@ -75,4 +78,4 @@ module.exports = {
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
   },
-};
+});

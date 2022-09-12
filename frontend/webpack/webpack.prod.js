@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const { join } = require('path');
 const { merge } = require('webpack-merge');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 require('dotenv').config({ path: join(__dirname, '../env/.env.prod') });
 
@@ -9,6 +10,7 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'production',
+  devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
@@ -16,4 +18,17 @@ module.exports = merge(common, {
       'process.env.LINK_PREVIEW_API_URL': JSON.stringify(process.env.LINK_PREVIEW_API_URL),
     }),
   ],
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'esnext',
+      }),
+    ],
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
 });
