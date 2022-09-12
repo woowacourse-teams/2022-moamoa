@@ -43,11 +43,7 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'esbuild-loader',
-        options: {
-          loader: 'tsx',
-          target: 'es2022',
-        },
+        loader: 'babel-loader',
       },
       {
         test: /\.(png|jpg|jpeg)$/i,

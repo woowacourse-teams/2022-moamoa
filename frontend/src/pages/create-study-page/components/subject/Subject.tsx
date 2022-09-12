@@ -7,6 +7,9 @@ import { useGetTags } from '@api/tags';
 import { useFormContext } from '@hooks/useForm';
 
 import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import MultiTagSelect, {
+  type MultiTagSelectProps,
+} from '@create-study-page/components/multi-tag-select/MultiTagSelect';
 import * as S from '@create-study-page/components/subject/Subject.style';
 
 export type SubjectProps = {
@@ -26,22 +29,16 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
     if (data?.tags) {
       const { tags } = data;
       const subjects = tags.filter(({ category }) => category.name === 'subject');
-      const etcTagId = subjects.find(tag => tag.name === 'Etc');
 
-      return (
-        <S.Select
-          id="subject-list"
-          defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
-          css={tw`w-full`}
-          {...register('subject')}
-        >
-          {subjects.map(({ id, description }) => (
-            <option key={id} value={id}>
-              {description}
-            </option>
-          ))}
-        </S.Select>
-      );
+      const options = subjects.reduce((acc, { id, description }) => {
+        acc.push({
+          label: description,
+          value: id,
+        });
+        return acc;
+      }, [] as MultiTagSelectProps['options']);
+
+      return <MultiTagSelect options={options} />;
     }
   };
 
