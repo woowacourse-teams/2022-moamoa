@@ -1,4 +1,4 @@
-import { ReactSVG } from 'react';
+import { type ReactSVG } from 'react';
 
 import { type Theme } from '@emotion/react';
 
