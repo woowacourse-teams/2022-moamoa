@@ -1,13 +1,12 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.*;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;

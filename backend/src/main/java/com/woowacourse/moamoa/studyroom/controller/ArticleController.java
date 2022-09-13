@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;

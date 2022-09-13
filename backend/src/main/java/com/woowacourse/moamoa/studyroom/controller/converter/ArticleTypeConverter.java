@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller.converter;
 
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

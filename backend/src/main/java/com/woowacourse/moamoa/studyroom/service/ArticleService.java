@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;

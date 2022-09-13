@@ -1,11 +1,12 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

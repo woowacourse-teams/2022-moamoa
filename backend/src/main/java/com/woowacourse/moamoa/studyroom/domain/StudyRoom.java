@@ -1,6 +1,10 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -28,7 +32,7 @@ public class StudyRoom {
         this.permittedParticipants = new PermittedParticipants(ownerId, participants);
     }
 
-    boolean isOwner(final Accessor accessor) {
+    public boolean isOwner(final Accessor accessor) {
         return studyId.equals(accessor.getStudyId()) && permittedParticipants.isOwner(accessor);
     }
 

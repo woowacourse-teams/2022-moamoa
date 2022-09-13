@@ -34,11 +34,11 @@ public class PermittedParticipants {
         this.participants = participants;
     }
 
-    boolean isOwner(final Accessor accessor) {
+    public boolean isOwner(final Accessor accessor) {
         return ownerId.equals(accessor.getMemberId());
     }
 
-    boolean isPermittedAccessor(final Accessor accessor) {
+    public boolean isPermittedAccessor(final Accessor accessor) {
         return isOwner(accessor) || participants.contains(accessor.getMemberId());
     }
 }

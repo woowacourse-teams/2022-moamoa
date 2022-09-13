@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.query;
 
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import java.time.LocalDate;

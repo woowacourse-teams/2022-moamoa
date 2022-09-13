@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.NOTICE;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -14,9 +14,9 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
-import com.woowacourse.moamoa.studyroom.domain.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;

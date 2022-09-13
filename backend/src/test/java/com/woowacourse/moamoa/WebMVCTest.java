@@ -11,8 +11,8 @@ import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.SearchingReferenceRoomService;
 
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
