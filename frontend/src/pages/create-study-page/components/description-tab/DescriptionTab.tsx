@@ -55,9 +55,11 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
   }, [activeTab]);
 
   const renderTabContent = () => {
-    if (activeTab === studyDescriptionTabIds.write)
-      return (
-        <>
+    const isWriteTab = activeTab === studyDescriptionTabIds.write;
+
+    return (
+      <>
+        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
           <Label htmlFor={DESCRIPTION} hidden>
             소개글
           </Label>
@@ -79,10 +81,12 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
               required: true,
             })}
           ></Textarea>
-        </>
-      );
-
-    return <MarkdownRender markdownContent={description} />;
+        </div>
+        <div css={isWriteTab && tw`hidden`}>
+          <MarkdownRender markdownContent={description} />
+        </div>
+      </>
+    );
   };
 
   return (
