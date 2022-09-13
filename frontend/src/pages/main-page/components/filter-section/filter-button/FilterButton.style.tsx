@@ -52,10 +52,14 @@ export const CheckBoxButton = styled.button<Pick<FilterButtonProps, 'isChecked'>
 `;
 
 export const Name = styled.p`
-  font-size: 20px;
-  font-weight: 700;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.lg};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const Description = styled.p`
-  font-size: 12px;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.sm};
+  `}
 `;

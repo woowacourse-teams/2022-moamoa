@@ -5,7 +5,7 @@ import { Textarea as OriginalTextArea } from '@community-tab/components/textarea
 
 export const EditContent = styled.div`
   ${({ theme }) => css`
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
     border: 1px solid ${theme.colors.secondary.dark};
     overflow: hidden;
 
@@ -45,7 +45,7 @@ export const TabItemButton = styled.button<TabItemButtonProps>`
   ${({ theme, isActive }) => css`
     border: none;
     line-height: 24px;
-    font-weight: 600;
+    font-weight: ${theme.fontWeight.bold};
     padding: 8px 16px;
     transition: color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
     background-color: inherit;
@@ -74,10 +74,10 @@ export const Textarea = styled(OriginalTextArea)`
     height: 100%;
     padding: 12px;
 
-    border-radius: 6px;
+    border-radius: ${theme.radius.xs};
     background-color: ${theme.colors.secondary.light};
     border: 1px solid ${theme.colors.secondary.dark};
-    font-size: 16px;
+    font-size: ${theme.fontSize.md};
 
     &:focus {
       background-color: ${theme.colors.white};

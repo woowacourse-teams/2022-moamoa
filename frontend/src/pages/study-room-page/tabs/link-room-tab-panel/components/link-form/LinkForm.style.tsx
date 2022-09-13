@@ -10,7 +10,7 @@ export const LinkFormContainer = styled.div`
     padding: 16px;
 
     background-color: ${theme.colors.white};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;
 
@@ -22,9 +22,11 @@ export const AuthorInfoContainer = styled.div`
 `;
 
 export const AuthorName = styled.p`
-  margin-left: 8px;
+  ${({ theme }) => css`
+    margin-left: 8px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const Form = styled.form`
@@ -34,7 +36,9 @@ export const Form = styled.form`
 `;
 
 export const FormLabel = styled.label`
-  font-weight: 600;
+  ${({ theme }) => css`
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const FormInput = styled(Input)`
@@ -43,7 +47,7 @@ export const FormInput = styled(Input)`
     padding: 8px;
 
     border: 1px solid ${theme.colors.secondary.base};
-    border-radius: 10px;
+    border-radius: ${theme.radius.sm};
     background-color: ${theme.colors.secondary.light};
   `}
 `;
@@ -59,7 +63,7 @@ export const FormTextArea = styled(Input.withComponent('textarea'))`
     padding: 8px;
 
     border: 1px solid ${theme.colors.secondary.base};
-    border-radius: 10px;
+    border-radius: ${theme.radius.sm};
     background-color: ${theme.colors.secondary.light};
   `}
 `;

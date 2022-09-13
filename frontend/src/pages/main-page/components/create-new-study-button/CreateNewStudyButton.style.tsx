@@ -15,7 +15,7 @@ export const CreateNewStudyButton = styled.button`
     height: 70px;
     padding: 8px;
 
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
     border: none;
     background-color: ${theme.colors.primary.base};
 

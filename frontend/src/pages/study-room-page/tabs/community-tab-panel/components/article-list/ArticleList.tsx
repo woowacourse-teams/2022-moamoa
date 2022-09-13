@@ -10,11 +10,7 @@ import * as S from '@study-room-page/tabs/community-tab-panel/components/article
 
 import Pagination from '@community-tab/components/pagination/Pagination';
 
-type ArticleListProps = {
-  className?: string;
-};
-
-const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
+const ArticleList: React.FC = () => {
   const { studyId } = useParams<{ studyId: string }>();
   const numStudyId = Number(studyId);
   const [page, setPage] = useState<number>(1);
@@ -30,9 +26,13 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
 
   const { articles, lastPage, currentPage } = data;
 
+  if (articles.length === 0) {
+    return <div>게시글이 없습니다</div>;
+  }
+
   return (
-    <>
-      <S.ArticleList className={className}>
+    <S.Container>
+      <S.ArticleList>
         {articles.map(article => (
           <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
             <ArticleListItem key={article.id} {...article}></ArticleListItem>
@@ -46,7 +46,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
           setPage(num);
         }}
       />
-    </>
+    </S.Container>
   );
 };
 

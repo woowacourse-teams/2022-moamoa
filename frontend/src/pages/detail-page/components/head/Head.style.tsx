@@ -19,8 +19,10 @@ export const Title = styled.div`
 `;
 
 export const StudyTitle = styled.h2`
-  font-size: 40px;
-  font-weight: 700;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.xxxl};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const ButtonsContainer = styled.div``;
@@ -30,12 +32,12 @@ export const Button = styled.button`
     margin-left: 8px;
     padding: 8px;
 
-    font-size: 20px;
-    font-weight: 600;
+    font-size: ${theme.fontSize.lg};
+    font-weight: ${theme.fontWeight.bold};
     color: ${theme.colors.secondary.dark};
     background-color: transparent;
     border: none;
-    border-radius: 5px;
+    border-radius: ${theme.radius.xs};
     transition: color 0.1s ease;
 
     &:hover,
@@ -46,17 +48,21 @@ export const Button = styled.button`
 `;
 
 export const ExtraInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 16px;
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
 
-  font-weight: 300;
+    font-weight: ${theme.fontWeight.light};
+  `}
 `;
 
 export const Excerpt = styled.p`
-  padding: 8px 0 16px;
+  ${({ theme }) => css`
+    padding: 8px 0 16px;
 
-  font-size: 28px;
+    font-size: ${theme.fontSize.xl};
+  `}
 `;
 
 export const TagContainer = styled.div`

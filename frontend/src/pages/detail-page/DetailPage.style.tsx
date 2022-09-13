@@ -53,6 +53,6 @@ export const MarkDownContainer = styled.section`
     padding: 16px;
 
     background-color: ${theme.colors.white};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;

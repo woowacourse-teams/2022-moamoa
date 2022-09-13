@@ -74,7 +74,10 @@ public class StudyService {
         Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        study.update(memberId, request.mapToContent(), request.mapToRecruitPlan(), request.mapToAttachedTags(),
-                request.mapToStudyPlanner(LocalDate.now()));
+        final Content content = request.mapToContent();
+        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+        final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
+
+        study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);
     }
 }

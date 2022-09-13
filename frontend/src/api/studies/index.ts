@@ -7,42 +7,57 @@ import type { Page, Size, Study, TagInfo } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
+export type ApiStudies = {
+  get: {
+    params: {
+      page?: Page;
+      size?: Size;
+      title: string;
+      selectedFilters: Array<TagInfo>;
+    };
+    responseData: {
+      studies: Array<Study>;
+      hasNext: boolean;
+    };
+    variables: ApiStudies['get']['params'];
+  };
+};
+
+export type ApiInfiniteStudies = {
+  get: {
+    params: Pick<ApiStudies['get']['params'], 'title' | 'selectedFilters'>;
+    responseData: ApiStudies['get']['responseData'] & { page: number };
+    variables: ApiInfiniteStudies['get']['params'];
+  };
+};
+
 // get
-export type GetStudiesRequestParams = {
-  page?: Page;
-  size?: Size;
-  title: string;
-  selectedFilters: Array<TagInfo>;
-};
-export type GetStudiesResponseData = {
-  studies: Array<Study>;
-  hasNext: boolean;
-};
 type PageParam = { page: number };
 type NextPageParam = PageParam | undefined;
-type GetStudiesResponseDataWithPage = GetStudiesResponseData & {
-  page: number;
-};
-type UseGetInfiniteStudiesParams = Pick<GetStudiesRequestParams, 'title' | 'selectedFilters'>;
 
 const { PAGE, SIZE } = DEFAULT_STUDY_CARD_QUERY_PARAM;
 const defaultParam: PageParam = {
   page: DEFAULT_STUDY_CARD_QUERY_PARAM.PAGE,
 };
 
-export const getStudies = async ({ page = PAGE, size = SIZE, title, selectedFilters }: GetStudiesRequestParams) => {
+export const getStudies = async ({
+  page = PAGE,
+  size = SIZE,
+  title,
+  selectedFilters,
+}: ApiStudies['get']['variables']) => {
   const tagParams = selectedFilters.map(({ id, categoryName }) => `&${categoryName}=${id}`).join('');
   const titleParams = title && `&title=${title}`;
 
-  const response = await axiosInstance.get<GetStudiesResponseData>(
+  const response = await axiosInstance.get<ApiStudies['get']['responseData']>(
     `/api/studies/search?page=${page}&size=${size}${titleParams}${tagParams}`,
   );
   return response.data;
 };
 
 const getStudiesWithPage =
-  (title: string, selectedFilters: Array<TagInfo>) =>
-  async ({ pageParam = defaultParam }): Promise<GetStudiesResponseDataWithPage> => {
+  ({ title, selectedFilters }: ApiInfiniteStudies['get']['variables']) =>
+  async ({ pageParam = defaultParam }): Promise<ApiInfiniteStudies['get']['responseData']> => {
     const data = await getStudies({
       ...pageParam,
       title,
@@ -52,10 +67,10 @@ const getStudiesWithPage =
     return { ...data, page: pageParam.page + 1 };
   };
 
-export const useGetInfiniteStudies = ({ title, selectedFilters }: UseGetInfiniteStudiesParams) => {
-  return useInfiniteQuery<GetStudiesResponseDataWithPage, AxiosError>(
+export const useGetInfiniteStudies = ({ title, selectedFilters }: ApiInfiniteStudies['get']['variables']) => {
+  return useInfiniteQuery<ApiInfiniteStudies['get']['responseData'], AxiosError>(
     ['infinite-scroll-searched-study-list', title, selectedFilters],
-    getStudiesWithPage(title, selectedFilters),
+    getStudiesWithPage({ title, selectedFilters }),
     {
       getNextPageParam: (lastPage): NextPageParam => {
         if (!lastPage.hasNext) return;

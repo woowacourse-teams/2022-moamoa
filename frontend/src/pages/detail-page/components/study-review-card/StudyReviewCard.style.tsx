@@ -7,7 +7,7 @@ export const StudyReviewCard = styled.div`
     max-height: 150px;
     padding: 16px;
 
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
     box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
   `}
 `;
@@ -26,9 +26,11 @@ export const AuthorInfoContainer = styled.div`
 `;
 
 export const AuthorName = styled.span`
-  margin-bottom: 4px;
+  ${({ theme }) => css`
+    margin-bottom: 4px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const ReviewDate = styled.span`

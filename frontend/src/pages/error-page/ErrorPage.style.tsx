@@ -18,6 +18,6 @@ export const HomeButton = styled.button`
     color: ${theme.colors.white};
     background-color: ${theme.colors.primary.base};
     border: none;
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
   `}
 `;

@@ -34,6 +34,7 @@
       "@edit-study-page/*": ["pages/edit-study-page/*"],
       "@my-study-page/*": ["pages/my-study-page/*"],
       "@community-tab/*": ["pages/study-room-page/tabs/community-tab-panel/*"],
+      "@notice-tab/*": ["pages/study-room-page/tabs/notice-tab-panel/*"],
       "@study-room-page/*": ["pages/study-room-page/*"],
       "@login-redirect-page/*": ["pages/login-redirect-page/*"],
       "@error-page/*": ["pages/error-page/*"],
