@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-import * as S from '@study-room-page/tabs/community-tab-panel/components/pagination/Pagination.style';
+import tw from '@utils/tw';
+
+import { TextButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import { MeatballMenuIcon } from '@design/icons';
 
 type PaginationProps = {
   count: number; // 전체 페이지 개수
@@ -46,13 +50,17 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
       <>
         {list.map((num, i) => {
           return (
-            <li key={i}>
+            <li key={i} css={tw`p-8`}>
               {num === '...' ? (
-                num
+                <MeatballMenuIcon />
               ) : (
-                <S.PaginationButton active={num === page} onClick={handleNumButtonClick(num)}>
+                <TextButton
+                  variant={num === page ? 'primary' : 'secondary'}
+                  fontSize={num === page ? 'xl' : 'md'}
+                  onClick={handleNumButtonClick(num)}
+                >
                   {num}
-                </S.PaginationButton>
+                </TextButton>
               )}
             </li>
           );
@@ -62,11 +70,9 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
   };
 
   return (
-    <S.Pagination>
-      <S.Inner>
-        <ul>{renderItems()}</ul>
-      </S.Inner>
-    </S.Pagination>
+    <ButtonGroup justifyContent="center" alignItems="center" gap="8px">
+      {renderItems()}
+    </ButtonGroup>
   );
 };
 

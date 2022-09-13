@@ -6,9 +6,14 @@ import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
+import { BoxButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Divider from '@design/components/divider/Divider';
+import Form from '@design/components/form/Form';
+import Title from '@design/components/title/Title';
+
 import EditContent from '@community-tab/components/edit-content/EditContent';
 import EditTitle from '@community-tab/components/edit-title/EditTitle';
-import * as S from '@community-tab/components/edit/Edit.style';
 
 const Edit = () => {
   const formMethods = useForm();
@@ -62,21 +67,35 @@ const Edit = () => {
 
     if (getCommunityArticleQueryResult.isSuccess) {
       return (
-        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <EditTitle title={getCommunityArticleQueryResult.data.title} />
           <EditContent content={getCommunityArticleQueryResult.data.content} />
-          <S.Footer>
-            <S.Button type="button" onClick={handleGoToArticlePageButtonClick}>
+          <Divider space="16px" />
+          <ButtonGroup justifyContent="space-between">
+            <BoxButton
+              type="button"
+              variant="secondary"
+              padding="4px 8px"
+              fluid={false}
+              onClick={handleGoToArticlePageButtonClick}
+            >
               돌아가기
-            </S.Button>
-            <S.Button type="submit">수정하기</S.Button>
-          </S.Footer>
-        </form>
+            </BoxButton>
+            <BoxButton type="submit" padding="4px 8px" fluid={false}>
+              수정하기
+            </BoxButton>
+          </ButtonGroup>
+        </Form>
       );
     }
   };
 
-  return <FormProvider {...formMethods}>{render()}</FormProvider>;
+  return (
+    <FormProvider {...formMethods}>
+      <Title.Page>게시글 수정</Title.Page>
+      {render()}
+    </FormProvider>
+  );
 };
 
 export default Edit;

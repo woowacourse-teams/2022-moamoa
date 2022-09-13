@@ -15,6 +15,7 @@ export type TextareaProps = {
   invalid: boolean;
   border?: boolean;
   defaultValue?: string | number;
+  value?: string | number;
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 };
 

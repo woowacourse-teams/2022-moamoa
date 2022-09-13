@@ -8,7 +8,7 @@ import * as S from '@design/components/button/box-button/BoxButton.style';
 
 export type BoxButtonProps = {
   variant?: 'primary' | 'secondary';
-  children: string;
+  children: string | number;
   type: 'submit' | 'button';
   fluid?: boolean;
   disabled?: boolean;

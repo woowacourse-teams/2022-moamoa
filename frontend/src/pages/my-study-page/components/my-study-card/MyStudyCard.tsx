@@ -29,7 +29,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
 }) => {
   return (
     <S.MyStudyCard end={end}>
-      <Card gap="8px" padding="10px">
+      <Card gap="8px" padding="16px" shadow>
         <Card.Heading>{title}</Card.Heading>
         <Card.Content fontSize="md">
           <CrownIcon />

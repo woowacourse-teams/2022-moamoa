@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
+import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
 
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
@@ -10,11 +11,13 @@ import { useGetUserInformation } from '@api/member';
 
 import { useAuth } from '@hooks/useAuth';
 
-import Avatar from '@components/avatar/Avatar';
-
+import { BoxButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Divider from '@design/components/divider/Divider';
+import Flex from '@design/components/flex/Flex';
+import Item from '@design/components/item/Item';
 import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
-
-import * as S from '@study-room-page/tabs/community-tab-panel/components/article/Article.style';
+import Title from '@design/components/title/Title';
 
 export type ArticleProps = {
   studyId: number;
@@ -57,14 +60,21 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     if (data.author.username !== getUserInformationQueryResult.data.username) return;
 
     return (
-      <div css={tw`flex gap-x-10`}>
-        <S.Button type="button" onClick={handleEditArticleButtonClick}>
+      <ButtonGroup gap="8px" width="fit-content">
+        <BoxButton type="button" padding="4px 8px" fluid={false} fontSize="md" onClick={handleEditArticleButtonClick}>
           글수정
-        </S.Button>
-        <S.Button variant="danger" type="button" onClick={handleDeleteArticleButtonClick}>
+        </BoxButton>
+        <BoxButton
+          type="button"
+          padding="4px 8px"
+          fontSize="md"
+          fluid={false}
+          variant="secondary"
+          onClick={handleDeleteArticleButtonClick}
+        >
           글삭제
-        </S.Button>
-      </div>
+        </BoxButton>
+      </ButtonGroup>
     );
   };
 
@@ -80,27 +90,28 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       const { title, author, content, createdDate } = data;
       return (
         <div>
-          <S.Header>
-            <div>
-              <S.Button type="button" onClick={handleBackToArticleListButtonClick}>
-                목록보기
-              </S.Button>
-            </div>
+          <Flex justifyContent="space-between" gap="16px">
+            <Item src={author.imageUrl} name={author.username} size="md">
+              <Item.Heading>{author.username}</Item.Heading>
+              <Item.Content>{changeDateSeperator(createdDate)}</Item.Content>{' '}
+            </Item>
             {renderModifierButtons()}
-          </S.Header>
-          <S.Main>
-            <S.Title>{title}</S.Title>
-            <S.Content>
-              <MarkdownRender markdownContent={content} />
-            </S.Content>
-          </S.Main>
-          <S.Footer>
-            <S.Author>
-              <Avatar size={'xs'} profileImg={author.imageUrl} profileAlt={`${author.username} profile`} />
-              <span>{author.username}</span>
-            </S.Author>
-            <S.CreatedAt>{createdDate}</S.CreatedAt>
-          </S.Footer>
+          </Flex>
+          <Divider />
+          <Title.Page>{title}</Title.Page>
+          <div css={tw`min-h-400 pb-20`}>
+            <MarkdownRender markdownContent={content} />
+          </div>
+          <Divider space="8px" />
+          <BoxButton
+            type="button"
+            padding="8px"
+            fontSize="md"
+            variant="secondary"
+            onClick={handleBackToArticleListButtonClick}
+          >
+            목록보기
+          </BoxButton>
         </div>
       );
     }
