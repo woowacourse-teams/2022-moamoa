@@ -33,11 +33,12 @@ const useCreateStudyPage = () => {
 
     const { values } = submitResult;
     const { feTagId, beTagId } = getAreaTagId();
+    const subject = values['subject'].split(',');
     const tagIds = [
       values['area-fe'] === 'checked' ? feTagId : null,
       values['area-be'] === 'checked' ? beTagId : null,
       values['generation'] === '선택 안함' ? null : values['generation'],
-      values['subject'] === '선택 안함' ? null : values['subject'],
+      ...subject,
     ]
       .filter(val => val === 0 || !!val)
       .map(Number);

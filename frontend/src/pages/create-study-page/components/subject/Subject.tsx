@@ -1,5 +1,3 @@
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
@@ -21,6 +19,11 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
+  const originalOptions = originalSubjects?.map(({ id, description }) => ({
+    label: description,
+    value: id,
+  }));
+
   const render = () => {
     if (isLoading) return <div>loading...</div>;
 
@@ -38,7 +41,7 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
         return acc;
       }, [] as MultiTagSelectProps['options']);
 
-      return <MultiTagSelect options={options} />;
+      return <MultiTagSelect selectedOptoins={originalOptions} options={options} {...register('subject')} />;
     }
   };
 
