@@ -89,7 +89,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void logout() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-        final Token foundToken = tokenRepository.findByMemberId(4L).get();
+        final Member member = memberRepository.findByGithubId(4L).orElseThrow();
+        final Token foundToken = tokenRepository.findByMemberId(member.getId()).get();
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/logout",
