@@ -111,11 +111,11 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
-    private String createAccessToken(final Long githubId) {
+    private String createAccessToken(final Long memberId) {
         final Date now = new Date();
 
         return Jwts.builder()
-                .setSubject(Long.toString(githubId))
+                .setSubject(Long.toString(memberId))
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + validityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS256)

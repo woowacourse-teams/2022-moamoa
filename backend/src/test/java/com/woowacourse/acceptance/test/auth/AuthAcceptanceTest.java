@@ -20,6 +20,8 @@ import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import io.restassured.RestAssured;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -32,6 +34,9 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @DisplayName("Authorization code를 받아서 token을 발급한다.")
     @Test
@@ -64,7 +69,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void refreshToken() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+        final Member member = memberRepository.findByGithubId(4L).orElseThrow();
+        final Token foundToken = tokenRepository.findByMemberId(member.getId()).orElseThrow();
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/refresh",
@@ -83,7 +89,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void logout() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-        final Token foundToken = tokenRepository.findByGithubId(4L).get();
+        final Token foundToken = tokenRepository.findByMemberId(4L).get();
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/logout",

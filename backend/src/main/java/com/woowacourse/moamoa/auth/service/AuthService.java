@@ -12,7 +12,6 @@ import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
-import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,11 +33,10 @@ public class AuthService {
         final String accessToken = oAuthClient.getAccessToken(code);
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
         memberService.saveOrUpdate(githubProfileResponse.toMember());
-
         final Member member = memberRepository.findByGithubId(githubProfileResponse.getGithubId())
                 .orElseThrow();
 
-        final Optional<Token> token = tokenRepository.findByGithubId(member.getGithubId());
+        final Optional<Token> token = tokenRepository.findByMemberId(member.getId());
         final TokensResponse tokenResponse = tokenProvider.createToken(member.getId());
 
         if (token.isPresent()) {
@@ -46,31 +44,26 @@ public class AuthService {
             return tokenResponse;
         }
 
-        tokenRepository.save(new Token(member.getGithubId(), tokenResponse.getRefreshToken()));
+        tokenRepository.save(new Token(member.getId(), tokenResponse.getRefreshToken()));
 
         return tokenResponse;
     }
 
-    public AccessTokenResponse refreshToken(final Long githubId, final String refreshToken) {
-        final Token token = tokenRepository.findByGithubId(githubId)
+    public AccessTokenResponse refreshToken(final Long memberId, final String refreshToken) {
+        final Token token = tokenRepository.findByMemberId(memberId)
                 .orElseThrow(TokenNotFoundException::new);
 
         if (!token.getRefreshToken().equals(refreshToken)) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
 
-        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
-
-        String accessToken = tokenProvider.recreationAccessToken(member.getId(), refreshToken);
-
+        String accessToken = tokenProvider.recreationAccessToken(memberId, refreshToken);
         return new AccessTokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
     }
 
     @Transactional
     public void logout(final Long memberId) {
-        final Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-        final Token token = tokenRepository.findByGithubId(member.getGithubId())
+        final Token token = tokenRepository.findByMemberId(memberId)
                 .orElseThrow(TokenNotFoundException::new);
 
         tokenRepository.delete(token);

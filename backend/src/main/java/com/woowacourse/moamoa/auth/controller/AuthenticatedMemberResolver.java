@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -18,7 +17,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthenticatedMemberResolver implements HandlerMethodArgumentResolver {
 
-    private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
 
     @Override

@@ -66,7 +66,8 @@ class AuthServiceTest {
     @Test
     void saveRefreshToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
+        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
 
         assertThat(token.getRefreshToken()).isEqualTo("refreshToken");
     }
@@ -75,10 +76,11 @@ class AuthServiceTest {
     @Test
     void updateRefreshToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
+        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
         final String refreshToken = token.getRefreshToken();
 
-        final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
+        final AccessTokenResponse accessTokenResponse = authService.refreshToken(member.getId(), refreshToken);
         assertThat(refreshToken).isNotBlank();
         assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }
@@ -94,9 +96,10 @@ class AuthServiceTest {
     @Test
     void recreationAccessToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
+        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
 
-        assertDoesNotThrow(() -> authService.refreshToken(1L, token.getRefreshToken()));
+        assertDoesNotThrow(() -> authService.refreshToken(member.getId(), token.getRefreshToken()));
     }
 
     @DisplayName("로그아웃을 하면 Token 을 제거한다.")
@@ -104,11 +107,11 @@ class AuthServiceTest {
     void logout() {
         authService.createToken("authorization-code");
         final Member member = memberRepository.findByGithubId(1L).orElseThrow();
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
 
         authService.logout(member.getId());
 
-        final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
+        final Optional<Token> foundToken = tokenRepository.findByMemberId(token.getMemberId());
 
         assertThat(token).isNotNull();
         assertThat(foundToken).isEmpty();

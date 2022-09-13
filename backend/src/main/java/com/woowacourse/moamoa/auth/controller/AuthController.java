@@ -35,8 +35,8 @@ public class AuthController {
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long githubId, @CookieValue String refreshToken) {
-        return ResponseEntity.ok().body(authService.refreshToken(githubId, refreshToken));
+    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long memberId, @CookieValue String refreshToken) {
+        return ResponseEntity.ok().body(authService.refreshToken(memberId, refreshToken));
     }
 
     @DeleteMapping("/api/auth/logout")
