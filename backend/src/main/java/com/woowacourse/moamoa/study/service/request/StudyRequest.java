@@ -88,9 +88,6 @@ public class StudyRequest {
     }
 
     public RecruitPlanner mapToRecruitPlan(final int currentMemberCount) {
-        if (maxMemberCount != null && maxMemberCount == 1) {
-            return new RecruitPlanner(maxMemberCount, RECRUITMENT_END, enrollmentEndDate);
-        }
         if (maxMemberCount != null && maxMemberCount <= currentMemberCount) {
             return new RecruitPlanner(maxMemberCount, RECRUITMENT_END, enrollmentEndDate);
         }
