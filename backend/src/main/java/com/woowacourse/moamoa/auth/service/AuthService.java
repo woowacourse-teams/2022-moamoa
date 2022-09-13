@@ -35,17 +35,18 @@ public class AuthService {
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
         memberService.saveOrUpdate(githubProfileResponse.toMember());
 
-        final Long githubId = githubProfileResponse.getGithubId();
-        final Optional<Token> token = tokenRepository.findByGithubId(githubId);
+        final Member member = memberRepository.findByGithubId(githubProfileResponse.getGithubId())
+                .orElseThrow();
 
-        final TokensResponse tokenResponse = tokenProvider.createToken(githubProfileResponse.getGithubId());
+        final Optional<Token> token = tokenRepository.findByGithubId(member.getGithubId());
+        final TokensResponse tokenResponse = tokenProvider.createToken(member.getId());
 
         if (token.isPresent()) {
             token.get().updateRefreshToken(tokenResponse.getRefreshToken());
             return tokenResponse;
         }
 
-        tokenRepository.save(new Token(githubProfileResponse.getGithubId(), tokenResponse.getRefreshToken()));
+        tokenRepository.save(new Token(member.getGithubId(), tokenResponse.getRefreshToken()));
 
         return tokenResponse;
     }
@@ -58,7 +59,9 @@ public class AuthService {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
 
-        String accessToken = tokenProvider.recreationAccessToken(githubId, refreshToken);
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+
+        String accessToken = tokenProvider.recreationAccessToken(member.getId(), refreshToken);
 
         return new AccessTokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
     }

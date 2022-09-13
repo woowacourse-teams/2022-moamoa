@@ -4,6 +4,9 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -18,6 +21,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthenticatedRefreshArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
+    private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
@@ -34,6 +38,8 @@ public class AuthenticatedRefreshArgumentResolver implements HandlerMethodArgume
             throw new UnauthorizedException("인증 타입이 올바르지 않습니다.");
         }
 
-        return Long.valueOf(tokenProvider.getPayloadWithExpiredToken(token));
+        final Long memberId = Long.valueOf(tokenProvider.getPayloadWithExpiredToken(token));
+        final Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return member.getGithubId();
     }
 }

@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -24,7 +24,7 @@ public class StudyController {
 
     @PostMapping
     public ResponseEntity<Void> createStudy(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @Valid @RequestBody(required = false) final StudyRequest studyRequest
     ) {
         final Study study = studyService.createStudy(memberId, studyRequest);
@@ -33,7 +33,7 @@ public class StudyController {
 
     @PutMapping("/{study-id}")
     public ResponseEntity<Void> updateStudy(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody(required = false) final StudyRequest request
     ) {

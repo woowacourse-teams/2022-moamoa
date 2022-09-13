@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.review.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
@@ -25,7 +25,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> writeReview(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
             @Valid @RequestBody final WriteReviewRequest writeReviewRequest
     ) {
@@ -35,7 +35,7 @@ public class ReviewController {
 
     @PutMapping("/{review-id}")
     public ResponseEntity<Void> updateReview(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "review-id") final Long reviewId,
             @Valid @RequestBody final EditingReviewRequest editingReviewRequest
     ) {
@@ -45,7 +45,7 @@ public class ReviewController {
 
     @DeleteMapping("/{review-id}")
     public ResponseEntity<Void> deleteReview(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
         reviewService.deleteReview(memberId, reviewId);

@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
@@ -25,7 +25,7 @@ public class ReferenceRoomController {
 
     @PostMapping
     public ResponseEntity<Void> createLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final CreatingLinkRequest creatingLinkRequest
     ) {
@@ -35,7 +35,7 @@ public class ReferenceRoomController {
 
     @PutMapping("/{link-id}")
     public ResponseEntity<Void> updateLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final EditingLinkRequest editingLinkRequest
@@ -46,7 +46,7 @@ public class ReferenceRoomController {
 
     @DeleteMapping("/{link-id}")
     public ResponseEntity<Void> deleteLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {

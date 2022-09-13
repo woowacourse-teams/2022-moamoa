@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
 import com.woowacourse.moamoa.referenceroom.service.response.LinksResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class SearchingReferenceRoomController {
 
     @GetMapping
     public ResponseEntity<LinksResponse> getLinks(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PageableDefault(size = 9) final Pageable pageable
     ) {

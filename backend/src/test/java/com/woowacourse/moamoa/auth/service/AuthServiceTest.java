@@ -3,6 +3,8 @@ package com.woowacourse.moamoa.auth.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
@@ -54,9 +56,9 @@ class AuthServiceTest {
         Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
         Mockito.when(oAuthClient.getProfile("access-token"))
                 .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
-        Mockito.when(tokenProvider.createToken(1L))
+        Mockito.when(tokenProvider.createToken(any()))
                 .thenReturn(new TokensResponse("accessToken", "refreshToken"));
-        Mockito.when(tokenProvider.recreationAccessToken(1L, "refreshToken"))
+        Mockito.when(tokenProvider.recreationAccessToken(any(), eq("refreshToken")))
                 .thenReturn("recreationAccessToken");
     }
 

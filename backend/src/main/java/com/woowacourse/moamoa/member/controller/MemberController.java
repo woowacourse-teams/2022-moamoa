@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.member.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.member.service.MemberService;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class MemberController {
 
     @GetMapping("/api/members/me")
     public ResponseEntity<MemberResponse> getCurrentMember(
-            @AuthenticatedMember Long memberId
+            @AuthenticatedMemberId Long memberId
     ) {
         MemberResponse response = memberService.getByMemberId(memberId);
         return ResponseEntity.ok().body(response);
