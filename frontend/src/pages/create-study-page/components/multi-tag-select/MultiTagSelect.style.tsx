@@ -92,7 +92,7 @@ export const SelectMenuContainer = styled.div`
   top: calc(100% + 10px);
   left: 0;
   right: 0;
-  max-height: 500px;
+  max-height: 180px;
   overflow-y: scroll;
   background-color: white;
   box-shadow: 0px 0px 3px 1px;
