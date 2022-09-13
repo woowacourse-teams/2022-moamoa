@@ -106,7 +106,7 @@ public class Study {
         verifyCanLeave(participant);
         participants.leave(participant);
 
-        if (!isFullOfCapacity() && !recruitPlanner.isRecruitedBeforeThan(now)) {
+        if (!recruitPlanner.isRecruitedBeforeThan(now)) {
             recruitPlanner.startRecruiting();
         }
     }

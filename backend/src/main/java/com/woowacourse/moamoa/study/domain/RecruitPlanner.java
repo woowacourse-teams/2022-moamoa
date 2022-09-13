@@ -32,15 +32,15 @@ public class RecruitPlanner {
         this.enrollmentEndDate = enrollmentEndDate;
     }
 
-    boolean hasEnrollmentEndDate() {
-        return enrollmentEndDate != null;
-    }
-
     boolean isRecruitedBeforeThan(LocalDate date) {
         if (!hasEnrollmentEndDate()) {
             return false;
         }
         return enrollmentEndDate.isBefore(date);
+    }
+
+    boolean hasEnrollmentEndDate() {
+        return enrollmentEndDate != null;
     }
 
     void updateRecruiting(final LocalDate now) {
@@ -53,16 +53,12 @@ public class RecruitPlanner {
         return recruitStatus.equals(RECRUITMENT_START) && isRecruitedBeforeThan(now);
     }
 
-    void startRecruiting() {
-        recruitStatus = RECRUITMENT_START;
-    }
-
     void closeRecruiting() {
         recruitStatus = RECRUITMENT_END;
     }
 
-    public LocalDate getEnrollmentEndDate() {
-        return enrollmentEndDate;
+    void startRecruiting() {
+        recruitStatus = RECRUITMENT_START;
     }
 
     boolean isCloseEnrollment() {
@@ -78,5 +74,9 @@ public class RecruitPlanner {
 
     boolean hasCapacity() {
         return max != null;
+    }
+
+    public LocalDate getEnrollmentEndDate() {
+        return enrollmentEndDate;
     }
 }

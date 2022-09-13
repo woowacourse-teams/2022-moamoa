@@ -51,11 +51,6 @@ public class StudyService {
                 new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
     }
 
-    private Study findStudyBy(final Long studyId) {
-        return studyRepository.findById(studyId)
-                .orElseThrow(StudyNotFoundException::new);
-    }
-
     private Member findMemberBy(final Long githubId) {
         return memberRepository.findByGithubId(githubId)
                 .orElseThrow(() -> new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId)));
