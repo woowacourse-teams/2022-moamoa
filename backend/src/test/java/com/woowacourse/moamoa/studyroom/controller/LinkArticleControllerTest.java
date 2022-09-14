@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
@@ -17,12 +16,11 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.request.EditingLinkRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-class ReferenceRoomControllerTest {
+class LinkArticleControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -48,7 +46,7 @@ class ReferenceRoomControllerTest {
     @Autowired
     private EntityManager entityManager;
 
-    private ReferenceRoomController sut;
+    private LinkArticleController sut;
 
     private Long jjangguId;
     private Long verusId;
@@ -58,8 +56,8 @@ class ReferenceRoomControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new ReferenceRoomController(
-                new ReferenceRoomService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository)
+        sut = new LinkArticleController(
+                new LinkArticleService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository)
         );
 
         // 사용자 추가
@@ -78,12 +76,12 @@ class ReferenceRoomControllerTest {
         participantService.participateStudy(verusId, javaStudyId);
 
         // 링크 공유 생성
-        final ReferenceRoomService referenceRoomService =
-                new ReferenceRoomService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository);
+        final LinkArticleService linkArticleService =
+                new LinkArticleService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository);
         final LinkArticleRequest linkArticleRequest =
                 new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        linkId = referenceRoomService.createLink(jjangguId, javaStudyId, linkArticleRequest).getId();
+        linkId = linkArticleService.createLink(jjangguId, javaStudyId, linkArticleRequest).getId();
 
         entityManager.flush();
         entityManager.clear();
@@ -102,7 +100,7 @@ class ReferenceRoomControllerTest {
     @DisplayName("존재하지 않는 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByInvalidLinkId() {
-        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("www.naver.com", "수정");
+        final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("www.naver.com", "수정");
 
         assertThatThrownBy(() -> sut.updateLink(jjangguId, javaStudyId, -1L, editingLinkRequest))
                 .isInstanceOf(LinkNotFoundException.class);
@@ -111,7 +109,7 @@ class ReferenceRoomControllerTest {
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByNotParticipatedMember() {
-        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com", "수정된 링크 설명입니다.");
+        final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("https://github.com", "수정된 링크 설명입니다.");
 
         assertThatThrownBy(() -> sut.updateLink(dwooId, javaStudyId, linkId, editingLinkRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);

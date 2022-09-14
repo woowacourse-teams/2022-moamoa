@@ -1,8 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
-import com.woowacourse.moamoa.studyroom.service.SearchingReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.SearchingLinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/studies/{study-id}/reference-room/links")
 @RequiredArgsConstructor
-public class SearchingReferenceRoomController {
+public class SearchingLinkArticleController {
 
-    private final SearchingReferenceRoomService searchingReferenceRoomService;
+    private final SearchingLinkArticleService searchingLinkArticleService;
 
     @GetMapping
     public ResponseEntity<LinksResponse> getLinks(
@@ -26,7 +25,7 @@ public class SearchingReferenceRoomController {
             @PathVariable("study-id") final Long studyId,
             @PageableDefault(size = 9) final Pageable pageable
     ) {
-        final LinksResponse linksResponse = searchingReferenceRoomService.getLinks(memberId, studyId, pageable);
+        final LinksResponse linksResponse = searchingLinkArticleService.getLinks(memberId, studyId, pageable);
         return ResponseEntity.ok().body(linksResponse);
     }
 }

@@ -31,7 +31,6 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import com.woowacourse.moamoa.studyroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
@@ -167,7 +166,7 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkArticleRequest);
         final String token = 짱구가().로그인한다();
 
-        final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com/woowacourse",
+        final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("https://github.com/woowacourse",
                 "수정된 링크 설명입니다.");
 
         RestAssured.given(spec).log().all()

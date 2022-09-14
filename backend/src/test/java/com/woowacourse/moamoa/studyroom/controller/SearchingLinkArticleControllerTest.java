@@ -1,16 +1,12 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
@@ -28,8 +24,8 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRep
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkData;
-import com.woowacourse.moamoa.studyroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.studyroom.service.SearchingReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
+import com.woowacourse.moamoa.studyroom.service.SearchingLinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinkResponse;
@@ -51,7 +47,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-class SearchingReferenceRoomControllerTest {
+class SearchingLinkArticleControllerTest {
 
     @Autowired
     private LinkDao linkDao;
@@ -71,7 +67,7 @@ class SearchingReferenceRoomControllerTest {
     @Autowired
     private EntityManager entityManager;
 
-    private SearchingReferenceRoomController sut;
+    private SearchingLinkArticleController sut;
 
     private Study javaStudy;
 
@@ -84,8 +80,8 @@ class SearchingReferenceRoomControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new SearchingReferenceRoomController(
-                new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
+        sut = new SearchingLinkArticleController(
+                new SearchingLinkArticleService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
         jjanggu = memberRepository.save(짱구());
@@ -108,7 +104,7 @@ class SearchingReferenceRoomControllerTest {
         participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
-        final ReferenceRoomService linkService = new ReferenceRoomService(studyRoomRepository, memberRepository,
+        final LinkArticleService linkService = new LinkArticleService(studyRoomRepository, memberRepository,
                 studyRepository, linkArticleRepository);
 
         final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");

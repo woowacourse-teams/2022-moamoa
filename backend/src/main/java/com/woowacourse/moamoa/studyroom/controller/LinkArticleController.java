@@ -1,10 +1,8 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
-import com.woowacourse.moamoa.studyroom.service.ReferenceRoomService;
+import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.request.EditingLinkRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/studies/{study-id}/reference-room/links")
 @RequiredArgsConstructor
-public class ReferenceRoomController {
+public class LinkArticleController {
 
-    private final ReferenceRoomService referenceRoomService;
+    private final LinkArticleService linkArticleService;
 
     @PostMapping
     public ResponseEntity<Void> createLink(
@@ -30,7 +28,7 @@ public class ReferenceRoomController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest linkArticleRequest
     ) {
-        final Long id = referenceRoomService.createLink(memberId, studyId, linkArticleRequest).getId();
+        final Long id = linkArticleService.createLink(memberId, studyId, linkArticleRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -39,9 +37,9 @@ public class ReferenceRoomController {
             @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
-            @Valid @RequestBody final EditingLinkRequest editingLinkRequest
+            @Valid @RequestBody final LinkArticleRequest linkArticleRequest
     ) {
-        referenceRoomService.updateLink(memberId, studyId, linkId, editingLinkRequest);
+        linkArticleService.updateLink(memberId, studyId, linkId, linkArticleRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -51,7 +49,7 @@ public class ReferenceRoomController {
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {
-        referenceRoomService.deleteLink(memberId, studyId, linkId);
+        linkArticleService.deleteLink(memberId, studyId, linkId);
         return ResponseEntity.noContent().build();
     }
 }

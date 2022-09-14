@@ -13,21 +13,20 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRep
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.studyroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ReferenceRoomService {
+public class LinkArticleService {
 
     private final StudyRoomRepository studyRoomRepository;
     private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
     private final LinkArticleRepository linkArticleRepository;
 
-    public ReferenceRoomService(
+    public LinkArticleService(
             final StudyRoomRepository studyRoomRepository,
             final MemberRepository memberRepository,
             final StudyRepository studyRepository,
@@ -48,7 +47,7 @@ public class ReferenceRoomService {
     }
 
     public void updateLink(
-            final Long memberId, final Long studyId, final Long linkId, final EditingLinkRequest editingLinkRequest
+            final Long memberId, final Long studyId, final Long linkId, final LinkArticleRequest linkArticleRequest
     ) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -64,7 +63,7 @@ public class ReferenceRoomService {
         }
 
         final LinkArticle updatedLinkArticle = studyRoom.writeLinkArticle(new Accessor(member.getId(), studyId),
-                editingLinkRequest.getLinkUrl(), editingLinkRequest.getDescription());
+                linkArticleRequest.getLinkUrl(), linkArticleRequest.getDescription());
 
         linkArticle.update(updatedLinkArticle);
     }

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class SearchingReferenceRoomService {
+public class SearchingLinkArticleService {
 
     private final LinkDao linkDao;
     private final MemberRepository memberRepository;
