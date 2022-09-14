@@ -43,7 +43,7 @@ public class NoticeArticleDao {
                 + "notice.created_date as article_created_date, notice.last_modified_date as article_last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM notice JOIN member ON notice.author_id = member.id "
-                + "WHERE notice.id = :noticeId";
+                + "WHERE notice.id = :noticeId and notice.deleted = false";
 
         final Map<String, Long> params = Map.of("noticeId", articleId);
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER).stream().findAny();
@@ -60,7 +60,7 @@ public class NoticeArticleDao {
                 + "notice.created_date as article_created_date, notice.last_modified_date as article_last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM notice JOIN member ON notice.author_id = member.id "
-                + "WHERE notice.study_id = :studyId "
+                + "WHERE notice.study_id = :studyId and notice.deleted = false "
                 + "ORDER BY created_date DESC, notice.id DESC "
                 + "LIMIT :size OFFSET :offset";
 
@@ -74,7 +74,7 @@ public class NoticeArticleDao {
     }
 
     private Integer getTotalCount(final Long studyId) {
-        final String sql = "SELECT count(notice.id) FROM notice WHERE notice.study_id = :studyId";
+        final String sql = "SELECT count(notice.id) FROM notice WHERE notice.study_id = :studyId and notice.deleted = false";
         final Map<String, Long> param = Map.of("studyId", studyId);
         return namedParameterJdbcTemplate.queryForObject(sql, param, (rs, rn) -> rs.getInt(1));
     }

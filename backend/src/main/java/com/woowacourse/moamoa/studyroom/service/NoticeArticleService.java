@@ -62,11 +62,7 @@ public class NoticeArticleService {
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
-        if (!article.isEditableBy(new Accessor(memberId, studyId))) {
-            throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), ArticleType.NOTICE);
-        }
-
-        noticeArticleRepository.deleteById(articleId);
+        article.delete(new Accessor(memberId, studyId));
     }
 
     public ArticleSummariesResponse getArticles(final Long studyId, final Pageable pageable) {
@@ -87,10 +83,6 @@ public class NoticeArticleService {
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
         final Accessor accessor = new Accessor(memberId, studyId);
-
-        if (!article.isEditableBy(accessor)) {
-            throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
-        }
 
         article.update(accessor, request.getTitle(), request.getContent());
     }

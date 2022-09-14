@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,11 +18,13 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "notice")
+@Where(clause = "deleted = false")
 public class NoticeArticle extends BaseEntity {
 
     @Id
@@ -39,6 +42,8 @@ public class NoticeArticle extends BaseEntity {
 
     private String content;
 
+    private boolean deleted;
+
     public NoticeArticle(final String title, final String content, final Long authorId,
                   final StudyRoom studyRoom) {
         this(null, title, content, authorId, studyRoom);
@@ -51,31 +56,28 @@ public class NoticeArticle extends BaseEntity {
         this.id = id;
         this.authorId = authorId;
         this.studyRoom = studyRoom;
-    }
-
-    protected final boolean isPermittedAccessor(final Accessor accessor) {
-        return studyRoom.isPermittedAccessor(accessor);
-    }
-
-    protected final boolean isOwner(final Accessor accessor) {
-        return studyRoom.isOwner(accessor);
-    }
-
-    public final boolean isViewableBy(final Accessor accessor) {
-        return isPermittedAccessor(accessor);
-    }
-
-    public final boolean isEditableBy(final Accessor accessor) {
-        return isOwner(accessor);
+        this.deleted = false;
     }
 
     public final void update(final Accessor accessor, final String title, final String content) {
-        if (!isEditableBy(accessor)) {
-            throw new IllegalArgumentException();
+        if (!studyRoom.isOwner(accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
         }
 
         this.title = title;
         this.content = content;
+    }
+
+    public void delete(final Accessor accessor) {
+        if (!studyRoom.isOwner(accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
+        }
+
+        deleted = true;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     @Override
