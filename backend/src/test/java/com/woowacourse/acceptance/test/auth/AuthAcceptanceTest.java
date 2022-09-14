@@ -19,9 +19,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
+import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import io.restassured.RestAssured;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -69,8 +71,10 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void refreshToken() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-        final Member member = memberRepository.findByGithubId(4L).orElseThrow();
-        final Token foundToken = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+        final Member member = memberRepository.findByGithubId(4L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token foundToken = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/refresh",
@@ -89,8 +93,10 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void logout() {
         final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
-        final Member member = memberRepository.findByGithubId(4L).orElseThrow();
-        final Token foundToken = tokenRepository.findByMemberId(member.getId()).get();
+        final Member member = memberRepository.findByGithubId(4L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token foundToken = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/logout",

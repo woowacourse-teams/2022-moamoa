@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.eq;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
+import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -19,6 +20,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.service.MemberService;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +53,7 @@ class AuthServiceTest {
         memberService = new MemberService(memberRepository, memberDao);
         tokenProvider = Mockito.mock(TokenProvider.class);
         oAuthClient = Mockito.mock(OAuthClient.class);
-        authService = new AuthService(memberService, tokenProvider, oAuthClient, tokenRepository, memberRepository);
+        authService = new AuthService(memberService, tokenProvider, oAuthClient, tokenRepository);
 
         Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
         Mockito.when(oAuthClient.getProfile("access-token"))
@@ -66,8 +68,10 @@ class AuthServiceTest {
     @Test
     void saveRefreshToken() {
         authService.createToken("authorization-code");
-        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
-        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+        final Member member = memberRepository.findByGithubId(1L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token token = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
 
         assertThat(token.getRefreshToken()).isEqualTo("refreshToken");
     }
@@ -76,8 +80,10 @@ class AuthServiceTest {
     @Test
     void updateRefreshToken() {
         authService.createToken("authorization-code");
-        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
-        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+        final Member member = memberRepository.findByGithubId(1L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token token = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
         final String refreshToken = token.getRefreshToken();
 
         final AccessTokenResponse accessTokenResponse = authService.refreshToken(member.getId(), refreshToken);
@@ -96,8 +102,10 @@ class AuthServiceTest {
     @Test
     void recreationAccessToken() {
         authService.createToken("authorization-code");
-        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
-        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+        final Member member = memberRepository.findByGithubId(1L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token token = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
 
         assertDoesNotThrow(() -> authService.refreshToken(member.getId(), token.getRefreshToken()));
     }
@@ -106,8 +114,10 @@ class AuthServiceTest {
     @Test
     void logout() {
         authService.createToken("authorization-code");
-        final Member member = memberRepository.findByGithubId(1L).orElseThrow();
-        final Token token = tokenRepository.findByMemberId(member.getId()).orElseThrow();
+        final Member member = memberRepository.findByGithubId(1L)
+                .orElseThrow(MemberNotFoundException::new);
+        final Token token = tokenRepository.findByMemberId(member.getId())
+                .orElseThrow(TokenNotFoundException::new);
 
         authService.logout(member.getId());
 

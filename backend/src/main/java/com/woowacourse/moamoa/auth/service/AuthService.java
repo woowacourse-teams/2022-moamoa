@@ -9,7 +9,6 @@ import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileRes
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import java.util.Optional;
@@ -26,7 +25,6 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final OAuthClient oAuthClient;
     private final TokenRepository tokenRepository;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public TokensResponse createToken(final String code) {
