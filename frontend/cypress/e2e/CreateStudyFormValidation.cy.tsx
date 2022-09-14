@@ -24,7 +24,7 @@ describe('스터디 개설 페이지 폼 유효성 테스트', () => {
 
   const minText = 'a';
   const maxText30 = 'abcdefghijklmnopqrstuvwxyzabcd';
-  const redBorderCss = '1px solid rgb(255, 0, 0)';
+  const redBorderCss = '1px solid rgb(239, 94, 81)';
   const border = 'border';
 
   it(`스터디 제목은 최소 ${TITLE_LENGTH.MIN.VALUE}글자에서 최대 ${TITLE_LENGTH.MAX.VALUE}글자까지 입력할 수 있다.`, () => {
