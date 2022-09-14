@@ -1,19 +1,18 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkDao;
@@ -51,84 +50,95 @@ class LinkArticleControllerTest {
 
     private LinkArticleController sut;
 
-    private Long jjangguId;
-    private Long verusId;
-    private Long dwooId;
-    private Long javaStudyId;
-    private Long linkId;
+    private StudyService studyService;
+    private LinkArticleService linkArticleService;
 
     @BeforeEach
     void setUp() {
-        sut = new LinkArticleController(
-                new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao)
-        );
+        linkArticleService = new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao);
+        studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        // 사용자 추가
-        jjangguId = memberRepository.save(짱구()).getId();
-        verusId = memberRepository.save(베루스()).getId();
-        dwooId = memberRepository.save(디우()).getId();
-
-        // 스터디 생성
-        final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        final LocalDate startDate = LocalDate.now();
-        final StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
-
-        javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
-
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
-        participantService.participateStudy(verusId, javaStudyId);
-
-        // 링크 공유 생성
-        final LinkArticleService linkArticleService =
-                new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao);
-        final LinkArticleRequest linkArticleRequest =
-                new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
-
-        linkId = linkArticleService.createLink(jjangguId, javaStudyId, linkArticleRequest).getId();
-
-        entityManager.flush();
-        entityManager.clear();
+        sut = new LinkArticleController(linkArticleService);
     }
 
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유를 할 수 없다.")
     @Test
     void createByNotParticipatedMember() {
+        final Member 짱구 = memberRepository.save(짱구());
+        final Member 디우 = memberRepository.save(디우());
+        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+
+        entityManager.flush();
+        entityManager.clear();
+
         final LinkArticleRequest linkArticleRequest =
                 new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.createLink(dwooId, javaStudyId, linkArticleRequest))
+        assertThatThrownBy(() -> sut.createLink(디우.getId(), 자바_스터디.getId(), linkArticleRequest))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByInvalidLinkId() {
+        final Member 짱구 = memberRepository.save(짱구());
+        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+
+        entityManager.flush();
+        entityManager.clear();
+
         final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("www.naver.com", "수정");
 
-        assertThatThrownBy(() -> sut.updateLink(jjangguId, javaStudyId, -1L, editingLinkRequest))
+        assertThatThrownBy(() -> sut.updateLink(짱구.getId(), 자바_스터디.getId(), -1L, editingLinkRequest))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByNotParticipatedMember() {
-        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com", "수정된 링크 설명입니다.");
+        final Member 짱구 = memberRepository.save(짱구());
+        final Member 디우 = memberRepository.save(디우());
 
-        assertThatThrownBy(() -> sut.updateLink(dwooId, javaStudyId, linkId, linkArticleRequest))
+        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+
+        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
+        final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThatThrownBy(() -> sut.updateLink(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(), linkArticleRequest))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByInvalidLinkId() {
-        assertThatThrownBy(() -> sut.deleteLink(jjangguId, javaStudyId, -1L))
+        final Member 짱구 = memberRepository.save(짱구());
+        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThatThrownBy(() -> sut.deleteLink(짱구.getId(), 자바_스터디.getId(), -1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByNotParticipatedMember() {
-        assertThatThrownBy(() -> sut.deleteLink(dwooId, javaStudyId, linkId))
+        final Member 짱구 = memberRepository.save(짱구());
+        final Member 디우 = memberRepository.save(디우());
+
+        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+
+        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
+        final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThatThrownBy(() -> sut.deleteLink(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId()))
                 .isInstanceOf(UneditableArticleException.class);
     }
 }
