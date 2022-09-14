@@ -5,12 +5,16 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.moamoa.comment.domain.AssociatedCommunity;
 import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
-import com.woowacourse.moamoa.comment.repository.CommentRepository;
+import com.woowacourse.moamoa.comment.query.CommentDao;
+import com.woowacourse.moamoa.comment.query.data.CommentData;
+import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final MyStudyDao myStudyDao;
+    private final CommentDao commentDao;
 
     public Long writeComment(final Long memberId, final Long studyId, final Long communityId,
                                         final CommentRequest request) {
@@ -32,6 +37,13 @@ public class CommentService {
 
         final Comment savedComment = commentRepository.save(comment);
         return savedComment.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public CommentsResponse getComments(final Long communityId, final Pageable pageable) {
+        final List<CommentData> comments = commentDao.findAllByArticleId(communityId, pageable);
+
+        return CommentsResponse.from(comments);
     }
 
     private void validateAuthor(final Long studyId, final List<MyStudySummaryData> myStudies) {

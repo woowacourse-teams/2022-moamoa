@@ -1,6 +1,6 @@
-package com.woowacourse.moamoa.review.service.response;
+package com.woowacourse.moamoa.comment.service.response;
 
-import com.woowacourse.moamoa.review.query.data.ReviewData;
+import com.woowacourse.moamoa.comment.query.data.CommentData;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,16 +14,16 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @ToString
-public class ReviewResponse {
+public class CommentResponse {
 
     private Long id;
-    private WriterResponse member;
+    private AuthorResponse author;
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
     private String content;
 
-    public ReviewResponse(final ReviewData reviewData) {
-        this(reviewData.getId(), new WriterResponse(reviewData.getMember()), reviewData.getCreatedDate(),
-                reviewData.getLastModifiedDate(), reviewData.getContent());
+    public CommentResponse(CommentData comment) {
+        this(comment.getId(), new AuthorResponse(comment.getMember()), comment.getCreatedDate(),
+                comment.getLastModifiedDate(), comment.getContent());
     }
 }

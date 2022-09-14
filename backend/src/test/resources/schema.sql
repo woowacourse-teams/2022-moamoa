@@ -134,11 +134,11 @@ CREATE TABLE token
 CREATE TABLE comment
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-    member_id          BIGINT     NOT NULL UNIQUE,
-    community_id       BIGINT     NOT NULL UNIQUE,
+    member_id          BIGINT     NOT NULL,
+    community_id       BIGINT     NOT NULL,
     content            MEDIUMTEXT NOT NULL,
-    created_date       DATETIME   not null,
-    last_modified_date DATETIME   not null,
+    created_date       DATETIME   NOT null,
+    last_modified_date DATETIME   NOT null,
     FOREIGN KEY (member_id) REFERENCES member (id),
     FOREIGN KEY (community_id) REFERENCES community (id)
 );

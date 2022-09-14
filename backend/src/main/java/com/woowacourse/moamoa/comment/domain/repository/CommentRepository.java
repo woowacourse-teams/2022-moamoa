@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.comment.repository;
+package com.woowacourse.moamoa.comment.domain.repository;
 
 import com.woowacourse.moamoa.comment.domain.Comment;
 import java.util.Optional;
