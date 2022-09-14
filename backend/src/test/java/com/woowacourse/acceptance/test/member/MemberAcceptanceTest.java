@@ -32,7 +32,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(MemberResponse.class);
 
-        assertThat(memberResponse.getId()).isEqualTo(memberResponse.getId());
+        assertThat(memberResponse.getId()).isNotNull();
         assertThat(memberResponse.getUsername()).isEqualTo(베루스_이름);
         assertThat(memberResponse.getImageUrl()).isEqualTo(베루스_이미지_URL);
         assertThat(memberResponse.getProfileUrl()).isEqualTo(베루스_프로필_URL);

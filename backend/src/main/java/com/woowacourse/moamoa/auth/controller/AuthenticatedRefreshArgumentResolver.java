@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -19,7 +18,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthenticatedRefreshArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
-    private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {

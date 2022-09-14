@@ -9,9 +9,9 @@ import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileRes
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,19 +32,18 @@ public class AuthService {
     public TokensResponse createToken(final String code) {
         final String accessToken = oAuthClient.getAccessToken(code);
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
-        memberService.saveOrUpdate(githubProfileResponse.toMember());
-        final Member member = memberRepository.findByGithubId(githubProfileResponse.getGithubId())
-                .orElseThrow();
+        final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
+        final Long memberId = memberResponse.getId();
 
-        final Optional<Token> token = tokenRepository.findByMemberId(member.getId());
-        final TokensResponse tokenResponse = tokenProvider.createToken(member.getId());
+        final Optional<Token> token = tokenRepository.findByMemberId(memberId);
+        final TokensResponse tokenResponse = tokenProvider.createToken(memberId);
 
         if (token.isPresent()) {
             token.get().updateRefreshToken(tokenResponse.getRefreshToken());
             return tokenResponse;
         }
 
-        tokenRepository.save(new Token(member.getId(), tokenResponse.getRefreshToken()));
+        tokenRepository.save(new Token(memberId, tokenResponse.getRefreshToken()));
 
         return tokenResponse;
     }
