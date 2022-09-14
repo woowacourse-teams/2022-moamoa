@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.fixtures;
 
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
-import com.woowacourse.moamoa.review.domain.Review;
-import com.woowacourse.moamoa.review.domain.Reviewer;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
+import com.woowacourse.moamoa.studyroom.domain.review.Review;
+import com.woowacourse.moamoa.studyroom.domain.review.Reviewer;
 
 public class ReviewFixtures {
 

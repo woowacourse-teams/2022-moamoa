@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.studyroom.domain.review.Review;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -48,6 +49,10 @@ public class StudyRoom {
         throw new NotParticipatedMemberException();
     }
 
+    public Review writeReview(final Accessor accessor, final String content) {
+
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -64,5 +69,4 @@ public class StudyRoom {
     public int hashCode() {
         return Objects.hash(studyId);
     }
-
 }
