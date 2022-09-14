@@ -89,11 +89,11 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     if (isSuccess) {
       const { title, author, content, createdDate } = data;
       return (
-        <div>
+        <article>
           <Flex justifyContent="space-between" gap="16px">
             <Item src={author.imageUrl} name={author.username} size="md">
               <Item.Heading>{author.username}</Item.Heading>
-              <Item.Content>{changeDateSeperator(createdDate)}</Item.Content>{' '}
+              <Item.Content>{changeDateSeperator(createdDate)}</Item.Content>
             </Item>
             {renderModifierButtons()}
           </Flex>
@@ -112,7 +112,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
           >
             목록보기
           </BoxButton>
-        </div>
+        </article>
       );
     }
   };
