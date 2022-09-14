@@ -12,6 +12,7 @@ import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
 import com.woowacourse.moamoa.studyroom.service.exception.review.UnwrittenReviewException;
 import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
@@ -41,6 +42,9 @@ class ReviewControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
+    private StudyRoomRepository studyRoomRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
     @Autowired
@@ -52,7 +56,7 @@ class ReviewControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new ReviewController(new ReviewService(reviewRepository, memberRepository, studyRepository));
+        sut = new ReviewController(new ReviewService(reviewRepository, memberRepository, studyRoomRepository));
 
         // 사용자 추가
         final Member jjanggu = memberRepository.save(짱구());
@@ -73,7 +77,7 @@ class ReviewControllerTest {
         participantService.participateStudy(greelawn.getId(), javaStudy.getId());
 
         // 리뷰 추가
-        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
+        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
 
         짱구_리뷰 = reviewService
                 .writeReview(jjanggu.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));

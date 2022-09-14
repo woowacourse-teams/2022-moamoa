@@ -1,7 +1,9 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
 import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
+import com.woowacourse.moamoa.studyroom.domain.review.Reviewer;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -50,7 +52,10 @@ public class StudyRoom {
     }
 
     public Review writeReview(final Accessor accessor, final String content) {
-
+        if (!isPermittedAccessor(accessor)) {
+            throw new NotParticipatedMemberException();
+        }
+        return new Review(new AssociatedStudy(studyId), new Reviewer(accessor.getMemberId()), content);
     }
 
     @Override

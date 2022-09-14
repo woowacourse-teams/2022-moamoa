@@ -44,10 +44,6 @@ public class Review extends BaseEntity {
         this(null, associatedStudy, reviewer, content, false);
     }
 
-    public static Review writeNewReview(Long studyId, Long memberId, String content) {
-        return new Review(new AssociatedStudy(studyId), new Reviewer(memberId), content);
-    }
-
     public void updateContent(final Reviewer reviewer, final String content) {
         validateReviewer(reviewer);
         this.content = content;

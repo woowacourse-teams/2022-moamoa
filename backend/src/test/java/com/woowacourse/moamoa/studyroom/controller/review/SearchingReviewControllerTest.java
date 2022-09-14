@@ -17,6 +17,7 @@ import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ReviewDao;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
 import com.woowacourse.moamoa.studyroom.service.SearchingReviewService;
@@ -57,6 +58,9 @@ class SearchingReviewControllerTest {
     private ReviewDao reviewDao;
 
     @Autowired
+    private StudyRoomRepository studyRoomRepository;
+
+    @Autowired
     private ReviewRepository reviewRepository;
 
     private SearchingReviewController sut;
@@ -91,7 +95,7 @@ class SearchingReviewControllerTest {
         participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 리뷰 추가
-        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRepository);
+        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
 
         final Long javaReviewId1 = reviewService
                 .writeReview(jjanggu.getGithubId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
