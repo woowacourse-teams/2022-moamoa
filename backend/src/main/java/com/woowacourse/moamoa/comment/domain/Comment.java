@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
+import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,5 +35,16 @@ public class Comment extends BaseEntity {
         this.author = author;
         this.associatedCommunity = associatedCommunity;
         this.content = content;
+    }
+
+    public void updateContent(final Author author, final String content) {
+        validateAuthor(author);
+        this.content = content;
+    }
+
+    private void validateAuthor(final Author author) {
+        if (!this.author.equals(author)) {
+            throw new UnwrittenReviewException();
+        }
     }
 }

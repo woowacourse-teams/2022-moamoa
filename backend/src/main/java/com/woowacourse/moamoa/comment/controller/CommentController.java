@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.comment.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.comment.service.CommentService;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
 import java.net.URI;
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +48,15 @@ public class CommentController {
     ) {
         final CommentsResponse commentsResponse = commentService.getComments(communityId, pageable);
         return ResponseEntity.ok(commentsResponse);
+    }
+
+    @PutMapping("/{comment-id}")
+    public ResponseEntity<Void> updateComment(
+            @AuthenticatedMember final Long memberId,
+            @PathVariable(name = "comment-id") final Long commentId,
+            @Valid @RequestBody final EditingCommentRequest editingCommentRequest
+    ) {
+        commentService.update(memberId, commentId, editingCommentRequest);
+        return ResponseEntity.noContent().build();
     }
 }
