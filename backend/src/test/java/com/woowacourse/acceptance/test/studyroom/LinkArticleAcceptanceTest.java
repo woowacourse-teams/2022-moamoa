@@ -44,7 +44,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 @DisplayName("링크 모음 인수 테스트")
-class ReferenceRoomAcceptanceTest extends AcceptanceTest {
+class LinkArticleAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("참여한 스터디의 링크 공유실에 정상적으로 글을 작성한다.")
     @Test
@@ -97,12 +97,8 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long 짱구_링크공유_ID2 = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
         final Long 짱구_링크공유_ID3 = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
 
-        final String token = 짱구가().로그인한다();
         final LinksResponse linksResponse = RestAssured.given(spec).log().all()
                 .filter(document("reference-room/list",
-                        requestHeaders(
-                                headerWithName("Authorization").description("Bearer Token")
-                        ),
                         responseFields(
                                 fieldWithPath("links[].id").type(JsonFieldType.NUMBER).description("링크공유 ID"),
                                 fieldWithPath("links[].author.id").type(JsonFieldType.NUMBER).description("링크공유 작성자 ID"),
@@ -115,7 +111,6 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
                                 fieldWithPath("links[].lastModifiedDate").type(JsonFieldType.STRING).description("링크공유 수정일자"),
                                 fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("데이터가 더 존재하는지 여부")
                         )))
-                .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .param("page", 0)
                 .param("size", 5)

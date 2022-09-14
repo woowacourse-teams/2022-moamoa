@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.query.LinkDao;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
@@ -43,6 +44,9 @@ class LinkArticleControllerTest {
     private LinkArticleRepository linkArticleRepository;
 
     @Autowired
+    private LinkDao linkDao;
+
+    @Autowired
     private EntityManager entityManager;
 
     private LinkArticleController sut;
@@ -56,7 +60,7 @@ class LinkArticleControllerTest {
     @BeforeEach
     void setUp() {
         sut = new LinkArticleController(
-                new LinkArticleService(studyRoomRepository, linkArticleRepository)
+                new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao)
         );
 
         // 사용자 추가
@@ -76,7 +80,7 @@ class LinkArticleControllerTest {
 
         // 링크 공유 생성
         final LinkArticleService linkArticleService =
-                new LinkArticleService(studyRoomRepository, linkArticleRepository);
+                new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao);
         final LinkArticleRequest linkArticleRequest =
                 new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
 

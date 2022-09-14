@@ -3,11 +3,15 @@ package com.woowacourse.moamoa.studyroom.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class LinkArticleController {
 
     private final LinkArticleService linkArticleService;
+
+    @GetMapping
+    public ResponseEntity<LinksResponse> getLinks(
+            @PathVariable("study-id") final Long studyId,
+            @PageableDefault(size = 9) final Pageable pageable
+    ) {
+        final LinksResponse linksResponse = linkArticleService.getLinks(studyId, pageable);
+        return ResponseEntity.ok().body(linksResponse);
+    }
 
     @PostMapping
     public ResponseEntity<Void> createLink(
