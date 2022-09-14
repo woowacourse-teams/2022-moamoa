@@ -107,6 +107,7 @@ CREATE TABLE community
     study_id           BIGINT,
     created_date       DATETIME     not null,
     last_modified_date DATETIME     not null,
+    deleted boolean NOT NULL,
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
 );

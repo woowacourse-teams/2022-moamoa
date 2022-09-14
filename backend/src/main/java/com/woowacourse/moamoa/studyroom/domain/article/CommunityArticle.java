@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,11 +18,13 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "community")
+@Where(clause = "deleted = false")
 public class CommunityArticle extends BaseEntity {
 
     @Id
@@ -39,6 +42,8 @@ public class CommunityArticle extends BaseEntity {
 
     private String content;
 
+    private boolean deleted;
+
     public CommunityArticle(final String title, final String content, final Long authorId,
                      final StudyRoom studyRoom) {
         this(null, title, content, authorId, studyRoom);
@@ -51,27 +56,32 @@ public class CommunityArticle extends BaseEntity {
         this.studyRoom = studyRoom;
         this.title = title;
         this.content = content;
-    }
-
-    protected final boolean isPermittedAccessor(final Accessor accessor) {
-        return studyRoom.isPermittedAccessor(accessor);
-    }
-
-    protected final boolean isAuthor(final Accessor accessor) {
-        return this.authorId.equals(accessor.getMemberId());
-    }
-
-    public boolean isEditableBy(final Accessor accessor) {
-        return isPermittedAccessor(accessor) && isAuthor(accessor);
+        this.deleted = false;
     }
 
     public void update(final Accessor accessor, final String title, final String content) {
-        if (!isEditableBy(accessor)) {
-            throw new IllegalArgumentException();
+        if (!isEditableAccessor(accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.COMMUNITY);
         }
 
         this.title = title;
         this.content = content;
+    }
+
+    private boolean isEditableAccessor(final Accessor accessor) {
+        return studyRoom.isPermittedAccessor(accessor) && authorId.equals(accessor.getMemberId());
+    }
+
+    public void delete(final Accessor accessor) {
+        if (!isEditableAccessor(accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.COMMUNITY);
+        }
+
+        deleted = true;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     @Override

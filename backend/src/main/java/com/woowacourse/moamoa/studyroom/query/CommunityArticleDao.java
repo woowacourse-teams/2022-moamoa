@@ -43,7 +43,7 @@ public class CommunityArticleDao {
                 + "community.created_date as article_created_date, community.last_modified_date as article_last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM community JOIN member ON community.author_id = member.id "
-                + "WHERE community.id = :communityId";
+                + "WHERE community.id = :communityId and community.deleted = false ";
 
         final Map<String, Long> params = Map.of("communityId", articleId);
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER).stream().findAny();
@@ -60,7 +60,7 @@ public class CommunityArticleDao {
                 + "community.created_date as article_created_date, community.last_modified_date as article_last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM community JOIN member ON community.author_id = member.id "
-                + "WHERE community.study_id = :studyId "
+                + "WHERE community.study_id = :studyId and community.deleted = false "
                 + "ORDER BY created_date DESC, community.id DESC "
                 + "LIMIT :size OFFSET :offset";
 
@@ -74,7 +74,8 @@ public class CommunityArticleDao {
     }
 
     private Integer getTotalCount(final Long studyId) {
-        final String sql = "SELECT count(community.id) FROM community WHERE community.study_id = :studyId";
+        final String sql = "SELECT count(community.id) FROM community "
+                + "WHERE community.study_id = :studyId and community.deleted = false";
         final Map<String, Long> param = Map.of("studyId", studyId);
         return namedParameterJdbcTemplate.queryForObject(sql, param, (rs, rn) -> rs.getInt(1));
     }

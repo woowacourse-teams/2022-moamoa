@@ -10,7 +10,6 @@ import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.CommunityArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
@@ -33,7 +32,8 @@ public class CommunityArticleService {
     public CommunityArticleService(
             final StudyRoomRepository studyRoomRepository,
             final CommunityArticleRepository communityArticleRepository,
-            final CommunityArticleDao communityArticleDao) {
+            final CommunityArticleDao communityArticleDao
+    ) {
         this.studyRoomRepository = studyRoomRepository;
         this.communityArticleRepository = communityArticleRepository;
         this.communityArticleDao = communityArticleDao;
@@ -60,11 +60,7 @@ public class CommunityArticleService {
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.COMMUNITY));
 
-        if (!article.isEditableBy(new Accessor(memberId, studyId))) {
-            throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), ArticleType.COMMUNITY);
-        }
-
-        communityArticleRepository.deleteById(articleId);
+        article.delete(new Accessor(memberId, studyId));
     }
 
     public ArticleSummariesResponse getArticles(final Long studyId, final Pageable pageable) {
@@ -86,10 +82,6 @@ public class CommunityArticleService {
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.COMMUNITY));
 
         final Accessor accessor = new Accessor(memberId, studyId);
-
-        if (!article.isEditableBy(accessor)) {
-            throw new UneditableArticleException(studyId, accessor, ArticleType.COMMUNITY);
-        }
 
         article.update(accessor, request.getTitle(), request.getContent());
     }
