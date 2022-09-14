@@ -17,7 +17,7 @@ public class CommunityArticle extends Article {
 
     private String content;
 
-    CommunityArticle(final String title, final String content, final Long authorId,
+    public CommunityArticle(final String title, final String content, final Long authorId,
                      final StudyRoom studyRoom) {
         super(null, authorId, studyRoom);
         this.title = title;

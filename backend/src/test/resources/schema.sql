@@ -140,5 +140,5 @@ CREATE TABLE comment
     created_date       DATETIME   not null,
     last_modified_date DATETIME   not null,
     FOREIGN KEY (member_id) REFERENCES member (id),
-    FOREIGN KEY (community_id) REFERENCES member (id)
+    FOREIGN KEY (community_id) REFERENCES community (id)
 );

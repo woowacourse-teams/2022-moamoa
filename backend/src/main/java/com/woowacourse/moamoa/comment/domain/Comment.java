@@ -29,4 +29,10 @@ public class Comment extends BaseEntity {
     private AssociatedCommunity associatedCommunity;
 
     private String content;
+
+    public Comment(final Author author, final AssociatedCommunity associatedCommunity, final String content) {
+        this.author = author;
+        this.associatedCommunity = associatedCommunity;
+        this.content = content;
+    }
 }
