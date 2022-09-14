@@ -8,7 +8,7 @@ import { theme } from '@styles/theme';
 
 import { useGetStudyReviews } from '@api/reviews';
 
-import Title from '@design/components/title/Title';
+import Title from '@components/title/Title';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';

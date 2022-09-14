@@ -2,8 +2,8 @@ import logoImage from '@assets/images/logo.png';
 
 import * as S from '@layout/header/components/logo/Logo.style';
 
-import Flex from '@design/components/flex/Flex';
-import Image from '@design/components/image/Image';
+import Flex from '@components/flex/Flex';
+import Image from '@components/image/Image';
 
 const Logo: React.FC = () => {
   return (

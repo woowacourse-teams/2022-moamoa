@@ -6,9 +6,9 @@ import type { Study } from '@custom-types';
 
 import * as S from '@pages/main-page/components/study-card/StudyCard.style';
 
-import Card from '@design/components/card/Card';
-import Image from '@design/components/image/Image';
-import StudyChip from '@design/components/study-chip/StudyChip';
+import Card from '@components/card/Card';
+import Image from '@components/image/Image';
+import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {
   thumbnailUrl: Study['thumbnail'];

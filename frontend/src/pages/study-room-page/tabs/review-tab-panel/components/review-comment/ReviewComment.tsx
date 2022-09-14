@@ -5,13 +5,13 @@ import tw from '@utils/tw';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
-import { IconButton, TextButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Divider from '@design/components/divider/Divider';
-import DropDownBox from '@design/components/drop-down-box/DropDownBox';
-import Flex from '@design/components/flex/Flex';
-import Item from '@design/components/item/Item';
-import { KebabMenuIcon } from '@design/icons';
+import { IconButton, TextButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Divider from '@components/divider/Divider';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
+import Flex from '@components/flex/Flex';
+import { KebabMenuIcon } from '@components/icons';
+import Item from '@components/item/Item';
 
 import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
 import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';

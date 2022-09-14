@@ -10,17 +10,17 @@ import { usePutReview } from '@api/review';
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
-import { BoxButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Card from '@design/components/card/Card';
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
-import Form from '@design/components/form/Form';
-import Item from '@design/components/item/Item';
-import Label from '@design/components/label/Label';
-import LetterCounter from '@design/components/letter-counter/LetterCounter';
-import useLetterCount from '@design/components/letter-counter/useLetterCount';
-import Textarea from '@design/components/textarea/Textarea';
+import { BoxButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Card from '@components/card/Card';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+import Form from '@components/form/Form';
+import Item from '@components/item/Item';
+import Label from '@components/label/Label';
+import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
+import Textarea from '@components/textarea/Textarea';
 
 export type ReviewEditFormProps = {
   studyId: StudyId;

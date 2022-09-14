@@ -6,10 +6,10 @@ import type { StudyDetail } from '@custom-types';
 
 import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import Input from '@design/components/input/Input';
-import Label from '@design/components/label/Label';
-import LetterCounter from '@design/components/letter-counter/LetterCounter';
-import useLetterCount from '@design/components/letter-counter/useLetterCount';
+import Input from '@components/input/Input';
+import Label from '@components/label/Label';
+import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
 
 export type TitleProps = {
   originalTitle?: StudyDetail['title'];

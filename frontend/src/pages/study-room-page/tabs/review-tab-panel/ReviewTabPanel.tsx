@@ -4,8 +4,8 @@ import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import Divider from '@design/components/divider/Divider';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import Divider from '@components/divider/Divider';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
 import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';

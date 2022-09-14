@@ -1,7 +1,7 @@
 import tw from '@utils/tw';
 
-import { IconButton } from '@design/components/button';
-import { PencilIcon } from '@design/icons';
+import { IconButton } from '@components/button';
+import { PencilIcon } from '@components/icons';
 
 export type CreateNewStudyButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;

@@ -7,8 +7,8 @@ import { PATH } from '@constants';
 
 import { useGetNoticeArticles } from '@api/notice';
 
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
 
 const ArticleList: React.FC = () => {
   const { studyId } = useParams<{ studyId: string }>();

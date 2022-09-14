@@ -6,10 +6,10 @@ import tw from '@utils/tw';
 
 import { theme } from '@styles/theme';
 
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
-import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';

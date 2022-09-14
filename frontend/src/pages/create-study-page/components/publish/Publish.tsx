@@ -1,5 +1,5 @@
-import { BoxButton } from '@design/components/button';
-import MetaBox from '@design/components/meta-box/MetaBox';
+import { BoxButton } from '@components/button';
+import MetaBox from '@components/meta-box/MetaBox';
 
 type PublishProps = {
   title?: string;

@@ -7,11 +7,11 @@ import type { StudyDetail } from '@custom-types';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
-import Label from '@design/components/label/Label';
-import LetterCounter from '@design/components/letter-counter/LetterCounter';
-import useLetterCount from '@design/components/letter-counter/useLetterCount';
-import MetaBox from '@design/components/meta-box/MetaBox';
-import Textarea from '@design/components/textarea/Textarea';
+import Label from '@components/label/Label';
+import LetterCounter from '@components/letter-counter/LetterCounter';
+import useLetterCount from '@components/letter-counter/useLetterCount';
+import MetaBox from '@components/meta-box/MetaBox';
+import Textarea from '@components/textarea/Textarea';
 
 export type ExcerptProps = {
   originalExcerpt?: StudyDetail['description'];

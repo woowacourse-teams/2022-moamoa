@@ -2,10 +2,10 @@ import tw from '@utils/tw';
 
 import type { Link } from '@custom-types';
 
-import { TextButton } from '@design/components/button';
-import InfiniteScroll from '@design/components/infinite-scroll/InfiniteScroll';
-import ModalPortal from '@design/components/modal/Modal';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import { TextButton } from '@components/button';
+import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
+import ModalPortal from '@components/modal/Modal';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel.style';
 import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';

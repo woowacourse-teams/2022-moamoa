@@ -11,7 +11,7 @@ import type { MyStudy } from '@custom-types';
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
-import Title from '@design/components/title/Title';
+import Title from '@components/title/Title';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';

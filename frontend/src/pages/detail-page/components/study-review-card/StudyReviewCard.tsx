@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import Item from '@design/components/item/Item';
+import Item from '@components/item/Item';
 
 import * as S from '@detail-page/components/study-review-card/StudyReviewCard.style';
 

@@ -11,13 +11,13 @@ import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
 
 import { useAuth } from '@hooks/useAuth';
 
-import { BoxButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
-import Item from '@design/components/item/Item';
-import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
-import Title from '@design/components/title/Title';
+import { BoxButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+import Item from '@components/item/Item';
+import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import Title from '@components/title/Title';
 
 export type ArticleProps = {
   studyId: number;

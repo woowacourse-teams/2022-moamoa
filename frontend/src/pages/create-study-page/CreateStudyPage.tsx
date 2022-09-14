@@ -1,8 +1,8 @@
 import { FormProvider } from '@hooks/useForm';
 
-import Form from '@design/components/form/Form';
-import PageTitle from '@design/components/title/Title';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import Form from '@components/form/Form';
+import PageTitle from '@components/title/Title';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@create-study-page/CreateStudyPage.style';
 import Category from '@create-study-page/components/category/Category';

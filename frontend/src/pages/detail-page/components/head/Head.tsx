@@ -6,10 +6,10 @@ import { changeDateSeperator } from '@utils';
 
 import type { StudyDetail } from '@custom-types';
 
-import { TextButton } from '@design/components/button';
-import Flex from '@design/components/flex/Flex';
-import StudyChip from '@design/components/study-chip/StudyChip';
-import Title from '@design/components/title/Title';
+import { TextButton } from '@components/button';
+import Flex from '@components/flex/Flex';
+import StudyChip from '@components/study-chip/StudyChip';
+import Title from '@components/title/Title';
 
 import * as S from '@detail-page/components/head/Head.style';
 

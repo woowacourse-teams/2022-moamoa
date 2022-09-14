@@ -6,11 +6,11 @@ import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import Checkbox from '@design/components/checkbox/Checkbox';
-import Flex from '@design/components/flex/Flex';
-import Label from '@design/components/label/Label';
-import MetaBox from '@design/components/meta-box/MetaBox';
-import Select from '@design/components/select/Select';
+import Checkbox from '@components/checkbox/Checkbox';
+import Flex from '@components/flex/Flex';
+import Label from '@components/label/Label';
+import MetaBox from '@components/meta-box/MetaBox';
+import Select from '@components/select/Select';
 
 export type CategoryProps = {
   originalGeneration?: Tag;

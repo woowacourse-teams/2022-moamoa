@@ -6,12 +6,12 @@ import tw from '@utils/tw';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import { ToggleButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Label from '@design/components/label/Label';
-import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
-import MetaBox from '@design/components/meta-box/MetaBox';
-import Textarea from '@design/components/textarea/Textarea';
+import { ToggleButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Label from '@components/label/Label';
+import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import MetaBox from '@components/meta-box/MetaBox';
+import Textarea from '@components/textarea/Textarea';
 
 type TabIds = typeof publishContentTabIds[keyof typeof publishContentTabIds];
 

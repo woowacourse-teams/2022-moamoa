@@ -2,8 +2,8 @@ import { memo } from 'react';
 
 import tw from '@utils/tw';
 
-import { ToggleButton } from '@design/components/button';
-import Flex from '@design/components/flex/Flex';
+import { ToggleButton } from '@components/button';
+import Flex from '@components/flex/Flex';
 
 import * as S from '@main-page/components/filter-button/FilterButton.style';
 

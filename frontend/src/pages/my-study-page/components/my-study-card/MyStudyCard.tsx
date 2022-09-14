@@ -2,9 +2,9 @@ import tw from '@utils/tw';
 
 import type { Tag } from '@custom-types';
 
-import { IconButton } from '@design/components/button';
-import Card from '@design/components/card/Card';
-import { CrownIcon, TrashcanIcon } from '@design/icons';
+import { IconButton } from '@components/button';
+import Card from '@components/card/Card';
+import { CrownIcon, TrashcanIcon } from '@components/icons';
 
 import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 

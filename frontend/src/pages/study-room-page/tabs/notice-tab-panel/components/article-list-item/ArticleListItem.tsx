@@ -5,8 +5,8 @@ import { CommunityArticle } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
-import Flex from '@design/components/flex/Flex';
-import Item from '@design/components/item/Item';
+import Flex from '@components/flex/Flex';
+import Item from '@components/item/Item';
 
 import * as S from '@study-room-page/tabs/notice-tab-panel/components/article-list-item/ArticleListItem.style';
 

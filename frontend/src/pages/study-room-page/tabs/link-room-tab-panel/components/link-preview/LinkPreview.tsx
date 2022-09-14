@@ -2,9 +2,9 @@ import tw from '@utils/tw';
 
 import { ApiLinkPreview } from '@api/link-preview';
 
-import Card from '@design/components/card/Card';
-import Image from '@design/components/image/Image';
-import { RightUpArrowIcon } from '@design/icons';
+import Card from '@components/card/Card';
+import { RightUpArrowIcon } from '@components/icons';
+import Image from '@components/image/Image';
 
 import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview.style';
 

@@ -4,12 +4,12 @@ import type { Link, StudyId } from '@custom-types';
 
 import type { ApiLinkPreview } from '@api/link-preview';
 
-import { IconButton, TextButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Divider from '@design/components/divider/Divider';
-import DropDownBox from '@design/components/drop-down-box/DropDownBox';
-import ModalPortal from '@design/components/modal/Modal';
-import { MeatballMenuIcon } from '@design/icons';
+import { IconButton, TextButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Divider from '@components/divider/Divider';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
+import { MeatballMenuIcon } from '@components/icons';
+import ModalPortal from '@components/modal/Modal';
 
 import LinkEditForm from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm';
 import { useLinkItem } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/hooks/useLinkItem';

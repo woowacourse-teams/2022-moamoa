@@ -1,13 +1,13 @@
-import { IconButton } from '@design/components/button';
-import { LeftDirectionIcon, RightDirectionIcon } from '@design/icons';
+import { IconButton } from '@components/button';
+import { LeftDirectionIcon, RightDirectionIcon } from '@components/icons';
 
-export type SlideButtonProps = {
+export type FilterSlideButtonProps = {
   direction: 'right' | 'left';
   ariaLabel: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const SlideButton: React.FC<SlideButtonProps> = ({ direction, ariaLabel, onClick: handleClick }) => {
+const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ direction, ariaLabel, onClick: handleClick }) => {
   return (
     <IconButton ariaLabel={ariaLabel} onClick={handleClick} width="25px" height="25px" variant="secondary">
       {direction === 'right' ? <RightDirectionIcon /> : <LeftDirectionIcon />}
@@ -15,4 +15,4 @@ const SlideButton: React.FC<SlideButtonProps> = ({ direction, ariaLabel, onClick
   );
 };
 
-export default SlideButton;
+export default FilterSlideButton;

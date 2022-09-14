@@ -4,8 +4,8 @@ import { PATH } from '@constants';
 
 import type { Study } from '@custom-types';
 
-import InfiniteScroll from '@design/components/infinite-scroll/InfiniteScroll';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@main-page/MainPage.style';
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';

@@ -4,8 +4,8 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
-import Flex from '@design/components/flex/Flex';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import Flex from '@components/flex/Flex';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';

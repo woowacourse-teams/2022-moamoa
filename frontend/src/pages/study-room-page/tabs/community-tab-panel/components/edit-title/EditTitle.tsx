@@ -7,9 +7,9 @@ import tw from '@utils/tw';
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
-import Input from '@design/components/input/Input';
-import Label from '@design/components/label/Label';
-import LetterCounter from '@design/components/letter-counter/LetterCounter';
+import Input from '@components/input/Input';
+import Label from '@components/label/Label';
+import LetterCounter from '@components/letter-counter/LetterCounter';
 
 export type EditTitleProps = {
   title: string;

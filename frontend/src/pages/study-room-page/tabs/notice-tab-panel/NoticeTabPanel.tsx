@@ -7,10 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { TextButton } from '@design/components/button';
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import { TextButton } from '@components/button';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+import Wrapper from '@components/wrapper/Wrapper';
 
 type NoticeTabPanelProps = {
   studyId: number;

@@ -1,5 +1,5 @@
-import Flex from '@design/components/flex/Flex';
-import Item from '@design/components/item/Item';
+import Flex from '@components/flex/Flex';
+import Item from '@components/item/Item';
 
 import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 

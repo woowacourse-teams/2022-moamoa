@@ -1,19 +1,20 @@
 import type { Story } from '@storybook/react';
 
-import SlideButton from '@main-page/components/filter-slide-button/FilterSlideButton';
-import type { SlideButtonProps } from '@main-page/components/filter-slide-button/FilterSlideButton';
+import FilterSlideButton, {
+  type FilterSlideButtonProps,
+} from '@main-page/components/filter-slide-button/FilterSlideButton';
 
 export default {
-  title: 'Components/SlideButton',
-  component: SlideButton,
+  title: 'Pages/MainPage/FilterSlideButton',
+  component: FilterSlideButton,
   argTypes: {
     direction: { controls: 'text' },
   },
 };
 
-const Template: Story<SlideButtonProps> = props => (
+const Template: Story<FilterSlideButtonProps> = props => (
   <div style={{ position: 'relative', width: '50px', height: '50px' }}>
-    <SlideButton {...props} />
+    <FilterSlideButton {...props} />
   </div>
 );
 

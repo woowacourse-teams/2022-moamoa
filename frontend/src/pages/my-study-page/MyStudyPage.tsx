@@ -1,6 +1,6 @@
-import Divider from '@design/components/divider/Divider';
-import Title from '@design/components/title/Title';
-import Wrapper from '@design/components/wrapper/Wrapper';
+import Divider from '@components/divider/Divider';
+import Title from '@components/title/Title';
+import Wrapper from '@components/wrapper/Wrapper';
 
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 import { useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';

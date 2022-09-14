@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import tw from '@utils/tw';
 
-import { TextButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import { MeatballMenuIcon } from '@design/icons';
+import { TextButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import { MeatballMenuIcon } from '@components/icons';
 
 type PaginationProps = {
   count: number; // 전체 페이지 개수

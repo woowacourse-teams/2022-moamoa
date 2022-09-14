@@ -10,11 +10,11 @@ import { usePostNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
-import { BoxButton } from '@design/components/button';
-import ButtonGroup from '@design/components/button-group/ButtonGroup';
-import Divider from '@design/components/divider/Divider';
-import Form from '@design/components/form/Form';
-import Title from '@design/components/title/Title';
+import { BoxButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Divider from '@components/divider/Divider';
+import Form from '@components/form/Form';
+import Title from '@components/title/Title';
 
 const Publish = () => {
   const formMethods = useForm();

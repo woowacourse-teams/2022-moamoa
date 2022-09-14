@@ -9,9 +9,9 @@ import type { StudyDetail, UserRole } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
-import { BoxButton } from '@design/components/button';
-import Card from '@design/components/card/Card';
-import Flex from '@design/components/flex/Flex';
+import { BoxButton } from '@components/button';
+import Card from '@components/card/Card';
+import Flex from '@components/flex/Flex';
 
 export type StudyFloatBoxProps = Pick<
   StudyDetail,

@@ -5,8 +5,8 @@ import { PATH } from '@constants';
 
 import { useGetCommunityArticles } from '@api/community';
 
-import Divider from '@design/components/divider/Divider';
-import Flex from '@design/components/flex/Flex';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
 
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
 

@@ -9,8 +9,8 @@ import type { StudyDetail } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
-import Title from '@design/components/title/Title';
-import { CrownIcon } from '@design/icons';
+import { CrownIcon } from '@components/icons';
+import Title from '@components/title/Title';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';

@@ -1,8 +1,8 @@
 import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
-import { BoxButton } from '@design/components/button';
-import Flex from '@design/components/flex/Flex';
-import Image from '@design/components/image/Image';
+import { BoxButton } from '@components/button';
+import Flex from '@components/flex/Flex';
+import Image from '@components/image/Image';
 
 import useErrorPage from '@error-page/hooks/useErrorPage';
 

@@ -2,9 +2,9 @@ import tw from '@utils/tw';
 
 import * as S from '@layout/header/components/search-bar/SearchBar.style';
 
-import { IconButton } from '@design/components/button';
-import Form from '@design/components/form/Form';
-import { SearchIcon } from '@design/icons';
+import { IconButton } from '@components/button';
+import Form from '@components/form/Form';
+import { SearchIcon } from '@components/icons';
 
 export type SearchBarProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, inputName: string) => void;
