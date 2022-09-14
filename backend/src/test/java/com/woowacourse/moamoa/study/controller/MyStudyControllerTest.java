@@ -10,31 +10,26 @@ import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_참가자들;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_참가자들;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_참가자들;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_참가자들;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_참가자들;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디장;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.BE_태그_아이디;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.BE_태그명;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.FE_태그_아이디;
@@ -152,11 +147,11 @@ class MyStudyControllerTest {
                 .hasSize(5)
                 .extracting("id", "username", "imageUrl", "profileUrl")
                 .containsExactlyInAnyOrder(
-                        tuple(짱구.getId(), 자바_스터디장.getUsername(), 자바_스터디장.getImageUrl(), 자바_스터디장.getProfileUrl()),
-                        tuple(디우.getId(), 리액트_스터디장.getUsername(), 리액트_스터디장.getImageUrl(), 리액트_스터디장.getProfileUrl()),
-                        tuple(그린론.getId(), 자바스크립트_스터디장.getUsername(), 자바스크립트_스터디장.getImageUrl(), 자바스크립트_스터디장.getProfileUrl()),
-                        tuple(베루스.getId(), 알고리즘_스터디장.getUsername(), 알고리즘_스터디장.getImageUrl(), 알고리즘_스터디장.getProfileUrl()),
-                        tuple(베루스.getId(), 리눅스_스터디장.getUsername(), 리눅스_스터디장.getImageUrl(), 리눅스_스터디장.getProfileUrl())
+                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl())
                 );
 
         final List<List<TagSummaryData>> tags = myStudies.getBody()
