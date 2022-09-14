@@ -70,4 +70,15 @@ public class CommentService {
             throw new IllegalArgumentException("댓글 작성 권한이 없습니다.");
         }
     }
+
+    public void delete(final Long memberId, final Long commentId) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+
+        comment.validateAuthor(new Author(member.getId()));
+
+        commentRepository.deleteById(comment.getId());
+    }
 }

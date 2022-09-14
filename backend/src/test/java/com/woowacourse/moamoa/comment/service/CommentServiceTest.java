@@ -4,12 +4,11 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
-import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
@@ -27,6 +26,7 @@ import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,8 +65,6 @@ class CommentServiceTest {
     private Member 디우;
     private Member 베루스;
 
-    private Study 자바_스터디;
-    private Study 리액트_스터디;
     private Study 자바스크립트_스터디;
 
     private CommunityArticle 자바스크립트_스터디_게시판;
@@ -80,8 +78,6 @@ class CommentServiceTest {
         디우 = memberRepository.save(디우());
         베루스 = memberRepository.save(베루스());
 
-        자바_스터디 = studyRepository.save(자바_스터디(짱구.getId(), Set.of(그린론.getId(), 디우.getId())));
-        리액트_스터디 = studyRepository.save(리액트_스터디(디우.getId(), Set.of(짱구.getId(), 그린론.getId(), 베루스.getId())));
         자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디(그린론.getId(), Set.of(디우.getId(), 베루스.getId())));
 
         final CommunityArticle communityArticle = new CommunityArticle("게시판 제목", "게시판 내용", 짱구.getId(),
@@ -137,7 +133,7 @@ class CommentServiceTest {
 
     @DisplayName("본인이 작성하지 않은 댓글은 수정할 수 없다.")
     @Test
-    void updateCommentWithOtherOne() {
+    void canNotUpdateOthersComment() {
         // given
         final Author author = new Author(디우.getId());
         final CommentRequest request = new CommentRequest("댓글 내용");
@@ -148,6 +144,40 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(
                 () -> sut.update(베루스.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"))
+        ).isInstanceOf(UnwrittenReviewException.class);
+    }
+
+    @DisplayName("본인이 작성한 댓글은 삭제할 수 있다.")
+    @Test
+    void delete() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        // when
+        sut.delete(디우.getId(), commentId);
+
+        // then
+        final Optional<Comment> comment = commentRepository.findById(commentId);
+        assertTrue(comment.isEmpty());
+    }
+
+    @DisplayName("본인이 작성하지 않은 댓글은 삭제할 수 없다.")
+    @Test
+    void canNotDeleteOthersComment() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        // when & then
+        assertThatThrownBy(
+                () -> sut.delete(베루스.getId(), commentId)
         ).isInstanceOf(UnwrittenReviewException.class);
     }
 }

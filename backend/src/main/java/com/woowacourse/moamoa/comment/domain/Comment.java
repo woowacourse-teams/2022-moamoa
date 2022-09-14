@@ -42,7 +42,7 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    private void validateAuthor(final Author author) {
+    public void validateAuthor(final Author author) {
         if (!this.author.equals(author)) {
             throw new UnwrittenReviewException();
         }

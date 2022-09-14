@@ -168,4 +168,22 @@ class CommentControllerTest {
         // then
         assertThat(updatedResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
+
+    @DisplayName("본인이 작성한 댓글은 삭제가 가능하다.")
+    @Test
+    void deleteComment() {
+        // given
+        final CommentRequest request = new CommentRequest("댓글 내용");
+        ResponseEntity<Void> response = sut.createComment(그린론.getId(), 자바스크립트_스터디.getId(),
+                자바스크립트_스터디_게시판.getId(), request);
+
+        String location = response.getHeaders().getLocation().getPath();
+        Long commentId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/articles/\\d+/comments/", ""));
+
+        // when
+        final ResponseEntity<Void> updatedResponse = sut.deleteComment(그린론.getId(), commentId);
+
+        // then
+        assertThat(updatedResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
 }
