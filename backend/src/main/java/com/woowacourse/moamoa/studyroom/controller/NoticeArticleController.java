@@ -23,53 +23,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/studies/{study-id}/{article-type}/articles")
-public class ArticleController {
+@RequestMapping("api/studies/{study-id}/notice/articles")
+public class NoticeArticleController {
 
     private final ArticleService articleService;
 
-    public ArticleController(final ArticleService articleService) {
+    public NoticeArticleController(final ArticleService articleService) {
         this.articleService = articleService;
     }
 
     @PostMapping
     public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final Article article = articleService.createArticle(id, studyId, request, type);
-        final URI location = URI.create("/api/studies/" + studyId + "/" + type.lowerName() + "/articles/" + article.getId());
+        final Article article = articleService.createArticle(id, studyId, request, ArticleType.NOTICE);
+        final URI location = URI.create("/api/studies/" + studyId + "/notice/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
     public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
                                                       @PathVariable("study-id") final Long studyId,
-                                                      @PathVariable("article-type") final ArticleType articleType,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = articleService.getArticle(id, studyId, articleId, articleType);
+        ArticleResponse response = articleService.getArticle(id, studyId, articleId, ArticleType.NOTICE);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("{article-id}")
     public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("article-type") final ArticleType type
+                                              @PathVariable("article-id") final Long articleId
     ) {
-        articleService.deleteArticle(id, studyId, articleId, type);
+        articleService.deleteArticle(id, studyId, articleId, ArticleType.NOTICE);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
                                                                 @PathVariable("study-id") final Long studyId,
-                                                                @PathVariable("article-type") final ArticleType type,
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, type);
+        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, ArticleType.NOTICE);
         return ResponseEntity.ok().body(response);
     }
 
@@ -77,10 +73,9 @@ public class ArticleController {
     public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("article-type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request, type);
+        articleService.updateArticle(id, studyId, articleId, request, ArticleType.NOTICE);
         return ResponseEntity.noContent().build();
     }
 }

@@ -28,7 +28,7 @@ public class StudyRoomTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
 
         // act & assert
-        assertThatCode(() -> studyRoom.write(accessor, "제목", "내용", COMMUNITY))
+        assertThatCode(() -> studyRoom.writeCommunityArticle(accessor, "제목", "내용"))
             .doesNotThrowAnyException();
     }
 
@@ -46,7 +46,7 @@ public class StudyRoomTest {
         Member owner = createMember(1L);
         StudyRoom studyRoom = createStudyRoom(1L, owner);
 
-        assertThatThrownBy(() -> studyRoom.write(accessor, "제목", "내용", COMMUNITY))
+        assertThatThrownBy(() -> studyRoom.writeCommunityArticle(accessor, "제목", "내용"))
                 .isInstanceOf(UneditableArticleException.class);
     }
 

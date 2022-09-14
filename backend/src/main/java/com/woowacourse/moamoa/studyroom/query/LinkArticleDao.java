@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.studyroom.query;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.studyroom.query.data.LinkData;
+import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class LinkDao {
+public class LinkArticleDao {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public Slice<LinkData> findAllByStudyId(final Long studyId, final Pageable pageable) {
+    public Slice<LinkArticleData> findAllByStudyId(final Long studyId, final Pageable pageable) {
         final String sql = "SELECT link.id, link.link_url, link.description, link.created_date, link.last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM link "
@@ -32,22 +32,22 @@ public class LinkDao {
                 .addValue("limit", pageable.getPageSize() + 1)
                 .addValue("offset", pageable.getOffset());
 
-        final List<LinkData> linkData = namedParameterJdbcTemplate.query(sql, params, rowMapper());
-        return new SliceImpl<>(getCurrentPageLinks(linkData, pageable), pageable, hasNext(linkData, pageable));
+        final List<LinkArticleData> linkArticleData = namedParameterJdbcTemplate.query(sql, params, rowMapper());
+        return new SliceImpl<>(getCurrentPageLinks(linkArticleData, pageable), pageable, hasNext(linkArticleData, pageable));
     }
 
-    private List<LinkData> getCurrentPageLinks(final List<LinkData> linkData, final Pageable pageable) {
-        if (hasNext(linkData, pageable)) {
-            return linkData.subList(0, linkData.size() - 1);
+    private List<LinkArticleData> getCurrentPageLinks(final List<LinkArticleData> linkArticleData, final Pageable pageable) {
+        if (hasNext(linkArticleData, pageable)) {
+            return linkArticleData.subList(0, linkArticleData.size() - 1);
         }
-        return linkData;
+        return linkArticleData;
     }
 
-    private boolean hasNext(final List<LinkData> linkData, final Pageable pageable) {
-        return linkData.size() > pageable.getPageSize();
+    private boolean hasNext(final List<LinkArticleData> linkArticleData, final Pageable pageable) {
+        return linkArticleData.size() > pageable.getPageSize();
     }
 
-    private RowMapper<LinkData> rowMapper() {
+    private RowMapper<LinkArticleData> rowMapper() {
         return (rs, rn) -> {
             final Long id = rs.getLong("id");
             final String linkUrl = rs.getString("link_url");
@@ -61,7 +61,7 @@ public class LinkDao {
             final String profileUrl = rs.getString("profile_url");
             final MemberData memberData = new MemberData(githubId, username, imageUrl, profileUrl);
 
-            return new LinkData(id, memberData, linkUrl, description, createdDate, lastModifiedDate);
+            return new LinkArticleData(id, memberData, linkUrl, description, createdDate, lastModifiedDate);
         };
     }
 }

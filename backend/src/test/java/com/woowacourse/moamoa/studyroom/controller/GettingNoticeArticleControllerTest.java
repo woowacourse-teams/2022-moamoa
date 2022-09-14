@@ -31,7 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-class GettingArticleControllerTest {
+class GettingNoticeArticleControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -52,14 +52,14 @@ class GettingArticleControllerTest {
     private ArticleDao articleDao;
 
     private StudyService studyService;
-    private ArticleController sut;
+    private NoticeArticleController sut;
     private ArticleService articleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         articleService = new ArticleService(studyRoomRepository, articleRepositoryFactory, articleDao);
-        sut = new ArticleController(articleService);
+        sut = new NoticeArticleController(articleService);
     }
 
     @DisplayName("스터디 게시글을 단건 조회한다.")
@@ -71,11 +71,11 @@ class GettingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
+        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
 
         //act
         final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getId(), study.getId(),
-                COMMUNITY, article.getId());
+                article.getId());
 
         //assert
         final AuthorResponse expectedAuthorResponse = new AuthorResponse(
@@ -99,7 +99,7 @@ class GettingArticleControllerTest {
         final Long studyId = study.getId();
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(memberId, studyId, COMMUNITY, 1L))
+        assertThatThrownBy(() -> sut.getArticle(memberId, studyId, 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -114,14 +114,14 @@ class GettingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
+        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
         final Long articleId = article.getId();
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(otherId, studyId, COMMUNITY, articleId))
+        assertThatThrownBy(() -> sut.getArticle(otherId, studyId, articleId))
                 .isInstanceOf(UnviewableArticleException.class);
     }
 }

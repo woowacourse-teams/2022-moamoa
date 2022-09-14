@@ -15,7 +15,7 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.query.LinkDao;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
@@ -43,7 +43,7 @@ class LinkArticleControllerTest {
     private LinkArticleRepository linkArticleRepository;
 
     @Autowired
-    private LinkDao linkDao;
+    private LinkArticleDao linkArticleDao;
 
     @Autowired
     private EntityManager entityManager;
@@ -55,7 +55,7 @@ class LinkArticleControllerTest {
 
     @BeforeEach
     void setUp() {
-        linkArticleService = new LinkArticleService(studyRoomRepository, linkArticleRepository, linkDao);
+        linkArticleService = new LinkArticleService(studyRoomRepository, linkArticleRepository, linkArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         sut = new LinkArticleController(linkArticleService);

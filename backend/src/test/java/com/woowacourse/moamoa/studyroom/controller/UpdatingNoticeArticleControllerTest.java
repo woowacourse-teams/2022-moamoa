@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -12,9 +12,9 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
@@ -33,7 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-class UpdatingArticleControllerTest {
+class UpdatingNoticeArticleControllerTest {
 
     StudyRequestBuilder javaStudyBuilder = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -54,7 +54,7 @@ class UpdatingArticleControllerTest {
     private ArticleDao articleDao;
 
     private StudyService studyService;
-    private ArticleController sut;
+    private NoticeArticleController sut;
     private ArticleService articleService;
 
     @BeforeEach
@@ -62,7 +62,7 @@ class UpdatingArticleControllerTest {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         articleService = new ArticleService(studyRoomRepository,
                 articleRepositoryFactory, articleDao);
-        sut = new ArticleController(articleService);
+        sut = new NoticeArticleController(articleService);
     }
 
     @DisplayName("게시글을 수정한다.")
@@ -73,19 +73,19 @@ class UpdatingArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         Article article = articleService
-                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), COMMUNITY);
+                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), NOTICE);
 
         // act
         final ResponseEntity<Void> response = sut
-                .updateArticle(owner.getId(), study.getId(), article.getId(), COMMUNITY,
+                .updateArticle(owner.getId(), study.getId(), article.getId(),
                         new ArticleRequest("제목 수정", "내용 수정"));
 
         // assert
-        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(COMMUNITY);
+        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(NOTICE);
         Article actualArticle = articleRepository.findById(article.getId()).orElseThrow();
 
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
-        CommunityArticle expectArticle = new CommunityArticle(article.getId(), "제목 수정", "내용 수정", owner.getId(),
+        NoticeArticle expectArticle = new NoticeArticle(article.getId(), "제목 수정", "내용 수정", owner.getId(),
                 expectStudyRoom);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -106,7 +106,7 @@ class UpdatingArticleControllerTest {
 
         // act & assert
         assertThatThrownBy(() ->
-                sut.updateArticle(memberId, studyId, 1L, COMMUNITY, articleRequest)
+                sut.updateArticle(memberId, studyId, 1L, articleRequest)
         ).isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -122,7 +122,7 @@ class UpdatingArticleControllerTest {
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final Article article = articleService
-                .createArticle(member.getId(), study.getId(), request, COMMUNITY);
+                .createArticle(member.getId(), study.getId(), request, NOTICE);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
@@ -130,9 +130,7 @@ class UpdatingArticleControllerTest {
         final ArticleRequest articleRequest = new ArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
-        assertThatThrownBy(() ->
-                sut.updateArticle(otherId, studyId, articleId, COMMUNITY,
-                        articleRequest
-        )).isInstanceOf(UneditableArticleException.class);
+        assertThatThrownBy(() -> sut.updateArticle(otherId, studyId, articleId, articleRequest))
+                .isInstanceOf(UneditableArticleException.class);
     }
 }

@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service.response;
 
-import com.woowacourse.moamoa.studyroom.query.data.LinkData;
+import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -15,13 +15,13 @@ public class LinksResponse {
 
     private boolean hasNext;
 
-    public LinksResponse(final List<LinkData> linkData, final boolean hasNext) {
-        this.links = getLinkResponses(linkData);
+    public LinksResponse(final List<LinkArticleData> linkArticleData, final boolean hasNext) {
+        this.links = getLinkResponses(linkArticleData);
         this.hasNext = hasNext;
     }
 
-    private List<LinkResponse> getLinkResponses(final List<LinkData> linkData) {
-        return linkData.stream()
+    private List<LinkResponse> getLinkResponses(final List<LinkArticleData> linkArticleData) {
+        return linkArticleData.stream()
                 .map(LinkResponse::new)
                 .collect(Collectors.toList());
     }

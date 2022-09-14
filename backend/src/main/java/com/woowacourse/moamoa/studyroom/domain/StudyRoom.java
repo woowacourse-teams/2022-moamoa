@@ -41,6 +41,14 @@ public class StudyRoom {
         return studyId.equals(accessor.getStudyId()) && permittedParticipants.isPermittedAccessor(accessor);
     }
 
+    public CommunityArticle writeCommunityArticle(final Accessor accessor, final String title, final String content) {
+        if (!isPermittedAccessor(accessor)) {
+            throw new UneditableArticleException(studyId, accessor, ArticleType.COMMUNITY);
+        }
+
+        return new CommunityArticle(title, content, accessor.getMemberId(),this);
+    }
+
     public Article write(final Accessor accessor, final String title, final String content, final ArticleType type) {
         if (type == ArticleType.COMMUNITY && isPermittedAccessor(accessor)) {
             return new CommunityArticle(title, content, accessor.getMemberId(), this);

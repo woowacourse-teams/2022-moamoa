@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -13,9 +13,9 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-class DeletingArticleControllerTest {
+class DeletingNoticeArticleControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -49,7 +49,7 @@ class DeletingArticleControllerTest {
     private ArticleDao articleDao;
 
     private StudyService studyService;
-    private ArticleController sut;
+    private NoticeArticleController sut;
     private ArticleService articleService;
 
     @BeforeEach
@@ -57,7 +57,7 @@ class DeletingArticleControllerTest {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         articleService = new ArticleService(studyRoomRepository,
                 articleRepositoryFactory, articleDao);
-        sut = new ArticleController(articleService);
+        sut = new NoticeArticleController(articleService);
     }
 
     @DisplayName("스터디 커뮤니티 게시글을 삭제한다.")
@@ -70,13 +70,13 @@ class DeletingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
+        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
 
         //act
-        sut.deleteArticle(member.getId(), study.getId(), article.getId(), COMMUNITY);
+        sut.deleteArticle(member.getId(), study.getId(), article.getId());
 
         //assert
-        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(COMMUNITY);
+        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(NOTICE);
         assertThat(articleRepository.existsById(article.getId())).isFalse();
     }
 
@@ -92,7 +92,7 @@ class DeletingArticleControllerTest {
         final Long studyId = study.getId();
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(memberId, studyId, 1L, COMMUNITY))
+        assertThatThrownBy(() -> sut.deleteArticle(memberId, studyId, 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -107,14 +107,14 @@ class DeletingArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
+        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
         final Long articleId = article.getId();
 
         // act & assert
-        assertThatThrownBy(() -> sut.deleteArticle(otherId, studyId, articleId, COMMUNITY))
+        assertThatThrownBy(() -> sut.deleteArticle(otherId, studyId, articleId))
                 .isInstanceOf(UneditableArticleException.class);
     }
 }

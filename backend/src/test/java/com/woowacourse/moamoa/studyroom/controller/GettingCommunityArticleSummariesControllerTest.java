@@ -58,14 +58,14 @@ class GettingCommunityArticleSummariesControllerTest {
     @Autowired
     private ArticleDao articleDao;
 
-    private ArticleController sut;
+    private NoticeArticleController sut;
 
     @BeforeEach
     void setUp() {
         articleService = new ArticleService(studyRoomRepository,
                 articleRepositoryFactory, articleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new ArticleController(articleService);
+        sut = new NoticeArticleController(articleService);
     }
 
     @DisplayName("스터디 커뮤니티 글 목록을 조회한다.")
@@ -77,19 +77,18 @@ class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), NOTICE);
         articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), NOTICE);
         Article article3 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), NOTICE);
         Article article4 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), NOTICE);
         Article article5 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), COMMUNITY);
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), NOTICE);
 
         // act
-        ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(),
-                COMMUNITY, PageRequest.of(0, 3));
+        ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(), PageRequest.of(0, 3));
 
         // assert
         AuthorResponse author = new AuthorResponse(1L, "그린론", "http://image", "http://profile");
@@ -116,7 +115,7 @@ class GettingCommunityArticleSummariesControllerTest {
         final PageRequest pageRequest = PageRequest.of(0, 3);
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticles(memberId, 1L, COMMUNITY, pageRequest))
+        assertThatThrownBy(() -> sut.getArticles(memberId, 1L, pageRequest))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 
@@ -135,7 +134,7 @@ class GettingCommunityArticleSummariesControllerTest {
         final PageRequest pageRequest = PageRequest.of(0, 3);
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticles(otherId, studyId, COMMUNITY, pageRequest))
+        assertThatThrownBy(() -> sut.getArticles(otherId, studyId, pageRequest))
                 .isInstanceOf(UnviewableArticleException.class);
     }
 }

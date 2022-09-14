@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class LinkData {
+public class LinkArticleData {
 
     private Long id;
     private MemberData memberData;

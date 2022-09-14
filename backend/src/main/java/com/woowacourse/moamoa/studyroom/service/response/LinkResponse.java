@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service.response;
 
-import com.woowacourse.moamoa.studyroom.query.data.LinkData;
+import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,11 +28,11 @@ public class LinkResponse {
 
     private LocalDate lastModifiedDate;
 
-    public LinkResponse(final LinkData linkData) {
+    public LinkResponse(final LinkArticleData linkArticleData) {
         this(
-                linkData.getId(), new AuthorResponse(linkData.getMemberData()),
-                linkData.getLinkUrl(), linkData.getDescription(),
-                linkData.getCreatedDate(), linkData.getLastModifiedDate()
+                linkArticleData.getId(), new AuthorResponse(linkArticleData.getMemberData()),
+                linkArticleData.getLinkUrl(), linkArticleData.getDescription(),
+                linkArticleData.getCreatedDate(), linkArticleData.getLastModifiedDate()
         );
     }
 }

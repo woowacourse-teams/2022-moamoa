@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
-class GettingArticleControllerWebMvcTest extends WebMVCTest {
+class GettingNoticeArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 조회할 경우 401을 반환한다.")
     @ParameterizedTest
@@ -27,13 +27,12 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
     }
 
     @DisplayName("스터디 ID 또는 게시글 ID가 잘못된 형식인 경우 400에러를 반환한다.")
-    @ParameterizedTest
-    @CsvSource({"one, 1", "1, one"})
-    void badRequestByInvalidIdFormat(String studyId, String articleId) throws Exception {
+    @Test
+    void badRequestByInvalidIdFormat() throws Exception {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                get("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
+                get("/api/studies/1/community/articles/one")
                         .header(HttpHeaders.AUTHORIZATION, token)
         )
                 .andExpect(status().isBadRequest())
@@ -49,19 +48,6 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
                                 .header(HttpHeaders.AUTHORIZATION, token)
                 )
                 .andExpect(status().isUnauthorized())
-                .andDo(print());
-    }
-
-    @DisplayName("스터디 ID가 잘못된 형식인 경우 400에러를 반환한다.")
-    @Test
-    void badRequestByInvalidIdFormat() throws Exception {
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
-
-        mockMvc.perform(
-                        get("/api/studies/{study-id}/community/articles", "one")
-                                .header(HttpHeaders.AUTHORIZATION, token)
-                )
-                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 

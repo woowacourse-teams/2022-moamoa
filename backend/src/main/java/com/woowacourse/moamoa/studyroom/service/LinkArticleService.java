@@ -7,8 +7,8 @@ import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.query.LinkDao;
-import com.woowacourse.moamoa.studyroom.query.data.LinkData;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
+import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
@@ -23,15 +23,15 @@ public class LinkArticleService {
 
     private final StudyRoomRepository studyRoomRepository;
     private final LinkArticleRepository linkArticleRepository;
-    private final LinkDao linkDao;
+    private final LinkArticleDao linkArticleDao;
 
     public LinkArticleService(
             final StudyRoomRepository studyRoomRepository, final LinkArticleRepository linkArticleRepository,
-            final LinkDao linkDao
+            final LinkArticleDao linkArticleDao
     ) {
         this.studyRoomRepository = studyRoomRepository;
         this.linkArticleRepository = linkArticleRepository;
-        this.linkDao = linkDao;
+        this.linkArticleDao = linkArticleDao;
     }
 
     public LinkArticle createLink(
@@ -68,7 +68,7 @@ public class LinkArticleService {
     }
 
     public LinksResponse getLinks(final Long studyId, final Pageable pageable) {
-        final Slice<LinkData> linkData = linkDao.findAllByStudyId(studyId, pageable);
+        final Slice<LinkArticleData> linkData = linkArticleDao.findAllByStudyId(studyId, pageable);
         return new LinksResponse(linkData.getContent(), linkData.hasNext());
     }
 }

@@ -19,7 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-class CreatingArticleControllerWebMvcTest extends WebMVCTest {
+class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
 
     @MockBean
     private ArticleService articleService;
@@ -140,23 +140,6 @@ class CreatingArticleControllerWebMvcTest extends WebMVCTest {
                                 .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
                 )
                 .andExpect(status().isBadRequest())
-                .andDo(print());
-    }
-    
-    @DisplayName("스터디에 참여한 참가자가 아닌 경우, NotParticipatedMemberException이 발생하고 401을 반환한다.")
-    @Test
-    void unauthorizedByNotParticipant() throws Exception {
-        when(articleService.createArticle(any(), any(), any(), any())).thenThrow(NotParticipatedMemberException.class);
-
-        final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
-
-        mockMvc.perform(
-                        post("/api/studies/{study-id}/community/articles", "1")
-                                .header(HttpHeaders.AUTHORIZATION, token)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new ArticleRequest("title", "content")))
-                )
-                .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
 }

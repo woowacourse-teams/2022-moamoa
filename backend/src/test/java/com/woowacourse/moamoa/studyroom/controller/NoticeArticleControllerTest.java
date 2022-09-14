@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,10 +13,9 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -33,7 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RepositoryTest
-class ArticleControllerTest {
+class NoticeArticleControllerTest {
 
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
@@ -54,12 +52,12 @@ class ArticleControllerTest {
     private ArticleDao articleDao;
 
     private StudyService studyService;
-    private ArticleController sut;
+    private NoticeArticleController sut;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new ArticleController(
+        sut = new NoticeArticleController(
                 new ArticleService(studyRoomRepository, articleRepositoryFactory, articleDao));
     }
 
@@ -74,20 +72,20 @@ class ArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
         // act
-        ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), COMMUNITY, request);
+        ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
 
         // assert
         String location = response.getHeaders().getLocation().getPath();
-        Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/articles/", ""));
+        Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
 
-        Article actualArticle = articleRepositoryFactory.getRepository(COMMUNITY).findById(articleId)
+        Article actualArticle = articleRepositoryFactory.getRepository(NOTICE).findById(articleId)
                 .orElseThrow();
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(location).matches("/api/studies/\\d+/community/articles/\\d+");
+        assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
         assertThat(actualArticle).isEqualTo(
-                new CommunityArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
+                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
         );
     }
 
@@ -102,7 +100,7 @@ class ArticleControllerTest {
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
         // act
-        ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), NOTICE, request);
+        ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
 
         // assert
         String location = response.getHeaders().getLocation().getPath();
@@ -128,9 +126,7 @@ class ArticleControllerTest {
         final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
 
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(memberId, 1L, COMMUNITY,
-                articleRequest
-        ))
+        assertThatThrownBy(() -> sut.createArticle(memberId, 1L, articleRequest))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 }
