@@ -39,7 +39,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-class CommunityAcceptanceTest extends AcceptanceTest {
+class CommunityArticleAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("커뮤니티에 글을 작성한다.")
     @Test
@@ -83,14 +83,10 @@ class CommunityAcceptanceTest extends AcceptanceTest {
 
         final ArticleResponse actualResponse = RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", articleId)
                 .filter(document("article/get",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 ID"),
                                 parameterWithName("article-id").description("게시글 식별 ID")
@@ -159,7 +155,6 @@ class CommunityAcceptanceTest extends AcceptanceTest {
         // assert
         RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .when().log().all()
@@ -187,14 +182,10 @@ class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 자바_스터디_ID)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .filter(document("article/list",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID")
                         ),
@@ -256,7 +247,6 @@ class CommunityAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/community/articles")
@@ -315,7 +305,6 @@ class CommunityAcceptanceTest extends AcceptanceTest {
         // assert
         final ArticleResponse response = RestAssured
                 .given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 게시글_ID)
                 .when().log().all()

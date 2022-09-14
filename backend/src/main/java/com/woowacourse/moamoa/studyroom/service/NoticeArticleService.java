@@ -1,9 +1,9 @@
 package com.woowacourse.moamoa.studyroom.service;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
@@ -11,12 +11,10 @@ import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +50,7 @@ public class NoticeArticleService {
         return noticeArticleRepository.save(article);
     }
 
-    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final NoticeArticle article = noticeArticleRepository
-                .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
-
-        if (!article.isViewableBy(new Accessor(memberId, studyId))) {
-            throw new UnviewableArticleException(studyId, memberId);
-        }
-
+    public ArticleResponse getArticle(final Long articleId) {
         final ArticleData data = noticeArticleDao.getById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
         return new ArticleResponse(data);
@@ -68,7 +58,7 @@ public class NoticeArticleService {
 
     @Transactional
     public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final Article article = noticeArticleRepository
+        final NoticeArticle article = noticeArticleRepository
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
@@ -79,14 +69,7 @@ public class NoticeArticleService {
         noticeArticleRepository.deleteById(articleId);
     }
 
-    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable) {
-        final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(StudyNotFoundException::new);
-
-        if (!studyRoom.isPermittedAccessor(new Accessor(memberId, studyId))) {
-            throw new UnviewableArticleException(studyId, memberId);
-        }
-
+    public ArticleSummariesResponse getArticles(final Long studyId, final Pageable pageable) {
         final Page<ArticleData> page = noticeArticleDao.getAllByStudyId(studyId, pageable);
 
         final List<ArticleSummaryResponse> articles = page.getContent().stream()
@@ -99,7 +82,7 @@ public class NoticeArticleService {
 
     @Transactional
     public void updateArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleRequest request) {
-        final Article article = noticeArticleRepository
+        final NoticeArticle article = noticeArticleRepository
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 

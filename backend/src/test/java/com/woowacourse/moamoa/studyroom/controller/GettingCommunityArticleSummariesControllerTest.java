@@ -10,14 +10,12 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -79,15 +77,15 @@ class GettingCommunityArticleSummariesControllerTest {
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"));
         noticeArticleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"));
-        Article article3 = noticeArticleService
+        NoticeArticle article3 = noticeArticleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"));
-        Article article4 = noticeArticleService
+        NoticeArticle article4 = noticeArticleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"));
-        Article article5 = noticeArticleService
+        NoticeArticle article5 = noticeArticleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"));
 
         // act
-        ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(), PageRequest.of(0, 3));
+        ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(study.getId(), PageRequest.of(0, 3));
 
         // assert
         AuthorResponse author = new AuthorResponse(1L, "그린론", "http://image", "http://profile");
@@ -104,36 +102,18 @@ class GettingCommunityArticleSummariesControllerTest {
         );
     }
 
-    @DisplayName("스터디가 없는 경우 게시글 목록 조회 시 예외가 발생한다.")
+    @DisplayName("스터디가 없는 경우 빈 리스트를 반환한다.")
     @Test
-    void throwExceptionWhenWriteToNotFoundStudy() {
+    void returnEmptyDataWhenWriteToNotFoundStudy() {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-
         final Long memberId = member.getId();
         final PageRequest pageRequest = PageRequest.of(0, 3);
 
-        // act & assert
-        assertThatThrownBy(() -> sut.getArticles(memberId, 1L, pageRequest))
-                .isInstanceOf(StudyNotFoundException.class);
-    }
+        // act
+        final ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(1L, pageRequest);
 
-    @DisplayName("스터디에 참여하지 않은 사용자가 스터디 커뮤니티 게시글 목록을 조회한 경우 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenGettingByNotParticipant() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
-
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-
-        final Long otherId = other.getId();
-        final Long studyId = study.getId();
-        final PageRequest pageRequest = PageRequest.of(0, 3);
-
-        // act & assert
-        assertThatThrownBy(() -> sut.getArticles(otherId, studyId, pageRequest))
-                .isInstanceOf(UnviewableArticleException.class);
+        // assert
+        assertThat(response.getBody().getArticles()).isEmpty();
     }
 }

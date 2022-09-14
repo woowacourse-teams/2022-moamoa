@@ -25,9 +25,7 @@ public class AuthRequestMatchConfig {
                         "/api/my/studies",
                         "/api/auth/refresh",
                         "/api/members/me",
-                        "/api/members/me/role",
-                        "/api/studies/\\w+/community/articles/\\w+",
-                        "/api/studies/\\w+/community/articles"
+                        "/api/members/me/role"
                 )
                 .addUpAuthenticationPath(HttpMethod.PUT,
                         "/api/studies/\\d+/reviews/\\d+",

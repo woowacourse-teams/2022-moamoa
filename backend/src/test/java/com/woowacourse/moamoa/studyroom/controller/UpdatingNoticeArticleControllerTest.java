@@ -12,7 +12,6 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
@@ -70,7 +69,7 @@ class UpdatingNoticeArticleControllerTest {
         Member owner = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
-        Article article = noticeArticleService
+        NoticeArticle article = noticeArticleService
                 .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"));
 
         // act
@@ -118,7 +117,7 @@ class UpdatingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final Article article = noticeArticleService
+        final NoticeArticle article = noticeArticleService
                 .createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();

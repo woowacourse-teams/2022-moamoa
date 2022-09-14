@@ -3,7 +3,6 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.CommunityArticleRepository;

@@ -1,9 +1,18 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +22,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "community")
-public class CommunityArticle extends Article {
+public class CommunityArticle extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Column(name = "author_id")
+    private Long authorId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "study_id")
+    private StudyRoom studyRoom;
 
     private String title;
 
@@ -21,29 +41,30 @@ public class CommunityArticle extends Article {
 
     public CommunityArticle(final String title, final String content, final Long authorId,
                      final StudyRoom studyRoom) {
-        super(null, authorId, studyRoom);
-        this.title = title;
-        this.content = content;
+        this(null, title, content, authorId, studyRoom);
     }
 
     public CommunityArticle(final Long id, final String title, final String content, final Long authorId,
                             final StudyRoom studyRoom) {
-        super(id, authorId, studyRoom);
+        this.id = id;
+        this.authorId = authorId;
+        this.studyRoom = studyRoom;
         this.title = title;
         this.content = content;
     }
 
-    @Override
-    public boolean isViewableBy(final Accessor accessor) {
-        return isPermittedAccessor(accessor);
+    protected final boolean isPermittedAccessor(final Accessor accessor) {
+        return studyRoom.isPermittedAccessor(accessor);
     }
 
-    @Override
+    protected final boolean isAuthor(final Accessor accessor) {
+        return this.authorId.equals(accessor.getMemberId());
+    }
+
     public boolean isEditableBy(final Accessor accessor) {
         return isPermittedAccessor(accessor) && isAuthor(accessor);
     }
 
-    @Override
     public void update(final Accessor accessor, final String title, final String content) {
         if (!isEditableBy(accessor)) {
             throw new IllegalArgumentException();

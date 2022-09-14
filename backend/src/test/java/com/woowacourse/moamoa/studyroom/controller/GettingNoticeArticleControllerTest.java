@@ -11,13 +11,12 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
@@ -70,10 +69,10 @@ class GettingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
+        NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act
-        final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getId(), study.getId(),
+        final ResponseEntity<ArticleResponse> response = sut.getArticle(study.getId(),
                 article.getId());
 
         //assert
@@ -98,29 +97,7 @@ class GettingNoticeArticleControllerTest {
         final Long studyId = study.getId();
 
         // act & assert
-        assertThatThrownBy(() -> sut.getArticle(memberId, studyId, 1L))
+        assertThatThrownBy(() -> sut.getArticle(studyId, 1L))
                 .isInstanceOf(ArticleNotFoundException.class);
-    }
-
-    @DisplayName("스터디를 조회할 수 없는 경우 예외가 발생한다.")
-    @Test
-    void throwExceptionWhenGettingByNotParticipant() {
-        // arrange
-        Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
-        Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
-
-        Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
-
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
-
-        final Long otherId = other.getId();
-        final Long studyId = study.getId();
-        final Long articleId = article.getId();
-
-        // act & assert
-        assertThatThrownBy(() -> sut.getArticle(otherId, studyId, articleId))
-                .isInstanceOf(UnviewableArticleException.class);
     }
 }

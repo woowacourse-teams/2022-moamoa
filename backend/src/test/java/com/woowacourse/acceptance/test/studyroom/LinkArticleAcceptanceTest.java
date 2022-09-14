@@ -180,7 +180,6 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
 
         final LinksResponse response = RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")
@@ -222,7 +221,6 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
                 .then().statusCode(HttpStatus.NO_CONTENT.value());
 
         final LinksResponse response = RestAssured.given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/reference-room/links")

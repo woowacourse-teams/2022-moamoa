@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
@@ -36,17 +36,16 @@ public class NoticeArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final Article article = noticeArticleService.createArticle(id, studyId, request);
+        final NoticeArticle article = noticeArticleService.createArticle(id, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/notice/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
-    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
-                                                      @PathVariable("study-id") final Long studyId,
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = noticeArticleService.getArticle(id, studyId, articleId);
+        ArticleResponse response = noticeArticleService.getArticle(articleId);
         return ResponseEntity.ok().body(response);
     }
 
@@ -60,11 +59,10 @@ public class NoticeArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
-                                                                @PathVariable("study-id") final Long studyId,
+    public ResponseEntity<ArticleSummariesResponse> getArticles(@PathVariable("study-id") final Long studyId,
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = noticeArticleService.getArticles(id, studyId, pageable);
+        ArticleSummariesResponse response = noticeArticleService.getArticles(studyId, pageable);
         return ResponseEntity.ok().body(response);
     }
 

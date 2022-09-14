@@ -11,7 +11,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
@@ -68,7 +68,7 @@ class DeletingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
+        NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act
         sut.deleteArticle(member.getId(), study.getId(), article.getId());
@@ -104,7 +104,7 @@ class DeletingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
+        NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();

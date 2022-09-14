@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.service.CommunityArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
@@ -36,7 +36,7 @@ public class CommunityArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final Article article = communityArticleService.createArticle(id, studyId, request);
+        final CommunityArticle article = communityArticleService.createArticle(id, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/community/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
