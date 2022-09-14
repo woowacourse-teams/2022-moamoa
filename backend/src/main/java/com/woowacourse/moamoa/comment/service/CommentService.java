@@ -22,7 +22,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MyStudyDao myStudyDao;
 
-    public void writeComment(final Long memberId, final Long studyId, final Long communityId,
+    public Long writeComment(final Long memberId, final Long studyId, final Long communityId,
                                         final CommentRequest request) {
         final List<MyStudySummaryData> myStudies = myStudyDao.findMyStudyByMemberId(memberId);
         validateAuthor(studyId, myStudies);
@@ -30,7 +30,8 @@ public class CommentService {
         final Comment comment = new Comment(new Author(memberId), new AssociatedCommunity(communityId),
                 request.getContent());
 
-        commentRepository.save(comment);
+        final Comment savedComment = commentRepository.save(comment);
+        return savedComment.getId();
     }
 
     private void validateAuthor(final Long studyId, final List<MyStudySummaryData> myStudies) {
