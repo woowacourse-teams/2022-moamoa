@@ -57,14 +57,14 @@ public class ArticleService {
                                       final ArticleType type) {
         final Article article = articleRepositoryFactory.getRepository(type)
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
 
         if (!article.isViewableBy(new Accessor(memberId, studyId))) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
         final ArticleData data = articleDao.getById(articleId, type)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
         return new ArticleResponse(data);
     }
 
@@ -72,7 +72,7 @@ public class ArticleService {
     public void deleteArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleType type) {
         final Article article = articleRepositoryFactory.getRepository(type)
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
 
         if (!article.isEditableBy(new Accessor(memberId, studyId))) {
             throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), type);
@@ -105,7 +105,7 @@ public class ArticleService {
                               final ArticleRequest request, final ArticleType type) {
         final Article article = articleRepositoryFactory.getRepository(type)
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
 
         final Accessor accessor = new Accessor(memberId, studyId);
 

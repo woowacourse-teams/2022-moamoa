@@ -18,8 +18,6 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRep
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.LinkNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import java.time.LocalDate;
@@ -120,7 +118,7 @@ class LinkArticleControllerTest {
     @Test
     void deleteByInvalidLinkId() {
         assertThatThrownBy(() -> sut.deleteLink(jjangguId, javaStudyId, -1L))
-                .isInstanceOf(LinkNotFoundException.class);
+                .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")
