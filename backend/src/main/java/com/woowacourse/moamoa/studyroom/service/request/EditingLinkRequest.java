@@ -1,8 +1,5 @@
 package com.woowacourse.moamoa.studyroom.service.request;
 
-import com.woowacourse.moamoa.studyroom.domain.article.Author;
-import com.woowacourse.moamoa.studyroom.domain.article.Link;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -20,8 +17,4 @@ public class EditingLinkRequest {
 
     @Size(max = 40, message = "설명은 40자를 초과할 수 없습니다.")
     private String description;
-
-    public Link toLink(final Long studyId, final Long memberId) {
-        return new Link(new AssociatedStudy(studyId), new Author(memberId), linkUrl, description);
-    }
 }

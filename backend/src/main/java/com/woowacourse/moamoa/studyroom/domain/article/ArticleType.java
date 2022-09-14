@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 public enum ArticleType {
 
-    COMMUNITY, NOTICE;
+    COMMUNITY, NOTICE, LINK;
 
     public String lowerName() {
         return name().toLowerCase();

@@ -30,7 +30,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.studyroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.EditingLinkRequest;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import com.woowacourse.moamoa.studyroom.service.response.LinkResponse;
@@ -54,8 +54,8 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         final Long javaStudyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
         final String jwtToken = 짱구가().로그인한다();
-        final CreatingLinkRequest request =
-                new CreatingLinkRequest("https://github.com/sc0116", "링크에 대한 간단한 소개입니다.");
+        final LinkArticleRequest request =
+                new LinkArticleRequest("https://github.com/sc0116", "링크에 대한 간단한 소개입니다.");
 
         RestAssured.given(spec).log().all()
                 .filter(document("reference-room/create",
@@ -86,10 +86,10 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
         디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
         베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
 
-        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
-        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
-        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
-        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+        final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");
+        final LinkArticleRequest request2 = new LinkArticleRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final LinkArticleRequest request3 = new LinkArticleRequest("https://github.com/tco0427", "디우 링크.");
+        final LinkArticleRequest request4 = new LinkArticleRequest("https://github.com/wilgur513", "베루스 링크.");
 
         final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request1);
         final Long 그린론_링크공유_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(request2);
@@ -160,11 +160,11 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 수정할 수 있다.")
     @Test
     void updateLink() {
-        final CreatingLinkRequest creatingLinkRequest = new CreatingLinkRequest("https://github.com/sc0116",
+        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(creatingLinkRequest);
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkArticleRequest);
         final String token = 짱구가().로그인한다();
 
         final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com/woowacourse",
@@ -208,11 +208,11 @@ class ReferenceRoomAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 삭제할 수 있다.")
     @Test
     void deleteLink() {
-        final CreatingLinkRequest creatingLinkRequest = new CreatingLinkRequest("https://github.com/sc0116",
+        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(creatingLinkRequest);
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkArticleRequest);
         final String token = 짱구가().로그인한다();
 
         RestAssured.given(spec).log().all()

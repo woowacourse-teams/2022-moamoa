@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.studyroom.service.SearchingReferenceRoomService;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
@@ -21,11 +22,11 @@ public class SearchingReferenceRoomController {
 
     @GetMapping
     public ResponseEntity<LinksResponse> getLinks(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMember final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PageableDefault(size = 9) final Pageable pageable
     ) {
-        final LinksResponse linksResponse = searchingReferenceRoomService.getLinks(githubId, studyId, pageable);
+        final LinksResponse linksResponse = searchingReferenceRoomService.getLinks(memberId, studyId, pageable);
         return ResponseEntity.ok().body(linksResponse);
     }
 }

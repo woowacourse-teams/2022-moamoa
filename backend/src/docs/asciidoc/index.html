@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
 <title>MOAMOA</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<linkArticle rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
 /* Uncomment the following line when using as a custom stylesheet */
@@ -189,8 +189,8 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
 #content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
 #content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
-#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
-#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+#content h1>a.linkArticle,h2>a.linkArticle,h3>a.linkArticle,#toctitle>a.linkArticle,.sidebarblock>.content>.title>a.linkArticle,h4>a.linkArticle,h5>a.linkArticle,h6>a.linkArticle{color:#ba3925;text-decoration:none}
+#content h1>a.linkArticle:hover,h2>a.linkArticle:hover,h3>a.linkArticle:hover,#toctitle>a.linkArticle:hover,.sidebarblock>.content>.title>a.linkArticle:hover,h4>a.linkArticle:hover,h5>a.linkArticle:hover,h6>a.linkArticle:hover{color:#a53221}
 details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
 details{margin-left:1.25rem}
 details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
@@ -435,7 +435,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<linkArticle rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
@@ -467,12 +467,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="Auth"><a class="link" href="#Auth">인증</a></h2>
+<h2 id="Auth"><a class="linkArticle" href="#Auth">인증</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_github_로그인"><a class="link" href="#_github_로그인">Github 로그인</a></h3>
+<h3 id="_github_로그인"><a class="linkArticle" href="#_github_로그인">Github 로그인</a></h3>
 <div class="sect3">
-<h4 id="_github_로그인_http_request"><a class="link" href="#_github_로그인_http_request">HTTP request</a></h4>
+<h4 id="_github_로그인_http_request"><a class="linkArticle" href="#_github_로그인_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/auth/login?code=authorization-code HTTP/1.1
@@ -483,7 +483,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_github_로그인_http_response"><a class="link" href="#_github_로그인_http_response">HTTP response</a></h4>
+<h4 id="_github_로그인_http_response"><a class="linkArticle" href="#_github_로그인_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -503,12 +503,12 @@ Content-Length: 28
 </div>
 </div>
 <div class="sect1">
-<h2 id="Study"><a class="link" href="#Study">스터디</a></h2>
+<h2 id="Study"><a class="linkArticle" href="#Study">스터디</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_스터디_생성"><a class="link" href="#_스터디_생성">스터디 생성</a></h3>
+<h3 id="_스터디_생성"><a class="linkArticle" href="#_스터디_생성">스터디 생성</a></h3>
 <div class="sect3">
-<h4 id="_스터디_생성_http_request"><a class="link" href="#_스터디_생성_http_request">HTTP request</a></h4>
+<h4 id="_스터디_생성_http_request"><a class="linkArticle" href="#_스터디_생성_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/studies HTTP/1.1
@@ -533,7 +533,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_스터디_생성_http_response"><a class="link" href="#_스터디_생성_http_response">HTTP response</a></h4>
+<h4 id="_스터디_생성_http_response"><a class="linkArticle" href="#_스터디_생성_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -546,9 +546,9 @@ Location: /api/studies/null</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_스터디_목록_조회"><a class="link" href="#_스터디_목록_조회">스터디 목록 조회</a></h3>
+<h3 id="_스터디_목록_조회"><a class="linkArticle" href="#_스터디_목록_조회">스터디 목록 조회</a></h3>
 <div class="sect3">
-<h4 id="_스터디_목록_조회_http_request"><a class="link" href="#_스터디_목록_조회_http_request">HTTP request</a></h4>
+<h4 id="_스터디_목록_조회_http_request"><a class="linkArticle" href="#_스터디_목록_조회_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/studies?page=0&amp;size=2 HTTP/1.1
@@ -559,7 +559,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_스터디_목록_조회_http_response"><a class="link" href="#_스터디_목록_조회_http_response">HTTP response</a></h4>
+<h4 id="_스터디_목록_조회_http_response"><a class="linkArticle" href="#_스터디_목록_조회_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -612,12 +612,12 @@ Content-Length: 773
 </div>
 </div>
 <div class="sect1">
-<h2 id="Review"><a class="link" href="#Review">리뷰</a></h2>
+<h2 id="Review"><a class="linkArticle" href="#Review">리뷰</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_리뷰_작성"><a class="link" href="#_리뷰_작성">리뷰 작성</a></h3>
+<h3 id="_리뷰_작성"><a class="linkArticle" href="#_리뷰_작성">리뷰 작성</a></h3>
 <div class="sect3">
-<h4 id="_리뷰_작성_http_request"><a class="link" href="#_리뷰_작성_http_request">HTTP request</a></h4>
+<h4 id="_리뷰_작성_http_request"><a class="linkArticle" href="#_리뷰_작성_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/studies/1/reviews HTTP/1.1
@@ -634,7 +634,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_리뷰_작성_http_response"><a class="link" href="#_리뷰_작성_http_response">HTTP response</a></h4>
+<h4 id="_리뷰_작성_http_response"><a class="linkArticle" href="#_리뷰_작성_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -647,9 +647,9 @@ Location: /api/studies/1/reviews/1</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_리뷰_전체_조회"><a class="link" href="#_리뷰_전체_조회">리뷰 전체 조회</a></h3>
+<h3 id="_리뷰_전체_조회"><a class="linkArticle" href="#_리뷰_전체_조회">리뷰 전체 조회</a></h3>
 <div class="sect3">
-<h4 id="_리뷰_전체_조회_http_request"><a class="link" href="#_리뷰_전체_조회_http_request">HTTP request</a></h4>
+<h4 id="_리뷰_전체_조회_http_request"><a class="linkArticle" href="#_리뷰_전체_조회_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/studies/1/reviews HTTP/1.1
@@ -660,7 +660,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_리뷰_전체_조회_http_response"><a class="link" href="#_리뷰_전체_조회_http_response">HTTP response</a></h4>
+<h4 id="_리뷰_전체_조회_http_response"><a class="linkArticle" href="#_리뷰_전체_조회_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -723,9 +723,9 @@ Content-Length: 1279
 </div>
 </div>
 <div class="sect2">
-<h3 id="_리뷰_특정_개수_조회"><a class="link" href="#_리뷰_특정_개수_조회">리뷰 특정 개수 조회</a></h3>
+<h3 id="_리뷰_특정_개수_조회"><a class="linkArticle" href="#_리뷰_특정_개수_조회">리뷰 특정 개수 조회</a></h3>
 <div class="sect3">
-<h4 id="_리뷰_특정_개수_조회_http_request"><a class="link" href="#_리뷰_특정_개수_조회_http_request">HTTP request</a></h4>
+<h4 id="_리뷰_특정_개수_조회_http_request"><a class="linkArticle" href="#_리뷰_특정_개수_조회_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/studies/1/reviews?size=2 HTTP/1.1
@@ -736,7 +736,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_리뷰_특정_개수_조회_http_response"><a class="link" href="#_리뷰_특정_개수_조회_http_response">HTTP response</a></h4>
+<h4 id="_리뷰_특정_개수_조회_http_response"><a class="linkArticle" href="#_리뷰_특정_개수_조회_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -777,9 +777,9 @@ Content-Length: 658
 </div>
 </div>
 <div class="sect2">
-<h3 id="My-Role"><a class="link" href="#My-Role">스터디에서 사용자 역할 조회</a></h3>
+<h3 id="My-Role"><a class="linkArticle" href="#My-Role">스터디에서 사용자 역할 조회</a></h3>
 <div class="sect3">
-<h4 id="My-Role_http_request"><a class="link" href="#My-Role_http_request">HTTP request</a></h4>
+<h4 id="My-Role_http_request"><a class="linkArticle" href="#My-Role_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/me/role?study-id=3 HTTP/1.1
@@ -791,7 +791,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="My-Role_request_headers"><a class="link" href="#My-Role_request_headers">Request headers</a></h4>
+<h4 id="My-Role_request_headers"><a class="linkArticle" href="#My-Role_request_headers">Request headers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -812,7 +812,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="My-Role_request_parameters"><a class="link" href="#My-Role_request_parameters">Request parameters</a></h4>
+<h4 id="My-Role_request_parameters"><a class="linkArticle" href="#My-Role_request_parameters">Request parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -833,7 +833,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="My-Role_http_response"><a class="link" href="#My-Role_http_response">HTTP response</a></h4>
+<h4 id="My-Role_http_response"><a class="linkArticle" href="#My-Role_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -850,7 +850,7 @@ Content-Length: 23
 </div>
 </div>
 <div class="sect3">
-<h4 id="My-Role_response_fields"><a class="link" href="#My-Role_response_fields">Response fields</a></h4>
+<h4 id="My-Role_response_fields"><a class="linkArticle" href="#My-Role_response_fields">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">

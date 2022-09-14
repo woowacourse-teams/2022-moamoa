@@ -1,10 +1,11 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -49,7 +50,19 @@ public class StudyRoom {
             return new NoticeArticle(title, content, accessor.getMemberId(), this);
         }
 
-        throw new NotParticipatedMemberException();
+        throw new UneditableArticleException(studyId, accessor, type);
+    }
+
+    public LinkArticle writeLinkArticle(final Accessor accessor, final String linkUrl, final String description) {
+        if (isPermittedAccessor(accessor)) {
+            return new LinkArticle(this, accessor.getMemberId(), linkUrl, description);
+        }
+
+        throw new UneditableArticleException(studyId, accessor, ArticleType.LINK);
+    }
+
+    public Long getId() {
+        return studyId;
     }
 
     @Override
@@ -68,5 +81,4 @@ public class StudyRoom {
     public int hashCode() {
         return Objects.hash(studyId);
     }
-
 }

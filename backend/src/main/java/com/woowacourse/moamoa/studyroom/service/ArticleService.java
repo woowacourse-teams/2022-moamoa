@@ -75,7 +75,7 @@ public class ArticleService {
                 .orElseThrow(() -> new ArticleNotFoundException(articleId));
 
         if (!article.isEditableBy(new Accessor(memberId, studyId))) {
-            throw new UneditableArticleException();
+            throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), type);
         }
 
         articleRepositoryFactory.getRepository(type).deleteById(articleId);
@@ -110,7 +110,7 @@ public class ArticleService {
         final Accessor accessor = new Accessor(memberId, studyId);
 
         if (!article.isEditableBy(accessor)) {
-            throw new UneditableArticleException();
+            throw new UneditableArticleException(studyId, accessor, type);
         }
 
         article.update(accessor, request.getTitle(), request.getContent());

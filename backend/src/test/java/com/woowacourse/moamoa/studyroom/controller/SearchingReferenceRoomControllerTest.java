@@ -23,14 +23,15 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.studyroom.domain.article.Link;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkRepository;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkData;
 import com.woowacourse.moamoa.studyroom.service.ReferenceRoomService;
 import com.woowacourse.moamoa.studyroom.service.SearchingReferenceRoomService;
 import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
-import com.woowacourse.moamoa.studyroom.service.request.CreatingLinkRequest;
+import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinkResponse;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -62,7 +63,10 @@ class SearchingReferenceRoomControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private LinkRepository linkRepository;
+    private StudyRoomRepository studyRoomRepository;
+
+    @Autowired
+    private LinkArticleRepository linkArticleRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -72,6 +76,11 @@ class SearchingReferenceRoomControllerTest {
     private Study javaStudy;
 
     private List<LinkResponse> linkResponses;
+    private Member jjanggu;
+    private Member greenlawn;
+    private Member dwoo;
+    private Member verus;
+    private Member byeongmin;
 
     @BeforeEach
     void setUp() {
@@ -79,11 +88,11 @@ class SearchingReferenceRoomControllerTest {
                 new SearchingReferenceRoomService(linkDao, memberRepository, studyRepository));
 
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(짱구());
-        final Member greenlawn = memberRepository.save(그린론());
-        final Member dwoo = memberRepository.save(디우());
-        final Member verus = memberRepository.save(베루스());
-        memberRepository.save(병민());
+        jjanggu = memberRepository.save(짱구());
+        greenlawn = memberRepository.save(그린론());
+        dwoo = memberRepository.save(디우());
+        verus = memberRepository.save(베루스());
+        byeongmin = memberRepository.save(병민());
 
         // 스터디 생성
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -99,34 +108,34 @@ class SearchingReferenceRoomControllerTest {
         participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
-        final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository,
-                linkRepository);
+        final ReferenceRoomService linkService = new ReferenceRoomService(studyRoomRepository, memberRepository,
+                studyRepository, linkArticleRepository);
 
-        final CreatingLinkRequest request1 = new CreatingLinkRequest("https://github.com/sc0116", "짱구 링크.");
-        final CreatingLinkRequest request2 = new CreatingLinkRequest("https://github.com/jaejae-yoo", "그린론 링크.");
-        final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
-        final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
+        final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");
+        final LinkArticleRequest request2 = new LinkArticleRequest("https://github.com/jaejae-yoo", "그린론 링크.");
+        final LinkArticleRequest request3 = new LinkArticleRequest("https://github.com/tco0427", "디우 링크.");
+        final LinkArticleRequest request4 = new LinkArticleRequest("https://github.com/wilgur513", "베루스 링크.");
 
-        final Link link1 = linkService.createLink(짱구_깃허브_아이디, javaStudy.getId(), request1);
-        final Link link2 = linkService.createLink(그린론_깃허브_아이디, javaStudy.getId(), request2);
-        final Link link3 = linkService.createLink(디우_깃허브_아이디, javaStudy.getId(), request3);
-        final Link link4 = linkService.createLink(베루스_깃허브_아이디, javaStudy.getId(), request4);
+        final LinkArticle linkArticle1 = linkService.createLink(jjanggu.getId(), javaStudy.getId(), request1);
+        final LinkArticle linkArticle2 = linkService.createLink(greenlawn.getId(), javaStudy.getId(), request2);
+        final LinkArticle linkArticle3 = linkService.createLink(dwoo.getId(), javaStudy.getId(), request3);
+        final LinkArticle linkArticle4 = linkService.createLink(verus.getId(), javaStudy.getId(), request4);
 
         entityManager.flush();
         entityManager.clear();
 
         final LinkResponse 링크1 = new LinkResponse(
-                new LinkData(link1.getId(), 짱구_응답, link1.getLinkUrl(), link1.getDescription(),
-                        link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate()));
+                new LinkData(linkArticle1.getId(), 짱구_응답, linkArticle1.getLinkUrl(), linkArticle1.getDescription(),
+                        linkArticle1.getCreatedDate().toLocalDate(), linkArticle1.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크2 = new LinkResponse(
-                new LinkData(link2.getId(), 그린론_응답, link2.getLinkUrl(), link2.getDescription(),
-                        link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate()));
+                new LinkData(linkArticle2.getId(), 그린론_응답, linkArticle2.getLinkUrl(), linkArticle2.getDescription(),
+                        linkArticle2.getCreatedDate().toLocalDate(), linkArticle2.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크3 = new LinkResponse(
-                new LinkData(link3.getId(), 디우_응답, link3.getLinkUrl(), link3.getDescription(),
-                        link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate()));
+                new LinkData(linkArticle3.getId(), 디우_응답, linkArticle3.getLinkUrl(), linkArticle3.getDescription(),
+                        linkArticle3.getCreatedDate().toLocalDate(), linkArticle3.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크4 = new LinkResponse(
-                new LinkData(link4.getId(), 베루스_응답, link4.getLinkUrl(), link4.getDescription(),
-                        link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate()));
+                new LinkData(linkArticle4.getId(), 베루스_응답, linkArticle4.getLinkUrl(), linkArticle4.getDescription(),
+                        linkArticle4.getCreatedDate().toLocalDate(), linkArticle4.getLastModifiedDate().toLocalDate()));
 
         linkResponses = List.of(링크1, 링크2, 링크3, 링크4);
     }
@@ -134,7 +143,7 @@ class SearchingReferenceRoomControllerTest {
     @DisplayName("링크 공유글 전체 목록 조회를 할 수 있다.")
     @Test
     void getLinks() {
-        final ResponseEntity<LinksResponse> links = sut.getLinks(짱구_깃허브_아이디, javaStudy.getId(), PageRequest.of(0, 5));
+        final ResponseEntity<LinksResponse> links = sut.getLinks(jjanggu.getId(), javaStudy.getId(), PageRequest.of(0, 5));
 
         assertAll(
                 () -> assertThat(links.getStatusCode()).isEqualTo(HttpStatus.OK),
@@ -151,7 +160,7 @@ class SearchingReferenceRoomControllerTest {
         final Long javaStudyId = javaStudy.getId();
         final PageRequest pageRequest = PageRequest.of(0, 5);
 
-        assertThatThrownBy(() -> sut.getLinks(병민_깃허브_아이디, javaStudyId, pageRequest))
+        assertThatThrownBy(() -> sut.getLinks(byeongmin.getId(), javaStudyId, pageRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }

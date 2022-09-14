@@ -17,19 +17,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ArticleTest {
 
-    @DisplayName("스터디에 참여한 참가자만 게시글을 작성할 수 있다.")
-    @Test
-    void writeCommunityArticleByParticipant() {
-        long studyId = 1L;
-        Member owner = createMember(1L);
-        Member another = createMember(2L);
-        StudyRoom studyRoom = createPermittedAccessors(studyId, owner);
-        Accessor accessor = new Accessor(another.getId(), 1L);
-
-        assertThatThrownBy(() -> studyRoom.write(accessor, "제목", "내용", COMMUNITY))
-                .isInstanceOf(NotParticipatedMemberException.class);
-    }
-
     @DisplayName("스터디 참여자는 게시글을 조회할 수 있다.")
     @ParameterizedTest
     @CsvSource({"1,true", "2,true", "3,false"})
