@@ -3,8 +3,8 @@ package com.woowacourse.moamoa.comment.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
-import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +44,7 @@ public class Comment extends BaseEntity {
 
     public void validateAuthor(final Author author) {
         if (!this.author.equals(author)) {
-            throw new UnwrittenReviewException();
+            throw new UnwrittenCommentException();
         }
     }
 }

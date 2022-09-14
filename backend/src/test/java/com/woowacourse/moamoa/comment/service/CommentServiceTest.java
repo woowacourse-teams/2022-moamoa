@@ -14,12 +14,12 @@ import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
+import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
@@ -144,7 +144,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(
                 () -> sut.update(베루스.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"))
-        ).isInstanceOf(UnwrittenReviewException.class);
+        ).isInstanceOf(UnwrittenCommentException.class);
     }
 
     @DisplayName("본인이 작성한 댓글은 삭제할 수 있다.")
@@ -178,6 +178,6 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(
                 () -> sut.delete(베루스.getId(), commentId)
-        ).isInstanceOf(UnwrittenReviewException.class);
+        ).isInstanceOf(UnwrittenCommentException.class);
     }
 }
