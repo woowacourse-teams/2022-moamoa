@@ -18,6 +18,7 @@ import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
 import com.woowacourse.moamoa.comment.service.CommentService;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
@@ -84,7 +85,7 @@ class CommentControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        commentService = new CommentService(commentRepository, myStudyDao, commentDao);
+        commentService = new CommentService(commentRepository, memberRepository, myStudyDao, commentDao);
         sut = new CommentController(commentService);
 
         짱구 = memberRepository.save(짱구());
@@ -147,5 +148,24 @@ class CommentControllerTest {
                         tuple(디우.getGithubId(), "댓글 내용2"),
                         tuple(베루스.getGithubId(), "댓글 내용3")
                 );
+    }
+
+    @DisplayName("본인이 작성한 댓글은 수정 가능하다.")
+    @Test
+    void updateComment() {
+        // given
+        final CommentRequest request = new CommentRequest("댓글 내용");
+        ResponseEntity<Void> response = sut.createComment(그린론.getId(), 자바스크립트_스터디.getId(),
+                자바스크립트_스터디_게시판.getId(), request);
+
+        String location = response.getHeaders().getLocation().getPath();
+        Long commentId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/articles/\\d+/comments/", ""));
+
+        // when
+        final ResponseEntity<Void> updatedResponse = sut.updateComment(그린론.getId(), commentId,
+                new EditingCommentRequest("수정된 댓글 내용"));
+
+        // then
+        assertThat(updatedResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 }

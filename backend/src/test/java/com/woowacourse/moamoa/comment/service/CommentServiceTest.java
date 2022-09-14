@@ -7,16 +7,20 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.moamoa.comment.domain.Author;
-import com.woowacourse.moamoa.comment.query.CommentDao;
+import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
+import com.woowacourse.moamoa.comment.query.CommentDao;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
@@ -69,7 +73,7 @@ class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
-        sut = new CommentService(commentRepository, myStudyDao, commentDao);
+        sut = new CommentService(commentRepository, memberRepository, myStudyDao, commentDao);
 
         짱구 = memberRepository.save(짱구());
         그린론 = memberRepository.save(그린론());
@@ -111,5 +115,39 @@ class CommentServiceTest {
         assertThatThrownBy(
                 () -> sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(), request)
         ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("내가 작성한 댓글은 수정할 수 있다.")
+    @Test
+    void updateComment() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        // when
+        sut.update(디우.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"));
+
+        // then
+        final Comment comment = commentRepository.findById(commentId).get();
+        assertThat(comment.getContent()).isEqualTo("수정된 댓글 내용");
+    }
+
+    @DisplayName("본인이 작성하지 않은 댓글은 수정할 수 없다.")
+    @Test
+    void updateCommentWithOtherOne() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        // when & then
+        assertThatThrownBy(
+                () -> sut.update(베루스.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"))
+        ).isInstanceOf(UnwrittenReviewException.class);
     }
 }
