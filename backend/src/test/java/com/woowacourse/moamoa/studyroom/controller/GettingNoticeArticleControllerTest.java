@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -13,10 +12,10 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -46,20 +45,20 @@ class GettingNoticeArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ArticleRepositoryFactory articleRepositoryFactory;
+    private NoticeArticleRepository noticeArticleRepository;
 
     @Autowired
-    private ArticleDao articleDao;
+    private NoticeArticleDao noticeArticleDao;
 
     private StudyService studyService;
     private NoticeArticleController sut;
-    private ArticleService articleService;
+    private NoticeArticleService noticeArticleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(studyRoomRepository, articleRepositoryFactory, articleDao);
-        sut = new NoticeArticleController(articleService);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao);
+        sut = new NoticeArticleController(noticeArticleService);
     }
 
     @DisplayName("스터디 게시글을 단건 조회한다.")
@@ -71,7 +70,7 @@ class GettingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
+        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act
         final ResponseEntity<ArticleResponse> response = sut.getArticle(member.getId(), study.getId(),
@@ -114,7 +113,7 @@ class GettingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        Article article = articleService.createArticle(member.getId(), study.getId(), request, NOTICE);
+        Article article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();

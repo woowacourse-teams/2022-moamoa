@@ -5,8 +5,4 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LinkArticleRepository extends JpaRepository<LinkArticle, Long> {
-
-    LinkArticle save(LinkArticle linkArticle);
-
-    Optional<LinkArticle> findById(Long id);
 }

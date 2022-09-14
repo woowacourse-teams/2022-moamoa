@@ -41,7 +41,7 @@ public class CommunityArticleService {
     }
 
     @Transactional
-    public Article createArticle(final Long memberId, final Long studyId, final ArticleRequest request) {
+    public CommunityArticle createArticle(final Long memberId, final Long studyId, final ArticleRequest request) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final Accessor accessor = new Accessor(memberId, studyId);
@@ -57,7 +57,7 @@ public class CommunityArticleService {
 
     @Transactional
     public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final Article article = communityArticleRepository
+        final CommunityArticle article = communityArticleRepository
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.COMMUNITY));
 
@@ -82,7 +82,7 @@ public class CommunityArticleService {
     @Transactional
     public void updateArticle(final Long memberId, final Long studyId, final Long articleId,
                               final ArticleRequest request) {
-        final Article article = communityArticleRepository
+        final CommunityArticle article = communityArticleRepository
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.COMMUNITY));
 

@@ -1,14 +1,11 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +25,7 @@ class ArticleTest {
         Member participant = createMember(2L);
         StudyRoom studyRoom = createPermittedAccessors(studyId, owner, participant);
         Accessor accessor = new Accessor(owner.getId(), studyId);
-        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.writeNoticeArticle(accessor, "제목", "내용");
 
         assertThat(article.isViewableBy(new Accessor(viewerId, studyId))).isEqualTo(expected);
     }
@@ -40,7 +37,7 @@ class ArticleTest {
         Member member = createMember(1L);
         StudyRoom studyRoom = createPermittedAccessors(studyId, member);
         Accessor accessor = new Accessor(member.getId(), studyId);
-        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.writeNoticeArticle(accessor, "제목", "내용");
 
         assertThat(article.isViewableBy(new Accessor(member.getId(), wantToViewStudyId))).isEqualTo(expected);
     }
@@ -53,7 +50,7 @@ class ArticleTest {
         Member participant = createMember(2L);
         StudyRoom studyRoom = createPermittedAccessors(1L, owner, participant);
         Accessor accessor = new Accessor(owner.getId(), 1L);
-        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.writeNoticeArticle(accessor, "제목", "내용");
 
         assertThat(article.isEditableBy(new Accessor(editorId, 1L))).isEqualTo(expected);
     }
@@ -64,7 +61,7 @@ class ArticleTest {
         Member member = createMember(1L);
         StudyRoom studyRoom = createPermittedAccessors(1L, member);
         Accessor accessor = new Accessor(member.getId(), 1L);
-        Article article = studyRoom.write(accessor, "제목", "내용", COMMUNITY);
+        Article article = studyRoom.writeNoticeArticle(accessor, "제목", "내용");
 
         assertThat(article.isViewableBy(new Accessor(member.getId(), 2L))).isFalse();
     }

@@ -1,7 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -65,7 +63,7 @@ public class StudyRoomTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
 
         // act & assert
-        assertThatCode(() -> studyRoom.write(new Accessor(1L, 1L), "제목", "내용", NOTICE))
+        assertThatCode(() -> studyRoom.writeNoticeArticle(new Accessor(1L, 1L), "제목", "내용"))
                 .doesNotThrowAnyException();
     }
 
@@ -79,7 +77,7 @@ public class StudyRoomTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
 
         // act && assert
-        assertThatThrownBy(() -> studyRoom.write(accessor, "제목", "내용", NOTICE))
+        assertThatThrownBy(() -> studyRoom.writeNoticeArticle(accessor, "제목", "내용"))
                 .isInstanceOf(UneditableArticleException.class);
     }
 

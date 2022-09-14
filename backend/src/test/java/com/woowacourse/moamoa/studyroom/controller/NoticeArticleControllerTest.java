@@ -14,12 +14,11 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import java.time.LocalDate;
 import java.util.Set;
@@ -43,13 +42,13 @@ class NoticeArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ArticleRepositoryFactory articleRepositoryFactory;
+    private NoticeArticleRepository noticeArticleRepository;
 
     @Autowired
     private StudyRoomRepository studyRoomRepository;
 
     @Autowired
-    private ArticleDao articleDao;
+    private NoticeArticleDao noticeArticleDao;
 
     private StudyService studyService;
     private NoticeArticleController sut;
@@ -58,7 +57,7 @@ class NoticeArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new NoticeArticleController(
-                new ArticleService(studyRoomRepository, articleRepositoryFactory, articleDao));
+                new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao));
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -78,7 +77,7 @@ class NoticeArticleControllerTest {
         String location = response.getHeaders().getLocation().getPath();
         Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
 
-        Article actualArticle = articleRepositoryFactory.getRepository(NOTICE).findById(articleId)
+        NoticeArticle actualArticle = noticeArticleRepository.findById(articleId)
                 .orElseThrow();
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
@@ -105,7 +104,7 @@ class NoticeArticleControllerTest {
         // assert
         String location = response.getHeaders().getLocation().getPath();
         Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
-        Article actualArticle = articleRepositoryFactory.getRepository(NOTICE).findById(articleId).orElseThrow();
+        NoticeArticle actualArticle = noticeArticleRepository.findById(articleId).orElseThrow();
 
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 

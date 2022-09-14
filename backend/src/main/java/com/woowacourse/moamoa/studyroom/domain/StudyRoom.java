@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
@@ -49,16 +48,12 @@ public class StudyRoom {
         return new CommunityArticle(title, content, accessor.getMemberId(),this);
     }
 
-    public Article write(final Accessor accessor, final String title, final String content, final ArticleType type) {
-        if (type == ArticleType.COMMUNITY && isPermittedAccessor(accessor)) {
-            return new CommunityArticle(title, content, accessor.getMemberId(), this);
-        }
-
-        if (type == ArticleType.NOTICE && isOwner(accessor)) {
+    public NoticeArticle writeNoticeArticle(final Accessor accessor, final String title, final String content) {
+        if (isOwner(accessor)) {
             return new NoticeArticle(title, content, accessor.getMemberId(), this);
         }
 
-        throw new UneditableArticleException(studyId, accessor, type);
+        throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
     }
 
     public LinkArticle writeLinkArticle(final Accessor accessor, final String linkUrl, final String description) {

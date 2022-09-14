@@ -1,15 +1,13 @@
 package com.woowacourse.moamoa.studyroom.webmvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +20,7 @@ import org.springframework.http.MediaType;
 class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
 
     @MockBean
-    private ArticleService articleService;
+    private NoticeArticleService noticeArticleService;
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest

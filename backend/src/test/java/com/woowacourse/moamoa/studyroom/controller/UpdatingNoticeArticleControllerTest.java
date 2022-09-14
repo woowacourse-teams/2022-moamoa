@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -15,11 +14,10 @@ import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -48,21 +46,21 @@ class UpdatingNoticeArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ArticleRepositoryFactory articleRepositoryFactory;
+    private NoticeArticleRepository noticeArticleRepository;
 
     @Autowired
-    private ArticleDao articleDao;
+    private NoticeArticleDao noticeArticleDao;
 
     private StudyService studyService;
     private NoticeArticleController sut;
-    private ArticleService articleService;
+    private NoticeArticleService noticeArticleService;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        articleService = new ArticleService(studyRoomRepository,
-                articleRepositoryFactory, articleDao);
-        sut = new NoticeArticleController(articleService);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository,
+                noticeArticleRepository, noticeArticleDao);
+        sut = new NoticeArticleController(noticeArticleService);
     }
 
     @DisplayName("게시글을 수정한다.")
@@ -72,8 +70,8 @@ class UpdatingNoticeArticleControllerTest {
         Member owner = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
                 .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
-        Article article = articleService
-                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), NOTICE);
+        Article article = noticeArticleService
+                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"));
 
         // act
         final ResponseEntity<Void> response = sut
@@ -81,8 +79,7 @@ class UpdatingNoticeArticleControllerTest {
                         new ArticleRequest("제목 수정", "내용 수정"));
 
         // assert
-        ArticleRepository<Article> articleRepository = articleRepositoryFactory.getRepository(NOTICE);
-        Article actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        NoticeArticle actualArticle = noticeArticleRepository.findById(article.getId()).orElseThrow();
 
         StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
         NoticeArticle expectArticle = new NoticeArticle(article.getId(), "제목 수정", "내용 수정", owner.getId(),
@@ -121,8 +118,8 @@ class UpdatingNoticeArticleControllerTest {
                 .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
-        final Article article = articleService
-                .createArticle(member.getId(), study.getId(), request, NOTICE);
+        final Article article = noticeArticleService
+                .createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();

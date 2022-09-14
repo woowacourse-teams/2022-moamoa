@@ -4,10 +4,10 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
@@ -27,62 +27,59 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class ArticleService {
+public class NoticeArticleService {
 
     private final StudyRoomRepository studyRoomRepository;
-    private final ArticleRepositoryFactory articleRepositoryFactory;
-    private final ArticleDao articleDao;
+    private final NoticeArticleRepository noticeArticleRepository;
+    private final NoticeArticleDao noticeArticleDao;
 
     @Autowired
-    public ArticleService(final StudyRoomRepository studyRoomRepository,
-                          final ArticleRepositoryFactory articleRepositoryFactory,
-                          final ArticleDao articleDao) {
+    public NoticeArticleService(final StudyRoomRepository studyRoomRepository,
+                                final NoticeArticleRepository noticeArticleRepository,
+                                final NoticeArticleDao noticeArticleDao) {
         this.studyRoomRepository = studyRoomRepository;
-        this.articleRepositoryFactory = articleRepositoryFactory;
-        this.articleDao = articleDao;
+        this.noticeArticleRepository = noticeArticleRepository;
+        this.noticeArticleDao = noticeArticleDao;
     }
 
     @Transactional
-    public Article createArticle(final Long memberId, final Long studyId,
-                                 final ArticleRequest request, final ArticleType articleType) {
+    public NoticeArticle createArticle(final Long memberId, final Long studyId,
+                                 final ArticleRequest request) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final Accessor accessor = new Accessor(memberId, studyId);
-        final Article article = studyRoom.write(accessor, request.getTitle(), request.getContent(), articleType);
-        final ArticleRepository<Article> repository = articleRepositoryFactory.getRepository(articleType);
-        return repository.save(article);
+        final NoticeArticle article = studyRoom.writeNoticeArticle(accessor, request.getTitle(), request.getContent());
+        return noticeArticleRepository.save(article);
     }
 
-    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId,
-                                      final ArticleType type) {
-        final Article article = articleRepositoryFactory.getRepository(type)
+    public ArticleResponse getArticle(final Long memberId, final Long studyId, final Long articleId) {
+        final NoticeArticle article = noticeArticleRepository
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
         if (!article.isViewableBy(new Accessor(memberId, studyId))) {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
-        final ArticleData data = articleDao.getById(articleId, type)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
+        final ArticleData data = noticeArticleDao.getById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
         return new ArticleResponse(data);
     }
 
     @Transactional
-    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleType type) {
-        final Article article = articleRepositoryFactory.getRepository(type)
+    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
+        final Article article = noticeArticleRepository
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
         if (!article.isEditableBy(new Accessor(memberId, studyId))) {
-            throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), type);
+            throw new UneditableArticleException(studyId, new Accessor(memberId, studyId), ArticleType.NOTICE);
         }
 
-        articleRepositoryFactory.getRepository(type).deleteById(articleId);
+        noticeArticleRepository.deleteById(articleId);
     }
 
-    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable,
-                                                final ArticleType type) {
+    public ArticleSummariesResponse getArticles(final Long memberId, final Long studyId, final Pageable pageable) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
@@ -90,7 +87,7 @@ public class ArticleService {
             throw new UnviewableArticleException(studyId, memberId);
         }
 
-        final Page<ArticleData> page = articleDao.getAllByStudyId(studyId, pageable, type);
+        final Page<ArticleData> page = noticeArticleDao.getAllByStudyId(studyId, pageable);
 
         final List<ArticleSummaryResponse> articles = page.getContent().stream()
                 .map(ArticleSummaryResponse::new)
@@ -101,16 +98,15 @@ public class ArticleService {
     }
 
     @Transactional
-    public void updateArticle(final Long memberId, final Long studyId, final Long articleId,
-                              final ArticleRequest request, final ArticleType type) {
-        final Article article = articleRepositoryFactory.getRepository(type)
+    public void updateArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleRequest request) {
+        final Article article = noticeArticleRepository
                 .findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, type));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
 
         final Accessor accessor = new Accessor(memberId, studyId);
 
         if (!article.isEditableBy(accessor)) {
-            throw new UneditableArticleException(studyId, accessor, type);
+            throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
         }
 
         article.update(accessor, request.getTitle(), request.getContent());

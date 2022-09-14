@@ -2,8 +2,7 @@ package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
@@ -26,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/studies/{study-id}/notice/articles")
 public class NoticeArticleController {
 
-    private final ArticleService articleService;
+    private final NoticeArticleService noticeArticleService;
 
-    public NoticeArticleController(final ArticleService articleService) {
-        this.articleService = articleService;
+    public NoticeArticleController(final NoticeArticleService noticeArticleService) {
+        this.noticeArticleService = noticeArticleService;
     }
 
     @PostMapping
@@ -37,7 +36,7 @@ public class NoticeArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final Article article = articleService.createArticle(id, studyId, request, ArticleType.NOTICE);
+        final Article article = noticeArticleService.createArticle(id, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/notice/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
@@ -47,7 +46,7 @@ public class NoticeArticleController {
                                                       @PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-id") final Long articleId
     ) {
-        ArticleResponse response = articleService.getArticle(id, studyId, articleId, ArticleType.NOTICE);
+        ArticleResponse response = noticeArticleService.getArticle(id, studyId, articleId);
         return ResponseEntity.ok().body(response);
     }
 
@@ -56,7 +55,7 @@ public class NoticeArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId
     ) {
-        articleService.deleteArticle(id, studyId, articleId, ArticleType.NOTICE);
+        noticeArticleService.deleteArticle(id, studyId, articleId);
         return ResponseEntity.noContent().build();
     }
 
@@ -65,7 +64,7 @@ public class NoticeArticleController {
                                                                 @PathVariable("study-id") final Long studyId,
                                                                 @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, ArticleType.NOTICE);
+        ArticleSummariesResponse response = noticeArticleService.getArticles(id, studyId, pageable);
         return ResponseEntity.ok().body(response);
     }
 
@@ -75,7 +74,7 @@ public class NoticeArticleController {
                                               @PathVariable("article-id") final Long articleId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request, ArticleType.NOTICE);
+        noticeArticleService.updateArticle(id, studyId, articleId, request);
         return ResponseEntity.noContent().build();
     }
 }

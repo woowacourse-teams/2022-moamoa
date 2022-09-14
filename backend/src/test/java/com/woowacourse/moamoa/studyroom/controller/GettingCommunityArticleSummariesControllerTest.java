@@ -1,21 +1,10 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
-import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
-import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -23,6 +12,16 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
+import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
+import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,7 @@ class GettingCommunityArticleSummariesControllerTest {
     StudyRequestBuilder javaStudyRequest = new StudyRequestBuilder()
             .title("java 스터디").excerpt("자바 설명").thumbnail("java image").description("자바 소개");
 
-    private ArticleService articleService;
+    private NoticeArticleService noticeArticleService;
 
     private StudyService studyService;
 
@@ -53,19 +52,19 @@ class GettingCommunityArticleSummariesControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private ArticleRepositoryFactory articleRepositoryFactory;
+    private NoticeArticleRepository noticeArticleRepository;
 
     @Autowired
-    private ArticleDao articleDao;
+    private NoticeArticleDao noticeArticleDao;
 
     private NoticeArticleController sut;
 
     @BeforeEach
     void setUp() {
-        articleService = new ArticleService(studyRoomRepository,
-                articleRepositoryFactory, articleDao);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository,
+                noticeArticleRepository, noticeArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        sut = new NoticeArticleController(articleService);
+        sut = new NoticeArticleController(noticeArticleService);
     }
 
     @DisplayName("스터디 커뮤니티 글 목록을 조회한다.")
@@ -76,16 +75,16 @@ class GettingCommunityArticleSummariesControllerTest {
 
         Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), NOTICE);
-        articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"), NOTICE);
-        Article article3 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"), NOTICE);
-        Article article4 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"), NOTICE);
-        Article article5 = articleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"), NOTICE);
+        noticeArticleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"));
+        noticeArticleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"));
+        Article article3 = noticeArticleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"));
+        Article article4 = noticeArticleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"));
+        Article article5 = noticeArticleService
+                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"));
 
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(그린론.getId(), study.getId(), PageRequest.of(0, 3));
