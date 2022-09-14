@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
-import com.woowacourse.moamoa.studyroom.service.exception.NotLinkAuthorException;
-import com.woowacourse.moamoa.studyroom.service.exception.NotRelatedLinkException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,7 +49,7 @@ class LinkArticleTest {
                 .isInstanceOf(UneditableArticleException.class);
     }
 
-    @DisplayName("링크 공유를 삭제한다.")
+    @DisplayName("스터디에 참여한 작성자만 링크 게시글을 삭제할 수 있다.")
     @Test
     void delete() {
         final Member owner = createMember(1L);
@@ -60,35 +58,23 @@ class LinkArticleTest {
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
                 "link", "설명");
 
-        linkArticle.delete(1L, 1L);
+        linkArticle.delete(new Accessor(1L, 1L));
 
         assertThat(linkArticle.isDeleted()).isTrue();
     }
 
-    @DisplayName("작성자가 아니면 삭제할 수 없다.")
-    @Test
-    void deleteByNotAuthor() {
+    @ParameterizedTest
+    @DisplayName("스터디에 참여한 작성자 외에는 링크 게시글을 삭제할 수 없다.")
+    @CsvSource({"2,1", "1,2"})
+    void deleteByNotAuthor(final long memberId, final long studyId) {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
 
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
                 "link", "설명");
 
-        assertThatThrownBy(() -> linkArticle.delete(2L, 1L))
-                .isInstanceOf(NotLinkAuthorException.class);
-    }
-
-    @DisplayName("스터디에 속하지 않은 링크 공유글을 삭제할 수 없다.")
-    @Test
-    void deleteByNotBelongToStudy() {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-
-        final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "link", "설명");
-
-        assertThatThrownBy(() -> linkArticle.delete(1L, 2L))
-                .isInstanceOf(NotRelatedLinkException.class);
+        assertThatThrownBy(() -> linkArticle.delete(new Accessor(memberId, studyId)))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     private StudyRoom createStudyRoom(long studyId, Member owner, Member... participant) {

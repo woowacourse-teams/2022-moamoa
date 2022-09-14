@@ -104,8 +104,8 @@ class SearchingLinkArticleControllerTest {
         participantService.participateStudy(verus.getId(), javaStudy.getId());
 
         // 링크 공유 추가
-        final LinkArticleService linkService = new LinkArticleService(studyRoomRepository, memberRepository,
-                studyRepository, linkArticleRepository);
+        final LinkArticleService linkService = new LinkArticleService(studyRoomRepository,
+                linkArticleRepository);
 
         final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");
         final LinkArticleRequest request2 = new LinkArticleRequest("https://github.com/jaejae-yoo", "그린론 링크.");

@@ -17,6 +17,7 @@ import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.LinkNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
@@ -57,7 +58,7 @@ class LinkArticleControllerTest {
     @BeforeEach
     void setUp() {
         sut = new LinkArticleController(
-                new LinkArticleService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository)
+                new LinkArticleService(studyRoomRepository, linkArticleRepository)
         );
 
         // 사용자 추가
@@ -77,7 +78,7 @@ class LinkArticleControllerTest {
 
         // 링크 공유 생성
         final LinkArticleService linkArticleService =
-                new LinkArticleService(studyRoomRepository, memberRepository, studyRepository, linkArticleRepository);
+                new LinkArticleService(studyRoomRepository, linkArticleRepository);
         final LinkArticleRequest linkArticleRequest =
                 new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
 
@@ -103,7 +104,7 @@ class LinkArticleControllerTest {
         final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("www.naver.com", "수정");
 
         assertThatThrownBy(() -> sut.updateLink(jjangguId, javaStudyId, -1L, editingLinkRequest))
-                .isInstanceOf(LinkNotFoundException.class);
+                .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 수정할 수 없다.")
@@ -126,6 +127,6 @@ class LinkArticleControllerTest {
     @Test
     void deleteByNotParticipatedMember() {
         assertThatThrownBy(() -> sut.deleteLink(dwooId, javaStudyId, linkId))
-                .isInstanceOf(NotParticipatedMemberException.class);
+                .isInstanceOf(UneditableArticleException.class);
     }
 }
