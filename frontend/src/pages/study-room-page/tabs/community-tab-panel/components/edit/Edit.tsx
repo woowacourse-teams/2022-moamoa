@@ -72,18 +72,22 @@ const Edit = () => {
           <EditContent content={getCommunityArticleQueryResult.data.content} />
           <Divider space="16px" />
           <ButtonGroup justifyContent="space-between">
-            <BoxButton
-              type="button"
-              variant="secondary"
-              padding="4px 8px"
-              fluid={false}
-              onClick={handleGoToArticlePageButtonClick}
-            >
-              돌아가기
-            </BoxButton>
-            <BoxButton type="submit" padding="4px 8px" fluid={false}>
-              수정하기
-            </BoxButton>
+            <li>
+              <BoxButton
+                type="button"
+                variant="secondary"
+                padding="4px 8px"
+                fluid={false}
+                onClick={handleGoToArticlePageButtonClick}
+              >
+                돌아가기
+              </BoxButton>
+            </li>
+            <li>
+              <BoxButton type="submit" padding="4px 8px" fluid={false}>
+                수정하기
+              </BoxButton>
+            </li>
           </ButtonGroup>
         </Form>
       );

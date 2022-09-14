@@ -1,6 +1,5 @@
 import PublishContent from '@notice-tab/components/publish-content/PublishContent';
 import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
-import * as S from '@notice-tab/components/publish/Publish.style';
 import usePermission from '@notice-tab/hooks/usePermission';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +9,12 @@ import { PATH } from '@constants';
 import { usePostNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+
+import { BoxButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Divider from '@design/components/divider/Divider';
+import Form from '@design/components/form/Form';
+import Title from '@design/components/title/Title';
 
 const Publish = () => {
   const formMethods = useForm();
@@ -65,16 +70,30 @@ const Publish = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Title.Page>공지사항 작성</Title.Page>
+      <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
         <PublishTitle />
         <PublishContent />
-        <S.Footer>
-          <S.Button type="button" onClick={handleGoToArticleListPageButtonClick}>
-            돌아가기
-          </S.Button>
-          <S.Button type="submit">등록하기</S.Button>
-        </S.Footer>
-      </form>
+        <Divider space="16px" />
+        <ButtonGroup justifyContent="space-between">
+          <li>
+            <BoxButton
+              type="button"
+              variant="secondary"
+              padding="4px 8px"
+              fluid={false}
+              onClick={handleGoToArticleListPageButtonClick}
+            >
+              돌아가기
+            </BoxButton>
+          </li>
+          <li>
+            <BoxButton type="submit" padding="4px 8px" fluid={false}>
+              등록하기
+            </BoxButton>
+          </li>
+        </ButtonGroup>
+      </Form>
     </FormProvider>
   );
 };

@@ -13,15 +13,15 @@ import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
 import MetaBox from '@design/components/meta-box/MetaBox';
 import Textarea from '@design/components/textarea/Textarea';
 
-const editContentTabIds = {
-  write: 'write',
-  preview: 'preview',
-};
-
 type TabIds = typeof editContentTabIds[keyof typeof editContentTabIds];
 
 export type EditContentProps = {
   content: string;
+};
+
+const editContentTabIds = {
+  write: 'write',
+  preview: 'preview',
 };
 
 const CONTENT = 'content';
@@ -88,35 +88,33 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
   };
 
   return (
-    <div>
-      <MetaBox>
-        <MetaBox.Title>
-          <ButtonGroup gap="8px">
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === editContentTabIds.write}
-                onClick={handleNavItemClick(editContentTabIds.write)}
-              >
-                Write
-              </ToggleButton>
-            </li>
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === editContentTabIds.preview}
-                onClick={handleNavItemClick(editContentTabIds.preview)}
-              >
-                Preview
-              </ToggleButton>
-            </li>
-          </ButtonGroup>
-        </MetaBox.Title>
-        <MetaBox.Content>
-          <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
-        </MetaBox.Content>
-      </MetaBox>
-    </div>
+    <MetaBox>
+      <MetaBox.Title>
+        <ButtonGroup gap="8px">
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === editContentTabIds.write}
+              onClick={handleNavItemClick(editContentTabIds.write)}
+            >
+              Write
+            </ToggleButton>
+          </li>
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === editContentTabIds.preview}
+              onClick={handleNavItemClick(editContentTabIds.preview)}
+            >
+              Preview
+            </ToggleButton>
+          </li>
+        </ButtonGroup>
+      </MetaBox.Title>
+      <MetaBox.Content>
+        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+      </MetaBox.Content>
+    </MetaBox>
   );
 };
 

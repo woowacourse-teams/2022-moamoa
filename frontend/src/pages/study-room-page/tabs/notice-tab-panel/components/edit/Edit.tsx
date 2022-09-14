@@ -1,6 +1,5 @@
 import EditContent from '@notice-tab/components/edit-content/EditContent';
 import EditTitle from '@notice-tab/components/edit-title/EditTitle';
-import * as S from '@notice-tab/components/edit/Edit.style';
 import usePermission from '@notice-tab/hooks/usePermission';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +9,12 @@ import { PATH } from '@constants';
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+
+import { BoxButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Divider from '@design/components/divider/Divider';
+import Form from '@design/components/form/Form';
+import Title from '@design/components/title/Title';
 
 const Edit = () => {
   const formMethods = useForm();
@@ -73,21 +78,39 @@ const Edit = () => {
 
     if (getNoticeArticleQueryResult.isSuccess) {
       return (
-        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <EditTitle title={getNoticeArticleQueryResult.data.title} />
           <EditContent content={getNoticeArticleQueryResult.data.content} />
-          <S.Footer>
-            <S.Button type="button" onClick={handleGoToArticlePageButtonClick}>
-              돌아가기
-            </S.Button>
-            <S.Button type="submit">수정하기</S.Button>
-          </S.Footer>
-        </form>
+          <Divider space="16px" />
+          <ButtonGroup justifyContent="space-between">
+            <li>
+              <BoxButton
+                type="button"
+                variant="secondary"
+                padding="4px 8px"
+                fluid={false}
+                onClick={handleGoToArticlePageButtonClick}
+              >
+                돌아가기
+              </BoxButton>
+            </li>
+            <li>
+              <BoxButton type="submit" padding="4px 8px" fluid={false}>
+                수정하기
+              </BoxButton>
+            </li>
+          </ButtonGroup>
+        </Form>
       );
     }
   };
 
-  return <FormProvider {...formMethods}>{render()}</FormProvider>;
+  return (
+    <FormProvider {...formMethods}>
+      <Title.Page>공지사항 수정</Title.Page>
+      {render()}
+    </FormProvider>
+  );
 };
 
 export default Edit;

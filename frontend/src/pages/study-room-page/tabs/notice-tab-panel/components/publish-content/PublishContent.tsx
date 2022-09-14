@@ -1,18 +1,26 @@
-import * as S from '@notice-tab/components/publish-content/PublishContent.style';
 import { useEffect, useState } from 'react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
+import tw from '@utils/tw';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
+import { ToggleButton } from '@design/components/button';
+import ButtonGroup from '@design/components/button-group/ButtonGroup';
+import Label from '@design/components/label/Label';
 import MarkdownRender from '@design/components/markdown-render/MarkdownRender';
+import MetaBox from '@design/components/meta-box/MetaBox';
+import Textarea from '@design/components/textarea/Textarea';
 
-const PublishContentTabIds = {
+type TabIds = typeof publishContentTabIds[keyof typeof publishContentTabIds];
+
+const publishContentTabIds = {
   write: 'write',
   preview: 'preview',
 };
 
-type TabIds = typeof PublishContentTabIds[keyof typeof PublishContentTabIds];
+const CONTENT = 'content';
 
 const PublishContent = () => {
   const {
@@ -23,78 +31,85 @@ const PublishContent = () => {
 
   const [description, setDescription] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<TabIds>(PublishContentTabIds.write);
+  const [activeTab, setActiveTab] = useState<TabIds>(publishContentTabIds.write);
 
-  const isValid = !!errors['content']?.hasError;
+  const isValid = !errors[CONTENT]?.hasError;
 
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
   useEffect(() => {
-    const field = getField('content');
+    const field = getField(CONTENT);
     if (!field) return;
-    if (activeTab !== PublishContentTabIds.preview) return;
+    if (activeTab !== publishContentTabIds.preview) return;
 
     const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
+  const renderTabContent = () => {
+    const isWriteTab = activeTab === publishContentTabIds.write;
+
+    return (
+      <>
+        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
+          <Label htmlFor={CONTENT} hidden>
+            소개글
+          </Label>
+          <Textarea
+            id={CONTENT}
+            placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+            invalid={!isValid}
+            {...register(CONTENT, {
+              validate: (val: string) => {
+                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+                }
+                return makeValidationResult(false);
+              },
+              validationMode: 'change',
+              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+              required: true,
+            })}
+          ></Textarea>
+        </div>
+        <div css={isWriteTab && tw`hidden`}>
+          <MarkdownRender markdownContent={description} />
+        </div>
+      </>
+    );
+  };
+
   return (
-    <S.PublishContent>
-      <S.TabListContainer>
-        <S.TabList>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === PublishContentTabIds.write}
-              onClick={handleNavItemClick(PublishContentTabIds.write)}
+    <MetaBox>
+      <MetaBox.Title>
+        <ButtonGroup gap="8px">
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === publishContentTabIds.write}
+              onClick={handleNavItemClick(publishContentTabIds.write)}
             >
               Write
-            </S.TabItemButton>
-          </S.Tab>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === PublishContentTabIds.preview}
-              onClick={handleNavItemClick(PublishContentTabIds.preview)}
+            </ToggleButton>
+          </li>
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === publishContentTabIds.preview}
+              onClick={handleNavItemClick(publishContentTabIds.preview)}
             >
               Preview
-            </S.TabItemButton>
-          </S.Tab>
-        </S.TabList>
-      </S.TabListContainer>
-      <S.TabPanelsContainer>
-        <S.TabPanels>
-          <S.TabPanel isActive={activeTab === PublishContentTabIds.write}>
-            <S.TabContent>
-              <S.Textarea
-                id="description"
-                placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-                isValid={isValid}
-                {...register('content', {
-                  validate: (val: string) => {
-                    if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                      return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                    }
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-                  maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-                  required: true,
-                })}
-              ></S.Textarea>
-            </S.TabContent>
-          </S.TabPanel>
-          <S.TabPanel isActive={activeTab === PublishContentTabIds.preview}>
-            <S.TabContent>
-              <MarkdownRender markdownContent={description} />
-            </S.TabContent>
-          </S.TabPanel>
-        </S.TabPanels>
-      </S.TabPanelsContainer>
-    </S.PublishContent>
+            </ToggleButton>
+          </li>
+        </ButtonGroup>
+      </MetaBox.Title>
+      <MetaBox.Content>
+        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+      </MetaBox.Content>
+    </MetaBox>
   );
 };
 

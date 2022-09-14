@@ -36,17 +36,12 @@ const ArticleList: React.FC = () => {
     <Flex direction="column" rowGap="20px">
       <ul>
         {articles.map(article => (
-          <>
-            <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
-              <ArticleListItem
-                key={article.id}
-                title={article.title}
-                author={article.author}
-                createdDate={article.createdDate}
-              />
+          <li key={article.id}>
+            <Link to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+              <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
             </Link>
             <Divider />
-          </>
+          </li>
         ))}
       </ul>
       <Pagination

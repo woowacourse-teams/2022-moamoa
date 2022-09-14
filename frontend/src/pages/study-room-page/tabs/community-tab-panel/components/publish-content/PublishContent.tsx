@@ -83,35 +83,33 @@ const PublishContent = () => {
   };
 
   return (
-    <div>
-      <MetaBox>
-        <MetaBox.Title>
-          <ButtonGroup gap="8px">
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === publishContentTabIds.write}
-                onClick={handleNavItemClick(publishContentTabIds.write)}
-              >
-                Write
-              </ToggleButton>
-            </li>
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === publishContentTabIds.preview}
-                onClick={handleNavItemClick(publishContentTabIds.preview)}
-              >
-                Preview
-              </ToggleButton>
-            </li>
-          </ButtonGroup>
-        </MetaBox.Title>
-        <MetaBox.Content>
-          <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
-        </MetaBox.Content>
-      </MetaBox>
-    </div>
+    <MetaBox>
+      <MetaBox.Title>
+        <ButtonGroup gap="8px">
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === publishContentTabIds.write}
+              onClick={handleNavItemClick(publishContentTabIds.write)}
+            >
+              Write
+            </ToggleButton>
+          </li>
+          <li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === publishContentTabIds.preview}
+              onClick={handleNavItemClick(publishContentTabIds.preview)}
+            >
+              Preview
+            </ToggleButton>
+          </li>
+        </ButtonGroup>
+      </MetaBox.Title>
+      <MetaBox.Content>
+        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+      </MetaBox.Content>
+    </MetaBox>
   );
 };
 
