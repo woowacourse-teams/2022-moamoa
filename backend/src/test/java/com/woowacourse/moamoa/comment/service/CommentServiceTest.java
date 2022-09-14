@@ -108,8 +108,11 @@ class CommentServiceTest {
         final CommentRequest request = new CommentRequest("댓글 내용");
 
         // when & then
+        final Long memberId = author.getMemberId();
+        final Long studyId = 자바스크립트_스터디.getId();
+        final Long communityId = 자바스크립트_스터디_게시판.getId();
         assertThatThrownBy(
-                () -> sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(), request)
+                () -> sut.writeComment(memberId, studyId, communityId, request)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -142,8 +145,10 @@ class CommentServiceTest {
                 request);
 
         // when & then
+        final Long 베루스_ID = 베루스.getId();
+        final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(
-                () -> sut.update(베루스.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"))
+                () -> sut.update(베루스_ID, commentId, editingCommentRequest)
         ).isInstanceOf(UnwrittenCommentException.class);
     }
 
@@ -176,8 +181,9 @@ class CommentServiceTest {
                 request);
 
         // when & then
+        final Long 베루스_ID = 베루스.getId();
         assertThatThrownBy(
-                () -> sut.delete(베루스.getId(), commentId)
+                () -> sut.delete(베루스_ID, commentId)
         ).isInstanceOf(UnwrittenCommentException.class);
     }
 }

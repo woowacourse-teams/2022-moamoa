@@ -4,6 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -101,6 +102,26 @@ public class StudyRelatedSteps extends Steps {
                     .statusCode(HttpStatus.CREATED.value())
                     .extract().header(HttpHeaders.LOCATION);
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/community/articles/", ""));
+        } catch (Exception e) {
+            Assertions.fail("게시글 작성 실패");
+            return null;
+        }
+    }
+
+    public Long 댓글을_작성한다(final Long communityId, final String content) {
+        try {
+            final String location = RestAssured.given().log().all()
+                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
+                    .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(objectMapper.writeValueAsString(new CommentRequest(content)))
+                    .pathParam("study-id", studyId)
+                    .pathParam("article-id", communityId)
+                    .when().log().all()
+                    .post("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                    .then().log().all()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .extract().header(HttpHeaders.LOCATION);
+            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/community/articles/" + communityId + "/comments/", ""));
         } catch (Exception e) {
             Assertions.fail("게시글 작성 실패");
             return null;
