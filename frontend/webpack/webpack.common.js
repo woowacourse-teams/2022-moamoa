@@ -57,7 +57,6 @@ module.exports = {
       '@root': resolve(__dirname, '../'),
       '@src': resolve(__dirname, '../src'),
       '@components': resolve(__dirname, '../src/components'),
-      '@design': resolve(__dirname, '../src/design'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@custom-types': resolve(__dirname, '../src/custom-types/index.ts'),
       '@pages': resolve(__dirname, '../src/pages'),
