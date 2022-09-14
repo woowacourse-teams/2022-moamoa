@@ -109,10 +109,10 @@ class LinkArticleControllerTest {
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 수정할 수 없다.")
     @Test
     void updateByNotParticipatedMember() {
-        final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("https://github.com", "수정된 링크 설명입니다.");
+        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com", "수정된 링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.updateLink(dwooId, javaStudyId, linkId, editingLinkRequest))
-                .isInstanceOf(NotParticipatedMemberException.class);
+        assertThatThrownBy(() -> sut.updateLink(dwooId, javaStudyId, linkId, linkArticleRequest))
+                .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")

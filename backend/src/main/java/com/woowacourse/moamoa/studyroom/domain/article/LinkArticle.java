@@ -1,9 +1,11 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.service.exception.NotLinkAuthorException;
 import com.woowacourse.moamoa.studyroom.service.exception.NotRelatedLinkException;
+import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,12 +58,13 @@ public class LinkArticle extends BaseEntity {
         this.deleted = deleted;
     }
 
-    public void update(final LinkArticle updatedLinkArticle) {
-        validateBelongToStudy(updatedLinkArticle.studyRoom.getId());
-        validateAuthor(updatedLinkArticle.authorId);
+    public void update(final Accessor accessor, final String linkUrl, final String description) {
+        if (!studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId())) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.LINK);
+        }
 
-        linkUrl = updatedLinkArticle.linkUrl;
-        description = updatedLinkArticle.description;
+        this.linkUrl = linkUrl;
+        this.description = description;
     }
 
     public void delete(Long authorId, Long studyId) {

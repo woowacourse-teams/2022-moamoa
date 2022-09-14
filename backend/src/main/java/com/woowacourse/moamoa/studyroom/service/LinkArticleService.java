@@ -37,7 +37,9 @@ public class LinkArticleService {
         this.linkArticleRepository = linkArticleRepository;
     }
 
-    public LinkArticle createLink(final Long memberId, final Long studyId, final LinkArticleRequest linkArticleRequest) {
+    public LinkArticle createLink(
+            final Long memberId, final Long studyId, final LinkArticleRequest linkArticleRequest
+    ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(
@@ -49,23 +51,12 @@ public class LinkArticleService {
     public void updateLink(
             final Long memberId, final Long studyId, final Long linkId, final LinkArticleRequest linkArticleRequest
     ) {
-        final Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId)
-                .orElseThrow(StudyNotFoundException::new);
-        final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(StudyNotFoundException::new);
         final LinkArticle linkArticle = linkArticleRepository.findById(linkId)
                 .orElseThrow(LinkNotFoundException::new);
 
-        if (!study.isParticipant(member.getId())) {
-            throw new NotParticipatedMemberException();
-        }
-
-        final LinkArticle updatedLinkArticle = studyRoom.writeLinkArticle(new Accessor(member.getId(), studyId),
-                linkArticleRequest.getLinkUrl(), linkArticleRequest.getDescription());
-
-        linkArticle.update(updatedLinkArticle);
+        final String linkUrl = linkArticleRequest.getLinkUrl();
+        final String description = linkArticleRequest.getDescription();
+        linkArticle.update(new Accessor(memberId, studyId), linkUrl, description);
     }
 
     public void deleteLink(final Long memberId, final Long studyId, final Long linkId) {
