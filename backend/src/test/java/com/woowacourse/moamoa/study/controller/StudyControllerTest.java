@@ -183,7 +183,7 @@ class StudyControllerTest {
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();
         final long studyId = getStudyIdBy(location);
-        final Study study = studyRepository.findById(studyId).orElseThrow();
+        final Study study = studyRepository.findById(studyId).get();
 
         // then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
@@ -211,7 +211,7 @@ class StudyControllerTest {
         final ResponseEntity<Void> createdResponse = studyController.createStudy(짱구.getId(), studyRequest);
         final String location = createdResponse.getHeaders().getLocation().getPath();
         final long studyId = getStudyIdBy(location);
-        Study study = studyRepository.findById(studyId).orElseThrow();
+        Study study = studyRepository.findById(studyId).get();
 
         final StudyRequest updatingStudyRequest = StudyRequest.builder()
                 .title("변경된 title")
