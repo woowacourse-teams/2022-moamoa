@@ -8,6 +8,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
 import com.woowacourse.moamoa.studyroom.domain.review.Reviewer;
 import com.woowacourse.moamoa.studyroom.service.exception.review.ReviewNotFoundException;
@@ -38,21 +39,34 @@ public class ReviewService {
         return reviewRepository.save(review).getId();
     }
 
-    public void updateReview(final Long githubId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
+    public void updateReview(
+            final Long githubId,
+            final Long studyId,
+            final Long reviewId,
+            final EditingReviewRequest editingReviewRequest
+    ) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
+        studyRoomRepository.findByStudyId(studyId)
+                .orElseThrow(StudyNotFoundException::new);
 
-        review.updateContent(new Reviewer(member.getId()), editingReviewRequest.getContent());
+        review.updateContent(
+                new AssociatedStudy(studyId),
+                new Reviewer(member.getId()),
+                editingReviewRequest.getContent()
+        );
     }
 
-    public void deleteReview(final Long githubId, final Long reviewId) {
+    public void deleteReview(final Long githubId, final Long studyId, final Long reviewId) {
         final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
+        studyRoomRepository.findByStudyId(studyId)
+                .orElseThrow(StudyNotFoundException::new);
 
-        review.delete(new Reviewer(member.getId()));
+        review.delete(new AssociatedStudy(studyId), new Reviewer(member.getId()));
     }
 }

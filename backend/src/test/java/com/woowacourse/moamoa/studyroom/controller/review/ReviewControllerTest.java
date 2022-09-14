@@ -14,7 +14,7 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
-import com.woowacourse.moamoa.studyroom.service.exception.review.UnwrittenReviewException;
+import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
 import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.response.review.ReviewResponse;
@@ -52,6 +52,7 @@ class ReviewControllerTest {
 
     private ReviewController sut;
 
+    private Long 자바_스터디_아이디;
     private Long 짱구_리뷰;
 
     @BeforeEach
@@ -72,6 +73,7 @@ class ReviewControllerTest {
                 .build();
 
         Study javaStudy = studyService.createStudy(1L, javaStudyRequest);
+        자바_스터디_아이디 = javaStudy.getId();
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(greelawn.getId(), javaStudy.getId());
@@ -98,14 +100,14 @@ class ReviewControllerTest {
     void notUpdate() {
         final EditingReviewRequest request = new EditingReviewRequest("수정한 리뷰 내용입니다.");
 
-        assertThatThrownBy(() -> sut.updateReview(그린론_깃허브_아이디, 짱구_리뷰, request))
+        assertThatThrownBy(() -> sut.updateReview(그린론_깃허브_아이디, 자바_스터디_아이디, 짱구_리뷰, request))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
     @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
     @Test
     void notDelete() {
-        assertThatThrownBy(() -> sut.deleteReview(그린론_깃허브_아이디, 짱구_리뷰))
+        assertThatThrownBy(() -> sut.deleteReview(그린론_깃허브_아이디, 자바_스터디_아이디, 짱구_리뷰))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 }

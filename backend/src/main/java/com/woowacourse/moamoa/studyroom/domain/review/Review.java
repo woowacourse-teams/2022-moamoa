@@ -4,7 +4,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
-import com.woowacourse.moamoa.studyroom.service.exception.review.UnwrittenReviewException;
+import com.woowacourse.moamoa.studyroom.domain.review.exception.ReviewNotWrittenInTheStudyException;
+import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -44,17 +45,28 @@ public class Review extends BaseEntity {
         this(null, associatedStudy, reviewer, content, false);
     }
 
-    public void updateContent(final Reviewer reviewer, final String content) {
-        validateReviewer(reviewer);
+    public void updateContent(final AssociatedStudy associatedStudy, final Reviewer reviewer, final String content) {
+        validateReview(associatedStudy, reviewer);
         this.content = content;
     }
 
-    public void delete(final Reviewer reviewer) {
-        validateReviewer(reviewer);
+    public void delete(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
+        validateReview(associatedStudy, reviewer);
         deleted = true;
     }
 
-    public void validateReviewer(final Reviewer reviewer) {
+    private void validateReview(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
+        validateReviewWrittenInTheStudy(associatedStudy);
+        validateReviewer(reviewer);
+    }
+
+    private void validateReviewWrittenInTheStudy(final AssociatedStudy associatedStudy) {
+        if (!this.associatedStudy.equals(associatedStudy)) {
+            throw new ReviewNotWrittenInTheStudyException();
+        }
+    }
+
+    private void validateReviewer(final Reviewer reviewer) {
         if (!this.reviewer.equals(reviewer)) {
             throw new UnwrittenReviewException();
         }

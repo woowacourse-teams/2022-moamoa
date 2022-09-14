@@ -36,19 +36,21 @@ public class ReviewController {
     @PutMapping("/{review-id}")
     public ResponseEntity<Void> updateReview(
             @AuthenticationPrincipal final Long githubId,
+            @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId,
             @Valid @RequestBody final EditingReviewRequest editingReviewRequest
     ) {
-        reviewService.updateReview(githubId, reviewId, editingReviewRequest);
+        reviewService.updateReview(githubId, studyId, reviewId, editingReviewRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{review-id}")
     public ResponseEntity<Void> deleteReview(
             @AuthenticationPrincipal final Long githubId,
+            @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
-        reviewService.deleteReview(githubId, reviewId);
+        reviewService.deleteReview(githubId, studyId, reviewId);
         return ResponseEntity.noContent().build();
     }
 }
