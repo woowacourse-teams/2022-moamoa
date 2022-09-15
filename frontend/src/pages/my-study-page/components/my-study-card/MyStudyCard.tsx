@@ -46,7 +46,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
           <span>{startDate}</span> ~ <span>{endDate || ''}</span>
         </Card.Content>
       </Card>
-      <div css={tw`absolute bottom-12 right-12`}>
+      <div css={tw`absolute bottom-12 right-12 z-3`}>
         <IconButton
           variant="secondary"
           onClick={handleQuitStudyButtonClick}

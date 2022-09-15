@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
-import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -11,6 +10,7 @@ import type { MyStudy } from '@custom-types';
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
+import LinkedButton from '@components/button/linked-button/LinkedButton';
 import SectionTitle from '@components/section-title/SectionTitle';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
@@ -28,7 +28,9 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
 
   const handleTrashButtonClick =
     ({ title, id }: Pick<MyStudy, 'title' | 'id'>) =>
-    () => {
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
       if (!confirm(`정말 '${title}'을(를) 탈퇴하실 건가요? :(`)) return;
 
       mutate(
@@ -55,7 +57,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
         ) : (
           studies.map(study => (
             <li key={study.id}>
-              <Link to={PATH.STUDY_ROOM(study.id)}>
+              <LinkedButton to={PATH.STUDY_ROOM(study.id)}>
                 <MyStudyCard
                   title={study.title}
                   ownerName={study.owner.username}
@@ -65,7 +67,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
                   end={end}
                   onQuitStudyButtonClick={handleTrashButtonClick(study)}
                 />
-              </Link>
+              </LinkedButton>
             </li>
           ))
         )}
