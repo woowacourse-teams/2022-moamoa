@@ -16,8 +16,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleR
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
@@ -75,15 +74,15 @@ class GettingCommunityArticleSummariesControllerTest {
         Study study = studyService.createStudy(그린론.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         noticeArticleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"));
+                .createArticle(그린론.getId(), study.getId(), new CommunityArticleRequest("제목1", "내용1"));
         noticeArticleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목2", "내용2"));
+                .createArticle(그린론.getId(), study.getId(), new CommunityArticleRequest("제목2", "내용2"));
         NoticeArticle article3 = noticeArticleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목3", "내용3"));
+                .createArticle(그린론.getId(), study.getId(), new CommunityArticleRequest("제목3", "내용3"));
         NoticeArticle article4 = noticeArticleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목4", "내용4"));
+                .createArticle(그린론.getId(), study.getId(), new CommunityArticleRequest("제목4", "내용4"));
         NoticeArticle article5 = noticeArticleService
-                .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목5", "내용5"));
+                .createArticle(그린론.getId(), study.getId(), new CommunityArticleRequest("제목5", "내용5"));
 
         // act
         ResponseEntity<ArticleSummariesResponse> response = sut.getArticles(study.getId(), PageRequest.of(0, 3));

@@ -25,7 +25,8 @@ class LinkArticleTest {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final LinkArticle sut = studyRoom.writeLinkArticle(accessor, new LinkContent("link", "설명"));
+        final LinkContent linkContent = new LinkContent("link", "설명");
+        final LinkArticle sut = linkContent.createArticle(studyRoom, accessor);
 
         // act
         sut.update(accessor, new LinkContent("updated link", "수정된 설명"));
@@ -43,8 +44,8 @@ class LinkArticleTest {
     void updateByNotAuthor(final long memberId, final long studyId) {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final LinkArticle sut = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                new LinkContent("link", "설명"));
+        final LinkContent linkContent = new LinkContent("link", "설명");
+        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new LinkContent("updated link", "수정된 설명")))
                 .isInstanceOf(UneditableArticleException.class);
@@ -55,13 +56,12 @@ class LinkArticleTest {
     void delete() {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
+        final LinkContent linkContent = new LinkContent("link", "설명");
+        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
-        final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                new LinkContent("link", "설명"));
+        sut.delete(new Accessor(1L, 1L));
 
-        linkArticle.delete(new Accessor(1L, 1L));
-
-        assertThat(linkArticle.isDeleted()).isTrue();
+        assertThat(sut.isDeleted()).isTrue();
     }
 
     @ParameterizedTest
@@ -70,11 +70,10 @@ class LinkArticleTest {
     void deleteByNotAuthor(final long memberId, final long studyId) {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
+        final LinkContent linkContent = new LinkContent("link", "설명");
+        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
-        final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                new LinkContent("link", "설명"));
-
-        assertThatThrownBy(() -> linkArticle.delete(new Accessor(memberId, studyId)))
+        assertThatThrownBy(() -> sut.delete(new Accessor(memberId, studyId)))
                 .isInstanceOf(UneditableArticleException.class);
     }
 

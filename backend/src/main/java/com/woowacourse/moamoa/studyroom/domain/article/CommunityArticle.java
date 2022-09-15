@@ -6,8 +6,8 @@ import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +25,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Table(name = "community")
 @Where(clause = "deleted = false")
-public class CommunityArticle extends BaseEntity {
+public class CommunityArticle extends BaseEntity implements Article<CommunityContent> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,33 +38,31 @@ public class CommunityArticle extends BaseEntity {
     @JoinColumn(name = "study_id")
     private StudyRoom studyRoom;
 
-    private String title;
-
-    private String content;
+    @Embedded
+    private CommunityContent content;
 
     private boolean deleted;
 
-    public CommunityArticle(final String title, final String content, final Long authorId,
-                     final StudyRoom studyRoom) {
-        this(null, title, content, authorId, studyRoom);
+    public CommunityArticle(final StudyRoom studyRoom, final Long authorId, final CommunityContent content) {
+        this(null, authorId, studyRoom, content);
     }
 
-    public CommunityArticle(final Long id, final String title, final String content, final Long authorId,
-                            final StudyRoom studyRoom) {
+    public CommunityArticle(final Long id, final Long authorId, final StudyRoom studyRoom,
+                            final CommunityContent content
+    ) {
         this.id = id;
         this.authorId = authorId;
         this.studyRoom = studyRoom;
-        this.title = title;
         this.content = content;
         this.deleted = false;
     }
 
-    public void update(final Accessor accessor, final String title, final String content) {
+    @Override
+    public void update(final Accessor accessor, final CommunityContent content) {
         if (!isEditableAccessor(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.COMMUNITY);
         }
 
-        this.title = title;
         this.content = content;
     }
 
@@ -72,6 +70,7 @@ public class CommunityArticle extends BaseEntity {
         return studyRoom.isPermittedAccessor(accessor) && authorId.equals(accessor.getMemberId());
     }
 
+    @Override
     public void delete(final Accessor accessor) {
         if (!isEditableAccessor(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.COMMUNITY);
@@ -82,24 +81,5 @@ public class CommunityArticle extends BaseEntity {
 
     public boolean isDeleted() {
         return deleted;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final CommunityArticle that = (CommunityArticle) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
-                && Objects.equals(getContent(), that.getContent()) && Objects.equals(getAuthorId(),
-                that.getAuthorId()) && Objects.equals(getStudyRoom(), that.getStudyRoom());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyRoom());
     }
 }

@@ -8,7 +8,7 @@ import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.AbstractArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,24 +26,24 @@ public class ArticleService<A extends Article<C>, C extends Content<A>> {
     }
 
     public A createArticle(
-            final Long memberId, final Long studyId, final AbstractArticleRequest<C> articleRequest
+            final Long memberId, final Long studyId, final ArticleRequest<C> articleRequest
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
-        final C content = articleRequest.mapToContent();
+        final C content = articleRequest.createContent();
         final A article = content.createArticle(studyRoom, new Accessor(memberId, studyId));
 
         return articleRepository.save(article);
     }
 
     public void updateArticle(
-            final Long memberId, final Long studyId, final Long articleId, final AbstractArticleRequest<C> articleRequest
+            final Long memberId, final Long studyId, final Long articleId, final ArticleRequest<C> articleRequest
     ) {
         final A article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.LINK));
 
-        article.update(new Accessor(memberId, studyId), articleRequest.mapToContent());
+        article.update(new Accessor(memberId, studyId), articleRequest.createContent());
     }
 
     public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {

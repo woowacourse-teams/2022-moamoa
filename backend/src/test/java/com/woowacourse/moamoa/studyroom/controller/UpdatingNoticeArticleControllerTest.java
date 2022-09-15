@@ -19,7 +19,7 @@ import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,12 +70,12 @@ class UpdatingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         NoticeArticle article = noticeArticleService
-                .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"));
+                .createArticle(owner.getId(), study.getId(), new CommunityArticleRequest("제목", "내용"));
 
         // act
         final ResponseEntity<Void> response = sut
                 .updateArticle(owner.getId(), study.getId(), article.getId(),
-                        new ArticleRequest("제목 수정", "내용 수정"));
+                        new CommunityArticleRequest("제목 수정", "내용 수정"));
 
         // assert
         NoticeArticle actualArticle = noticeArticleRepository.findById(article.getId()).orElseThrow();
@@ -98,7 +98,7 @@ class UpdatingNoticeArticleControllerTest {
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
-        final ArticleRequest articleRequest = new ArticleRequest("제목 수정", "내용 수정");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
         assertThatThrownBy(() ->
@@ -116,14 +116,14 @@ class UpdatingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
         final NoticeArticle article = noticeArticleService
                 .createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
         final Long articleId = article.getId();
-        final ArticleRequest articleRequest = new ArticleRequest("제목 수정", "내용 수정");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
         assertThatThrownBy(() -> sut.updateArticle(otherId, studyId, articleId, articleRequest))

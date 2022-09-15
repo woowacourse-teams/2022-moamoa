@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class LinkArticleRequest implements AbstractArticleRequest<LinkContent>{
+public class LinkArticleRequest implements ArticleRequest<LinkContent> {
 
     @NotBlank(message = "공유할 링크 URL을 입력해 주세요.")
     @Size(max = 500, message = "링크 URL은 500자를 초과할 수 없습니다.")
@@ -20,7 +20,7 @@ public class LinkArticleRequest implements AbstractArticleRequest<LinkContent>{
     private String description;
 
     @Override
-    public LinkContent mapToContent() {
+    public LinkContent createContent() {
         return new LinkContent(linkUrl, description);
     }
 }

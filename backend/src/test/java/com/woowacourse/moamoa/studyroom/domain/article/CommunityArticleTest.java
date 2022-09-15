@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
@@ -25,16 +24,14 @@ class CommunityArticleTest {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final CommunityArticle sut = studyRoom.writeCommunityArticle(accessor, "제목", "내용");
+        final CommunityContent communityContent = new CommunityContent("제목", "내용");
+        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         // act
-        sut.update(accessor, "수정된 제목", "수정된 내용");
+        sut.update(accessor, new CommunityContent("수정된 제목", "수정된 내용"));
 
         // assert
-        assertAll(
-                () -> assertThat(sut.getTitle()).isEqualTo("수정된 제목"),
-                () -> assertThat(sut.getContent()).isEqualTo("수정된 내용")
-        );
+        assertThat(sut.getContent()).isEqualTo(new CommunityContent("수정된 제목", "수정된 내용"));
     }
 
     @ParameterizedTest
@@ -43,10 +40,10 @@ class CommunityArticleTest {
     void updateByNotAuthor(final long memberId, final long studyId) {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityArticle sut = studyRoom.writeCommunityArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final CommunityContent communityContent = new CommunityContent("제목", "내용");
+        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
-        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), "수정된 제목", "수정된 내용"))
+        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new CommunityContent("수정된 제목", "수정된 내용")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -55,8 +52,8 @@ class CommunityArticleTest {
     void delete() {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityArticle sut = studyRoom.writeCommunityArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final CommunityContent communityContent = new CommunityContent("제목", "내용");
+        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         sut.delete(new Accessor(1L, 1L));
 
@@ -69,8 +66,8 @@ class CommunityArticleTest {
     void deleteByNotAuthor(final long memberId, final long studyId) {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityArticle sut = studyRoom.writeCommunityArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final CommunityContent communityContent = new CommunityContent("제목", "내용");
+        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         assertThatThrownBy(() -> sut.delete(new Accessor(memberId, studyId)))
                 .isInstanceOf(UneditableArticleException.class);

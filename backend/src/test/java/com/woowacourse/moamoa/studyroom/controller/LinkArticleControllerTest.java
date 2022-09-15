@@ -13,13 +13,14 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
@@ -57,14 +58,15 @@ class LinkArticleControllerTest {
 
     private StudyService studyService;
     private LinkArticleService linkArticleService;
+    private ArticleService<LinkArticle, LinkContent> articleService;
 
     @BeforeEach
     void setUp() {
-        linkArticleService = new LinkArticleService(studyRoomRepository, linkArticleRepository, linkArticleDao);
+        linkArticleService = new LinkArticleService(linkArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        sut = new LinkArticleController(linkArticleService,
-                new ArticleService<>(studyRoomRepository, articleRepository));
+        articleService = new ArticleService<>(studyRoomRepository, articleRepository);
+        sut = new LinkArticleController(linkArticleService, articleService);
     }
 
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유를 할 수 없다.")
@@ -77,10 +79,10 @@ class LinkArticleControllerTest {
         entityManager.flush();
         entityManager.clear();
 
-        final LinkArticleRequest linkArticleRequest =
+        final LinkArticleRequest articleRequest =
                 new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.createLink(디우.getId(), 자바_스터디.getId(), linkArticleRequest))
+        assertThatThrownBy(() -> sut.createLink(디우.getId(), 자바_스터디.getId(), articleRequest))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -107,13 +109,13 @@ class LinkArticleControllerTest {
 
         final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
-        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
-        final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
+        final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
+        final LinkArticle 링크_게시글 = articleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         entityManager.flush();
         entityManager.clear();
 
-        assertThatThrownBy(() -> sut.updateLink(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(), linkArticleRequest))
+        assertThatThrownBy(() -> sut.updateLink(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(), articleRequest))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -138,8 +140,8 @@ class LinkArticleControllerTest {
 
         final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
-        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
-        final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
+        final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
+        final LinkArticle 링크_게시글 = articleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         entityManager.flush();
         entityManager.clear();

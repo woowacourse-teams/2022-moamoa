@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.studyroom.controller;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import java.net.URI;
@@ -34,7 +34,7 @@ public class NoticeArticleController {
     @PostMapping
     public ResponseEntity<Void> createArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @Valid @RequestBody final ArticleRequest request
+                                              @Valid @RequestBody final CommunityArticleRequest request
     ) {
         final NoticeArticle article = noticeArticleService.createArticle(id, studyId, request);
         final URI location = URI.create("/api/studies/" + studyId + "/notice/articles/" + article.getId());
@@ -70,7 +70,7 @@ public class NoticeArticleController {
     public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @Valid @RequestBody final ArticleRequest request
+                                              @Valid @RequestBody final CommunityArticleRequest request
     ) {
         noticeArticleService.updateArticle(id, studyId, articleId, request);
         return ResponseEntity.noContent().build();

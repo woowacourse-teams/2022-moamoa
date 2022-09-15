@@ -17,7 +17,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import java.time.LocalDate;
@@ -68,7 +68,7 @@ class GettingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act

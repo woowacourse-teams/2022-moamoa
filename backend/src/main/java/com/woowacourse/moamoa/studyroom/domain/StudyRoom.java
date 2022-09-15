@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.Content;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
@@ -43,28 +42,12 @@ public class StudyRoom {
         return studyId.equals(accessor.getStudyId()) && permittedParticipants.isPermittedAccessor(accessor);
     }
 
-    public CommunityArticle writeCommunityArticle(final Accessor accessor, final String title, final String content) {
-        if (!isPermittedAccessor(accessor)) {
-            throw new UneditableArticleException(studyId, accessor, ArticleType.COMMUNITY);
-        }
-
-        return new CommunityArticle(title, content, accessor.getMemberId(),this);
-    }
-
     public NoticeArticle writeNoticeArticle(final Accessor accessor, final String title, final String content) {
         if (isOwner(accessor)) {
             return new NoticeArticle(title, content, accessor.getMemberId(), this);
         }
 
         throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
-    }
-
-    public LinkArticle writeLinkArticle(final Accessor accessor, final LinkContent content) {
-        if (isPermittedAccessor(accessor)) {
-            return new LinkArticle(this, accessor.getMemberId(), content);
-        }
-
-        throw new UneditableArticleException(studyId, accessor, ArticleType.LINK);
     }
 
     public Long getId() {

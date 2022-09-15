@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -19,7 +18,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleR
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +67,7 @@ class NoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
@@ -96,7 +95,7 @@ class NoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
@@ -122,7 +121,7 @@ class NoticeArticleControllerTest {
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
         final Long memberId = member.getId();
-        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "내용");
 
         // act & assert
         assertThatThrownBy(() -> sut.createArticle(memberId, 1L, articleRequest))

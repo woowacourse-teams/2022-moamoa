@@ -154,11 +154,11 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 수정할 수 있다.")
     @Test
     void updateLink() {
-        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116",
+        final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkArticleRequest);
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(articleRequest);
         final String token = 짱구가().로그인한다();
 
         final LinkArticleRequest editingLinkRequest = new LinkArticleRequest("https://github.com/woowacourse",
@@ -201,11 +201,11 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
     @DisplayName("작성한 링크 공유글을 삭제할 수 있다.")
     @Test
     void deleteLink() {
-        final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116",
+        final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116",
                 "링크 설명입니다.");
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(linkArticleRequest);
+        final Long 짱구_링크공유_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).링크를_공유한다(articleRequest);
         final String token = 짱구가().로그인한다();
 
         RestAssured.given(spec).log().all()

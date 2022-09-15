@@ -18,7 +18,7 @@ import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +67,7 @@ class DeletingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act
@@ -103,7 +103,7 @@ class DeletingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
+        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();

@@ -11,6 +11,8 @@ import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
@@ -53,7 +55,10 @@ public abstract class WebMVCTest {
     protected NativeWebRequest nativeWebRequest;
 
     @MockBean
-    protected ArticleService<LinkArticle, LinkContent> articleService;
+    protected ArticleService<LinkArticle, LinkContent> articleService1;
+
+    @MockBean
+    protected ArticleService<CommunityArticle, CommunityContent> articleService2;
 
     @BeforeEach
     void setUp() {

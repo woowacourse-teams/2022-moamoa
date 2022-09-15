@@ -10,7 +10,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -41,7 +41,7 @@ public class NoticeArticleService {
 
     @Transactional
     public NoticeArticle createArticle(final Long memberId, final Long studyId,
-                                 final ArticleRequest request) {
+                                 final CommunityArticleRequest request) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final Accessor accessor = new Accessor(memberId, studyId);
@@ -76,7 +76,7 @@ public class NoticeArticleService {
     }
 
     @Transactional
-    public void updateArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleRequest request) {
+    public void updateArticle(final Long memberId, final Long studyId, final Long articleId, final CommunityArticleRequest request) {
         final NoticeArticle article = noticeArticleRepository
                 .findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));

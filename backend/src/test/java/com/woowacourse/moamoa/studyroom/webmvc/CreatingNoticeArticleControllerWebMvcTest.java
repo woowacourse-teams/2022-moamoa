@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,7 +57,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
+                .content(objectMapper.writeValueAsString(new CommunityArticleRequest(title, "content")))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -73,7 +73,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
+                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest("title", content)))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -89,7 +89,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
+                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest(title, "content")))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -105,7 +105,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
+                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest("title", content)))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -120,7 +120,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                         post("/api/studies/{study-id}/community/articles", "1")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
+                                .content(objectMapper.writeValueAsString(new CommunityArticleRequest("a".repeat(31), "cotent")))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -135,7 +135,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                         post("/api/studies/{study-id}/community/articles", "1")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
+                                .content(objectMapper.writeValueAsString(new CommunityArticleRequest("a".repeat(5001), "cotent")))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());

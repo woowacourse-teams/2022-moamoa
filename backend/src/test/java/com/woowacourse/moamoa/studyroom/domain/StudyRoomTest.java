@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,45 +15,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class StudyRoomTest {
-
-    @ParameterizedTest
-    @DisplayName("스터디에 참여한 참가자는 커뮤니티 게시글을 작성할 수 있다.")
-    @MethodSource("provideAccessibleAccessorForCommunityArticle")
-    void writeCommunityArticleByParticipant(final Accessor accessor) {
-        // arrange
-        final Member owner = createMember(1L);
-        final Member participant = createMember(2L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
-
-        // act & assert
-        assertThatCode(() -> studyRoom.writeCommunityArticle(accessor, "제목", "내용"))
-            .doesNotThrowAnyException();
-    }
-
-    private static Stream<Arguments> provideAccessibleAccessorForCommunityArticle() {
-        return Stream.of(
-                Arguments.of(new Accessor(1L, 1L)), // 방장
-                Arguments.of(new Accessor(2L, 1L)) // 일반 참가자
-        );
-    }
-
-    @ParameterizedTest
-    @DisplayName("스터디에 참여하지 않은 참가자는 커뮤니티 게시글을 작성할 수 없다.")
-    @MethodSource("provideNonAccessibleAccessorForCommunityArticle")
-    void cantWriteCommunityArticleByNonParticipants(final Accessor accessor) {
-        Member owner = createMember(1L);
-        StudyRoom studyRoom = createStudyRoom(1L, owner);
-
-        assertThatThrownBy(() -> studyRoom.writeCommunityArticle(accessor, "제목", "내용"))
-                .isInstanceOf(UneditableArticleException.class);
-    }
-
-    private static Stream<Arguments> provideNonAccessibleAccessorForCommunityArticle() {
-        return Stream.of(
-                Arguments.of(new Accessor(2L, 1L)), // memberId가 잘못된 경우
-                Arguments.of(new Accessor(1L, 2L)) // studyId가 잘못된 경우
-        );
-    }
 
     @DisplayName("방장은 공지글을 작성할 수 있다.")
     @Test
@@ -86,47 +46,6 @@ class StudyRoomTest {
         return Stream.of(
                 Arguments.of(new Accessor(1L, 2L)), // studyId가 잘못된 경우
                 Arguments.of(new Accessor(2L, 1L)) // 방장 외에 참여자인 경우
-        );
-    }
-
-    @ParameterizedTest
-    @DisplayName("링크 게시글을 스터디에 참여한 인원은 작성할 수 있다.")
-    @MethodSource("provideAccessibleAccessorForLinkArticle")
-    void writeLinkArticleByAccessibleAccessor(final Accessor accessor) {
-        // arrange
-        final Member owner = createMember(1L);
-        final Member participant = createMember(2L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
-
-        // act & assert
-        assertThatCode(() -> studyRoom.writeLinkArticle(accessor, new LinkContent("link url", "설명")))
-                .doesNotThrowAnyException();
-    }
-
-    private static Stream<Arguments> provideAccessibleAccessorForLinkArticle() {
-        return Stream.of(
-                Arguments.of(new Accessor(1L, 1L)), // 방장
-                Arguments.of(new Accessor(2L, 1L)) // 일반 참여자
-        );
-    }
-
-    @ParameterizedTest
-    @DisplayName("링크글을 스터디 참여자만 작성할 수 있다.")
-    @MethodSource("provideNonAccessibleAccessorForLinkArticle")
-    void cantWriteLinkArticleByNonAccessibleAccessor(final Accessor accessor) {
-        // arrange
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-
-        // act & assert
-        assertThatThrownBy(() -> studyRoom.writeLinkArticle(accessor, new LinkContent("link url", "설명")))
-                .isInstanceOf(UneditableArticleException.class);
-    }
-
-    private static Stream<Arguments> provideNonAccessibleAccessorForLinkArticle() {
-        return Stream.of(
-                Arguments.of(new Accessor(1L, 2L)), // studyId가 잘못된 경우
-                Arguments.of(new Accessor(2L, 1L)) // 스터디에 참여하지 않은 접근자
         );
     }
 

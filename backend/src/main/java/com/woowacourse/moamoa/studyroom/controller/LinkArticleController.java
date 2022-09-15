@@ -47,9 +47,9 @@ public class LinkArticleController {
     public ResponseEntity<Void> createLink(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
-            @Valid @RequestBody final LinkArticleRequest linkArticleRequest
+            @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        final Long id = articleService.createArticle(memberId, studyId, linkArticleRequest).getId();
+        final Long id = articleService.createArticle(memberId, studyId, articleRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -58,9 +58,9 @@ public class LinkArticleController {
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
-            @Valid @RequestBody final LinkArticleRequest linkArticleRequest
+            @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        articleService.updateArticle(memberId, studyId, linkId, linkArticleRequest);
+        articleService.updateArticle(memberId, studyId, linkId, articleRequest);
         return ResponseEntity.noContent().build();
     }
 
