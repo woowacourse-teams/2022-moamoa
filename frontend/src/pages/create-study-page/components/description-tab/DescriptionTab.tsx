@@ -15,12 +15,12 @@ import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import MetaBox from '@components/meta-box/MetaBox';
 import Textarea from '@components/textarea/Textarea';
 
-const studyDescriptionTabIds = {
+const tabMode = {
   write: 'write',
   preview: 'preview',
 };
 
-type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds];
+type TabIds = typeof tabMode[keyof typeof tabMode];
 
 export type DescriptionTabProps = {
   originalDescription?: StudyDetail['description'];
@@ -37,7 +37,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
 
   const [description, setDescription] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
+  const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
 
   const isValid = !errors[DESCRIPTION]?.hasError;
 
@@ -48,14 +48,14 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
   useEffect(() => {
     const field = getField(DESCRIPTION);
     if (!field) return;
-    if (activeTab !== studyDescriptionTabIds.preview) return;
+    if (activeTab !== tabMode.preview) return;
 
     const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
   const renderTabContent = () => {
-    const isWriteTab = activeTab === studyDescriptionTabIds.write;
+    const isWriteTab = activeTab === tabMode.write;
 
     return (
       <>
@@ -96,15 +96,15 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
           <ButtonGroup gap="8px">
             <ToggleButton
               variant="secondary"
-              checked={activeTab === studyDescriptionTabIds.write}
-              onClick={handleNavItemClick(studyDescriptionTabIds.write)}
+              checked={activeTab === tabMode.write}
+              onClick={handleNavItemClick(tabMode.write)}
             >
               Write
             </ToggleButton>
             <ToggleButton
               variant="secondary"
-              checked={activeTab === studyDescriptionTabIds.preview}
-              onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
+              checked={activeTab === tabMode.preview}
+              onClick={handleNavItemClick(tabMode.preview)}
             >
               Preview
             </ToggleButton>

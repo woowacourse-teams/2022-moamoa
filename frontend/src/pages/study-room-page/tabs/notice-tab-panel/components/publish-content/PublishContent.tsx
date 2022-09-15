@@ -13,9 +13,9 @@ import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import MetaBox from '@components/meta-box/MetaBox';
 import Textarea from '@components/textarea/Textarea';
 
-type TabIds = typeof publishContentTabIds[keyof typeof publishContentTabIds];
+type TabIds = typeof tabMode[keyof typeof tabMode];
 
-const publishContentTabIds = {
+const tabMode = {
   write: 'write',
   preview: 'preview',
 };
@@ -31,7 +31,7 @@ const PublishContent = () => {
 
   const [description, setDescription] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<TabIds>(publishContentTabIds.write);
+  const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
 
   const isValid = !errors[CONTENT]?.hasError;
 
@@ -42,14 +42,14 @@ const PublishContent = () => {
   useEffect(() => {
     const field = getField(CONTENT);
     if (!field) return;
-    if (activeTab !== publishContentTabIds.preview) return;
+    if (activeTab !== tabMode.preview) return;
 
     const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
   const renderTabContent = () => {
-    const isWriteTab = activeTab === publishContentTabIds.write;
+    const isWriteTab = activeTab === tabMode.write;
 
     return (
       <>
@@ -88,15 +88,15 @@ const PublishContent = () => {
         <ButtonGroup gap="8px">
           <ToggleButton
             variant="secondary"
-            checked={activeTab === publishContentTabIds.write}
-            onClick={handleNavItemClick(publishContentTabIds.write)}
+            checked={activeTab === tabMode.write}
+            onClick={handleNavItemClick(tabMode.write)}
           >
             Write
           </ToggleButton>
           <ToggleButton
             variant="secondary"
-            checked={activeTab === publishContentTabIds.preview}
-            onClick={handleNavItemClick(publishContentTabIds.preview)}
+            checked={activeTab === tabMode.preview}
+            onClick={handleNavItemClick(tabMode.preview)}
           >
             Preview
           </ToggleButton>
