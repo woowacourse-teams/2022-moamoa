@@ -67,8 +67,9 @@ class ReviewTest {
         final AssociatedStudy associatedStudy = new AssociatedStudy(1L);
         final Reviewer reviewer = new Reviewer(writtenMemberId);
         final Review review = new Review(associatedStudy, reviewer, "content");
+        final AssociatedStudy unassociatedStudy = new AssociatedStudy(2L);
 
-        assertThatThrownBy(() -> review.delete(new AssociatedStudy(2L), reviewer))
+        assertThatThrownBy(() -> review.delete(unassociatedStudy, reviewer))
                 .isInstanceOf(ReviewNotWrittenInTheStudyException.class);
     }
 }
