@@ -20,7 +20,7 @@ export const PreviewMeatballMenuContainer = styled.div`
     height: 30px;
 
     background-color: ${theme.colors.white};
-    border-radius: 50%;
+    border-radius: ${theme.radius.circle};
     transition: background-color 0.3s ease;
 
     &:hover,
@@ -52,13 +52,15 @@ export const DropBoxButtonList = styled.ul`
 `;
 
 export const DropBoxButton = styled.button`
-  padding: 10px;
+  ${({ theme }) => css`
+    padding: 10px;
 
-  background-color: transparent;
-  border: none;
-  white-space: nowrap;
+    background-color: transparent;
+    border: none;
+    white-space: nowrap;
 
-  &:hover {
-    font-weight: 600;
-  }
+    &:hover {
+      font-weight: ${theme.fontWeight.bold};
+    }
+  `}
 `;

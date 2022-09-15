@@ -10,7 +10,7 @@ export const Card = styled.div`
     overflow: hidden;
 
     border: 3px solid ${theme.colors.primary.base};
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
     box-shadow: 8px 8px 0 0 ${theme.colors.secondary.dark};
 
     :hover {
@@ -41,20 +41,26 @@ const onelineEllipsis = css`
 `;
 
 export const Title = styled.h4`
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    margin-bottom: 20px;
 
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 24px;
+    font-size: ${theme.fontSize.xl};
+    font-weight: ${theme.fontWeight.bold};
+    line-height: 24px;
+  `}
+
   ${onelineEllipsis};
 `;
 
 export const Excerpt = styled.p`
-  width: 100%;
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    width: 100%;
+    margin-bottom: 20px;
 
-  font-size: 20px;
-  line-height: 20px;
+    font-size: ${theme.fontSize.lg};
+    line-height: 20px;
+  `}
+
   ${onelineEllipsis};
 `;
 

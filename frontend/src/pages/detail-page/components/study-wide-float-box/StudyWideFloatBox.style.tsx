@@ -11,27 +11,31 @@ export const StudyWideFloatBox = styled.div`
 
     line-height: 24px;
     background: ${theme.colors.white};
-    border-radius: 25px;
+    border-radius: ${theme.radius.xl};
   `}
 `;
 
 export const StudyInfo = styled.div``;
 
 export const EnrollmentEndDate = styled.p`
-  margin-bottom: 8px;
+  ${({ theme }) => css`
+    margin-bottom: 8px;
 
-  & > span {
-    font-size: 20px;
-    font-weight: 700;
-  }
+    & > span {
+      font-size: ${theme.fontSize.lg};
+      font-weight: ${theme.fontWeight.bold};
+    }
+  `}
 `;
 
 export const MemberCount = styled.p`
-  display: flex;
-  justify-content: space-between;
-  column-gap: 16px;
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+    column-gap: 16px;
 
-  & > span {
-    font-size: 16px;
-  }
+    & > span {
+      font-size: ${theme.fontSize.md};
+    }
+  `}
 `;

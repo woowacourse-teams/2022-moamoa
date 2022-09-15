@@ -14,7 +14,7 @@ export const DropDownBox = styled.div<Pick<DropDownBoxProps, 'top' | 'bottom' | 
     white-space: nowrap;
 
     border: 1px solid ${theme.colors.secondary.dark};
-    border-radius: 5px;
+    border-radius: ${theme.radius.xs};
     background-color: ${theme.colors.secondary.light};
 
     transform-origin: top;

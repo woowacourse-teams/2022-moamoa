@@ -8,7 +8,7 @@ export const Select = styled(Input.withComponent('select'))`
     line-height: 2;
     border-color: ${theme.colors.secondary.base};
     box-shadow: none;
-    border-radius: 3px;
+    border-radius: ${theme.radius.xs};
     padding: 0 24px 0 8px;
     min-height: 30px;
     max-width: 25rem;

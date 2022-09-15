@@ -4,10 +4,12 @@ import styled from '@emotion/styled';
 import { mqDown } from '@utils';
 
 export const SectionTitle = styled.h3`
-  margin-bottom: 20px;
+  ${({ theme }) => css`
+    margin-bottom: 20px;
 
-  font-size: 24px;
-  font-weight: 700;
+    font-size: ${theme.fontSize.xl};
+    font-weight: ${theme.fontWeight.bold};
+  `}
 `;
 
 export const MyStudyCardListSection = styled.section`

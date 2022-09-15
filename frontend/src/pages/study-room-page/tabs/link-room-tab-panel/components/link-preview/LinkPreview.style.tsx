@@ -22,11 +22,13 @@ export const PreviewContainer = styled.div`
 `;
 
 export const PreviewImageContainer = styled.div`
-  height: 140px;
-  margin-bottom: 8px;
-  overflow: hidden;
+  ${({ theme }) => css`
+    height: 140px;
+    margin-bottom: 8px;
+    overflow: hidden;
 
-  border-radius: 15px;
+    border-radius: ${theme.radius.md};
+  `}
 `;
 
 export const PreviewDomain = styled.div`
@@ -39,15 +41,15 @@ export const PreviewDomain = styled.div`
     padding: 4px;
 
     background-color: ${theme.colors.white};
-    border-radius: 15px;
+    border-radius: ${theme.radius.md};
     text-align: center;
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.2s ease, opacity 0.2s ease;
 
     & > span {
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: ${theme.fontWeight.bold};
+      font-size: ${theme.fontSize.sm};
     }
   `}
 
@@ -59,9 +61,11 @@ export const PreviewContentContainer = styled.div`
 `;
 
 export const PreviewTitle = styled.p`
-  margin-bottom: 8px;
+  ${({ theme }) => css`
+    margin-bottom: 8px;
 
-  font-weight: 700;
+    font-weight: ${theme.fontWeight.bold};
+  `}
 
   ${onelineEllipsis}
 `;
@@ -70,7 +74,7 @@ export const PreviewDescription = styled.p`
   ${({ theme }) => css`
     margin-bottom: 8px;
 
-    font-size: 14px;
+    font-size: ${theme.fontSize.sm};
     color: ${theme.colors.secondary.dark};
   `}
 

@@ -14,10 +14,10 @@ const StudyRoomPage: React.FC = () => {
   const { tabs, activeTab, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
   const { data, isError, isSuccess } = userRoleQueryResult;
 
-  // if (isSuccess && data.role === 'NON_MEMBER') {
-  //   alert('잘못된 접근입니다.');
-  //   return <Navigate to={PATH.MAIN} replace={true} />;
-  // }
+  if (isSuccess && data.role === 'NON_MEMBER') {
+    alert('잘못된 접근입니다.');
+    return <Navigate to={PATH.MAIN} replace={true} />;
+  }
 
   if (isError) {
     alert('오류가 발생했습니다.');

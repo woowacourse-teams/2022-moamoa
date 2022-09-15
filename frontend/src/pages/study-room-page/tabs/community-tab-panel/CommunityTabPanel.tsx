@@ -63,10 +63,7 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   return (
     <Wrapper>
-      <div>
-        <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
-        <div>{render()}</div>
-      </div>
+      <div>{render()}</div>
     </Wrapper>
   );
 };

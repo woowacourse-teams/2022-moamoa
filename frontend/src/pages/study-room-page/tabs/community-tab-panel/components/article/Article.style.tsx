@@ -17,9 +17,11 @@ export const Header = styled.div`
 export const Main = styled.div``;
 
 export const Title = styled.h1`
-  font-size: 30px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.xxl};
+    padding-top: 20px;
+    padding-bottom: 20px;
+  `}
 `;
 
 export const Content = styled.div`

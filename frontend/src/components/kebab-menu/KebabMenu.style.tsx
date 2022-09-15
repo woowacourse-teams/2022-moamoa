@@ -19,7 +19,7 @@ export const KebabMenu = styled.ul`
     li {
       width: 4px;
       height: 4px;
-      border-radius: 50%;
+      border-radius: ${theme.radius.circle};
       background-color: ${theme.colors.secondary.dark};
     }
   `}

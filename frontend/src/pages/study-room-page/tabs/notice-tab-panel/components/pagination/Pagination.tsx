@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import * as S from '@study-room-page/tabs/notice-tab-panel/components/pagination/Pagination.style';
 
@@ -16,7 +16,7 @@ const range = (start: number, end: number): Array<number> => {
 const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberButtonClick }) => {
   const [page, setPage] = useState<number>(defaultPage);
 
-  const handleNumButtonClick = (num: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNumButtonClick = (num: number) => () => {
     setPage(num);
     onNumberButtonClick(num);
   };

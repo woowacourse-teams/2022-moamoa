@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const LetterCounter = styled.div`
   ${({ theme }) => css`
-    font-size: 12px;
+    font-size: ${theme.fontSize.sm};
     color: ${theme.colors.secondary.dark};
     & > span {
       color: ${theme.colors.secondary.dark};
