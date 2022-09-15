@@ -25,7 +25,7 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
     register,
   } = useFormContext();
 
-  const isExcerptValid = !errors[EXCERPT]?.hasError;
+  const isValid = !errors[EXCERPT]?.hasError;
 
   const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
 
@@ -45,7 +45,7 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
             <Textarea
               id={EXCERPT}
               placeholder="*한줄소개를 입력해주세요"
-              invalid={!isExcerptValid}
+              invalid={!isValid}
               defaultValue={originalExcerpt}
               {...register(EXCERPT, {
                 validate: (val: string) => {

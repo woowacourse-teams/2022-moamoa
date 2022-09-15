@@ -53,7 +53,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   } = useForm();
   const { mutateAsync } = usePutReview();
 
-  const isReviewValid = !errors[REVIEW_EDIT]?.hasError;
+  const isValid = !errors[REVIEW_EDIT]?.hasError;
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -91,7 +91,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
           <Textarea
             id={REVIEW_EDIT}
             placeholder="스터디 후기를 수정해주세요."
-            invalid={!isReviewValid}
+            invalid={!isValid}
             border={false}
             defaultValue={originalContent}
             {...register(REVIEW_EDIT, {

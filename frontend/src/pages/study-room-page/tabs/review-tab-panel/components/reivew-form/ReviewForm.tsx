@@ -39,7 +39,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
   } = useForm();
   const { mutateAsync } = usePostReview();
 
-  const isReviewValid = !errors[REVIEW]?.hasError;
+  const isValid = !errors[REVIEW]?.hasError;
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -77,7 +77,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
           <Textarea
             id={REVIEW}
             placeholder="스터디 후기를 작성해주세요."
-            invalid={!isReviewValid}
+            invalid={!isValid}
             border={false}
             {...register(REVIEW, {
               validate: (val: string) => {

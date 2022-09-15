@@ -22,7 +22,7 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
 
   const { errors } = formState;
-  const isTitleValid = !errors[TITLE]?.hasError;
+  const isValid = !errors[TITLE]?.hasError;
 
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
@@ -39,7 +39,7 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
           id={TITLE}
           type="text"
           placeholder="*스터디 이름"
-          invalid={!isTitleValid}
+          invalid={!isValid}
           fluid
           defaultValue={originalTitle}
           fontSize="xl"
