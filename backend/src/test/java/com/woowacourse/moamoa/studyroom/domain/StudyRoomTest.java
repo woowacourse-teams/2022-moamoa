@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class StudyRoomTest {
+class StudyRoomTest {
 
     @ParameterizedTest
     @DisplayName("스터디에 참여한 참가자는 커뮤니티 게시글을 작성할 수 있다.")
