@@ -24,7 +24,7 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
     <S.StudyCardContainer>
       <Card height="280px">
         <div css={tw`mb-16 flex-grow overflow-hidden`}>
-          <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} width="100%" height="100%" />
+          <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} />
         </div>
         <div>
           <Card.Heading>{title}</Card.Heading>

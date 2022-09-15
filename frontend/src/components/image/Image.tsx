@@ -8,11 +8,19 @@ export type ImageProps = {
   shape: 'circular' | 'rectangular';
   src?: string | null;
   alt: string;
-  width: CssLength;
-  height: CssLength;
+  width?: CssLength;
+  height?: CssLength;
+  objectFit?: 'cover' | 'fill' | 'contain' | 'none' | 'scale-down';
 };
 
-const Image: React.FC<ImageProps> = ({ shape = 'rectangular', src, alt, width, height }) => {
+const Image: React.FC<ImageProps> = ({
+  shape = 'rectangular',
+  src,
+  alt,
+  width = '100%',
+  height = '100%',
+  objectFit = 'cover',
+}) => {
   const handleImageError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = notFoundImage;
   };
@@ -25,6 +33,7 @@ const Image: React.FC<ImageProps> = ({ shape = 'rectangular', src, alt, width, h
       shape={shape}
       width={width}
       height={height}
+      objectFit={objectFit}
     />
   );
 };

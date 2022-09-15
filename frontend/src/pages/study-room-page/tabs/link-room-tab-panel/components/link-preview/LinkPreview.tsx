@@ -20,13 +20,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
     <S.PreviewContainer>
       <Card height="240px">
         <div css={tw`mb-16 flex-grow overflow-hidden`}>
-          <Image
-            shape="rectangular"
-            alt={`${previewResult.title} 썸네일`}
-            src={previewResult.imageUrl}
-            width="100%"
-            height="100%"
-          />
+          <Image shape="rectangular" alt={`${previewResult.title} 썸네일`} src={previewResult.imageUrl} />
         </div>
         <S.PreviewDomain>
           <RightUpArrowIcon />

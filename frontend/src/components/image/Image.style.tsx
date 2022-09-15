@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 
 import { type ImageProps } from '@components/image/Image';
 
-type StyledImageProps = Pick<ImageProps, 'shape' | 'width' | 'height'>;
+type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'width' | 'height' | 'objectFit'>>;
 
 export const Image = styled.img<StyledImageProps>`
-  ${({ theme, shape, width, height }) => css`
+  ${({ theme, shape, width, height, objectFit }) => css`
     width: ${width};
     height: ${height};
 
-    object-fit: cover;
+    object-fit: ${objectFit};
     object-position: center;
 
     border-radius: ${theme.radius.sm};

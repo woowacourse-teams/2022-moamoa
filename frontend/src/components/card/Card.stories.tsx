@@ -17,8 +17,6 @@ const ImageHeadingContent: Story<CardProps> = props => (
         shape="rectangular"
         alt="어떤 이미지"
         src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-        width="100%"
-        height="100%"
       />
     </div>
     <div>
