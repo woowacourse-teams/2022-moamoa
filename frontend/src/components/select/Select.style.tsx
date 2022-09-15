@@ -3,13 +3,13 @@ import styled from '@emotion/styled';
 
 import { type SelectProps } from '@components/select/Select';
 
-type StyledSelectProps = Required<Pick<SelectProps, 'fluid'>>;
+type StyleSelectProps = Required<Pick<SelectProps, 'fluid'>>;
 
-export const Select = styled.select<StyledSelectProps>`
+export const Select = styled.select<StyleSelectProps>`
   ${({ theme, fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     min-height: 30px;
-    max-width: 25rem;
+    max-width: 400px;
     padding: 4px 8px;
 
     border-radius: ${theme.radius.sm};
