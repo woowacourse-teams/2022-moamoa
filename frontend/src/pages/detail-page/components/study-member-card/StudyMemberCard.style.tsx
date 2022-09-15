@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import { itemHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
 export const StudyMemberCard = styled.div`
-  ${itemHoverTransitionStyle()}
+  ${applyHoverTransitionStyle()}
 `;

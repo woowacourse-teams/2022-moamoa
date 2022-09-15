@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { itemHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
 import { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
@@ -26,6 +26,6 @@ export const MyStudyCard = styled.div<StyledMyStudyCardProps>`
 
     ${done && doneStyle(theme)}
 
-    ${itemHoverTransitionStyle()}
+    ${applyHoverTransitionStyle()}
   `}
 `;

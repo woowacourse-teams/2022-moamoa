@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
-import { itemHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
 export const StudyReviewCard = styled.div`
   height: 100%;
   max-height: 150px;
   padding: 8px;
 
-  ${itemHoverTransitionStyle()}
+  ${applyHoverTransitionStyle()}
 `;
 
 export const Review = styled.p`

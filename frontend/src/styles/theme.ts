@@ -69,7 +69,7 @@ export const theme = {
   },
 };
 
-export const itemHoverTransitionStyle = () => css`
+export const applyHoverTransitionStyle = () => css`
   transition: transform 0.2s ease;
 
   :hover {
