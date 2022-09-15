@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.studyroom.domain.Article;
 import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
@@ -33,7 +33,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@AuthenticatedMemberId final Long id,
+    public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
@@ -44,7 +44,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{article-id}")
-    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMemberId final Long id,
+    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
                                                       @PathVariable("study-id") final Long studyId,
                                                       @PathVariable("article-type") final ArticleType articleType,
                                                       @PathVariable("article-id") final Long articleId
@@ -54,7 +54,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("{article-id}")
-    public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
+    public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
                                               @PathVariable("article-type") final ArticleType type
@@ -64,7 +64,7 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMemberId final Long id,
+    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
                                                                 @PathVariable("study-id") final Long studyId,
                                                                 @PathVariable("article-type") final ArticleType type,
                                                                 @PageableDefault final Pageable pageable
@@ -74,7 +74,7 @@ public class ArticleController {
     }
 
     @PutMapping("/{article-id}")
-    public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
+    public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
                                               @PathVariable("article-type") final ArticleType type,

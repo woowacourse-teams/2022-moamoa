@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class StudyParticipantController {
 
     @PostMapping
     public ResponseEntity<Void> participateStudy(
-            @AuthenticatedMemberId final Long memberId, @PathVariable("study-id") final Long studyId
+            @AuthenticatedMember final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
         studyParticipantService.participateStudy(memberId, studyId);
         return ResponseEntity.noContent().build();
@@ -27,7 +27,7 @@ public class StudyParticipantController {
 
     @DeleteMapping
     public ResponseEntity<Void> leaveStudy(
-            @AuthenticatedMemberId final Long memberId, @PathVariable("study-id") final Long studyId
+            @AuthenticatedMember final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
         studyParticipantService.leaveStudy(memberId, studyId);
         return ResponseEntity.noContent().build();

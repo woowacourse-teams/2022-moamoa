@@ -12,7 +12,7 @@ public interface TokenProvider {
 
     boolean validateToken(final String token);
 
-    String recreationAccessToken(final Long memberId, final String refreshToken);
+    String recreationAccessToken(final Long githubId, final String refreshToken);
 
     long getValidityInMilliseconds();
 }

@@ -14,12 +14,12 @@ import lombok.ToString;
 @ToString
 public class AuthorResponse {
 
-    private Long id;
+    private long id;
     private String username;
     private String imageUrl;
     private String profileUrl;
 
     public AuthorResponse(MemberData memberData) {
-        this(memberData.getId(), memberData.getUsername(), memberData.getImageUrl(), memberData.getProfileUrl());
+        this(memberData.getGithubId(), memberData.getUsername(), memberData.getImageUrl(), memberData.getProfileUrl());
     }
 }

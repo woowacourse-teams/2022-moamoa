@@ -89,7 +89,7 @@ class MyStudyServiceTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void findMyStudies() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getGithubId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -102,6 +102,10 @@ class MyStudyServiceTest {
                 .collect(toList());
 
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
+
+        for (MyStudyResponse study : studies) {
+            System.out.println("study.getTitle() = " + study.getTitle());
+        }
 
         assertThat(studies)
                 .hasSize(4)
@@ -116,12 +120,12 @@ class MyStudyServiceTest {
 
         assertThat(owners)
                 .hasSize(4)
-                .extracting("id", "username", "imageUrl", "profileUrl")
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags).hasSize(4);
@@ -130,7 +134,7 @@ class MyStudyServiceTest {
     @DisplayName("태그가 없는 스터디를 조회한다.")
     @Test
     void findMyStudiesWithoutTags() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getGithubId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -167,15 +171,15 @@ class MyStudyServiceTest {
 
         assertThat(owners)
                 .hasSize(7)
-                .extracting("id", "username", "imageUrl", "profileUrl")
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags.get(4)).isEmpty();
@@ -201,8 +205,7 @@ class MyStudyServiceTest {
     @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 스터디 조회 시 예외 발생")
     @Test
     void getMemberRoleNotExistStudy() {
-        final Long memberId = 짱구.getId();
-        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(memberId, 10L))
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(1L, 10L))
                 .isInstanceOf(StudyNotFoundException.class)
                 .hasMessageContaining("스터디가 존재하지 않습니다.");
     }

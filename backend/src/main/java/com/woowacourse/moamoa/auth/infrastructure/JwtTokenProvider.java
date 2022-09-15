@@ -93,7 +93,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String recreationAccessToken(final Long memberId, final String refreshToken) {
+    public String recreationAccessToken(final Long githubId, final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -102,7 +102,7 @@ public class JwtTokenProvider implements TokenProvider {
         Date tokenExpirationDate = claims.getBody().getExpiration();
         validateTokenExpiration(tokenExpirationDate);
 
-        return createAccessToken(memberId);
+        return createAccessToken(githubId);
     }
 
     private void validateTokenExpiration(Date tokenExpirationDate) {
@@ -111,11 +111,11 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
-    private String createAccessToken(final Long memberId) {
+    private String createAccessToken(final Long githubId) {
         final Date now = new Date();
 
         return Jwts.builder()
-                .setSubject(Long.toString(memberId))
+                .setSubject(Long.toString(githubId))
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + validityInMilliseconds))
                 .signWith(key, SignatureAlgorithm.HS256)
