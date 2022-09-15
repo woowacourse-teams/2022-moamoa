@@ -15,7 +15,9 @@ import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
+import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,12 +55,6 @@ public abstract class WebMVCTest {
 
     @MockBean
     protected NativeWebRequest nativeWebRequest;
-
-    @MockBean
-    protected ArticleService<LinkArticle, LinkContent> articleService1;
-
-    @MockBean
-    protected ArticleService<CommunityArticle, CommunityContent> articleService2;
 
     @BeforeEach
     void setUp() {

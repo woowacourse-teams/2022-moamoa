@@ -1,6 +1,9 @@
 package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.CommunityArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
@@ -11,16 +14,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class CommunityArticleService {
+public class CommunityArticleService extends AbstractArticleService<CommunityArticle, CommunityContent> {
 
     private final CommunityArticleDao communityArticleDao;
 
-    public CommunityArticleService(final CommunityArticleDao communityArticleDao) {
+    public CommunityArticleService(final StudyRoomRepository studyRoomRepository, JpaRepository<CommunityArticle, Long> articleRepository,
+                                   final CommunityArticleDao communityArticleDao) {
+        super(studyRoomRepository, articleRepository, CommunityArticle.class);
         this.communityArticleDao = communityArticleDao;
     }
 

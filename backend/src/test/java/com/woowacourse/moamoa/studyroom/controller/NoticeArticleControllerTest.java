@@ -12,19 +12,20 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import java.time.LocalDate;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -49,6 +50,9 @@ class NoticeArticleControllerTest {
     @Autowired
     private NoticeArticleDao noticeArticleDao;
 
+    @Autowired
+    private JpaRepository<NoticeArticle, Long> articleRepository;
+
     private StudyService studyService;
     private NoticeArticleController sut;
 
@@ -56,7 +60,8 @@ class NoticeArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new NoticeArticleController(
-                new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao));
+                new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao)
+        );
     }
 
     @DisplayName("커뮤니티 게시글을 작성한다.")
@@ -67,7 +72,7 @@ class NoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
+        NoticeArticleRequest request = new NoticeArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
@@ -78,13 +83,10 @@ class NoticeArticleControllerTest {
 
         NoticeArticle actualArticle = noticeArticleRepository.findById(articleId)
                 .orElseThrow();
-        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
-        assertThat(actualArticle).isEqualTo(
-                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
-        );
+        assertThat(actualArticle.getContent()).isEqualTo(new NoticeContent("게시글 제목", "게시글 내용"));
     }
 
     @DisplayName("커뮤니티 공지사항을 작성한다.")
@@ -95,7 +97,7 @@ class NoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
+        NoticeArticleRequest request = new NoticeArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         ResponseEntity<Void> response = sut.createArticle(owner.getId(), study.getId(), request);
@@ -105,13 +107,9 @@ class NoticeArticleControllerTest {
         Long articleId = Long.valueOf(location.replaceAll("/api/studies/\\d+/notice/articles/", ""));
         NoticeArticle actualArticle = noticeArticleRepository.findById(articleId).orElseThrow();
 
-        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
-
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(location).matches("/api/studies/\\d+/notice/articles/\\d+");
-        assertThat(actualArticle).isEqualTo(
-                new NoticeArticle(articleId, "게시글 제목", "게시글 내용", owner.getId(), expectStudyRoom)
-        );
+        assertThat(actualArticle.getContent()).isEqualTo(new NoticeContent("게시글 제목", "게시글 내용"));
     }
 
     @DisplayName("스터디가 없는 경우 게시글 작성 시 예외가 발생한다.")
@@ -121,7 +119,7 @@ class NoticeArticleControllerTest {
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
         final Long memberId = member.getId();
-        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "내용");
+        final NoticeArticleRequest articleRequest = new NoticeArticleRequest("제목", "내용");
 
         // act & assert
         assertThatThrownBy(() -> sut.createArticle(memberId, 1L, articleRequest))

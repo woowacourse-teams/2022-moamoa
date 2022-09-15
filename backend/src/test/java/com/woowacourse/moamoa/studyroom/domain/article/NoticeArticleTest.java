@@ -25,16 +25,14 @@ class NoticeArticleTest {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final NoticeArticle sut = studyRoom.writeNoticeArticle(accessor, "제목", "내용");
+        final NoticeContent noticeContent = new NoticeContent("제목", "내용");
+        final NoticeArticle sut = noticeContent.createArticle(studyRoom, accessor);
 
         // act
-        sut.update(accessor, "수정된 제목", "수정된 내용");
+        sut.update(accessor, new NoticeContent("수정된 제목", "수정된 내용"));
 
         // assert
-        assertAll(
-                () -> assertThat(sut.getTitle()).isEqualTo("수정된 제목"),
-                () -> assertThat(sut.getContent()).isEqualTo("수정된 내용")
-        );
+        assertThat(sut.getContent()).isEqualTo(new NoticeContent("수정된 제목", "수정된 내용"));
     }
 
     @ParameterizedTest
@@ -44,10 +42,10 @@ class NoticeArticleTest {
         final Member owner = createMember(1L);
         final Member participant = createMember(2L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
-        final NoticeArticle sut = studyRoom.writeNoticeArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final NoticeContent noticeContent = new NoticeContent("제목", "내용");
+        final NoticeArticle sut = noticeContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
-        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), "수정된 제목", "수정된 설명"))
+        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new NoticeContent("수정된 제목", "수정된 설명")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -56,9 +54,8 @@ class NoticeArticleTest {
     void delete() {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
-
-        final NoticeArticle sut = studyRoom.writeNoticeArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final NoticeContent noticeContent = new NoticeContent("제목", "내용");
+        final NoticeArticle sut = noticeContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         sut.delete(new Accessor(1L, 1L));
 
@@ -72,9 +69,8 @@ class NoticeArticleTest {
         final Member owner = createMember(1L);
         final Member participant = createMember(2L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
-
-        final NoticeArticle sut = studyRoom.writeNoticeArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "제목", "내용");
+        final NoticeContent noticeContent = new NoticeContent("제목", "내용");
+        final NoticeArticle sut = noticeContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
 
         assertThatThrownBy(() -> sut.delete(new Accessor(memberId, studyId)))
                 .isInstanceOf(UneditableArticleException.class);

@@ -12,12 +12,14 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -49,6 +52,9 @@ class GettingNoticeArticleControllerTest {
     @Autowired
     private NoticeArticleDao noticeArticleDao;
 
+    @Autowired
+    private JpaRepository<NoticeArticle, Long> articleRepository;
+
     private StudyService studyService;
     private NoticeArticleController sut;
     private NoticeArticleService noticeArticleService;
@@ -56,7 +62,7 @@ class GettingNoticeArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        noticeArticleService = new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao);
         sut = new NoticeArticleController(noticeArticleService);
     }
 
@@ -68,7 +74,7 @@ class GettingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
-        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
+        NoticeArticleRequest request = new NoticeArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
 
         //act

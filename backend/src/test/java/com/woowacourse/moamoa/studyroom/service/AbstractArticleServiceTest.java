@@ -18,6 +18,7 @@ import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @RepositoryTest
-class ArticleServiceTest {
+class AbstractArticleServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -44,17 +45,19 @@ class ArticleServiceTest {
     private JpaRepository<LinkArticle, Long> articleRepository;
 
     @Autowired
+    private LinkArticleDao linkArticleDao;
+
+    @Autowired
     private EntityManager entityManager;
 
     private StudyService studyService;
 
-    private ArticleService<LinkArticle, LinkContent> sut;
+    private AbstractArticleService<LinkArticle, LinkContent> sut;
 
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-
-        sut = new ArticleService<>(studyRoomRepository, articleRepository);
+        sut = new LinkArticleService(studyRoomRepository, articleRepository, linkArticleDao);
     }
 
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유를 할 수 없다.")

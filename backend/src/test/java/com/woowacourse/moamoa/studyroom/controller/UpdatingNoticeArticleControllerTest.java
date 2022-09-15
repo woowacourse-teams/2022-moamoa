@@ -11,21 +11,22 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import java.time.LocalDate;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -50,6 +51,9 @@ class UpdatingNoticeArticleControllerTest {
     @Autowired
     private NoticeArticleDao noticeArticleDao;
 
+    @Autowired
+    private JpaRepository<NoticeArticle, Long> articleRepository;
+
     private StudyService studyService;
     private NoticeArticleController sut;
     private NoticeArticleService noticeArticleService;
@@ -57,8 +61,7 @@ class UpdatingNoticeArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        noticeArticleService = new NoticeArticleService(studyRoomRepository,
-                noticeArticleRepository, noticeArticleDao);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao);
         sut = new NoticeArticleController(noticeArticleService);
     }
 
@@ -70,22 +73,18 @@ class UpdatingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(owner.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         NoticeArticle article = noticeArticleService
-                .createArticle(owner.getId(), study.getId(), new CommunityArticleRequest("제목", "내용"));
+                .createArticle(owner.getId(), study.getId(), new NoticeArticleRequest("제목", "내용"));
 
         // act
         final ResponseEntity<Void> response = sut
                 .updateArticle(owner.getId(), study.getId(), article.getId(),
-                        new CommunityArticleRequest("제목 수정", "내용 수정"));
+                        new NoticeArticleRequest("제목 수정", "내용 수정"));
 
         // assert
         NoticeArticle actualArticle = noticeArticleRepository.findById(article.getId()).orElseThrow();
 
-        StudyRoom expectStudyRoom = new StudyRoom(study.getId(), owner.getId(), Set.of());
-        NoticeArticle expectArticle = new NoticeArticle(article.getId(), "제목 수정", "내용 수정", owner.getId(),
-                expectStudyRoom);
-
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-        assertThat(actualArticle).isEqualTo(expectArticle);
+        assertThat(actualArticle.getContent()).isEqualTo(new NoticeContent("제목 수정", "내용 수정"));
     }
 
     @DisplayName("게시글이 없는 경우 수정 시 예외가 발생한다.")
@@ -98,7 +97,7 @@ class UpdatingNoticeArticleControllerTest {
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
-        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목 수정", "내용 수정");
+        final NoticeArticleRequest articleRequest = new NoticeArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
         assertThatThrownBy(() ->
@@ -116,14 +115,14 @@ class UpdatingNoticeArticleControllerTest {
         Study study = studyService
                 .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
-        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
+        NoticeArticleRequest request = new NoticeArticleRequest("게시글 제목", "게시글 내용");
         final NoticeArticle article = noticeArticleService
                 .createArticle(member.getId(), study.getId(), request);
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
         final Long articleId = article.getId();
-        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목 수정", "내용 수정");
+        final NoticeArticleRequest articleRequest = new NoticeArticleRequest("제목 수정", "내용 수정");
 
         // act & assert
         assertThatThrownBy(() -> sut.updateArticle(otherId, studyId, articleId, articleRequest))

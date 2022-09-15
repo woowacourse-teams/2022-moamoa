@@ -1,9 +1,11 @@
-package com.woowacourse.moamoa.studyroom.domain;
+package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class StudyRoomTest {
+class NoticeContentTest {
 
     @DisplayName("방장은 공지글을 작성할 수 있다.")
     @Test
@@ -22,9 +24,10 @@ class StudyRoomTest {
         // arrange
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
+        final NoticeContent sut = new NoticeContent("제목", "내용");
 
         // act & assert
-        assertThatCode(() -> studyRoom.writeNoticeArticle(new Accessor(1L, 1L), "제목", "내용"))
+        assertThatCode(() -> sut.createArticle(studyRoom, new Accessor(1L, 1L)))
                 .doesNotThrowAnyException();
     }
 
@@ -36,9 +39,10 @@ class StudyRoomTest {
         final Member owner = createMember(1L);
         final Member participant = createMember(2L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
+        final NoticeContent sut = new NoticeContent("제목", "내용");
 
         // act && assert
-        assertThatThrownBy(() -> studyRoom.writeNoticeArticle(accessor, "제목", "내용"))
+        assertThatThrownBy(() -> sut.createArticle(studyRoom, accessor))
                 .isInstanceOf(UneditableArticleException.class);
     }
 

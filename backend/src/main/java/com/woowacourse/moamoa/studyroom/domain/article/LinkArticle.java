@@ -41,7 +41,7 @@ public class LinkArticle extends BaseEntity implements Article<LinkContent>{
     @Column(nullable = false)
     private boolean deleted;
 
-    public LinkArticle(final StudyRoom studyRoom, final Long authorId, final LinkContent content) {
+    LinkArticle(final StudyRoom studyRoom, final Long authorId, final LinkContent content) {
         this(null, studyRoom, authorId, content);
     }
 

@@ -1,9 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
-import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
@@ -26,12 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LinkArticleController {
 
     private final LinkArticleService linkArticleService;
-    private final ArticleService<LinkArticle, LinkContent> articleService;
 
-    public LinkArticleController(final LinkArticleService linkArticleService,
-                                 final ArticleService<LinkArticle, LinkContent> articleService) {
+    public LinkArticleController(final LinkArticleService linkArticleService) {
         this.linkArticleService = linkArticleService;
-        this.articleService = articleService;
     }
 
     @GetMapping
@@ -49,7 +43,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        final Long id = articleService.createArticle(memberId, studyId, articleRequest).getId();
+        final Long id = linkArticleService.createArticle(memberId, studyId, articleRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -60,7 +54,7 @@ public class LinkArticleController {
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        articleService.updateArticle(memberId, studyId, linkId, articleRequest);
+        linkArticleService.updateArticle(memberId, studyId, linkId, articleRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -70,7 +64,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {
-        articleService.deleteArticle(memberId, studyId, linkId);
+        linkArticleService.deleteArticle(memberId, studyId, linkId);
         return ResponseEntity.noContent().build();
     }
 }

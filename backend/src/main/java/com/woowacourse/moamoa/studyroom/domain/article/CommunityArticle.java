@@ -43,11 +43,11 @@ public class CommunityArticle extends BaseEntity implements Article<CommunityCon
 
     private boolean deleted;
 
-    public CommunityArticle(final StudyRoom studyRoom, final Long authorId, final CommunityContent content) {
+    CommunityArticle(final StudyRoom studyRoom, final Long authorId, final CommunityContent content) {
         this(null, authorId, studyRoom, content);
     }
 
-    public CommunityArticle(final Long id, final Long authorId, final StudyRoom studyRoom,
+    private CommunityArticle(final Long id, final Long authorId, final StudyRoom studyRoom,
                             final CommunityContent content
     ) {
         this.id = id;

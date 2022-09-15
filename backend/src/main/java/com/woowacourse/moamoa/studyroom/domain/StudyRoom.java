@@ -1,11 +1,10 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
-import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Objects;
 import java.util.Set;
@@ -40,14 +39,6 @@ public class StudyRoom {
 
     public boolean isPermittedAccessor(final Accessor accessor) {
         return studyId.equals(accessor.getStudyId()) && permittedParticipants.isPermittedAccessor(accessor);
-    }
-
-    public NoticeArticle writeNoticeArticle(final Accessor accessor, final String title, final String content) {
-        if (isOwner(accessor)) {
-            return new NoticeArticle(title, content, accessor.getMemberId(), this);
-        }
-
-        throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
     }
 
     public Long getId() {

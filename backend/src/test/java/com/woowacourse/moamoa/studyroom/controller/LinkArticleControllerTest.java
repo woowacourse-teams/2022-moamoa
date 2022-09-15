@@ -19,7 +19,7 @@ import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleExcept
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import java.time.LocalDate;
@@ -58,15 +58,12 @@ class LinkArticleControllerTest {
 
     private StudyService studyService;
     private LinkArticleService linkArticleService;
-    private ArticleService<LinkArticle, LinkContent> articleService;
 
     @BeforeEach
     void setUp() {
-        linkArticleService = new LinkArticleService(linkArticleDao);
+        linkArticleService = new LinkArticleService(studyRoomRepository, articleRepository, linkArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-
-        articleService = new ArticleService<>(studyRoomRepository, articleRepository);
-        sut = new LinkArticleController(linkArticleService, articleService);
+        sut = new LinkArticleController(linkArticleService);
     }
 
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유를 할 수 없다.")
@@ -110,7 +107,7 @@ class LinkArticleControllerTest {
         final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
-        final LinkArticle 링크_게시글 = articleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
+        final LinkArticle 링크_게시글 = linkArticleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         entityManager.flush();
         entityManager.clear();
@@ -141,7 +138,7 @@ class LinkArticleControllerTest {
         final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         final LinkArticleRequest articleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
-        final LinkArticle 링크_게시글 = articleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
+        final LinkArticle 링크_게시글 = linkArticleService.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         entityManager.flush();
         entityManager.clear();

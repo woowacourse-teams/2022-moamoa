@@ -8,6 +8,7 @@ import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Table(name = "notice")
 @Where(clause = "deleted = false")
-public class NoticeArticle extends BaseEntity {
+public class NoticeArticle extends BaseEntity implements Article<NoticeContent> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,36 +39,34 @@ public class NoticeArticle extends BaseEntity {
     @JoinColumn(name = "study_id")
     private StudyRoom studyRoom;
 
-    private String title;
-
-    private String content;
+    @Embedded
+    private NoticeContent content;
 
     private boolean deleted;
 
-    public NoticeArticle(final String title, final String content, final Long authorId,
-                  final StudyRoom studyRoom) {
-        this(null, title, content, authorId, studyRoom);
+    NoticeArticle(final Long authorId, final StudyRoom studyRoom, final NoticeContent content) {
+        this(null, authorId, studyRoom, content);
     }
 
-    public NoticeArticle(final Long id, final String title, final String content, final Long authorId,
-                         final StudyRoom studyRoom) {
-        this.title = title;
-        this.content = content;
+    private NoticeArticle(final Long id, final Long authorId,
+                         final StudyRoom studyRoom, final NoticeContent content) {
         this.id = id;
         this.authorId = authorId;
         this.studyRoom = studyRoom;
         this.deleted = false;
+        this.content = content;
     }
 
-    public final void update(final Accessor accessor, final String title, final String content) {
+    @Override
+    public void update(final Accessor accessor, final NoticeContent content) {
         if (!studyRoom.isOwner(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
         }
 
-        this.title = title;
         this.content = content;
     }
 
+    @Override
     public void delete(final Accessor accessor) {
         if (!studyRoom.isOwner(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
@@ -89,13 +88,13 @@ public class NoticeArticle extends BaseEntity {
             return false;
         }
         final NoticeArticle that = (NoticeArticle) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle())
-                && Objects.equals(getContent(), that.getContent()) && Objects.equals(getAuthorId(),
-                that.getAuthorId()) && Objects.equals(getStudyRoom(), that.getStudyRoom());
+        return deleted == that.deleted && Objects.equals(id, that.id) && Objects
+                .equals(authorId, that.authorId) && Objects.equals(studyRoom, that.studyRoom) && Objects
+                .equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getAuthorId(), getStudyRoom());
+        return Objects.hash(id, authorId, studyRoom, content, deleted);
     }
 }
