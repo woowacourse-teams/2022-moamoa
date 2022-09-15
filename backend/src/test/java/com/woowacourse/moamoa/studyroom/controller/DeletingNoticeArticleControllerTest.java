@@ -65,7 +65,7 @@ class DeletingNoticeArticleControllerTest {
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);
@@ -83,7 +83,7 @@ class DeletingNoticeArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
@@ -101,7 +101,7 @@ class DeletingNoticeArticleControllerTest {
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         NoticeArticle article = noticeArticleService.createArticle(member.getId(), study.getId(), request);

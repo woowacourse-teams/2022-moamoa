@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
@@ -32,7 +32,7 @@ public class NoticeArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> createArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
@@ -50,7 +50,7 @@ public class NoticeArticleController {
     }
 
     @DeleteMapping("{article-id}")
-    public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId
     ) {
@@ -67,7 +67,7 @@ public class NoticeArticleController {
     }
 
     @PutMapping("/{article-id}")
-    public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
                                               @Valid @RequestBody final ArticleRequest request

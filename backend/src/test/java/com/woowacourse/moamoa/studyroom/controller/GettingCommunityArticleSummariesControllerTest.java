@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleR
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -71,7 +72,7 @@ class GettingCommunityArticleSummariesControllerTest {
         // arrange
         Member 그린론 = memberRepository.save(new Member(1L, "그린론", "http://image", "http://profile"));
 
-        Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+        Study study = studyService.createStudy(그린론.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         noticeArticleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"));

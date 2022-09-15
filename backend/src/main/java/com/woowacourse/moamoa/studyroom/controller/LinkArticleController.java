@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
@@ -37,7 +37,7 @@ public class LinkArticleController {
 
     @PostMapping
     public ResponseEntity<Void> createLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest linkArticleRequest
     ) {
@@ -47,7 +47,7 @@ public class LinkArticleController {
 
     @PutMapping("/{link-id}")
     public ResponseEntity<Void> updateLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final LinkArticleRequest linkArticleRequest
@@ -58,7 +58,7 @@ public class LinkArticleController {
 
     @DeleteMapping("/{link-id}")
     public ResponseEntity<Void> deleteLink(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {

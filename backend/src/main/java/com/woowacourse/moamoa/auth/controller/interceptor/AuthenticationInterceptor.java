@@ -1,7 +1,6 @@
-package com.woowacourse.moamoa.auth.controller;
+package com.woowacourse.moamoa.auth.controller.interceptor;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
-import com.woowacourse.moamoa.auth.controller.matcher.AuthenticationRequestMatcher;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,30 +16,17 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
-    private final AuthenticationRequestMatcher authenticationRequestMatcher;
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-        
-        if (isPreflight(request)) {
-            return true;
-        }
+        final String token = AuthenticationExtractor.extract(request);
+        validateToken(token, request.getRequestURI());
 
-        if (authenticationRequestMatcher.isRequiredAuth(request)) {
-            final String token = AuthenticationExtractor.extract(request);
-            validateToken(token, request.getRequestURI());
-
-            request.setAttribute("payload", token);
-        }
-
+        request.setAttribute("payload", token);
         return true;
     }
 
-    private boolean isPreflight(HttpServletRequest request) {
-        return HttpMethod.OPTIONS.matches(request.getMethod());
-    }
-
-    private void validateToken(String token, String requestURI) {
+    private void validateToken(final String token, final String requestURI) {
         if (requestURI.equals("/api/auth/refresh") && token != null) {
             return;
         }

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller;
+package com.woowacourse.moamoa.auth.controller.interceptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,6 +8,7 @@ import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -17,16 +18,16 @@ class AuthenticationInterceptorTest extends WebMVCTest {
 
     @DisplayName("Preflight 요청인지 확인한다.")
     @Test
-    void isPreflightRequest() {
+    void isPreflightRequest() throws Exception {
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.OPTIONS.toString());
 
-        assertThat(authenticationInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
+        assertThat(pathMatcherInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
     }
 
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
-    void validateValidToken() {
+    void validateValidToken() throws Exception {
         final String token = tokenProvider.createToken(1L).getAccessToken();
         String bearerToken = "Bearer " + token;
 
@@ -39,7 +40,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
 
         given(httpServletRequest.getAttribute("payload")).willReturn("1");
 
-        assertThat(authenticationInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
+        assertThat(pathMatcherInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
         assertThat(httpServletRequest.getAttribute("payload")).isEqualTo(tokenProvider.getPayload(token));
     }
 
@@ -55,7 +56,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
         given(httpServletRequest.getHeaders(HttpHeaders.AUTHORIZATION))
                 .willReturn(Collections.enumeration(List.of(token)));
 
-        assertThatThrownBy(() -> authenticationInterceptor.preHandle(httpServletRequest, null, null))
+        assertThatThrownBy(() -> pathMatcherInterceptor.preHandle(httpServletRequest, null, null))
                 .isInstanceOf(UnauthorizedException.class)
                         .hasMessageContaining("유효하지 않은 토큰입니다.");
     }

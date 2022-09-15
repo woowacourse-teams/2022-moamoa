@@ -68,7 +68,7 @@ class UpdatingNoticeArticleControllerTest {
         // arrange
         Member owner = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
-                .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(owner.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         NoticeArticle article = noticeArticleService
                 .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"));
 
@@ -94,7 +94,7 @@ class UpdatingNoticeArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
@@ -114,7 +114,7 @@ class UpdatingNoticeArticleControllerTest {
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final NoticeArticle article = noticeArticleService

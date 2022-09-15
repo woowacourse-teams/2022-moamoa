@@ -66,7 +66,7 @@ class LinkArticleControllerTest {
     void createByNotParticipatedMember() {
         final Member 짱구 = memberRepository.save(짱구());
         final Member 디우 = memberRepository.save(디우());
-        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+        final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         entityManager.flush();
         entityManager.clear();
@@ -82,7 +82,7 @@ class LinkArticleControllerTest {
     @Test
     void updateByInvalidLinkId() {
         final Member 짱구 = memberRepository.save(짱구());
-        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+        final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         entityManager.flush();
         entityManager.clear();
@@ -99,7 +99,7 @@ class LinkArticleControllerTest {
         final Member 짱구 = memberRepository.save(짱구());
         final Member 디우 = memberRepository.save(디우());
 
-        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+        final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
         final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
@@ -115,7 +115,7 @@ class LinkArticleControllerTest {
     @Test
     void deleteByInvalidLinkId() {
         final Member 짱구 = memberRepository.save(짱구());
-        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+        final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         entityManager.flush();
         entityManager.clear();
@@ -130,7 +130,7 @@ class LinkArticleControllerTest {
         final Member 짱구 = memberRepository.save(짱구());
         final Member 디우 = memberRepository.save(디우());
 
-        final Study 자바_스터디 = studyService.createStudy(짱구.getGithubId(), 자바_스터디_신청서(LocalDate.now()));
+        final Study 자바_스터디 = studyService.createStudy(짱구.getId(), 자바_스터디_신청서(LocalDate.now()));
 
         final LinkArticleRequest linkArticleRequest = new LinkArticleRequest("https://github.com/sc0116", "링크 설명입니다.");
         final LinkArticle 링크_게시글 = linkArticleService.createLink(짱구.getId(), 자바_스터디.getId(), linkArticleRequest);
