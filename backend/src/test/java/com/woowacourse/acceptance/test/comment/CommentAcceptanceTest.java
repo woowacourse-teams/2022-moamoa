@@ -127,7 +127,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         final List<CommentResponse> comments = response.getComments();
         assertThat(comments).hasSize(2)
                 .extracting("id", "author.githubId", "content")
-                .contains(
+                .containsExactly(
                         tuple(댓글_내용3_ID, 디우_깃허브_ID, "댓글 내용3"),
                         tuple(댓글_내용2_ID, 디우_깃허브_ID, "댓글 내용2")
                 );
