@@ -5,7 +5,7 @@ export type StudyChipProps = {
 };
 
 const StudyChip = ({ isOpen }: StudyChipProps) => {
-  return <Chip variant={isOpen ? 'primary' : 'secondary'}>{isOpen ? '모집중' : '모집완료'}</Chip>;
+  return isOpen ? <Chip variant="primary">모집중</Chip> : <Chip variant="secondary">모집완료</Chip>;
 };
 
 export default StudyChip;
