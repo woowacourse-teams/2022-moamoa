@@ -1,4 +1,4 @@
-import { Theme } from '@emotion/react';
+import { ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/button/toggle-button/ToggleButton.style';
 
@@ -7,7 +7,7 @@ export type ToggleButtonProps = {
   variant?: 'primary' | 'secondary';
   fluid?: boolean;
   checked: boolean;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 

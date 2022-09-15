@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 
-import { Theme } from '@emotion/react';
-
 import { noop } from '@utils';
+
+import { type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/textarea/Textarea.style';
 
@@ -10,7 +10,7 @@ export type TextareaProps = {
   id: string;
   placeholder: string;
   disabled?: boolean;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   fluid?: boolean;
   invalid: boolean;
   border?: boolean;

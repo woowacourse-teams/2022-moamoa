@@ -9,7 +9,7 @@ export type MoreButtonProps = {
 
 const MoreButton: React.FC<MoreButtonProps> = ({ status, foldText, unfoldText, onClick: handleClick }) => {
   return (
-    <TextButton fontSize="md" variant="secondary" onClick={handleClick}>
+    <TextButton variant="secondary" onClick={handleClick}>
       {status === 'fold' ? unfoldText : foldText}
     </TextButton>
   );

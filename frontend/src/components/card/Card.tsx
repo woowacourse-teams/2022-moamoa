@@ -1,8 +1,6 @@
-import { Theme } from '@emotion/react';
-
 import type { CssLength } from '@custom-types';
 
-import { type ThemeColor } from '@styles/theme';
+import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/card/Card.style';
 
@@ -19,14 +17,14 @@ export type CardProps = {
 export type CardHeadingProps = {
   children: React.ReactNode;
   maxLine?: number;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
 };
 
 export type CardContentProps = {
   children: React.ReactNode;
   maxLine?: number;
   align?: 'right' | 'left' | 'center';
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
 };
 
 const Card: React.FC<CardProps> = ({

@@ -1,8 +1,8 @@
-import { type Theme } from '@emotion/react';
-
 import { noop } from '@utils';
 
 import type { CssLength } from '@custom-types';
+
+import { type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/button/box-button/BoxButton.style';
 
@@ -13,7 +13,7 @@ export type BoxButtonProps = {
   fluid?: boolean;
   disabled?: boolean;
   padding?: `${CssLength} ${CssLength}` | CssLength;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -24,7 +24,7 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   fluid = true,
   disabled = false,
   padding = '20px 10px',
-  fontSize = 'lg',
+  fontSize = 'md',
   onClick: handleClick = noop,
 }) => {
   return (

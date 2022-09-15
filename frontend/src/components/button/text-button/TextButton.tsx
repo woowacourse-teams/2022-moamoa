@@ -1,11 +1,11 @@
-import { Theme } from '@emotion/react';
+import { type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/button/text-button/TextButton.style';
 
 export type TextButtonProps = {
   children: React.ReactNode;
   fluid?: boolean;
-  fontSize: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   variant: 'primary' | 'secondary';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };

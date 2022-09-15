@@ -39,9 +39,7 @@ const Head: React.FC<HeadProps> = ({
         </Flex>
         {isOwner && (
           <Link to={PATH.EDIT_STUDY(studyId)}>
-            <TextButton fontSize="md" variant="secondary">
-              수정
-            </TextButton>
+            <TextButton variant="secondary">수정</TextButton>
           </Link>
         )}
       </Flex>

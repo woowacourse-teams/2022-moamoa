@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 
-import { Theme } from '@emotion/react';
-
 import { noop } from '@utils';
+
+import { type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/input/Input.style';
 
@@ -11,7 +11,7 @@ export type InputProps = {
   type: 'text' | 'number' | 'date' | 'url';
   placeholder?: string;
   disabled?: boolean;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   fluid?: boolean;
   invalid?: boolean;
   defaultValue?: string | number;

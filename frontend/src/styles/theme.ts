@@ -1,6 +1,7 @@
-import { css } from '@emotion/react';
+import { type Theme, css } from '@emotion/react';
 
 export type ThemeColor = typeof COLORS[keyof typeof COLORS];
+export type ThemeFontSize = keyof Theme['fontSize'];
 
 export const COLORS = {
   YELLOW200: '#FFD54F',

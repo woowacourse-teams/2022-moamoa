@@ -1,8 +1,8 @@
 import { type ReactSVG } from 'react';
 
-import { type Theme } from '@emotion/react';
-
 import type { CssLength } from '@custom-types';
+
+import { type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/button/icon-button/IconButton.style';
 
@@ -12,7 +12,7 @@ export type IconButtonProps = {
   variant?: 'primary' | 'secondary';
   width: CssLength;
   height: CssLength;
-  fontSize?: keyof Theme['fontSize'];
+  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -22,7 +22,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   variant = 'primary',
   width,
   height,
-  fontSize,
+  fontSize = 'md',
   onClick: handleClick,
 }) => {
   return (
