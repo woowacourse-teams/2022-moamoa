@@ -414,7 +414,7 @@ class StudyTest {
 
     @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
     @Test
-    public void updateStudyWithParticipant() {
+    void updateStudyWithParticipant() {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
@@ -429,5 +429,114 @@ class StudyTest {
         // when & then
         assertThatThrownBy(() -> sut.update(2L, updatingContent, updatingRecruitPlanner, null, updatingStudyPlanner))
                 .isInstanceOf(UnauthorizedException.class);
+    }
+
+    @DisplayName("스터디 RECRUIT 상태 변경 - 모집 인원 수가 찬 경우 RECRUITMENT_END로 변환된다.")
+    @Test
+    void validateRecruitStatusMaxMemberCount() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
+    }
+
+    @DisplayName("스터디 RECRUIT 상태 변경 - 모집 인원 수가 null인 경우 RECRUITMENT_START로 변환된다.")
+    @Test
+    void validateRecruitStatusMaxMemberCountIsNull() {
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(null, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
+    }
+
+    @DisplayName("스터디 RECRUIT 상태 변경 - 모집 마감 날짜가 null인 경우 RECRUITMENT_START로 변환된다.")
+    @Test
+    void validateRecruitStatusEnrollmentEndDateIsNull() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, null);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
+    }
+
+    @DisplayName("스터디 RECRUIT 상태 변경 - 모집 마감 날짜가 null이고, 모집 인원이 마감된 경우 RECRUITMENT_END로 변환된다.")
+    @Test
+    void validateRecruitStatusEnrollmentEndDateIsNullMemberCountIsMax() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, null);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
+    }
+
+    @DisplayName("스터디 RECRUIT 상태 변경 - 모집 마감 날짜가 null이고, 모집 인원이 null 경우 RECRUITMENT_START로 변환된다.")
+    @Test
+    void validateRecruitStatusEnrollmentEndDateIsNullMemberCountIsNull() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, null);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 }
