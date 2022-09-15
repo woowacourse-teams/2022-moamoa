@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
       <>
         {list.map((num, i) => {
           return (
-            <li key={i} css={tw`p-8`}>
+            <div key={i} css={tw`p-8`}>
               {num === '...' ? (
                 <MeatballMenuIcon />
               ) : (
@@ -62,7 +62,7 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
                   {num}
                 </TextButton>
               )}
-            </li>
+            </div>
           );
         })}
       </>

@@ -83,23 +83,19 @@ const Edit = () => {
           <EditContent content={getNoticeArticleQueryResult.data.content} />
           <Divider space="16px" />
           <ButtonGroup justifyContent="space-between">
-            <li>
-              <BoxButton
-                type="button"
-                variant="secondary"
-                padding="4px 8px"
-                fluid={false}
-                fontSize="lg"
-                onClick={handleGoToArticlePageButtonClick}
-              >
-                돌아가기
-              </BoxButton>
-            </li>
-            <li>
-              <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-                수정하기
-              </BoxButton>
-            </li>
+            <BoxButton
+              type="button"
+              variant="secondary"
+              padding="4px 8px"
+              fluid={false}
+              fontSize="lg"
+              onClick={handleGoToArticlePageButtonClick}
+            >
+              돌아가기
+            </BoxButton>
+            <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
+              수정하기
+            </BoxButton>
           </ButtonGroup>
         </Form>
       );

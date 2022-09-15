@@ -10,19 +10,13 @@ export default {
 
 const Template: Story<ButtonGroupProps> = props => (
   <ButtonGroup {...props}>
-    <li>
-      <BoxButton type="button">hi</BoxButton>
-    </li>
-    <li>
-      <BoxButton type="button" fluid variant="secondary">
-        hi
-      </BoxButton>
-    </li>
-    <li>
-      <BoxButton type="button" disabled>
-        hi
-      </BoxButton>
-    </li>
+    <BoxButton type="button">hi</BoxButton>
+    <BoxButton type="button" fluid variant="secondary">
+      hi
+    </BoxButton>
+    <BoxButton type="button" disabled>
+      hi
+    </BoxButton>
   </ButtonGroup>
 );
 

@@ -10,7 +10,7 @@ type StyledButtonGroupProps = MakeRequired<
   'gap' | 'height' | 'orientation' | 'width'
 >;
 
-export const ButtonGroup = styled.ul<StyledButtonGroupProps>`
+export const ButtonGroup = styled.div<StyledButtonGroupProps>`
   ${({ orientation, gap, width, height, justifyContent, alignItems }) => css`
     display: flex;
     ${orientation === 'vertical' && 'flex-direction: column;'}

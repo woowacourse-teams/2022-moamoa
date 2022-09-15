@@ -94,24 +94,20 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
       <MetaBox>
         <MetaBox.Title>
           <ButtonGroup gap="8px">
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === studyDescriptionTabIds.write}
-                onClick={handleNavItemClick(studyDescriptionTabIds.write)}
-              >
-                Write
-              </ToggleButton>
-            </li>
-            <li>
-              <ToggleButton
-                variant="secondary"
-                checked={activeTab === studyDescriptionTabIds.preview}
-                onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
-              >
-                Preview
-              </ToggleButton>
-            </li>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === studyDescriptionTabIds.write}
+              onClick={handleNavItemClick(studyDescriptionTabIds.write)}
+            >
+              Write
+            </ToggleButton>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === studyDescriptionTabIds.preview}
+              onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
+            >
+              Preview
+            </ToggleButton>
           </ButtonGroup>
         </MetaBox.Title>
         <MetaBox.Content>

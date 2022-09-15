@@ -91,24 +91,20 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <li>
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === editContentTabIds.write}
-              onClick={handleNavItemClick(editContentTabIds.write)}
-            >
-              Write
-            </ToggleButton>
-          </li>
-          <li>
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === editContentTabIds.preview}
-              onClick={handleNavItemClick(editContentTabIds.preview)}
-            >
-              Preview
-            </ToggleButton>
-          </li>
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === editContentTabIds.write}
+            onClick={handleNavItemClick(editContentTabIds.write)}
+          >
+            Write
+          </ToggleButton>
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === editContentTabIds.preview}
+            onClick={handleNavItemClick(editContentTabIds.preview)}
+          >
+            Preview
+          </ToggleButton>
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>

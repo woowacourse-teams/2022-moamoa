@@ -74,19 +74,13 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             {isOpenDropBox && (
               <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
                 <ButtonGroup orientation="vertical">
-                  <li>
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
-                      수정
-                    </TextButton>
-                  </li>
-                  <li>
-                    <Divider space="8px" />
-                  </li>
-                  <li>
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
-                      삭제
-                    </TextButton>
-                  </li>
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
+                    수정
+                  </TextButton>
+                  <Divider space="8px" />
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
+                    삭제
+                  </TextButton>
                 </ButtonGroup>
               </DropDownBox>
             )}

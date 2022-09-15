@@ -21,14 +21,13 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
   return (
     <ButtonGroup gap="12px">
       {filters.map(({ id, name, description, category }) => (
-        <li key={id}>
-          <FilterButton
-            name={name}
-            description={description}
-            isChecked={isSelected(id, category.name, selectedFilters)}
-            onClick={handleFilterButtonClick(id, category.name)}
-          />
-        </li>
+        <FilterButton
+          key={id}
+          name={name}
+          description={description}
+          isChecked={isSelected(id, category.name, selectedFilters)}
+          onClick={handleFilterButtonClick(id, category.name)}
+        />
       ))}
     </ButtonGroup>
   );

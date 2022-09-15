@@ -86,24 +86,20 @@ const PublishContent = () => {
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <li>
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === publishContentTabIds.write}
-              onClick={handleNavItemClick(publishContentTabIds.write)}
-            >
-              Write
-            </ToggleButton>
-          </li>
-          <li>
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === publishContentTabIds.preview}
-              onClick={handleNavItemClick(publishContentTabIds.preview)}
-            >
-              Preview
-            </ToggleButton>
-          </li>
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === publishContentTabIds.write}
+            onClick={handleNavItemClick(publishContentTabIds.write)}
+          >
+            Write
+          </ToggleButton>
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === publishContentTabIds.preview}
+            onClick={handleNavItemClick(publishContentTabIds.preview)}
+          >
+            Preview
+          </ToggleButton>
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>

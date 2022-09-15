@@ -75,19 +75,13 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
               {isOpen && (
                 <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
                   <ButtonGroup orientation="vertical">
-                    <li>
-                      <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
-                        수정
-                      </TextButton>
-                    </li>
-                    <li>
-                      <Divider />
-                    </li>
-                    <li>
-                      <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
-                        삭제
-                      </TextButton>
-                    </li>
+                    <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
+                      수정
+                    </TextButton>
+                    <Divider />
+                    <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
+                      삭제
+                    </TextButton>
                   </ButtonGroup>
                 </DropDownBox>
               )}

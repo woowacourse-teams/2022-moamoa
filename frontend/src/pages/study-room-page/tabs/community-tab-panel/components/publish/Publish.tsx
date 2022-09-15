@@ -58,23 +58,19 @@ const Publish = () => {
         <PublishContent />
         <Divider space="16px" />
         <ButtonGroup justifyContent="space-between">
-          <li>
-            <BoxButton
-              type="button"
-              variant="secondary"
-              padding="4px 8px"
-              fluid={false}
-              fontSize="lg"
-              onClick={handleGoToArticleListPageButtonClick}
-            >
-              돌아가기
-            </BoxButton>
-          </li>
-          <li>
-            <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-              등록하기
-            </BoxButton>
-          </li>
+          <BoxButton
+            type="button"
+            variant="secondary"
+            padding="4px 8px"
+            fluid={false}
+            fontSize="lg"
+            onClick={handleGoToArticleListPageButtonClick}
+          >
+            돌아가기
+          </BoxButton>
+          <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
+            등록하기
+          </BoxButton>
         </ButtonGroup>
       </Form>
     </FormProvider>
