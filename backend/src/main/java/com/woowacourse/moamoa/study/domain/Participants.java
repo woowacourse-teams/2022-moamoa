@@ -66,6 +66,10 @@ public class Participants {
         return ownerId.equals(memberId);
     }
 
+    boolean isParticipantsMaxCount(final int maxMemberCount) {
+        return maxMemberCount <= size;
+    }
+
     public int getSize() {
         return size;
     }

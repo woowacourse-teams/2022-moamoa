@@ -78,8 +78,8 @@ public class StudyRequest {
         return Participants.createBy(ownerId);
     }
 
-    public RecruitPlanner mapToRecruitPlan(final RecruitStatus recruitStatus) {
-        return new RecruitPlanner(maxMemberCount, recruitStatus, enrollmentEndDate);
+    public RecruitPlanner mapToRecruitPlan() {
+        return new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {

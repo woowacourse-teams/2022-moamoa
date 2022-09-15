@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class RecruitPlanner {
 
     @Column(name = "max_member_count")
-    private Integer max;
+    private Integer maxMemberCount;
 
     @Enumerated(STRING)
     @Column(name = "recruitment_status")
@@ -26,8 +26,8 @@ public class RecruitPlanner {
 
     private LocalDate enrollmentEndDate;
 
-    public RecruitPlanner(final Integer max, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
-        this.max = max;
+    public RecruitPlanner(final Integer maxMemberCount, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
+        this.maxMemberCount = maxMemberCount;
         this.recruitStatus = recruitStatus;
         this.enrollmentEndDate = enrollmentEndDate;
     }
@@ -67,13 +67,13 @@ public class RecruitPlanner {
 
     int getCapacity() {
         if (hasCapacity()) {
-            return max;
+            return maxMemberCount;
         }
         throw new IllegalStateException("최대 인원 정보가 없습니다.");
     }
 
     boolean hasCapacity() {
-        return max != null;
+        return maxMemberCount != null;
     }
 
     public LocalDate getEnrollmentEndDate() {

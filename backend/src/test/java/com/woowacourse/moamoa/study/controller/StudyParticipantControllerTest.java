@@ -7,7 +7,6 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.domain.AttachedTag;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
@@ -122,7 +121,7 @@ class StudyParticipantControllerTest {
         assertThat(leaveStudy.getContent().getExcerpt()).isEqualTo("java excerpt");
         assertThat(leaveStudy.getContent().getThumbnail()).isEqualTo("java image");
         assertThat(leaveStudy.getContent().getDescription()).isEqualTo("자바 스터디 상세설명 입니다.");
-        assertThat(leaveStudy.getRecruitPlanner().getMax()).isEqualTo(2);
+        assertThat(leaveStudy.getRecruitPlanner().getMaxMemberCount()).isEqualTo(2);
         assertThat(leaveStudy.getRecruitPlanner().getRecruitStatus()).isNotEqualTo(study.getRecruitPlanner().getRecruitStatus());
     }
 }

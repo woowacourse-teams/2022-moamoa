@@ -71,6 +71,7 @@ public class Study {
         this.content = content;
         this.participants = participants;
         this.recruitPlanner = recruitPlanner;
+        changeRecruitStatusIfSatisfyCondition(recruitPlanner, createdAt);
         this.studyPlanner = studyPlanner;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
@@ -154,6 +155,63 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
+    public void changeRecruitStatusIfSatisfyCondition(final RecruitPlanner recruitPlanner,
+                                                      final Integer requestMaxMemberCount,
+                                                      final LocalDate requestEnrollmentEndDate,
+                                                      final LocalDateTime requestNow
+    ) {
+        if (requestEnrollmentEndDate == null &&
+                (requestMaxMemberCount == null || !participants.isParticipantsMaxCount(requestMaxMemberCount))
+        ) {
+            recruitPlanner.startRecruiting();
+            return;
+        }
+
+        if (requestEnrollmentEndDate != null && requestEnrollmentEndDate.isBefore(requestNow.toLocalDate())) {
+            recruitPlanner.closeRecruiting();
+            return;
+        }
+
+        if (requestMaxMemberCount == null || !participants.isParticipantsMaxCount(requestMaxMemberCount)) {
+            recruitPlanner.startRecruiting();
+            return;
+        }
+
+        if (participants.isParticipantsMaxCount(requestMaxMemberCount)) {
+            recruitPlanner.closeRecruiting();
+            return;
+        }
+
+        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
+    }
+
+    public void changeRecruitStatusIfSatisfyCondition(final RecruitPlanner recruitPlanner, final LocalDateTime requestNow
+    ) {
+        if (recruitPlanner.getEnrollmentEndDate() == null &&
+                (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount()))
+        ) {
+            recruitPlanner.startRecruiting();
+            return;
+        }
+
+        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
+            recruitPlanner.closeRecruiting();
+            return;
+        }
+
+        if (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.startRecruiting();
+            return;
+        }
+
+        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.closeRecruiting();
+            return;
+        }
+
+        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
+    }
+
     public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
                        StudyPlanner studyPlanner
     ) {
@@ -166,7 +224,7 @@ public class Study {
             throw new InvalidUpdatingException();
         }
 
-        if ((recruitPlanner.getMax() != null && recruitPlanner.getMax() < participants.getSize())) {
+        if ((recruitPlanner.getMaxMemberCount() != null && recruitPlanner.getMaxMemberCount() < participants.getSize())) {
             throw new InvalidUpdatingException();
         }
 

@@ -99,7 +99,7 @@ class StudySummaryDaoTest {
                 new Study(
                         new Content("HTTP 스터디", "HTTP 설명", "http thumbnail", "디우의 HTTP 정복하기"),
                         new Participants(jjanggu.getId(), Set.of(dwoo.getId(), verus.getId())),
-                        new RecruitPlanner(5, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
+                        new RecruitPlanner(3, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
                         new StudyPlanner(LocalDate.of(2023, 12, 9), LocalDate.of(2023, 12, 11), DONE),
                         new AttachedTags(List.of(new AttachedTag(2L), new AttachedTag(3L))),
                         LocalDateTime.of(2023, 11, 7, 0, 0, 0))
@@ -109,7 +109,7 @@ class StudySummaryDaoTest {
                 new Study(
                         new Content("알고리즘 스터디", "알고리즘 설명", "algorithm thumbnail", "알고리즘을 TDD로 풀자의 베루스입니다."),
                         new Participants(dwoo.getId(), Set.of(verus.getId())),
-                        new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
+                        new RecruitPlanner(2, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
                         new StudyPlanner(LocalDate.of(2023, 12, 9), LocalDate.of(2023, 12, 11), DONE),
                         new AttachedTags(List.of()),
                         LocalDateTime.of(2023, 11, 7, 1, 0, 0))
@@ -119,7 +119,7 @@ class StudySummaryDaoTest {
                 new Study(
                         new Content("Linux 스터디", "리눅스 설명", "linux thumbnail", "Linux를 공부하자의 베루스입니다."),
                         new Participants(dwoo.getId(), Set.of(verus.getId())),
-                        new RecruitPlanner(10, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
+                        new RecruitPlanner(2, RECRUITMENT_END, LocalDate.of(2023, 11, 8)),
                         new StudyPlanner(LocalDate.of(2023, 12, 9), LocalDate.of(2023, 12, 11), DONE),
                         new AttachedTags(List.of()),
                         LocalDateTime.of(2023, 11, 7, 2, 0, 0))
