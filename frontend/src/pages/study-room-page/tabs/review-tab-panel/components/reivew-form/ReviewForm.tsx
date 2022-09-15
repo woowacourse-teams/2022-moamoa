@@ -14,11 +14,11 @@ import Card from '@components/card/Card';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
 import Form from '@components/form/Form';
-import Item from '@components/item/Item';
 import Label from '@components/label/Label';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 import Textarea from '@components/textarea/Textarea';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type ReviewFormProps = {
   studyId: StudyId;
@@ -67,9 +67,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
   return (
     <Card shadow padding="8px" backgroundColor="#ffffff">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Item src={author.imageUrl} name={author.username} size="sm">
-          <Item.Heading>{author.username}</Item.Heading>
-        </Item>
+        <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
+          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+        </UserInfoItem>
         <div css={tw`py-10`}>
           <Label htmlFor={REVIEW} hidden>
             스터디 후기

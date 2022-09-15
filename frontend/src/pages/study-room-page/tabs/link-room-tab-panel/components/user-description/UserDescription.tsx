@@ -1,6 +1,6 @@
 import type { Member } from '@custom-types';
 
-import Item from '@components/item/Item';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type UserDescriptionProps = {
   author: Member;
@@ -9,9 +9,9 @@ export type UserDescriptionProps = {
 
 const UserDescription: React.FC<UserDescriptionProps> = ({ author, description }) => {
   return (
-    <Item src={author.imageUrl} name={author.username} size="sm">
-      <Item.Content>{description}</Item.Content>
-    </Item>
+    <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
+      <UserInfoItem.Content>{description}</UserInfoItem.Content>
+    </UserInfoItem>
   );
 };
 

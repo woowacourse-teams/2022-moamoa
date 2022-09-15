@@ -6,7 +6,7 @@ import { CommunityArticle } from '@custom-types';
 import { theme } from '@styles/theme';
 
 import Flex from '@components/flex/Flex';
-import Item from '@components/item/Item';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 import * as S from '@study-room-page/tabs/notice-tab-panel/components/article-list-item/ArticleListItem.style';
 
@@ -19,10 +19,10 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, create
         <div css={tw`flex-grow text-[${theme.fontSize.lg}]`}>
           <span>{title}</span>
         </div>
-        <Item size="md" src={author.imageUrl} name={author.username}>
-          <Item.Heading>{author.username}</Item.Heading>
-          <Item.Content>{changeDateSeperator(createdDate)}</Item.Content>
-        </Item>
+        <UserInfoItem size="md" src={author.imageUrl} name={author.username}>
+          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+          <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
+        </UserInfoItem>
       </Flex>
     </S.ArticleListItem>
   );

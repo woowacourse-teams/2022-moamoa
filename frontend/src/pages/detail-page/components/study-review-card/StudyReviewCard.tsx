@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import Item from '@components/item/Item';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 import * as S from '@detail-page/components/study-review-card/StudyReviewCard.style';
 
@@ -14,10 +14,10 @@ export type StudyReviewCardProps = {
 const StudyReviewCard: React.FC<StudyReviewCardProps> = ({ imageUrl, username, reviewDate, review }) => {
   return (
     <S.StudyReviewCard>
-      <Item src={imageUrl} name={username} size="lg">
-        <Item.Heading>{username}</Item.Heading>
-        <Item.Content>{reviewDate}</Item.Content>
-      </Item>
+      <UserInfoItem src={imageUrl} name={username} size="lg">
+        <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
+        <UserInfoItem.Content>{reviewDate}</UserInfoItem.Content>
+      </UserInfoItem>
       <S.Review>{review}</S.Review>
     </S.StudyReviewCard>
   );

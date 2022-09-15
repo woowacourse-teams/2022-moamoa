@@ -16,11 +16,11 @@ import Card from '@components/card/Card';
 import Flex from '@components/flex/Flex';
 import Form from '@components/form/Form';
 import Input from '@components/input/Input';
-import Item from '@components/item/Item';
 import Label from '@components/label/Label';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 import Textarea from '@components/textarea/Textarea';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type LinkFormProps = {
   author: Member;
@@ -71,9 +71,9 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
   return (
     <div css={tw`w-480 h-300`}>
       <Card backgroundColor="#ffffff" padding="16px" gap="12px">
-        <Item size="sm" src={author.imageUrl} name={author.username}>
-          <Item.Heading>{author.username}</Item.Heading>
-        </Item>
+        <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
+          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+        </UserInfoItem>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Flex direction="column" rowGap="12px">
             <Label htmlFor={LINK_URL}>링크*</Label>

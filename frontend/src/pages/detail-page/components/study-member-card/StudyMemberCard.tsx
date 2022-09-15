@@ -1,5 +1,5 @@
 import Flex from '@components/flex/Flex';
-import Item from '@components/item/Item';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 
@@ -18,13 +18,13 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
 }) => {
   return (
     <S.StudyMemberCard>
-      <Item src={imageUrl} name={`${username} 프로필`} size="lg">
-        <Item.Heading>{username}</Item.Heading>
+      <UserInfoItem src={imageUrl} name={`${username} 프로필`} size="lg">
+        <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
         <Flex justifyContent="space-between" gap="20px">
-          <Item.Content>스터디 {studyCount}개</Item.Content>
-          <Item.Content>{startDate} 가입</Item.Content>
+          <UserInfoItem.Content>스터디 {studyCount}개</UserInfoItem.Content>
+          <UserInfoItem.Content>{startDate} 가입</UserInfoItem.Content>
         </Flex>
-      </Item>
+      </UserInfoItem>
     </S.StudyMemberCard>
   );
 };

@@ -1,23 +1,23 @@
 import Avatar, { AVATAR_SIZE } from '@components/avatar/Avatar';
 import Flex from '@components/flex/Flex';
-import * as S from '@components/item/Item.style';
+import * as S from '@components/user-info-item/UserInfoItem.style';
 
-export type ItemProps = {
+export type UserInfoItemProps = {
   children: React.ReactNode;
   src: string;
   name: string;
   size: keyof typeof AVATAR_SIZE;
 };
 
-export type ItemHeadingProps = {
+export type UserInfoItemHeadingProps = {
   children: React.ReactNode;
 };
 
-export type ItemContentProps = {
+export type UserInfoItemContentProps = {
   children: React.ReactNode;
 };
 
-const Item: React.FC<ItemProps> = ({ children, src, name, size }) => {
+const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }) => {
   return (
     <S.Item>
       <Avatar src={src} name={name} size={size} />
@@ -28,15 +28,15 @@ const Item: React.FC<ItemProps> = ({ children, src, name, size }) => {
   );
 };
 
-const ItemHeading: React.FC<ItemHeadingProps> = ({ children }) => {
+const UserInfoItemHeading: React.FC<UserInfoItemHeadingProps> = ({ children }) => {
   return <S.ItemHeading>{children}</S.ItemHeading>;
 };
 
-const ItemContent: React.FC<ItemContentProps> = ({ children }) => {
+const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) => {
   return <S.ItemContent>{children}</S.ItemContent>;
 };
 
-export default Object.assign(Item, {
-  Heading: ItemHeading,
-  Content: ItemContent,
+export default Object.assign(UserInfoItem, {
+  Heading: UserInfoItemHeading,
+  Content: UserInfoItemContent,
 });

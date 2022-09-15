@@ -11,7 +11,7 @@ import Divider from '@components/divider/Divider';
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import Flex from '@components/flex/Flex';
 import { KebabMenuIcon } from '@components/icons';
-import Item from '@components/item/Item';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
 import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
@@ -57,10 +57,10 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     return (
       <Flex direction="column" rowGap="12px">
         <Flex justifyContent="space-between" alignItems="center">
-          <Item src={author.imageUrl} name={author.username} size="md">
-            <Item.Heading>{author.username}</Item.Heading>
-            <Item.Content>{changeDateSeperator(date)}</Item.Content>
-          </Item>
+          <UserInfoItem src={author.imageUrl} name={author.username} size="md">
+            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+            <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
+          </UserInfoItem>
           {isMyComment && (
             <div css={tw`relative`}>
               <IconButton

@@ -15,9 +15,9 @@ import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
-import Item from '@components/item/Item';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Title from '@components/title/Title';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type ArticleProps = {
   studyId: number;
@@ -90,10 +90,10 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       return (
         <article>
           <Flex justifyContent="space-between" gap="16px">
-            <Item src={author.imageUrl} name={author.username} size="md">
-              <Item.Heading>{author.username}</Item.Heading>
-              <Item.Content>{changeDateSeperator(createdDate)}</Item.Content>
-            </Item>
+            <UserInfoItem src={author.imageUrl} name={author.username} size="md">
+              <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+              <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
+            </UserInfoItem>
             {renderModifierButtons()}
           </Flex>
           <Divider />
