@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "link")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "deleted = false")
-public class LinkArticle extends BaseEntity {
+public class LinkArticle extends BaseEntity implements Article<LinkContent>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,37 +35,33 @@ public class LinkArticle extends BaseEntity {
     @Column(name = "member_id", nullable = false)
     private Long authorId;
 
-    @Column(nullable = false)
-    private String linkUrl;
-
-    private String description;
+    @Embedded
+    private LinkContent content;
 
     @Column(nullable = false)
     private boolean deleted;
 
-    public LinkArticle(final StudyRoom studyRoom, final Long authorId, final String linkUrl, final String description) {
-        this(null, studyRoom, authorId, linkUrl, description, false);
+    public LinkArticle(final StudyRoom studyRoom, final Long authorId, final LinkContent content) {
+        this(null, studyRoom, authorId, content);
     }
 
-    private LinkArticle(final Long id, final StudyRoom studyRoom, final Long authorId, final String linkUrl,
-                        final String description, final boolean deleted) {
+    private LinkArticle(final Long id, final StudyRoom studyRoom, final Long authorId, final LinkContent content) {
         this.id = id;
         this.studyRoom = studyRoom;
         this.authorId = authorId;
-        this.linkUrl = linkUrl;
-        this.description = description;
-        this.deleted = deleted;
+        this.content = content;
+        this.deleted = false;
     }
 
-    public void update(final Accessor accessor, final String linkUrl, final String description) {
+    public void update(final Accessor accessor, final LinkContent content) {
         if (!studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId())) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.LINK);
         }
 
-        this.linkUrl = linkUrl;
-        this.description = description;
+        this.content = content;
     }
 
+    @Override
     public void delete(final Accessor accessor) {
         if (!studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId())) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.LINK);
@@ -78,11 +75,11 @@ public class LinkArticle extends BaseEntity {
     }
 
     public String getLinkUrl() {
-        return linkUrl;
+        return content.getLinkUrl();
     }
 
     public String getDescription() {
-        return description;
+        return content.getDescription();
     }
 
     public boolean isDeleted() {

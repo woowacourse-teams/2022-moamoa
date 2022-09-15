@@ -1,8 +1,11 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Objects;
@@ -56,9 +59,9 @@ public class StudyRoom {
         throw new UneditableArticleException(studyId, accessor, ArticleType.NOTICE);
     }
 
-    public LinkArticle writeLinkArticle(final Accessor accessor, final String linkUrl, final String description) {
+    public LinkArticle writeLinkArticle(final Accessor accessor, final LinkContent content) {
         if (isPermittedAccessor(accessor)) {
-            return new LinkArticle(this, accessor.getMemberId(), linkUrl, description);
+            return new LinkArticle(this, accessor.getMemberId(), content);
         }
 
         throw new UneditableArticleException(studyId, accessor, ArticleType.LINK);

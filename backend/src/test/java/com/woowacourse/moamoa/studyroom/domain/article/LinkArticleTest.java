@@ -25,10 +25,10 @@ class LinkArticleTest {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final LinkArticle sut = studyRoom.writeLinkArticle(accessor, "link", "설명");
+        final LinkArticle sut = studyRoom.writeLinkArticle(accessor, new LinkContent("link", "설명"));
 
         // act
-        sut.update(accessor, "updated link", "수정된 설명");
+        sut.update(accessor, new LinkContent("updated link", "수정된 설명"));
 
         // assert
         assertAll(
@@ -44,9 +44,9 @@ class LinkArticleTest {
         final Member owner = createMember(1L);
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
         final LinkArticle sut = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "link", "설명");
+                new LinkContent("link", "설명"));
 
-        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), "updated link", "수정된 설명"))
+        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new LinkContent("updated link", "수정된 설명")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -57,7 +57,7 @@ class LinkArticleTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
 
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "link", "설명");
+                new LinkContent("link", "설명"));
 
         linkArticle.delete(new Accessor(1L, 1L));
 
@@ -72,7 +72,7 @@ class LinkArticleTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
 
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(new Accessor(owner.getId(), studyRoom.getId()),
-                "link", "설명");
+                new LinkContent("link", "설명"));
 
         assertThatThrownBy(() -> linkArticle.delete(new Accessor(memberId, studyId)))
                 .isInstanceOf(UneditableArticleException.class);

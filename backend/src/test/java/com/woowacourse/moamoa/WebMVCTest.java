@@ -11,6 +11,9 @@ import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +51,9 @@ public abstract class WebMVCTest {
 
     @MockBean
     protected NativeWebRequest nativeWebRequest;
+
+    @MockBean
+    protected ArticleService<LinkArticle, LinkContent> articleService;
 
     @BeforeEach
     void setUp() {

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -98,7 +99,7 @@ class StudyRoomTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
 
         // act & assert
-        assertThatCode(() -> studyRoom.writeLinkArticle(accessor, "link url", "설명"))
+        assertThatCode(() -> studyRoom.writeLinkArticle(accessor, new LinkContent("link url", "설명")))
                 .doesNotThrowAnyException();
     }
 
@@ -118,7 +119,7 @@ class StudyRoomTest {
         final StudyRoom studyRoom = createStudyRoom(1L, owner);
 
         // act & assert
-        assertThatThrownBy(() -> studyRoom.writeLinkArticle(accessor, "link url", "설명"))
+        assertThatThrownBy(() -> studyRoom.writeLinkArticle(accessor, new LinkContent("link url", "설명")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 

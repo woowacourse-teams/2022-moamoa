@@ -1,12 +1,14 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import java.net.URI;
 import javax.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/studies/{study-id}/reference-room/links")
-@RequiredArgsConstructor
 public class LinkArticleController {
 
     private final LinkArticleService linkArticleService;
+    private final ArticleService<LinkArticle, LinkContent> articleService;
+
+    public LinkArticleController(final LinkArticleService linkArticleService,
+                                 final ArticleService<LinkArticle, LinkContent> articleService) {
+        this.linkArticleService = linkArticleService;
+        this.articleService = articleService;
+    }
 
     @GetMapping
     public ResponseEntity<LinksResponse> getLinks(
@@ -41,7 +49,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest linkArticleRequest
     ) {
-        final Long id = linkArticleService.createLink(memberId, studyId, linkArticleRequest).getId();
+        final Long id = articleService.createArticle(memberId, studyId, linkArticleRequest).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -52,7 +60,7 @@ public class LinkArticleController {
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final LinkArticleRequest linkArticleRequest
     ) {
-        linkArticleService.updateLink(memberId, studyId, linkId, linkArticleRequest);
+        articleService.updateArticle(memberId, studyId, linkId, linkArticleRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -62,7 +70,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @PathVariable("link-id") final Long linkId
     ) {
-        linkArticleService.deleteLink(memberId, studyId, linkId);
+        articleService.deleteArticle(memberId, studyId, linkId);
         return ResponseEntity.noContent().build();
     }
 }

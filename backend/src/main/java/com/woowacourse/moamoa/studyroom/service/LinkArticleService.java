@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
@@ -40,7 +41,8 @@ public class LinkArticleService {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final LinkArticle linkArticle = studyRoom.writeLinkArticle(
-                new Accessor(memberId, studyId), linkArticleRequest.getLinkUrl(), linkArticleRequest.getDescription());
+                new Accessor(memberId, studyId),
+                new LinkContent(linkArticleRequest.getLinkUrl(), linkArticleRequest.getDescription()));
 
         return linkArticleRepository.save(linkArticle);
     }
@@ -55,7 +57,7 @@ public class LinkArticleService {
         final String linkUrl = linkArticleRequest.getLinkUrl();
         final String description = linkArticleRequest.getDescription();
 
-        linkArticle.update(accessor, linkUrl, description);
+        linkArticle.update(accessor, new LinkContent(linkUrl, description));
     }
 
     public void deleteLink(final Long memberId, final Long studyId, final Long articleId) {

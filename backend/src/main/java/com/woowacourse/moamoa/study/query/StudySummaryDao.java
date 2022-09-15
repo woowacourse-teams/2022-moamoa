@@ -35,7 +35,6 @@ public class StudySummaryDao {
         final List<StudySummaryData> data = jdbcTemplate
                 .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
-
     }
 
     private String sql(final SearchingTags searchingTags) {

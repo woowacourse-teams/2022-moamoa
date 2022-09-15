@@ -16,6 +16,7 @@ import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
+import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.LinkArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 @RepositoryTest
 class LinkArticleControllerTest {
@@ -43,6 +45,9 @@ class LinkArticleControllerTest {
     private LinkArticleRepository linkArticleRepository;
 
     @Autowired
+    private JpaRepository<LinkArticle, Long> articleRepository;
+
+    @Autowired
     private LinkArticleDao linkArticleDao;
 
     @Autowired
@@ -58,7 +63,8 @@ class LinkArticleControllerTest {
         linkArticleService = new LinkArticleService(studyRoomRepository, linkArticleRepository, linkArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
-        sut = new LinkArticleController(linkArticleService);
+        sut = new LinkArticleController(linkArticleService,
+                new ArticleService<>(studyRoomRepository, articleRepository));
     }
 
     @DisplayName("스터디에 참여하지 않은 회원은 링크 공유를 할 수 없다.")
