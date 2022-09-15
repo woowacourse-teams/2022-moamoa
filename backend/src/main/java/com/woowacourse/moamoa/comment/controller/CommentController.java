@@ -37,7 +37,7 @@ public class CommentController {
         final Long commentId = commentService.writeComment(memberId, studyId, communityId, request);
 
         final URI location = URI.create(
-                "/api/studies/" + studyId + "/community" + "/articles/" + communityId + "/comments/" + commentId);
+                "/api/studies/" + studyId + "/community/articles/" + communityId + "/comments/" + commentId);
         return ResponseEntity.created(location)
                 .header("Access-Control-Allow-Headers", HttpHeaders.LOCATION)
                 .build();
