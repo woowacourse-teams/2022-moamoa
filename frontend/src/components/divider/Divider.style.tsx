@@ -25,9 +25,9 @@ const applyHorizontalStyle = (space: CssLength, color: ThemeColor) => css`
 `;
 
 export const Divider = styled.div<StyledDividerProps>`
-  ${({ orientation, color, space, width, height }) => css`
-    width: ${width};
-    height: ${height};
+  ${({ orientation, color, space, horizontalLength, verticalLength }) => css`
+    width: ${horizontalLength};
+    height: ${verticalLength};
     ${orientation === 'vertical' ? applyVerticalStyle(space, color) : applyHorizontalStyle(space, color)};
   `}
 `;

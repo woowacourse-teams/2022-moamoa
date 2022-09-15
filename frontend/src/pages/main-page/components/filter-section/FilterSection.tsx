@@ -69,13 +69,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
-        <Divider orientation="vertical" height="40px" space={0} />
+        <Divider orientation="vertical" verticalLength="40px" space={0} />
         <FilterButtonList
           filters={generationTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
-        <Divider orientation="vertical" height="40px" />
+        <Divider orientation="vertical" verticalLength="40px" />
         <FilterButtonList
           filters={subjectTags}
           selectedFilters={selectedFilters}

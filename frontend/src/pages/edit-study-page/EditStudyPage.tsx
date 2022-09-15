@@ -35,6 +35,11 @@ const EditStudyPage: React.FC = () => {
   if (isFetching) return <div>로딩중...</div>;
   if (isError || !isSuccess) return <div>에러가 발생했습니다 :(</div>;
 
+  // TODO: 반복문 -> useMemo를 사용하는 건 어떨까?
+  const originalGeneration = data.tags.find(tag => tag.category.name === 'generation');
+  const originalAreas = data.tags.filter(tag => tag.category.name === 'area');
+  const originalSubjects = data.tags.filter(tag => tag.category.name === 'subject');
+
   return (
     <Wrapper>
       <FormProvider {...formMethods}>
@@ -54,13 +59,10 @@ const EditStudyPage: React.FC = () => {
                 <MaxMemberCount originalMaxMemberCount={data.maxMemberCount} />
               </li>
               <li>
-                <Category
-                  originalGeneration={data.tags.find(tag => tag.category.name === 'generation')}
-                  originalAreas={data.tags.filter(tag => tag.category.name === 'area')}
-                />
+                <Category originalGeneration={originalGeneration} originalAreas={originalAreas} />
               </li>
               <li>
-                <Subject originalSubjects={data.tags.filter(tag => tag.category.name === 'subject')} />
+                <Subject originalSubjects={originalSubjects} />
               </li>
               <li>
                 <Period originalStartDate={data.startDate} originalEndDate={data.endDate} />
