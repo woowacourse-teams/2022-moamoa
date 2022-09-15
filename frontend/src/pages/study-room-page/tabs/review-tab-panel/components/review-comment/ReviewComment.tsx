@@ -67,7 +67,6 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
                 ariaLabel="리뷰 수정 삭제 메뉴"
                 width="24px"
                 height="24px"
-                fontSize="md"
                 variant="secondary"
                 onClick={handleKebabMenuClick}
               >

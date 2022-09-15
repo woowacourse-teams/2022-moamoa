@@ -82,13 +82,14 @@ const Publish = () => {
               variant="secondary"
               padding="4px 8px"
               fluid={false}
+              fontSize="lg"
               onClick={handleGoToArticleListPageButtonClick}
             >
               돌아가기
             </BoxButton>
           </li>
           <li>
-            <BoxButton type="submit" padding="4px 8px" fluid={false}>
+            <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
               등록하기
             </BoxButton>
           </li>

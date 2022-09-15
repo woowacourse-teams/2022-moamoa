@@ -55,7 +55,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
-          <BoxButton type="button" fluid>
+          <BoxButton type="button" fontSize="lg" fluid>
             이동하기
           </BoxButton>
         </Link>
@@ -63,7 +63,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     }
 
     return (
-      <BoxButton type="submit" fluid disabled={!isOpen} onClick={handleRegisterButtonClick}>
+      <BoxButton type="submit" fontSize="lg" fluid disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '가입하기' : '모집 마감'}
       </BoxButton>
     );

@@ -61,13 +61,12 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 
     return (
       <ButtonGroup gap="8px" width="fit-content">
-        <BoxButton type="button" padding="4px 8px" fluid={false} fontSize="md" onClick={handleEditArticleButtonClick}>
+        <BoxButton type="button" padding="4px 8px" fluid={false} onClick={handleEditArticleButtonClick}>
           글수정
         </BoxButton>
         <BoxButton
           type="button"
           padding="4px 8px"
-          fontSize="md"
           fluid={false}
           variant="secondary"
           onClick={handleDeleteArticleButtonClick}
@@ -103,13 +102,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
             <MarkdownRender markdownContent={content} />
           </div>
           <Divider space="8px" />
-          <BoxButton
-            type="button"
-            padding="8px"
-            fontSize="md"
-            variant="secondary"
-            onClick={handleBackToArticleListButtonClick}
-          >
+          <BoxButton type="button" padding="8px" variant="secondary" onClick={handleBackToArticleListButtonClick}>
             목록보기
           </BoxButton>
         </article>

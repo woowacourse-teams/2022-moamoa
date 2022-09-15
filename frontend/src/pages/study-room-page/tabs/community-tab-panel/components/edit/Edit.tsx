@@ -78,13 +78,14 @@ const Edit = () => {
                 variant="secondary"
                 padding="4px 8px"
                 fluid={false}
+                fontSize="lg"
                 onClick={handleGoToArticlePageButtonClick}
               >
                 돌아가기
               </BoxButton>
             </li>
             <li>
-              <BoxButton type="submit" padding="4px 8px" fluid={false}>
+              <BoxButton type="submit" padding="4px 8px" fontSize="lg" fluid={false}>
                 수정하기
               </BoxButton>
             </li>

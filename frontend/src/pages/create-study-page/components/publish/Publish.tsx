@@ -16,7 +16,7 @@ const Publish = ({
     <MetaBox>
       <MetaBox.Title>{title}</MetaBox.Title>
       <MetaBox.Content>
-        <BoxButton type="submit" fluid onClick={handlePublishButtonClick} variant="secondary">
+        <BoxButton type="submit" fontSize="lg" fluid onClick={handlePublishButtonClick} variant="secondary">
           {buttonText}
         </BoxButton>
       </MetaBox.Content>

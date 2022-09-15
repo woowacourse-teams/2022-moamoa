@@ -60,13 +60,15 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
-          <BoxButton type="button">스터디 방으로 이동하기</BoxButton>
+          <BoxButton type="button" fontSize="lg">
+            스터디 방으로 이동하기
+          </BoxButton>
         </Link>
       );
     }
 
     return (
-      <BoxButton type="submit" disabled={!isOpen} onClick={handleRegisterButtonClick}>
+      <BoxButton type="submit" fontSize="lg" disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
       </BoxButton>
     );

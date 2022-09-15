@@ -122,7 +122,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
                 <LetterCounter count={count} maxCount={maxCount} />
               </div>
             </div>
-            <BoxButton type="submit" padding="8px">
+            <BoxButton type="submit" padding="8px" fontSize="lg">
               링크 등록
             </BoxButton>
           </Flex>
