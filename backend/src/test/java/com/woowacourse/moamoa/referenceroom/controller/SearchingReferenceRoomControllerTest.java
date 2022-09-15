@@ -152,7 +152,8 @@ class SearchingReferenceRoomControllerTest {
         final Long javaStudyId = javaStudy.getId();
         final PageRequest pageRequest = PageRequest.of(0, 5);
 
-        assertThatThrownBy(() -> sut.getLinks(병민.getId(), javaStudyId, pageRequest))
+        final Long memberId = 병민.getId();
+        assertThatThrownBy(() -> sut.getLinks(memberId, javaStudyId, pageRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }

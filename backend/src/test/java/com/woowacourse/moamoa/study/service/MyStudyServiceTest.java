@@ -201,7 +201,8 @@ class MyStudyServiceTest {
     @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 스터디 조회 시 예외 발생")
     @Test
     void getMemberRoleNotExistStudy() {
-        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(짱구.getId(), 10L))
+        final Long memberId = 짱구.getId();
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(memberId, 10L))
                 .isInstanceOf(StudyNotFoundException.class)
                 .hasMessageContaining("스터디가 존재하지 않습니다.");
     }

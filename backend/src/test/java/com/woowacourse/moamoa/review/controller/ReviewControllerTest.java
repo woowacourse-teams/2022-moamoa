@@ -1,9 +1,7 @@
 package com.woowacourse.moamoa.review.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -15,8 +13,6 @@ import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.exception.UnwrittenReviewException;
 import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
-import com.woowacourse.moamoa.review.service.response.ReviewResponse;
-import com.woowacourse.moamoa.review.service.response.WriterResponse;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
@@ -78,13 +74,6 @@ class ReviewControllerTest {
 
         짱구_리뷰 = reviewService
                 .writeReview(짱구.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
-        final Long javaReviewId4 = reviewService
-                .writeReview(그린론.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
-
-        final ReviewResponse 리뷰_내용1 = new ReviewResponse(짱구_리뷰, new WriterResponse(짱구_응답), LocalDate.now(),
-                LocalDate.now(), "리뷰 내용1");
-        final ReviewResponse 리뷰_내용4 = new ReviewResponse(javaReviewId4, new WriterResponse(그린론_응답), LocalDate.now(),
-                LocalDate.now(), "리뷰 내용4");
 
         entityManager.flush();
         entityManager.clear();
@@ -94,15 +83,18 @@ class ReviewControllerTest {
     @Test
     void notUpdate() {
         final EditingReviewRequest request = new EditingReviewRequest("수정한 리뷰 내용입니다.");
+        final Long memberId = 그린론.getId();
 
-        assertThatThrownBy(() -> sut.updateReview(그린론.getId(), 짱구_리뷰, request))
+        assertThatThrownBy(() -> sut.updateReview(memberId, 짱구_리뷰, request))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
     @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
     @Test
     void notDelete() {
-        assertThatThrownBy(() -> sut.deleteReview(그린론.getId(), 짱구_리뷰))
+        final Long memberId = 그린론.getId();
+
+        assertThatThrownBy(() -> sut.deleteReview(memberId, 짱구_리뷰))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 }

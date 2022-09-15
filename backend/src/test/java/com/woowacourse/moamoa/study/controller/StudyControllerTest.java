@@ -104,7 +104,8 @@ class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(짱구.getId(), studyRequest))
+        final Long memberId = 짱구.getId();
+        assertThatThrownBy(() -> sut.createStudy(memberId, studyRequest))
                 .isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -156,7 +157,8 @@ class StudyControllerTest {
                 .build();
 
         // when
-        assertThatThrownBy(() -> sut.createStudy(짱구.getId() + 100L, studyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
+        final Long memberId = 짱구.getId();
+        assertThatThrownBy(() -> sut.createStudy(memberId + 100L, studyRequest)) // 존재하지 않는 사용자로 추가 시 예외 발생
                 .isInstanceOf(MemberNotFoundException.class);
     }
 
