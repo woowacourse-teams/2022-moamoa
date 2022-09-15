@@ -67,7 +67,6 @@ public class CommonControllerAdvice {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleInternalServerError(RuntimeException e) {
         log.debug("RuntimeException : {}", e.getMessage());
-        e.printStackTrace();
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ErrorResponse("요청을 처리할 수 없습니다."));
     }
 }
