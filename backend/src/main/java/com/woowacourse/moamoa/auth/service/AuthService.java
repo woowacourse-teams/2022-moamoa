@@ -51,7 +51,7 @@ public class AuthService {
                 .orElseThrow(TokenNotFoundException::new);
 
         if (!token.getRefreshToken().equals(refreshToken)) {
-            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+            throw new UnauthorizedException(String.format("유효하지 않은 토큰[%s]입니다.", token));
         }
 
         String accessToken = tokenProvider.recreationAccessToken(memberId, refreshToken);
