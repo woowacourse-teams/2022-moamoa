@@ -71,7 +71,7 @@ class UpdatingArticleControllerTest {
         // arrange
         Member owner = memberRepository.save(new Member(1L, "username", "image", "profile"));
         Study study = studyService
-                .createStudy(owner.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(owner.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
         Article article = articleService
                 .createArticle(owner.getId(), study.getId(), new ArticleRequest("제목", "내용"), COMMUNITY);
 
@@ -98,7 +98,7 @@ class UpdatingArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
@@ -118,7 +118,7 @@ class UpdatingArticleControllerTest {
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getId(), javaStudyBuilder.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyBuilder.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         final Article article = articleService

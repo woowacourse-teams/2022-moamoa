@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
+import static com.woowacourse.moamoa.studyroom.domain.ArticleType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -13,8 +13,9 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
@@ -68,7 +69,7 @@ class GettingArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);
@@ -93,7 +94,7 @@ class GettingArticleControllerTest {
         // arrange
         Member member = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         final Long memberId = member.getId();
         final Long studyId = study.getId();
@@ -111,7 +112,7 @@ class GettingArticleControllerTest {
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
         Article article = articleService.createArticle(member.getId(), study.getId(), request, COMMUNITY);

@@ -48,12 +48,12 @@ public class MyStudyDao {
             studyId = rs.getLong("study.id");
 
             if (!result.containsKey(studyId)) {
-                Long id = rs.getLong("member_id");
+                Long githubId = rs.getLong("github_id");
                 String username = rs.getString("username");
                 String imageUrl = rs.getString("image_url");
                 String profileUrl = rs.getString("profile_url");
 
-                result.put(studyId, new MemberData(id, username, imageUrl, profileUrl));
+                result.put(studyId, new MemberData(githubId, username, imageUrl, profileUrl));
             }
         }
         return result;
@@ -93,7 +93,7 @@ public class MyStudyDao {
 
         SqlParameterSource parameters = new MapSqlParameterSource("ids", studyIds);
 
-        String sql = "SELECT study.id, member.id as member_id, member.username, member.image_url, member.profile_url "
+        String sql = "SELECT study.id, member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM study JOIN member ON member.id = study.owner_id "
                 + "WHERE study.id IN (:ids)";
 

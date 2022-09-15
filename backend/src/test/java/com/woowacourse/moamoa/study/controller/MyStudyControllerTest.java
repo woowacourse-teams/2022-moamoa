@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
@@ -10,26 +11,31 @@ import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디_참가자들;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리눅스_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_참가자들;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_참가자들;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_참가자들;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디장;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_내용;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_모집계획;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디_참가자들;
+import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디장;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.BE_태그_아이디;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.BE_태그명;
 import static com.woowacourse.moamoa.fixtures.TagFixtures.FE_태그_아이디;
@@ -116,7 +122,7 @@ class MyStudyControllerTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void getMyStudies() {
-        final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(그린론.getId());
+        final ResponseEntity<MyStudiesResponse> myStudies = myStudyController.getMyStudies(그린론_깃허브_아이디);
 
         assertThat(myStudies.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(myStudies.getBody()).isNotNull();
@@ -145,13 +151,13 @@ class MyStudyControllerTest {
 
         assertThat(owners)
                 .hasSize(5)
-                .extracting("id", "username", "imageUrl", "profileUrl")
+                .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .containsExactlyInAnyOrder(
-                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
-                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl())
+                        tuple(자바_스터디장.getGithubId(), 자바_스터디장.getUsername(), 자바_스터디장.getImageUrl(), 자바_스터디장.getProfileUrl()),
+                        tuple(리액트_스터디장.getGithubId(), 리액트_스터디장.getUsername(), 리액트_스터디장.getImageUrl(), 리액트_스터디장.getProfileUrl()),
+                        tuple(자바스크립트_스터디장.getGithubId(), 자바스크립트_스터디장.getUsername(), 자바스크립트_스터디장.getImageUrl(), 자바스크립트_스터디장.getProfileUrl()),
+                        tuple(알고리즘_스터디장.getGithubId(), 알고리즘_스터디장.getUsername(), 알고리즘_스터디장.getImageUrl(), 알고리즘_스터디장.getProfileUrl()),
+                        tuple(리눅스_스터디장.getGithubId(), 리눅스_스터디장.getUsername(), 리눅스_스터디장.getImageUrl(), 리눅스_스터디장.getProfileUrl())
                 );
 
         final List<List<TagSummaryData>> tags = myStudies.getBody()

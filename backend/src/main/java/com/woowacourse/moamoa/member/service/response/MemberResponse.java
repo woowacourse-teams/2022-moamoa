@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.member.service.response;
 
-import com.woowacourse.moamoa.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,4 @@ public class MemberResponse {
     private String username;
     private String profileUrl;
     private String imageUrl;
-
-    public MemberResponse(Member member) {
-        this(member.getId(), member.getUsername(), member.getProfileUrl(), member.getImageUrl());
-    }
 }

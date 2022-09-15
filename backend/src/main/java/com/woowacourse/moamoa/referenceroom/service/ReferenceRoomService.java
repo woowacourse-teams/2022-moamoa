@@ -28,8 +28,8 @@ public class ReferenceRoomService {
     private final StudyRepository studyRepository;
     private final LinkRepository linkRepository;
 
-    public Link createLink(final Long memberId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
-        final Member member = memberRepository.findById(memberId)
+    public Link createLink(final Long githubId, final Long studyId, final CreatingLinkRequest creatingLinkRequest) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
@@ -43,9 +43,9 @@ public class ReferenceRoomService {
     }
 
     public void updateLink(
-            final Long memberId, final Long studyId, final Long linkId, final EditingLinkRequest editingLinkRequest
+            final Long githubId, final Long studyId, final Long linkId, final EditingLinkRequest editingLinkRequest
     ) {
-        final Member member = memberRepository.findById(memberId)
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
@@ -60,8 +60,8 @@ public class ReferenceRoomService {
         link.update(updatedLink);
     }
 
-    public void deleteLink(final Long memberId, final Long studyId, final Long linkId) {
-        final Member member = memberRepository.findById(memberId)
+    public void deleteLink(final Long githubId, final Long studyId, final Long linkId) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
