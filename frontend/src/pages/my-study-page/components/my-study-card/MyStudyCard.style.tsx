@@ -6,9 +6,9 @@ import { itemHoverTransitionStyle } from '@styles/theme';
 
 import { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
-type StyledMyStudyCardProps = Pick<MyStudyCardProps, 'end'>;
+type StyledMyStudyCardProps = Pick<MyStudyCardProps, 'done'>;
 
-const endedStyle = (theme: Theme) => css`
+const doneStyle = (theme: Theme) => css`
   & * {
     color: ${theme.colors.secondary.dark} !important;
   }
@@ -19,12 +19,12 @@ const endedStyle = (theme: Theme) => css`
 `;
 
 export const MyStudyCard = styled.div<StyledMyStudyCardProps>`
-  ${({ theme, end }) => css`
+  ${({ theme, done }) => css`
     position: relative;
 
     height: 100%;
 
-    ${end && endedStyle(theme)}
+    ${done && doneStyle(theme)}
 
     ${itemHoverTransitionStyle()}
   `}

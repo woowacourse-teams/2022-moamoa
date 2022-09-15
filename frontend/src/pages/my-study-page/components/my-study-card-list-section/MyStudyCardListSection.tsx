@@ -19,10 +19,10 @@ import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 export type MyStudyCardListSectionProps = {
   sectionTitle: string;
   studies: Array<MyStudy>;
-  end?: boolean;
+  done?: boolean;
 };
 
-const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ sectionTitle, studies, end = false }) => {
+const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ sectionTitle, studies, done = false }) => {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteMyStudy();
 
@@ -64,7 +64,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
                   tags={study.tags}
                   startDate={study.startDate}
                   endDate={study.endDate}
-                  end={end}
+                  done={done}
                   onQuitStudyButtonClick={handleTrashButtonClick(study)}
                 />
               </LinkedButton>

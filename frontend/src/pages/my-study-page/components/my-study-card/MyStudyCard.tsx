@@ -14,7 +14,7 @@ export type MyStudyCardProps = {
   tags: Array<Pick<Tag, 'id' | 'name'>>;
   startDate: string;
   endDate?: string;
-  end?: boolean;
+  done?: boolean;
   onQuitStudyButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -24,11 +24,11 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   tags,
   startDate,
   endDate,
-  end = false,
+  done = false,
   onQuitStudyButtonClick: handleQuitStudyButtonClick,
 }) => {
   return (
-    <S.MyStudyCard end={end}>
+    <S.MyStudyCard done={done}>
       <Card gap="8px" padding="16px" shadow>
         <Card.Heading>{title}</Card.Heading>
         <Card.Content fontSize="md">

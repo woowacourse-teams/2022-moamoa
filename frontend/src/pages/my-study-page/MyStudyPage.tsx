@@ -25,7 +25,7 @@ const MyStudyPage: React.FC = () => {
         <Divider space="10px" />
         <MyStudyCardListSection sectionTitle="곧 시작해요!" studies={studies.prepare} />
         <Divider space="10px" />
-        <MyStudyCardListSection sectionTitle="종료했어요" studies={studies.done} end />
+        <MyStudyCardListSection sectionTitle="종료했어요" studies={studies.done} done />
       </>
     );
   };
