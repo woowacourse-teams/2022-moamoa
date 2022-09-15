@@ -54,8 +54,8 @@ public class CommentController {
     @PutMapping("/{comment-id}")
     public ResponseEntity<Void> updateComment(
             @AuthenticatedMember final Long memberId,
-            @PathVariable(name = "study-id") final Long studyId,
-            @PathVariable(name = "comment-id") final Long commentId,
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("comment-id") final Long commentId,
             @Valid @RequestBody final EditingCommentRequest editingCommentRequest
     ) {
         commentService.update(memberId, studyId, commentId, editingCommentRequest);
@@ -65,8 +65,8 @@ public class CommentController {
     @DeleteMapping("/{comment-id}")
     public ResponseEntity<Void> deleteComment(
             @AuthenticatedMember final Long memberId,
-            @PathVariable(name = "study-id") final Long studyId,
-            @PathVariable(name = "comment-id") final Long commentId
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("comment-id") final Long commentId
     ) {
         commentService.delete(memberId, studyId, commentId);
         return ResponseEntity.noContent().build();
