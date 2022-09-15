@@ -22,12 +22,12 @@ public class Token {
     private Long id;
 
     @Column(nullable = false)
-    private Long githubId;
+    private Long memberId;
 
     private String refreshToken;
 
-    public Token(final Long githubId, final String refreshToken) {
-        this(null, githubId, refreshToken);
+    public Token(final Long memberId, final String refreshToken) {
+        this(null, memberId, refreshToken);
     }
 
     public void updateRefreshToken(final String refreshToken) {

@@ -1,7 +1,5 @@
 package com.woowacourse.moamoa.review.service.response;
 
-import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.review.domain.Review;
 import com.woowacourse.moamoa.review.query.data.ReviewData;
 import java.time.LocalDate;
 import lombok.AccessLevel;

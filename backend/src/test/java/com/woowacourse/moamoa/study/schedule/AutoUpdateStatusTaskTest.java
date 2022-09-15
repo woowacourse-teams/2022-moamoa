@@ -58,8 +58,8 @@ class AutoUpdateStatusTaskTest {
         dateTimeSystem = mock(DateTimeSystem.class);
         given(dateTimeSystem.now()).willReturn(now.minusDays(5));
 
-        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        final Member jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
+        final Member dwoo = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, dateTimeSystem);
 
@@ -69,7 +69,7 @@ class AutoUpdateStatusTaskTest {
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(3))
                 .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(4))
                 .build();
-        javaStudyId = studyService.createStudy(1L, javaRequest).getId();
+        javaStudyId = studyService.createStudy(jjanggu.getId(), javaRequest).getId();
 
         StudyRequest reactRequest = StudyRequest.builder()
                 .title("React 스터디").excerpt("리액트 설명").thumbnail("react thumbnail")
@@ -77,7 +77,7 @@ class AutoUpdateStatusTaskTest {
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(2))
                 .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(3))
                 .build();
-        reactStudyId = studyService.createStudy(1L, reactRequest).getId();
+        reactStudyId = studyService.createStudy(jjanggu.getId(), reactRequest).getId();
 
         StudyRequest javascriptRequest = StudyRequest.builder()
                 .title("javaScript 스터디").excerpt("자바스크립트 설명").thumbnail("javascript thumbnail")
@@ -85,14 +85,14 @@ class AutoUpdateStatusTaskTest {
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
                 .enrollmentEndDate(dateTimeSystem.now().toLocalDate().plusDays(7))
                 .build();
-        javascriptStudyId = studyService.createStudy(1L, javascriptRequest).getId();
+        javascriptStudyId = studyService.createStudy(jjanggu.getId(), javascriptRequest).getId();
 
         StudyRequest httpRequest = StudyRequest.builder()
                 .title("Http 스터디").excerpt("Http 설명").thumbnail("http thumbnail")
                 .description("그린론의 HTTP 접해보기")
                 .startDate(dateTimeSystem.now().toLocalDate().plusDays(8))
                 .build();
-        httpStudyId = studyService.createStudy(1L, httpRequest).getId();
+        httpStudyId = studyService.createStudy(jjanggu.getId(), httpRequest).getId();
 
         StudyRequest linuxRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail")
@@ -100,7 +100,7 @@ class AutoUpdateStatusTaskTest {
                 .startDate(dateTimeSystem.now().toLocalDate())
                 .endDate(dateTimeSystem.now().toLocalDate())
                 .build();
-        linuxStudyId = studyService.createStudy(1L, linuxRequest).getId();
+        linuxStudyId = studyService.createStudy(jjanggu.getId(), linuxRequest).getId();
 
         StudyRequest algorithmRequest = StudyRequest.builder()
                 .title("알고리즘 스터디").excerpt("알고리즘 설명").thumbnail("algorithm thumbnail")
@@ -109,7 +109,7 @@ class AutoUpdateStatusTaskTest {
                 .endDate(dateTimeSystem.now().toLocalDate().plusDays(5))
                 .build();
 
-        algorithmStudyId = studyService.createStudy(1L, algorithmRequest).getId();
+        algorithmStudyId = studyService.createStudy(jjanggu.getId(), algorithmRequest).getId();
 
         sut = new AutoCloseEnrollmentTask(studyService);
     }

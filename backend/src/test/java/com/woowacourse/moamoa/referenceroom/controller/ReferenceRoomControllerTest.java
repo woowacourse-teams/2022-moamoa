@@ -1,10 +1,8 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_깃허브_아이디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -66,7 +64,7 @@ class ReferenceRoomControllerTest {
         final LocalDate startDate = LocalDate.now();
         final StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
-        javaStudyId = studyService.createStudy(짱구_깃허브_아이디, javaStudyRequest).getId();
+        javaStudyId = studyService.createStudy(jjangguId, javaStudyRequest).getId();
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(verusId, javaStudyId);
@@ -77,7 +75,7 @@ class ReferenceRoomControllerTest {
         final CreatingLinkRequest creatingLinkRequest =
                 new CreatingLinkRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        linkId = referenceRoomService.createLink(짱구_깃허브_아이디, javaStudyId, creatingLinkRequest).getId();
+        linkId = referenceRoomService.createLink(jjangguId, javaStudyId, creatingLinkRequest).getId();
 
         entityManager.flush();
         entityManager.clear();
@@ -89,7 +87,7 @@ class ReferenceRoomControllerTest {
         final CreatingLinkRequest creatingLinkRequest =
                 new CreatingLinkRequest("https://github.com/sc0116", "링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.createLink(디우_깃허브_아이디, javaStudyId, creatingLinkRequest))
+        assertThatThrownBy(() -> sut.createLink(dwooId, javaStudyId, creatingLinkRequest))
                 .isInstanceOf(NotCreatingLinkException.class);
     }
 
@@ -98,7 +96,7 @@ class ReferenceRoomControllerTest {
     void updateByInvalidLinkId() {
         final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("www.naver.com", "수정");
 
-        assertThatThrownBy(() -> sut.updateLink(짱구_깃허브_아이디, javaStudyId, -1L, editingLinkRequest))
+        assertThatThrownBy(() -> sut.updateLink(jjangguId, javaStudyId, -1L, editingLinkRequest))
                 .isInstanceOf(LinkNotFoundException.class);
     }
 
@@ -107,21 +105,21 @@ class ReferenceRoomControllerTest {
     void updateByNotParticipatedMember() {
         final EditingLinkRequest editingLinkRequest = new EditingLinkRequest("https://github.com", "수정된 링크 설명입니다.");
 
-        assertThatThrownBy(() -> sut.updateLink(디우_깃허브_아이디, javaStudyId, linkId, editingLinkRequest))
+        assertThatThrownBy(() -> sut.updateLink(dwooId, javaStudyId, linkId, editingLinkRequest))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByInvalidLinkId() {
-        assertThatThrownBy(() -> sut.deleteLink(짱구_깃허브_아이디, javaStudyId, -1L))
+        assertThatThrownBy(() -> sut.deleteLink(jjangguId, javaStudyId, -1L))
                 .isInstanceOf(LinkNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")
     @Test
     void deleteByNotParticipatedMember() {
-        assertThatThrownBy(() -> sut.deleteLink(디우_깃허브_아이디, javaStudyId, linkId))
+        assertThatThrownBy(() -> sut.deleteLink(dwooId, javaStudyId, linkId))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 }
