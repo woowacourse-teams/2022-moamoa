@@ -71,10 +71,10 @@ public class Study {
         this.content = content;
         this.participants = participants;
         this.recruitPlanner = recruitPlanner;
-        changeRecruitStatusIfSatisfyCondition(recruitPlanner, createdAt);
         this.studyPlanner = studyPlanner;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
+        updatePlanners(recruitPlanner, studyPlanner, createdAt);
     }
 
     public boolean isReviewWritable(final Long memberId) {
@@ -155,36 +155,8 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void changeRecruitStatusIfSatisfyCondition(final RecruitPlanner recruitPlanner, final LocalDateTime requestNow
-    ) {
-        if (recruitPlanner.getEnrollmentEndDate() == null &&
-                (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount()))
-        ) {
-            recruitPlanner.startRecruiting();
-            return;
-        }
-
-        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
-            recruitPlanner.closeRecruiting();
-            return;
-        }
-
-        if (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
-            recruitPlanner.startRecruiting();
-            return;
-        }
-
-        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
-            recruitPlanner.closeRecruiting();
-            return;
-        }
-
-        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
-    }
-
-    public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
-                       StudyPlanner studyPlanner
-    ) {
+    public void updatePlanners(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner,
+                               final LocalDateTime requestNow) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidUpdatingException();
@@ -198,16 +170,45 @@ public class Study {
             throw new InvalidUpdatingException();
         }
 
-        checkOwner(memberId);
-        this.content = content;
-        this.recruitPlanner = recruitPlanner;
-        this.attachedTags = attachedTags;
-        this.studyPlanner = studyPlanner;
+        if (recruitPlanner.getEnrollmentEndDate() == null &&
+                (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount()))
+        ) {
+            recruitPlanner.startRecruiting();
+            this.studyPlanner = studyPlanner;
+            this.recruitPlanner = recruitPlanner;
+            return;
+        }
+
+        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
+            recruitPlanner.closeRecruiting();
+            this.studyPlanner = studyPlanner;
+            this.recruitPlanner = recruitPlanner;
+            return;
+        }
+
+        if (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.startRecruiting();
+            this.studyPlanner = studyPlanner;
+            this.recruitPlanner = recruitPlanner;
+            return;
+        }
+
+        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.closeRecruiting();
+            this.studyPlanner = studyPlanner;
+            this.recruitPlanner = recruitPlanner;
+            return;
+        }
+
+        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
     }
 
-    private void checkOwner(Long memberId) {
+    public void updateContent(Long memberId, Content content, AttachedTags attachedTags) {
         if (!participants.isOwner(memberId)) {
             throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
         }
+
+        this.content = content;
+        this.attachedTags = attachedTags;
     }
 }

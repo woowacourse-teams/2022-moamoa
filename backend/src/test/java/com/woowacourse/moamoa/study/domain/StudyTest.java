@@ -427,7 +427,7 @@ class StudyTest {
         final StudyPlanner updatingStudyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
 
         // when & then
-        assertThatThrownBy(() -> sut.update(2L, updatingContent, updatingRecruitPlanner, null, updatingStudyPlanner))
+        assertThatThrownBy(() -> sut.updateContent(2L, updatingContent, null))
                 .isInstanceOf(UnauthorizedException.class);
     }
 

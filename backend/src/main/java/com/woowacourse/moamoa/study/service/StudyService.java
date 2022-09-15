@@ -8,7 +8,6 @@ import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
-import com.woowacourse.moamoa.study.domain.RecruitStatus;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
@@ -70,9 +69,10 @@ public class StudyService {
 
         final Content content = request.mapToContent();
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        study.changeRecruitStatusIfSatisfyCondition(recruitPlanner, dateTimeSystem.now());
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
 
-        study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);
+        study.updatePlanners(recruitPlanner, studyPlanner, dateTimeSystem.now());
+        study.updateContent(memberId, content, request.mapToAttachedTags());
     }
 }
+
