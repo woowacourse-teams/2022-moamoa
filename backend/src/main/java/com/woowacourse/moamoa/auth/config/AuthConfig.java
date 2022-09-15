@@ -2,9 +2,7 @@ package com.woowacourse.moamoa.auth.config;
 
 import com.woowacourse.moamoa.auth.controller.AuthenticatedMemberResolver;
 import com.woowacourse.moamoa.auth.controller.AuthenticatedRefreshArgumentResolver;
-import com.woowacourse.moamoa.auth.controller.AuthenticationArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.interceptor.AuthenticationInterceptor;
-
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
@@ -24,7 +22,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private final AuthenticatedRefreshArgumentResolver authenticatedRefreshArgumentResolver;
-    private final AuthenticationArgumentResolver authenticationArgumentResolver;
     private final AuthenticatedMemberResolver authenticatedMemberResolver;
 
     private final PathMatcherContainer pathMatcherContainer;
