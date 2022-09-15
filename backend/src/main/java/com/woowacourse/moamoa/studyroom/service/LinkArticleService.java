@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
@@ -19,7 +20,7 @@ public class LinkArticleService extends AbstractArticleService<LinkArticle, Link
     private final LinkArticleDao linkArticleDao;
 
     public LinkArticleService(final StudyRoomRepository studyRoomRepository,
-                              final JpaRepository<LinkArticle, Long> articleRepository,
+                              final ArticleRepository<LinkArticle> articleRepository,
                               final LinkArticleDao linkArticleDao
     ) {
         super(studyRoomRepository, articleRepository, LinkArticle.class);

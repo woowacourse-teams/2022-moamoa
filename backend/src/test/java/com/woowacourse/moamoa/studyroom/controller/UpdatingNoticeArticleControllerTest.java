@@ -13,20 +13,18 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
-import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
-import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
+import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -46,13 +44,10 @@ class UpdatingNoticeArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private NoticeArticleRepository noticeArticleRepository;
+    private ArticleRepository<NoticeArticle> noticeArticleRepository;
 
     @Autowired
     private NoticeArticleDao noticeArticleDao;
-
-    @Autowired
-    private JpaRepository<NoticeArticle, Long> articleRepository;
 
     private StudyService studyService;
     private NoticeArticleController sut;
@@ -61,7 +56,7 @@ class UpdatingNoticeArticleControllerTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        noticeArticleService = new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao);
         sut = new NoticeArticleController(noticeArticleService);
     }
 

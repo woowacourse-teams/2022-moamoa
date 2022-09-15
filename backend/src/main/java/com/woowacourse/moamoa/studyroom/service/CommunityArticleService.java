@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.CommunityArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
@@ -24,7 +25,7 @@ public class CommunityArticleService extends AbstractArticleService<CommunityArt
 
     private final CommunityArticleDao communityArticleDao;
 
-    public CommunityArticleService(final StudyRoomRepository studyRoomRepository, JpaRepository<CommunityArticle, Long> articleRepository,
+    public CommunityArticleService(final StudyRoomRepository studyRoomRepository, ArticleRepository<CommunityArticle> articleRepository,
                                    final CommunityArticleDao communityArticleDao) {
         super(studyRoomRepository, articleRepository, CommunityArticle.class);
         this.communityArticleDao = communityArticleDao;

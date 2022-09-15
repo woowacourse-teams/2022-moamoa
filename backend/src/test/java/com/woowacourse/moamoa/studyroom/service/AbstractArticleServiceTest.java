@@ -17,6 +17,7 @@ import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -27,7 +28,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 @RepositoryTest
 class AbstractArticleServiceTest {
@@ -42,7 +42,7 @@ class AbstractArticleServiceTest {
     private StudyRoomRepository studyRoomRepository;
 
     @Autowired
-    private JpaRepository<LinkArticle, Long> articleRepository;
+    private ArticleRepository<LinkArticle> articleRepository;
 
     @Autowired
     private LinkArticleDao linkArticleDao;

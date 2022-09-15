@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
@@ -27,7 +28,7 @@ public class NoticeArticleService extends AbstractArticleService<NoticeArticle, 
 
     @Autowired
     public NoticeArticleService(final StudyRoomRepository studyRoomRepository,
-                                final JpaRepository<NoticeArticle, Long> articleRepository,
+                                final ArticleRepository<NoticeArticle> articleRepository,
                                 final NoticeArticleDao noticeArticleDao) {
         super(studyRoomRepository, articleRepository, NoticeArticle.class);
         this.noticeArticleDao = noticeArticleDao;

@@ -14,10 +14,9 @@ import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
-import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import java.time.LocalDate;
@@ -42,7 +41,7 @@ class NoticeArticleControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private NoticeArticleRepository noticeArticleRepository;
+    private ArticleRepository<NoticeArticle> noticeArticleRepository;
 
     @Autowired
     private StudyRoomRepository studyRoomRepository;
@@ -60,7 +59,7 @@ class NoticeArticleControllerTest {
     void setUp() {
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new NoticeArticleController(
-                new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao)
+                new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao)
         );
     }
 

@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
@@ -12,11 +11,9 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
-import com.woowacourse.moamoa.studyroom.service.AbstractArticleService;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
@@ -53,7 +50,7 @@ class GettingNoticeArticleSummariesControllerTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private NoticeArticleRepository noticeArticleRepository;
+    private ArticleRepository<NoticeArticle> noticeArticleRepository;
 
     @Autowired
     private NoticeArticleDao noticeArticleDao;
@@ -65,7 +62,7 @@ class GettingNoticeArticleSummariesControllerTest {
 
     @BeforeEach
     void setUp() {
-        noticeArticleService = new NoticeArticleService(studyRoomRepository, articleRepository, noticeArticleDao);
+        noticeArticleService = new NoticeArticleService(studyRoomRepository, noticeArticleRepository, noticeArticleDao);
         studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
         sut = new NoticeArticleController(noticeArticleService);
     }

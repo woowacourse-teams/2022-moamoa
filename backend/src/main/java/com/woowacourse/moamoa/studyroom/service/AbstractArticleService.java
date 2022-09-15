@@ -6,20 +6,20 @@ import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public abstract class AbstractArticleService<A extends Article<C>, C extends Content<A>> {
 
     private final StudyRoomRepository studyRoomRepository;
-    private final JpaRepository<A, Long> articleRepository;
+    private final ArticleRepository<A> articleRepository;
     private final Class<A> articleType;
 
     protected AbstractArticleService(
-            final StudyRoomRepository studyRoomRepository, final JpaRepository<A, Long> articleRepository,
+            final StudyRoomRepository studyRoomRepository, final ArticleRepository<A> articleRepository,
             final Class<A> articleType
     ) {
         this.studyRoomRepository = studyRoomRepository;
