@@ -6,6 +6,8 @@ import tw from '@utils/tw';
 
 import type { Link, LinkId, Member, Noop } from '@custom-types';
 
+import { theme } from '@styles/theme';
+
 import { usePutLink } from '@api/link';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
@@ -76,7 +78,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
 
   return (
     <div css={tw`w-480 h-300`}>
-      <Card backgroundColor="#ffffff" padding="16px" gap="12px">
+      <Card backgroundColor={theme.colors.white} padding="16px" gap="12px">
         <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         </UserInfoItem>

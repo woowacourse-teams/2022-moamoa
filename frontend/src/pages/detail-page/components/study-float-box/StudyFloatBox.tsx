@@ -75,7 +75,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   };
 
   return (
-    <Card backgroundColor="#ffffff" gap="8px" padding="40px" shadow>
+    <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
       <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
       <Card.Content fontSize="lg">
         <Flex justifyContent="space-between">

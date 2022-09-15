@@ -5,6 +5,8 @@ import tw from '@utils/tw';
 
 import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
 
+import { theme } from '@styles/theme';
+
 import { usePutReview } from '@api/review';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
@@ -78,7 +80,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <Card shadow padding="8px" backgroundColor="#ffffff">
+    <Card shadow padding="8px" backgroundColor={theme.colors.white}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>

@@ -7,6 +7,8 @@ import tw from '@utils/tw';
 
 import type { StudyDetail, UserRole } from '@custom-types';
 
+import { theme } from '@styles/theme';
+
 import { BoxButton } from '@components/button';
 import Card from '@components/card/Card';
 import Flex from '@components/flex/Flex';
@@ -70,7 +72,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   };
 
   return (
-    <Card backgroundColor="#ffffff" padding="20px" shadow>
+    <Card backgroundColor={theme.colors.white} padding="20px" shadow>
       <Flex justifyContent="space-between" alignItems="center">
         <div>
           <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>

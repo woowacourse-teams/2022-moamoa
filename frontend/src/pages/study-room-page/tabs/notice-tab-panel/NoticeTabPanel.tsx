@@ -7,6 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
+import { theme } from '@styles/theme';
+
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
@@ -40,7 +42,7 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
             </TextButton>
           )}
         </Flex>
-        <Divider color="#9ea7aa" space="8px" />
+        <Divider color={theme.colors.secondary.dark} space="8px" />
         <ArticleList />
       </>
     );
