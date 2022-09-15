@@ -140,5 +140,5 @@ CREATE TABLE comment
     created_date       DATETIME   NOT null,
     last_modified_date DATETIME   NOT null,
     FOREIGN KEY (member_id) REFERENCES member (id),
-    FOREIGN KEY (community_id) REFERENCES community (id)
+    FOREIGN KEY (community_id) REFERENCES community (id) ON DELETE CASCADE
 );
