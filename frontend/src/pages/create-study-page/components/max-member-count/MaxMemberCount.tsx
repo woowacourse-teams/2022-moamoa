@@ -22,14 +22,16 @@ export type MaxMemberCountProps = {
 const MAX_MEMBER_COUNT = 'max-member-count';
 
 const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
-  const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(originalMaxMemberCount ? true : false);
+  const [isMaxMemberCountInputEnabled, setIsMaxMemberCountInputEnabled] = useState<boolean>(
+    originalMaxMemberCount ? true : false,
+  );
 
   const { removeField, register } = useFormContext();
 
   const { handleKeyDown } = usePositiveNumberInput();
 
   const handleNoSelectCheckboxChange = () => {
-    setWillSelectMaxMember(prev => {
+    setIsMaxMemberCountInputEnabled(prev => {
       if (prev) removeField(MAX_MEMBER_COUNT);
       return !prev;
     });
@@ -41,9 +43,9 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
       <MetaBox.Content>
         <Flex gap="8px">
           <Label htmlFor="no-select">선택 안함</Label>
-          <Checkbox id="no-select" checked={!willSelectMaxMember} onChange={handleNoSelectCheckboxChange} />
+          <Checkbox id="no-select" checked={!isMaxMemberCountInputEnabled} onChange={handleNoSelectCheckboxChange} />
         </Flex>
-        {willSelectMaxMember && (
+        {isMaxMemberCountInputEnabled && (
           <Flex gap="8px" alignItems="center">
             <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
             <div css={tw`flex-grow`}>
