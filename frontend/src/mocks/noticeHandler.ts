@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/memberHandlers';
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 
-import { ApiNoticeArticle } from '@api/notice';
+import { type ApiNoticeArticle } from '@api/notice';
 
 export const noticeHandlers = [
   rest.get('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
@@ -33,9 +33,9 @@ export const noticeHandlers = [
   }),
   rest.get('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
     const { studyId, articleId } = req.params;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
 
     const numArticleId = Number(articleId);
 
@@ -45,7 +45,7 @@ export const noticeHandlers = [
   }),
   rest.post<ApiNoticeArticle['post']['body']>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
     const { title, content } = req.body;
     const newArticle = {
@@ -62,10 +62,10 @@ export const noticeHandlers = [
   }),
   rest.delete('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
     const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
 
     const numArticleId = Number(articleId);
 
@@ -75,10 +75,10 @@ export const noticeHandlers = [
   }),
   rest.put<ApiNoticeArticle['put']['body']>('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
     const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
 
     const articles = noticeArticlesJSON.articles;
 

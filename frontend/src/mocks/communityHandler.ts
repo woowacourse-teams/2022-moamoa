@@ -33,8 +33,8 @@ export const communityHandlers = [
   }),
   rest.get('/api/studies/:studyId/community/articles/:articleId', (req, res, ctx) => {
     const { studyId, articleId } = req.params;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
 
     const numArticleId = Number(articleId);
 
@@ -47,7 +47,7 @@ export const communityHandlers = [
   }),
   rest.post<ApiCommunityArticle['post']['body']>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
     const { title, content } = req.body;
     const newArticle = {
@@ -64,10 +64,10 @@ export const communityHandlers = [
   }),
   rest.delete('/api/studies/:studyId/community/articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
     const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
 
     const numArticleId = Number(articleId);
 
@@ -79,10 +79,10 @@ export const communityHandlers = [
     '/api/studies/:studyId/community/articles/:articleId',
     (req, res, ctx) => {
       const studyId = req.params.studyId;
-      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
       const articleId = req.params.articleId;
-      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
+      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
 
       const articles = communityArticlesJSON.articles;
 

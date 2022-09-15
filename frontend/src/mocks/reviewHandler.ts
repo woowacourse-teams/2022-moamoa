@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/memberHandlers';
 import reviewJSON from '@mocks/reviews.json';
 
-import { isObject } from '@utils';
+import { type ApiReview } from '@api/review';
 
 export const reviewHandlers = [
   rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {
@@ -27,11 +27,11 @@ export const reviewHandlers = [
     );
   }),
 
-  rest.post('/api/studies/:studyId/reviews', (req, res, ctx) => {
+  rest.post<ApiReview['post']['body']>('/api/studies/:studyId/reviews', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
-    const content = isObject(req.body) ? req.body['content'] : null;
+    const content = req.body['content'];
     if (!content) return res(ctx.status(400), ctx.json({ errorMessage: '리뷰가 없습니다' }));
 
     const review = {
@@ -59,14 +59,15 @@ export const reviewHandlers = [
     return res(ctx.status(200));
   }),
 
-  rest.put('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
+  rest.put<ApiReview['put']['body']>('/api/studies/:studyId/reviews/:reviewId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없습니다' }));
 
     const reviewId = Number(req.params.reviewId);
     if (!reviewId) return res(ctx.status(400), ctx.json({ errorMessage: '리뷰 아이디가 없습니다' }));
 
-    const content = isObject(req.body) ? req.body['content'] : null;
+    const content = req.body['content'];
+    if (!content) return res(ctx.status(400), ctx.json({ message: '내용이 없습니다.' }));
 
     reviewJSON.reviews = reviewJSON.reviews.map(review => {
       if (review.id === reviewId) {
