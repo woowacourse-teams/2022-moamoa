@@ -23,6 +23,7 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
@@ -58,6 +59,8 @@ class CommentServiceTest {
     @Autowired
     private EntityManager entityManager;
 
+    private StudyParticipantService studyService;
+
     private CommentService sut;
 
     private Member 짱구;
@@ -71,6 +74,7 @@ class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
+        studyService = new StudyParticipantService(memberRepository, studyRepository);
         sut = new CommentService(commentRepository, memberRepository, myStudyDao, commentDao);
 
         짱구 = memberRepository.save(짱구());
@@ -127,7 +131,7 @@ class CommentServiceTest {
                 request);
 
         // when
-        sut.update(디우.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"));
+        sut.update(디우.getId(), 자바스크립트_스터디.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"));
 
         // then
         final Comment comment = commentRepository.findById(commentId).get();
@@ -148,7 +152,7 @@ class CommentServiceTest {
         final Long 베루스_ID = 베루스.getId();
         final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(
-                () -> sut.update(베루스_ID, commentId, editingCommentRequest)
+                () -> sut.update(베루스_ID, 자바스크립트_스터디.getId(), commentId, editingCommentRequest)
         ).isInstanceOf(UnwrittenCommentException.class);
     }
 
@@ -163,7 +167,7 @@ class CommentServiceTest {
                 request);
 
         // when
-        sut.delete(디우.getId(), commentId);
+        sut.delete(디우.getId(), 자바스크립트_스터디.getId(), commentId);
 
         // then
         final Optional<Comment> comment = commentRepository.findById(commentId);
@@ -183,7 +187,44 @@ class CommentServiceTest {
         // when & then
         final Long 베루스_ID = 베루스.getId();
         assertThatThrownBy(
-                () -> sut.delete(베루스_ID, commentId)
+                () -> sut.delete(베루스_ID, 자바스크립트_스터디.getId(), commentId)
         ).isInstanceOf(UnwrittenCommentException.class);
+    }
+
+    @DisplayName("탈퇴한 회원은 본인의 댓글을 수정할 수 없다.")
+    @Test
+    void updateWhenLeaveStudy() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        studyService.leaveStudy(디우.getId(), 자바스크립트_스터디.getId());
+        entityManager.flush();
+
+        // when & then
+        assertThatThrownBy(() ->
+                sut.update(디우.getId(), 자바스크립트_스터디.getId(), commentId, new EditingCommentRequest("수정된 댓글 내용"))
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("탈퇴한 회원은 본인의 댓글을 삭제할 수 없다.")
+    @Test
+    void deleteWhenLeaveStudy() {
+        // given
+        final Author author = new Author(디우.getId());
+        final CommentRequest request = new CommentRequest("댓글 내용");
+
+        final Long commentId = sut.writeComment(author.getMemberId(), 자바스크립트_스터디.getId(), 자바스크립트_스터디_게시판.getId(),
+                request);
+
+        studyService.leaveStudy(디우.getId(), 자바스크립트_스터디.getId());
+        entityManager.flush();
+
+        // when & then
+        assertThatThrownBy(() -> sut.delete(디우.getId(), 자바스크립트_스터디.getId(), commentId))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -52,7 +52,10 @@ public class CommentService {
         return CommentsResponse.from(comments);
     }
 
-    public void update(final Long memberId, final Long commentId, final EditingCommentRequest editingCommentRequest) {
+    public void update(final Long memberId, final Long studyId, final Long commentId, final EditingCommentRequest editingCommentRequest) {
+        final List<MyStudySummaryData> myStudies = myStudyDao.findMyStudyByMemberId(memberId);
+        validateAuthor(studyId, myStudies);
+
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Comment comment = commentRepository.findById(commentId)
@@ -61,17 +64,10 @@ public class CommentService {
         comment.updateContent(new Author(member.getId()), editingCommentRequest.getContent());
     }
 
-    private void validateAuthor(final Long studyId, final List<MyStudySummaryData> myStudies) {
-        final List<Long> myStudyIds = myStudies.stream()
-                .map(MyStudySummaryData::getId)
-                .collect(toList());
+    public void delete(final Long memberId, final Long studyId, final Long commentId) {
+        final List<MyStudySummaryData> myStudies = myStudyDao.findMyStudyByMemberId(memberId);
+        validateAuthor(studyId, myStudies);
 
-        if (!myStudyIds.contains(studyId)) {
-            throw new IllegalArgumentException("댓글 작성 권한이 없습니다.");
-        }
-    }
-
-    public void delete(final Long memberId, final Long commentId) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Comment comment = commentRepository.findById(commentId)
@@ -80,5 +76,15 @@ public class CommentService {
         comment.validateAuthor(new Author(member.getId()));
 
         commentRepository.deleteById(comment.getId());
+    }
+
+    private void validateAuthor(final Long studyId, final List<MyStudySummaryData> myStudies) {
+        final List<Long> myStudyIds = myStudies.stream()
+                .map(MyStudySummaryData::getId)
+                .collect(toList());
+
+        if (!myStudyIds.contains(studyId)) {
+            throw new IllegalArgumentException("댓글 작성 및 수정 권한이 없습니다.");
+        }
     }
 }

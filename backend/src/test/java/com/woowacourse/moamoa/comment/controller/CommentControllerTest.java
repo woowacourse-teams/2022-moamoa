@@ -162,7 +162,7 @@ class CommentControllerTest {
         Long commentId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/articles/\\d+/comments/", ""));
 
         // when
-        final ResponseEntity<Void> updatedResponse = sut.updateComment(그린론.getId(), commentId,
+        final ResponseEntity<Void> updatedResponse = sut.updateComment(그린론.getId(), 자바스크립트_스터디.getId(), commentId,
                 new EditingCommentRequest("수정된 댓글 내용"));
 
         // then
@@ -181,7 +181,7 @@ class CommentControllerTest {
         Long commentId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/articles/\\d+/comments/", ""));
 
         // when
-        final ResponseEntity<Void> updatedResponse = sut.deleteComment(그린론.getId(), commentId);
+        final ResponseEntity<Void> updatedResponse = sut.deleteComment(그린론.getId(), 자바스크립트_스터디.getId(), commentId);
 
         // then
         assertThat(updatedResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
