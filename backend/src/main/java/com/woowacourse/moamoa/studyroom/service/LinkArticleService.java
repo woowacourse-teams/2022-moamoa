@@ -9,7 +9,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRep
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
-import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import org.springframework.data.domain.Pageable;

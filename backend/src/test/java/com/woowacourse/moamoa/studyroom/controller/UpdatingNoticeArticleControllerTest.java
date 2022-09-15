@@ -17,8 +17,8 @@ import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleR
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import java.time.LocalDate;
 import java.util.Set;

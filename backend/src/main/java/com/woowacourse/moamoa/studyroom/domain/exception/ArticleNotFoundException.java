@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.exception;
+package com.woowacourse.moamoa.studyroom.domain.exception;
 
 import com.woowacourse.moamoa.common.exception.NotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;

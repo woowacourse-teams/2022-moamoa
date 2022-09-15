@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
-import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

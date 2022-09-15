@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.exception;
+package com.woowacourse.moamoa.study.domain.exception;
 
 import com.woowacourse.moamoa.common.exception.BadRequestException;
 

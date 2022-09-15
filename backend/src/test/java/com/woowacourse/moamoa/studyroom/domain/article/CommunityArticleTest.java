@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.service.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
