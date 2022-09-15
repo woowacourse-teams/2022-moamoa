@@ -7,7 +7,7 @@ import { ThemeColor } from '@styles/theme';
 
 import { DividerProps } from '@components/divider/Divider';
 
-type StyleDividerProps = Required<DividerProps>;
+type StyledDividerProps = Required<DividerProps>;
 
 const applyVerticalStyle = (space: CssLength, color: ThemeColor) => css`
   width: 100%;
@@ -24,7 +24,7 @@ const applyHorizontalStyle = (space: CssLength, color: ThemeColor) => css`
   border-bottom: 1px solid ${color};
 `;
 
-export const Divider = styled.div<StyleDividerProps>`
+export const Divider = styled.div<StyledDividerProps>`
   ${({ orientation, color, space, width, height }) => css`
     width: ${width};
     height: ${height};

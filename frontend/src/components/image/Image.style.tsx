@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { type ImageProps } from '@components/image/Image';
 
-type StyleImageProps = Pick<ImageProps, 'shape' | 'width' | 'height'>;
+type StyledImageProps = Pick<ImageProps, 'shape' | 'width' | 'height'>;
 
-export const Image = styled.img<StyleImageProps>`
+export const Image = styled.img<StyledImageProps>`
   ${({ theme, shape, width, height }) => css`
     width: ${width};
     height: ${height};

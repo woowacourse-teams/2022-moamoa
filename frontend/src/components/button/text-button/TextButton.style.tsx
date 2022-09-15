@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { type TextButtonProps } from '@components/button/text-button/TextButton';
 
-type StyleTextButtonProps = Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>;
+type StyledTextButtonProps = Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>;
 
-export const TextButton = styled.button<StyleTextButtonProps>`
+export const TextButton = styled.button<StyledTextButtonProps>`
   ${({ theme, fluid, variant, fontSize }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;

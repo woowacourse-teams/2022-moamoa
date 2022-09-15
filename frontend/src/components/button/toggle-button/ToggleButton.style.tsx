@@ -5,7 +5,7 @@ import { mqDown } from '@utils';
 
 import { type ToggleButtonProps } from '@components/button/toggle-button/ToggleButton';
 
-type StyleToggleButtonProps = Required<Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant' | 'fontSize'>>;
+type StyledToggleButtonProps = Required<Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant' | 'fontSize'>>;
 
 const applyCheckedStyle = (theme: Theme) => css`
   color: ${theme.colors.primary.base};
@@ -18,7 +18,7 @@ const applyCheckedStyle = (theme: Theme) => css`
   }
 `;
 
-export const ToggleButton = styled.button<StyleToggleButtonProps>`
+export const ToggleButton = styled.button<StyledToggleButtonProps>`
   ${({ theme, checked, fluid, variant, fontSize }) => css`
     display: flex;
     justify-content: center;

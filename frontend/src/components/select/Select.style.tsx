@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { type SelectProps } from '@components/select/Select';
 
-type StyleSelectProps = Required<Pick<SelectProps, 'fluid'>>;
+type StyledSelectProps = Required<Pick<SelectProps, 'fluid'>>;
 
-export const Select = styled.select<StyleSelectProps>`
+export const Select = styled.select<StyledSelectProps>`
   ${({ theme, fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     min-height: 30px;

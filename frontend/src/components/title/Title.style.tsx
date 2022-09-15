@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 
 import { type PageTitleProps, type SectionTitleProps } from '@components/title/Title';
 
-type StylePageTitleProps = Required<Pick<PageTitleProps, 'align'>>;
+type StyledPageTitleProps = Required<Pick<PageTitleProps, 'align'>>;
 
-type StyleSectionTitleProps = Required<Pick<SectionTitleProps, 'align'>>;
+type StyledSectionTitleProps = Required<Pick<SectionTitleProps, 'align'>>;
 
-export const PageTitle = styled.h1<StylePageTitleProps>`
+export const PageTitle = styled.h1<StyledPageTitleProps>`
   ${({ theme, align }) => css`
     padding: 20px 0;
 
@@ -17,7 +17,7 @@ export const PageTitle = styled.h1<StylePageTitleProps>`
   `}
 `;
 
-export const SectionTitle = styled.h2<StyleSectionTitleProps>`
+export const SectionTitle = styled.h2<StyledSectionTitleProps>`
   ${({ theme, align }) => css`
     padding: 20px 0;
 

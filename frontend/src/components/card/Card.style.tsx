@@ -7,16 +7,16 @@ import type { MakeRequired } from '@custom-types';
 
 import { type CardContentProps, type CardHeadingProps, type CardProps } from '@components/card/Card';
 
-type StyleCardProps = MakeRequired<
+type StyledCardProps = MakeRequired<
   Pick<CardProps, 'height' | 'width' | 'backgroundColor' | 'shadow' | 'gap' | 'padding'>,
   'width' | 'height' | 'backgroundColor'
 >;
 
-type StyleCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine' | 'fontSize'>>;
+type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine' | 'fontSize'>>;
 
-type StyleCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align' | 'fontSize'>>;
+type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align' | 'fontSize'>>;
 
-export const Card = styled.div<StyleCardProps>`
+export const Card = styled.div<StyledCardProps>`
   ${({ theme, width, height, backgroundColor, shadow, gap, padding }) => css`
     display: flex;
     flex-direction: column;
@@ -33,7 +33,7 @@ export const Card = styled.div<StyleCardProps>`
   `}
 `;
 
-export const CardHeading = styled.h1<StyleCardHeadingProps>`
+export const CardHeading = styled.h1<StyledCardHeadingProps>`
   ${({ theme, maxLine, fontSize }) => css`
     width: 100%;
     margin-bottom: 8px;
@@ -46,7 +46,7 @@ export const CardHeading = styled.h1<StyleCardHeadingProps>`
   `}
 `;
 
-export const CardContent = styled.p<StyleCardContentProps>`
+export const CardContent = styled.p<StyledCardContentProps>`
   ${({ theme, maxLine, align, fontSize }) => css`
     width: 100%;
     height: calc(${theme.fontSize[fontSize]} * ${maxLine});

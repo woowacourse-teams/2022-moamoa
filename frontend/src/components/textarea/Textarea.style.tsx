@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { TextareaProps } from '@components/textarea/Textarea';
 
-type StyleTextareaProps = Required<Pick<TextareaProps, 'fontSize' | 'invalid' | 'fluid' | 'border'>>;
+type StyledTextareaProps = Required<Pick<TextareaProps, 'fontSize' | 'invalid' | 'fluid' | 'border'>>;
 
-export const Textarea = styled.textarea<StyleTextareaProps>`
+export const Textarea = styled.textarea<StyledTextareaProps>`
   ${({ theme, fontSize, fluid, invalid, border }) => css`
     width: ${fluid ? '100%' : 'auto'};
     height: 100%;

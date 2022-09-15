@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { InputProps } from '@components/input/Input';
 
-type StyleInputProps = Required<Pick<InputProps, 'fontSize' | 'invalid' | 'fluid'>>;
+type StyledInputProps = Required<Pick<InputProps, 'fontSize' | 'invalid' | 'fluid'>>;
 
-export const Input = styled.input<StyleInputProps>`
+export const Input = styled.input<StyledInputProps>`
   ${({ theme, fontSize, invalid, fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 4px 8px;

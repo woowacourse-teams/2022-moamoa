@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { WrapperProps } from './Wrapper';
 
-type StyleWrapperProps = Required<Pick<WrapperProps, 'space'>>;
+type StyledWrapperProps = Required<Pick<WrapperProps, 'space'>>;
 
-export const Wrapper = styled.div<StyleWrapperProps>`
+export const Wrapper = styled.div<StyledWrapperProps>`
   ${({ space }) => css`
     width: 100%;
     max-width: 1280px;

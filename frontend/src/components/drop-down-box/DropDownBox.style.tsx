@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { type DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
 
-type StyleDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right' | 'padding'>;
+type StyledDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right' | 'padding'>;
 
-export const DropDownBox = styled.div<StyleDropDownBox>`
+export const DropDownBox = styled.div<StyledDropDownBox>`
   ${({ theme, top, bottom, left, right, padding }) => css`
     position: absolute;
     ${(top || top === 0) && `top: ${top};`}

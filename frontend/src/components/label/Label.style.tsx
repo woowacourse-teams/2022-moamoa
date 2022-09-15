@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { type LabelProps } from '@components/label/Label';
 
-type StyleLabelProps = Pick<LabelProps, 'hidden'>;
+type StyledLabelProps = Pick<LabelProps, 'hidden'>;
 
-export const Label = styled.label<StyleLabelProps>`
+export const Label = styled.label<StyledLabelProps>`
   ${({ hidden }) => css`
     ${hidden &&
     css`

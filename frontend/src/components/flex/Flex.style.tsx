@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { FlexProps } from './Flex';
 
-type StyleFlexProps = Omit<FlexProps, 'children'>;
+type StyledFlexProps = Omit<FlexProps, 'children'>;
 
-export const Flex = styled.div<StyleFlexProps>`
+export const Flex = styled.div<StyledFlexProps>`
   ${({ width, height, gap, alignItems, justifyContent, direction, rowGap, grow }) => css`
     display: flex;
     ${direction && `flex-direction: ${direction}`};

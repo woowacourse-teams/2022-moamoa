@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { ChipProps } from '@components/chip/Chip';
 
-type StyleChipProps = Required<Pick<ChipProps, 'variant'>>;
+type StyledChipProps = Required<Pick<ChipProps, 'variant'>>;
 
-export const Chip = styled.span<StyleChipProps>`
+export const Chip = styled.span<StyledChipProps>`
   ${({ theme, variant }) => css`
     display: inline-block;
 

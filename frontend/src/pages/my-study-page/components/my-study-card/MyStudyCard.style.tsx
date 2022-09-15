@@ -6,7 +6,7 @@ import { itemHoverTransitionStyle } from '@styles/theme';
 
 import { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
-type StyleMyStudyCardProps = Pick<MyStudyCardProps, 'end'>;
+type StyledMyStudyCardProps = Pick<MyStudyCardProps, 'end'>;
 
 const endedStyle = (theme: Theme) => css`
   & * {
@@ -18,7 +18,7 @@ const endedStyle = (theme: Theme) => css`
   }
 `;
 
-export const MyStudyCard = styled.div<StyleMyStudyCardProps>`
+export const MyStudyCard = styled.div<StyledMyStudyCardProps>`
   ${({ theme, end }) => css`
     position: relative;
 

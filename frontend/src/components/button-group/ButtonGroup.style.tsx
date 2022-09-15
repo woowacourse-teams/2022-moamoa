@@ -5,12 +5,12 @@ import type { MakeRequired } from '@custom-types';
 
 import { ButtonGroupProps } from './ButtonGroup';
 
-type StyleButtonGroupProps = MakeRequired<
+type StyledButtonGroupProps = MakeRequired<
   Pick<ButtonGroupProps, 'orientation' | 'gap' | 'height' | 'width' | 'justifyContent' | 'alignItems'>,
   'gap' | 'height' | 'orientation' | 'width'
 >;
 
-export const ButtonGroup = styled.ul<StyleButtonGroupProps>`
+export const ButtonGroup = styled.ul<StyledButtonGroupProps>`
   ${({ orientation, gap, width, height, justifyContent, alignItems }) => css`
     display: flex;
     ${orientation === 'vertical' && 'flex-direction: column;'}

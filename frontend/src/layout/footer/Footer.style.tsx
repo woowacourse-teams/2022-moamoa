@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { FooterProps } from '@layout/footer/Footer';
 
-type StyleFooterProps = Required<Pick<FooterProps, 'marginBottom'>>;
+type StyledFooterProps = Required<Pick<FooterProps, 'marginBottom'>>;
 
-export const Footer = styled.footer<StyleFooterProps>`
+export const Footer = styled.footer<StyledFooterProps>`
   ${({ theme, marginBottom }) => css`
     padding: 24px 0;
     margin-bottom: ${marginBottom};

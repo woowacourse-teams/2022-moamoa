@@ -5,7 +5,10 @@ import type { MakeRequired } from '@custom-types';
 
 import { IconButtonProps } from './IconButton';
 
-type StyleIconButtonProps = MakeRequired<Pick<IconButtonProps, 'variant' | 'height' | 'width' | 'fontSize'>, 'variant'>;
+type StyledIconButtonProps = MakeRequired<
+  Pick<IconButtonProps, 'variant' | 'height' | 'width' | 'fontSize'>,
+  'variant'
+>;
 
 const applyPrimaryStyle = (theme: Theme) => css`
   background-color: ${theme.colors.primary.base};
@@ -35,7 +38,7 @@ const applySecondaryStyle = (theme: Theme) => css`
   }
 `;
 
-export const IconButton = styled.button<StyleIconButtonProps>`
+export const IconButton = styled.button<StyledIconButtonProps>`
   ${({ theme, variant, height, width, fontSize }) => css`
     display: flex;
     justify-content: center;
