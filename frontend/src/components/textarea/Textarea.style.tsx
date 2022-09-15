@@ -25,7 +25,11 @@ export const Textarea = styled.textarea<StyledTextareaProps>`
 
     ${invalid &&
     css`
-      border: 1px solid ${theme.colors.red} !important;
+      border: 1px solid ${theme.colors.red};
+
+      &:focus {
+        border: 1px solid ${theme.colors.red};
+      }
     `}
 
     &:disabled {
