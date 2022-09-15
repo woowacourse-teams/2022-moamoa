@@ -1,9 +1,9 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
 import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,32 +25,32 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> writeReview(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
             @Valid @RequestBody final WriteReviewRequest writeReviewRequest
     ) {
-        final Long id = reviewService.writeReview(githubId, studyId, writeReviewRequest);
+        final Long id = reviewService.writeReview(memberId, studyId, writeReviewRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reviews/" + id)).build();
     }
 
     @PutMapping("/{review-id}")
     public ResponseEntity<Void> updateReview(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId,
             @Valid @RequestBody final EditingReviewRequest editingReviewRequest
     ) {
-        reviewService.updateReview(githubId, studyId, reviewId, editingReviewRequest);
+        reviewService.updateReview(memberId, studyId, reviewId, editingReviewRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{review-id}")
     public ResponseEntity<Void> deleteReview(
-            @AuthenticationPrincipal final Long githubId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
-        reviewService.deleteReview(githubId, studyId, reviewId);
+        reviewService.deleteReview(memberId, studyId, reviewId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.service.response.review;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,8 +15,7 @@ import lombok.ToString;
 @ToString
 public class WriterResponse {
 
-    @JsonProperty("id")
-    private Long githubId;
+    private Long id;
 
     private String username;
 
@@ -26,6 +24,6 @@ public class WriterResponse {
     private String profileUrl;
 
     public WriterResponse(MemberData memberData) {
-        this(memberData.getGithubId(), memberData.getUsername(), memberData.getImageUrl(), memberData.getProfileUrl());
+        this(memberData.getId(), memberData.getUsername(), memberData.getImageUrl(), memberData.getProfileUrl());
     }
 }
