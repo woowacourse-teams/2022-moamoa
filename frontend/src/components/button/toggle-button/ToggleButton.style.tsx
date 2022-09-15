@@ -28,12 +28,14 @@ export const ToggleButton = styled.button<StyledToggleButtonProps>`
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;
 
-    color: ${variant === 'secondary' ? theme.colors.secondary.dark : theme.colors.primary.base};
+    color: ${theme.colors.primary.base};
     font-size: ${theme.fontSize[fontSize]};
     border: none;
     border-bottom: 2px solid transparent;
     background-color: transparent;
     transition: border-bottom 0.2s ease;
+
+    ${variant === 'secondary' && `color: ${theme.colors.secondary.dark};`}
 
     &:hover {
       border-bottom: 2px solid ${theme.colors.secondary.base};

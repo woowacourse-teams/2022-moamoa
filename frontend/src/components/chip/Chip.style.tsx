@@ -15,7 +15,13 @@ export const Chip = styled.span<StyledChipProps>`
     font-size: ${theme.fontSize.sm};
     text-align: center;
     border-radius: ${theme.radius.md};
-    color: ${variant === 'secondary' ? theme.colors.black : theme.colors.white};
-    background-color: ${variant === 'secondary' ? theme.colors.secondary.base : theme.colors.primary.base};
+    color: ${theme.colors.white};
+    background-color: ${theme.colors.primary.base};
+
+    ${variant === 'secondary' &&
+    css`
+      color: ${theme.colors.black};
+      background-color: ${theme.colors.secondary.base};
+    `}
   `}
 `;

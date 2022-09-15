@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { type TextButtonProps } from '@components/button/text-button/TextButton';
 
-type StyledTextButtonProps = Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>;
+type StyledTextButtonProps = Required<Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>>;
 
 export const TextButton = styled.button<StyledTextButtonProps>`
   ${({ theme, fluid, variant, fontSize }) => css`
@@ -12,11 +12,13 @@ export const TextButton = styled.button<StyledTextButtonProps>`
 
     font-size: ${theme.fontSize[fontSize]};
     font-weight: ${theme.fontWeight.normal};
-    color: ${variant === 'secondary' ? theme.colors.black : theme.colors.primary.base};
+    color: ${theme.colors.primary.base};
     background-color: transparent;
     border: none;
     border-bottom: 2px solid transparent;
     background-color: transparent;
+
+    ${variant === 'secondary' && `color: ${theme.colors.black};`}
 
     transition: font-weight 0.2s ease;
 

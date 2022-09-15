@@ -52,6 +52,7 @@ export const IconButton = styled.button<StyledIconButtonProps>`
     border-radius: ${theme.radius.circle};
     transition: background-color 0.2s ease;
 
-    ${variant === 'secondary' ? applySecondaryStyle(theme) : applyPrimaryStyle(theme)}
+    ${applyPrimaryStyle(theme)}
+    ${variant === 'secondary' && applySecondaryStyle(theme)}
   `}
 `;
