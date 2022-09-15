@@ -14,7 +14,7 @@ import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Form from '@components/form/Form';
-import Title from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 
 const Edit = () => {
   const formMethods = useForm();
@@ -108,7 +108,7 @@ const Edit = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Title.Page>공지사항 수정</Title.Page>
+      <PageTitle>공지사항 수정</PageTitle>
       {render()}
     </FormProvider>
   );

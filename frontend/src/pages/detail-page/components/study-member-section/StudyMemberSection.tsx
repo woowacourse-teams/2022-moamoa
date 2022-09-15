@@ -10,7 +10,7 @@ import type { StudyDetail } from '@custom-types';
 import { theme } from '@styles/theme';
 
 import { CrownIcon } from '@components/icons';
-import Title from '@components/title/Title';
+import SectionTitle from '@components/section-title/SectionTitle';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
@@ -102,9 +102,9 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
 
   return (
     <section css={tw`p-16`}>
-      <Title.Section>
+      <SectionTitle>
         스터디원 <span css={tw`text-[${theme.fontSize.md}]`}>{totalMembers.length}명</span>
-      </Title.Section>
+      </SectionTitle>
       <S.MemberList>{renderMembers()}</S.MemberList>
       {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <div css={tw`text-right pt-15 pb-15`}>

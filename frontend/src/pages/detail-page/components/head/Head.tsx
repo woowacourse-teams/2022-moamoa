@@ -8,8 +8,8 @@ import type { StudyDetail } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';
+import PageTitle from '@components/page-title/PageTitle';
 import StudyChip from '@components/study-chip/StudyChip';
-import Title from '@components/title/Title';
 
 import * as S from '@detail-page/components/head/Head.style';
 
@@ -34,7 +34,7 @@ const Head: React.FC<HeadProps> = ({
     <Flex direction="column" rowGap="4px">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" gap="16px">
-          <Title.Page>{title}</Title.Page>
+          <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
         </Flex>
         {isOwner && (

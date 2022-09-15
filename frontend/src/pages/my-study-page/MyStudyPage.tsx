@@ -1,5 +1,5 @@
 import Divider from '@components/divider/Divider';
-import Title from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
@@ -32,7 +32,7 @@ const MyStudyPage: React.FC = () => {
 
   return (
     <Wrapper>
-      <Title.Page align="center">가입한 스터디 목록</Title.Page>
+      <PageTitle align="center">가입한 스터디 목록</PageTitle>
       <Divider />
       {renderStudyListSections()}
     </Wrapper>

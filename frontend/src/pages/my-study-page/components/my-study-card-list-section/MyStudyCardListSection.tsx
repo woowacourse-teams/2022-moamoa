@@ -11,7 +11,7 @@ import type { MyStudy } from '@custom-types';
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
-import Title from '@components/title/Title';
+import SectionTitle from '@components/section-title/SectionTitle';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
@@ -48,7 +48,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
 
   return (
     <section css={tw`p-8`}>
-      <Title.Section>{sectionTitle}</Title.Section>
+      <SectionTitle>{sectionTitle}</SectionTitle>
       <S.MyStudyList>
         {studies.length === 0 ? (
           <li>해당하는 스터디가 없습니다</li>

@@ -1,7 +1,7 @@
 import { FormProvider } from '@hooks/useForm';
 
 import Form from '@components/form/Form';
-import PageTitle from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@create-study-page/CreateStudyPage.style';
@@ -22,7 +22,7 @@ const CreateStudyPage: React.FC = () => {
   return (
     <Wrapper>
       <FormProvider {...formMethods}>
-        <PageTitle.Page>스터디 개설하기</PageTitle.Page>
+        <PageTitle>스터디 개설하기</PageTitle>
         <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <S.Container>
             <S.Main>

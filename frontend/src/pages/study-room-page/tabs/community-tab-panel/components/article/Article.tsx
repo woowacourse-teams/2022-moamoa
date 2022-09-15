@@ -16,7 +16,7 @@ import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import Title from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type ArticleProps = {
@@ -97,7 +97,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
             {renderModifierButtons()}
           </Flex>
           <Divider />
-          <Title.Page>{title}</Title.Page>
+          <PageTitle>{title}</PageTitle>
           <div css={tw`min-h-400 pb-20`}>
             <MarkdownRender markdownContent={content} />
           </div>

@@ -8,7 +8,7 @@ import { theme } from '@styles/theme';
 
 import { useGetStudyReviews } from '@api/reviews';
 
-import Title from '@components/title/Title';
+import SectionTitle from '@components/section-title/SectionTitle';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
@@ -62,9 +62,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
 
   return (
     <section css={tw`p-16`}>
-      <Title.Section>
-        후기 {<span css={tw`text-[${theme.fontSize.md}]`}>{data?.totalCount ?? '0'}개</span>}
-      </Title.Section>
+      <SectionTitle>후기 {<span css={tw`text-[${theme.fontSize.md}]`}>{data?.totalCount ?? '0'}개</span>}</SectionTitle>
       {renderReviews()}
     </section>
   );

@@ -10,7 +10,7 @@ import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Form from '@components/form/Form';
-import Title from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 
 import PublishContent from '@community-tab/components/publish-content/PublishContent';
 import PublishTitle from '@community-tab/components/publish-title/PublishTitle';
@@ -52,7 +52,7 @@ const Publish = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Title.Page>게시글 작성</Title.Page>
+      <PageTitle>게시글 작성</PageTitle>
       <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
         <PublishTitle />
         <PublishContent />

@@ -10,7 +10,7 @@ import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Form from '@components/form/Form';
-import Title from '@components/title/Title';
+import PageTitle from '@components/page-title/PageTitle';
 
 import EditContent from '@community-tab/components/edit-content/EditContent';
 import EditTitle from '@community-tab/components/edit-title/EditTitle';
@@ -97,7 +97,7 @@ const Edit = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Title.Page>게시글 수정</Title.Page>
+      <PageTitle>게시글 수정</PageTitle>
       {render()}
     </FormProvider>
   );
