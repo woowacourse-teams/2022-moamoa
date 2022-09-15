@@ -70,8 +70,7 @@ public class StudyService {
 
         final Content content = request.mapToContent();
         final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        study.changeRecruitStatusIfSatisfyCondition(recruitPlanner,
-                request.getMaxMemberCount(), request.getEnrollmentEndDate(), dateTimeSystem.now());
+        study.changeRecruitStatusIfSatisfyCondition(recruitPlanner, dateTimeSystem.now());
         final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
 
         study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);

@@ -155,36 +155,6 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void changeRecruitStatusIfSatisfyCondition(final RecruitPlanner recruitPlanner,
-                                                      final Integer requestMaxMemberCount,
-                                                      final LocalDate requestEnrollmentEndDate,
-                                                      final LocalDateTime requestNow
-    ) {
-        if (requestEnrollmentEndDate == null &&
-                (requestMaxMemberCount == null || !participants.isParticipantsMaxCount(requestMaxMemberCount))
-        ) {
-            recruitPlanner.startRecruiting();
-            return;
-        }
-
-        if (requestEnrollmentEndDate != null && requestEnrollmentEndDate.isBefore(requestNow.toLocalDate())) {
-            recruitPlanner.closeRecruiting();
-            return;
-        }
-
-        if (requestMaxMemberCount == null || !participants.isParticipantsMaxCount(requestMaxMemberCount)) {
-            recruitPlanner.startRecruiting();
-            return;
-        }
-
-        if (participants.isParticipantsMaxCount(requestMaxMemberCount)) {
-            recruitPlanner.closeRecruiting();
-            return;
-        }
-
-        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
-    }
-
     public void changeRecruitStatusIfSatisfyCondition(final RecruitPlanner recruitPlanner, final LocalDateTime requestNow
     ) {
         if (recruitPlanner.getEnrollmentEndDate() == null &&
