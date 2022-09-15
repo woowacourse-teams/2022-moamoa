@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
+@ToString
 public class Token {
 
     @Id
@@ -22,12 +24,12 @@ public class Token {
     private Long id;
 
     @Column(nullable = false)
-    private Long githubId;
+    private Long memberId;
 
     private String refreshToken;
 
-    public Token(final Long githubId, final String refreshToken) {
-        this(null, githubId, refreshToken);
+    public Token(final Long memberId, final String refreshToken) {
+        this(null, memberId, refreshToken);
     }
 
     public void updateRefreshToken(final String refreshToken) {

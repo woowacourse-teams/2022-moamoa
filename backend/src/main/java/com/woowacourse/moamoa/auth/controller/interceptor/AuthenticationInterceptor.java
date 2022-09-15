@@ -31,7 +31,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return;
         }
         if (token == null || !tokenProvider.validateToken(token)) {
-            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+            throw new UnauthorizedException(String.format("유효하지 않은 토큰[%s]입니다.", token));
         }
     }
 }

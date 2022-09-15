@@ -70,7 +70,7 @@ class LinkDaoTest {
         final LocalDate startDate = LocalDate.now();
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
-        javaStudy = createStudyService.createStudy(JJANGGU.getGithubId(), javaStudyRequest);
+        javaStudy = createStudyService.createStudy(jjanggu.getId(), javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
@@ -85,10 +85,10 @@ class LinkDaoTest {
         final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
         final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
-        final Link link1 = linkService.createLink(JJANGGU.getGithubId(), javaStudy.getId(), request1);
-        final Link link2 = linkService.createLink(GREENLAWN.getGithubId(), javaStudy.getId(), request2);
-        final Link link3 = linkService.createLink(DWOO.getGithubId(), javaStudy.getId(), request3);
-        final Link link4 = linkService.createLink(VERUS.getGithubId(), javaStudy.getId(), request4);
+        final Link link1 = linkService.createLink(jjanggu.getId(), javaStudy.getId(), request1);
+        final Link link2 = linkService.createLink(greenlawn.getId(), javaStudy.getId(), request2);
+        final Link link3 = linkService.createLink(dwoo.getId(), javaStudy.getId(), request3);
+        final Link link4 = linkService.createLink(verus.getId(), javaStudy.getId(), request4);
 
         entityManager.flush();
         entityManager.clear();
@@ -102,7 +102,7 @@ class LinkDaoTest {
     }
 
     private Member toMember(final MemberData data) {
-        return new Member(data.getGithubId(), data.getUsername(), data.getImageUrl(), data.getProfileUrl());
+        return new Member(data.getId(), data.getUsername(), data.getImageUrl(), data.getProfileUrl());
     }
 
     @DisplayName("스터디 ID로 링크 공유글을 조회한다.")
