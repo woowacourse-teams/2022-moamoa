@@ -66,7 +66,6 @@ public class AuthController {
                 .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
-                .domain("moamoa.space")
                 .build();
     }
 
@@ -77,7 +76,6 @@ public class AuthController {
                 .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
-                .domain("moamoa.space")
                 .build();
     }
 }
