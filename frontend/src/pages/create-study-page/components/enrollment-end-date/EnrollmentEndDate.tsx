@@ -20,12 +20,11 @@ const ENROLLMENT_END_DATE = 'enrollment-end-date';
 
 const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate }) => {
   const { register } = useFormContext();
-  const today = useMemo(() => getToday('-'), []) as DateYMD;
+  const today = useMemo(() => getToday(), []);
   const minEndDate = originalEnrollmentEndDate ? compareDateTime(originalEnrollmentEndDate, today) : today;
   const maxEndDate = getNextYear(
     originalEnrollmentEndDate ? compareDateTime(originalEnrollmentEndDate, today, 'max') : today,
-    '-',
-  ) as DateYMD;
+  );
 
   return (
     <MetaBox>
