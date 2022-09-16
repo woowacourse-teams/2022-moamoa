@@ -8,5 +8,4 @@ import lombok.Getter;
 public class AccessTokenResponse {
 
     private final String accessToken;
-    private final long expiredTime;
 }

@@ -21,6 +21,8 @@ public class AuthController {
 
     private static final String REFRESH_TOKEN = "refreshToken";
     private static final String ACCESS_TOKEN = "accessToken";
+    private static final String SET_COOKIE = "Set-Cookie";
+    private static final long COOKIE_EXPIRE_TIME = 604_800_000L;
 
     private final AuthService authService;
 
@@ -28,24 +30,21 @@ public class AuthController {
     public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
         final TokensResponse tokenResponse = authService.createToken(code);
 
-        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, tokenResponse.getAccessToken(),
-                tokenResponse.getAccessExpireLength());
-        final ResponseCookie refreshCookie = putInCookie(REFRESH_TOKEN, tokenResponse.getRefreshToken(),
-                tokenResponse.getRefreshExpireLength());
+        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, tokenResponse.getAccessToken());
+        final ResponseCookie refreshCookie = putInCookie(REFRESH_TOKEN, tokenResponse.getRefreshToken());
 
         return ResponseEntity.ok()
-                .header("Set-Cookie", accessCookie.toString(), refreshCookie.toString())
+                .header(SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
                 .build();
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long githubId,
+    public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long memberId,
                                                             @CookieValue String refreshToken) {
-        final AccessTokenResponse response = authService.refreshToken(githubId, refreshToken);
-        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, response.getAccessToken(),
-                response.getExpiredTime());
+        final AccessTokenResponse response = authService.refreshToken(memberId, refreshToken);
+        final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, response.getAccessToken());
 
-        return ResponseEntity.ok().header("Set-Cookie", accessCookie.toString()).build();
+        return ResponseEntity.ok().header(SET_COOKIE, accessCookie.toString()).build();
     }
 
     @DeleteMapping("/api/auth/logout")
@@ -53,13 +52,13 @@ public class AuthController {
         authService.logout(memberId);
 
         return ResponseEntity.noContent()
-                .header("Set-Cookie", removeCookie(REFRESH_TOKEN).toString(), removeCookie(ACCESS_TOKEN).toString())
+                .header(SET_COOKIE, removeCookie(REFRESH_TOKEN).toString(), removeCookie(ACCESS_TOKEN).toString())
                 .build();
     }
 
-    private ResponseCookie putInCookie(final String cookieName, final String cookieValue, final long cookieAge) {
+    private ResponseCookie putInCookie(final String cookieName, final String cookieValue) {
         return ResponseCookie.from(cookieName, cookieValue)
-                .maxAge(cookieAge)
+                .maxAge(COOKIE_EXPIRE_TIME)
                 .path("/")
                 .sameSite("None")
                 .secure(true)

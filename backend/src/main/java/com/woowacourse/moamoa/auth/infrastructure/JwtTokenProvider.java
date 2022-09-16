@@ -54,7 +54,7 @@ public class JwtTokenProvider implements TokenProvider {
                 .signWith(refreshKey, HS256)
                 .compact();
 
-        return new TokensResponse(accessToken, refreshToken, accessExpireLength, refreshExpireLength);
+        return new TokensResponse(accessToken, refreshToken);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class JwtTokenProvider implements TokenProvider {
         Date tokenExpirationDate = claims.getBody().getExpiration();
         validateTokenExpiration(tokenExpirationDate);
 
-        return new AccessTokenResponse(createAccessToken(memberId), accessExpireLength);
+        return new AccessTokenResponse(createAccessToken(memberId));
     }
 
     private void validateTokenExpiration(Date tokenExpirationDate) {
