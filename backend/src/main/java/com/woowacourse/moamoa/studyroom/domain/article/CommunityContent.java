@@ -27,7 +27,7 @@ public class CommunityContent implements Content<CommunityArticle> {
     @Override
     public CommunityArticle createArticle(final StudyRoom studyRoom, final Accessor accessor) {
         if (!studyRoom.isPermittedAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.COMMUNITY);
+            throw new UneditableArticleException(studyRoom.getId(), accessor, CommunityArticle.class);
         }
 
         return new CommunityArticle(studyRoom, accessor.getMemberId(), this);

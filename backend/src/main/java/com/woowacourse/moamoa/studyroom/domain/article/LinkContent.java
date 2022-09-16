@@ -29,7 +29,7 @@ public class LinkContent implements Content<LinkArticle> {
             return new LinkArticle(studyRoom, accessor.getMemberId(), this);
         }
 
-        throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.LINK);
+        throw new UneditableArticleException(studyRoom.getId(), accessor, LinkArticle.class);
     }
 
     @Override

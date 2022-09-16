@@ -23,7 +23,7 @@ public class LinkArticleDao {
         final String sql = "SELECT link.id, link.link_url, link.description, link.created_date, link.last_modified_date, "
                 + "member.github_id, member.username, member.image_url, member.profile_url "
                 + "FROM link "
-                + "JOIN member ON link.member_id = member.id "
+                + "JOIN member ON link.author_id = member.id "
                 + "WHERE link.deleted = false "
                 + "AND link.study_id = :studyId "
                 + "ORDER BY link.created_date DESC, link.id DESC "

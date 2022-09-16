@@ -1,13 +1,12 @@
 package com.woowacourse.moamoa.studyroom.service;
 
-import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
+import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.CommunityArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +31,7 @@ public class CommunityArticleService extends AbstractArticleService<CommunityArt
 
     public ArticleResponse getArticle(final Long articleId) {
         final ArticleData data = communityArticleDao.getById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.COMMUNITY));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, CommunityArticle.class));
         return new ArticleResponse(data);
     }
 

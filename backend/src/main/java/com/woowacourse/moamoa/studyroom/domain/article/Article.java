@@ -42,7 +42,7 @@ public abstract class Article<T extends Content<? extends Article<T>>> extends B
 
     public final void update(final Accessor accessor, final T content) {
         if (!isEditableAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
+            throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
         }
 
         updateContent(content);

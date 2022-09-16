@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.service;
 
-import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
@@ -35,7 +34,7 @@ public class NoticeArticleService extends AbstractArticleService<NoticeArticle, 
 
     public ArticleResponse getArticle(final Long articleId) {
         final ArticleData data = noticeArticleDao.getById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, ArticleType.NOTICE));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, NoticeArticle.class));
         return new ArticleResponse(data);
     }
 

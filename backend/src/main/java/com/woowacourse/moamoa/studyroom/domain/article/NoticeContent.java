@@ -30,7 +30,7 @@ public class NoticeContent implements Content<NoticeArticle> {
             return new NoticeArticle(accessor.getMemberId(), studyRoom, this);
         }
 
-        throw new UneditableArticleException(studyRoom.getId(), accessor, ArticleType.NOTICE);
+        throw new UneditableArticleException(studyRoom.getId(), accessor, NoticeArticle.class);
     }
 
     public String getTitle() {
