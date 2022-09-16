@@ -29,10 +29,10 @@ jobs:
       client-secret: ${{ secrets.CLIENT_SECRET }}
       jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
       jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
-      access-secret-key ${{ secrets.ACCESS_SECRET_KEY }}
-      access-expire-length ${{ secrets.ACCESS_EXPIRE_LENGTH }}
-      refresh-secret-key ${{ secrets.REFRESH_SECRET_KEY }}
-      refresh-expire-length ${{ secrets.REFRESH_EXPIRE_LENGTH }}
+      access-secret-key: ${{ secrets.ACCESS_SECRET_KEY }}
+      access-expire-length: ${{ secrets.ACCESS_EXPIRE_LENGTH }}
+      refresh-secret-key: ${{ secrets.REFRESH_SECRET_KEY }}
+      refresh-expire-length: ${{ secrets.REFRESH_EXPIRE_LENGTH }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
