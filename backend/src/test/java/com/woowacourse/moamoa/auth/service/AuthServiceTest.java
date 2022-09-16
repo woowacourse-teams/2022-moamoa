@@ -11,7 +11,6 @@ import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
@@ -58,8 +57,8 @@ class AuthServiceTest {
                 .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
         Mockito.when(tokenProvider.createToken(any()))
                 .thenReturn(new TokensResponse("accessToken", "refreshToken"));
-        Mockito.when(tokenProvider.recreationAccessToken(any(), eq("refreshToken")))
-                .thenReturn(new AccessTokenResponse("recreationAccessToken"));
+        Mockito.when(tokenProvider.recreationToken(any(), eq("refreshToken")))
+                .thenReturn(new TokensResponse("recreationAccessToken", "recreationRefreshToken"));
     }
 
     @DisplayName("RefreshToken 을 저장한다.")
@@ -80,9 +79,9 @@ class AuthServiceTest {
         final Token token = tokenRepository.findByMemberId(member.getId()).get();
         final String refreshToken = token.getRefreshToken();
 
-        final AccessTokenResponse accessTokenResponse = authService.refreshToken(member.getId(), refreshToken);
+        final TokensResponse tokensResponse = authService.refreshToken(member.getId(), refreshToken);
         assertThat(refreshToken).isNotBlank();
-        assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
+        assertThat(tokensResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }
 
     @DisplayName("DB에 저장되어 있지 않은 refresh token으로 access token을 발급받을 수 없다.")

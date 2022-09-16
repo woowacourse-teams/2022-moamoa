@@ -6,7 +6,6 @@ import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
@@ -46,7 +45,7 @@ public class AuthService {
         return tokenResponse;
     }
 
-    public AccessTokenResponse refreshToken(final Long memberId, final String refreshToken) {
+    public TokensResponse refreshToken(final Long memberId, final String refreshToken) {
         final Token token = tokenRepository.findByMemberId(memberId)
                 .orElseThrow(TokenNotFoundException::new);
 
@@ -54,7 +53,10 @@ public class AuthService {
             throw new UnauthorizedException(String.format("유효하지 않은 토큰[%s]입니다.", token));
         }
 
-        return tokenProvider.recreationAccessToken(memberId, refreshToken);
+        final TokensResponse tokensResponse = tokenProvider.recreationToken(memberId, refreshToken);
+        token.updateRefreshToken(refreshToken);
+
+        return tokensResponse;
     }
 
     @Transactional

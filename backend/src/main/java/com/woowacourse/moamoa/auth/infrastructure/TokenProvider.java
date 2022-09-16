@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
-import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 
 public interface TokenProvider {
@@ -13,5 +12,5 @@ public interface TokenProvider {
 
     boolean validateToken(final String token);
 
-    AccessTokenResponse recreationAccessToken(final Long memberId, final String refreshToken);
+    TokensResponse recreationToken(final Long memberId, final String refreshToken);
 }

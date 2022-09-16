@@ -4,7 +4,6 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
-import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -39,20 +38,8 @@ public class JwtTokenProvider implements TokenProvider {
 
     @Override
     public TokensResponse createToken(final Long payload) {
-        final Date now = new Date();
-
-        String accessToken = Jwts.builder()
-                .setSubject(payload.toString())
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + accessExpireLength))
-                .signWith(accessKey, HS256)
-                .compact();
-
-        String refreshToken =  Jwts.builder()
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + refreshExpireLength))
-                .signWith(refreshKey, HS256)
-                .compact();
+        String accessToken = createAccessToken(payload);
+        String refreshToken =  createRefreshToken();
 
         return new TokensResponse(accessToken, refreshToken);
     }
@@ -99,7 +86,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public AccessTokenResponse recreationAccessToken(final Long memberId, final String refreshToken) {
+    public TokensResponse recreationToken(final Long memberId, final String refreshToken) {
         Jws<Claims> claims = Jwts.parserBuilder()
                 .setSigningKey(refreshKey)
                 .build()
@@ -108,7 +95,7 @@ public class JwtTokenProvider implements TokenProvider {
         Date tokenExpirationDate = claims.getBody().getExpiration();
         validateTokenExpiration(tokenExpirationDate);
 
-        return new AccessTokenResponse(createAccessToken(memberId));
+        return new TokensResponse(createAccessToken(memberId), createRefreshToken());
     }
 
     private void validateTokenExpiration(Date tokenExpirationDate) {
@@ -117,14 +104,24 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
-    private String createAccessToken(final Long memberId) {
+    private String createAccessToken(final Long payload) {
         final Date now = new Date();
 
         return Jwts.builder()
-                .setSubject(Long.toString(memberId))
+                .setSubject(Long.toString(payload))
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + accessExpireLength))
                 .signWith(accessKey, HS256)
+                .compact();
+    }
+
+    private String createRefreshToken() {
+        final Date now = new Date();
+
+        return Jwts.builder()
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshExpireLength))
+                .signWith(refreshKey, HS256)
                 .compact();
     }
 }

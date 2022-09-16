@@ -41,10 +41,13 @@ public class AuthController {
     @GetMapping("/api/auth/refresh")
     public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long memberId,
                                                             @CookieValue String refreshToken) {
-        final AccessTokenResponse response = authService.refreshToken(memberId, refreshToken);
+        final TokensResponse response = authService.refreshToken(memberId, refreshToken);
         final ResponseCookie accessCookie = putInCookie(ACCESS_TOKEN, response.getAccessToken());
+        final ResponseCookie refreshCookie = putInCookie(REFRESH_TOKEN, response.getRefreshToken());
 
-        return ResponseEntity.ok().header(SET_COOKIE, accessCookie.toString()).build();
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
+                .build();
     }
 
     @DeleteMapping("/api/auth/logout")
