@@ -3,6 +3,8 @@ package com.woowacourse.moamoa.auth.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
@@ -13,6 +15,7 @@ import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.service.MemberService;
@@ -53,9 +56,9 @@ class AuthServiceTest {
         Mockito.when(oAuthClient.getAccessToken("authorization-code")).thenReturn("access-token");
         Mockito.when(oAuthClient.getProfile("access-token"))
                 .thenReturn(new GithubProfileResponse(1L, "dwoo", "imageUrl", "profileUrl"));
-        Mockito.when(tokenProvider.createToken(1L))
+        Mockito.when(tokenProvider.createToken(any()))
                 .thenReturn(new TokensResponse("accessToken", "refreshToken", 1800000, 604800000));
-        Mockito.when(tokenProvider.recreationAccessToken(1L, "refreshToken"))
+        Mockito.when(tokenProvider.recreationAccessToken(any(), eq("refreshToken")))
                 .thenReturn(new AccessTokenResponse("recreationAccessToken", 1800000));
     }
 
@@ -63,7 +66,8 @@ class AuthServiceTest {
     @Test
     void saveRefreshToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).get();
+        final Token token = tokenRepository.findByMemberId(member.getId()).get();
 
         assertThat(token.getRefreshToken()).isEqualTo("refreshToken");
     }
@@ -72,10 +76,11 @@ class AuthServiceTest {
     @Test
     void updateRefreshToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).get();
+        final Token token = tokenRepository.findByMemberId(member.getId()).get();
         final String refreshToken = token.getRefreshToken();
 
-        final AccessTokenResponse accessTokenResponse = authService.refreshToken(1L, refreshToken);
+        final AccessTokenResponse accessTokenResponse = authService.refreshToken(member.getId(), refreshToken);
         assertThat(refreshToken).isNotBlank();
         assertThat(accessTokenResponse.getAccessToken()).isEqualTo("recreationAccessToken");
     }
@@ -91,20 +96,22 @@ class AuthServiceTest {
     @Test
     void recreationAccessToken() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).get();
+        final Token token = tokenRepository.findByMemberId(member.getId()).get();
 
-        assertDoesNotThrow(() -> authService.refreshToken(1L, token.getRefreshToken()));
+        assertDoesNotThrow(() -> authService.refreshToken(member.getId(), token.getRefreshToken()));
     }
 
     @DisplayName("로그아웃을 하면 Token 을 제거한다.")
     @Test
     void logout() {
         authService.createToken("authorization-code");
-        final Token token = tokenRepository.findByGithubId(1L).get();
+        final Member member = memberRepository.findByGithubId(1L).get();
+        final Token token = tokenRepository.findByMemberId(member.getId()).get();
 
-        authService.logout(token.getGithubId());
+        authService.logout(member.getId());
 
-        final Optional<Token> foundToken = tokenRepository.findByGithubId(token.getGithubId());
+        final Optional<Token> foundToken = tokenRepository.findByMemberId(token.getMemberId());
 
         assertThat(token).isNotNull();
         assertThat(foundToken).isEmpty();

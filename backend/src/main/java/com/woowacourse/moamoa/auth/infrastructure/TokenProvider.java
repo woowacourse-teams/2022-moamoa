@@ -13,5 +13,5 @@ public interface TokenProvider {
 
     boolean validateToken(final String token);
 
-    AccessTokenResponse recreationAccessToken(final Long githubId, final String refreshToken);
+    AccessTokenResponse recreationAccessToken(final Long memberId, final String refreshToken);
 }

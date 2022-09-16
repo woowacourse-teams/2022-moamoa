@@ -22,6 +22,8 @@ import org.springframework.http.MediaType;
 
 class UpdatingStudyAcceptanceTest extends AcceptanceTest {
 
+    private static final String ACCESS_TOKEN = "accessToken";
+
     @DisplayName("스터디 내용을 수정할 수 있다.")
     @Test
     void updateStudy() {
@@ -73,9 +75,8 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/update",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
-                .header(AUTHORIZATION, accessToken)
+                .filter(document("studies/update"))
+                .cookie(ACCESS_TOKEN, accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", studyId)
@@ -107,9 +108,8 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/update",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
-                .header(AUTHORIZATION, accessToken)
+                .filter(document("studies/update"))
+                .cookie(ACCESS_TOKEN, accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", studyId)

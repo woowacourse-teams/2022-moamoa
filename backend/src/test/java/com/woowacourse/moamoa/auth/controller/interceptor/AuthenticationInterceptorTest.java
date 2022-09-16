@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller;
+package com.woowacourse.moamoa.auth.controller.interceptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,16 +15,16 @@ class AuthenticationInterceptorTest extends WebMVCTest {
 
     @DisplayName("Preflight 요청인지 확인한다.")
     @Test
-    void isPreflightRequest() {
+    void isPreflightRequest() throws Exception {
         given(httpServletRequest.getMethod())
                 .willReturn(HttpMethod.OPTIONS.toString());
 
-        assertThat(authenticationInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
+        assertThat(pathMatcherInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
     }
 
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
-    void validateValidToken() {
+    void validateValidToken() throws Exception {
         final String token = tokenProvider.createToken(1L).getAccessToken();
         final Vector<String> cookies = new Vector<>();
         cookies.add(ACCESS_TOKEN + "=" + token);
@@ -37,7 +37,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
                 .willReturn(cookies.elements());
         given(httpServletRequest.getAttribute("payload")).willReturn("1");
 
-        assertThat(authenticationInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
+        assertThat(pathMatcherInterceptor.preHandle(httpServletRequest, null, null)).isTrue();
         assertThat(httpServletRequest.getAttribute("payload")).isEqualTo(tokenProvider.getPayload(token));
     }
 
@@ -55,8 +55,7 @@ class AuthenticationInterceptorTest extends WebMVCTest {
         given(httpServletRequest.getHeaders("Cookie"))
                 .willReturn(cookies.elements());
 
-        assertThatThrownBy(() -> authenticationInterceptor.preHandle(httpServletRequest, null, null))
-                .isInstanceOf(UnauthorizedException.class)
-                        .hasMessageContaining("유효하지 않은 토큰입니다.");
+        assertThatThrownBy(() -> pathMatcherInterceptor.preHandle(httpServletRequest, null, null))
+                .isInstanceOf(UnauthorizedException.class);
     }
 }

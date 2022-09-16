@@ -1,6 +1,5 @@
 package com.woowacourse.acceptance.test.member;
 
-import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
@@ -29,7 +28,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(MemberResponse.class);
 
-        assertThat(memberResponse.getId()).isEqualTo(베루스_깃허브_ID);
+        assertThat(memberResponse.getId()).isNotNull();
         assertThat(memberResponse.getUsername()).isEqualTo(베루스_이름);
         assertThat(memberResponse.getImageUrl()).isEqualTo(베루스_이미지_URL);
         assertThat(memberResponse.getProfileUrl()).isEqualTo(베루스_프로필_URL);
