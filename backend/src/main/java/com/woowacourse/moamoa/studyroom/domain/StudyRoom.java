@@ -1,11 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain;
 
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.article.Content;
-import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
-import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;

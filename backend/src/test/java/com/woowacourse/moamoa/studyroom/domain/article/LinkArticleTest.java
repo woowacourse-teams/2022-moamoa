@@ -32,10 +32,7 @@ class LinkArticleTest {
         sut.update(accessor, new LinkContent("updated link", "수정된 설명"));
 
         // assert
-        assertAll(
-                () -> assertThat(sut.getLinkUrl()).isEqualTo("updated link"),
-                () -> assertThat(sut.getDescription()).isEqualTo("수정된 설명")
-        );
+        assertThat(sut.getContent()).isEqualTo(new LinkContent("updated link", "수정된 설명"));
     }
 
     @ParameterizedTest

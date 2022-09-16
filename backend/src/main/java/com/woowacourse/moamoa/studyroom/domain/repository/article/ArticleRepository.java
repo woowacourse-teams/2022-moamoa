@@ -9,6 +9,4 @@ public interface ArticleRepository<A extends Article<? extends Content<A>>> {
     A save(A article);
 
     Optional<A> findById(Long id);
-
-    boolean existsById(Long id);
 }

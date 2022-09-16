@@ -75,7 +75,8 @@ class DeletingNoticeArticleControllerTest {
         sut.deleteArticle(member.getId(), study.getId(), article.getId());
 
         //assert
-        assertThat(noticeArticleRepository.existsById(article.getId())).isFalse();
+        final NoticeArticle deletedArticle = noticeArticleRepository.findById(article.getId()).orElseThrow();
+        assertThat(deletedArticle.isDeleted()).isTrue();
     }
 
     @DisplayName("게시글이 없는 경우 조회 시 예외가 발생한다.")

@@ -54,14 +54,14 @@ CREATE TABLE link
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id BIGINT NOT NULL,
-    member_id BIGINT NOT NULL,
+    author_id BIGINT NOT NULL,
     link_url MEDIUMTEXT NOT NULL,
     description MEDIUMTEXT,
     created_date DATETIME NOT NULL,
     last_modified_date DATETIME NOT NULL,
     deleted boolean NOT NULL,
     FOREIGN KEY (study_id) REFERENCES study (id),
-    FOREIGN KEY (member_id) REFERENCES member (id)
+    FOREIGN KEY (author_id) REFERENCES member (id)
 );
 
 CREATE TABLE category
