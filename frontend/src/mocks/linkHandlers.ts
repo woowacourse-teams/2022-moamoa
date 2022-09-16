@@ -29,8 +29,7 @@ export const linkHandlers = [
   }),
   rest.post<ApiLink['post']['body']>('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {
     const { linkUrl, description } = req.body;
-    if (!linkUrl || !description)
-      return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
+    if (!linkUrl) return res(ctx.status(400), ctx.json({ message: 'linkeUrl이 없음' }));
 
     const { links } = linkJson;
     linkJson.links = [
@@ -52,8 +51,7 @@ export const linkHandlers = [
     if (!linkId) return res(ctx.status(400), ctx.json({ message: '링크 아이디가 없음' }));
 
     const { linkUrl, description } = req.body;
-    if (!linkUrl || !description)
-      return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
+    if (!linkUrl) return res(ctx.status(400), ctx.json({ message: 'linkeUrl이 없음' }));
 
     const { links } = linkJson;
     const isExist = links.some(link => link.id === linkId);

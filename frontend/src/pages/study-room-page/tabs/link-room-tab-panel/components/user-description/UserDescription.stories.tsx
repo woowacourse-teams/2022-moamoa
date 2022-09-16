@@ -4,7 +4,7 @@ import UserDescription from '@study-room-page/tabs/link-room-tab-panel/component
 import type { UserDescriptionProps } from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
 
 export default {
-  title: 'Components/UserDescription',
+  title: 'Pages/StudyRoomPage/UserDescription',
   component: UserDescription,
 };
 

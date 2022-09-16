@@ -11,8 +11,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { useAuth } from '@hooks/useAuth';
 
 import { Footer, Header, Main } from '@layout';
@@ -24,7 +22,7 @@ const App = () => {
 
   return (
     <div>
-      <Header css={tw`fixed top-0 left-0 right-0 z-2`} />
+      <Header />
       <Main>
         <Routes>
           <Route path={PATH.MAIN} element={<MainPage />} />
@@ -76,7 +74,7 @@ const App = () => {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Main>
-      <Footer marginBottom={'0'} />
+      <Footer />
     </div>
   );
 };

@@ -1,20 +1,20 @@
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/subject/Subject.style';
+import Label from '@components/label/Label';
+import MetaBox from '@components/meta-box/MetaBox';
+import Select from '@components/select/Select';
 
 export type SubjectProps = {
-  className?: string;
   originalSubjects?: StudyDetail['tags'];
 };
 
-const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
+const SUBJECT = 'subject';
+
+const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
@@ -25,35 +25,33 @@ const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
 
     if (data?.tags) {
       const { tags } = data;
-      const subjects = tags.filter(({ category }) => category.name === 'subject');
+      const subjects = tags.filter(({ category }) => category.name === SUBJECT);
       const etcTagId = subjects.find(tag => tag.name === 'Etc');
 
       return (
-        <S.Select
-          id="subject-list"
+        <Select
+          id={SUBJECT}
           defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
-          css={tw`w-full`}
-          {...register('subject')}
+          fluid
+          {...register(SUBJECT)}
         >
           {subjects.map(({ id, description }) => (
             <option key={id} value={id}>
               {description}
             </option>
           ))}
-        </S.Select>
+        </Select>
       );
     }
   };
 
   return (
-    <S.Subject className={className}>
-      <MetaBox>
-        <MetaBox.Title>
-          <label htmlFor="subject-list">주제</label>
-        </MetaBox.Title>
-        <MetaBox.Content>{render()}</MetaBox.Content>
-      </MetaBox>
-    </S.Subject>
+    <MetaBox>
+      <MetaBox.Title>
+        <Label htmlFor={SUBJECT}>주제</Label>
+      </MetaBox.Title>
+      <MetaBox.Content>{render()}</MetaBox.Content>
+    </MetaBox>
   );
 };
 

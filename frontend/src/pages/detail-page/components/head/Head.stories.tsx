@@ -4,7 +4,7 @@ import Head from '@detail-page/components/head/Head';
 import type { HeadProps } from '@detail-page/components/head/Head';
 
 export default {
-  title: 'Components/Head',
+  title: 'Pages/DetailPage/Head',
   component: Head,
 };
 

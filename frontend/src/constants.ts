@@ -132,9 +132,7 @@ export const LINK_URL_LENGTH = {
   },
   FORMAT: {
     TEST(text: string) {
-      return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
-        text,
-      );
+      return /http(s)?:\/\/[(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(text);
     },
     get MESSAGE() {
       return 'URL을 입력해주세요.';
@@ -143,12 +141,6 @@ export const LINK_URL_LENGTH = {
 };
 
 export const LINK_DESCRIPTION_LENGTH = {
-  MIN: {
-    VALUE: 1,
-    get MESSAGE() {
-      return `${this.VALUE}글자 이상이어야 합니다`;
-    },
-  },
   MAX: {
     VALUE: 40,
     get MESSAGE() {

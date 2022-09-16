@@ -1,21 +1,17 @@
 import type { Member } from '@custom-types';
 
-import Avatar from '@components/avatar/Avatar';
-
-import * as S from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription.style';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type UserDescriptionProps = {
-  className?: string;
   author: Member;
   description: string;
 };
 
-const UserDescription: React.FC<UserDescriptionProps> = ({ author, description, className }) => {
+const UserDescription: React.FC<UserDescriptionProps> = ({ author, description }) => {
   return (
-    <S.Container className={className}>
-      <Avatar size="xs" profileImg={author.imageUrl} profileAlt={`${author.username} 프로필 이미지`} />
-      <S.Description>{description}</S.Description>
-    </S.Container>
+    <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
+      <UserInfoItem.Content>{description}</UserInfoItem.Content>
+    </UserInfoItem>
   );
 };
 

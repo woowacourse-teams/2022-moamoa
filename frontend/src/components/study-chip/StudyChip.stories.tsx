@@ -1,7 +1,6 @@
 import type { Story } from '@storybook/react';
 
-import type { StudyChipProps } from '@components/study-chip/StudyChip';
-import StudyChip from '@components/study-chip/StudyChip';
+import StudyChip, { type StudyChipProps } from '@components/study-chip/StudyChip';
 
 export default {
   title: 'Components/StudyChip',
@@ -14,4 +13,6 @@ export default {
 const Template: Story<StudyChipProps> = props => <StudyChip {...props} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  isOpen: true,
+};

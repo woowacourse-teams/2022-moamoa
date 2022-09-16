@@ -4,7 +4,7 @@ import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemb
 import type { StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export default {
-  title: 'Components/StudyMemberCard',
+  title: 'Pages/DetailPage/StudyMemberCard',
   component: StudyMemberCard,
 };
 

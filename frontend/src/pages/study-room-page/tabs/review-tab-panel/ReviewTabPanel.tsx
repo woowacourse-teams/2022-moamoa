@@ -7,7 +7,6 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel.style';
 import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
 import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';
 
@@ -46,37 +45,31 @@ const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
     }
 
     return (
-      <S.ReviewList>
+      <>
         {data.reviews.map(review => (
-          <li key={review.id}>
-            <ReviewComment
-              id={review.id}
-              studyId={studyId}
-              author={review.member}
-              date={review.createdDate}
-              content={review.content}
-              isMyComment={userInfo.id === review.member.id}
-            />
-          </li>
+          <>
+            <li key={review.id}>
+              <ReviewComment
+                id={review.id}
+                studyId={studyId}
+                author={review.member}
+                date={review.createdDate}
+                content={review.content}
+                isMyComment={userInfo.id === review.member.id}
+              />
+            </li>
+            <Divider space="30px" />
+          </>
         ))}
-      </S.ReviewList>
+      </>
     );
   };
 
   return (
     <Wrapper>
-      <S.ReviewTabPanel>
-        {
-          <ReviewForm
-            author={userInfo}
-            studyId={studyId}
-            onPostSuccess={handlePostSuccess}
-            onPostError={handlePostError}
-          />
-        }
-        <Divider />
-        {renderReviewList()}
-      </S.ReviewTabPanel>
+      <ReviewForm author={userInfo} studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
+      <Divider space="30px" />
+      {renderReviewList()}
     </Wrapper>
   );
 };
