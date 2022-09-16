@@ -18,7 +18,7 @@ const Template: Story<MyStudyCardListSectionProps> = props => (
 
 export const Default = Template.bind({});
 Default.args = {
-  end: false,
+  done: false,
   sectionTitle: '활동 중!',
   studies: [
     {

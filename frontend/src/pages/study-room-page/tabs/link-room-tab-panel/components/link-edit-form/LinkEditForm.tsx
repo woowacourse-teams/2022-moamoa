@@ -133,7 +133,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
               </div>
             </div>
             <BoxButton type="submit" padding="8px" fontSize="lg">
-              링크 등록
+              링크 수정
             </BoxButton>
           </Flex>
         </Form>

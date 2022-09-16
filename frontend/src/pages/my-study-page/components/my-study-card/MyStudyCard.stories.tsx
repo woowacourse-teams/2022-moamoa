@@ -30,5 +30,5 @@ Default.args = {
   ],
   startDate: '2022.08.13',
   endDate: '2022.08.20',
-  end: false,
+  done: false,
 };
