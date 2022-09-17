@@ -157,6 +157,43 @@ public class Study {
 
     public void updatePlanners(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner,
                                final LocalDateTime requestNow) {
+        validatePlanner(recruitPlanner, studyPlanner);
+
+        updateStudyPlanner(studyPlanner, requestNow);
+
+        if (recruitPlanner.getEnrollmentEndDate() == null && isNotMaxMemberCount(recruitPlanner)) {
+            recruitPlanner.startRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
+            recruitPlanner.closeRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (isNotMaxMemberCount(recruitPlanner)) {
+            recruitPlanner.startRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.closeRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
+    }
+
+    private boolean isNotMaxMemberCount(final RecruitPlanner recruitPlanner) {
+        return recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(
+                recruitPlanner.getMaxMemberCount());
+    }
+
+    private void validatePlanner(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidUpdatingException();
@@ -169,38 +206,26 @@ public class Study {
         if ((recruitPlanner.getMaxMemberCount() != null && recruitPlanner.getMaxMemberCount() < participants.getSize())) {
             throw new InvalidUpdatingException();
         }
+    }
 
-        if (recruitPlanner.getEnrollmentEndDate() == null &&
-                (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount()))
-        ) {
-            recruitPlanner.startRecruiting();
-            this.studyPlanner = studyPlanner;
-            this.recruitPlanner = recruitPlanner;
-            return;
+    private void updateStudyPlanner(final StudyPlanner studyPlanner, final LocalDateTime requestNow) {
+        if (studyPlanner.getStartDate().isAfter(requestNow.toLocalDate())) {
+            studyPlanner.prepareStudy();
         }
 
-        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
-            recruitPlanner.closeRecruiting();
-            this.studyPlanner = studyPlanner;
-            this.recruitPlanner = recruitPlanner;
-            return;
+        if (studyPlanner.getStartDate().equals(requestNow.toLocalDate()) || studyPlanner.getStartDate().isBefore(
+                requestNow.toLocalDate())) {
+            studyPlanner.inProgressStudy();
         }
 
-        if (recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
-            recruitPlanner.startRecruiting();
-            this.studyPlanner = studyPlanner;
-            this.recruitPlanner = recruitPlanner;
-            return;
+        if (studyPlanner.getEndDate() != null && requestNow.toLocalDate().isAfter(studyPlanner.getEndDate())) {
+            studyPlanner.doneStudy();
         }
+    }
 
-        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
-            recruitPlanner.closeRecruiting();
-            this.studyPlanner = studyPlanner;
-            this.recruitPlanner = recruitPlanner;
-            return;
-        }
-
-        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
+    private void setPlanner(final StudyPlanner studyPlanner, final RecruitPlanner recruitPlanner) {
+        this.studyPlanner = studyPlanner;
+        this.recruitPlanner = recruitPlanner;
     }
 
     public void updateContent(Long memberId, Content content, AttachedTags attachedTags) {

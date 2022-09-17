@@ -226,8 +226,8 @@ class StudyTest {
                 Arguments.of(
                         now.minusDays(3),
                         now.toLocalDate().minusDays(2),
-                        new StudyPlanner(now.toLocalDate().minusDays(2), now.toLocalDate().minusDays(1), DONE),
-                        true
+                        new StudyPlanner(now.toLocalDate().minusDays(2), now.toLocalDate().minusDays(1), PREPARE),
+                        false
                 )
         );
     }
@@ -291,14 +291,14 @@ class StudyTest {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now().minusDays(3));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now().minusDays(2), LocalDate.now().plusDays(1),
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now());
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(3),
                 IN_PROGRESS);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(4));
+                now());
 
         // when
-        sut.changeStatus(LocalDate.now().plusDays(2));
+        sut.changeStatus(LocalDate.now().plusDays(4));
 
         // then
         assertThat(sut.isCloseStudy()).isTrue();

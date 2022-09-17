@@ -103,10 +103,6 @@ class MyStudyServiceTest {
 
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
-        for (MyStudyResponse study : studies) {
-            System.out.println("study.getTitle() = " + study.getTitle());
-        }
-
         assertThat(studies)
                 .hasSize(4)
                 .filteredOn(study -> study.getId() != null)
