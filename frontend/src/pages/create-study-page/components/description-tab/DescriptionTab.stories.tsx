@@ -5,7 +5,7 @@ import { FormProvider, useForm } from '@hooks/useForm';
 import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
 
 export default {
-  title: 'Components/DescriptionTab',
+  title: 'Pages/CreateStudyPage/DescriptionTab',
   component: DescriptionTab,
 };
 

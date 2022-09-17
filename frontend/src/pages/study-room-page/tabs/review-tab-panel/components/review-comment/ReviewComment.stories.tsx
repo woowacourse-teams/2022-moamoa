@@ -4,7 +4,7 @@ import type { ReviewCommentProps } from '@study-room-page/tabs/review-tab-panel/
 import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';
 
 export default {
-  title: 'Components/ReviewComment',
+  title: 'Pages/StudyRoomPage/ReviewComment',
   component: ReviewComment,
   argTypes: {},
 };

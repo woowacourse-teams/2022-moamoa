@@ -2,7 +2,13 @@ import { useState } from 'react';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
+import tw from '@utils/tw';
+
+import { theme } from '@styles/theme';
+
 import { useGetStudyReviews } from '@api/reviews';
+
+import SectionTitle from '@components/section-title/SectionTitle';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
@@ -41,24 +47,24 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
           ))}
         </S.ReviewList>
         {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
-          <S.MoreButtonContainer>
+          <div css={tw`p-16 text-right`}>
             <MoreButton
               status={showAll ? 'unfold' : 'fold'}
               onClick={handleMoreButtonClick}
               foldText="- 접기"
               unfoldText="+ 더보기"
             />
-          </S.MoreButtonContainer>
+          </div>
         )}
       </>
     );
   };
 
   return (
-    <S.ReviewSection>
-      <S.ReviewTitle>후기 {<span>{data?.totalCount ?? '0'}개</span>}</S.ReviewTitle>
+    <section css={tw`p-16`}>
+      <SectionTitle>후기 {<span css={tw`text-[${theme.fontSize.md}]`}>{data?.totalCount ?? '0'}개</span>}</SectionTitle>
       {renderReviews()}
-    </S.ReviewSection>
+    </section>
   );
 };
 
