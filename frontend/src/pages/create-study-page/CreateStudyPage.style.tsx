@@ -26,7 +26,7 @@ export const Main = styled.div`
 `;
 
 export const Sidebar = styled.ul`
-  min-width: 280px;
+  width: 280px;
 
   & > li {
     margin-bottom: 15px;
