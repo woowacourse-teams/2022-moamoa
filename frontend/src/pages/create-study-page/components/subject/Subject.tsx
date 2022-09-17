@@ -6,7 +6,7 @@ import { useFormContext } from '@hooks/useForm';
 
 import Label from '@components/label/Label';
 import MetaBox from '@components/meta-box/MetaBox';
-import Select from '@components/select/Select';
+import MultiTagSelect, { type MultiTagSelectProps } from '@components/multi-tag-select/MultiTagSelect';
 
 export type SubjectProps = {
   originalSubjects?: StudyDetail['tags'];
@@ -18,6 +18,11 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
+  const originalOptions = originalSubjects?.map(({ id, description }) => ({
+    label: description,
+    value: id,
+  }));
+
   const render = () => {
     if (isLoading) return <div>loading...</div>;
 
@@ -26,22 +31,16 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
     if (data?.tags) {
       const { tags } = data;
       const subjects = tags.filter(({ category }) => category.name === SUBJECT);
-      const etcTagId = subjects.find(tag => tag.name === 'Etc');
 
-      return (
-        <Select
-          id={SUBJECT}
-          defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
-          fluid
-          {...register(SUBJECT)}
-        >
-          {subjects.map(({ id, description }) => (
-            <option key={id} value={id}>
-              {description}
-            </option>
-          ))}
-        </Select>
-      );
+      const options = subjects.reduce((acc, { id, description }) => {
+        acc.push({
+          label: description,
+          value: id,
+        });
+        return acc;
+      }, [] as MultiTagSelectProps['options']);
+
+      return <MultiTagSelect selectedOptoins={originalOptions} options={options} {...register(SUBJECT)} />;
     }
   };
 
