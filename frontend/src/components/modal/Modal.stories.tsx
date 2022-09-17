@@ -1,10 +1,13 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
+import { noop } from '@utils';
 
+import { BoxButton } from '@components/button';
 import Modal from '@components/modal/Modal';
 import type { ModalProps } from '@components/modal/Modal';
+
+import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
 
 export default {
   title: 'Components/Modal',
@@ -16,21 +19,22 @@ const Template: Story<ModalProps> = () => {
 
   return (
     <>
-      <button type="button" onClick={() => setIsOpen(prev => !prev)}>
+      <BoxButton type="button" onClick={() => setIsOpen(prev => !prev)} fluid={false}>
         모달 열기
-      </button>
+      </BoxButton>
       {isOpen && (
         <Modal onModalOutsideClick={() => setIsOpen(false)}>
-          <div
-            css={css`
-              background-color: black;
-              padding: 20px;
-            `}
-          >
-            <button type="button" onClick={() => alert('클릭!')}>
-              alert창이 뜹니다
-            </button>
-          </div>
+          <LinkForm
+            author={{
+              id: 20,
+              username: 'tco0427',
+              imageUrl:
+                'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+              profileUrl: 'github.com',
+            }}
+            onPostError={noop}
+            onPostSuccess={noop}
+          />
         </Modal>
       )}
     </>

@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import * as S from '@study-room-page/tabs/notice-tab-panel/components/pagination/Pagination.style';
+import tw from '@utils/tw';
+
+import { TextButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import { MeatballMenuIcon } from '@components/icons';
 
 type PaginationProps = {
   count: number; // 전체 페이지 개수
@@ -16,7 +20,7 @@ const range = (start: number, end: number): Array<number> => {
 const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberButtonClick }) => {
   const [page, setPage] = useState<number>(defaultPage);
 
-  const handleNumButtonClick = (num: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNumButtonClick = (num: number) => () => {
     setPage(num);
     onNumberButtonClick(num);
   };
@@ -46,15 +50,19 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
       <>
         {list.map((num, i) => {
           return (
-            <li key={i}>
+            <div key={i} css={tw`p-8`}>
               {num === '...' ? (
-                num
+                <MeatballMenuIcon />
               ) : (
-                <S.PaginationButton active={num === page} onClick={handleNumButtonClick(num)}>
+                <TextButton
+                  variant={num === page ? 'primary' : 'secondary'}
+                  fontSize={num === page ? 'xl' : 'md'}
+                  onClick={handleNumButtonClick(num)}
+                >
                   {num}
-                </S.PaginationButton>
+                </TextButton>
               )}
-            </li>
+            </div>
           );
         })}
       </>
@@ -62,11 +70,9 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
   };
 
   return (
-    <S.Pagination>
-      <S.Inner>
-        <ul>{renderItems()}</ul>
-      </S.Inner>
-    </S.Pagination>
+    <ButtonGroup justifyContent="center" alignItems="center" gap="8px">
+      {renderItems()}
+    </ButtonGroup>
   );
 };
 

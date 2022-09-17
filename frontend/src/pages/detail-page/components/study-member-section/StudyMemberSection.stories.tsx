@@ -6,7 +6,7 @@ import StudyMemberSection from '@detail-page/components/study-member-section/Stu
 import type { StudyMemberSectionProps } from '@detail-page/components/study-member-section/StudyMemberSection';
 
 export default {
-  title: 'Components/StudyMemberSection',
+  title: 'Pages/DetailPage/StudyMemberSection',
   component: StudyMemberSection,
 };
 

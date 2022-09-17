@@ -2,63 +2,70 @@ import { useState } from 'react';
 
 import { MEMBER_COUNT } from '@constants';
 
+import tw from '@utils/tw';
+
 import { StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
-import * as S from '@create-study-page/components/max-member-count/MaxMemberCount.style';
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
+import Checkbox from '@components/checkbox/Checkbox';
+import Flex from '@components/flex/Flex';
+import Input from '@components/input/Input';
+import Label from '@components/label/Label';
+import MetaBox from '@components/meta-box/MetaBox';
 
 export type MaxMemberCountProps = {
-  className?: string;
   originalMaxMemberCount?: StudyDetail['maxMemberCount'];
 };
 
-const maxMemberCountName = 'max-member-count';
+const MAX_MEMBER_COUNT = 'max-member-count';
 
-const MaxMemberCount = ({ className, originalMaxMemberCount }: MaxMemberCountProps) => {
-  const [willSelectMaxMember, setWillSelectMaxMember] = useState<boolean>(true);
+const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
+  const [isMaxMemberCountInputEnabled, setIsMaxMemberCountInputEnabled] = useState<boolean>(
+    originalMaxMemberCount ? true : false,
+  );
 
   const { removeField, register } = useFormContext();
 
   const { handleKeyDown } = usePositiveNumberInput();
 
   const handleNoSelectCheckboxChange = () => {
-    setWillSelectMaxMember(prev => {
-      if (prev) removeField(maxMemberCountName);
+    setIsMaxMemberCountInputEnabled(prev => {
+      if (prev) removeField(MAX_MEMBER_COUNT);
       return !prev;
     });
   };
 
   return (
-    <S.MaxMemberCount className={className}>
-      <MetaBox>
-        <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
-        <MetaBox.Content>
-          <S.Container>
-            <S.Label htmlFor="no-select">선택 안함</S.Label>
-            <S.Checkbox id="no-select" checked={!willSelectMaxMember} onChange={handleNoSelectCheckboxChange} />
-          </S.Container>
-          {willSelectMaxMember && (
-            <>
-              <S.Label htmlFor={maxMemberCountName}>최대 인원 :</S.Label>
-              <S.Input
-                id={maxMemberCountName}
+    <MetaBox>
+      <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
+      <MetaBox.Content>
+        <Flex gap="8px">
+          <Label htmlFor="no-select">선택 안함</Label>
+          <Checkbox id="no-select" checked={!isMaxMemberCountInputEnabled} onChange={handleNoSelectCheckboxChange} />
+        </Flex>
+        {isMaxMemberCountInputEnabled && (
+          <Flex gap="8px" alignItems="center">
+            <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
+            <div css={tw`flex-grow`}>
+              <Input
+                id={MAX_MEMBER_COUNT}
                 type="number"
+                fluid
                 placeholder="최대 인원"
                 defaultValue={originalMaxMemberCount}
                 onKeyDown={handleKeyDown}
-                {...register(maxMemberCountName, {
+                {...register(MAX_MEMBER_COUNT, {
                   min: MEMBER_COUNT.MIN.VALUE,
                   max: MEMBER_COUNT.MAX.VALUE,
                 })}
               />
-            </>
-          )}
-        </MetaBox.Content>
-      </MetaBox>
-    </S.MaxMemberCount>
+            </div>
+          </Flex>
+        )}
+      </MetaBox.Content>
+    </MetaBox>
   );
 };
 

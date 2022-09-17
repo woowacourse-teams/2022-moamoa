@@ -25,8 +25,8 @@ public class SearchingReferenceRoomService {
     private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
 
-    public LinksResponse getLinks(final Long githubId, final Long studyId, final Pageable pageable) {
-        final Member member = memberRepository.findByGithubId(githubId)
+    public LinksResponse getLinks(final Long memberId, final Long studyId, final Pageable pageable) {
+        final Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);

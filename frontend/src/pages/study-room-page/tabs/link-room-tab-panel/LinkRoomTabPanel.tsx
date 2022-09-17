@@ -1,8 +1,10 @@
+import tw from '@utils/tw';
+
 import type { Link } from '@custom-types';
 
+import { TextButton } from '@components/button';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
-import { PlusSvg } from '@components/svg';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import * as S from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel.style';
@@ -55,14 +57,11 @@ const LinkRoomTabPanel: React.FC = () => {
 
   return (
     <Wrapper>
-      <S.LinkAddButtonContainer>
-        <S.LinkAddButton type="button" onClick={handleLinkAddButtonClick}>
-          <S.PlusSvgContainer>
-            <PlusSvg />
-          </S.PlusSvgContainer>
-          <span>링크 추가하기</span>
-        </S.LinkAddButton>
-      </S.LinkAddButtonContainer>
+      <div css={tw`py-4 mb-16 text-right`}>
+        <TextButton variant="primary" fontSize="lg" onClick={handleLinkAddButtonClick}>
+          링크 추가하기
+        </TextButton>
+      </div>
       {renderLinkList()}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>

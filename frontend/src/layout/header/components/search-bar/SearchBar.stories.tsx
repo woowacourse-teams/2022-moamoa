@@ -4,7 +4,7 @@ import SearchBar from '@layout/header/components/search-bar/SearchBar';
 import type { SearchBarProps } from '@layout/header/components/search-bar/SearchBar';
 
 export default {
-  title: 'Components/SearchBar',
+  title: 'Layout/SearchBar',
   component: SearchBar,
 };
 

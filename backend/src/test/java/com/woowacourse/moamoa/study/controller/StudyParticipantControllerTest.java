@@ -60,7 +60,7 @@ class StudyParticipantControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getGithubId(), studyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getId(), studyRequest);
 
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();
@@ -97,7 +97,7 @@ class StudyParticipantControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getGithubId(), studyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getId(), studyRequest);
 
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();

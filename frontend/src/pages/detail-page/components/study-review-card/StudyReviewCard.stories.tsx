@@ -4,7 +4,7 @@ import StudyReviewCard from '@detail-page/components/study-review-card/StudyRevi
 import type { StudyReviewCardProps } from '@detail-page/components/study-review-card/StudyReviewCard';
 
 export default {
-  title: 'Components/StudyReviewCard',
+  title: 'Pages/DetailPage/StudyReviewCard',
   component: StudyReviewCard,
 };
 
