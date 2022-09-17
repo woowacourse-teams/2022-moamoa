@@ -31,6 +31,11 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
     if (data?.tags) {
       const { tags } = data;
       const subjects = tags.filter(({ category }) => category.name === SUBJECT);
+      const etcTag = subjects.find(tag => tag.name === 'Etc');
+      if (!etcTag) {
+        throw new Error('기타 태그의 name이 변경되었습니다');
+      }
+      const selectedOptions = originalOptions ? originalOptions : [{ value: etcTag.id, label: etcTag.description }];
 
       const options = subjects.reduce((acc, { id, description }) => {
         acc.push({
@@ -40,7 +45,7 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         return acc;
       }, [] as MultiTagSelectProps['options']);
 
-      return <MultiTagSelect selectedOptoins={originalOptions} options={options} {...register(SUBJECT)} />;
+      return <MultiTagSelect selectedOptoins={selectedOptions} options={options} {...register(SUBJECT)} />;
     }
   };
 
