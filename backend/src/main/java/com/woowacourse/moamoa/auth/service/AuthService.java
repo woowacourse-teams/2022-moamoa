@@ -2,10 +2,12 @@ package com.woowacourse.moamoa.auth.service;
 
 import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
+import com.woowacourse.moamoa.auth.exception.TokenExpirationException;
 import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
+import com.woowacourse.moamoa.auth.service.response.LoginStatusResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.member.service.MemberService;
@@ -65,5 +67,16 @@ public class AuthService {
                 .orElseThrow(TokenNotFoundException::new);
 
         tokenRepository.delete(token);
+    }
+
+    public LoginStatusResponse validateLoginStatus(final String accessToken) {
+        if (accessToken.isBlank()) {
+            return new LoginStatusResponse(false);
+        }
+        if (tokenProvider.validateToken(accessToken)) {
+            throw new TokenExpirationException();
+        }
+
+        return new LoginStatusResponse(true);
     }
 }

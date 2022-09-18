@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
+import com.woowacourse.moamoa.auth.service.response.LoginStatusResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
@@ -48,6 +49,13 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
                 .build();
+    }
+
+    @GetMapping("/api/auth/login/status")
+    public ResponseEntity<LoginStatusResponse> checkLoginStatus(@CookieValue String accessToken) {
+        final LoginStatusResponse loginStatusResponse = authService.validateLoginStatus(accessToken);
+
+        return ResponseEntity.ok(loginStatusResponse);
     }
 
     @DeleteMapping("/api/auth/logout")

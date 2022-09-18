@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PRIVATE)
 public class AuthenticationExtractor {
 
-    private static final String BEARER_TYPE = "Bearer";
     private static final String ACCESS_TOKEN_TYPE = AuthenticationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
 
     public static String extract(HttpServletRequest request) {
