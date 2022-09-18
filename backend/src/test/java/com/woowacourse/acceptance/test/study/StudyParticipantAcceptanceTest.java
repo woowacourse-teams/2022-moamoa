@@ -75,4 +75,29 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(studyDetailResponse.getMembers()).isEmpty()
         );
     }
+
+    @DisplayName("방장은 스터디원을 강퇴시킬 수 있다.")
+    @Test
+    void kickOutStudyMember() {
+        final LocalDate 지금 = LocalDate.now();
+        final Long 짱구_스터디_아이디 = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+
+        디우가().로그인하고().스터디에(짱구_스터디_아이디).참여한다();
+        final Long 디우_아이디 = 디우가().로그인하고().정보를_가져온다().getId();
+
+        final String 짱구_토큰 = 짱구가().로그인한다();
+
+        RestAssured.given(spec).log().all()
+                .filter(document("studies/kick-out",
+                        requestHeaders(
+                                headerWithName("Authorization").description("JWT Token")
+                        )))
+                .header(HttpHeaders.AUTHORIZATION, 짱구_토큰)
+                .pathParam("study-id", 짱구_스터디_아이디)
+                .pathParam("member-id", 디우_아이디)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/members/{member-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
 }
