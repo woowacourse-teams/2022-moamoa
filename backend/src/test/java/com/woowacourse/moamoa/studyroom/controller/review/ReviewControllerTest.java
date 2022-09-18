@@ -71,6 +71,7 @@ class ReviewControllerTest {
                 .build();
 
         Study javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
+        자바_스터디_아이디 = javaStudy.getId();
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         participantService.participateStudy(그린론.getId(), javaStudy.getId());

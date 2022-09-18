@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.studyroom.service;
 
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
@@ -27,46 +26,42 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StudyRoomRepository studyRoomRepository;
 
-    public Long writeReview(final Long githubId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
+    public Long writeReview(final Long memberId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
-        final Member member = memberRepository.findByGithubId(githubId)
-                .orElseThrow(MemberNotFoundException::new);
 
-        final Accessor accessor = new Accessor(member.getId(), studyId);
+        final Accessor accessor = new Accessor(memberId, studyId);
         final Review review = studyRoom.writeReview(accessor, writeReviewRequest.getContent());
 
         return reviewRepository.save(review).getId();
     }
 
     public void updateReview(
-            final Long githubId,
+            final Long memberId,
             final Long studyId,
             final Long reviewId,
             final EditingReviewRequest editingReviewRequest
     ) {
-        final Member member = memberRepository.findByGithubId(githubId)
+        memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        final Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(ReviewNotFoundException::new);
         studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
 
-        review.updateContent(
-                new AssociatedStudy(studyId),
-                new Reviewer(member.getId()),
-                editingReviewRequest.getContent()
-        );
+        review.updateContent(new AssociatedStudy(studyId), new Reviewer(memberId), editingReviewRequest.getContent());
     }
 
-    public void deleteReview(final Long githubId, final Long studyId, final Long reviewId) {
-        final Member member = memberRepository.findByGithubId(githubId)
+    public void deleteReview(final Long memberId, final Long studyId, final Long reviewId) {
+        memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        final Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(ReviewNotFoundException::new);
         studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
+        final Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
 
-        review.delete(new AssociatedStudy(studyId), new Reviewer(member.getId()));
+        review.delete(new AssociatedStudy(studyId), new Reviewer(memberId));
     }
 }

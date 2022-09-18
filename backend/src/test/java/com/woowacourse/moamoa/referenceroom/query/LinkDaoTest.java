@@ -1,14 +1,20 @@
 package com.woowacourse.moamoa.referenceroom.query;
 
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.query.data.LinkData;
@@ -32,11 +38,6 @@ import org.springframework.data.domain.Slice;
 @RepositoryTest
 class LinkDaoTest {
 
-    private static final MemberData JJANGGU = new MemberData(1L, "jjanggu", "https://image", "github.com");
-    private static final MemberData GREENLAWN = new MemberData(2L, "greenlawn", "https://image", "github.com");
-    private static final MemberData DWOO = new MemberData(3L, "dwoo", "https://image", "github.com");
-    private static final MemberData VERUS = new MemberData(4L, "verus", "https://image", "github.com");
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -59,23 +60,23 @@ class LinkDaoTest {
     @BeforeEach
     void setUp() {
         // 사용자 추가
-        final Member jjanggu = memberRepository.save(toMember(JJANGGU));
-        final Member greenlawn = memberRepository.save(toMember(GREENLAWN));
-        final Member dwoo = memberRepository.save(toMember(DWOO));
-        final Member verus = memberRepository.save(toMember(VERUS));
+        final Long 짱구_아이디 = memberRepository.save(짱구()).getId();
+        final Long 그린론_아이디 = memberRepository.save(그린론()).getId();
+        final Long 디우_아이디 = memberRepository.save(디우()).getId();
+        final Long 베루스_아이디 = memberRepository.save(베루스()).getId();
 
-        // 스터디 생성
+        // 짱구가 스터디 생성하고 그린론, 디우, 베루스가 스터디 참여
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         final LocalDate startDate = LocalDate.now();
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
-        javaStudy = createStudyService.createStudy(jjanggu.getId(), javaStudyRequest);
+        javaStudy = createStudyService.createStudy(짱구_아이디, javaStudyRequest);
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
-        participantService.participateStudy(greenlawn.getId(), javaStudy.getId());
-        participantService.participateStudy(dwoo.getId(), javaStudy.getId());
-        participantService.participateStudy(verus.getId(), javaStudy.getId());
+        participantService.participateStudy(그린론_아이디, javaStudy.getId());
+        participantService.participateStudy(디우_아이디, javaStudy.getId());
+        participantService.participateStudy(베루스_아이디, javaStudy.getId());
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository, linkRepository);
@@ -85,24 +86,20 @@ class LinkDaoTest {
         final CreatingLinkRequest request3 = new CreatingLinkRequest("https://github.com/tco0427", "디우 링크.");
         final CreatingLinkRequest request4 = new CreatingLinkRequest("https://github.com/wilgur513", "베루스 링크.");
 
-        final Link link1 = linkService.createLink(jjanggu.getId(), javaStudy.getId(), request1);
-        final Link link2 = linkService.createLink(greenlawn.getId(), javaStudy.getId(), request2);
-        final Link link3 = linkService.createLink(dwoo.getId(), javaStudy.getId(), request3);
-        final Link link4 = linkService.createLink(verus.getId(), javaStudy.getId(), request4);
+        final Link link1 = linkService.createLink(짱구_아이디, javaStudy.getId(), request1);
+        final Link link2 = linkService.createLink(그린론_아이디, javaStudy.getId(), request2);
+        final Link link3 = linkService.createLink(디우_아이디, javaStudy.getId(), request3);
+        final Link link4 = linkService.createLink(베루스_아이디, javaStudy.getId(), request4);
 
         entityManager.flush();
         entityManager.clear();
 
-        final LinkData 링크1 = new LinkData(link1.getId(), JJANGGU, link1.getLinkUrl(), link1.getDescription(), link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate());
-        final LinkData 링크2 = new LinkData(link2.getId(), GREENLAWN, link2.getLinkUrl(), link2.getDescription(), link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate());
-        final LinkData 링크3 = new LinkData(link3.getId(), DWOO, link3.getLinkUrl(), link3.getDescription(), link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate());
-        final LinkData 링크4 = new LinkData(link4.getId(), VERUS, link4.getLinkUrl(), link4.getDescription(), link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate());
+        final LinkData 링크1 = new LinkData(link1.getId(), 짱구_응답(짱구_아이디), link1.getLinkUrl(), link1.getDescription(), link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate());
+        final LinkData 링크2 = new LinkData(link2.getId(), 그린론_응답(그린론_아이디), link2.getLinkUrl(), link2.getDescription(), link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate());
+        final LinkData 링크3 = new LinkData(link3.getId(), 디우_응답(디우_아이디), link3.getLinkUrl(), link3.getDescription(), link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate());
+        final LinkData 링크4 = new LinkData(link4.getId(), 베루스_응답(베루스_아이디), link4.getLinkUrl(), link4.getDescription(), link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate());
 
         linkData = List.of(링크1, 링크2, 링크3, 링크4);
-    }
-
-    private Member toMember(final MemberData data) {
-        return new Member(data.getId(), data.getUsername(), data.getImageUrl(), data.getProfileUrl());
     }
 
     @DisplayName("스터디 ID로 링크 공유글을 조회한다.")

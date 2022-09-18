@@ -1,15 +1,13 @@
 package com.woowacourse.moamoa.studyroom.query.review;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰1;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰1_내용;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰2;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰2_내용;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰3;
-import static com.woowacourse.moamoa.fixtures.ReviewFixtures.리액트_리뷰3_내용;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰1;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰1_내용;
 import static com.woowacourse.moamoa.fixtures.ReviewFixtures.자바_리뷰2;
@@ -25,17 +23,15 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.studyroom.domain.review.Review;
-import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
-import com.woowacourse.moamoa.studyroom.query.ReviewDao;
-import com.woowacourse.moamoa.studyroom.query.data.ReviewData;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.review.Review;
+import com.woowacourse.moamoa.studyroom.query.ReviewDao;
+import com.woowacourse.moamoa.studyroom.query.data.ReviewData;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -64,24 +60,15 @@ class ReviewDaoTest {
 
     private Study javaStudy;
 
-    private Study reactStudy;
-
     private List<ReviewData> javaReviews;
-
-    private List<ReviewData> reactReviews;
-
-    private Member 짱구;
-    private Member 그린론;
-    private Member 디우;
-    private Member 베루스;
 
     @BeforeEach
     void setUp() {
         // 사용자 추가
-        짱구 = memberRepository.save(짱구());
-        그린론 = memberRepository.save(그린론());
-        디우 = memberRepository.save(디우());
-        베루스 = memberRepository.save(베루스());
+        final Long 짱구_아이디 = memberRepository.save(짱구()).getId();
+        final Long 그린론_아이디 = memberRepository.save(그린론()).getId();
+        final Long 디우_아이디 = memberRepository.save(디우()).getId();
+        final Long 베루스_아이디 = memberRepository.save(베루스()).getId();
 
         // 스터디 생성
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
@@ -90,38 +77,25 @@ class ReviewDaoTest {
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
         StudyRequest reactStudyRequest = 리액트_스터디_신청서(startDate);
 
-        javaStudy = createStudyService.createStudy(짱구.getId(), javaStudyRequest);
-        reactStudy = createStudyService.createStudy(짱구.getId(), reactStudyRequest);
+        javaStudy = createStudyService.createStudy(짱구_아이디, javaStudyRequest);
 
         // 리뷰 추가
-        final Review firstJavaReview = reviewRepository.save(자바_리뷰1(javaStudy.getId(), 짱구.getId()));
-        final Review secondJavaReview = reviewRepository.save(자바_리뷰2(javaStudy.getId(), 그린론.getId()));
-        final Review thirdJavaReview = reviewRepository.save(자바_리뷰3(javaStudy.getId(), 디우.getId()));
-        final Review forthJavaReview = reviewRepository.save(자바_리뷰4(javaStudy.getId(), 베루스.getId()));
-
-        final Review firstReactReview = reviewRepository.save(리액트_리뷰1(reactStudy.getId(), 짱구.getId()));
-        final Review secondReactReview = reviewRepository.save(리액트_리뷰2(reactStudy.getId(), 그린론.getId()));
-        final Review thirdReactReview = reviewRepository.save(리액트_리뷰3(reactStudy.getId(), 디우.getId()));
+        final Review firstJavaReview = reviewRepository.save(자바_리뷰1(javaStudy.getId(), 짱구_아이디));
+        final Review secondJavaReview = reviewRepository.save(자바_리뷰2(javaStudy.getId(), 그린론_아이디));
+        final Review thirdJavaReview = reviewRepository.save(자바_리뷰3(javaStudy.getId(), 디우_아이디));
+        final Review forthJavaReview = reviewRepository.save(자바_리뷰4(javaStudy.getId(), 베루스_아이디));
 
         entityManager.flush();
 
         javaReviews = List.of(
-                new ReviewData(forthJavaReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                new ReviewData(forthJavaReview.getId(), 짱구_응답(짱구_아이디),
                         firstJavaReview.getCreatedDate().toLocalDate(), firstJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰1_내용),
-                new ReviewData(thirdJavaReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                new ReviewData(thirdJavaReview.getId(), 그린론_응답(그린론_아이디),
                         secondJavaReview.getCreatedDate().toLocalDate(), secondJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰2_내용),
-                new ReviewData(secondJavaReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                new ReviewData(secondJavaReview.getId(), 디우_응답(디우_아이디),
                         thirdJavaReview.getCreatedDate().toLocalDate(), thirdJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰3_내용),
-                new ReviewData(firstJavaReview.getId(), new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                new ReviewData(firstJavaReview.getId(), 베루스_응답(베루스_아이디),
                         forthJavaReview.getCreatedDate().toLocalDate(), forthJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰4_내용)
-        );
-        reactReviews = List.of(
-                new ReviewData(firstReactReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        firstReactReview.getCreatedDate().toLocalDate(), firstReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰1_내용),
-                new ReviewData(secondReactReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
-                        secondReactReview.getCreatedDate().toLocalDate(), secondReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰2_내용),
-                new ReviewData(thirdReactReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        thirdReactReview.getCreatedDate().toLocalDate(), thirdReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰3_내용)
         );
     }
 
