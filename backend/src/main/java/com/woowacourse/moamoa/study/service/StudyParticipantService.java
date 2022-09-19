@@ -35,4 +35,13 @@ public class StudyParticipantService {
 
         study.leave(new Participant(memberId));
     }
+
+    public void kickOutMember(final Long memberId, final Long studyId, final Long participantId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        study.kickOut(memberId, new Participant(participantId));
+    }
 }

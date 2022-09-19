@@ -40,6 +40,7 @@ public class StudyParticipantController {
             @PathVariable("member-id") final Long participantId
     ) {
 
+        studyParticipantService.kickOutMember(memberId, studyId, participantId);
         return ResponseEntity.noContent().build();
     }
 }

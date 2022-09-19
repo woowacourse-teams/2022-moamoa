@@ -427,6 +427,21 @@ class StudyTest {
                 .isInstanceOf(ParticipantCanNotKickOutException.class);
     }
 
+    @DisplayName("스터디에 참여하지 않은 회원을 강퇴시킬 수 없다.")
+    @Test
+    void canNotKickOutNotParticipatedMember() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final long ownerId = 1L;
+        final Participants participants = new Participants(ownerId, Set.of(2L, 3L));
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        assertThatThrownBy(() -> sut.kickOut(1L, new Participant(4L)))
+                .isInstanceOf(NotParticipatedMemberException.class);
+    }
+
     @DisplayName("참여자는 스터디를 업데이트할 수 없다.")
     @Test
     public void updateStudyWithParticipant() {

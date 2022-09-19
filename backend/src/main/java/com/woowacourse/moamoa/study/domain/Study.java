@@ -117,6 +117,9 @@ public class Study {
         if (!participants.isOwner(ownerId)) {
             throw new ParticipantCanNotKickOutException();
         }
+        if (!participants.isParticipation(participant.getMemberId())) {
+            throw new NotParticipatedMemberException();
+        }
     }
 
     private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
