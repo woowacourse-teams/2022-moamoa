@@ -18,6 +18,9 @@ operation::auth/refresh[snippets='http-request,http-response']
 === 로그아웃
 operation::auth/logout[snippets='http-request,http-response']
 
+=== 로그인 상태 조회
+operation::auth/loginStatus[snippets='http-request,http-response']
+
 [[Member]]
 == 회원
 
