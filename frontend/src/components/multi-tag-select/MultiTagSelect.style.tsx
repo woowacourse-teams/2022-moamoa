@@ -68,6 +68,7 @@ export const RemoveSelectedOptionButton = styled(UnstyledButton)`
     padding-left: 4px;
     padding-right: 4px;
     box-sizing: border-box;
+    font-size: 14px;
 
     &:hover {
       background-color: ${theme.colors.red};

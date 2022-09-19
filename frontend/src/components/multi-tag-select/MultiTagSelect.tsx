@@ -1,6 +1,8 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import { UnstyledButton } from '@components/button/unstyled-button/UnstyledButton.style';
+import tw from '@utils/tw';
+
+import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
 import XMarkIcon from '@components/icons/x-mark-icon/XMarkIcon';
@@ -77,7 +79,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
     };
 
     const AllClearButton = () => (
-      <UnstyledButton onClick={handleAllClearButton}>
+      <UnstyledButton css={tw`text-18`} onClick={handleAllClearButton}>
         <Center>
           <XMarkIcon />
         </Center>
@@ -93,7 +95,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
                 <S.SelectedOption>{option.label}</S.SelectedOption>
                 <S.RemoveSelectedOptionButton onClick={handleRemoveSelectValueButtonClick(option)}>
                   <Center>
-                    <XMarkIcon size="sm" />
+                    <XMarkIcon />
                   </Center>
                 </S.RemoveSelectedOptionButton>
               </S.SelectedOptionListItem>
