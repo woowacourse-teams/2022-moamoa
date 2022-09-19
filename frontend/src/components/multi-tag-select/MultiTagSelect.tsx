@@ -14,13 +14,13 @@ type Option = {
 export type MultiTagSelectProps = {
   name: string;
   options: Array<Option>;
-  selectedOptoins?: Array<Option>;
+  defaultSelectedOptions?: Array<Option>;
 };
 
 const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
-  ({ selectedOptoins = [], options, name }, inputRef) => {
+  ({ defaultSelectedOptions = [], options, name }, inputRef) => {
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-    const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(selectedOptoins);
+    const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
     const menuRef = useRef<HTMLDivElement>(null);
 

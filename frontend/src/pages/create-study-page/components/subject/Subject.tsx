@@ -45,7 +45,7 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         return acc;
       }, [] as MultiTagSelectProps['options']);
 
-      return <MultiTagSelect selectedOptoins={selectedOptions} options={options} {...register(SUBJECT)} />;
+      return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
     }
   };
 
