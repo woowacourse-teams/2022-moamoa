@@ -15,9 +15,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'esnext',
+        },
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -74,5 +77,12 @@ module.exports = {
       '@hooks': resolve(__dirname, '../src/hooks'),
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'esnext',
+      }),
+    ],
   },
 };
