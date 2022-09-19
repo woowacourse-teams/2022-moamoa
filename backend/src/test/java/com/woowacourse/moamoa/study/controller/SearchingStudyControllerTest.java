@@ -1,5 +1,21 @@
 package com.woowacourse.moamoa.study.controller;
 
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_유저네임;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_이미지;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_프로필;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_유저네임;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_이미지;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_프로필;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_유저네임;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_이미지;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_프로필;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_유저네임;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_이미지;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_프로필;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.HTTP_스터디_신청서;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.리액트_스터디_신청서;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.알고리즘_스터디_신청서;
@@ -11,7 +27,6 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.OwnerData;
@@ -71,53 +86,52 @@ class SearchingStudyControllerTest {
     private Long httpStudyId;
     private Long algorithmStudyId;
     private Long linuxStudyId;
-    private Member jjanggu;
-    private Member greenlawn;
-    private Member dwoo;
-    private Member verus;
+    private Long 짱구_아이디;
+    private Long 그린론_아이디;
+    private Long 디우_아이디;
+    private Long 베루스_아이디;
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
-
+        짱구_아이디 = memberRepository.save(짱구()).getId();
+        그린론_아이디 = memberRepository.save(그린론()).getId();
+        디우_아이디 = memberRepository.save(디우()).getId();
+        베루스_아이디 = memberRepository.save(베루스()).getId();
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         StudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
-        javaStudyId = studyService.createStudy(jjanggu.getId(), javaStudyRequest).getId();
+        javaStudyId = studyService.createStudy(짱구_아이디, javaStudyRequest).getId();
 
         StudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
-        reactStudyId = studyService.createStudy(dwoo.getId(), reactStudyRequest).getId();
+        reactStudyId = studyService.createStudy(디우_아이디, reactStudyRequest).getId();
 
         StudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
-        javaScriptId = studyService.createStudy(jjanggu.getId(), javaScriptStudyRequest).getId();
+        javaScriptId = studyService.createStudy(짱구_아이디, javaScriptStudyRequest).getId();
 
         StudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
-        httpStudyId = studyService.createStudy(jjanggu.getId(), httpStudyRequest).getId();
+        httpStudyId = studyService.createStudy(짱구_아이디, httpStudyRequest).getId();
 
         StudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
-        algorithmStudyId = studyService.createStudy(jjanggu.getId(), algorithmStudyRequest).getId();
+        algorithmStudyId = studyService.createStudy(짱구_아이디, algorithmStudyRequest).getId();
 
         StudyRequest linuxStudyRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail").description("Linux를 공부하자의 베루스입니다.")
                 .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
                 .tagIds(List.of())
                 .build();
-        linuxStudyId = studyService.createStudy(verus.getId(), linuxStudyRequest).getId();
+        linuxStudyId = studyService.createStudy(베루스_아이디, linuxStudyRequest).getId();
 
         StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
         
-        participantService.participateStudy(dwoo.getId(), javaStudyId);
-        participantService.participateStudy(verus.getId(), javaStudyId);
+        participantService.participateStudy(디우_아이디, javaStudyId);
+        participantService.participateStudy(베루스_아이디, javaStudyId);
 
-        participantService.participateStudy(jjanggu.getId(), reactStudyId);
-        participantService.participateStudy(greenlawn.getId(), reactStudyId);
-        participantService.participateStudy(verus.getId(), reactStudyId);
+        participantService.participateStudy(짱구_아이디, reactStudyId);
+        participantService.participateStudy(그린론_아이디, reactStudyId);
+        participantService.participateStudy(베루스_아이디, reactStudyId);
 
-        participantService.participateStudy(dwoo.getId(), javaScriptId);
-        participantService.participateStudy(verus.getId(), javaScriptId);
+        participantService.participateStudy(디우_아이디, javaScriptId);
+        participantService.participateStudy(베루스_아이디, javaScriptId);
 
         entityManager.flush();
         entityManager.clear();
@@ -245,14 +259,14 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(3).maxMemberCount(10)
-                .owner(new OwnerData(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com", LocalDate.now(), 5))
+                .owner(new OwnerData(짱구_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필, LocalDate.now(), 5))
                 // Study Period
                 .startDate(LocalDate.now())
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(dwoo.getGithubId(), "dwoo", "https://image", "github.com"),
-                tuple(verus.getGithubId(), "verus", "https://image", "github.com")
+                tuple(디우_아이디, 디우_유저네임, 디우_이미지, 디우_프로필),
+                tuple(베루스_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필)
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -280,7 +294,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
-                .owner(new OwnerData(dwoo.getGithubId(), "dwoo", "https://image", "github.com", LocalDate.now(),3))
+                .owner(new OwnerData(디우_아이디, 디우_유저네임, 디우_이미지, 디우_프로필, LocalDate.now(),3))
                 // Study Period
                 .enrollmentEndDate(LocalDate.now())
                 .startDate(LocalDate.now())
@@ -288,9 +302,9 @@ class SearchingStudyControllerTest {
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com"),
-                tuple(greenlawn.getGithubId(), "greenlawn", "https://image", "github.com"),
-                tuple(verus.getGithubId(), "verus", "https://image", "github.com")
+                tuple(짱구_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필),
+                tuple(그린론_아이디, 그린론_유저네임, 그린론_이미지, 그린론_프로필),
+                tuple(베루스_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필)
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -318,7 +332,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(1)
-                .owner(new OwnerData(verus.getGithubId(), "verus", "https://image", "github.com", LocalDate.now(), 4))
+                .owner(new OwnerData(베루스_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필, LocalDate.now(), 4))
                 // Study Period
                 .startDate(LocalDate.now())
                 .enrollmentEndDate(LocalDate.now())
@@ -350,10 +364,10 @@ class SearchingStudyControllerTest {
         assertThat(responseBody.getMembers())
                 .filteredOn(member -> member.getParticipationDate() != null)
                 .hasSize(2)
-                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
+                .extracting("id", "username", "imageUrl", "profileUrl", "numberOfStudy")
                 .containsExactlyInAnyOrder(
-                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
-                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
+                        tuple(디우_아이디, 디우_유저네임, 디우_이미지, 디우_프로필, 3),
+                        tuple(베루스_아이디, 베루스_유저네임, 베루스_이미지, 베루스_프로필, 4)
                 );
     }
 
@@ -375,7 +389,7 @@ class SearchingStudyControllerTest {
         assertThat(actual.getOwner()).isEqualTo(expect.getOwner());
         assertThat(actual.getMembers())
                 .hasSize(expectParticipants.size())
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .containsExactlyInAnyOrderElementsOf(expectParticipants);
     }
 

@@ -25,7 +25,7 @@ public class MemberDao {
     }
 
     public List<ParticipatingMemberData> findMembersByStudyId(final Long studyId) {
-        final String sql = "SELECT member.id, github_id, username, image_url, profile_url, "
+        final String sql = "SELECT member.id, username, image_url, profile_url, "
                 + "study_member.participation_date as participation_date, "
                 + countStudyNumber()
                 + "FROM member JOIN study_member ON member.id = study_member.member_id "
@@ -63,13 +63,13 @@ public class MemberDao {
 
     private static RowMapper<ParticipatingMemberData> createMemberFullDataRowMapper() {
         return (resultSet, resultNumber) -> {
-            Long githubId = resultSet.getLong("github_id");
+            Long id = resultSet.getLong("id");
             String username = resultSet.getString("username");
             String imageUrl = resultSet.getString("image_url");
             String profileUrl = resultSet.getString("profile_url");
             LocalDate participationDate = resultSet.getDate("participation_date").toLocalDate();
             int numberOfStudy = resultSet.getInt("number_of_study");
-            return new ParticipatingMemberData(githubId, username, imageUrl, profileUrl, participationDate, numberOfStudy);
+            return new ParticipatingMemberData(id, username, imageUrl, profileUrl, participationDate, numberOfStudy);
         };
     }
 

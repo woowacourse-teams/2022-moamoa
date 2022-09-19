@@ -6,6 +6,7 @@ import static lombok.AccessLevel.PROTECTED;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.domain.exception.ParticipantCanNotKickOutException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.InvalidUpdatingException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
@@ -105,6 +106,17 @@ public class Study {
     public void leave(final Participant participant) {
         verifyCanLeave(participant);
         participants.leave(participant);
+    }
+
+    public void kickOut(final Long ownerId, final Participant participant) {
+        verifyCanKickOut(ownerId, participant);
+        participants.leave(participant);
+    }
+
+    private void verifyCanKickOut(final Long ownerId, final Participant participant) {
+        if (!participants.isOwner(ownerId)) {
+            throw new ParticipantCanNotKickOutException();
+        }
     }
 
     private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {

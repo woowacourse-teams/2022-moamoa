@@ -12,11 +12,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.domain.exception.ParticipantCanNotKickOutException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -409,6 +410,21 @@ class StudyTest {
                 () -> assertDoesNotThrow(() -> sut.leave(participant)),
                 () -> assertThat(sut.getParticipants()).isEqualTo(new Participants(owner.getMemberId(), Set.of()))
         );
+    }
+
+    @DisplayName("스터디원은 다른 스터디원을 강퇴시킬 수 없다.")
+    @Test
+    public void canNotKickOutStudyParticipant() {
+        // given
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final long ownerId = 1L;
+        final Participants participants = new Participants(ownerId, Set.of(2L, 3L));
+        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
+        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
+        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+
+        assertThatThrownBy(() -> sut.kickOut(2L, new Participant(3L)))
+                .isInstanceOf(ParticipantCanNotKickOutException.class);
     }
 
     @DisplayName("참여자는 스터디를 업데이트할 수 없다.")

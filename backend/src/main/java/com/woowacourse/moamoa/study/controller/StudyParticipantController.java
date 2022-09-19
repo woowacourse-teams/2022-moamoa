@@ -39,6 +39,7 @@ public class StudyParticipantController {
             @PathVariable("study-id") final Long studyId,
             @PathVariable("member-id") final Long participantId
     ) {
+
         return ResponseEntity.noContent().build();
     }
 }

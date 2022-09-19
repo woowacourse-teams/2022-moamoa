@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
+import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
@@ -103,6 +104,21 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/community/articles/", ""));
         } catch (Exception e) {
             Assertions.fail("게시글 작성 실패");
+            return null;
+        }
+    }
+
+    public StudyDetailResponse 정보를_불러온다() {
+        try {
+            return RestAssured.given().log().all()
+                    .pathParam("study-id", studyId)
+                    .when().log().all()
+                    .get("api/studies/{study-id}")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .extract().as(StudyDetailResponse.class);
+        } catch (Exception e) {
+            Assertions.fail("스터디 상세정보 조회 실패");
             return null;
         }
     }

@@ -3,11 +3,9 @@ package com.woowacourse.acceptance.test.study;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
@@ -57,6 +55,8 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
         그린론이().로그인하고().스터디에(리액트_스터디).참여한다();
         베루스가().로그인하고().스터디에(리액트_스터디).참여한다();
 
+        final long 스터디장_ID = 디우가().로그인하고().정보를_가져온다().getId();
+
         RestAssured.given(spec).log().all()
                 .filter(document("studies/details"))
                 .pathParam("study-id", 리액트_스터디)
@@ -75,7 +75,7 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("enrollmentEndDate", is(지금.plusDays(4).toString()))
                 .body("startDate", is(지금.toString()))
                 .body("endDate", is(지금.plusDays(10).toString()))
-                .body("owner.id", is((int)디우_깃허브_ID))
+                .body("owner.id", is((int)스터디장_ID))
                 .body("owner.username", is(디우_이름))
                 .body("owner.imageUrl", is(디우_이미지_URL))
                 .body("owner.profileUrl", is(디우_프로필_URL))
@@ -97,6 +97,8 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         final long 알고리즘_스터디 = 베루스가().로그인하고().알고리즘_스터디를().시작일자는(지금).생성한다();
 
+        final long 스터디장_ID = 베루스가().로그인하고().정보를_가져온다().getId();
+
         RestAssured.given().log().all()
                 .pathParam("study-id", 알고리즘_스터디)
                 .when().log().all()
@@ -114,7 +116,7 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("enrollmentEndDate", is(nullValue()))
                 .body("startDate", is(지금.toString()))
                 .body("endDate", is(nullValue()))
-                .body("owner.id", is((int)베루스_깃허브_ID))
+                .body("owner.id", is((int)스터디장_ID))
                 .body("owner.username", is(베루스_이름))
                 .body("owner.imageUrl", is(베루스_이미지_URL))
                 .body("owner.profileUrl", is(베루스_프로필_URL))

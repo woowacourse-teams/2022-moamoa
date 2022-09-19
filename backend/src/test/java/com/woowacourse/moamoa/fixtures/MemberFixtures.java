@@ -42,14 +42,12 @@ public class MemberFixtures {
     public static final String 병민_유저네임 = "airman";
     public static final String 병민_이미지 = "https://airman.png";
     public static final String 병민_프로필 = "https://airman.com";
-    public static final MemberData 병민_응답 = new MemberData(병민_깃허브_아이디, 병민_유저네임, 병민_이미지, 병민_프로필);
 
     /* 태태 */
     public static final Long 태태_깃허브_아이디 = 6L;
     public static final String 태태_유저네임 = "nannoo";
     public static final String 태태_이미지 = "https://nannoo.png";
     public static final String 태태_프로필 = "https://nannoo.com";
-    public static final MemberData 태태_응답 = new MemberData(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
 
     public static Member 짱구() {
         return new Member(짱구_깃허브_아이디, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
