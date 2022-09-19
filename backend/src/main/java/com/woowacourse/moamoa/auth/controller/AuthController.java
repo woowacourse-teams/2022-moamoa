@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private static final String REFRESH_TOKEN = "refreshToken";
@@ -27,7 +29,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/api/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
         final TokensResponse tokenResponse = authService.createToken(code);
 
@@ -39,7 +41,7 @@ public class AuthController {
                 .build();
     }
 
-    @GetMapping("/api/auth/refresh")
+    @GetMapping("/refresh")
     public ResponseEntity<AccessTokenResponse> refreshToken(@AuthenticatedRefresh Long memberId,
                                                             @CookieValue String refreshToken) {
         final TokensResponse response = authService.refreshToken(memberId, refreshToken);
@@ -51,14 +53,14 @@ public class AuthController {
                 .build();
     }
 
-    @GetMapping("/api/auth/login/status")
+    @GetMapping("/login/status")
     public ResponseEntity<LoginStatusResponse> checkLoginStatus(@CookieValue String accessToken) {
         final LoginStatusResponse loginStatusResponse = authService.validateLoginStatus(accessToken);
 
         return ResponseEntity.ok(loginStatusResponse);
     }
 
-    @DeleteMapping("/api/auth/logout")
+    @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(@AuthenticatedMemberId Long memberId) {
         authService.logout(memberId);
 

@@ -69,7 +69,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public boolean validateToken(final String token) {
+    public boolean isInvalidToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(accessKey)
@@ -79,9 +79,9 @@ public class JwtTokenProvider implements TokenProvider {
             Date tokenExpirationDate = claims.getBody().getExpiration();
             validateTokenExpiration(tokenExpirationDate);
 
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
             return false;
+        } catch (JwtException | IllegalArgumentException e) {
+            return true;
         }
     }
 

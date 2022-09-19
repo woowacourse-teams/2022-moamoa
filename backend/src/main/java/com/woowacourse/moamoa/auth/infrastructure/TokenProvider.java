@@ -10,7 +10,7 @@ public interface TokenProvider {
 
     String getPayloadWithExpiredToken(final String token);
 
-    boolean validateToken(final String token);
+    boolean isInvalidToken(final String token);
 
     TokensResponse recreationToken(final Long memberId, final String refreshToken);
 }

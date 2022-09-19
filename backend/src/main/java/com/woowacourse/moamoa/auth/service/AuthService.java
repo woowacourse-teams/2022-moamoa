@@ -73,7 +73,7 @@ public class AuthService {
         if (accessToken.isBlank()) {
             return new LoginStatusResponse(false);
         }
-        if (tokenProvider.validateToken(accessToken)) {
+        if (tokenProvider.isInvalidToken(accessToken)) {
             throw new TokenExpirationException();
         }
 

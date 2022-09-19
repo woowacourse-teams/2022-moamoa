@@ -30,7 +30,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (requestURI.equals("/api/auth/refresh") && token != null) {
             return;
         }
-        if (token == null || !tokenProvider.validateToken(token)) {
+        if (token == null || tokenProvider.isInvalidToken(token)) {
             throw new UnauthorizedException(String.format("유효하지 않은 토큰[%s]입니다.", token));
         }
     }
