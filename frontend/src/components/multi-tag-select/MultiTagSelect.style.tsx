@@ -39,13 +39,15 @@ export const SelectedOptionList = styled.ul`
 `;
 
 export const SelectedOptionListItem = styled.li`
-  background-color: rgb(230, 230, 230);
-  border-radius: 2px;
-  display: flex;
-  margin: 2px;
-  min-width: 0;
-  box-sizing: border-box;
-  font-size: 14px;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.secondary.base};
+    border-radius: 2px;
+    display: flex;
+    margin: 2px;
+    min-width: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+  `}
 `;
 
 export const SelectedOption = styled.div`
@@ -60,20 +62,14 @@ export const SelectedOption = styled.div`
 `;
 
 export const RemoveSelectedOptionButton = styled(UnstyledButton)`
-  ${({ theme }) => css`
-    -webkit-box-align: center;
-    align-items: center;
-    border-radius: 2px;
-    display: flex;
-    padding-left: 4px;
-    padding-right: 4px;
-    box-sizing: border-box;
-    font-size: 14px;
-
-    &:hover {
-      background-color: ${theme.colors.red};
-    }
-  `}
+  -webkit-box-align: center;
+  align-items: center;
+  border-radius: 2px;
+  display: flex;
+  padding-left: 4px;
+  padding-right: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
 `;
 
 export const Indicators = styled.div`
@@ -94,7 +90,7 @@ export const SelectMenuContainer = styled.div`
   max-height: 180px;
   overflow-y: scroll;
   background-color: white;
-  box-shadow: 0px 0px 3px 1px;
+  box-shadow: 0px 0px 4px 0px;
 
   border-radius: 4px;
 `;
@@ -103,7 +99,7 @@ export const SelectMenuItem = styled.li`
   ${({ theme }) => css`
     font-size: 20px;
     &:hover {
-      background-color: ${theme.colors.primary.light};
+      background-color: ${theme.colors.secondary.light}; // TODO: 색 세분화 필요
       color: white;
     }
   `}
