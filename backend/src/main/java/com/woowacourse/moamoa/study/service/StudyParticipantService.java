@@ -39,6 +39,8 @@ public class StudyParticipantService {
     public void kickOutMember(final Long memberId, final Long studyId, final Long participantId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
+        memberRepository.findById(participantId)
+                .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
