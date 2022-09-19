@@ -57,7 +57,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("RefreshToken 으로 AccessToken 을 재발급한다.")
     @Test
     void refreshToken() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final String token = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
         final Member member = memberRepository.findByGithubId(4L).get();
         final Token foundToken = tokenRepository.findByMemberId(member.getId()).get();
 
@@ -76,7 +77,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
     @DisplayName("로그아웃시에 쿠키를 제거해준다.")
     @Test
     void logout() {
-        final String token = getBearerTokenBySignInOrUp(new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
+        final String token = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(4L, "verus", "https://image", "github.com"));
         final Member member = memberRepository.findByGithubId(4L).get();
         final Token foundToken = tokenRepository.findByMemberId(member.getId()).get();
 
@@ -127,6 +129,37 @@ class AuthAcceptanceTest extends AcceptanceTest {
                 .post("/api/auth/login")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @DisplayName("로그인 상태인 경우 isLoggedIn 가 true 이다.")
+    @Test
+    void isLoggedInIsTure() {
+        final String token = getBearerTokenBySignInOrUp(
+                new GithubProfileResponse(2L, "dwoo", "https://image", "github.com"));
+
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/loginStatus"))
+                .cookie(ACCESS_TOKEN, token)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/auth/login/status")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("loggedIn", is(true));
+    }
+
+    @DisplayName("로그인 상태가 아닌 경우 isLoggedIn 이 false 이다.")
+    @Test
+    void isLoggedInIsFalse() {
+        RestAssured.given(spec).log().all()
+                .filter(document("auth/loginStatus"))
+                .cookie(ACCESS_TOKEN, "")
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/auth/login/status")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("loggedIn", is(false));
     }
 
     private void mockingGithubServerForGetProfile(final String accessToken, final HttpStatus status)
