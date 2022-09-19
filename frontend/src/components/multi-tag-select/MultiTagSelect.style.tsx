@@ -43,7 +43,7 @@ export const SelectedOptionListItem = styled.li`
   border-radius: 2px;
   display: flex;
   margin: 2px;
-  min-width: 0px;
+  min-width: 0;
   box-sizing: border-box;
   font-size: 14px;
 `;
