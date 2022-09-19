@@ -135,7 +135,9 @@ class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .cookie(ACCESS_TOKEN, jwtToken)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
-                        "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
+                        "description", "스터디 상세 설명입니다.",
+                        "tagIds", List.of(1L, 2L),
+                        "startDate", LocalDate.now().plusDays(5).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
                 .when().log().all()
                 .post("/api/studies")
