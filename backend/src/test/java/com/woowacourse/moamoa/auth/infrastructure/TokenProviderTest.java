@@ -38,7 +38,7 @@ class TokenProviderTest extends WebMVCTest {
                 .signWith(keys, SignatureAlgorithm.HS256)
                 .compact();
 
-        assertThat(tokenProvider.isInvalidToken(token)).isFalse();
+        assertThat(tokenProvider.isInvalidToken(token)).isTrue();
     }
 
     @DisplayName("유효한 토큰을 검증한다.")
@@ -46,7 +46,7 @@ class TokenProviderTest extends WebMVCTest {
     void validateTokenByValidToken() {
         String token = tokenProvider.createToken(1L).getAccessToken();
 
-        assertThat(tokenProvider.isInvalidToken(token)).isTrue();
+        assertThat(tokenProvider.isInvalidToken(token)).isFalse();
     }
 
     @DisplayName("유효하지 않은 토큰을 검증한다.")
@@ -56,7 +56,7 @@ class TokenProviderTest extends WebMVCTest {
 
         String invalidToken = token + "dummy";
 
-        assertThat(tokenProvider.isInvalidToken(invalidToken)).isFalse();
+        assertThat(tokenProvider.isInvalidToken(invalidToken)).isTrue();
     }
 
     @DisplayName("JwtToken payload 검증한다.")
