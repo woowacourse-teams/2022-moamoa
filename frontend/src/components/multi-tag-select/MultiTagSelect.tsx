@@ -19,11 +19,11 @@ export type MultiTagSelectProps = {
   defaultSelectedOptions?: Array<Option>;
 };
 
-const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
+const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectProps>(
   ({ defaultSelectedOptions = [], options, name }, inputRef) => {
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
-    const innerInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const innerInputRef = useRef<HTMLInputElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
     const unSelectedOptions = options.filter(({ value }) => {
@@ -49,6 +49,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
     useImperativeHandle(
       inputRef,
       () => {
+        if (!innerInputRef.current) return;
         innerInputRef.current.value = serializedSelectedValues;
         return innerInputRef.current;
       },
