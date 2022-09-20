@@ -77,7 +77,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             {selectedOptions.map(option => (
               <S.SelectedOption key={option.value}>
                 <S.SelectedOptionValue>{option.label}</S.SelectedOptionValue>
-                <S.UnselectButton onClick={handleUnselectButtonClick(option)}>
+                <S.UnselectButton fontSize="sm" onClick={handleUnselectButtonClick(option)}>
                   <Center>
                     <XMarkIcon />
                   </Center>
@@ -88,7 +88,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
           <S.Indicators>
             {selectedOptions.length > 0 && (
               <Center>
-                <S.AllClearButton onClick={handleAllClearButtonClick}>
+                <S.AllClearButton fontSize="md" onClick={handleAllClearButtonClick}>
                   <Center>
                     <XMarkIcon />
                   </Center>
@@ -105,7 +105,9 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             <ul>
               {unSelectedOptions.map(option => (
                 <S.UnselectedOption key={option.value}>
-                  <S.SelectButton onClick={handleSelectButtonClick(option)}>{option.label}</S.SelectButton>
+                  <S.SelectButton fontSize="sm" onClick={handleSelectButtonClick(option)}>
+                    {option.label}
+                  </S.SelectButton>
                 </S.UnselectedOption>
               ))}
             </ul>
