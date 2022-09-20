@@ -26,9 +26,9 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
     const innerInputRef = useRef<HTMLInputElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const unSelectedOptions = options.filter(({ value }) => {
-      return selectedOptions.findIndex(option => option.value === value) === -1;
-    });
+    const unSelectedOptions = options.filter(
+      ({ value }) => selectedOptions.findIndex(option => option.value === value) === -1,
+    );
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
@@ -67,9 +67,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
     const handleRemoveSelectValueButtonClick = (option: Option) => (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation(); // 전파를 멈춰야 handleSelectControlClick이 호출되지 않는다
 
-      setSelectedOptions(prev => {
-        return prev.filter(({ value }) => option.value !== value);
-      });
+      setSelectedOptions(prev => prev.filter(({ value }) => option.value !== value));
     };
 
     const handleAllClearButton = (event: React.MouseEvent<HTMLButtonElement>) => {
