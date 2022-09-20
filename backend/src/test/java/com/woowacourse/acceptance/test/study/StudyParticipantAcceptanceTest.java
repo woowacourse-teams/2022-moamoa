@@ -111,6 +111,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
         assertAll(
                 () -> assertThat(짱구_스터디_상세정보.getCurrentMemberCount()).isEqualTo(1),
+                () -> assertThat(스터디원_아이디_목록).isNotNull(),
                 () -> assertThat(스터디원_아이디_목록).doesNotContain(디우_아이디)
         );
     }

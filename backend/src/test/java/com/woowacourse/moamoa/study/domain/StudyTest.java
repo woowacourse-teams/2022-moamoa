@@ -414,7 +414,7 @@ class StudyTest {
 
     @DisplayName("스터디원은 다른 스터디원을 강퇴시킬 수 없다.")
     @Test
-    public void canNotKickOutStudyParticipant() {
+    void canNotKickOutStudyParticipant() {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final long ownerId = 1L;
@@ -422,8 +422,9 @@ class StudyTest {
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Participant participant = new Participant(3L);
 
-        assertThatThrownBy(() -> sut.kickOut(2L, new Participant(3L)))
+        assertThatThrownBy(() -> sut.kickOut(2L, participant))
                 .isInstanceOf(ParticipantCanNotKickOutException.class);
     }
 
@@ -437,8 +438,9 @@ class StudyTest {
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
         final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
+        final Participant participant = new Participant(4L);
 
-        assertThatThrownBy(() -> sut.kickOut(1L, new Participant(4L)))
+        assertThatThrownBy(() -> sut.kickOut(1L, participant))
                 .isInstanceOf(NotParticipatedMemberException.class);
     }
 
