@@ -9,8 +9,6 @@ import tw from '@utils/tw';
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
 import { useGetUserInformation } from '@api/member';
 
-import { useAuth } from '@hooks/useAuth';
-
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
@@ -30,7 +28,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 
   const { mutateAsync } = useDeleteCommunityArticle();
   const navigate = useNavigate();
-  const {} = useAuth();
+
   const handleBackToArticleListButtonClick = () => {
     navigate(`${PATH.COMMUNITY(studyId)}`);
   };
