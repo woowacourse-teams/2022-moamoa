@@ -21,10 +21,10 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, pa
   useEffect(() => {
     if (!isOpen || !ref.current) return;
 
-    const handleClose = (event: MouseEvent) => {
-      if (event.target === null || event.target === ref.current) return;
+    const handleClose = (e: MouseEvent) => {
+      if (e.target === null || e.target === ref.current) return;
 
-      const path = event.composedPath();
+      const path = e.composedPath();
       const isDropDownBoxClicked = path.findIndex(el => el === ref.current) > 0;
 
       !isDropDownBoxClicked && onClose();
