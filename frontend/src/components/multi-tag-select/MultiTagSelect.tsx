@@ -37,12 +37,15 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
       if (!inputRef) return;
       if (isFunction<(element: HTMLInputElement) => void>(inputRef)) {
         inputRef(innerInputRef.current);
-      } else if (typeof inputRef === 'object') {
-        inputRef.current = innerInputRef.current;
-      } else {
-        console.error('ref의 타입이 올바르지 않습니다');
+        innerInputRef.current.value = serializedSelectedValues;
+        return;
       }
-      innerInputRef.current.value = serializedSelectedValues;
+      if (typeof inputRef === 'object') {
+        inputRef.current = innerInputRef.current;
+        innerInputRef.current.value = serializedSelectedValues;
+        return;
+      }
+      console.error('ref의 타입이 올바르지 않습니다');
     }, [inputRef, serializedSelectedValues]);
 
     const handleSelectControlClick = () => {
