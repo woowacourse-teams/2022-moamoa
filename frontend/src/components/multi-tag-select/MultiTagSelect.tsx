@@ -101,7 +101,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
           </S.Indicators>
         </S.SelectControl>
         {isOpenMenu && unSelectedOptions.length > 0 && (
-          <S.DropDown isOpen={isOpenMenu} onClose={handleDropDownClose}>
+          <S.DropDown top={'calc(100% + 10px)'} left={0} right={0} isOpen={isOpenMenu} onClose={handleDropDownClose}>
             <ul>
               {unSelectedOptions.map(option => (
                 <S.UnselectedOption key={option.value}>

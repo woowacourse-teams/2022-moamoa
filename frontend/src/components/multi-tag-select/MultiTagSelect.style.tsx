@@ -87,9 +87,6 @@ export const Indicators = styled.div`
 `;
 
 export const DropDown = styled(ImportedDropDownBox)`
-  top: calc(100% + 10px);
-  left: 0;
-  right: 0;
   max-height: 180px;
   background-color: white;
   box-shadow: 0px 0px 4px 0px;
