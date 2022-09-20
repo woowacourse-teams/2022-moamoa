@@ -1,6 +1,5 @@
-import { AxiosError } from 'axios';
 import { createRoot } from 'react-dom/client';
-import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
