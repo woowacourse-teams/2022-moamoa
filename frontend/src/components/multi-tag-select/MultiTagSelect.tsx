@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import isFunction from '@utils/isFunction';
+import isObject from '@utils/isObject';
 
 import Center from '@components/center/Center';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
@@ -34,12 +35,12 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
     useEffect(() => {
       if (!innerInputRef.current) return;
       if (!inputRef) return;
-      if (isFunction<(element: HTMLInputElement) => void>(inputRef)) {
+      if (isFunction(inputRef)) {
         inputRef(innerInputRef.current);
         innerInputRef.current.value = serializedSelectedValues;
         return;
       }
-      if (typeof inputRef === 'object') {
+      if (isObject(inputRef)) {
         inputRef.current = innerInputRef.current;
         innerInputRef.current.value = serializedSelectedValues;
         return;

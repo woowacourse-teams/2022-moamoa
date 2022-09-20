@@ -1,6 +1,6 @@
 type TFunction = (...args: any[]) => any;
 
-const isFunction = <T extends TFunction>(val: unknown): val is T => {
+const isFunction = (val: unknown): val is TFunction => {
   return typeof val === 'function';
 };
 
