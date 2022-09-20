@@ -26,9 +26,10 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
 
-    const unSelectedOptions = options.filter(
-      ({ value }) => selectedOptions.findIndex(option => option.value === value) === -1,
-    );
+    const unSelectedOptions = options.filter(({ value }) => {
+      const hasOption = selectedOptions.some(option => option.value === value);
+      return !hasOption;
+    });
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
