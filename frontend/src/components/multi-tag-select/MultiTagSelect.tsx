@@ -34,9 +34,11 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
 
     useEffect(() => {
       if (!isOpenMenu || !menuRef.current) return;
+
       const handleClose = (event: MouseEvent) => {
         if (event.target === null) return;
         if (event.target === menuRef.current) return;
+
         const path = event.composedPath();
         const isMenuClicked = path.findIndex(el => el === menuRef.current) > 0;
         !isMenuClicked && setIsOpenMenu(false);
