@@ -24,29 +24,12 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
 
     const unSelectedOptions = options.filter(
       ({ value }) => selectedOptions.findIndex(option => option.value === value) === -1,
     );
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
-
-    useEffect(() => {
-      if (!isOpenMenu || !menuRef.current) return;
-
-      const handleClose = (event: MouseEvent) => {
-        if (event.target === null) return;
-        if (event.target === menuRef.current) return;
-
-        const path = event.composedPath();
-        const isMenuClicked = path.findIndex(el => el === menuRef.current) > 0;
-        !isMenuClicked && setIsOpenMenu(false);
-      };
-
-      requestAnimationFrame(() => document.body.addEventListener('click', handleClose));
-      return () => document.body.removeEventListener('click', handleClose);
-    }, [isOpenMenu]);
 
     useImperativeHandle(
       inputRef,
@@ -78,6 +61,8 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
       setSelectedOptions([]);
       setIsOpenMenu(true);
     };
+
+    const handleDropDownClose = () => setIsOpenMenu(false);
 
     const AllClearButton = () => (
       <UnstyledButton css={tw`text-18`} onClick={handleAllClearButtonClick}>
@@ -114,7 +99,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
           </S.Indicators>
         </S.SelectControl>
         {isOpenMenu && unSelectedOptions.length > 0 && (
-          <S.SelectMenuContainer ref={menuRef}>
+          <S.SelectMenuDropDown isOpen={isOpenMenu} onClose={handleDropDownClose}>
             <ul>
               {unSelectedOptions.map(option => (
                 <S.SelectMenuItem key={option.value}>
@@ -124,7 +109,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
                 </S.SelectMenuItem>
               ))}
             </ul>
-          </S.SelectMenuContainer>
+          </S.SelectMenuDropDown>
         )}
         <input hidden name={name} ref={innerInputRef} />
       </S.Container>

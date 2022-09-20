@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { UnstyledButton } from '@components/button/unstyled-button/UnstyledButton.style';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
 
 export const Container = styled.div`
   width: 100%;
@@ -82,13 +83,11 @@ export const Indicators = styled.div`
   row-gap: 10px;
 `;
 
-export const SelectMenuContainer = styled.div`
-  position: absolute;
+export const SelectMenuDropDown = styled(DropDownBox)`
   top: calc(100% + 10px);
   left: 0;
   right: 0;
   max-height: 180px;
-  overflow-y: scroll;
   background-color: white;
   box-shadow: 0px 0px 4px 0px;
 
