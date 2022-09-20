@@ -23,7 +23,7 @@ export const DropDownBox = styled.div<StyledDropDownBox>`
 
     transform-origin: top;
     animation: slide-down 0.1s ease;
-    overflow-y: scroll;
+    overflow-y: auto;
     @keyframes slide-down {
       0% {
         transform: scale(1, 0);
