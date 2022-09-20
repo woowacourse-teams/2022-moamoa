@@ -38,7 +38,7 @@ class ReviewTest {
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
-    @DisplayName("리뷰 내용을 삭제하면 deleted가 true가 된다..")
+    @DisplayName("리뷰 내용을 삭제하면 deleted가 true가 된다.")
     @Test
     void deleteReview() {
         final AssociatedStudy associatedStudy = new AssociatedStudy(1L);
