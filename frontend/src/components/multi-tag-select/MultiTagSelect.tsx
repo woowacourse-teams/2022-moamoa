@@ -70,7 +70,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
       setSelectedOptions(prev => prev.filter(({ value }) => option.value !== value));
     };
 
-    const handleAllClearButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleAllClearButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
 
       setSelectedOptions([]);
@@ -78,7 +78,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
     };
 
     const AllClearButton = () => (
-      <UnstyledButton css={tw`text-18`} onClick={handleAllClearButton}>
+      <UnstyledButton css={tw`text-18`} onClick={handleAllClearButtonClick}>
         <Center>
           <XMarkIcon />
         </Center>
