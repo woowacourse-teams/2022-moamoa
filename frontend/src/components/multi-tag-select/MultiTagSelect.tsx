@@ -5,6 +5,7 @@ import tw from '@utils/tw';
 
 import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';
+import DropDownBox from '@components/drop-down-box/DropDownBox';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
 import XMarkIcon from '@components/icons/x-mark-icon/XMarkIcon';
 import * as S from '@components/multi-tag-select/MultiTagSelect.style';
@@ -53,11 +54,11 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
       setIsOpenMenu(prev => !prev);
     };
 
-    const handleSelectMenuItemClick = (option: Option) => () => {
+    const handleSelectButtonClick = (option: Option) => () => {
       setSelectedOptions(prev => [...prev, option]);
     };
 
-    const handleRemoveSelectValueButtonClick = (option: Option) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleUnselectButtonClick = (option: Option) => (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation(); // 전파를 멈춰야 handleSelectControlClick이 호출되지 않는다
 
       setSelectedOptions(prev => prev.filter(({ value }) => option.value !== value));
@@ -85,14 +86,14 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
         <S.SelectControl onClick={handleSelectControlClick}>
           <S.SelectedOptionList>
             {selectedOptions.map(option => (
-              <S.SelectedOptionListItem key={option.value}>
-                <S.SelectedOption>{option.label}</S.SelectedOption>
-                <S.RemoveSelectedOptionButton onClick={handleRemoveSelectValueButtonClick(option)}>
+              <S.SelectedOption key={option.value}>
+                <S.SelectedOptionValue>{option.label}</S.SelectedOptionValue>
+                <S.UnselectButton onClick={handleUnselectButtonClick(option)}>
                   <Center>
                     <XMarkIcon />
                   </Center>
-                </S.RemoveSelectedOptionButton>
-              </S.SelectedOptionListItem>
+                </S.UnselectButton>
+              </S.SelectedOption>
             ))}
           </S.SelectedOptionList>
           <S.Indicators>
@@ -107,17 +108,15 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
           </S.Indicators>
         </S.SelectControl>
         {isOpenMenu && unSelectedOptions.length > 0 && (
-          <S.SelectMenuDropDown isOpen={isOpenMenu} onClose={handleDropDownClose}>
+          <S.DropDown isOpen={isOpenMenu} onClose={handleDropDownClose}>
             <ul>
               {unSelectedOptions.map(option => (
-                <S.SelectMenuItem key={option.value}>
-                  <S.SelectMenuItemButton onClick={handleSelectMenuItemClick(option)}>
-                    {option.label}
-                  </S.SelectMenuItemButton>
-                </S.SelectMenuItem>
+                <S.UnselectedOption key={option.value}>
+                  <S.SelectButton onClick={handleSelectButtonClick(option)}>{option.label}</S.SelectButton>
+                </S.UnselectedOption>
               ))}
             </ul>
-          </S.SelectMenuDropDown>
+          </S.DropDown>
         )}
         <input hidden name={name} ref={innerInputRef} />
       </S.Container>

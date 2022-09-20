@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { UnstyledButton } from '@components/button/unstyled-button/UnstyledButton.style';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
+import ImportedDropDownBox from '@components/drop-down-box/DropDownBox';
 
 export const Container = styled.div`
   position: relative;
@@ -42,7 +42,7 @@ export const SelectedOptionList = styled.ul`
   overflow: hidden;
 `;
 
-export const SelectedOptionListItem = styled.li`
+export const SelectedOption = styled.li`
   ${({ theme }) => css`
     display: flex;
 
@@ -53,7 +53,7 @@ export const SelectedOptionListItem = styled.li`
   `}
 `;
 
-export const SelectedOption = styled.div`
+export const SelectedOptionValue = styled.div`
   padding: 3px 3px 3px 6px;
   font-size: 12px;
 
@@ -64,7 +64,7 @@ export const SelectedOption = styled.div`
   white-space: nowrap;
 `;
 
-export const RemoveSelectedOptionButton = styled(UnstyledButton)`
+export const UnselectButton = styled(UnstyledButton)`
   display: flex;
   align-items: center;
 
@@ -86,7 +86,7 @@ export const Indicators = styled.div`
   row-gap: 10px;
 `;
 
-export const SelectMenuDropDown = styled(DropDownBox)`
+export const DropDown = styled(ImportedDropDownBox)`
   top: calc(100% + 10px);
   left: 0;
   right: 0;
@@ -97,7 +97,7 @@ export const SelectMenuDropDown = styled(DropDownBox)`
   border-radius: 4px;
 `;
 
-export const SelectMenuItem = styled.li`
+export const UnselectedOption = styled.li`
   ${({ theme }) => css`
     font-size: 20px;
     &:hover {
@@ -107,7 +107,7 @@ export const SelectMenuItem = styled.li`
   `}
 `;
 
-export const SelectMenuItemButton = styled(UnstyledButton)`
+export const SelectButton = styled(UnstyledButton)`
   width: 100%;
   height: 100%;
   padding: 10px;
