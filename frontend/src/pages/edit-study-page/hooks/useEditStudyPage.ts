@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { COMMA, PATH } from '@constants';
 
 import { getRandomInt } from '@utils';
 
@@ -36,7 +36,7 @@ const useEditStudyPage = () => {
 
     const { values } = submitResult;
     const { feTagId, beTagId } = getAreaTagId();
-    const subject = values['subject'].split(',');
+    const subject = values['subject'].split(COMMA);
     const tagIds = [
       values['area-fe'] === 'checked' ? feTagId : null,
       values['area-be'] === 'checked' ? beTagId : null,
