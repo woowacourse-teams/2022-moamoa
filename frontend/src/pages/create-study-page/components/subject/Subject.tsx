@@ -38,7 +38,9 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
     const subjects = tags.filter(({ category }) => category.name === SUBJECT);
     const etcTag = subjects.find(tag => tag.name === 'Etc');
     if (!etcTag) {
-      throw new Error('기타 태그의 name이 변경되었습니다');
+      console.error('기타 태그의 name이 변경되었습니다');
+      alert('기타 태그의 name이 변경되었습니다');
+      return;
     }
     const selectedOptions = originalOptions ? originalOptions : [{ value: etcTag.id, label: etcTag.description }];
 
