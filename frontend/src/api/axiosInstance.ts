@@ -1,7 +1,8 @@
-import axios from 'axios';
-import type { AxiosError } from 'axios';
+import axios, { type AxiosError } from 'axios';
 
-import AccessTokenController from '@auth/accessToken';
+import { API_ERROR } from '@constants';
+
+import LoginStatusController from '@auth/loginStatus';
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,
@@ -11,7 +12,15 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>) => {
+const handleAxiosError = async (error: AxiosError<{ message: string; code?: number }>) => {
+  const response = error.response;
+  const config = error.config;
+
+  if (response?.status === 401 && response?.data.code !== API_ERROR.EXPIRED_REFRESH_TOKEN.CODE) {
+    // accessToken 인증 실패 + refreshToken은 만료되지 않음
+    return LoginStatusController.fetchAccessTokenWithRefresh(() => axiosInstance.request(config));
+  }
+
   const data = error.response?.data;
   if (data?.message) {
     console.error(data.message);
@@ -25,25 +34,5 @@ const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>)
 };
 
 axiosInstance.interceptors.response.use(response => response, handleAxiosError);
-
-axiosInstance.interceptors.request.use(
-  config => {
-    const accessToken = AccessTokenController.accessToken;
-
-    if (!accessToken) return config;
-    if (!config.headers) {
-      config.headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      return config;
-    }
-    config.headers['Authorization'] = `Bearer ${accessToken}`;
-
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  },
-);
 
 export default axiosInstance;
