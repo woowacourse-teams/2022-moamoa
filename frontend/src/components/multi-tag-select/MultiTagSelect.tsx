@@ -26,9 +26,9 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
     const innerInputRef = useRef<HTMLInputElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const unSelectedOptions = options.filter(({ value }) => {
-      return selectedOptions.findIndex(option => option.value === value) === -1;
-    });
+    const unSelectedOptions = options.filter(
+      ({ value }) => selectedOptions.findIndex(option => option.value === value) === -1,
+    );
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
