@@ -55,14 +55,14 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
       setSelectedOptions(prev => [...prev, option]);
     };
 
-    const handleUnselectButtonClick = (option: Option) => (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation(); // 전파를 멈춰야 handleSelectControlClick이 호출되지 않는다
+    const handleUnselectButtonClick = (option: Option) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation(); // 전파를 멈춰야 handleSelectControlClick이 호출되지 않는다
 
       setSelectedOptions(prev => prev.filter(({ value }) => option.value !== value));
     };
 
-    const handleAllClearButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
+    const handleAllClearButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
 
       setSelectedOptions([]);
       setIsOpenMenu(true);
