@@ -2,8 +2,6 @@ import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import AccessTokenController from '@auth/accessToken';
-
 export type ApiLinkPreview = {
   get: {
     params: {
@@ -40,26 +38,6 @@ const handleAxiosError = (error: AxiosError<{ message: string }>) => {
 };
 
 axiosInstance.interceptors.response.use(response => response, handleAxiosError);
-
-axiosInstance.interceptors.request.use(
-  config => {
-    const accessToken = AccessTokenController.accessToken;
-
-    if (!accessToken) return config;
-    if (!config.headers) {
-      config.headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      return config;
-    }
-    config.headers['Authorization'] = `Bearer ${accessToken}`;
-
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  },
-);
 
 export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
   const response = await axiosInstance.get<ApiLinkPreview['get']['responseData']>(

@@ -8,7 +8,7 @@ import { ThemeProvider } from '@emotion/react';
 import GlobalStyles from '@styles/Globalstyles';
 import { theme } from '@styles/theme';
 
-import AccessTokenController from '@auth/accessToken';
+import LoginStatusController from '@auth/loginStatus';
 
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
@@ -31,18 +31,9 @@ if ($root) {
         refetchOnWindowFocus: false,
       },
     },
-    queryCache: new QueryCache({
-      onError: error => {
-        if (!(error instanceof AxiosError)) return;
-        if (error.response?.status === 401) {
-          alert(`문제가 발생했습니다. 관리자에게 문의해주세요 :( ${error.message}`);
-          window.location.reload();
-        }
-      },
-    }),
   });
 
-  AccessTokenController.fetchAccessTokenWithRefresh().finally(() => {
+  LoginStatusController.fetchLoginStatusWhenReload().finally(() => {
     root.render(
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
