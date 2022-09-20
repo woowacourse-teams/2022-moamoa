@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+import isFunction from '@utils/isFunction';
 import tw from '@utils/tw';
 
 import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
@@ -19,7 +20,7 @@ export type MultiTagSelectProps = {
   defaultSelectedOptions?: Array<Option>;
 };
 
-const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectProps>(
+const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
   ({ defaultSelectedOptions = [], options, name }, inputRef) => {
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
@@ -31,15 +32,18 @@ const MultiTagSelect = forwardRef<HTMLInputElement | undefined, MultiTagSelectPr
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
-    useImperativeHandle(
-      inputRef,
-      () => {
-        if (!innerInputRef.current) return;
-        innerInputRef.current.value = serializedSelectedValues;
-        return innerInputRef.current;
-      },
-      [serializedSelectedValues],
-    );
+    useEffect(() => {
+      if (!innerInputRef.current) return;
+      if (!inputRef) return;
+      if (isFunction<(element: HTMLInputElement) => void>(inputRef)) {
+        inputRef(innerInputRef.current);
+      } else if (typeof inputRef === 'object') {
+        inputRef.current = innerInputRef.current;
+      } else {
+        console.error('ref의 타입이 올바르지 않습니다');
+      }
+      innerInputRef.current.value = serializedSelectedValues;
+    }, [inputRef, serializedSelectedValues]);
 
     const handleSelectControlClick = () => {
       setIsOpenMenu(prev => !prev);
