@@ -1,11 +1,8 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import isFunction from '@utils/isFunction';
-import tw from '@utils/tw';
 
-import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
 import XMarkIcon from '@components/icons/x-mark-icon/XMarkIcon';
 import * as S from '@components/multi-tag-select/MultiTagSelect.style';
