@@ -148,3 +148,5 @@ export const LINK_DESCRIPTION_LENGTH = {
     },
   },
 };
+
+export const COMMA = ',';

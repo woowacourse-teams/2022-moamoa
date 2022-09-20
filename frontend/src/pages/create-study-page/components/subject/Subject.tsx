@@ -14,14 +14,18 @@ export type SubjectProps = {
 
 const SUBJECT = 'subject';
 
+const subjectsToOptions = (subjects: StudyDetail['tags']): MultiTagSelectProps['options'] => {
+  return subjects.map(({ id, description }) => ({
+    label: description,
+    value: id,
+  }));
+};
+
 const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError } = useGetTags();
 
-  const originalOptions = originalSubjects?.map(({ id, description }) => ({
-    label: description,
-    value: id,
-  }));
+  const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
 
   const render = () => {
     if (isLoading) return <div>loading...</div>;
@@ -37,13 +41,7 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
       }
       const selectedOptions = originalOptions ? originalOptions : [{ value: etcTag.id, label: etcTag.description }];
 
-      const options = subjects.reduce((acc, { id, description }) => {
-        acc.push({
-          label: description,
-          value: id,
-        });
-        return acc;
-      }, [] as MultiTagSelectProps['options']);
+      const options = subjectsToOptions(subjects);
 
       return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
     }
