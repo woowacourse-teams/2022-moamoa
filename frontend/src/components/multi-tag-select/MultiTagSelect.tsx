@@ -73,14 +73,6 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 
     const handleDropDownClose = () => setIsOpenMenu(false);
 
-    const AllClearButton = () => (
-      <UnstyledButton css={tw`text-18`} onClick={handleAllClearButtonClick}>
-        <Center>
-          <XMarkIcon />
-        </Center>
-      </UnstyledButton>
-    );
-
     return (
       <S.Container>
         <S.SelectControl onClick={handleSelectControlClick}>
@@ -99,7 +91,11 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
           <S.Indicators>
             {selectedOptions.length > 0 && (
               <Center>
-                <AllClearButton />
+                <S.AllClearButton onClick={handleAllClearButtonClick}>
+                  <Center>
+                    <XMarkIcon />
+                  </Center>
+                </S.AllClearButton>
               </Center>
             )}
             <Center>

@@ -22,8 +22,7 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, pa
     if (!isOpen || !ref.current) return;
 
     const handleClose = (event: MouseEvent) => {
-      if (event.target === null) return;
-      if (event.target === ref.current) return;
+      if (event.target === null || event.target === ref.current) return;
 
       const path = event.composedPath();
       const isDropDownBoxClicked = path.findIndex(el => el === ref.current) > 0;
