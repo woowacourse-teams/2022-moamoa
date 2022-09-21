@@ -4,6 +4,7 @@ const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -48,6 +49,9 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: '../frontend/src/assets/temp', to: '../dist' }],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
