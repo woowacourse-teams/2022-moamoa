@@ -37,12 +37,14 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, pa
     return () => document.body.removeEventListener('click', handleClose);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return <></>;
-
   return (
-    <S.DropDownBox {...positions} padding={padding} ref={ref}>
-      {children}
-    </S.DropDownBox>
+    <>
+      {isOpen && (
+        <S.DropDownBox {...positions} padding={padding} ref={ref}>
+          {children}
+        </S.DropDownBox>
+      )}
+    </>
   );
 };
 
