@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { join, resolve } = require('path');
-const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -52,10 +51,6 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [{ from: '../frontend/static', to: '../dist/static' }],
-    }),
-    new webpack.optimize.AggressiveSplittingPlugin({
-      minSize: 30000,
-      maxSize: 50000,
     }),
   ],
   resolve: {
