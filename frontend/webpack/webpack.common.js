@@ -50,7 +50,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
-      patterns: [{ from: '../frontend/src/assets/temp', to: '../dist' }],
+      patterns: [{ from: '../frontend/static', to: '../dist/static' }],
     }),
   ],
   resolve: {
