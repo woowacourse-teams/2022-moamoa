@@ -111,6 +111,4 @@ export const SelectButton = styled(UnstyledButton)`
   text-align: left;
 `;
 
-export const AllClearButton = styled(UnstyledButton)`
-  font-size: 14px;
-`;
+export const AllClearButton = styled(UnstyledButton)``;
