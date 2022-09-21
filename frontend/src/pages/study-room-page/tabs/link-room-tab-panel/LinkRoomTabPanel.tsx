@@ -25,7 +25,7 @@ const LinkRoomTabPanel: React.FC = () => {
   } = useLinkRoomTabPanel();
 
   const renderLinkList = () => {
-    const { data, isError, isSuccess, fetchNextPage } = infiniteLinksQueryResult;
+    const { data, isError, isSuccess, isFetching, fetchNextPage } = infiniteLinksQueryResult;
     if (isError || !isSuccess) {
       return <div>에러가 발생했습니다</div>;
     }
@@ -37,7 +37,7 @@ const LinkRoomTabPanel: React.FC = () => {
     }
 
     return (
-      <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
+      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
         <S.LinkList>
           {links.map(link => (
             <li key={link.id}>
