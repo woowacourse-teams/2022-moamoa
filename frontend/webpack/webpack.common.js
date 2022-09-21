@@ -3,11 +3,9 @@ const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
-const smp = new SpeedMeasurePlugin();
-
-module.exports = smp.wrap({
+module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
@@ -18,9 +16,12 @@ module.exports = smp.wrap({
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'esnext',
+        },
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -78,4 +79,11 @@ module.exports = smp.wrap({
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
   },
-});
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'esnext',
+      }),
+    ],
+  },
+};

@@ -23,8 +23,8 @@ export type UseFormSubmitResult = {
 };
 
 type UseFormHandleSubmit = (
-  onSubmit: (event: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any> | undefined,
-) => (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any> | undefined,
+) => (e: React.FormEvent<HTMLFormElement>) => void;
 
 type UseFormState = {
   isSubmitted: boolean;
@@ -200,8 +200,8 @@ export const useForm: UseForm = () => {
     validateFieldOnChange(field);
   };
 
-  const handleSubmit: UseFormHandleSubmit = onSubmit => (event: any) => {
-    event.preventDefault();
+  const handleSubmit: UseFormHandleSubmit = onSubmit => (e: any) => {
+    e.preventDefault();
     if (!fieldsRef.current) return;
 
     setFormState(() => ({
@@ -225,7 +225,7 @@ export const useForm: UseForm = () => {
     }
 
     const values = getFieldValues(fieldsRef.current);
-    const result = onSubmit(event, { isValid, values, errors });
+    const result = onSubmit(e, { isValid, values, errors });
 
     if (result) {
       result

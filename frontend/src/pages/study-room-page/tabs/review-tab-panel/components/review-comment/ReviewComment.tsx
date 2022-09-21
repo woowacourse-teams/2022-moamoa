@@ -72,19 +72,17 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
               >
                 <KebabMenuIcon />
               </IconButton>
-              {isOpen && (
-                <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
-                  <ButtonGroup orientation="vertical">
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
-                      수정
-                    </TextButton>
-                    <Divider />
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
-                      삭제
-                    </TextButton>
-                  </ButtonGroup>
-                </DropDownBox>
-              )}
+              <DropDownBox isOpen={isOpen} onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
+                <ButtonGroup orientation="vertical">
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
+                    수정
+                  </TextButton>
+                  <Divider />
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
+                    삭제
+                  </TextButton>
+                </ButtonGroup>
+              </DropDownBox>
             </div>
           )}
         </Flex>

@@ -77,14 +77,18 @@ const Header: React.FC = () => {
               >
                 <Avatar src={userInfo.imageUrl} name={userInfo.username} />
               </IconButton>
-              {isOpenDropDownBox && (
-                <DropDownBox top="40px" right={0} onClose={handleDropDownBoxClose} padding="16px">
-                  <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-                    <LogoutIcon />
-                    <span>로그아웃</span>
-                  </NavButton>
-                </DropDownBox>
-              )}
+              <DropDownBox
+                isOpen={isOpenDropDownBox}
+                top="40px"
+                right={0}
+                onClose={handleDropDownBoxClose}
+                padding="16px"
+              >
+                <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
+                  <LogoutIcon />
+                  <span>로그아웃</span>
+                </NavButton>
+              </DropDownBox>
             </div>
           </Flex>
         </nav>
