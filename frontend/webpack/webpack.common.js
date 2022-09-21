@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { join, resolve } = require('path');
+const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -10,7 +11,7 @@ module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
-    filename: 'main.js',
+    filename: '[name]-[contenthash].js',
     path: join(__dirname, '../dist'),
     publicPath: '/',
   },
@@ -51,6 +52,10 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [{ from: '../frontend/static', to: '../dist/static' }],
+    }),
+    new webpack.optimize.AggressiveSplittingPlugin({
+      minSize: 30000,
+      maxSize: 50000,
     }),
   ],
   resolve: {
