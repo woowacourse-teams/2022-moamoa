@@ -20,7 +20,7 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('static/Pretendard-Light.woff2') format('woff');
+          src: url('static/Pretendard-Light.woff2') format('woff2');
           font-weight: ${theme.fontWeight.light};
           font-style: normal;
           font-display: swap;
@@ -28,7 +28,7 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('static/Pretendard-Regular.woff2') format('woff');
+          src: url('static/Pretendard-Regular.woff2') format('woff2');
           font-weight: ${theme.fontWeight.normal};
           font-style: normal;
           font-display: swap;
@@ -36,7 +36,7 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('static/Pretendard-SemiBold.woff2') format('woff');
+          src: url('static/Pretendard-SemiBold.woff2') format('woff2');
           font-weight: ${theme.fontWeight.bold};
           font-style: normal;
           font-display: swap;
@@ -44,7 +44,7 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('static/Pretendard-ExtraBold.woff2') format('woff');
+          src: url('static/Pretendard-ExtraBold.woff2') format('woff2');
           font-weight: ${theme.fontWeight.bolder};
           font-style: normal;
           font-display: swap;
