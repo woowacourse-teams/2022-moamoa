@@ -37,7 +37,7 @@ public class AuthService {
     }
 
     @Transactional
-    TokensResponse makeToken(final GithubProfileResponse githubProfileResponse) {
+    public TokensResponse makeToken(final GithubProfileResponse githubProfileResponse) {
         final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
         final Long memberId = memberResponse.getId();
 
