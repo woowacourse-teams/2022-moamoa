@@ -10,7 +10,7 @@ export type ApiLinkPreview = {
       linkUrl: string;
     };
     responseData: {
-      title: string;
+      title: string | null;
       description: string | null;
       imageUrl: string | null;
       domainName: string | null;

@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
-import type { NoticeArticle } from '@custom-types';
+import type { ArticleId, NoticeArticle, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -14,19 +14,11 @@ export type ApiNoticeArticles = {
       totalCount: number;
     };
     params: {
-      studyId: number;
-      page?: number;
-      size?: number;
+      studyId: StudyId;
+      page?: Page;
+      size?: Size;
     };
     variables: ApiNoticeArticles['get']['params'];
-  };
-  post: {
-    responseData: NoticeArticle;
-    params: {
-      studyId: number;
-      articleId: number;
-    };
-    variables: ApiNoticeArticles['post']['params'];
   };
 };
 
@@ -34,41 +26,30 @@ export type ApiNoticeArticle = {
   get: {
     responseData: NoticeArticle;
     params: {
-      studyId: number;
-      articleId: number;
+      studyId: StudyId;
+      articleId: ArticleId;
     };
     variables: ApiNoticeArticle['get']['params'];
   };
   post: {
-    responseData: {
-      studyId: number;
-      title: string;
-      content: string;
-    };
     params: {
-      studyId: number;
+      studyId: StudyId;
     };
-    body: {
-      title: string;
-      content: string;
-    };
+    body: Pick<NoticeArticle, 'title' | 'content'>;
     variables: ApiNoticeArticle['post']['params'] & ApiNoticeArticle['post']['body'];
   };
   put: {
     params: {
-      studyId: number;
-      articleId: number;
+      studyId: StudyId;
+      articleId: ArticleId;
     };
-    body: {
-      title: string;
-      content: string;
-    };
+    body: ApiNoticeArticle['post']['body'];
     variables: ApiNoticeArticle['put']['params'] & ApiNoticeArticle['put']['body'];
   };
   delete: {
     params: {
-      studyId: number;
-      articleId: number;
+      studyId: StudyId;
+      articleId: ArticleId;
     };
     variables: ApiNoticeArticle['delete']['params'];
   };
