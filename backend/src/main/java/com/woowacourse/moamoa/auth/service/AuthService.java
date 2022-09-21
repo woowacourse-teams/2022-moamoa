@@ -26,10 +26,18 @@ public class AuthService {
     private final OAuthClient oAuthClient;
     private final TokenRepository tokenRepository;
 
-    @Transactional
     public TokensResponse createToken(final String code) {
+        final GithubProfileResponse githubProfileResponse = getGithubProfileResponse(code);
+        return makeToken(githubProfileResponse);
+    }
+
+    private GithubProfileResponse getGithubProfileResponse(final String code) {
         final String accessToken = oAuthClient.getAccessToken(code);
-        final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
+        return oAuthClient.getProfile(accessToken);
+    }
+
+    @Transactional
+    TokensResponse makeToken(final GithubProfileResponse githubProfileResponse) {
         final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
         final Long memberId = memberResponse.getId();
 
@@ -42,7 +50,6 @@ public class AuthService {
         }
 
         tokenRepository.save(new Token(memberId, tokenResponse.getRefreshToken()));
-
         return tokenResponse;
     }
 
