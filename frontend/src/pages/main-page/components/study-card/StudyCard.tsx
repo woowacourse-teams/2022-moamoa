@@ -32,11 +32,12 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
             <Card.Content>{excerpt}</Card.Content>
           </div>
           <Card.Content align="right" maxLine={1}>
-            {tags.map(tag => (
-              <span key={tag.id} css={tw`mr-8`}>
-                #{tag.name}
-              </span>
-            ))}
+            {tags &&
+              tags.map(tag => (
+                <span key={tag.id} css={tw`mr-8`}>
+                  #{tag.name}
+                </span>
+              ))}
           </Card.Content>
         </div>
         <div css={tw`absolute top-8 right-8`}>

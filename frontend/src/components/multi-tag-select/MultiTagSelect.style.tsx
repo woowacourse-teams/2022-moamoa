@@ -2,115 +2,113 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { UnstyledButton } from '@components/button/unstyled-button/UnstyledButton.style';
+import ImportedDropDownBox from '@components/drop-down-box/DropDownBox';
 
 export const Container = styled.div`
-  width: 100%;
   position: relative;
+  width: 100%;
 `;
 
 export const SelectControl = styled.div`
-  -webkit-box-align: center;
+  position: relative;
+
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
   align-items: center;
+
+  min-height: 38px;
+
+  -webkit-box-align: center;
   background-color: rgb(255, 255, 255);
   border-color: rgb(204, 204, 204);
   border-radius: 4px;
   border-style: solid;
   border-width: 1px;
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  min-height: 38px;
-  position: relative;
-  box-sizing: border-box;
   padding-right: 8px;
 `;
 
 export const SelectedOptionList = styled.ul`
-  -webkit-box-align: center;
-  align-items: center;
+  position: relative;
+
   display: flex;
   flex: 1 1 0%;
   flex-wrap: wrap;
+  align-items: center;
+
+  -webkit-box-align: center;
   padding: 2px 8px;
-  position: relative;
   overflow: hidden;
-  box-sizing: border-box;
 `;
 
-export const SelectedOptionListItem = styled.li`
-  background-color: rgb(230, 230, 230);
-  border-radius: 2px;
-  display: flex;
-  margin: 2px;
-  min-width: 0px;
-  box-sizing: border-box;
-  font-size: 14px;
-`;
-
-export const SelectedOption = styled.div`
-  border-radius: 2px;
-  color: rgb(51, 51, 51);
-  font-size: 12px;
-  overflow: hidden;
-  padding: 3px 3px 3px 6px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-sizing: border-box;
-`;
-
-export const RemoveSelectedOptionButton = styled(UnstyledButton)`
+export const SelectedOption = styled.li`
   ${({ theme }) => css`
-    -webkit-box-align: center;
-    align-items: center;
-    border-radius: 2px;
     display: flex;
-    padding-left: 4px;
-    padding-right: 4px;
-    box-sizing: border-box;
 
-    &:hover {
-      background-color: ${theme.colors.red};
-    }
+    background-color: ${theme.colors.secondary.base};
+    border-radius: 2px;
+    margin: 2px;
+    font-size: 14px;
   `}
 `;
 
-export const Indicators = styled.div`
+export const SelectedOptionValue = styled.div`
+  padding: 3px 3px 3px 6px;
+  font-size: 12px;
+
+  border-radius: 2px;
+  color: rgb(51, 51, 51);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const UnselectButton = styled(UnstyledButton)`
+  display: flex;
+  align-items: center;
+
+  font-size: 14px;
+
   -webkit-box-align: center;
+  border-radius: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+`;
+
+export const Indicators = styled.div`
+  display: flex;
   align-items: center;
   align-self: stretch;
-  display: flex;
+  -webkit-box-align: center;
+
   flex-shrink: 0;
-  box-sizing: border-box;
   row-gap: 10px;
 `;
 
-export const SelectMenuContainer = styled.div`
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  right: 0;
+export const DropDown = styled(ImportedDropDownBox)`
   max-height: 180px;
-  overflow-y: scroll;
   background-color: white;
-  box-shadow: 0px 0px 3px 1px;
+  box-shadow: 0px 0px 4px 0px;
 
   border-radius: 4px;
 `;
 
-export const SelectMenuItem = styled.li`
+export const UnselectedOption = styled.li`
   ${({ theme }) => css`
     font-size: 20px;
     &:hover {
-      background-color: ${theme.colors.primary.light};
+      background-color: ${theme.colors.secondary.light}; // TODO: 색 세분화 필요
       color: white;
     }
   `}
 `;
 
-export const SelectMenuItemButton = styled(UnstyledButton)`
+export const SelectButton = styled(UnstyledButton)`
   width: 100%;
   height: 100%;
   padding: 10px;
   text-align: left;
 `;
+
+export const AllClearButton = styled(UnstyledButton)``;

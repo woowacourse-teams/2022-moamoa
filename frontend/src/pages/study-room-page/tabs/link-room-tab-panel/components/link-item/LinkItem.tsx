@@ -71,19 +71,17 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             >
               <MeatballMenuIcon />
             </IconButton>
-            {isOpenDropBox && (
-              <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
-                <ButtonGroup orientation="vertical">
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
-                    수정
-                  </TextButton>
-                  <Divider space="8px" />
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
-                    삭제
-                  </TextButton>
-                </ButtonGroup>
-              </DropDownBox>
-            )}
+            <DropDownBox isOpen={isOpenDropBox} onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
+              <ButtonGroup orientation="vertical">
+                <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
+                  수정
+                </TextButton>
+                <Divider space="8px" />
+                <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
+                  삭제
+                </TextButton>
+              </ButtonGroup>
+            </DropDownBox>
           </div>
         )}
         <a href={linkUrl} rel="noreferrer" target="_blank">
