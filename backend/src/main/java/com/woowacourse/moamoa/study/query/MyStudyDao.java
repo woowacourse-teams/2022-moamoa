@@ -78,10 +78,11 @@ public class MyStudyDao {
     };
 
     public List<MyStudySummaryData> findMyStudyByMemberId(Long id) {
-        String sql = "SELECT DISTINCT study.id, study.title, study.study_status, study.current_member_count, "
+        String sql = "SELECT study.id, study.title, study.study_status, study.current_member_count, "
                 + "study.max_member_count, study.start_date, study.end_date "
                 + "FROM study LEFT JOIN study_member ON study_member.study_id = study.id "
-                + "WHERE study_member.member_id = :id OR study.owner_id = :id";
+                + "WHERE study_member.member_id = :id OR study.owner_id = :id "
+                + "GROUP BY study.id";
 
         return jdbcTemplate.query(sql, Map.of("id", id), MY_STUDY_SUMMARY_ROW_MAPPER);
     }
