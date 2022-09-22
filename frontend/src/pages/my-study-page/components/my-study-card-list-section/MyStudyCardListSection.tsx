@@ -1,8 +1,11 @@
 import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
 
+import styled from '@emotion/styled';
+
 import { PATH } from '@constants';
 
+import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import type { MyStudy } from '@custom-types';
@@ -13,7 +16,6 @@ import { useDeleteMyStudy } from '@api/my-study';
 import LinkedButton from '@components/button/linked-button/LinkedButton';
 import SectionTitle from '@components/section-title/SectionTitle';
 
-import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export type MyStudyCardListSectionProps = {
@@ -51,7 +53,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
   return (
     <section css={tw`p-8`}>
       <SectionTitle>{sectionTitle}</SectionTitle>
-      <S.MyStudyList>
+      <MyStudyList>
         {studies.length === 0 ? (
           <li>해당하는 스터디가 없습니다</li>
         ) : (
@@ -71,9 +73,27 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
             </li>
           ))
         )}
-      </S.MyStudyList>
+      </MyStudyList>
     </section>
   );
 };
+
+const MyStudyList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(auto, 1fr));
+  grid-template-rows: 1fr;
+  gap: 20px;
+
+  & > li {
+    width: 100%;
+  }
+
+  ${mqDown('lg')} {
+    grid-template-columns: repeat(2, minmax(auto, 1fr));
+  }
+  ${mqDown('sm')} {
+    grid-template-columns: repeat(1, minmax(auto, 1fr));
+  }
+`;
 
 export default MyStudyCardListSection;

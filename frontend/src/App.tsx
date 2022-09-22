@@ -15,7 +15,7 @@ import { useAuth } from '@hooks/useAuth';
 
 import { Footer, Header, Main } from '@layout';
 
-import EditStudyPage from '@edit-study-page/EditStudyPage';
+import EditStudyPage from '@pages/study-page/edit-study-page/EditStudyPage';
 
 const App = () => {
   const { isLoggedIn } = useAuth();

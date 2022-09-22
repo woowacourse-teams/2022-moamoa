@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
+import styled from '@emotion/styled';
+
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
-import { changeDateSeperator } from '@utils';
+import { changeDateSeperator, mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import type { StudyDetail } from '@custom-types';
@@ -14,7 +16,6 @@ import SectionTitle from '@components/section-title/SectionTitle';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
-import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';
 
 export type StudyMemberSectionProps = {
   owner: StudyDetail['owner'];
@@ -105,7 +106,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
       <SectionTitle>
         스터디원 <span css={tw`text-[${theme.fontSize.md}]`}>{totalMembers.length}명</span>
       </SectionTitle>
-      <S.MemberList>{renderMembers()}</S.MemberList>
+      <MemberList>{renderMembers()}</MemberList>
       {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
         <div css={tw`text-right pt-15 pb-15`}>
           <MoreButton
@@ -119,5 +120,18 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
     </section>
   );
 };
+
+const MemberList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(auto, 1fr));
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
+
+  ${mqDown('md')} {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+`;
 
 export default StudyMemberSection;

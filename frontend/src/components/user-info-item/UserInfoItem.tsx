@@ -1,6 +1,10 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { nLineEllipsis } from '@utils/nLineEllipsis';
+
 import Avatar, { AVATAR_SIZE } from '@components/avatar/Avatar';
 import Flex from '@components/flex/Flex';
-import * as S from '@components/user-info-item/UserInfoItem.style';
 
 export type UserInfoItemProps = {
   children: React.ReactNode;
@@ -19,22 +23,52 @@ export type UserInfoItemContentProps = {
 
 const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }) => {
   return (
-    <S.Item>
+    <ItemSelf>
       <Avatar src={src} name={name} size={size} />
       <Flex flexDirection="column" columnGap="2px">
         {children}
       </Flex>
-    </S.Item>
+    </ItemSelf>
   );
 };
 
 const UserInfoItemHeading: React.FC<UserInfoItemHeadingProps> = ({ children }) => {
-  return <S.ItemHeading>{children}</S.ItemHeading>;
+  return <ItemHeadingSelf>{children}</ItemHeadingSelf>;
 };
 
 const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) => {
-  return <S.ItemContent>{children}</S.ItemContent>;
+  return <ItemContentSelf>{children}</ItemContentSelf>;
 };
+
+export const ItemSelf = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+
+    padding: 8px;
+
+    background: transparent;
+    border-radius: ${theme.radius.sm};
+  `}
+`;
+
+export const ItemHeadingSelf = styled.p`
+  ${({ theme }) => css`
+    font-weight: ${theme.fontWeight.bold};
+  `}
+
+  ${nLineEllipsis(1)};
+`;
+
+export const ItemContentSelf = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colors.secondary.dark};
+    font-size: ${theme.fontSize.sm};
+  `}
+
+  ${nLineEllipsis(2)};
+`;
 
 export default Object.assign(UserInfoItem, {
   Heading: UserInfoItemHeading,

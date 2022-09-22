@@ -1,4 +1,5 @@
-import * as S from '@components/page-title/PageTitle.style';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export type PageTitleProps = {
   children: React.ReactNode;
@@ -6,7 +7,19 @@ export type PageTitleProps = {
 };
 
 const PageTitle: React.FC<PageTitleProps> = ({ children, align = 'left' }) => {
-  return <S.PageTitle align={align}>{children}</S.PageTitle>;
+  return <Self align={align}>{children}</Self>;
 };
+
+type StyledPageTitleProps = Required<Pick<PageTitleProps, 'align'>>;
+
+export const Self = styled.h1<StyledPageTitleProps>`
+  ${({ theme, align }) => css`
+    padding: 20px 0;
+
+    font-size: ${theme.fontSize.xxl};
+    font-weight: ${theme.fontWeight.bold};
+    text-align: ${align};
+  `}
+`;
 
 export default PageTitle;

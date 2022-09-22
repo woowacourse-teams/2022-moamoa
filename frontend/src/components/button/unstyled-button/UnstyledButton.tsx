@@ -1,6 +1,7 @@
-import { ThemeFontSize } from '@styles/theme';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import * as S from '@components/button/unstyled-button/UnstyledButton.style';
+import { ThemeFontSize } from '@styles/theme';
 
 export type UnstyledButtonProps = {
   children?: React.ReactNode;
@@ -10,10 +11,22 @@ export type UnstyledButtonProps = {
 
 const UnstyledButton: React.FC<UnstyledButtonProps> = ({ children, onClick, fontSize = 'md' }) => {
   return (
-    <S.UnstyledButton onClick={onClick} fontSize={fontSize}>
+    <Self onClick={onClick} fontSize={fontSize}>
       {children}
-    </S.UnstyledButton>
+    </Self>
   );
 };
+
+export type StyledUnstyledButtonProps = Required<Pick<UnstyledButtonProps, 'fontSize'>>;
+
+const Self = styled.button<StyledUnstyledButtonProps>`
+  ${({ theme, fontSize }) => css`
+    font-size: ${theme.fontSize[fontSize]};
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+  `}
+`;
 
 export default UnstyledButton;

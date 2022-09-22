@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import * as S from '@components/button/linked-button/LinkedButton.style';
+import styled from '@emotion/styled';
 
 export type LinkedButtonProps = {
   children: React.ReactNode;
@@ -14,7 +14,16 @@ const LinkedButton: React.FC<LinkedButtonProps> = ({ children, to }) => {
     navigate(to);
   };
 
-  return <S.LinkedButton onClick={handleClick}>{children}</S.LinkedButton>;
+  return <Self onClick={handleClick}>{children}</Self>;
 };
+
+const Self = styled.button`
+  width: 100%;
+  height: fit-content;
+
+  background: transparent;
+  border: none;
+  text-align: unset;
+`;
 
 export default LinkedButton;

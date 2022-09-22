@@ -1,7 +1,10 @@
 import { Navigate } from 'react-router-dom';
 
+import styled from '@emotion/styled';
+
 import { PATH } from '@constants';
 
+import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import { theme } from '@styles/theme';
@@ -11,7 +14,6 @@ import Flex from '@components/flex/Flex';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
 import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
@@ -71,7 +73,7 @@ const DetailPage: React.FC = () => {
           <Divider space="20px" />
           <StudyMemberSection owner={owner} members={members} />
         </section>
-        <S.FloatButtonContainer>
+        <FloatButtonContainer>
           <div css={tw`sticky top-150 pb-20`}>
             <StudyFloatBox
               studyId={id}
@@ -84,11 +86,11 @@ const DetailPage: React.FC = () => {
               onRegisterButtonClick={handleRegisterButtonClick}
             />
           </div>
-        </S.FloatButtonContainer>
+        </FloatButtonContainer>
       </Flex>
       <Divider space="20px" />
       <StudyReviewSection studyId={id} />
-      <S.FixedBottomContainer>
+      <FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
           userRole={userRoleQueryResult.data?.role}
@@ -98,9 +100,31 @@ const DetailPage: React.FC = () => {
           recruitmentStatus={recruitmentStatus}
           onRegisterButtonClick={handleRegisterButtonClick}
         />
-      </S.FixedBottomContainer>
+      </FixedBottomContainer>
     </Wrapper>
   );
 };
+
+export const FloatButtonContainer = styled.div`
+  min-width: 30%;
+
+  ${mqDown('lg')} {
+    display: none;
+  }
+`;
+
+export const FixedBottomContainer = styled.div`
+  display: none;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+
+  ${mqDown('lg')} {
+    display: block;
+  }
+`;
 
 export default DetailPage;

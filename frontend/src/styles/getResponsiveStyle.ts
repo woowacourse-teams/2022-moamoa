@@ -1,8 +1,8 @@
 import * as CSS from 'csstype';
 
 import { BreakpointsFor, mqDown } from '@utils/media-query';
-import parseStyle from '@utils/parseStyle';
 
+import parseStyle from '@styles/parseStyle';
 import { breakPoints } from '@styles/theme';
 
 const getResponsiveStyle = (obj: BreakpointsFor<CSS.StandardProperties>) => {

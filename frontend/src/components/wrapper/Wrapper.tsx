@@ -1,6 +1,7 @@
-import type { CssLength } from '@custom-types';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import * as S from '@components/wrapper/Wrapper.style';
+import type { CssLength } from '@custom-types';
 
 export type WrapperProps = {
   children: React.ReactNode;
@@ -8,7 +9,18 @@ export type WrapperProps = {
 };
 
 const Wrapper: React.FC<WrapperProps> = ({ children, space = '20px' }) => {
-  return <S.Wrapper space={space}>{children}</S.Wrapper>;
+  return <Self space={space}>{children}</Self>;
 };
+
+type StyledWrapperProps = Required<Pick<WrapperProps, 'space'>>;
+
+const Self = styled.div<StyledWrapperProps>`
+  ${({ space }) => css`
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 ${space};
+  `}
+`;
 
 export default Wrapper;

@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 
-import { noop } from '@utils';
+import styled from '@emotion/styled';
 
-import * as S from '@components/checkbox/Checkbox.style';
+import { noop } from '@utils';
 
 export type CheckboxProps = {
   children?: string;
@@ -17,7 +17,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ id, children, checked, onChange: handleChange = noop, dataTagId, defaultChecked, ...props }, ref) => {
     return (
       <label>
-        <S.Checkbox
+        <Self
           id={id}
           ref={ref}
           type="checkbox"
@@ -34,5 +34,14 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = 'Checkbox';
+
+const Self = styled.input`
+  margin-right: 4px;
+
+  &:checked {
+    border: none;
+    outline: none;
+  }
+`;
 
 export default Checkbox;

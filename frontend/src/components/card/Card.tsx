@@ -1,8 +1,11 @@
-import type { CssLength } from '@custom-types';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { nLineEllipsis } from '@utils/nLineEllipsis';
+
+import type { CssLength, MakeRequired } from '@custom-types';
 
 import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
-
-import * as S from '@components/card/Card.style';
 
 export type CardProps = {
   children: React.ReactNode;
@@ -37,27 +40,86 @@ const Card: React.FC<CardProps> = ({
   padding,
 }) => {
   return (
-    <S.Card width={width} height={height} backgroundColor={backgroundColor} shadow={shadow} gap={gap} padding={padding}>
+    <CardSelf
+      width={width}
+      height={height}
+      backgroundColor={backgroundColor}
+      shadow={shadow}
+      gap={gap}
+      padding={padding}
+    >
       {children}
-    </S.Card>
+    </CardSelf>
   );
 };
 
 const CardHeading: React.FC<CardHeadingProps> = ({ children, maxLine = 1, fontSize = 'lg' }) => {
   return (
-    <S.CardHeading maxLine={maxLine} fontSize={fontSize}>
+    <CardHeadingSelf maxLine={maxLine} fontSize={fontSize}>
       {children}
-    </S.CardHeading>
+    </CardHeadingSelf>
   );
 };
 
 const CardContent: React.FC<CardContentProps> = ({ children, maxLine = 2, align = 'left', fontSize = 'sm' }) => {
   return (
-    <S.CardContent maxLine={maxLine} align={align} fontSize={fontSize}>
+    <CardContentSelf maxLine={maxLine} align={align} fontSize={fontSize}>
       {children}
-    </S.CardContent>
+    </CardContentSelf>
   );
 };
+
+type StyledCardProps = MakeRequired<
+  Pick<CardProps, 'height' | 'width' | 'backgroundColor' | 'shadow' | 'gap' | 'padding'>,
+  'width' | 'height' | 'backgroundColor'
+>;
+
+type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine' | 'fontSize'>>;
+
+type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align' | 'fontSize'>>;
+
+export const CardSelf = styled.div<StyledCardProps>`
+  ${({ theme, width, height, backgroundColor, shadow, gap, padding }) => css`
+    display: flex;
+    flex-direction: column;
+    ${gap && `gap: ${gap}`};
+
+    width: ${width};
+    height: ${height};
+    ${padding && `padding: ${padding}`};
+    overflow: hidden;
+
+    background-color: ${backgroundColor};
+    border-radius: ${theme.radius.sm};
+    ${shadow && `box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};`}
+  `}
+`;
+
+export const CardHeadingSelf = styled.h1<StyledCardHeadingProps>`
+  ${({ theme, maxLine, fontSize }) => css`
+    width: 100%;
+    margin-bottom: 8px;
+
+    font-size: ${theme.fontSize[fontSize]};
+    font-weight: ${theme.fontWeight.bold};
+    line-height: ${theme.fontSize[fontSize]};
+
+    ${nLineEllipsis(maxLine)};
+  `}
+`;
+
+export const CardContentSelf = styled.p<StyledCardContentProps>`
+  ${({ theme, maxLine, align, fontSize }) => css`
+    width: 100%;
+    height: calc(${theme.fontSize[fontSize]} * ${maxLine});
+
+    font-size: ${theme.fontSize[fontSize]};
+    line-height: ${theme.fontSize[fontSize]};
+    text-align: ${align};
+
+    ${nLineEllipsis(maxLine)};
+  `}
+`;
 
 export default Object.assign(Card, {
   Heading: CardHeading,

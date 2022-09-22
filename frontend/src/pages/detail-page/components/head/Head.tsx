@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
@@ -10,8 +13,6 @@ import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';
 import PageTitle from '@components/page-title/PageTitle';
 import StudyChip from '@components/study-chip/StudyChip';
-
-import * as S from '@detail-page/components/head/Head.style';
 
 export type HeadProps = Pick<
   StudyDetail,
@@ -47,7 +48,7 @@ const Head: React.FC<HeadProps> = ({
         <span>시작일: {changeDateSeperator(startDate)}</span> ~
         <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
       </Flex>
-      <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
+      <Excerpt>&quot;{excerpt}&quot;</Excerpt>
       <Flex columnGap="16px">
         {tags.map(({ id, name }) => (
           <span key={id}>#{name}</span>
@@ -56,5 +57,13 @@ const Head: React.FC<HeadProps> = ({
     </Flex>
   );
 };
+
+const Excerpt = styled.p`
+  ${({ theme }) => css`
+    padding: 8px 0 16px;
+
+    font-size: ${theme.fontSize.xl};
+  `}
+`;
 
 export default Head;

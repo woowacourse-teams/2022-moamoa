@@ -1,11 +1,12 @@
 import { memo } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import tw from '@utils/tw';
 
 import { ToggleButton } from '@components/button';
 import Flex from '@components/flex/Flex';
-
-import * as S from '@main-page/components/filter-button/FilterButton.style';
 
 export type FilterButtonProps = {
   name: string;
@@ -20,13 +21,28 @@ const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecke
       <Flex alignItems="center" height="70px">
         <ToggleButton checked={isChecked} onClick={handleClick}>
           <Flex flexDirection="column" width="80px">
-            <S.Name>{name}</S.Name>
-            <S.Description>{description}</S.Description>
+            <Name>{name}</Name>
+            <Description>{description}</Description>
           </Flex>
         </ToggleButton>
       </Flex>
     </div>
   );
 };
+
+const Name = styled.span`
+  ${({ theme }) => css`
+    margin-bottom: 4px;
+
+    font-size: ${theme.fontSize.lg};
+    font-weight: ${theme.fontWeight.bold};
+  `}
+`;
+
+export const Description = styled.span`
+  ${({ theme }) => css`
+    font-size: ${theme.fontSize.sm};
+  `}
+`;
 
 export default memo(FilterButton);

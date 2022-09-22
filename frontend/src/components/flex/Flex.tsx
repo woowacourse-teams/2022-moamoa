@@ -4,9 +4,10 @@ import React from 'react';
 import { css } from '@emotion/css';
 import styled from '@emotion/styled';
 
-import getResponsiveStyle from '@utils/getResponsiveStyle';
 import { BreakpointsFor } from '@utils/media-query';
-import parseStyle from '@utils/parseStyle';
+
+import getResponsiveStyle from '@styles/getResponsiveStyle';
+import parseStyle from '@styles/parseStyle';
 
 export type CSSProperty = keyof CSS.StandardProperties;
 

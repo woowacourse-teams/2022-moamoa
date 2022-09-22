@@ -1,12 +1,15 @@
+import { type Theme, css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import tw from '@utils/tw';
 
 import type { Tag } from '@custom-types';
 
+import { applyHoverTransitionStyle } from '@styles/theme';
+
 import { IconButton } from '@components/button';
 import Card from '@components/card/Card';
 import { CrownIcon, TrashcanIcon } from '@components/icons';
-
-import * as S from '@my-study-page/components/my-study-card/MyStudyCard.style';
 
 export type MyStudyCardProps = {
   title: string;
@@ -28,7 +31,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   onQuitStudyButtonClick: handleQuitStudyButtonClick,
 }) => {
   return (
-    <S.MyStudyCard done={done}>
+    <Self done={done}>
       <Card gap="8px" padding="16px" shadow>
         <Card.Heading>{title}</Card.Heading>
         <Card.Content fontSize="md">
@@ -57,8 +60,32 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
           <TrashcanIcon />
         </IconButton>
       </div>
-    </S.MyStudyCard>
+    </Self>
   );
 };
+
+type StyledMyStudyCardProps = Pick<MyStudyCardProps, 'done'>;
+
+const doneStyle = (theme: Theme) => css`
+  & * {
+    color: ${theme.colors.secondary.dark} !important;
+  }
+
+  & svg {
+    stroke: ${theme.colors.secondary.dark} !important;
+  }
+`;
+
+const Self = styled.div<StyledMyStudyCardProps>`
+  ${({ theme, done }) => css`
+    position: relative;
+
+    height: 100%;
+
+    ${done && doneStyle(theme)}
+
+    ${applyHoverTransitionStyle()}
+  `}
+`;
 
 export default MyStudyCard;

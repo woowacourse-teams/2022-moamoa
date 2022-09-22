@@ -4,22 +4,21 @@ import { PATH } from '@constants';
 
 import { FormProvider } from '@hooks/useForm';
 
+import Category from '@pages/study-page/components/category/Category';
+import DescriptionTab from '@pages/study-page/components/description-tab/DescriptionTab';
+import EnrollmentEndDate from '@pages/study-page/components/enrollment-end-date/EnrollmentEndDate';
+import Excerpt from '@pages/study-page/components/excerpt/Excerpt';
+import MaxMemberCount from '@pages/study-page/components/max-member-count/MaxMemberCount';
+import Period from '@pages/study-page/components/period/Period';
+import Publish from '@pages/study-page/components/publish/Publish';
+import Subject from '@pages/study-page/components/subject/Subject';
+import Title from '@pages/study-page/components/title/Title';
+import useEditStudyPage from '@pages/study-page/edit-study-page/hooks/useEditStudyPage';
+import { Container, Main, Sidebar } from '@pages/study-page/layout/Layout';
+
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
-
-import Category from '@create-study-page/components/category/Category';
-import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
-import EnrollmentEndDate from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate';
-import Excerpt from '@create-study-page/components/excerpt/Excerpt';
-import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
-import Period from '@create-study-page/components/period/Period';
-import Publish from '@create-study-page/components/publish/Publish';
-import Subject from '@create-study-page/components/subject/Subject';
-import Title from '@create-study-page/components/title/Title';
-
-import * as S from '@edit-study-page/EditStudyPage.style';
-import useEditStudyPage from '@edit-study-page/hooks/useEditStudyPage';
 
 const EditStudyPage: React.FC = () => {
   const { studyId, formMethods, onSubmit, navigate, studyQueryResult } = useEditStudyPage();
@@ -45,13 +44,13 @@ const EditStudyPage: React.FC = () => {
       <FormProvider {...formMethods}>
         <PageTitle>스터디 수정하기</PageTitle>
         <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <S.Container>
-            <S.Main>
+          <Container>
+            <Main>
               <Title originalTitle={data.title} />
               <DescriptionTab originalDescription={data.description} />
               <Excerpt originalExcerpt={data.excerpt} />
-            </S.Main>
-            <S.Sidebar>
+            </Main>
+            <Sidebar>
               <li>
                 <Publish title="스터디 수정" buttonText="수정하기" />
               </li>
@@ -70,8 +69,8 @@ const EditStudyPage: React.FC = () => {
               <li>
                 <EnrollmentEndDate originalEnrollmentEndDate={data.enrollmentEndDate} />
               </li>
-            </S.Sidebar>
-          </S.Container>
+            </Sidebar>
+          </Container>
         </Form>
       </FormProvider>
     </Wrapper>

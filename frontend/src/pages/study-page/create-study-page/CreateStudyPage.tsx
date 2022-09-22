@@ -1,20 +1,20 @@
 import { FormProvider } from '@hooks/useForm';
 
+import Category from '@pages/study-page/components/category/Category';
+import DescriptionTab from '@pages/study-page/components/description-tab/DescriptionTab';
+import EnrollmentEndDate from '@pages/study-page/components/enrollment-end-date/EnrollmentEndDate';
+import Excerpt from '@pages/study-page/components/excerpt/Excerpt';
+import MaxMemberCount from '@pages/study-page/components/max-member-count/MaxMemberCount';
+import Period from '@pages/study-page/components/period/Period';
+import Publish from '@pages/study-page/components/publish/Publish';
+import Subject from '@pages/study-page/components/subject/Subject';
+import Title from '@pages/study-page/components/title/Title';
+import useCreateStudyPage from '@pages/study-page/create-study-page/hooks/useCreateStudyPage';
+import { Container, Main, Sidebar } from '@pages/study-page/layout/Layout';
+
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
-
-import * as S from '@create-study-page/CreateStudyPage.style';
-import Category from '@create-study-page/components/category/Category';
-import DescriptionTab from '@create-study-page/components/description-tab/DescriptionTab';
-import EnrollmentEndDate from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate';
-import Excerpt from '@create-study-page/components/excerpt/Excerpt';
-import MaxMemberCount from '@create-study-page/components/max-member-count/MaxMemberCount';
-import Period from '@create-study-page/components/period/Period';
-import Publish from '@create-study-page/components/publish/Publish';
-import Subject from '@create-study-page/components/subject/Subject';
-import Title from '@create-study-page/components/title/Title';
-import useCreateStudyPage from '@create-study-page/hooks/useCreateStudyPage';
 
 const CreateStudyPage: React.FC = () => {
   const { formMethods, onSubmit } = useCreateStudyPage();
@@ -24,13 +24,13 @@ const CreateStudyPage: React.FC = () => {
       <FormProvider {...formMethods}>
         <PageTitle>스터디 개설하기</PageTitle>
         <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <S.Container>
-            <S.Main>
+          <Container>
+            <Main>
               <Title />
               <DescriptionTab />
               <Excerpt />
-            </S.Main>
-            <S.Sidebar>
+            </Main>
+            <Sidebar>
               <li>
                 <Publish />
               </li>
@@ -49,8 +49,8 @@ const CreateStudyPage: React.FC = () => {
               <li>
                 <EnrollmentEndDate />
               </li>
-            </S.Sidebar>
-          </S.Container>
+            </Sidebar>
+          </Container>
         </Form>
       </FormProvider>
     </Wrapper>

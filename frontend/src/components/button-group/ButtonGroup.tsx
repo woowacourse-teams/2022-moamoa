@@ -1,6 +1,7 @@
-import type { CssLength } from '@custom-types';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import * as S from '@components/button-group/ButtonGroup.style';
+import type { CssLength, MakeRequired } from '@custom-types';
 
 export type ButtonGroupProps = {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   gap = 0,
 }) => {
   return (
-    <S.ButtonGroup
+    <Self
       width={width}
       height={height}
       orientation={orientation}
@@ -31,8 +32,26 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
       alignItems={alignItems}
     >
       {children}
-    </S.ButtonGroup>
+    </Self>
   );
 };
+
+type StyledButtonGroupProps = MakeRequired<
+  Pick<ButtonGroupProps, 'orientation' | 'gap' | 'height' | 'width' | 'justifyContent' | 'alignItems'>,
+  'gap' | 'height' | 'orientation' | 'width'
+>;
+
+export const Self = styled.div<StyledButtonGroupProps>`
+  ${({ orientation, gap, width, height, justifyContent, alignItems }) => css`
+    display: flex;
+    ${orientation === 'vertical' && 'flex-direction: column;'}
+    gap: ${gap};
+    ${justifyContent && `justify-content: ${justifyContent};`}
+    ${alignItems && `align-items: ${alignItems};`}
+
+    width: ${width};
+    height: ${height};
+  `}
+`;
 
 export default ButtonGroup;

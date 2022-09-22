@@ -1,18 +1,43 @@
 import { ReactNode } from 'react';
 
-import * as S from '@components/meta-box/MetaBox.style';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+const MetaBox = ({ children }: { children: ReactNode }) => {
+  return <MetaBoxSelf>{children}</MetaBoxSelf>;
+};
 
 const MetaBoxTitle = ({ children }: { children: ReactNode }) => {
-  return <S.Title>{children}</S.Title>;
+  return <MetaBoxTitleSelf>{children}</MetaBoxTitleSelf>;
 };
 
 const MetaBoxContent = ({ children }: { children: ReactNode }) => {
-  return <S.Content>{children}</S.Content>;
+  return <MetaBoxContentSelf>{children}</MetaBoxContentSelf>;
 };
 
-const MetaBox = ({ children }: { children: ReactNode }) => {
-  return <S.MetaBox>{children}</S.MetaBox>;
-};
+export const MetaBoxSelf = styled.div`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.white};
+    min-width: 255px;
+    border: 1px solid ${theme.colors.secondary.base};
+    border-radius: ${theme.radius.sm};
+  `}
+`;
+
+export const MetaBoxTitleSelf = styled.h2`
+  ${({ theme }) => css`
+    padding: 8px 12px;
+
+    font-size: ${theme.fontSize.md};
+    font-weight: ${theme.fontWeight.bold};
+
+    border-bottom: 1px solid ${theme.colors.secondary.base};
+  `}
+`;
+
+export const MetaBoxContentSelf = styled.div`
+  padding: 8px 12px;
+`;
 
 export default Object.assign(MetaBox, {
   Title: MetaBoxTitle,

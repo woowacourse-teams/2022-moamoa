@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 
+import styled from '@emotion/styled';
+
 import { PATH } from '@constants';
+
+import { mqDown } from '@utils';
 
 import type { Study } from '@custom-types';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@main-page/MainPage.style';
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
 import FilterSection from '@main-page/components/filter-section/FilterSection';
 import StudyCard from '@main-page/components/study-card/StudyCard';
@@ -32,7 +35,7 @@ const MainPage: React.FC = () => {
 
     return (
       <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
-        <S.CardList>
+        <CardList>
           {searchedStudies.map(study => (
             <li key={study.id}>
               <Link to={PATH.STUDY_DETAIL(study.id)}>
@@ -47,19 +50,43 @@ const MainPage: React.FC = () => {
               </Link>
             </li>
           ))}
-        </S.CardList>
+        </CardList>
         {isFetching && <div>Loading...</div>}
       </InfiniteScroll>
     );
   };
 
   return (
-    <S.Page>
+    <Page>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <Wrapper>{renderStudyList()}</Wrapper>
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
-    </S.Page>
+    </Page>
   );
 };
+
+export const CardList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
+  grid-template-rows: 1fr;
+  gap: 32px;
+
+  & > li {
+    width: 100%;
+  }
+
+  ${mqDown('lg')} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  ${mqDown('md')} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  ${mqDown('sm')} {
+    grid-template-columns: repeat(1, 256px);
+    place-content: center;
+  }
+`;
+
+export const Page = styled.div``;
 
 export default MainPage;

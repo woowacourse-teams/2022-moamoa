@@ -1,8 +1,12 @@
 import { memo } from 'react';
 
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import styled from '@emotion/styled';
 
-import * as S from '@detail-page/components/study-review-card/StudyReviewCard.style';
+import { nLineEllipsis } from '@utils/nLineEllipsis';
+
+import { applyHoverTransitionStyle } from '@styles/theme';
+
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
 export type StudyReviewCardProps = {
   imageUrl: string;
@@ -13,14 +17,28 @@ export type StudyReviewCardProps = {
 
 const StudyReviewCard: React.FC<StudyReviewCardProps> = ({ imageUrl, username, reviewDate, review }) => {
   return (
-    <S.StudyReviewCard>
+    <Self>
       <UserInfoItem src={imageUrl} name={username} size="lg">
         <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
         <UserInfoItem.Content>{reviewDate}</UserInfoItem.Content>
       </UserInfoItem>
-      <S.Review>{review}</S.Review>
-    </S.StudyReviewCard>
+      <Review>{review}</Review>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  height: 100%;
+  max-height: 150px;
+  padding: 8px;
+
+  ${applyHoverTransitionStyle()}
+`;
+
+export const Review = styled.p`
+  padding: 8px 8px 0;
+
+  ${nLineEllipsis(3)}
+`;
 
 export default memo(StudyReviewCard);

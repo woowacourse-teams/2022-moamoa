@@ -1,3 +1,6 @@
+import styled from '@emotion/styled';
+
+import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import type { Link } from '@custom-types';
@@ -7,7 +10,6 @@ import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel.style';
 import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
 import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
 import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
@@ -38,7 +40,7 @@ const LinkRoomTabPanel: React.FC = () => {
 
     return (
       <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
-        <S.LinkList>
+        <LinkList>
           {links.map(link => (
             <li key={link.id}>
               <LinkItem
@@ -50,7 +52,7 @@ const LinkRoomTabPanel: React.FC = () => {
               />
             </li>
           ))}
-        </S.LinkList>
+        </LinkList>
       </InfiniteScroll>
     );
   };
@@ -71,5 +73,19 @@ const LinkRoomTabPanel: React.FC = () => {
     </Wrapper>
   );
 };
+
+const LinkList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+
+  ${mqDown('lg')} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${mqDown('sm')} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
 
 export default LinkRoomTabPanel;

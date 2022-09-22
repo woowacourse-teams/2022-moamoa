@@ -1,7 +1,9 @@
+import styled from '@emotion/styled';
+
+import { applyHoverTransitionStyle } from '@styles/theme';
+
 import Flex from '@components/flex/Flex';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
-
-import * as S from '@detail-page/components/study-member-card/StudyMemberCard.style';
 
 export type StudyMemberCardProps = {
   username: string;
@@ -17,7 +19,7 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
   startDate = '2022.07.02',
 }) => {
   return (
-    <S.StudyMemberCard>
+    <Self>
       <UserInfoItem src={imageUrl} name={`${username} 프로필`} size="lg">
         <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
         <Flex justifyContent="space-between" columnGap="20px">
@@ -25,8 +27,12 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
           <UserInfoItem.Content>{startDate} 가입</UserInfoItem.Content>
         </Flex>
       </UserInfoItem>
-    </S.StudyMemberCard>
+    </Self>
   );
 };
+
+export const Self = styled.div`
+  ${applyHoverTransitionStyle()}
+`;
 
 export default StudyMemberCard;

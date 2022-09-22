@@ -1,8 +1,9 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import notFoundImage from '@assets/images/no-image-found.png';
 
 import type { CssLength } from '@custom-types';
-
-import * as S from '@components/image/Image.style';
 
 export type ImageProps = {
   shape: 'circular' | 'rectangular';
@@ -26,7 +27,7 @@ const Image: React.FC<ImageProps> = ({
   };
 
   return (
-    <S.Image
+    <Self
       src={src ?? notFoundImage}
       alt={alt}
       onError={handleImageError}
@@ -37,5 +38,24 @@ const Image: React.FC<ImageProps> = ({
     />
   );
 };
+
+type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'width' | 'height' | 'objectFit'>>;
+
+export const Self = styled.img<StyledImageProps>`
+  ${({ theme, shape, width, height, objectFit }) => css`
+    width: ${width};
+    height: ${height};
+
+    object-fit: ${objectFit};
+    object-position: center;
+
+    border-radius: ${theme.radius.sm};
+
+    ${shape === 'circular' &&
+    css`
+      border-radius: 50%;
+    `}
+  `}
+`;
 
 export default Image;

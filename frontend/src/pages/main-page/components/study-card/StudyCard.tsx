@@ -1,10 +1,12 @@
 import { memo } from 'react';
 
+import styled from '@emotion/styled';
+
 import tw from '@utils/tw';
 
 import type { Study } from '@custom-types';
 
-import * as S from '@pages/main-page/components/study-card/StudyCard.style';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Card from '@components/card/Card';
 import Image from '@components/image/Image';
@@ -21,7 +23,7 @@ export type StudyCardProps = {
 
 const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, tags, isOpen }) => {
   return (
-    <S.StudyCardContainer>
+    <Self>
       <Card height="280px">
         <div css={tw`mb-16 flex-grow overflow-hidden`}>
           <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} />
@@ -44,8 +46,15 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
           <StudyChip isOpen={isOpen} />
         </div>
       </Card>
-    </S.StudyCardContainer>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  position: relative;
+  height: 280px;
+
+  ${applyHoverTransitionStyle()}
+`;
 
 export default memo(StudyCard);

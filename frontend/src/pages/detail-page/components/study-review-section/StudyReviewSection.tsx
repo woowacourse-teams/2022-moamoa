@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
+import styled from '@emotion/styled';
+
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
+import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import { theme } from '@styles/theme';
@@ -12,7 +15,6 @@ import SectionTitle from '@components/section-title/SectionTitle';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
-import * as S from '@detail-page/components/study-review-section/StudyReviewSection.style';
 
 export type StudyReviewSectionProps = {
   studyId: number;
@@ -34,18 +36,18 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
     if (data.reviews.length === 0) return <div>아직 작성된 후기가 없습니다</div>;
     return (
       <>
-        <S.ReviewList>
+        <ReviewList>
           {data.reviews.map(review => (
-            <S.ReviewListItem key={review.id}>
+            <ReviewListItem key={review.id}>
               <StudyReviewCard
                 imageUrl={review.member.imageUrl}
                 username={review.member.username}
                 reviewDate={review.createdDate}
                 review={review.content}
               />
-            </S.ReviewListItem>
+            </ReviewListItem>
           ))}
-        </S.ReviewList>
+        </ReviewList>
         {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
           <div css={tw`p-16 text-right`}>
             <MoreButton
@@ -67,5 +69,24 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
     </section>
   );
 };
+
+const ReviewList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 60px;
+
+  ${mqDown('md')} {
+    flex-direction: column;
+    row-gap: 30px;
+  }
+`;
+
+export const ReviewListItem = styled.li`
+  width: calc(50% - 30px);
+
+  ${mqDown('md')} {
+    width: 100%;
+  }
+`;
 
 export default StudyReviewSection;

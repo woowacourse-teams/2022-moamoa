@@ -1,4 +1,5 @@
-import * as S from '@components/section-title/SectionTitle.style';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export type SectionTitleProps = {
   children: React.ReactNode;
@@ -6,7 +7,19 @@ export type SectionTitleProps = {
 };
 
 const SectionTitle: React.FC<SectionTitleProps> = ({ children, align = 'left' }) => {
-  return <S.SectionTitle align={align}>{children}</S.SectionTitle>;
+  return <Self align={align}>{children}</Self>;
 };
+
+type StyledSectionTitleProps = Required<Pick<SectionTitleProps, 'align'>>;
+
+export const Self = styled.h2<StyledSectionTitleProps>`
+  ${({ theme, align }) => css`
+    padding: 20px 0;
+
+    font-size: ${theme.fontSize.xl};
+    font-weight: ${theme.fontWeight.bold};
+    text-align: ${align};
+  `}
+`;
 
 export default SectionTitle;
