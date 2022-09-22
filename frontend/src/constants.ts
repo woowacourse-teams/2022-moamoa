@@ -42,15 +42,6 @@ export const DEFAULT_LINK_QUERY_PARAM = {
 export const DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT = 6;
 export const DEFAULT_LOAD_STUDY_REVIEW_COUNT = 6;
 
-export const BREAK_POINTS = {
-  xs: 0,
-  sm: 576,
-  md: 768,
-  lg: 992,
-  xl: 1280,
-  xxl: 1400,
-};
-
 export const EXCERPT_LENGTH = {
   MIN: {
     VALUE: 1,
@@ -141,9 +132,7 @@ export const LINK_URL_LENGTH = {
   },
   FORMAT: {
     TEST(text: string) {
-      return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
-        text,
-      );
+      return /http(s)?:\/\/[(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(text);
     },
     get MESSAGE() {
       return 'URL을 입력해주세요.';
@@ -152,12 +141,6 @@ export const LINK_URL_LENGTH = {
 };
 
 export const LINK_DESCRIPTION_LENGTH = {
-  MIN: {
-    VALUE: 1,
-    get MESSAGE() {
-      return `${this.VALUE}글자 이상이어야 합니다`;
-    },
-  },
   MAX: {
     VALUE: 40,
     get MESSAGE() {
@@ -165,3 +148,5 @@ export const LINK_DESCRIPTION_LENGTH = {
     },
   },
 };
+
+export const COMMA = ',';

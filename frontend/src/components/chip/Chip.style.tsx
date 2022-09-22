@@ -1,18 +1,27 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { ChipProps } from '@components/chip/Chip';
+import { ChipProps } from '@components/chip/Chip';
 
-export const Chip = styled.span<ChipProps>`
-  ${({ theme, disabled }) => css`
+type StyledChipProps = Required<Pick<ChipProps, 'variant'>>;
+
+export const Chip = styled.span<StyledChipProps>`
+  ${({ theme, variant }) => css`
     display: inline-block;
 
-    width: 92px;
-    padding: 8px 12.8px;
+    min-width: 80px;
+    padding: 8px 10px;
 
+    font-size: ${theme.fontSize.sm};
     text-align: center;
-    border-radius: 16px;
-    color: ${disabled ? theme.colors.black : theme.colors.white};
-    background-color: ${disabled ? theme.colors.secondary.base : theme.colors.primary.base};
+    border-radius: ${theme.radius.md};
+    color: ${theme.colors.white};
+    background-color: ${theme.colors.primary.base};
+
+    ${variant === 'secondary' &&
+    css`
+      color: ${theme.colors.black};
+      background-color: ${theme.colors.secondary.base};
+    `}
   `}
 `;

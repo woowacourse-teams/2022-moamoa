@@ -5,7 +5,7 @@ import type { MoreButtonProps } from '@detail-page/components/more-button/MoreBu
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 
 export default {
-  title: 'Components/MoreButton',
+  title: 'Pages/DetailPage/MoreButton',
   component: MoreButton,
   argTypes: {
     status: 'fold',

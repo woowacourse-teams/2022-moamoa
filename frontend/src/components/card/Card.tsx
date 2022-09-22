@@ -1,29 +1,65 @@
-import { ReactNode } from 'react';
+import type { CssLength } from '@custom-types';
+
+import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
 
 import * as S from '@components/card/Card.style';
-import CenterImage from '@components/center-image/CenterImage';
 
 export type CardProps = {
-  thumbnailUrl: string;
-  thumbnailAlt: string;
-  title: string;
-  excerpt: string;
-  extraChips: Array<ReactNode>;
+  children: React.ReactNode;
+  width?: CssLength;
+  height?: CssLength;
+  backgroundColor?: ThemeColor | 'transparent';
+  shadow?: boolean;
+  gap?: CssLength;
+  padding?: CssLength;
 };
 
-const Card: React.FC<CardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, extraChips }) => {
+export type CardHeadingProps = {
+  children: React.ReactNode;
+  maxLine?: number;
+  fontSize?: ThemeFontSize;
+};
+
+export type CardContentProps = {
+  children: React.ReactNode;
+  maxLine?: number;
+  align?: 'right' | 'left' | 'center';
+  fontSize?: ThemeFontSize;
+};
+
+const Card: React.FC<CardProps> = ({
+  children,
+  width = '100%',
+  height = 'fit-content',
+  backgroundColor = 'transparent',
+  shadow,
+  gap,
+  padding,
+}) => {
   return (
-    <S.Card>
-      <S.ImageContainer>
-        <CenterImage src={thumbnailUrl} alt={thumbnailAlt} />
-      </S.ImageContainer>
-      <S.Content>
-        <S.Title>{title}</S.Title>
-        <S.Excerpt>{excerpt}</S.Excerpt>
-        <S.Extra>{extraChips}</S.Extra>
-      </S.Content>
+    <S.Card width={width} height={height} backgroundColor={backgroundColor} shadow={shadow} gap={gap} padding={padding}>
+      {children}
     </S.Card>
   );
 };
 
-export default Card;
+const CardHeading: React.FC<CardHeadingProps> = ({ children, maxLine = 1, fontSize = 'lg' }) => {
+  return (
+    <S.CardHeading maxLine={maxLine} fontSize={fontSize}>
+      {children}
+    </S.CardHeading>
+  );
+};
+
+const CardContent: React.FC<CardContentProps> = ({ children, maxLine = 2, align = 'left', fontSize = 'sm' }) => {
+  return (
+    <S.CardContent maxLine={maxLine} align={align} fontSize={fontSize}>
+      {children}
+    </S.CardContent>
+  );
+};
+
+export default Object.assign(Card, {
+  Heading: CardHeading,
+  Content: CardContent,
+});

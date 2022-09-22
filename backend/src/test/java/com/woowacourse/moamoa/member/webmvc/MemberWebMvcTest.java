@@ -36,7 +36,7 @@ class MemberWebMvcTest extends WebMVCTest {
     @Test
     void notFound() throws Exception {
         final String token = tokenProvider.createToken(1L).getAccessToken();
-        given(memberService.getByGithubId(any())).willThrow(MemberNotFoundException.class);
+        given(memberService.getByMemberId(any())).willThrow(MemberNotFoundException.class);
 
         mockMvc.perform(get("/api/members/me")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)

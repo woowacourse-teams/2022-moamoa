@@ -3,20 +3,16 @@ import { Link, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { useGetCommunityArticles } from '@api/community';
 
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
-import * as S from '@study-room-page/tabs/community-tab-panel/components/article-list/ArticleList.style';
 
 import Pagination from '@community-tab/components/pagination/Pagination';
 
-type ArticleListProps = {
-  className?: string;
-};
-
-const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
+const ArticleList: React.FC = () => {
   const { studyId } = useParams<{ studyId: string }>();
   const numStudyId = Number(studyId);
   const [page, setPage] = useState<number>(1);
@@ -37,14 +33,17 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
   }
 
   return (
-    <S.Container>
-      <S.ArticleList>
+    <Flex direction="column" rowGap="20px">
+      <ul>
         {articles.map(article => (
-          <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
-            <ArticleListItem key={article.id} {...article}></ArticleListItem>
-          </Link>
+          <li key={article.id}>
+            <Link to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+              <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
+            </Link>
+            <Divider />
+          </li>
         ))}
-      </S.ArticleList>
+      </ul>
       <Pagination
         count={lastPage - 1}
         defaultPage={currentPage}
@@ -52,7 +51,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
           setPage(num);
         }}
       />
-    </S.Container>
+    </Flex>
   );
 };
 

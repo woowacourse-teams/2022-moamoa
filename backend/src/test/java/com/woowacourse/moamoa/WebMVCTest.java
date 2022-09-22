@@ -4,8 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.moamoa.auth.config.AuthRequestMatchConfig;
-import com.woowacourse.moamoa.auth.controller.AuthenticationInterceptor;
+import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
+import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @WebMvcTest(includeFilters = @Filter(type = FilterType.ANNOTATION, classes = RestController.class))
-@Import({JwtTokenProvider.class, AuthRequestMatchConfig.class, MockedServiceObjectsBeanRegister.class})
+@Import({JwtTokenProvider.class, PathMatcherContainer.class, MockedServiceObjectsBeanRegister.class})
 public abstract class WebMVCTest {
 
     @Autowired
@@ -38,10 +38,7 @@ public abstract class WebMVCTest {
     protected TokenProvider tokenProvider;
 
     @Autowired
-    protected AuthRequestMatchConfig authRequestMatchConfig;
-
-    @Autowired
-    protected AuthenticationInterceptor authenticationInterceptor;
+    protected PathMatcherInterceptor pathMatcherInterceptor;
 
     @Autowired
     protected ObjectMapper objectMapper;

@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/memberHandlers';
 import studiesJSON from '@mocks/studies.json';
 
-import type { PostStudyRequestBody, PutStudyRequestBody } from '@api/study';
+import type { ApiStudy } from '@api/study';
 
 const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {
@@ -15,20 +15,14 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200), ctx.json(study));
   }),
-  rest.post<PostStudyRequestBody>('/api/studies', (req, res, ctx) => {
-    const studyId = req.params.studyId;
+  rest.post<ApiStudy['post']['body']>('/api/studies', (req, res, ctx) => {
     const { thumbnail, title, description, excerpt, enrollmentEndDate, endDate, startDate, maxMemberCount } = req.body;
-
-    if (!studyId) return res(ctx.status(400), ctx.json({ message: '스터디 아이디가 없음' }));
 
     const { studies } = studiesJSON;
 
-    const isExist = studies.some(study => study.id === Number(studyId));
-    if (isExist) return res(ctx.status(400), ctx.json({ message: '이미 존재하는 스터디' }));
-
     studiesJSON.studies = [
       {
-        id: Number(studyId),
+        id: 1000001,
         thumbnail,
         title,
         description,
@@ -41,7 +35,7 @@ const detailStudyHandlers = [
         createdDate: '2022-08-18',
         currentMemberCount: 1,
         owner: user,
-        members: [user],
+        members: [],
         tags: [
           {
             id: 2,
@@ -77,7 +71,7 @@ const detailStudyHandlers = [
 
     return res(ctx.status(200));
   }),
-  rest.put<PutStudyRequestBody>('/api/studies/:studyId', (req, res, ctx) => {
+  rest.put<ApiStudy['put']['body']>('/api/studies/:studyId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     const editedStudy = req.body;
 

@@ -1,20 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { ButtonGroupProps } from '@components/button-group/ButtonGroup';
+import type { MakeRequired } from '@custom-types';
 
-const dynamicStyle: Record<ButtonGroupProps['variation'], any> = {
-  'flex-start': css`
-    justify-content: flex-start;
-  `,
-  'flex-end': css`
-    justify-content: flex-end;
-  `,
-};
+import { ButtonGroupProps } from './ButtonGroup';
 
-export const ButtonGroup = styled.div<ButtonGroupProps>`
-  ${({ variation }) => css`
+type StyledButtonGroupProps = MakeRequired<
+  Pick<ButtonGroupProps, 'orientation' | 'gap' | 'height' | 'width' | 'justifyContent' | 'alignItems'>,
+  'gap' | 'height' | 'orientation' | 'width'
+>;
+
+export const ButtonGroup = styled.div<StyledButtonGroupProps>`
+  ${({ orientation, gap, width, height, justifyContent, alignItems }) => css`
     display: flex;
-    ${dynamicStyle[variation]}
+    ${orientation === 'vertical' && 'flex-direction: column;'}
+    gap: ${gap};
+    ${justifyContent && `justify-content: ${justifyContent};`}
+    ${alignItems && `align-items: ${alignItems};`}
+
+    width: ${width};
+    height: ${height};
   `}
 `;

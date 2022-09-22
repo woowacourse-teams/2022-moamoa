@@ -1,3 +1,8 @@
+import { type Theme, css } from '@emotion/react';
+
+export type ThemeColor = typeof COLORS[keyof typeof COLORS];
+export type ThemeFontSize = keyof Theme['fontSize'];
+
 export const COLORS = {
   YELLOW200: '#FFD54F',
   BLUE100: '#534bae',
@@ -30,6 +35,45 @@ export const theme = {
     black: COLORS.BLACK,
     red: COLORS.RED,
   },
+  screens: {
+    xs: 0,
+    sm: '576px',
+    md: '768px',
+    lg: '992px',
+    xl: '1280px',
+    xxl: '1400px',
+  },
+  fontSize: {
+    xs: '12px',
+    sm: '14px',
+    md: '16px',
+    lg: '20px',
+    xl: '24px',
+    xxl: '32px',
+    xxxl: '40px',
+  },
+  fontWeight: {
+    light: 300,
+    normal: 400,
+    bold: 600,
+    bolder: 800,
+  },
+  radius: {
+    none: 0,
+    xs: '5px',
+    sm: '10px',
+    md: '15px',
+    lg: '20px',
+    xl: '25px',
+    circle: '50%',
+  },
 };
 
-export type ThemeColor = typeof COLORS[keyof typeof COLORS];
+export const applyHoverTransitionStyle = () => css`
+  transition: transform 0.2s ease;
+
+  :hover {
+    opacity: 0.9;
+    transform: translate3d(0, -5px, 0);
+  }
+`;

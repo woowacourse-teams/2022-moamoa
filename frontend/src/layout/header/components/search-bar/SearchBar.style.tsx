@@ -13,8 +13,8 @@ export const Input = styled.input`
     padding: 8px 40px;
     overflow: hidden;
 
-    font-size: 20px;
-    border-radius: 20px;
+    font-size: ${theme.fontSize.lg};
+    border-radius: ${theme.radius.lg};
     border: 3px solid ${theme.colors.primary.base};
 
     text-align: center;
@@ -29,35 +29,10 @@ export const Input = styled.input`
     }
 
     ${mqDown('md')} {
-      font-size: 18px;
+      font-size: ${theme.fontSize.lg};
     }
     ${mqDown('sm')} {
-      font-size: 16px;
-    }
-  `}
-`;
-
-export const Button = styled.button`
-  ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-
-    padding-right: 20px;
-    font-size: 20px;
-
-    background: transparent;
-    border: none;
-
-    &:hover,
-    &:active {
-      svg {
-        stroke: ${theme.colors.primary.light};
-      }
+      font-size: ${theme.fontSize.md};
     }
   `}
 `;

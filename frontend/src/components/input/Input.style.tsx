@@ -1,26 +1,38 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-const invalidInputStyle = () => css`
-  border: 1px solid red !important;
-`;
+import { InputProps } from '@components/input/Input';
 
-type InputProps = {
-  isValid?: boolean;
-};
+type StyledInputProps = Required<Pick<InputProps, 'fontSize' | 'invalid' | 'fluid'>>;
 
-export const Input = styled.input<InputProps>`
-  ${({ theme, isValid }) => css`
-    border-radius: 5px;
+export const Input = styled.input<StyledInputProps>`
+  ${({ theme, fontSize, invalid, fluid }) => css`
+    width: ${fluid ? '100%' : 'auto'};
+    padding: 4px 8px;
+
+    font-size: ${theme.fontSize[fontSize]};
+    border-radius: ${theme.radius.sm};
     border: 1px solid ${theme.colors.secondary.base};
     background-color: ${theme.colors.white};
-    padding: 4px 8px;
+    outline: none;
 
     &:focus {
       border: 1px solid ${theme.colors.primary.light};
-      outline: 1px solid transparent;
     }
 
-    ${isValid && invalidInputStyle()}
+    ${invalid &&
+    css`
+      border: 1px solid ${theme.colors.red};
+
+      &:focus {
+        border: 1px solid ${theme.colors.red};
+      }
+    `}
+
+    &:disabled {
+      color: ${theme.colors.secondary.base};
+      border: 1px solid ${theme.colors.secondary.base};
+      background-color: ${theme.colors.secondary.light};
+    }
   `}
 `;

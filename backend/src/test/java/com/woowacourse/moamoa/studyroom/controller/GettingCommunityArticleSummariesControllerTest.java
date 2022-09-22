@@ -1,22 +1,11 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.*;
+import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
-import com.woowacourse.moamoa.studyroom.query.ArticleDao;
-import com.woowacourse.moamoa.studyroom.service.ArticleService;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
-import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
-import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -24,6 +13,16 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
+import com.woowacourse.moamoa.studyroom.domain.Article;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.query.ArticleDao;
+import com.woowacourse.moamoa.studyroom.service.ArticleService;
+import com.woowacourse.moamoa.studyroom.service.exception.UnviewableArticleException;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
+import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +74,7 @@ class GettingCommunityArticleSummariesControllerTest {
         // arrange
         Member 그린론 = memberRepository.save(new Member(1L, "그린론", "http://image", "http://profile"));
 
-        Study study = studyService.createStudy(그린론.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+        Study study = studyService.createStudy(그린론.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         articleService
                 .createArticle(그린론.getId(), study.getId(), new ArticleRequest("제목1", "내용1"), COMMUNITY);
@@ -129,7 +128,7 @@ class GettingCommunityArticleSummariesControllerTest {
         Member other = memberRepository.save(new Member(2L, "username2", "imageUrl", "profileUrl"));
 
         Study study = studyService
-                .createStudy(member.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(member.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         final Long otherId = other.getId();
         final Long studyId = study.getId();
