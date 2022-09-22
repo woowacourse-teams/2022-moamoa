@@ -83,7 +83,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         </UserInfoItem>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex direction="column" rowGap="12px">
+          <Flex flexDirection="column" rowGap="12px">
             <Label htmlFor={LINK_URL}>링크*</Label>
             <Input
               type="url"

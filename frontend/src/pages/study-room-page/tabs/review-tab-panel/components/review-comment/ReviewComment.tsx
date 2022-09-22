@@ -55,7 +55,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     }
 
     return (
-      <Flex direction="column" rowGap="12px">
+      <Flex flexDirection="column" rowGap="12px">
         <Flex justifyContent="space-between" alignItems="center">
           <UserInfoItem src={author.imageUrl} name={author.username} size="md">
             <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>

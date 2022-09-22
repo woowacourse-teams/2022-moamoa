@@ -31,7 +31,7 @@ const ArticleList: React.FC = () => {
   }
 
   return (
-    <Flex direction="column" rowGap="20px">
+    <Flex flexDirection="column" rowGap="20px">
       <ul>
         {articles.map(article => (
           <li key={article.id}>

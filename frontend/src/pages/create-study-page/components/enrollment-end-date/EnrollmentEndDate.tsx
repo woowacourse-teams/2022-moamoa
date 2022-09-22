@@ -30,7 +30,7 @@ const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate })
     <MetaBox>
       <MetaBox.Title>스터디 신청 마감일</MetaBox.Title>
       <MetaBox.Content>
-        <Flex gap="10px" alignItems="center">
+        <Flex columnGap="10px" alignItems="center">
           <Label htmlFor={ENROLLMENT_END_DATE}>마감일자 :</Label>
           <Input
             id={ENROLLMENT_END_DATE}

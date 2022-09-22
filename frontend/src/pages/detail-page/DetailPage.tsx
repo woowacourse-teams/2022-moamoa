@@ -63,7 +63,7 @@ const DetailPage: React.FC = () => {
         isOwner={userRoleQueryResult.data?.role === 'OWNER'}
       />
       <Divider space="20px" />
-      <Flex gap="40px">
+      <Flex columnGap="40px">
         <section css={tw`w-full`}>
           <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
             <MarkdownRender markdownContent={description} />

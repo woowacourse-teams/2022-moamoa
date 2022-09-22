@@ -21,7 +21,7 @@ const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }
   return (
     <S.Item>
       <Avatar src={src} name={name} size={size} />
-      <Flex direction="column" rowGap="2px" grow>
+      <Flex flexDirection="column" columnGap="2px">
         {children}
       </Flex>
     </S.Item>

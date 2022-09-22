@@ -1,12 +1,16 @@
-import { theme } from '@styles/theme';
+import { type BreakPoint, theme } from '@styles/theme';
 
-type Size = keyof typeof theme.screens;
+export type BreakpointsFor<A> = {
+  [key in BreakPoint]?: A;
+};
 
-export const mqUp = (size: Size) => {
+export type BreakpointConfig<A> = A | BreakpointsFor<A>;
+
+export const mqUp = (size: BreakPoint) => {
   return `@media (min-width: ${theme.screens[size]})`;
 };
 
-export const mqDown = (size: Size) => {
+export const mqDown = (size: BreakPoint) => {
   return `@media (max-width: ${theme.screens[size]})`;
 };
 
@@ -19,6 +23,6 @@ type SizeRelationship = {
   xxl: never;
 };
 
-export const mqBetween = <MinSize extends Size>(min: MinSize, max: SizeRelationship[MinSize]) => {
+export const mqBetween = <MinSize extends BreakPoint>(min: MinSize, max: SizeRelationship[MinSize]) => {
   return `@media (min-width: ${theme.screens[min]} and max-width: calc(${theme.screens[max]} - 0.5px))`;
 };

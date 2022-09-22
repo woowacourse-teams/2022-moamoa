@@ -19,7 +19,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecke
     <div css={tw`mb-8`}>
       <Flex alignItems="center" height="70px">
         <ToggleButton checked={isChecked} onClick={handleClick}>
-          <Flex direction="column" width="80px">
+          <Flex flexDirection="column" width="80px">
             <S.Name>{name}</S.Name>
             <S.Description>{description}</S.Description>
           </Flex>

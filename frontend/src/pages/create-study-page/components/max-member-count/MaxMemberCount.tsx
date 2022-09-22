@@ -41,12 +41,12 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
     <MetaBox>
       <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
       <MetaBox.Content>
-        <Flex gap="8px">
+        <Flex columnGap="8px">
           <Label htmlFor="no-select">선택 안함</Label>
           <Checkbox id="no-select" checked={!isMaxMemberCountInputEnabled} onChange={handleNoSelectCheckboxChange} />
         </Flex>
         {isMaxMemberCountInputEnabled && (
-          <Flex gap="8px" alignItems="center">
+          <Flex columnGap="8px" alignItems="center">
             <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
             <div css={tw`flex-grow`}>
               <Input

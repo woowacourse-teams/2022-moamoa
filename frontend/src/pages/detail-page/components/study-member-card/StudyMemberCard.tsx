@@ -20,7 +20,7 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
     <S.StudyMemberCard>
       <UserInfoItem src={imageUrl} name={`${username} 프로필`} size="lg">
         <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
-        <Flex justifyContent="space-between" gap="20px">
+        <Flex justifyContent="space-between" columnGap="20px">
           <UserInfoItem.Content>스터디 {studyCount}개</UserInfoItem.Content>
           <UserInfoItem.Content>{startDate} 가입</UserInfoItem.Content>
         </Flex>

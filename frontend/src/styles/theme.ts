@@ -3,6 +3,10 @@ import { type Theme, css } from '@emotion/react';
 export type ThemeColor = typeof COLORS[keyof typeof COLORS];
 export type ThemeFontSize = keyof Theme['fontSize'];
 
+export const breakPoints = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const;
+
+export type BreakPoint = typeof breakPoints[number];
+
 export const COLORS = {
   YELLOW200: '#FFD54F',
   BLUE100: '#534bae',

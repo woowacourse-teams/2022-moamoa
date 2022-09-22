@@ -51,7 +51,7 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
 
     return (
       <>
-        <Flex gap="8px" alignItems="center">
+        <Flex columnGap="8px" alignItems="center">
           <Label htmlFor={GENERATION}>기수 :</Label>
           <div css={tw`flex-grow`}>
             <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
@@ -64,7 +64,7 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
             </Select>
           </div>
         </Flex>
-        <Flex gap="8px">
+        <Flex columnGap="8px">
           <Label>영역 :</Label>
           <Checkbox
             id={AREA_FE}

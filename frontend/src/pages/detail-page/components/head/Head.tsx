@@ -31,9 +31,9 @@ const Head: React.FC<HeadProps> = ({
   isOwner,
 }) => {
   return (
-    <Flex direction="column" rowGap="4px">
+    <Flex flexDirection="column" rowGap="4px">
       <Flex justifyContent="space-between" alignItems="center">
-        <Flex alignItems="center" gap="16px">
+        <Flex alignItems="center" columnGap="16px">
           <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
         </Flex>
@@ -43,12 +43,12 @@ const Head: React.FC<HeadProps> = ({
           </Link>
         )}
       </Flex>
-      <Flex alignItems="center" gap="16px">
+      <Flex alignItems="center" columnGap="16px">
         <span>시작일: {changeDateSeperator(startDate)}</span> ~
         <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
       </Flex>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
-      <Flex gap="16px">
+      <Flex columnGap="16px">
         {tags.map(({ id, name }) => (
           <span key={id}>#{name}</span>
         ))}

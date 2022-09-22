@@ -60,7 +60,7 @@ const Header: React.FC = () => {
       </S.SearchBarContainer>
       {isLoggedIn ? (
         <nav>
-          <Flex gap="16px">
+          <Flex columnGap="16px">
             <Link to={PATH.MY_STUDY}>
               <NavButton ariaLabel="내 스터디">
                 <BookmarkIcon />

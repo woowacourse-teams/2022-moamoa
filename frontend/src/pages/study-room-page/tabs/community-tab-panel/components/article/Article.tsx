@@ -89,7 +89,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       const { title, author, content, createdDate } = data;
       return (
         <article>
-          <Flex justifyContent="space-between" gap="16px">
+          <Flex justifyContent="space-between" columnGap="16px">
             <UserInfoItem src={author.imageUrl} name={author.username} size="md">
               <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
               <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
