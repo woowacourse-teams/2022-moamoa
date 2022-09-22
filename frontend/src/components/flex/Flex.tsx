@@ -1,8 +1,7 @@
 import type * as CSS from 'csstype';
 import React from 'react';
 
-import { css } from '@emotion/css';
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { BreakpointsFor } from '@utils/media-query';
 
