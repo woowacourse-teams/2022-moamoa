@@ -7,6 +7,7 @@ import type { CssLength, Noop } from '@custom-types';
 
 export type DropDownBoxProps = {
   children: React.ReactNode;
+  className?: string;
   isOpen: boolean;
   onClose: Noop;
   top?: CssLength;
@@ -16,7 +17,7 @@ export type DropDownBoxProps = {
   padding?: CssLength;
 };
 
-const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, padding, ...positions }) => {
+const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, isOpen, onClose, padding, ...positions }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, pa
   return (
     <>
       {isOpen && (
-        <Self {...positions} padding={padding} ref={ref}>
+        <Self className={className} {...positions} padding={padding} ref={ref}>
           {children}
         </Self>
       )}

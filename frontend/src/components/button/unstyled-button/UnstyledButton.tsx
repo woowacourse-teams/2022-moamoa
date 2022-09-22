@@ -5,13 +5,21 @@ import { ThemeFontSize } from '@styles/theme';
 
 export type UnstyledButtonProps = {
   children?: React.ReactNode;
+  className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   fontSize?: ThemeFontSize;
+  type?: 'button' | 'submit';
 };
 
-const UnstyledButton: React.FC<UnstyledButtonProps> = ({ children, onClick, fontSize = 'md' }) => {
+const UnstyledButton: React.FC<UnstyledButtonProps> = ({
+  className,
+  children,
+  type = 'button',
+  onClick,
+  fontSize = 'md',
+}) => {
   return (
-    <Self onClick={onClick} fontSize={fontSize}>
+    <Self className={className} onClick={onClick} fontSize={fontSize} type={type}>
       {children}
     </Self>
   );

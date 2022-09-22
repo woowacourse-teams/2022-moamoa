@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, memo, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -212,13 +212,7 @@ const Indicators = styled.div`
 type DropDownProps = { children?: React.ReactNode } & Pick<ImportedDropDownBoxProps, 'isOpen' | 'onClose'>;
 
 const DropDown = ({ children, isOpen, onClose }: DropDownProps) => {
-  const Component = () => (
-    <ImportedDropDownBox top={'calc(100% + 10px)'} left={0} right={0} isOpen={isOpen} onClose={onClose}>
-      {children}
-    </ImportedDropDownBox>
-  );
-
-  const Styled = styled(Component)`
+  const style = css`
     max-height: 180px;
     background-color: white;
     box-shadow: 0px 0px 4px 0px;
@@ -226,7 +220,11 @@ const DropDown = ({ children, isOpen, onClose }: DropDownProps) => {
     border-radius: 4px;
   `;
 
-  return <Styled />;
+  return (
+    <ImportedDropDownBox css={style} top={'calc(100% + 10px)'} left={0} right={0} isOpen={isOpen} onClose={onClose}>
+      {children}
+    </ImportedDropDownBox>
+  );
 };
 
 const UnselectedOption = styled.li`
