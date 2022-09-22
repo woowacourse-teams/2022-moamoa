@@ -39,9 +39,9 @@ public class StudyDetailsDao {
     }
 
     private String countOfStudy() {
-        return "((SELECT count(case when (study_member.member_id = member.id) then 1 end) FROM study JOIN study_member ON study.id = study_member.study_id) "
+        return "((SELECT count(*) FROM study_member WHERE study_member.member_id = study.owner_id) "
                 + "+ "
-                + "(SELECT count(case when (study.owner_id = member.id) then 1 end) FROM study)) as number_of_study ";
+                + "(SELECT count(*) FROM study as s WHERE s.owner_id = study.owner_id)) as number_of_study ";
     }
 
     private static class StudyDetailsDataExtractor implements ResultSetExtractor<StudyDetailsData> {
