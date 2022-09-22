@@ -27,10 +27,10 @@ const App = () => {
   const { isLoggedIn } = useAuth();
 
   return (
-    <div>
+    <>
       <Header />
-      <Main>
-        <Suspense fallback={<div>loading...</div>}>
+      <Suspense fallback={<></>}>
+        <Main>
           <Routes>
             <Route path={PATH.MAIN} element={<MainPage />} />
             <Route path={PATH.STUDY_DETAIL()} element={<DetailPage />} />
@@ -80,10 +80,10 @@ const App = () => {
             />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
-        </Suspense>
-      </Main>
+        </Main>
+      </Suspense>
       <Footer />
-    </div>
+    </>
   );
 };
 
