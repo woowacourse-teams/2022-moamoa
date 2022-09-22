@@ -53,7 +53,7 @@ const Flex: React.FC<FlexBoxProps> = ({
   maxHeight,
   ...responsiveObjs
 }) => {
-  const Component = styled.div`
+  const style = css`
     box-sizing: border-box;
     display: flex;
     ${parseStyle({
@@ -73,7 +73,7 @@ const Flex: React.FC<FlexBoxProps> = ({
     ${getResponsiveStyle(responsiveObjs)};
   `;
 
-  return <Component>{children}</Component>;
+  return <div css={style}>{children}</div>;
 };
 
 export type FlexItemStyle = {
