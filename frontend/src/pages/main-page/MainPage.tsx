@@ -40,7 +40,7 @@ const MainPage: React.FC = () => {
             <li key={study.id}>
               <Link to={PATH.STUDY_DETAIL(study.id)}>
                 <StudyCard
-                  thumbnailUrl={study.thumbnail}
+                  thumbnailUrl={`static/${(i + 1) % 29}.jpg`}
                   thumbnailAlt={`${study.title} 스터디 이미지`}
                   title={study.title}
                   excerpt={study.excerpt}
