@@ -41,7 +41,7 @@ public class StudyDetailsDao {
     private String countOfStudy() {
         return "((SELECT count(*) FROM study_member WHERE study_member.member_id = study.owner_id) "
                 + "+ "
-                + "(SELECT count(*) FROM study as s WHERE s.owner_id = study.owner_id)) as number_of_study ";
+                + "(SELECT count(*) FROM study WHERE study.owner_id = member.id)) as number_of_study ";
     }
 
     private static class StudyDetailsDataExtractor implements ResultSetExtractor<StudyDetailsData> {
