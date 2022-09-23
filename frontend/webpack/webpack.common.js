@@ -4,12 +4,13 @@ const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
-    filename: 'main.js',
+    filename: '[name]-[contenthash].js',
     path: join(__dirname, '../dist'),
     publicPath: '/',
   },
@@ -48,6 +49,9 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: '../frontend/static', to: '../dist/static' }],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -85,5 +89,11 @@ module.exports = {
         target: 'esnext',
       }),
     ],
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
   },
 };

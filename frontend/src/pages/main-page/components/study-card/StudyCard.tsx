@@ -22,7 +22,7 @@ export type StudyCardProps = {
 const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, tags, isOpen }) => {
   return (
     <S.StudyCardContainer>
-      <Card height="280px">
+      <Card>
         <div css={tw`mb-16 flex-grow overflow-hidden`}>
           <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} />
         </div>
