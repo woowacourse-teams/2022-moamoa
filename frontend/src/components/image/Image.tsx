@@ -42,15 +42,17 @@ const Image: React.FC<ImageProps> = ({
   );
 };
 
-type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'width' | 'height' | 'objectFit'>>;
+type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'width' | 'height' | 'objectFit' | 'ratio'>>;
 
 export const Self = styled.img<StyledImageProps>`
-  ${({ theme, shape, width, height, objectFit }) => css`
+  ${({ theme, shape, width, height, objectFit, ratio }) => css`
     width: ${width};
     height: ${height};
 
     object-fit: ${objectFit};
     object-position: center;
+
+    aspect-ratio: ${ratio};
 
     border-radius: ${theme.radius.sm};
 
