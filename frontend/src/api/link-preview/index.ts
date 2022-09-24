@@ -69,7 +69,11 @@ export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variabl
 };
 
 export const useGetLinkPreview = ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
-  return useQuery<ApiLinkPreview['get']['responseData'], AxiosError>(['link-preview', linkUrl], () =>
-    getLinkPreview({ linkUrl }),
+  return useQuery<ApiLinkPreview['get']['responseData'], AxiosError>(
+    ['link-preview', linkUrl],
+    () => getLinkPreview({ linkUrl }),
+    {
+      staleTime: 5 * 60 * 1000, // 5 min
+    },
   );
 };
