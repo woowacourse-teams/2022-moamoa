@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -28,7 +28,9 @@ const StudyRoomPage: React.FC = () => {
     <Wrapper>
       <Flex alignItems="flex-start">
         <SideMenu activeTabId={activeTab.id} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
-        <section css={tw`flex-grow`}>{activeTab.content}</section>
+        <section css={tw`flex-grow`}>
+          <Outlet />
+        </section>
       </Flex>
     </Wrapper>
   );

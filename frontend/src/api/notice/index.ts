@@ -112,11 +112,11 @@ const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['del
   return response.data;
 };
 
-export const useGetNoticeArticles = (studyId: number, page: number) => {
+export const useGetNoticeArticles = ({ studyId, page }: ApiNoticeArticles['get']['variables']) => {
   return useQuery(['get-notice-articles', studyId, page], () => getNoticeArticles({ studyId, page }));
 };
 
-export const useGetNoticeArticle = (studyId: number, articleId: number) => {
+export const useGetNoticeArticle = ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
   return useQuery(['get-notice-article', studyId, articleId], () => getNoticeArticle({ studyId, articleId }));
 };
 
