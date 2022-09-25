@@ -11,6 +11,7 @@ export type ImageProps = {
   width?: CssLength;
   height?: CssLength;
   objectFit?: 'cover' | 'fill' | 'contain' | 'none' | 'scale-down';
+  ratio?: string;
 };
 
 const Image: React.FC<ImageProps> = ({
@@ -20,6 +21,7 @@ const Image: React.FC<ImageProps> = ({
   width = '100%',
   height = '100%',
   objectFit = 'cover',
+  ratio = '16 / 10',
 }) => {
   const handleImageError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = notFoundImage;
@@ -34,6 +36,7 @@ const Image: React.FC<ImageProps> = ({
       width={width}
       height={height}
       objectFit={objectFit}
+      ratio={ratio}
     />
   );
 };
