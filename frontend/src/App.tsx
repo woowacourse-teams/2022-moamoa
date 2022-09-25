@@ -9,9 +9,6 @@ import { Footer, Header, Main } from '@layout';
 
 import RouteWithCondition from '@components/route-with-condition/RouteWithCondition';
 
-import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
-import ReviewTabPanel from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel';
-
 const CreateStudyPage = lazy(
   () => import(/* webpackChunkName: "create-study-page" */ '@pages/create-study-page/CreateStudyPage'),
 );
@@ -28,16 +25,12 @@ const MyStudyPage = lazy(() => import(/* webpackChunkName: "my-study-page" */ '@
 const StudyRoomPage = lazy(
   () => import(/* webpackChunkName: "study-room-page" */ '@pages/study-room-page/StudyRoomPage'),
 );
-const NoticeTabPanel = lazy(
-  () =>
-    import(/* webpackChunkName: "notice-tab-panel" */ '@pages/study-room-page/tabs/notice-tab-panel/NoticeTabPanel'),
-);
+const NoticeTabPanel = lazy(() => import(/* webpackChunkName: "notice-tab-panel" */ '@notice-tab/NoticeTabPanel'));
 const CommunityTabPanel = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "community-tab-panel" */ '@pages/study-room-page/tabs/community-tab-panel/CommunityTabPanel'
-    ),
+  () => import(/* webpackChunkName: "community-tab-panel" */ '@community-tab/CommunityTabPanel'),
 );
+const LinkRoomTabPanel = lazy(() => import(/* webpackChunkName: "link-tab-panel" */ '@link-tab/LinkRoomTabPanel'));
+const ReviewTabPanel = lazy(() => import(/* webpackChunkName: "review-tab-panel" */ '@review-tab/ReviewTabPanel'));
 
 const App = () => {
   const { isLoggedIn } = useAuth();
