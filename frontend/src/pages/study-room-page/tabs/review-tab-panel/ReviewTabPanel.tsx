@@ -8,8 +8,8 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
-import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';
+import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
+import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
 
 const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();

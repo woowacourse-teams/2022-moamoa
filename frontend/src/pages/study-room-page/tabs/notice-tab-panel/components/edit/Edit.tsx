@@ -1,6 +1,3 @@
-import EditContent from '@notice-tab/components/edit-content/EditContent';
-import EditTitle from '@notice-tab/components/edit-title/EditTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,6 +14,10 @@ import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';
+
+import EditContent from '@notice-tab/components/edit-content/EditContent';
+import EditTitle from '@notice-tab/components/edit-title/EditTitle';
+import usePermission from '@notice-tab/hooks/usePermission';
 
 export type EditProps = {
   studyId: StudyId;

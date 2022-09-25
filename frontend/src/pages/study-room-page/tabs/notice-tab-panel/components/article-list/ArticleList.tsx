@@ -1,5 +1,3 @@
-import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
-import Pagination from '@notice-tab/components/pagination/Pagination';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +9,9 @@ import { useGetNoticeArticles } from '@api/notice';
 
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
+
+import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
+import Pagination from '@notice-tab/components/pagination/Pagination';
 
 export type ArticleListProps = {
   studyId: StudyId;

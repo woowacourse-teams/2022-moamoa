@@ -1,6 +1,3 @@
-import PublishContent from '@notice-tab/components/publish-content/PublishContent';
-import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,6 +14,10 @@ import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';
+
+import PublishContent from '@notice-tab/components/publish-content/PublishContent';
+import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
+import usePermission from '@notice-tab/hooks/usePermission';
 
 export type PublishProps = {
   studyId: StudyId;

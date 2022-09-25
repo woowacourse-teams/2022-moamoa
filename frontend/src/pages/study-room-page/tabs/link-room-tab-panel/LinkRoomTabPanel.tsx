@@ -7,10 +7,10 @@ import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel.style';
-import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
-import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
-import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
+import * as S from '@link-tab/LinkRoomTabPanel.style';
+import LinkForm from '@link-tab/components/link-form/LinkForm';
+import LinkItem from '@link-tab/components/link-item/LinkItem';
+import { useLinkRoomTabPanel } from '@link-tab/hooks/useLinkRoomTabPanel';
 
 const LinkRoomTabPanel: React.FC = () => {
   const {

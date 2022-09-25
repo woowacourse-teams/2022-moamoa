@@ -10,8 +10,7 @@ import { useGetCommunityArticles } from '@api/community';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
 
-import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
-
+import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
 import Pagination from '@community-tab/components/pagination/Pagination';
 
 export type ArticleListProps = {

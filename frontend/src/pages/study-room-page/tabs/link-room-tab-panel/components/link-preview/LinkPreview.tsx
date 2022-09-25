@@ -6,7 +6,7 @@ import Card from '@components/card/Card';
 import { RightUpArrowIcon } from '@components/icons';
 import Image from '@components/image/Image';
 
-import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview.style';
+import * as S from '@link-tab/components/link-preview/LinkPreview.style';
 
 export type LinkPreviewProps = {
   previewResult: ApiLinkPreview['get']['responseData'];
