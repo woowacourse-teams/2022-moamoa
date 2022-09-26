@@ -6,7 +6,7 @@ import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/Stud
 import type { StudyWideFloatBoxProps } from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 export default {
-  title: 'Pages/DetailPage/StudyWideFloatBox',
+  title: 'Components/StudyWideFloatBox',
   component: StudyWideFloatBox,
 };
 

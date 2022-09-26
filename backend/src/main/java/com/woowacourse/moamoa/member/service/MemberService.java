@@ -17,24 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
     private final MemberDao memberDao;
 
     @Transactional
-    public MemberResponse saveOrUpdate(final Member member) {
+    public void saveOrUpdate(final Member member) {
         final Optional<Member> foundMember = memberRepository.findByGithubId(member.getGithubId());
 
         if (foundMember.isPresent()) {
             foundMember.get().update(member.getUsername(), member.getImageUrl(), member.getProfileUrl());
-            return new MemberResponse(foundMember.get());
+            return;
         }
 
-        return new MemberResponse(memberRepository.save(member));
+        memberRepository.save(member);
     }
 
-    public MemberResponse getByMemberId(final Long memberId) {
-        final MemberData member = memberDao.findByMemberId(memberId)
+    public MemberResponse getByGithubId(final Long githubId) {
+        final MemberData member = memberDao.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
-        return new MemberResponse(member.getId(), member.getUsername(),
+        return new MemberResponse(member.getGithubId(), member.getUsername(),
                 member.getProfileUrl(), member.getImageUrl());
     }
 }

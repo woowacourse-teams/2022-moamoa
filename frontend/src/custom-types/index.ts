@@ -2,12 +2,13 @@ export type EmptyObject = Record<string, never>;
 
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<Pick<T, K>>;
+export type Required<T, K extends keyof T> = T & {
+  [P in K]-?: T[P];
+};
+
+export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<T, K>;
 
 export type Noop = () => void;
-
-export type CssLengthUnits = 'px' | 'rem' | '%';
-export type CssLength = 0 | `${number}${CssLengthUnits}` | 'auto' | 'fit-content' | `calc(${string})`;
 
 export type oneToNine = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type d = oneToNine | 0;
@@ -74,9 +75,7 @@ export type StudyDetail = {
   tags: Array<Tag>;
 };
 
-export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' | 'recruitmentStatus'> & {
-  tags: Array<Pick<Tag, 'id' | 'name'>>;
-};
+export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' | 'recruitmentStatus'>;
 
 export type StudyReview = {
   id: ReviewId;

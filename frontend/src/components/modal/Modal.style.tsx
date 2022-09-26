@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+export const ModalContainer = styled.div``;
 export const ModalOutside = styled.div`
   ${({ theme }) => css`
     display: flex;
@@ -21,5 +22,4 @@ export const ModalOutside = styled.div`
   `}
 `;
 
-// div에 바로 onClick 이벤트리스너를 달면 eslint 에러가 발생하므로 styled component를 사용함
 export const ModalContent = styled.div``;

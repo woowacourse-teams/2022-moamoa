@@ -1,37 +1,22 @@
 import { forwardRef } from 'react';
 
-import { noop } from '@utils';
-
 import * as S from '@components/checkbox/Checkbox.style';
 
-export type CheckboxProps = {
-  children?: string;
-  id?: string;
-  checked?: boolean;
-  dataTagId?: number;
-  defaultChecked?: boolean;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-};
+export type CheckboxProps = React.HTMLProps<HTMLInputElement> & { dataTagId?: number };
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ id, children, checked, onChange: handleChange = noop, dataTagId, defaultChecked, ...props }, ref) => {
-    return (
-      <label>
-        <S.Checkbox
-          id={id}
-          ref={ref}
-          type="checkbox"
-          checked={checked}
-          defaultChecked={defaultChecked}
-          onChange={handleChange}
-          data-tagid={dataTagId} // TODO: 도메인 빼자
-          {...props}
-        />
-        {children}
-      </label>
-    );
-  },
-);
+const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ className, id, checked, onChange, dataTagId }, ref) => {
+  return (
+    <S.Checkbox
+      ref={ref}
+      type="checkbox"
+      id={id}
+      className={className}
+      checked={checked}
+      onChange={onChange}
+      data-tagid={dataTagId} // TODO: 도메인 빼자
+    />
+  );
+});
 
 Checkbox.displayName = 'Checkbox';
 

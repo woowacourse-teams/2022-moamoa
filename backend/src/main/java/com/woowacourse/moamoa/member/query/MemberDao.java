@@ -49,12 +49,12 @@ public class MemberDao {
                 + "FROM study)) as number_of_study ";
     }
 
-    public Optional<MemberData> findByMemberId(final Long memberId) {
+    public Optional<MemberData> findByGithubId(final Long githubId) {
         try {
-            final String sql = "SELECT id, username, image_url, profile_url "
+            final String sql = "SELECT github_id, username, image_url, profile_url "
                     + "FROM member "
-                    + "WHERE member.id = :id";
-            final MemberData data = jdbcTemplate.queryForObject(sql, Map.of("id", memberId), MEMBER_DATA_ROW_MAPPER);
+                    + "WHERE member.github_id = :id";
+            final MemberData data = jdbcTemplate.queryForObject(sql, Map.of("id", githubId), MEMBER_DATA_ROW_MAPPER);
             return Optional.of(data);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -75,11 +75,11 @@ public class MemberDao {
 
     private static RowMapper<MemberData> createMemberDataRowMapper() {
         return (resultSet, resultNumber) -> {
-            Long id = resultSet.getLong("id");
+            Long githubId = resultSet.getLong("github_id");
             String username = resultSet.getString("username");
             String imageUrl = resultSet.getString("image_url");
             String profileUrl = resultSet.getString("profile_url");
-            return new MemberData(id, username, imageUrl, profileUrl);
+            return new MemberData(githubId, username, imageUrl, profileUrl);
         };
     }
 }

@@ -1,4 +1,5 @@
 import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
+import * as S from '@notice-tab/components/article-list/ArticleList.style';
 import Pagination from '@notice-tab/components/pagination/Pagination';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -7,10 +8,11 @@ import { PATH } from '@constants';
 
 import { useGetNoticeArticles } from '@api/notice';
 
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
+type ArticleListProps = {
+  className?: string;
+};
 
-const ArticleList: React.FC = () => {
+const ArticleList: React.FC<ArticleListProps> = ({ className }) => {
   const { studyId } = useParams<{ studyId: string }>();
   const numStudyId = Number(studyId);
   const [page, setPage] = useState<number>(1);
@@ -31,21 +33,14 @@ const ArticleList: React.FC = () => {
   }
 
   return (
-    <Flex direction="column" rowGap="20px">
-      <ul>
+    <S.Container className={className}>
+      <S.ArticleList>
         {articles.map(article => (
-          <li key={article.id}>
-            <Link to={PATH.NOTICE_ARTICLE(studyId, article.id)}>
-              <ArticleListItem
-                title={article.title}
-                author={article.author}
-                createdDate={article.createdDate}
-              ></ArticleListItem>
-            </Link>
-            <Divider />
-          </li>
+          <Link key={article.id} to={PATH.NOTICE_ARTICLE(studyId, article.id)}>
+            <ArticleListItem key={article.id} {...article}></ArticleListItem>
+          </Link>
         ))}
-      </ul>
+      </S.ArticleList>
       <Pagination
         count={lastPage - 1}
         defaultPage={currentPage}
@@ -53,7 +48,7 @@ const ArticleList: React.FC = () => {
           setPage(num);
         }}
       />
-    </Flex>
+    </S.Container>
   );
 };
 

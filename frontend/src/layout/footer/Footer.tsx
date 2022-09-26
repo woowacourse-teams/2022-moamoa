@@ -1,14 +1,13 @@
-import type { CssLength } from '@custom-types';
+import tw from '@utils/tw';
 
 import * as S from '@layout/footer/Footer.style';
 
 export type FooterProps = {
-  children?: React.ReactNode;
-  marginBottom?: CssLength;
+  marginBottom: string;
 };
 
-const Footer: React.FC<FooterProps> = ({ children = '그린론 디우 베루스 병민 짱구 태태', marginBottom = 0 }) => {
-  return <S.Footer marginBottom={marginBottom}>{children}</S.Footer>;
+const Footer: React.FC<FooterProps> = ({ marginBottom }) => {
+  return <S.Footer css={tw`mb-[${marginBottom}]`}>그린론 디우 베루스 병민 짱구 태태</S.Footer>;
 };
 
 export default Footer;

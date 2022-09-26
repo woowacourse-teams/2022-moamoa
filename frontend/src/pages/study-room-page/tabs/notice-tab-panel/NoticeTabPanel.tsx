@@ -1,3 +1,4 @@
+import * as S from '@notice-tab/NoticeTabPanel.style';
 import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
 import Edit from '@notice-tab/components/edit/Edit';
@@ -7,11 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { theme } from '@styles/theme';
+import tw from '@utils/tw';
 
-import { TextButton } from '@components/button';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
+import { useGetUserRole } from '@api/member';
+
 import Wrapper from '@components/wrapper/Wrapper';
 
 type NoticeTabPanelProps = {
@@ -34,17 +34,18 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
 
   const renderArticleListPage = () => {
     return (
-      <>
-        <Flex justifyContent="flex-end">
+      <div css={tw`flex flex-col gap-y-40`}>
+        <div css={tw`flex-1 min-h-[500px]`}>
+          <ArticleList />
+        </div>
+        <div css={tw`flex justify-end`}>
           {isOwner && (
-            <TextButton variant="primary" fontSize="lg" onClick={handleGoToPublishPageButtonClick}>
+            <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
               글쓰기
-            </TextButton>
+            </S.Button>
           )}
-        </Flex>
-        <Divider color={theme.colors.secondary.dark} space="8px" />
-        <ArticleList />
-      </>
+        </div>
+      </div>
     );
   };
 
@@ -66,7 +67,10 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
 
   return (
     <Wrapper>
-      <div>{render()}</div>
+      <div>
+        <h1 css={tw`text-center text-30 mb-40`}>공지사항</h1>
+        <div>{render()}</div>
+      </div>
     </Wrapper>
   );
 };

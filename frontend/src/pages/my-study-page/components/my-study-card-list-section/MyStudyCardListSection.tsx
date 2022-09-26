@@ -1,36 +1,40 @@
 import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
-import type { MyStudy } from '@custom-types';
+import type { MakeOptional, MyStudy } from '@custom-types';
 
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
-import LinkedButton from '@components/button/linked-button/LinkedButton';
-import SectionTitle from '@components/section-title/SectionTitle';
+import { TrashCanSvg } from '@components/svg';
 
 import * as S from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection.style';
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export type MyStudyCardListSectionProps = {
+  className?: string;
   sectionTitle: string;
   studies: Array<MyStudy>;
-  done?: boolean;
+  disabled: boolean;
 };
 
-const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ sectionTitle, studies, done = false }) => {
+type OptionalMyStudyCardListSectionProps = MakeOptional<MyStudyCardListSectionProps, 'disabled'>;
+
+const MyStudyCardListSection: React.FC<OptionalMyStudyCardListSectionProps> = ({
+  className,
+  sectionTitle,
+  studies,
+  disabled = false,
+}) => {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteMyStudy();
 
   const handleTrashButtonClick =
     ({ title, id }: Pick<MyStudy, 'title' | 'id'>) =>
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-
+    () => {
       if (!confirm(`정말 '${title}'을(를) 탈퇴하실 건가요? :(`)) return;
 
       mutate(
@@ -49,30 +53,32 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
     };
 
   return (
-    <section css={tw`p-8`}>
-      <SectionTitle>{sectionTitle}</SectionTitle>
+    <S.MyStudyCardListSection className={className}>
+      <S.SectionTitle>{sectionTitle}</S.SectionTitle>
       <S.MyStudyList>
         {studies.length === 0 ? (
           <li>해당하는 스터디가 없습니다</li>
         ) : (
           studies.map(study => (
-            <li key={study.id}>
-              <LinkedButton to={PATH.STUDY_ROOM(study.id)}>
+            <S.MyStudyCardItem key={study.id}>
+              <Link to={PATH.STUDY_ROOM(study.id)}>
                 <MyStudyCard
                   title={study.title}
                   ownerName={study.owner.username}
                   tags={study.tags}
                   startDate={study.startDate}
                   endDate={study.endDate}
-                  done={done}
-                  onQuitStudyButtonClick={handleTrashButtonClick(study)}
+                  disabled={disabled}
                 />
-              </LinkedButton>
-            </li>
+              </Link>
+              <S.TrashButton type="button" onClick={handleTrashButtonClick(study)}>
+                <TrashCanSvg />
+              </S.TrashButton>
+            </S.MyStudyCardItem>
           ))
         )}
       </S.MyStudyList>
-    </section>
+    </S.MyStudyCardListSection>
   );
 };
 

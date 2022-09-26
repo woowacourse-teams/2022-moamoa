@@ -1,12 +1,16 @@
+import type { MakeOptional } from '@custom-types';
+
 import * as S from '@components/chip/Chip.style';
 
 export type ChipProps = {
   children: string;
-  variant?: 'primary' | 'secondary';
+  disabled: boolean;
 };
 
-const Chip: React.FC<ChipProps> = ({ children, variant = 'primary' }) => {
-  return <S.Chip variant={variant}>{children}</S.Chip>;
+export type OptionalChipProps = MakeOptional<ChipProps, 'disabled'>;
+
+const Chip: React.FC<OptionalChipProps> = ({ children, disabled = false }) => {
+  return <S.Chip disabled={disabled}>{children}</S.Chip>;
 };
 
 export default Chip;

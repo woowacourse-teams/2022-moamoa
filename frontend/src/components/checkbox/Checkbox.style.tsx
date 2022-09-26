@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Checkbox = styled.input`
-  margin-right: 4px;
-
-  &:checked {
+  &:focus {
     border: none;
     outline: none;
   }

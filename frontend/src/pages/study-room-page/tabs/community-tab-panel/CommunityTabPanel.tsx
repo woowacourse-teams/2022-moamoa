@@ -2,13 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { theme } from '@styles/theme';
+import tw from '@utils/tw';
 
-import { TextButton } from '@components/button';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
 import Wrapper from '@components/wrapper/Wrapper';
 
+import * as S from '@community-tab/CommunityTabPanel.style';
 import ArticleList from '@community-tab/components/article-list/ArticleList';
 import Article from '@community-tab/components/article/Article';
 import Edit from '@community-tab/components/edit/Edit';
@@ -34,15 +32,16 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   const renderArticleListPage = () => {
     return (
-      <>
-        <Flex justifyContent="flex-end">
-          <TextButton variant="primary" fontSize="lg" onClick={handleGoToPublishPageButtonClick}>
+      <div css={tw`flex flex-col gap-y-40`}>
+        <div css={tw`flex-1 min-h-[500px]`}>
+          <ArticleList />
+        </div>
+        <div css={tw`flex justify-end`}>
+          <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
             글쓰기
-          </TextButton>
-        </Flex>
-        <Divider color={theme.colors.secondary.dark} space="8px" />
-        <ArticleList />
-      </>
+          </S.Button>
+        </div>
+      </div>
     );
   };
 
@@ -64,7 +63,10 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
 
   return (
     <Wrapper>
-      <div>{render()}</div>
+      <div>
+        <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
+        <div>{render()}</div>
+      </div>
     </Wrapper>
   );
 };

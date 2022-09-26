@@ -7,27 +7,23 @@ import axiosInstance from '@api/axiosInstance';
 
 export const QK_STUDY_REVIEWS = 'study-reviews';
 
-export type ApiReviews = {
-  get: {
-    params: {
-      studyId: number;
-      size?: number;
-    };
-    responseData: {
-      reviews: Array<StudyReview>;
-      totalCount: number;
-    };
-    variables: ApiReviews['get']['params'];
-  };
+// get
+export type GetReviewsRequestParams = {
+  studyId: number;
+  size?: number;
+};
+export type GetReviewsResponseData = {
+  reviews: Array<StudyReview>;
+  totalCount: number;
 };
 
-export const getStudyReviews = async ({ studyId, size = 8 }: ApiReviews['get']['variables']) => {
+export const getStudyReviews = async ({ studyId, size }: GetReviewsRequestParams) => {
   const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
-  const response = await axiosInstance.get<ApiReviews['get']['responseData']>(url);
+  const response = await axiosInstance.get<GetReviewsResponseData>(url);
   return response.data;
 };
 
-export const useGetStudyReviews = ({ studyId, size }: ApiReviews['get']['variables']) => {
+export const useGetStudyReviews = (studyId: number, size?: number) => {
   const queryKey = size ? [QK_STUDY_REVIEWS, studyId] : [QK_STUDY_REVIEWS, studyId, 'all'];
-  return useQuery<ApiReviews['get']['responseData'], AxiosError>(queryKey, () => getStudyReviews({ studyId, size }));
+  return useQuery<GetReviewsResponseData, AxiosError>(queryKey, () => getStudyReviews({ studyId, size }));
 };

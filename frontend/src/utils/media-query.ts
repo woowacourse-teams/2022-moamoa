@@ -1,13 +1,13 @@
-import { theme } from '@styles/theme';
+import { BREAK_POINTS } from '@constants';
 
-type Size = keyof typeof theme.screens;
+type Size = keyof typeof BREAK_POINTS;
 
 export const mqUp = (size: Size) => {
-  return `@media (min-width: ${theme.screens[size]})`;
+  return `@media (min-width: ${BREAK_POINTS[size]}px)`;
 };
 
 export const mqDown = (size: Size) => {
-  return `@media (max-width: ${theme.screens[size]})`;
+  return `@media (max-width: ${BREAK_POINTS[size]}px)`;
 };
 
 type SizeRelationship = {
@@ -20,5 +20,5 @@ type SizeRelationship = {
 };
 
 export const mqBetween = <MinSize extends Size>(min: MinSize, max: SizeRelationship[MinSize]) => {
-  return `@media (min-width: ${theme.screens[min]} and max-width: calc(${theme.screens[max]} - 0.5px))`;
+  return `@media (min-width: ${BREAK_POINTS[min]}px and max-width: ${BREAK_POINTS[max] - 0.5}px)`;
 };

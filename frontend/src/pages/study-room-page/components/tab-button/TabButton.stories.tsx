@@ -5,8 +5,12 @@ import TabButton from '@study-room-page/components/tab-button/TabButton';
 import type { TabButtonProps } from '@study-room-page/components/tab-button/TabButton';
 
 export default {
-  title: 'Pages/StudyRoomPage/TabButton',
+  title: 'Components/TabButton',
   component: TabButton,
+  argTypes: {
+    children: { controls: 'text' },
+    isSelected: { controls: 'boolean' },
+  },
 };
 
 const Template: Story<TabButtonProps> = props => {
@@ -28,4 +32,4 @@ Default.args = {
   children: '공지사항',
   isSelected: false,
 };
-Default.parameters = { controls: { exclude: ['onClick'] } };
+Default.parameters = { controls: { exclude: ['isSelected', 'onClick'] } };

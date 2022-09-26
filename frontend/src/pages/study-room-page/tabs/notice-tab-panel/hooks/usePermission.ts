@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import type { UserRole } from '@custom-types';
 
 import { useGetUserRole } from '@api/member';

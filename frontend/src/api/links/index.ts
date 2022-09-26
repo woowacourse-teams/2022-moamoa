@@ -7,38 +7,27 @@ import type { Link, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-export type ApiLinks = {
-  get: {
-    params: {
-      studyId: StudyId;
-      page?: Page;
-      size?: Size;
-    };
-    responseData: {
-      links: Array<Link>;
-      hasNext: boolean;
-    };
-    variables: ApiLinks['get']['params'];
-  };
+// get
+export type GetLinksRequestParams = {
+  studyId: StudyId;
+  page?: Page;
+  size?: Size;
 };
-
-export type ApiInfiniteLinks = {
-  get: {
-    params: { studyId: StudyId };
-    responseData: ApiLinks['get']['responseData'] & PageParam;
-    variables: ApiInfiniteLinks['get']['params'];
-  };
+export type GetLinksResponseData = {
+  links: Array<Link>;
+  hasNext: boolean;
 };
-
 type PageParam = { page: Page };
 type NextPageParam = PageParam | undefined;
+type GetLinksResponseDataWithPage = GetLinksResponseData & PageParam;
+type UseGetInfiniteLinksParams = { studyId: StudyId };
 
 const defaultParam: PageParam = {
   page: DEFAULT_LINK_QUERY_PARAM.PAGE,
 };
 
-export const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variables']) => {
-  const response = await axiosInstance.get<ApiLinks['get']['responseData']>(
+export const getLinks = async ({ studyId, page, size }: GetLinksRequestParams) => {
+  const response = await axiosInstance.get<GetLinksResponseData>(
     `/api/studies/${studyId}/reference-room/links?page=${page}&size=${size}`,
   );
   return response.data;
@@ -46,7 +35,7 @@ export const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variabl
 
 const getLinksWithPage =
   (studyId: StudyId) =>
-  async ({ pageParam = defaultParam }): Promise<ApiInfiniteLinks['get']['responseData']> => {
+  async ({ pageParam = defaultParam }): Promise<GetLinksResponseDataWithPage> => {
     const data = await getLinks({
       ...pageParam,
       studyId,
@@ -56,15 +45,11 @@ const getLinksWithPage =
   };
 
 export const QK_LINKS = 'infinite-study-links';
-export const useGetInfiniteLinks = ({ studyId }: ApiInfiniteLinks['get']['variables']) => {
-  return useInfiniteQuery<ApiInfiniteLinks['get']['responseData'], AxiosError>(
-    [QK_LINKS, studyId],
-    getLinksWithPage(studyId),
-    {
-      getNextPageParam: (lastPage): NextPageParam => {
-        if (!lastPage.hasNext) return;
-        return { page: lastPage.page };
-      },
+export const useGetInfiniteLinks = ({ studyId }: UseGetInfiniteLinksParams) => {
+  return useInfiniteQuery<GetLinksResponseDataWithPage, AxiosError>([QK_LINKS, studyId], getLinksWithPage(studyId), {
+    getNextPageParam: (lastPage): NextPageParam => {
+      if (!lastPage.hasNext) return;
+      return { page: lastPage.page };
     },
-  );
+  });
 };

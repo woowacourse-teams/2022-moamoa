@@ -1,10 +1,18 @@
 import type { Story } from '@storybook/react';
 
-import StudyCard, { type StudyCardProps } from '@main-page/components/study-card/StudyCard';
+import type { StudyCardProps } from '@main-page/components/study-card/StudyCard';
+import StudyCard from '@main-page/components/study-card/StudyCard';
 
 export default {
-  title: 'Pages/MainPage/StudyCard',
+  title: 'Components/StudyCard',
   component: StudyCard,
+  argTypes: {
+    thumbnailUrl: { controls: 'text' },
+    thumbnailAlt: { controls: 'text' },
+    title: { controls: 'text' },
+    excerpt: { controls: 'text' },
+    isOpen: { controls: 'boolean' },
+  },
 };
 
 const Template: Story<StudyCardProps> = props => (
@@ -20,13 +28,5 @@ Default.args = {
   thumbnailAlt: '스터디 이미지 Alt',
   title: '자바스크립트 스터디',
   excerpt: '자바스크립트 스터디입니다',
-  tags: [
-    {
-      id: 1,
-      name: 'FE',
-    },
-    { id: 2, name: '4기' },
-    { id: 3, name: 'JS' },
-  ],
   isOpen: true,
 };

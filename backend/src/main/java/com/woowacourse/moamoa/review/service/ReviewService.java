@@ -26,10 +26,10 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StudyRepository studyRepository;
 
-    public Long writeReview(final Long memberId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
+    public Long writeReview(final Long githubId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
-        final Member member = memberRepository.findById(memberId)
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
         if (!study.isReviewWritable(member.getId())) {
@@ -40,8 +40,8 @@ public class ReviewService {
         return reviewRepository.save(review).getId();
     }
 
-    public void updateReview(final Long memberId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
-        final Member member = memberRepository.findById(memberId)
+    public void updateReview(final Long githubId, final Long reviewId, final EditingReviewRequest editingReviewRequest) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
@@ -49,8 +49,8 @@ public class ReviewService {
         review.updateContent(new Reviewer(member.getId()), editingReviewRequest.getContent());
     }
 
-    public void deleteReview(final Long memberId, final Long reviewId) {
-        final Member member = memberRepository.findById(memberId)
+    public void deleteReview(final Long githubId, final Long reviewId) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);

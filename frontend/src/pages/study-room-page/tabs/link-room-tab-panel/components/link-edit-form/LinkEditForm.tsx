@@ -6,25 +6,19 @@ import tw from '@utils/tw';
 
 import type { Link, LinkId, Member, Noop } from '@custom-types';
 
-import { theme } from '@styles/theme';
-
 import { usePutLink } from '@api/link';
 
 import { makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
-import Form from '@components/form/Form';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
+import Avatar from '@components/avatar/Avatar';
+import Button from '@components/button/Button';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
-import Textarea from '@components/textarea/Textarea';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
-export type LinkEditFormProps = {
+import * as S from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm.style';
+
+export type LinkFormProps = {
   linkId: LinkId;
   author: Member;
   originalContent: Pick<Link, 'linkUrl' | 'description'>;
@@ -35,7 +29,7 @@ export type LinkEditFormProps = {
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
+const LinkEditForm: React.FC<LinkFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
   const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = usePutLink();
   const { count, maxCount, setCount } = useLetterCount(
@@ -48,8 +42,8 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
     formState: { errors },
   } = useForm();
 
-  const isLinkValid = !errors[LINK_URL]?.hasError;
-  const isDescValid = !errors[LINK_DESCRIPTION]?.hasError;
+  const isLinkValid = !!errors[LINK_URL]?.hasError;
+  const isDescValid = !!errors[LINK_DESCRIPTION]?.hasError;
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     if (!submitResult.values) {
@@ -60,7 +54,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
       studyId: Number(studyId),
       linkId,
       linkUrl: submitResult.values[LINK_URL],
-      description: submitResult.values[LINK_DESCRIPTION] || author.username,
+      description: submitResult.values[LINK_DESCRIPTION],
     };
 
     return mutateAsync(putData, {
@@ -77,68 +71,65 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
     setCount(value.length);
 
   return (
-    <div css={tw`w-480 h-300`}>
-      <Card backgroundColor={theme.colors.white} padding="16px" gap="12px">
-        <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
-          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-        </UserInfoItem>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex direction="column" rowGap="12px">
-            <Label htmlFor={LINK_URL}>링크*</Label>
-            <Input
-              type="url"
-              id={LINK_URL}
-              placeholder="https://moamoa.space"
-              invalid={!isLinkValid}
-              fluid
-              defaultValue={originalContent.linkUrl}
-              {...register(LINK_URL, {
-                validate: (val: string) => {
-                  if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
-                    return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
-                  }
-                  if (val.length > LINK_URL_LENGTH.MAX.VALUE)
-                    return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
-                  if (!LINK_URL_LENGTH.FORMAT.TEST(val))
-                    return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
-                  return makeValidationResult(false);
-                },
-                validationMode: 'change',
-                maxLength: LINK_URL_LENGTH.MAX.VALUE,
-                minLength: LINK_URL_LENGTH.MIN.VALUE,
-                required: true,
-              })}
-            />
-            <Label htmlFor={LINK_DESCRIPTION}>설명*</Label>
-            <div css={tw`relative`}>
-              <Textarea
-                id={LINK_DESCRIPTION}
-                placeholder="링크에 관한 간단한 설명"
-                invalid={!isDescValid}
-                fluid
-                defaultValue={originalContent.description}
-                {...register(LINK_DESCRIPTION, {
-                  validate: (val: string) => {
-                    if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
-                      return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  onChange: handleLinkDescriptionChange,
-                  maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
-                })}
-              />
-              <div css={tw`absolute bottom-8 right-6`}>
-                <LetterCounter count={count} maxCount={maxCount} />
-              </div>
-            </div>
-            <BoxButton type="submit" padding="8px" fontSize="lg">
-              링크 수정
-            </BoxButton>
-          </Flex>
-        </Form>
-      </Card>
-    </div>
+    <S.LinkFormContainer>
+      <S.AuthorInfoContainer>
+        <Avatar size="xs" profileImg={author.imageUrl} profileAlt={`${author.username} 프로필`} />
+        <S.AuthorName>person</S.AuthorName>
+      </S.AuthorInfoContainer>
+      <S.Form onSubmit={handleSubmit(onSubmit)}>
+        <S.FormLabel htmlFor={LINK_URL}>링크*</S.FormLabel>
+        <S.FormInput
+          type="url"
+          id={LINK_URL}
+          placeholder="https://moamoa.space"
+          isValid={isLinkValid}
+          defaultValue={originalContent.linkUrl}
+          {...register(LINK_URL, {
+            validate: (val: string) => {
+              if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
+                return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
+              }
+              if (val.length > LINK_URL_LENGTH.MAX.VALUE)
+                return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
+              if (!LINK_URL_LENGTH.FORMAT.TEST(val)) return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            maxLength: LINK_URL_LENGTH.MAX.VALUE,
+            minLength: LINK_URL_LENGTH.MIN.VALUE,
+            required: true,
+          })}
+        />
+        <S.FormLabel htmlFor={LINK_DESCRIPTION}>설명*</S.FormLabel>
+        <S.TextAreaContainer>
+          <S.FormTextArea
+            id={LINK_DESCRIPTION}
+            placeholder="링크에 관한 간단한 설명"
+            isValid={isDescValid}
+            defaultValue={originalContent.description}
+            {...register(LINK_DESCRIPTION, {
+              validate: (val: string) => {
+                if (val.length < LINK_DESCRIPTION_LENGTH.MIN.VALUE) {
+                  return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MIN.MESSAGE);
+                }
+                if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
+                  return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
+                return makeValidationResult(false);
+              },
+              validationMode: 'change',
+              onChange: handleLinkDescriptionChange,
+              maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
+              minLength: LINK_DESCRIPTION_LENGTH.MIN.VALUE,
+              required: true,
+            })}
+          />
+          <S.LetterCounterContainer>
+            <LetterCounter count={count} maxCount={maxCount} />
+          </S.LetterCounterContainer>
+        </S.TextAreaContainer>
+        <Button css={tw`p-8 text-16`}>링크 등록</Button>
+      </S.Form>
+    </S.LinkFormContainer>
   );
 };
 

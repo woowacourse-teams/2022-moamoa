@@ -1,19 +1,48 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { nLineEllipsis } from '@utils/nLineEllipsis';
-
-import { applyHoverTransitionStyle } from '@styles/theme';
-
 export const StudyReviewCard = styled.div`
-  height: 100%;
-  max-height: 150px;
-  padding: 8px;
+  ${({ theme }) => css`
+    height: 100%;
+    max-height: 150px;
+    padding: 16px;
 
-  ${applyHoverTransitionStyle()}
+    border-radius: 15px;
+    box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};
+  `}
+`;
+
+export const AuthorContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  margin-bottom: 12px;
+`;
+
+export const AuthorInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const AuthorName = styled.span`
+  margin-bottom: 4px;
+
+  font-weight: 700;
+`;
+
+export const ReviewDate = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.secondary.dark};
+  `}
 `;
 
 export const Review = styled.p`
-  padding: 8px 8px 0;
+  display: -webkit-box;
 
-  ${nLineEllipsis(3)}
+  line-height: 24px;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
 `;

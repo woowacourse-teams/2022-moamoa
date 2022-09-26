@@ -1,7 +1,9 @@
+import { css } from '@emotion/react';
+
 import Divider from '@components/divider/Divider';
-import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
 
+import * as S from '@my-study-page/MyStudyPage.style';
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 import { useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';
 
@@ -19,20 +21,22 @@ const MyStudyPage: React.FC = () => {
       return <div>내 스터디 불러오기를 실패했습니다</div>;
     }
 
+    const mb20 = css`
+      margin-bottom: 20px;
+    `;
+
     return (
       <>
-        <MyStudyCardListSection sectionTitle="활동 중!" studies={studies.inProgress} />
-        <Divider space="10px" />
-        <MyStudyCardListSection sectionTitle="곧 시작해요!" studies={studies.prepare} />
-        <Divider space="10px" />
-        <MyStudyCardListSection sectionTitle="종료했어요" studies={studies.done} done />
+        <MyStudyCardListSection css={mb20} sectionTitle="활동 중!" studies={studies.inProgress} />
+        <MyStudyCardListSection css={mb20} sectionTitle="곧 시작해요!" studies={studies.prepare} />
+        <MyStudyCardListSection css={mb20} sectionTitle="종료했어요" studies={studies.done} disabled={true} />
       </>
     );
   };
 
   return (
     <Wrapper>
-      <PageTitle align="center">가입한 스터디 목록</PageTitle>
+      <S.PageTitle>가입한 스터디 목록</S.PageTitle>
       <Divider />
       {renderStudyListSections()}
     </Wrapper>

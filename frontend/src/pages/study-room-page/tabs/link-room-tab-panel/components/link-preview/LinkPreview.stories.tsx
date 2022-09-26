@@ -4,7 +4,7 @@ import LinkPreview from '@study-room-page/tabs/link-room-tab-panel/components/li
 import type { LinkPreviewProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview';
 
 export default {
-  title: 'Pages/StudyRoomPage/LinkPreview',
+  title: 'Components/LinkPreview',
   component: LinkPreview,
 };
 
@@ -28,5 +28,4 @@ Default.args = {
       'https://images.unsplash.com/photo-1572059002053-8cc5ad2f4a38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGdvb2dsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
     domainName: 'naver.com',
   },
-  linkUrl: 'https://naver.com',
 };
