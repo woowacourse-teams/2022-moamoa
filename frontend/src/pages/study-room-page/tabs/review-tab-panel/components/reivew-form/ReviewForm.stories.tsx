@@ -4,7 +4,7 @@ import type { ReviewFormProps } from '@study-room-page/tabs/review-tab-panel/com
 import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
 
 export default {
-  title: 'Pages/StudyRoomPage/ReviewForm',
+  title: 'Components/ReviewForm',
   component: ReviewForm,
   argTypes: {},
 };

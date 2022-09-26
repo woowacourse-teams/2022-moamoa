@@ -1,8 +1,10 @@
 package com.woowacourse.acceptance.test.study;
 
+import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
+import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필_URL;
@@ -30,7 +32,6 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.member.query.data.MemberData;
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.study.service.response.MyStudiesResponse;
@@ -56,9 +57,6 @@ class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다();
         final String token = 그린론이().로그인한다();
 
-        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
-        final MemberResponse 디우_정보 = 디우가().로그인하고().정보를_가져온다();
-
         // act
         final MyStudiesResponse body = RestAssured.given(spec).log().all()
                 .filter(document("studies/myStudy"))
@@ -73,13 +71,13 @@ class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         MyStudyResponse expectedJava = new MyStudyResponse(
                 new MyStudySummaryData(자바_스터디_ID, 자바_스터디_제목, IN_PROGRESS, 1,
                         null, 지금.toString(), null),
-                new MemberData(그린론_정보.getId(), 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL),
+                new MemberData(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL),
                 List.of(new TagSummaryData(자바_태그_ID, 자바_태그명), new TagSummaryData(BE_태그_ID, BE_태그명)));
 
         MyStudyResponse expectedReact = new MyStudyResponse(
                 new MyStudySummaryData(리액트_스터디_ID, 리액트_스터디_제목, StudyStatus.PREPARE, 2,
                         null, 지금.plusDays(10).toString(), null),
-                new MemberData(디우_정보.getId(), 디우_이름, 디우_이미지_URL, 디우_프로필_URL),
+                new MemberData(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL),
                 List.of());
 
         assertThat(body.getStudies())

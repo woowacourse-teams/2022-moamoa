@@ -4,7 +4,7 @@ import NavButton from '@layout/header/components/nav-button/NavButton';
 import type { NavButtonProps } from '@layout/header/components/nav-button/NavButton';
 
 export default {
-  title: 'Layout/NavButton',
+  title: 'Components/NavButton',
   component: NavButton,
   argTypes: {
     children: { controls: 'text' },

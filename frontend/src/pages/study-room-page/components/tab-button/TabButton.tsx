@@ -1,16 +1,17 @@
-import { ToggleButton } from '@components/button';
+import * as S from '@study-room-page/components/tab-button/TabButton.style';
 
 export type TabButtonProps = {
+  className?: string;
   children: string;
   isSelected: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const TabButton: React.FC<TabButtonProps> = ({ children, isSelected, onClick: handleClick }) => {
+const TabButton: React.FC<TabButtonProps> = ({ className, children, isSelected, onClick: handleClick }) => {
   return (
-    <ToggleButton checked={isSelected} onClick={handleClick} variant="secondary" fluid fontSize="lg">
+    <S.TabButton className={className} type="button" isSelected={isSelected} onClick={handleClick}>
       {children}
-    </ToggleButton>
+    </S.TabButton>
   );
 };
 

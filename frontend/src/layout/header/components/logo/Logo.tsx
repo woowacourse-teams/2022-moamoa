@@ -2,17 +2,16 @@ import logoImage from '@assets/images/logo.png';
 
 import * as S from '@layout/header/components/logo/Logo.style';
 
-import Flex from '@components/flex/Flex';
-import Image from '@components/image/Image';
+import CenterImage from '@components/center-image/CenterImage';
 
 const Logo: React.FC = () => {
   return (
-    <Flex justifyContent="center" alignItems="center">
+    <S.Row>
       <S.ImageContainer>
-        <Image src={logoImage} alt="모아모아 로고" shape="circular" width="38px" height="38px" />
+        <CenterImage src={logoImage} alt="모아모아 로고 이미지" />
       </S.ImageContainer>
       <S.BorderText>MOAMOA</S.BorderText>
-    </Flex>
+    </S.Row>
   );
 };
 

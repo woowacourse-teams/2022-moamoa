@@ -1,53 +1,48 @@
 import { EXCERPT_LENGTH } from '@constants';
 
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
-import Label from '@components/label/Label';
 import LetterCounter from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
-import MetaBox from '@components/meta-box/MetaBox';
-import Textarea from '@components/textarea/Textarea';
+
+import * as S from '@create-study-page/components/excerpt/Excerpt.style';
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 export type ExcerptProps = {
+  className?: string;
   originalExcerpt?: StudyDetail['description'];
 };
 
-const EXCERPT = 'excerpt';
-
-const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
+const Excerpt = ({ className, originalExcerpt }: ExcerptProps) => {
   const {
     formState: { errors },
     register,
   } = useFormContext();
-
-  const isValid = !errors[EXCERPT]?.hasError;
 
   const { count, setCount, maxCount } = useLetterCount(EXCERPT_LENGTH.MAX.VALUE, originalExcerpt?.length ?? 0);
 
   const handleExcerptChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <div>
+    <S.Excerpt className={className}>
       <MetaBox>
-        <MetaBox.Title>
-          <Label htmlFor={EXCERPT}>한 줄 소개</Label>
-        </MetaBox.Title>
+        <MetaBox.Title>한줄소개</MetaBox.Title>
         <MetaBox.Content>
-          <div css={tw`relative`}>
-            <div css={tw`absolute right-6 bottom-6`}>
+          <S.Container>
+            <S.LetterCounterContainer>
               <LetterCounter count={count} maxCount={maxCount} />
-            </div>
-            <Textarea
-              id={EXCERPT}
+            </S.LetterCounterContainer>
+            {/* TODO: HiddenLabel Component 생성 */}
+            <S.Label htmlFor="excerpt">소개글</S.Label>
+            <S.Textarea
+              id="excerpt"
               placeholder="*한줄소개를 입력해주세요"
-              invalid={!isValid}
+              isValid={!!errors['excerpt']?.hasError}
               defaultValue={originalExcerpt}
-              {...register(EXCERPT, {
+              {...register('excerpt', {
                 validate: (val: string) => {
                   if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
                     return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);
@@ -63,10 +58,10 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
                 required: true,
               })}
             />
-          </div>
+          </S.Container>
         </MetaBox.Content>
       </MetaBox>
-    </div>
+    </S.Excerpt>
   );
 };
 

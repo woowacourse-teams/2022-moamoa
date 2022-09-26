@@ -5,78 +5,58 @@ import type { NoticeArticle } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-export type ApiNoticeArticles = {
-  get: {
-    responseData: {
-      articles: Array<NoticeArticle>;
-      currentPage: number;
-      lastPage: number;
-      totalCount: number;
-    };
-    params: {
-      studyId: number;
-      page?: number;
-      size?: number;
-    };
-    variables: ApiNoticeArticles['get']['params'];
-  };
-  post: {
-    responseData: NoticeArticle;
-    params: {
-      studyId: number;
-      articleId: number;
-    };
-    variables: ApiNoticeArticles['post']['params'];
-  };
+export type GetNoticeArticlesResponseData = {
+  articles: Array<NoticeArticle>;
+  currentPage: number;
+  lastPage: number;
+  totalCount: number;
 };
 
-export type ApiNoticeArticle = {
-  get: {
-    responseData: NoticeArticle;
-    params: {
-      studyId: number;
-      articleId: number;
-    };
-    variables: ApiNoticeArticle['get']['params'];
-  };
-  post: {
-    responseData: {
-      studyId: number;
-      title: string;
-      content: string;
-    };
-    params: {
-      studyId: number;
-    };
-    body: {
-      title: string;
-      content: string;
-    };
-    variables: ApiNoticeArticle['post']['params'] & ApiNoticeArticle['post']['body'];
-  };
-  put: {
-    params: {
-      studyId: number;
-      articleId: number;
-    };
-    body: {
-      title: string;
-      content: string;
-    };
-    variables: ApiNoticeArticle['put']['params'] & ApiNoticeArticle['put']['body'];
-  };
-  delete: {
-    params: {
-      studyId: number;
-      articleId: number;
-    };
-    variables: ApiNoticeArticle['delete']['params'];
-  };
+export type GetNoticeArticleResponseData = NoticeArticle;
+
+export type GetNoticeArticlesParams = {
+  studyId: number;
+  page?: number;
+  size?: number;
 };
 
-const getNoticeArticles = async ({ studyId, page = 1, size = 8 }: ApiNoticeArticles['get']['variables']) => {
+export type GetNoticeArticleParams = {
+  studyId: number;
+  articleId: number;
+};
+
+export type PostNoticeArticleRequestParams = {
+  studyId: number;
+};
+export type PostNoticeArticleRequestBody = {
+  title: string;
+  content: string;
+};
+export type PostNoticeArticleRequestVariables = PostNoticeArticleRequestParams & PostNoticeArticleRequestBody;
+export type PostNoticeArticleResponseData = {
+  studyId: number;
+  title: string;
+  content: string;
+};
+
+export type PutNoticeArticleRequestParams = {
+  studyId: number;
+  articleId: number;
+};
+export type PutNoticeArticleRequestBody = {
+  title: string;
+  content: string;
+};
+export type PutNoticeArticleRequestVariables = PutNoticeArticleRequestParams & PutNoticeArticleRequestBody;
+
+export type DeleteNoticeArticleRequestParams = {
+  studyId: number;
+  articleId: number;
+};
+
+const getNoticeArticles = async ({ studyId, page = 1, size = 8 }: GetNoticeArticlesParams) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
-  const response = await axiosInstance.get<ApiNoticeArticles['get']['responseData']>(
+  const response = await axiosInstance.get<GetNoticeArticlesResponseData>(
     `/api/studies/${studyId}/notice/articles?page=${page - 1}&size=${size}`,
   );
   const { totalCount, currentPage, lastPage } = response.data;
@@ -91,16 +71,16 @@ const getNoticeArticles = async ({ studyId, page = 1, size = 8 }: ApiNoticeArtic
   return response.data;
 };
 
-const getNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
+const getNoticeArticle = async ({ studyId, articleId }: GetNoticeArticleParams) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
-  const response = await axiosInstance.get<ApiNoticeArticle['get']['responseData']>(
+  const response = await axiosInstance.get<GetNoticeArticleResponseData>(
     `/api/studies/${studyId}/notice/articles/${articleId}`,
   );
   return response.data;
 };
 
-const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['post']['variables']) => {
-  const response = await axiosInstance.post<null, AxiosResponse<null>, ApiNoticeArticle['post']['body']>(
+const postNoticeArticle = async ({ studyId, title, content }: PostNoticeArticleRequestVariables) => {
+  const response = await axiosInstance.post<null, AxiosResponse<null>, PostNoticeArticleRequestBody>(
     `/api/studies/${studyId}/notice/articles`,
     {
       title,
@@ -111,8 +91,8 @@ const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['
   return response.data;
 };
 
-const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNoticeArticle['put']['variables']) => {
-  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiNoticeArticle['put']['body']>(
+const putNoticeArticle = async ({ studyId, title, content, articleId }: PutNoticeArticleRequestVariables) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, PutNoticeArticleRequestBody>(
     `/api/studies/${studyId}/notice/articles/${articleId}`,
     {
       title,
@@ -123,7 +103,7 @@ const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNotic
   return response.data;
 };
 
-const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['delete']['variables']) => {
+const deleteNoticeArticle = async ({ studyId, articleId }: DeleteNoticeArticleRequestParams) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>>(
     `/api/studies/${studyId}/notice/articles/${articleId}`,
   );
@@ -140,13 +120,13 @@ export const useGetNoticeArticle = (studyId: number, articleId: number) => {
 };
 
 export const usePostNoticeArticle = () => {
-  return useMutation<null, AxiosError, ApiNoticeArticle['post']['variables']>(postNoticeArticle);
+  return useMutation<null, AxiosError, PostNoticeArticleRequestVariables>(postNoticeArticle);
 };
 
 export const usePutNoticeArticle = () => {
-  return useMutation<null, AxiosError, ApiNoticeArticle['put']['variables']>(putNoticeArticle);
+  return useMutation<null, AxiosError, PutNoticeArticleRequestVariables>(putNoticeArticle);
 };
 
 export const useDeleteNoticeArticle = () => {
-  return useMutation<null, AxiosError, ApiNoticeArticle['delete']['variables']>(deleteNoticeArticle);
+  return useMutation<null, AxiosError, DeleteNoticeArticleRequestParams>(deleteNoticeArticle);
 };

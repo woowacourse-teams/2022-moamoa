@@ -1,5 +1,6 @@
 import EditContent from '@notice-tab/components/edit-content/EditContent';
 import EditTitle from '@notice-tab/components/edit-title/EditTitle';
+import * as S from '@notice-tab/components/edit/Edit.style';
 import usePermission from '@notice-tab/hooks/usePermission';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,12 +10,6 @@ import { PATH } from '@constants';
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
-
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
 
 const Edit = () => {
   const formMethods = useForm();
@@ -78,36 +73,21 @@ const Edit = () => {
 
     if (getNoticeArticleQueryResult.isSuccess) {
       return (
-        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
           <EditTitle title={getNoticeArticleQueryResult.data.title} />
           <EditContent content={getNoticeArticleQueryResult.data.content} />
-          <Divider space="16px" />
-          <ButtonGroup justifyContent="space-between">
-            <BoxButton
-              type="button"
-              variant="secondary"
-              padding="4px 8px"
-              fluid={false}
-              fontSize="lg"
-              onClick={handleGoToArticlePageButtonClick}
-            >
+          <S.Footer>
+            <S.Button type="button" onClick={handleGoToArticlePageButtonClick}>
               돌아가기
-            </BoxButton>
-            <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-              수정하기
-            </BoxButton>
-          </ButtonGroup>
-        </Form>
+            </S.Button>
+            <S.Button type="submit">수정하기</S.Button>
+          </S.Footer>
+        </form>
       );
     }
   };
 
-  return (
-    <FormProvider {...formMethods}>
-      <PageTitle>공지사항 수정</PageTitle>
-      {render()}
-    </FormProvider>
-  );
+  return <FormProvider {...formMethods}>{render()}</FormProvider>;
 };
 
 export default Edit;

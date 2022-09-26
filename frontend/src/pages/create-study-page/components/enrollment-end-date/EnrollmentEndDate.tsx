@@ -1,49 +1,43 @@
 import { useMemo } from 'react';
 
 import { getNextYear, getToday } from '@utils';
-import { compareDateTime } from '@utils/dates';
 
 import type { StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 
-import Flex from '@components/flex/Flex';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
+import * as S from '@create-study-page/components/enrollment-end-date/EnrollmentEndDate.style';
+import MetaBox from '@create-study-page/components/meta-box/MetaBox';
 
 export type PeriodProps = {
+  className?: string;
   originalEnrollmentEndDate?: StudyDetail['enrollmentEndDate'];
 };
 
-const ENROLLMENT_END_DATE = 'enrollment-end-date';
-
-const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate }) => {
+const EnrollmentEndDate: React.FC<PeriodProps> = ({ className, originalEnrollmentEndDate }) => {
   const { register } = useFormContext();
-  const today = useMemo(() => getToday(), []);
-  const minEndDate = originalEnrollmentEndDate ? compareDateTime(originalEnrollmentEndDate, today) : today;
-  const maxEndDate = getNextYear(
-    originalEnrollmentEndDate ? compareDateTime(originalEnrollmentEndDate, today, 'max') : today,
-  );
+  const today = useMemo(() => getToday('-'), []);
+  const nextYear = getNextYear(today, '-');
 
   return (
-    <MetaBox>
-      <MetaBox.Title>스터디 신청 마감일</MetaBox.Title>
-      <MetaBox.Content>
-        <Flex gap="10px" alignItems="center">
-          <Label htmlFor={ENROLLMENT_END_DATE}>마감일자 :</Label>
-          <Input
-            id={ENROLLMENT_END_DATE}
-            type="date"
-            defaultValue={originalEnrollmentEndDate}
-            {...register(ENROLLMENT_END_DATE, {
-              min: minEndDate,
-              max: maxEndDate,
-            })}
-          />
-        </Flex>
-      </MetaBox.Content>
-    </MetaBox>
+    <S.EnrollmentEndDate className={className}>
+      <MetaBox>
+        <MetaBox.Title>스터디 신청 마감일</MetaBox.Title>
+        <MetaBox.Content>
+          <div>
+            <S.Label htmlFor="enrollment-end-date">마감일자 :</S.Label>
+            <S.Input
+              id="enrollment-end-date"
+              type="date"
+              min={today}
+              max={nextYear}
+              defaultValue={originalEnrollmentEndDate}
+              {...register('enrollment-end-date')}
+            />
+          </div>
+        </MetaBox.Content>
+      </MetaBox>
+    </S.EnrollmentEndDate>
   );
 };
 

@@ -3,15 +3,12 @@ import { Link } from 'react-router-dom';
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
-import tw from '@utils/tw';
 
 import type { StudyDetail, UserRole } from '@custom-types';
 
-import { theme } from '@styles/theme';
+import Button from '@components/button/Button';
 
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
+import * as S from '@detail-page/components/study-float-box/StudyFloatBox.style';
 
 export type StudyFloatBoxProps = Pick<
   StudyDetail,
@@ -50,8 +47,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
     return (
       <>
-        <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
-        <span css={tw`text-[${theme.fontSize.lg}]`}>까지 가입 가능</span>
+        <span>{yyyymmddTommdd(enrollmentEndDate)}</span>까지 가입 가능
       </>
     );
   };
@@ -60,39 +56,35 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
-          <BoxButton type="button" fontSize="lg">
-            스터디 방으로 이동하기
-          </BoxButton>
+          <Button type="button">스터디 방으로 이동하기</Button>
         </Link>
       );
     }
 
     return (
-      <BoxButton type="submit" fontSize="lg" disabled={!isOpen} onClick={handleRegisterButtonClick}>
+      <Button disabled={!isOpen} onClick={handleRegisterButtonClick}>
         {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
-      </BoxButton>
+      </Button>
     );
   };
 
   return (
-    <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
-      <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
-      <Card.Content fontSize="lg">
-        <Flex justifyContent="space-between">
+    <S.StudyFloatBox>
+      <S.StudyInfo>
+        <S.EnrollmentEndDate>{renderEnrollmentEndDateContent()}</S.EnrollmentEndDate>
+        <S.MemberCount>
           <span>모집인원</span>
           <span>
             {currentMemberCount} / {maxMemberCount ?? '∞'}
           </span>
-        </Flex>
-      </Card.Content>
-      <Card.Content fontSize="lg">
-        <Flex justifyContent="space-between">
+        </S.MemberCount>
+        <S.Owner>
           <span>스터디장</span>
           <span>{ownerName}</span>
-        </Flex>
-      </Card.Content>
+        </S.Owner>
+      </S.StudyInfo>
       {renderButton()}
-    </Card>
+    </S.StudyFloatBox>
   );
 };
 

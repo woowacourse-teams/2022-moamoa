@@ -3,14 +3,10 @@ import { useState } from 'react';
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import type { StudyDetail } from '@custom-types';
 
-import { theme } from '@styles/theme';
-
-import { CrownIcon } from '@components/icons';
-import SectionTitle from '@components/section-title/SectionTitle';
+import { CrownSvg } from '@components/svg';
 
 import MoreButton from '@detail-page/components/more-button/MoreButton';
 import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
@@ -38,11 +34,9 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
     if (showAll) {
       return (
         <>
-          <li key={owner.id} css={tw`relative`}>
+          <S.Owner key={owner.id}>
             <a href={owner.profileUrl}>
-              <div css={tw`absolute top-0 left-20 z-5`}>
-                <CrownIcon />
-              </div>
+              <CrownSvg />
               <StudyMemberCard
                 username={owner.username}
                 imageUrl={owner.imageUrl}
@@ -50,7 +44,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
                 studyCount={owner.numberOfStudy}
               />
             </a>
-          </li>
+          </S.Owner>
           {members.map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
             <li key={id}>
               <a href={profileUrl}>
@@ -69,11 +63,9 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
 
     return (
       <>
-        <li key={owner.id} css={tw`relative`}>
+        <S.Owner key={owner.id}>
           <a href={owner.profileUrl}>
-            <div css={tw`absolute top-0 left-20 z-5`}>
-              <CrownIcon />
-            </div>
+            <CrownSvg />
             <StudyMemberCard
               username={owner.username}
               imageUrl={owner.imageUrl}
@@ -81,7 +73,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
               studyCount={owner.numberOfStudy}
             />
           </a>
-        </li>
+        </S.Owner>
         {members
           .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT - 1)
           .map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
@@ -101,22 +93,22 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
   };
 
   return (
-    <section css={tw`p-16`}>
-      <SectionTitle>
-        스터디원 <span css={tw`text-[${theme.fontSize.md}]`}>{totalMembers.length}명</span>
-      </SectionTitle>
+    <S.StudyMemberSection>
+      <S.Title>
+        스터디원 <span>{totalMembers.length}명</span>
+      </S.Title>
       <S.MemberList>{renderMembers()}</S.MemberList>
       {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
-        <div css={tw`text-right pt-15 pb-15`}>
+        <S.MoreButtonContainer>
           <MoreButton
             status={showAll ? 'unfold' : 'fold'}
             onClick={handleShowMoreButtonClick}
             foldText="- 접기"
             unfoldText="+ 더보기"
           />
-        </div>
+        </S.MoreButtonContainer>
       )}
-    </section>
+    </S.StudyMemberSection>
   );
 };
 

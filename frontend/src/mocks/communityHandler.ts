@@ -1,9 +1,8 @@
 import { rest } from 'msw';
 
 import communityArticlesJSON from '@mocks/community-articles.json';
-import { user } from '@mocks/memberHandlers';
 
-import { ApiCommunityArticle } from '@api/community';
+import { PostCommunityArticleRequestBody } from '@api/community';
 
 export const communityHandlers = [
   rest.get('/api/studies/:studyId/community/articles', (req, res, ctx) => {
@@ -32,27 +31,32 @@ export const communityHandlers = [
     );
   }),
   rest.get('/api/studies/:studyId/community/articles/:articleId', (req, res, ctx) => {
-    const { studyId, articleId } = req.params;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
+    const studyId = req.params.studyId;
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
+
+    const articleId = req.params.articleId;
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가' }));
 
     const numArticleId = Number(articleId);
 
-    const isExist = communityArticlesJSON.articles.some(article => article.id === Number(articleId));
-    if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 게시글 없음' }));
+    const article = communityArticlesJSON.articles.filter(({ id }) => id === numArticleId);
 
-    const article = communityArticlesJSON.articles.find(({ id }) => id === numArticleId);
-
-    return res(ctx.status(200), ctx.json(article));
+    return res(ctx.status(200), ctx.json(article[0]));
   }),
-  rest.post<ApiCommunityArticle['post']['body']>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
+  rest.post<PostCommunityArticleRequestBody>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 
     const { title, content } = req.body;
     const newArticle = {
       id: Math.floor(Math.random() * 1000),
-      author: user,
+      author: {
+        id: 2,
+        username: 'yoon',
+        imageUrl:
+          'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+        profileUrl: 'https://github.com/airman5573',
+      },
       title,
       content,
       createdDate: '2022-08-18',
@@ -64,41 +68,15 @@ export const communityHandlers = [
   }),
   rest.delete('/api/studies/:studyId/community/articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 
     const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
 
     const numArticleId = Number(articleId);
 
     communityArticlesJSON.articles = communityArticlesJSON.articles.filter(({ id }) => id !== numArticleId);
 
-    return res(ctx.status(204));
+    return res(ctx.status(201));
   }),
-  rest.put<ApiCommunityArticle['put']['body']>(
-    '/api/studies/:studyId/community/articles/:articleId',
-    (req, res, ctx) => {
-      const studyId = req.params.studyId;
-      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
-
-      const articleId = req.params.articleId;
-      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
-
-      const articles = communityArticlesJSON.articles;
-
-      const isExist = articles.some(article => article.id === Number(articleId));
-      if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 게시글 없음' }));
-
-      const editedArticle = req.body;
-
-      communityArticlesJSON.articles = articles.map(article => {
-        if (article.id === Number(articleId)) {
-          return { ...article, ...editedArticle };
-        }
-        return article;
-      });
-
-      return res(ctx.status(204));
-    },
-  ),
 ];

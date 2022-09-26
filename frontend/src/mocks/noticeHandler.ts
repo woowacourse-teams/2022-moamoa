@@ -1,9 +1,8 @@
 import { rest } from 'msw';
 
-import { user } from '@mocks/memberHandlers';
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 
-import { type ApiNoticeArticle } from '@api/notice';
+import { PostNoticeArticleRequestBody } from '@api/notice';
 
 export const noticeHandlers = [
   rest.get('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
@@ -32,10 +31,11 @@ export const noticeHandlers = [
     );
   }),
   rest.get('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
-    const { studyId, articleId } = req.params;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    const studyId = req.params.studyId;
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
+    const articleId = req.params.articleId;
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가' }));
 
     const numArticleId = Number(articleId);
 
@@ -43,14 +43,20 @@ export const noticeHandlers = [
 
     return res(ctx.status(200), ctx.json(article[0]));
   }),
-  rest.post<ApiNoticeArticle['post']['body']>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
+  rest.post<PostNoticeArticleRequestBody>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 
     const { title, content } = req.body;
     const newArticle = {
       id: Math.floor(Math.random() * 1000),
-      author: user,
+      author: {
+        id: 2,
+        username: 'yoon',
+        imageUrl:
+          'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+        profileUrl: 'https://github.com/airman5573',
+      },
       title,
       content,
       createdDate: '2022-08-18',
@@ -62,38 +68,15 @@ export const noticeHandlers = [
   }),
   rest.delete('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가' }));
 
     const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가' }));
 
     const numArticleId = Number(articleId);
 
     noticeArticlesJSON.articles = noticeArticlesJSON.articles.filter(({ id }) => id !== numArticleId);
 
     return res(ctx.status(201));
-  }),
-  rest.put<ApiNoticeArticle['put']['body']>('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
-    const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
-
-    const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
-
-    const articles = noticeArticlesJSON.articles;
-
-    const isExist = articles.some(article => article.id === Number(articleId));
-    if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 게시글 없음' }));
-
-    const editedArticle = req.body;
-
-    noticeArticlesJSON.articles = articles.map(article => {
-      if (article.id === Number(articleId)) {
-        return { ...article, ...editedArticle };
-      }
-      return article;
-    });
-
-    return res(ctx.status(204));
   }),
 ];

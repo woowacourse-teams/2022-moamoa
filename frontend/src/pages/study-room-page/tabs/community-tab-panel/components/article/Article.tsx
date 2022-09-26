@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
 
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
@@ -11,13 +10,10 @@ import { useGetUserInformation } from '@api/member';
 
 import { useAuth } from '@hooks/useAuth';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
+import Avatar from '@components/avatar/Avatar';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import PageTitle from '@components/page-title/PageTitle';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+
+import * as S from '@study-room-page/tabs/community-tab-panel/components/article/Article.style';
 
 export type ArticleProps = {
   studyId: number;
@@ -60,20 +56,14 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     if (data.author.username !== getUserInformationQueryResult.data.username) return;
 
     return (
-      <ButtonGroup gap="8px" width="fit-content">
-        <BoxButton type="button" padding="4px 8px" fluid={false} onClick={handleEditArticleButtonClick}>
+      <div css={tw`flex gap-x-10`}>
+        <S.Button type="button" onClick={handleEditArticleButtonClick}>
           글수정
-        </BoxButton>
-        <BoxButton
-          type="button"
-          padding="4px 8px"
-          fluid={false}
-          variant="secondary"
-          onClick={handleDeleteArticleButtonClick}
-        >
+        </S.Button>
+        <S.Button variant="danger" type="button" onClick={handleDeleteArticleButtonClick}>
           글삭제
-        </BoxButton>
-      </ButtonGroup>
+        </S.Button>
+      </div>
     );
   };
 
@@ -88,24 +78,29 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     if (isSuccess) {
       const { title, author, content, createdDate } = data;
       return (
-        <article>
-          <Flex justifyContent="space-between" gap="16px">
-            <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-              <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-              <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
-            </UserInfoItem>
+        <div>
+          <S.Header>
+            <div>
+              <S.Button type="button" onClick={handleBackToArticleListButtonClick}>
+                목록보기
+              </S.Button>
+            </div>
             {renderModifierButtons()}
-          </Flex>
-          <Divider />
-          <PageTitle>{title}</PageTitle>
-          <div css={tw`min-h-400 pb-20`}>
-            <MarkdownRender markdownContent={content} />
-          </div>
-          <Divider space="8px" />
-          <BoxButton type="button" padding="8px" variant="secondary" onClick={handleBackToArticleListButtonClick}>
-            목록보기
-          </BoxButton>
-        </article>
+          </S.Header>
+          <S.Main>
+            <S.Title>{title}</S.Title>
+            <S.Content>
+              <MarkdownRender markdownContent={content} />
+            </S.Content>
+          </S.Main>
+          <S.Footer>
+            <S.Author>
+              <Avatar size={'xs'} profileImg={author.imageUrl} profileAlt={`${author.username} profile`} />
+              <span>{author.username}</span>
+            </S.Author>
+            <S.CreatedAt>{createdDate}</S.CreatedAt>
+          </S.Footer>
+        </div>
       );
     }
   };

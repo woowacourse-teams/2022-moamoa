@@ -1,9 +1,12 @@
 package com.woowacourse.moamoa.auth.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -17,11 +20,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthenticatedMemberResolver implements HandlerMethodArgumentResolver {
 
+    private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthenticatedMemberId.class);
+        return parameter.hasParameterAnnotation(AuthenticatedMember.class);
     }
 
     @Override
@@ -34,6 +38,9 @@ public class AuthenticatedMemberResolver implements HandlerMethodArgumentResolve
             throw new UnauthorizedException("인증 타입이 올바르지 않습니다.");
         }
 
-        return Long.valueOf(tokenProvider.getPayload(token));
+        final Long githubId = Long.valueOf(tokenProvider.getPayload(token));
+
+        final Member member = memberRepository.findByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        return member.getId();
     }
 }

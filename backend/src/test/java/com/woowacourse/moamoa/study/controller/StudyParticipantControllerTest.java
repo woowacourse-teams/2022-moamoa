@@ -55,7 +55,7 @@ class StudyParticipantControllerTest {
                 .tagIds(List.of(1L, 2L))
                 .build();
 
-        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getId(), studyRequest);
+        final ResponseEntity<Void> createdResponse = studyController.createStudy(jjanggu.getGithubId(), studyRequest);
 
         // when
         final String location = createdResponse.getHeaders().getLocation().getPath();

@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 
-import { theme } from '@styles/theme';
-
 const markdown = css`
   color-scheme: light;
   --color-prettylights-syntax-comment: #6e7781;
@@ -37,7 +35,7 @@ const markdown = css`
   --color-fg-default: #24292f;
   --color-fg-muted: #57606a;
   --color-fg-subtle: #6e7781;
-  --color-canvas-default: transparent;
+  --color-canvas-default: #ffffff;
   --color-canvas-subtle: #f6f8fa;
   --color-border-default: #d0d7de;
   --color-border-muted: hsla(210, 18%, 87%, 1);
@@ -54,7 +52,7 @@ const markdown = css`
   background-color: var(--color-canvas-default);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji';
-  font-size: ${theme.fontSize.md};
+  font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
 
@@ -115,7 +113,7 @@ const markdown = css`
 
   b,
   strong {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
   }
 
   dfn {
@@ -124,7 +122,7 @@ const markdown = css`
 
   h1 {
     margin: 0.67em 0;
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     padding-bottom: 0.3em;
     font-size: 2em;
     border-bottom: 1px solid var(--color-border-muted);
@@ -292,7 +290,7 @@ const markdown = css`
     background-color: var(--color-canvas-subtle);
     border: solid 1px var(--color-neutral-muted);
     border-bottom-color: var(--color-neutral-muted);
-    border-radius: ${theme.radius.xs};
+    border-radius: 6px;
     box-shadow: inset 0 -1px 0 var(--color-neutral-muted);
   }
 
@@ -304,34 +302,34 @@ const markdown = css`
   h6 {
     margin-top: 24px;
     margin-bottom: 16px;
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     line-height: 1.25;
   }
 
   h2 {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     padding-bottom: 0.3em;
     font-size: 1.5em;
     border-bottom: 1px solid var(--color-border-muted);
   }
 
   h3 {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     font-size: 1.25em;
   }
 
   h4 {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     font-size: 1em;
   }
 
   h5 {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     font-size: 0.875em;
   }
 
   h6 {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     font-size: 0.85em;
     color: var(--color-fg-muted);
   }
@@ -374,14 +372,14 @@ const markdown = css`
   tt,
   code {
     font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    font-size: ${theme.fontSize.sm};
+    font-size: 12px;
   }
 
   pre {
     margin-top: 0;
     margin-bottom: 0;
     font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    font-size: ${theme.fontSize.sm};
+    font-size: 12px;
     word-wrap: normal;
   }
 
@@ -532,7 +530,7 @@ const markdown = css`
     font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     font-size: 1em;
     font-style: normal !important;
-    font-weight: ${theme.fontWeight.normal};
+    font-weight: 400;
     line-height: 1;
     vertical-align: -0.075em;
   }
@@ -701,7 +699,7 @@ const markdown = css`
     margin-top: 16px;
     font-size: 1em;
     font-style: italic;
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
   }
 
   dl dd {
@@ -710,7 +708,7 @@ const markdown = css`
   }
 
   table th {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
   }
 
   table th,
@@ -840,7 +838,7 @@ const markdown = css`
     margin: 0;
     font-size: 85%;
     background-color: var(--color-neutral-muted);
-    border-radius: ${theme.radius.xs};
+    border-radius: 6px;
   }
 
   code br,
@@ -881,7 +879,7 @@ const markdown = css`
     font-size: 85%;
     line-height: 1.45;
     background-color: var(--color-canvas-subtle);
-    border-radius: ${theme.radius.xs};
+    border-radius: 6px;
   }
 
   pre code,
@@ -901,7 +899,7 @@ const markdown = css`
   .csv-data th {
     padding: 5px;
     overflow: hidden;
-    font-size: ${theme.fontSize.sm};
+    font-size: 12px;
     line-height: 1;
     text-align: left;
     white-space: nowrap;
@@ -919,13 +917,13 @@ const markdown = css`
   }
 
   .csv-data th {
-    font-weight: ${theme.fontWeight.bold};
+    font-weight: 600;
     background: var(--color-canvas-subtle);
     border-top: 0;
   }
 
   .footnotes {
-    font-size: ${theme.fontSize.sm};
+    font-size: 12px;
     color: var(--color-fg-muted);
     border-top: 1px solid var(--color-border-default);
   }
@@ -947,7 +945,7 @@ const markdown = css`
     pointer-events: none;
     content: '';
     border: 2px solid var(--color-accent-emphasis);
-    border-radius: ${theme.radius.xs};
+    border-radius: 6px;
   }
 
   .footnotes li:target {
@@ -963,7 +961,7 @@ const markdown = css`
   }
 
   .task-list-item label {
-    font-weight: ${theme.fontWeight.normal};
+    font-weight: 400;
   }
 
   .task-list-item.enabled label {

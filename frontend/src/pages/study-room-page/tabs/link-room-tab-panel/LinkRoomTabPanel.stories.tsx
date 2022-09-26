@@ -3,7 +3,7 @@ import type { Story } from '@storybook/react';
 import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
 
 export default {
-  title: 'Pages/StudyRoomPage/LinkRoomTabPanel',
+  title: 'Components/LinkRoomTabPanel',
   component: LinkRoomTabPanel,
 };
 

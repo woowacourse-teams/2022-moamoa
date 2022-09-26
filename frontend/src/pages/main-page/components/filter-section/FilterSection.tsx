@@ -4,11 +4,10 @@ import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
-import Divider from '@components/divider/Divider';
+import ArrowButton from '@components/arrow-button/ArrowButton';
 
-import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
 import * as S from '@main-page/components/filter-section/FilterSection.style';
-import FilterSlideButton from '@main-page/components/filter-slide-button/FilterSlideButton';
+import FilterButtonList from '@main-page/components/filter-section/filter-button-list/FilterButtonList';
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
@@ -59,7 +58,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   return (
     <S.FilterSectionContainer>
       <S.LeftButtonContainer>
-        <FilterSlideButton direction="left" ariaLabel="왼쪽으로 스크롤" onClick={handleLeftSlideButtonClick} />
+        <ArrowButton direction="left" ariaLabel="왼쪽으로 스크롤" onSlideButtonClick={handleLeftSlideButtonClick} />
       </S.LeftButtonContainer>
       <S.FilterSection ref={sliderRef}>
         {isLoading && <div>로딩 중...</div>}
@@ -69,13 +68,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
-        <Divider orientation="vertical" verticalLength="40px" space={0} />
+        <S.VerticalLine />
         <FilterButtonList
           filters={generationTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
-        <Divider orientation="vertical" verticalLength="40px" />
+        <S.VerticalLine />
         <FilterButtonList
           filters={subjectTags}
           selectedFilters={selectedFilters}
@@ -83,7 +82,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         />
       </S.FilterSection>
       <S.RightButtonContainer>
-        <FilterSlideButton direction="right" ariaLabel="오른쪽으로 스크롤" onClick={handleRightSlideButtonClick} />
+        <ArrowButton direction="right" ariaLabel="오른쪽으로 스크롤" onSlideButtonClick={handleRightSlideButtonClick} />
       </S.RightButtonContainer>
     </S.FilterSectionContainer>
   );

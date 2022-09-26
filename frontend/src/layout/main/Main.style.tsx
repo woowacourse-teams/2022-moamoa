@@ -1,8 +1,20 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-export const Main = styled.main`
+import { SitePage } from '@custom-types';
+
+export const dynamicHeight = (page?: SitePage) => {
+  if (page === 'studyroom') {
+    return css`
+      height: calc(100vh - 80px);
+    `;
+  }
+  return css``;
+};
+
+export const Main = styled.main<{ page?: SitePage }>`
   padding: 120px 0 80px;
   min-height: calc(100vh - 80px);
   height: auto;

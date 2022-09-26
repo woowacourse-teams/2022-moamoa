@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.review.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.auth.config.AuthenticationPrincipal;
 import com.woowacourse.moamoa.review.service.ReviewService;
 import com.woowacourse.moamoa.review.service.request.EditingReviewRequest;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
@@ -25,30 +25,30 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> writeReview(
-            @AuthenticatedMemberId final Long memberId,
+            @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "study-id") final Long studyId,
             @Valid @RequestBody final WriteReviewRequest writeReviewRequest
     ) {
-        final Long id = reviewService.writeReview(memberId, studyId, writeReviewRequest);
+        final Long id = reviewService.writeReview(githubId, studyId, writeReviewRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reviews/" + id)).build();
     }
 
     @PutMapping("/{review-id}")
     public ResponseEntity<Void> updateReview(
-            @AuthenticatedMemberId final Long memberId,
+            @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "review-id") final Long reviewId,
             @Valid @RequestBody final EditingReviewRequest editingReviewRequest
     ) {
-        reviewService.updateReview(memberId, reviewId, editingReviewRequest);
+        reviewService.updateReview(githubId, reviewId, editingReviewRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{review-id}")
     public ResponseEntity<Void> deleteReview(
-            @AuthenticatedMemberId final Long memberId,
+            @AuthenticationPrincipal final Long githubId,
             @PathVariable(name = "review-id") final Long reviewId
     ) {
-        reviewService.deleteReview(memberId, reviewId);
+        reviewService.deleteReview(githubId, reviewId);
         return ResponseEntity.noContent().build();
     }
 }

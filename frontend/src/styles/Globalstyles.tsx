@@ -18,36 +18,128 @@ const GlobalStyles = () => {
           color: ${theme.colors.black};
         }
 
+        /* @font-face {
+          font-family: 'NanumSquareRound';
+          font-weight: 300;
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.eot);
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.eot?#iefix)
+              format('embedded-opentype'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.woff2)
+              format('woff2'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.woff)
+              format('woff'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.ttf)
+              format('truetype');
+        }
+
+        @font-face {
+          font-family: 'NanumSquareRound';
+          font-weight: 400;
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.eot);
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.eot?#iefix)
+              format('embedded-opentype'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.woff2)
+              format('woff2'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.woff)
+              format('woff'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.ttf)
+              format('truetype');
+        }
+
+        @font-face {
+          font-family: 'NanumSquareRound';
+          font-weight: 700;
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.eot);
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.eot?#iefix)
+              format('embedded-opentype'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff2)
+              format('woff2'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff)
+              format('woff'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.ttf)
+              format('truetype');
+        }
+
+        @font-face {
+          font-family: 'NanumSquareRound';
+          font-weight: 800;
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.eot);
+          src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.eot?#iefix)
+              format('embedded-opentype'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.woff2)
+              format('woff2'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.woff)
+              format('woff'),
+            url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.ttf)
+              format('truetype');
+        } */
+
         @font-face {
           font-family: 'Pretendard';
-          src: url('/static/Pretendard-Light.woff2') format('woff2');
-          font-weight: ${theme.fontWeight.light};
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+          font-weight: 100;
           font-style: normal;
-          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('/static/Pretendard-Regular.woff2') format('woff2');
-          font-weight: ${theme.fontWeight.normal};
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraLight.woff')
+            format('woff');
+          font-weight: 200;
           font-style: normal;
-          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('/static/Pretendard-SemiBold.woff2') format('woff2');
-          font-weight: ${theme.fontWeight.bold};
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+          font-weight: 300;
           font-style: normal;
-          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('/static/Pretendard-ExtraBold.woff2') format('woff2');
-          font-weight: ${theme.fontWeight.bolder};
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+            format('woff');
+          font-weight: 400;
           font-style: normal;
-          font-display: swap;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff')
+            format('woff');
+          font-weight: 500;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
+            format('woff');
+          font-weight: 600;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+          font-weight: 700;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff')
+            format('woff');
+          font-weight: 800;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+          font-weight: 900;
+          font-style: normal;
         }
 
         body {
@@ -71,16 +163,6 @@ const GlobalStyles = () => {
         body,
         label {
           cursor: url(${rocketCursorImage}) 12 7, auto;
-        }
-
-        h1 {
-          font-weight: ${theme.fontWeight.bolder};
-        }
-        h2,
-        h3,
-        h4,
-        h5 {
-          font-weight: ${theme.fontWeight.bold};
         }
 
         button,
@@ -121,7 +203,7 @@ const GlobalStyles = () => {
         select,
         textarea,
         input {
-          border-radius: ${theme.radius.xs};
+          border-radius: 4px;
         }
       `}
     />

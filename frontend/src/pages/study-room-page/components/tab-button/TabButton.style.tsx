@@ -17,8 +17,8 @@ export const TabButton = styled.button<Pick<TabButtonProps, 'isSelected'>>`
     width: 100%;
     padding: 8px 4px;
 
-    font-size: ${theme.fontSize.lg};
-    font-weight: ${theme.fontWeight.bold};
+    font-size: 18px;
+    font-weight: 700;
     color: ${theme.colors.secondary.dark};
     border: none;
     border-bottom: 2px solid transparent;

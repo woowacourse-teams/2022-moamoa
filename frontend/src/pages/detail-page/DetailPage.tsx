@@ -2,12 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
-import { theme } from '@styles/theme';
-
 import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
 import Wrapper from '@components/wrapper/Wrapper';
 
@@ -50,6 +45,7 @@ const DetailPage: React.FC = () => {
   } = data;
 
   // TODO: background에 thumbnail 이미지 사용
+
   return (
     <Wrapper>
       <Head
@@ -62,17 +58,17 @@ const DetailPage: React.FC = () => {
         tags={tags}
         isOwner={userRoleQueryResult.data?.role === 'OWNER'}
       />
-      <Divider space="20px" />
-      <Flex gap="40px">
-        <section css={tw`w-full`}>
-          <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
+      <Divider space={2} />
+      <S.Main>
+        <S.MainDescription>
+          <S.MarkDownContainer>
             <MarkdownRender markdownContent={description} />
-          </section>
-          <Divider space="20px" />
+          </S.MarkDownContainer>
+          <Divider space={2} />
           <StudyMemberSection owner={owner} members={members} />
-        </section>
+        </S.MainDescription>
         <S.FloatButtonContainer>
-          <div css={tw`sticky top-150 pb-20`}>
+          <S.StickyContainer>
             <StudyFloatBox
               studyId={id}
               userRole={userRoleQueryResult.data?.role}
@@ -83,10 +79,10 @@ const DetailPage: React.FC = () => {
               recruitmentStatus={recruitmentStatus}
               onRegisterButtonClick={handleRegisterButtonClick}
             />
-          </div>
+          </S.StickyContainer>
         </S.FloatButtonContainer>
-      </Flex>
-      <Divider space="20px" />
+      </S.Main>
+      <Divider space={2} />
       <StudyReviewSection studyId={id} />
       <S.FixedBottomContainer>
         <StudyWideFloatBox

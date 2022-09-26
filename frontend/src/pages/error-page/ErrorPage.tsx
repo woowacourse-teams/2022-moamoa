@@ -1,22 +1,19 @@
 import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
-import { BoxButton } from '@components/button';
-import Flex from '@components/flex/Flex';
-import Image from '@components/image/Image';
-
+import * as S from '@error-page/ErrorPage.style';
 import useErrorPage from '@error-page/hooks/useErrorPage';
 
 const ErrorPage: React.FC = () => {
   const { handleHomeButtonClick } = useErrorPage();
 
   return (
-    <Flex direction="column" justifyContent="center" alignItems="center" rowGap="4px">
-      <Image src={sthWentWrongImage} alt="잘못된 페이지" shape="rectangular" width="auto" height="auto" />
+    <S.Page>
+      <img src={sthWentWrongImage} alt="잘못된 페이지" />
       <p>잘못된 접근입니다.</p>
-      <BoxButton type="button" fontSize="lg" onClick={handleHomeButtonClick} fluid={false}>
+      <S.HomeButton type="button" onClick={handleHomeButtonClick}>
         홈으로 이동
-      </BoxButton>
-    </Flex>
+      </S.HomeButton>
+    </S.Page>
   );
 };
 

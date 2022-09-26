@@ -5,19 +5,16 @@ import type { Tag } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-export type ApiTags = {
-  get: {
-    responseData: {
-      tags: Array<Tag>;
-    };
-  };
+// get
+export type GetTagsResponseData = {
+  tags: Array<Tag>;
 };
 
 export const getTags = async () => {
-  const response = await axiosInstance.get<ApiTags['get']['responseData']>(`/api/tags`);
+  const response = await axiosInstance.get<GetTagsResponseData>(`/api/tags`);
   return response.data;
 };
 
 export const useGetTags = () => {
-  return useQuery<ApiTags['get']['responseData'], AxiosError>('filters', getTags);
+  return useQuery<GetTagsResponseData, AxiosError>('filters', getTags);
 };

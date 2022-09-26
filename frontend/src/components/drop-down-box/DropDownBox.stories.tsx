@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 import tw from '@utils/tw';
 
-import { BoxButton } from '@components/button';
 import DropDownBox from '@components/drop-down-box/DropDownBox';
 import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
 
@@ -20,13 +19,9 @@ const Template: Story<DropDownBoxProps> = props => {
   };
 
   return (
-    <div css={tw`w-200 h-200`}>
-      <div css={tw`relative`}>
-        <BoxButton type="button" onClick={handleButtonClick}>
-          드롭박스 열기
-        </BoxButton>
-        {isOpen && <DropDownBox {...props} onClose={() => setIsOpen(false)} />}
-      </div>
+    <div css={tw`relative`}>
+      <button onClick={handleButtonClick}>드롭박스 열기</button>
+      {isOpen && <DropDownBox {...props} onClose={() => setIsOpen(false)} />}
     </div>
   );
 };
@@ -34,8 +29,7 @@ const Template: Story<DropDownBoxProps> = props => {
 export const Default = Template.bind({});
 Default.args = {
   children: 'hihi',
-  top: '70px',
-  right: 0,
-  padding: '16px',
+  top: '30px',
+  left: '0',
 };
 Default.parameters = { controls: { exclude: ['buttonRef', 'onClose'] } };

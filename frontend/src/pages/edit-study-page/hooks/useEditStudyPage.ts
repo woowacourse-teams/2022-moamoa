@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { COMMA, PATH } from '@constants';
+import { PATH } from '@constants';
 
 import { getRandomInt } from '@utils';
 
 import { useGetStudy, usePutStudy } from '@api/study';
-import type { ApiStudy } from '@api/study';
+import type { PutStudyRequestBody } from '@api/study';
 
 import { useForm } from '@hooks/useForm';
 import type { UseFormSubmitResult } from '@hooks/useForm';
@@ -36,19 +36,18 @@ const useEditStudyPage = () => {
 
     const { values } = submitResult;
     const { feTagId, beTagId } = getAreaTagId();
-    const subject = values['subject'].split(COMMA);
     const tagIds = [
       values['area-fe'] === 'checked' ? feTagId : null,
       values['area-be'] === 'checked' ? beTagId : null,
       values['generation'] === '선택 안함' ? null : values['generation'],
-      ...subject,
+      values['subject'] === '선택 안함' ? null : values['subject'],
     ]
       .filter(val => val === 0 || !!val)
       .map(Number);
 
     const thumbnail = `https://picsum.photos/id/${getRandomInt(1, 100)}/200/300`;
 
-    const putData: ApiStudy['put']['body'] = {
+    const putData: PutStudyRequestBody = {
       title: values['title'],
       excerpt: values['excerpt'],
       thumbnail,

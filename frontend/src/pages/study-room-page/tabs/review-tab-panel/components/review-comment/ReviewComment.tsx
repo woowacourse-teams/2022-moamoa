@@ -1,18 +1,12 @@
-import { css } from '@emotion/react';
-
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
-import { IconButton, TextButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
+import Avatar from '@components/avatar/Avatar';
 import DropDownBox from '@components/drop-down-box/DropDownBox';
-import Flex from '@components/flex/Flex';
-import { KebabMenuIcon } from '@components/icons';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import KebabMenu from '@components/kebab-menu/KebabMenu';
 
+import * as S from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment.style';
 import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
 import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
 
@@ -55,45 +49,43 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     }
 
     return (
-      <Flex direction="column" rowGap="12px">
-        <Flex justifyContent="space-between" alignItems="center">
-          <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-            <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
-          </UserInfoItem>
+      <S.ReviewComment>
+        <S.ReviewCommentHead>
+          <S.UserInfo>
+            <S.AvatarLink href={author.profileUrl}>
+              <Avatar profileImg={author.imageUrl} profileAlt="EMPTY" size="sm" />
+            </S.AvatarLink>
+            <S.UsernameContainer>
+              <S.UsernameLink href={author.profileUrl}>{author.username}</S.UsernameLink>
+              <S.Date>{changeDateSeperator(date)}</S.Date>
+            </S.UsernameContainer>
+          </S.UserInfo>
           {isMyComment && (
-            <div css={tw`relative`}>
-              <IconButton
-                ariaLabel="리뷰 수정 삭제 메뉴"
-                width="24px"
-                height="24px"
-                variant="secondary"
-                onClick={handleKebabMenuClick}
-              >
-                <KebabMenuIcon />
-              </IconButton>
-              <DropDownBox isOpen={isOpen} onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
-                <ButtonGroup orientation="vertical">
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
-                    수정
-                  </TextButton>
-                  <Divider />
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
-                    삭제
-                  </TextButton>
-                </ButtonGroup>
-              </DropDownBox>
-            </div>
+            <S.KebabMenuContainer>
+              <KebabMenu onClick={handleKebabMenuClick} />
+              {isOpen && (
+                <DropDownBox onClose={handleDropDownBoxClose} top="calc(100% + 3px)" right="6px">
+                  <S.DropBoxButtonList>
+                    <li>
+                      <S.DropBoxButton type="button" onClick={handleEditReviewBtnClick}>
+                        수정
+                      </S.DropBoxButton>
+                    </li>
+                    <li>
+                      <S.DropBoxButton type="button" onClick={handleDeleteReviewBtnClick}>
+                        삭제
+                      </S.DropBoxButton>
+                    </li>
+                  </S.DropBoxButtonList>
+                </DropDownBox>
+              )}
+            </S.KebabMenuContainer>
           )}
-        </Flex>
-        <p
-          css={css`
-            word-break: break-all;
-          `}
-        >
-          {content}
-        </p>
-      </Flex>
+        </S.ReviewCommentHead>
+        <S.ReviewCommentBody>
+          <S.Content>{content}</S.Content>
+        </S.ReviewCommentBody>
+      </S.ReviewComment>
     );
   };
 

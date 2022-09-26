@@ -36,8 +36,8 @@ public class MyStudyService {
 
     private final StudyRepository studyRepository;
 
-    public MyStudiesResponse getStudies(final Long memberId) {
-        final Member member = memberRepository.findById(memberId)
+    public MyStudiesResponse getStudies(final Long githubId) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
         final List<MyStudySummaryData> myStudySummaryData = myStudyDao.findMyStudyByMemberId(member.getId());
@@ -82,8 +82,8 @@ public class MyStudyService {
                 .collect(Collectors.toList());
     }
 
-    public MyRoleResponse findMyRoleInStudy(final Long memberId, final Long studyId) {
-        final Member member = memberRepository.findById(memberId)
+    public MyRoleResponse findMyRoleInStudy(final Long githubId, final Long studyId) {
+        final Member member = memberRepository.findByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);

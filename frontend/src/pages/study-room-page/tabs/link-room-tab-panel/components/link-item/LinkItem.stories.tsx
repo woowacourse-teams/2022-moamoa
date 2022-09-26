@@ -4,7 +4,7 @@ import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-
 import type { LinkItemProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
 
 export default {
-  title: 'Pages/StudyRoomPage/LinkItem',
+  title: 'Components/LinkItem',
   component: LinkItem,
 };
 
