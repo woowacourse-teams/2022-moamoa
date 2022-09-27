@@ -67,6 +67,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.5.13",
     "html-webpack-plugin": "^5.5.0",
+    "moamoa-util-types": "^1.0.0",
     "msw": "^0.43.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
