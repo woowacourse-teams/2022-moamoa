@@ -32,11 +32,7 @@ const MyStudyCard: React.FC<OptionalMyStudyCardProps> = ({
             <CrownSvg />
             {ownerName}
           </S.Owner>
-          <S.Tags>
-            {tags.map(tag => (
-              <li key={tag.id}>#{tag.name}</li>
-            ))}
-          </S.Tags>
+          <S.Tags>{tags && tags.map(tag => <li key={tag.id}>#{tag.name}</li>)}</S.Tags>
         </S.Top>
         <S.Bottom>
           <S.Period>
