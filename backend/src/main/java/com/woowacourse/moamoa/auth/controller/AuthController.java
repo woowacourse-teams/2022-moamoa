@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.auth.controller;
 
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.service.AuthService;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
@@ -22,7 +23,7 @@ public class AuthController {
     }
 
     @GetMapping("/api/auth/refresh")
-    public ResponseEntity<AccessTokenResponse> refresh(@AuthenticatedRefresh Long memberId) {
+    public ResponseEntity<AccessTokenResponse> refresh(@AuthenticatedMemberId Long memberId) {
         return ResponseEntity.ok().body(authService.refreshToken(memberId));
     }
 }

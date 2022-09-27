@@ -7,8 +7,13 @@ import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
+<<<<<<< HEAD
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
+=======
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
+import java.util.Optional;
+>>>>>>> 0f29a0279a5f23dd43587f119417d9fea595cd78
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
