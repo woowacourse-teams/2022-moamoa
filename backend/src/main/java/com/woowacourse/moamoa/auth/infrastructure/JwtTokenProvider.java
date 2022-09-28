@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.auth.infrastructure;
 
-import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
+import com.woowacourse.moamoa.auth.exception.TokenExpirationException;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -54,20 +53,6 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String getPayloadWithExpiredToken(final String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims().getSubject();
-        }
-    }
-
-    @Override
     public boolean validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
@@ -86,7 +71,7 @@ public class JwtTokenProvider implements TokenProvider {
 
     private void validateTokenExpiration(Date tokenExpirationDate) {
         if (tokenExpirationDate.before(new Date())) {
-            throw new RefreshTokenExpirationException();
+            throw new TokenExpirationException();
         }
     }
 
