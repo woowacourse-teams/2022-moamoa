@@ -20,7 +20,7 @@ export const PATH = {
   COMMUNITY_PUBLISH: 'article/publish',
   COMMUNITY_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
   COMMUNITY_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
-};
+} as const;
 
 export const API_ERROR = {
   EXPIRED_REFRESH_TOKEN: {

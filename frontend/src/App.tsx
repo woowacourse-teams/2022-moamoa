@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -52,7 +52,7 @@ const App = () => {
               <Route path={PATH.MY_STUDY} element={<MyStudyPage />} />
               <Route path={PATH.STUDY_ROOM()} element={<StudyRoomPage />}>
                 {/* TODO: 인덱스 페이지를 따로 두면 좋을 것 같다. */}
-                <Route index element={<NoticeTabPanel />} />
+                <Route index element={<Navigate to={PATH.NOTICE} />} />
                 <Route path={PATH.NOTICE} element={<NoticeTabPanel />}>
                   {[PATH.NOTICE_PUBLISH, PATH.NOTICE_ARTICLE(), PATH.NOTICE_EDIT()].map((path, index) => (
                     <Route key={index} path={path} element={<NoticeTabPanel />} />
