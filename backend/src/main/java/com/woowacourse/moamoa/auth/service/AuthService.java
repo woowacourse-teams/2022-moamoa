@@ -35,10 +35,14 @@ public class AuthService {
     }
 
     public AccessTokenResponse refreshToken(final Long memberId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+        checkExistMember(memberId);
 
         final TokenResponse token = tokenProvider.createToken(memberId);
         return new AccessTokenResponse(token.getAccessToken(), tokenProvider.getValidityInMilliseconds());
+    }
+
+    private void checkExistMember(final Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
     }
 }
