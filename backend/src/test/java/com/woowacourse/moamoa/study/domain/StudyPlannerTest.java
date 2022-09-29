@@ -1,20 +1,10 @@
 package com.woowacourse.moamoa.study.domain;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 
-import static java.time.LocalDateTime.now;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class StudyPlannerTest {

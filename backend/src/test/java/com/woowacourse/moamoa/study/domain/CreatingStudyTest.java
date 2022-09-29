@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class CreatingStudyTest {
 
-    @DisplayName("RECRUIT Planner| 스터디 상태 생성 | 모집 마감일 < 생성일 예외")
+    @DisplayName("RECRUIT Planner| 스터디 모집 마감일은 생성일보다 이전이면 예외가 발생합니다.")
     @Test
     void createStudyRecruitStatusException() {
         //given
@@ -41,12 +41,11 @@ public class CreatingStudyTest {
                 .hasMessageContaining("잘못된 기간 설정입니다.");
     }
 
-    @DisplayName("RECRUIT Planner| 스터디 상태 생성 | 모집 인원 1명 End")
+    @DisplayName("RECRUIT Planner| 스터디의 현재 인원(1명)이 모집 인원과 같은 경우 모집이 종료(END)된다")
     @Test
     void createStudyRecruitStatusIsEnd() {
         //given
         LocalDateTime now = now();
-        LocalDateTime createdAt = now;
 
         LocalDate enrollmentEndDate = now.toLocalDate();
         LocalDate startDate = now.toLocalDate();
@@ -60,13 +59,13 @@ public class CreatingStudyTest {
         StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now);
 
         //then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
     }
 
-    @DisplayName("RECRUIT Planner| 스터디 상태 생성 | 예외와 END 이외의 경우 START")
+    @DisplayName("RECRUIT Planner| 예외가 발생하지 않고, 모집 상태가 END가 아닌 경우 모집중(START)인 상태이다.")
     @Test
     void createStudyRecruitStatusIsStart() {
         //given
@@ -89,7 +88,7 @@ public class CreatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
-    @DisplayName("STUDY Planner| 스터디 생성 | 시작이 종료보다 이후인 경우 OR 생성이 시작보다 이후인 경우 예외")
+    @DisplayName("STUDY Planner| 스터디 시작이 스터디 종료일 이후인 경우 또는 스터디 생성일이 스터디 시작일 이후인 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({"0,1", "1,0"})
     void createStudyPlannerStatusException(int modifyStartDate, int modifyEndDate) {
@@ -116,7 +115,7 @@ public class CreatingStudyTest {
                 .hasMessageContaining("잘못된 기간 설정입니다.");
     }
 
-    @DisplayName("STUDY Planner| 스터디 생성 |시작 == 생성 IN PROGRESS")
+    @DisplayName("STUDY Planner| 스터디 시작일과 생성일이 같은 경우, 스터디는 진행중(IN PROGRESS) 상태이다.")
     @Test
     void createStudyPlannerStatusIsProgress() {
         //given
@@ -141,7 +140,7 @@ public class CreatingStudyTest {
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(IN_PROGRESS);
     }
 
-    @DisplayName("STUDY Planner| 스터디 생성 | 예외와 IN PROGRESS 이외의 경우 PREPARE")
+    @DisplayName("STUDY Planner| 예외가 발생하지 않고 스터디 상태가 IN PROGRESS가 아닌 경우, 준비중(PREPARE) 상태이다.")
     @Test
     void createStudyPlannerStatusIsPrepare() {
         //given
