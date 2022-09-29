@@ -14,22 +14,25 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class LinkArticleTest {
+
+    private static final long OWNER_ID = 1L;
+    private static final long STUDY_ID = 1L;
 
     @DisplayName("링크 게시글을 작성자가 수정한다.")
     @Test
     void update() {
         // arrange
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final LinkContent linkContent = new LinkContent("link", "설명");
-        final LinkArticle sut = linkContent.createArticle(studyRoom, accessor);
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final LinkArticle sut = createLinkArticle(owner, studyRoom);
+        final Accessor authorAccessor = new Accessor(owner.getId(), studyRoom.getId());
 
         // act
-        sut.update(accessor, new LinkContent("updated link", "수정된 설명"));
+        sut.update(authorAccessor, new LinkContent("updated link", "수정된 설명"));
 
         // assert
         assertThat(sut.getContent()).isEqualTo(new LinkContent("updated link", "수정된 설명"));
@@ -37,24 +40,22 @@ class LinkArticleTest {
 
     @ParameterizedTest
     @DisplayName("스터디에 참여한 작성자 외에는 링크 게시글을 수정할 수 없다.")
-    @CsvSource({"2,1", "1,2"})
-    void updateByNotAuthor(final long memberId, final long studyId) {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final LinkContent linkContent = new LinkContent("link", "설명");
-        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+    @MethodSource("provideForbiddenAccessor")
+    void updateByNotAuthor(final Accessor forbiddenAccessor) {
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final LinkArticle sut = createLinkArticle(owner, studyRoom);
 
-        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new LinkContent("updated link", "수정된 설명")))
+        assertThatThrownBy(() -> sut.update(forbiddenAccessor, new LinkContent("updated link", "수정된 설명")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("스터디에 참여한 작성자만 링크 게시글을 삭제할 수 있다.")
     @Test
     void delete() {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final LinkContent linkContent = new LinkContent("link", "설명");
-        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final LinkArticle sut = createLinkArticle(owner, studyRoom);
 
         sut.delete(new Accessor(1L, 1L));
 
@@ -63,25 +64,41 @@ class LinkArticleTest {
 
     @ParameterizedTest
     @DisplayName("스터디에 참여한 작성자 외에는 링크 게시글을 삭제할 수 없다.")
-    @CsvSource({"2,1", "1,2"})
-    void deleteByNotAuthor(final long memberId, final long studyId) {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final LinkContent linkContent = new LinkContent("link", "설명");
-        final LinkArticle sut = linkContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+    @MethodSource("provideForbiddenAccessor")
+    void deleteByNotAuthor(final Accessor forbiddenAccessor) {
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final LinkArticle sut = createLinkArticle(owner, studyRoom);
 
-        assertThatThrownBy(() -> sut.delete(new Accessor(memberId, studyId)))
+        assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
-    private StudyRoom createStudyRoom(long studyId, Member owner, Member... participant) {
+    private static Stream<Arguments> provideForbiddenAccessor() {
+        final long otherMemberId = OWNER_ID + 1;
+        final long otherStudyId = STUDY_ID + 1;
+
+        return Stream.of(
+                Arguments.of(new Accessor(otherMemberId, STUDY_ID)),
+                Arguments.of(new Accessor(OWNER_ID, otherStudyId)),
+                Arguments.of(new Accessor(otherMemberId, otherStudyId))
+        );
+    }
+
+    private Member createOwner() {
+        return new Member(OWNER_ID, OWNER_ID, "owner", "image", "profile");
+    }
+
+    private StudyRoom createStudyRoom(Member owner, Member... participant) {
         final Set<Long> participants = Stream.of(participant)
                 .map(Member::getId)
                 .collect(Collectors.toSet());
-        return new StudyRoom(studyId, owner.getId(), participants);
+        return new StudyRoom(STUDY_ID, owner.getId(), participants);
     }
 
-    private Member createMember(final long id) {
-        return new Member(id, id, "username" + id, "image", "profile");
+    private LinkArticle createLinkArticle(final Member owner, final StudyRoom studyRoom) {
+        final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
+        final LinkContent linkContent = new LinkContent("link", "설명");
+        return linkContent.createArticle(studyRoom, accessor);
     }
 }

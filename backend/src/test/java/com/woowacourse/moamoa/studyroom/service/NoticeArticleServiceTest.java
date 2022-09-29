@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class NoticeArticleServiceTest {
+class NoticeArticleServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;

@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import com.woowacourse.moamoa.review.service.request.WriteReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.NoticeArticleRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
@@ -74,7 +75,7 @@ public class StudyRelatedSteps extends Steps {
             final String location = RestAssured.given().log().all()
                     .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
                     .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .body(objectMapper.writeValueAsString(new CommunityArticleRequest(title, content)))
+                    .body(objectMapper.writeValueAsString(new NoticeArticleRequest(title, content)))
                     .pathParam("study-id", studyId)
                     .when().log().all()
                     .post("/api/studies/{study-id}/notice/articles")

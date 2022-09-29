@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-public class CommunityArticleServiceTest {
+class CommunityArticleServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -108,9 +108,9 @@ public class CommunityArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "설명");
+        final CommunityArticle article = createArticle(짱구, 자바_스터디, new CommunityArticleRequest("제목", "설명"));
+
         final ArticleRequest<CommunityContent> updatingArticleRequest = new CommunityArticleRequest("제목 수정", "설명 수정");
-        final CommunityArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         // act
         sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), updatingArticleRequest);
@@ -163,7 +163,7 @@ public class CommunityArticleServiceTest {
         assertThat(deletedArticle.isDeleted()).isTrue();
     }
 
-    @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
+    @DisplayName("존재하지 않는 게시글을 삭제할 수 없다.")
     @Test
     void deleteByInvalidLinkId() {
         final Member 짱구 = saveMember(짱구());
@@ -173,7 +173,7 @@ public class CommunityArticleServiceTest {
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")
+    @DisplayName("스터디에 참여하지 않은 경우 게시글을 삭제할 수 없다.")
     @Test
     void deleteByNotParticipatedMember() {
         final Member 짱구 = saveMember(짱구());
@@ -203,7 +203,7 @@ public class CommunityArticleServiceTest {
     }
 
     private CommunityArticle createArticle(final Member author, final Study study,
-                                      final ArticleRequest<CommunityContent> articleRequest) {
+                                           final ArticleRequest<CommunityContent> articleRequest) {
         final CommunityArticle article = sut.createArticle(author.getId(), study.getId(), articleRequest);
         entityManager.flush();
         entityManager.clear();

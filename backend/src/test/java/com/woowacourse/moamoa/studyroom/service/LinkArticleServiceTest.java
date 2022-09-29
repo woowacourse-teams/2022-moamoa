@@ -38,7 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 @RepositoryTest
-public class LinkArticleServiceTest {
+class LinkArticleServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
