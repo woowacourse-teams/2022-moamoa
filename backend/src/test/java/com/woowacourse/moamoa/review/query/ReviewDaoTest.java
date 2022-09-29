@@ -105,21 +105,21 @@ class ReviewDaoTest {
         entityManager.flush();
 
         javaReviews = List.of(
-                new ReviewData(forthJavaReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                new ReviewData(forthJavaReview.getId(), new MemberData(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
                         firstJavaReview.getCreatedDate().toLocalDate(), firstJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰1_내용),
-                new ReviewData(thirdJavaReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                new ReviewData(thirdJavaReview.getId(), new MemberData(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
                         secondJavaReview.getCreatedDate().toLocalDate(), secondJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰2_내용),
-                new ReviewData(secondJavaReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                new ReviewData(secondJavaReview.getId(), new MemberData(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
                         thirdJavaReview.getCreatedDate().toLocalDate(), thirdJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰3_내용),
-                new ReviewData(firstJavaReview.getId(), new MemberData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                new ReviewData(firstJavaReview.getId(), new MemberData(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
                         forthJavaReview.getCreatedDate().toLocalDate(), forthJavaReview.getLastModifiedDate().toLocalDate(), 자바_리뷰4_내용)
         );
         reactReviews = List.of(
-                new ReviewData(firstReactReview.getId(), new MemberData(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                new ReviewData(firstReactReview.getId(), new MemberData(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
                         firstReactReview.getCreatedDate().toLocalDate(), firstReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰1_내용),
-                new ReviewData(secondReactReview.getId(), new MemberData(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                new ReviewData(secondReactReview.getId(), new MemberData(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
                         secondReactReview.getCreatedDate().toLocalDate(), secondReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰2_내용),
-                new ReviewData(thirdReactReview.getId(), new MemberData(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                new ReviewData(thirdReactReview.getId(), new MemberData(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
                         thirdReactReview.getCreatedDate().toLocalDate(), thirdReactReview.getLastModifiedDate().toLocalDate(), 리액트_리뷰3_내용)
         );
     }
