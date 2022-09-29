@@ -40,33 +40,23 @@ public abstract class Article<T extends Content<? extends Article<T>>> extends B
         this.deleted = false;
     }
 
-    public final void update(final Accessor accessor, final T content) {
-        if (!isEditableAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
-        }
-
-        updateContent(content);
-    }
-
     public final void delete(final Accessor accessor) {
-        if (!isEditableAccessor(accessor)) {
+        if (isUneditableAccessor(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
         }
 
         deleted = true;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
     public Long getId() {
         return id;
     }
 
-    protected abstract void updateContent(final T content);
+    boolean isDeleted() {
+        return deleted;
+    }
 
-    protected abstract boolean isEditableAccessor(final Accessor accessor);
+    public abstract void update(final Accessor accessor, final T content);
 
-    public abstract T getContent();
+    protected abstract boolean isUneditableAccessor(final Accessor accessor);
 }

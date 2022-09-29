@@ -116,7 +116,7 @@ class NoticeArticleServiceTest {
         sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), updatingArticleRequest);
 
         // assert
-        Article<NoticeContent> actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        NoticeArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(new NoticeContent("제목 수정", "설명 수정"));
     }
 
@@ -159,8 +159,10 @@ class NoticeArticleServiceTest {
         sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
 
         //assert
-        final Article<NoticeContent> deletedArticle = articleRepository.findById(게시글.getId()).orElseThrow();
-        assertThat(deletedArticle.isDeleted()).isTrue();
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThat(articleRepository.findById(게시글.getId())).isEmpty();
     }
 
     @DisplayName("존재하지 않는 게시글을 삭제할 수 없다.")

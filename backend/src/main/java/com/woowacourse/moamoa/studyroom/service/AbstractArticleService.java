@@ -27,9 +27,7 @@ public abstract class AbstractArticleService<A extends Article<C>, C extends Con
         this.articleType = articleType;
     }
 
-    public A createArticle(
-            final Long memberId, final Long studyId, final ArticleRequest<C> articleRequest
-    ) {
+    public A createArticle(final Long memberId, final Long studyId, final ArticleRequest<C> articleRequest) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
         final C content = articleRequest.createContent();

@@ -121,7 +121,7 @@ class LinkArticleServiceTest {
         sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), updatingArticleRequest);
 
         // assert
-        Article<LinkContent> actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        LinkArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(new LinkContent("링크 수정", "설명 수정"));
     }
 
@@ -164,8 +164,10 @@ class LinkArticleServiceTest {
         sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
 
         //assert
-        final Article<LinkContent> deletedArticle = articleRepository.findById(게시글.getId()).orElseThrow();
-        assertThat(deletedArticle.isDeleted()).isTrue();
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThat(articleRepository.findById(게시글.getId())).isEmpty();
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")

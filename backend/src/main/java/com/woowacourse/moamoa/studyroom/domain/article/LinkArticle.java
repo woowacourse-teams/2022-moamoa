@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -28,13 +29,17 @@ public class LinkArticle extends Article<LinkContent>{
     }
 
     @Override
-    protected void updateContent(final LinkContent content) {
+    public void update(final Accessor accessor, final LinkContent content) {
+        if (isUneditableAccessor(accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
+        }
+
         this.content = content;
     }
 
     @Override
-    protected boolean isEditableAccessor(final Accessor accessor) {
-        return studyRoom.isPermittedAccessor(accessor) && authorId.equals(accessor.getMemberId());
+    protected boolean isUneditableAccessor(final Accessor accessor) {
+        return !studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId());
     }
 
     public LinkContent getContent() {
