@@ -4,7 +4,6 @@ import com.woowacourse.moamoa.auth.domain.Token;
 import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
 import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
-import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
@@ -23,21 +22,10 @@ public class AuthService {
 
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
-    private final OAuthClient oAuthClient;
     private final TokenRepository tokenRepository;
 
-    public TokensResponse createToken(final String code) {
-        final GithubProfileResponse githubProfileResponse = getGithubProfileResponse(code);
-        return makeToken(githubProfileResponse);
-    }
-
-    private GithubProfileResponse getGithubProfileResponse(final String code) {
-        final String accessToken = oAuthClient.getAccessToken(code);
-        return oAuthClient.getProfile(accessToken);
-    }
-
     @Transactional
-    public TokensResponse makeToken(final GithubProfileResponse githubProfileResponse) {
+    public TokensResponse createToken(final GithubProfileResponse githubProfileResponse) {
         final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
         final Long memberId = memberResponse.getId();
 

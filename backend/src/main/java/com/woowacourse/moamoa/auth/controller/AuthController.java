@@ -3,6 +3,8 @@ package com.woowacourse.moamoa.auth.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.auth.config.AuthenticatedRefresh;
 import com.woowacourse.moamoa.auth.service.AuthService;
+import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
+import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +25,13 @@ public class AuthController {
     private static final int REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60;
 
     private final AuthService authService;
+    private final OAuthClient oAuthClient;
 
     @PostMapping("/api/auth/login")
     public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
-        final TokensResponse tokenResponse = authService.createToken(code);
+        final String accessToken = oAuthClient.getAccessToken(code);
+        final GithubProfileResponse profile = oAuthClient.getProfile(accessToken);
+        final TokensResponse tokenResponse = authService.createToken(profile);
 
         final AccessTokenResponse response = new AccessTokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());
         final ResponseCookie cookie = putTokenInCookie(tokenResponse);
