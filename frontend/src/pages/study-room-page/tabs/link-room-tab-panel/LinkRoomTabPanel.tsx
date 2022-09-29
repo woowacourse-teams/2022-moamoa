@@ -40,7 +40,7 @@ const LinkRoomTabPanel: React.FC = () => {
 
     return (
       <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
-        <S.LinkList>
+        <LinkList>
           {links.map(link => (
             <li key={link.id}>
               <LinkItem
