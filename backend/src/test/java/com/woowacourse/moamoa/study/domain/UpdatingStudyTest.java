@@ -14,8 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class UpdatingStudyTest {
 
@@ -138,10 +136,9 @@ public class UpdatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
-    @DisplayName("Study Planner| 스터디 시작일이 종료일 이후이거나, 스터디 생성일이 스터디 시작일 이후인 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({"1, 0", "-1, 0"})
-    void updateStudyPlannerException(int startDay, int endDay) {
+    @DisplayName("Study Planner| 스터디 시작일이 종료일 이후인 경우 예외가 발생한다.")
+    @Test
+    void updateStudyPlannerExceptionIfStudyStartAfterStudyEnd() {
         //given
         LocalDateTime now = now();
         LocalDateTime createdAt = now;
@@ -161,7 +158,7 @@ public class UpdatingStudyTest {
 
         //when && then
         assertThatThrownBy(() -> {
-            StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.plusDays(startDay), endDate.plusDays(endDay), IN_PROGRESS);
+            StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.plusDays(1), endDate, IN_PROGRESS);
             study.updatePlanners(recruitPlanner, updateStudyPlanner, now);
             study.updateContent(1L, content, AttachedTags.empty());
         });
