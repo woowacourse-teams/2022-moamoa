@@ -47,7 +47,7 @@ public class CommunityArticleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("{article-id}")
+    @DeleteMapping("/{article-id}")
     public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId

@@ -33,7 +33,7 @@ public abstract class Article<T extends Content<? extends Article<T>>> extends B
     @Column(nullable = false)
     private boolean deleted;
 
-    public Article(final Long id, final StudyRoom studyRoom, final Long authorId) {
+    protected Article(final Long id, final StudyRoom studyRoom, final Long authorId) {
         this.id = id;
         this.studyRoom = studyRoom;
         this.authorId = authorId;
