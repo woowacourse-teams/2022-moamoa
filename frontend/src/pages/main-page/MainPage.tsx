@@ -35,7 +35,7 @@ const MainPage: React.FC = () => {
 
     return (
       <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
-        <S.CardList>
+        <CardList>
           {searchedStudies.map((study, i) => (
             <li key={study.id}>
               <Link to={PATH.STUDY_DETAIL(study.id)}>
