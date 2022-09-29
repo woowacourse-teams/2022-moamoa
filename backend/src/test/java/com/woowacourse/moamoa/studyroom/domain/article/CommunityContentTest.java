@@ -17,52 +17,59 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class CommunityContentTest {
 
+    private static final long OWNER_ID = 1L;
+    private static final long PARTICIPANT_ID = 2L;
+    private static final long STUDY_ID = 1L;
+
     @ParameterizedTest
     @DisplayName("스터디에 참여한 참가자는 커뮤니티 게시글을 작성할 수 있다.")
-    @MethodSource("provideAccessibleAccessorForCommunityArticle")
-    void writeCommunityArticleByParticipant(final Accessor accessor) {
+    @MethodSource("providePermittedAccessorForCommunityArticle")
+    void writeCommunityArticleByParticipant(final Accessor permittedAccessor) {
         // arrange
-        final Member owner = createMember(1L);
-        final Member participant = createMember(2L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
         final CommunityContent sut = new CommunityContent("제목", "설명");
 
         // act & assert
-        assertThatCode(() -> sut.createArticle(studyRoom, accessor))
+        assertThatCode(() -> sut.createArticle(studyRoom, permittedAccessor))
                 .doesNotThrowAnyException();
     }
 
-    private static Stream<Arguments> provideAccessibleAccessorForCommunityArticle() {
+    private static Stream<Arguments> providePermittedAccessorForCommunityArticle() {
         return Stream.of(
-                Arguments.of(new Accessor(1L, 1L)), // 방장
-                Arguments.of(new Accessor(2L, 1L)) // 일반 참가자
+                Arguments.of(new Accessor(OWNER_ID, STUDY_ID)),
+                Arguments.of(new Accessor(PARTICIPANT_ID, STUDY_ID))
         );
     }
 
     @ParameterizedTest
     @DisplayName("스터디에 참여하지 않은 참가자는 커뮤니티 게시글을 작성할 수 없다.")
-    @MethodSource("provideNonAccessibleAccessorForCommunityArticle")
-    void cantWriteCommunityArticleByNonParticipants(final Accessor accessor) {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
+    @MethodSource("provideForbiddenAccessorForCommunityArticle")
+    void cantWriteCommunityArticleByNonParticipants(final Accessor forbiddenAccessor) {
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
         final CommunityContent sut = new CommunityContent("제목", "설명");
 
-        assertThatThrownBy(() -> sut.createArticle(studyRoom, accessor))
+        assertThatThrownBy(() -> sut.createArticle(studyRoom, forbiddenAccessor))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
-    private static Stream<Arguments> provideNonAccessibleAccessorForCommunityArticle() {
+    private static Stream<Arguments> provideForbiddenAccessorForCommunityArticle() {
+        final long otherMemberId = Math.max(OWNER_ID, PARTICIPANT_ID) + 1;
+        final long otherStudyId = STUDY_ID + 1;
+
         return Stream.of(
-                Arguments.of(new Accessor(2L, 1L)), // memberId가 잘못된 경우
-                Arguments.of(new Accessor(1L, 2L)) // studyId가 잘못된 경우
+                Arguments.of(new Accessor(otherMemberId, STUDY_ID)), // memberId가 잘못된 경우
+                Arguments.of(new Accessor(OWNER_ID, otherStudyId)) // studyId가 잘못된 경우
         );
     }
 
-    private StudyRoom createStudyRoom(long studyId, Member owner, Member... participant) {
+    private StudyRoom createStudyRoom(Member owner, Member... participant) {
         final Set<Long> participants = Stream.of(participant)
                 .map(Member::getId)
                 .collect(Collectors.toSet());
-        return new StudyRoom(studyId, owner.getId(), participants);
+        return new StudyRoom(STUDY_ID, owner.getId(), participants);
     }
 
     private Member createMember(final long id) {

@@ -13,22 +13,27 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CommunityArticleTest {
+
+    private static final long OWNER_ID = 1L;
+    private static final long STUDY_ID = 1L;
 
     @DisplayName("스터디에 참여한 작성자만 커뮤니티 게시글을 수정할 수 있다.")
     @Test
     void update() {
         // arrange
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final CommunityContent communityContent = new CommunityContent("제목", "내용");
-        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final CommunityArticle sut = createCommunityArticle(owner, studyRoom);
+
+        final Accessor authorAccessor = new Accessor(owner.getId(), studyRoom.getId());
 
         // act
-        sut.update(accessor, new CommunityContent("수정된 제목", "수정된 내용"));
+        sut.update(authorAccessor, new CommunityContent("수정된 제목", "수정된 내용"));
 
         // assert
         assertThat(sut.getContent()).isEqualTo(new CommunityContent("수정된 제목", "수정된 내용"));
@@ -36,51 +41,67 @@ class CommunityArticleTest {
 
     @ParameterizedTest
     @DisplayName("스터디에 참여한 작성자 외에는 커뮤니티 게시글을 수정할 수 없다.")
-    @CsvSource({"2,1", "1,2"})
-    void updateByNotAuthor(final long memberId, final long studyId) {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityContent communityContent = new CommunityContent("제목", "내용");
-        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+    @MethodSource("provideForbiddenAccessor")
+    void updateByNotAuthor(final Accessor forbiddenAccessor) {
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final CommunityArticle sut = createCommunityArticle(owner, studyRoom);
 
-        assertThatThrownBy(() -> sut.update(new Accessor(memberId, studyId), new CommunityContent("수정된 제목", "수정된 내용")))
+        assertThatThrownBy(() -> sut.update(forbiddenAccessor, new CommunityContent("수정된 제목", "수정된 내용")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("스터디에 참여한 작성자만 커뮤니티 게시글을 삭제할 수 있다.")
     @Test
     void delete() {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityContent communityContent = new CommunityContent("제목", "내용");
-        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final CommunityArticle sut = createCommunityArticle(owner, studyRoom);
 
-        sut.delete(new Accessor(1L, 1L));
+        final Accessor authorAccessor = new Accessor(owner.getId(), studyRoom.getId());
+
+        sut.delete(authorAccessor);
 
         assertThat(sut.isDeleted()).isTrue();
     }
 
     @ParameterizedTest
     @DisplayName("스터디에 참여한 작성자 외에는 커뮤니티 게시글을 삭제할 수 없다.")
-    @CsvSource({"2,1", "1,2"})
-    void deleteByNotAuthor(final long memberId, final long studyId) {
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
-        final CommunityContent communityContent = new CommunityContent("제목", "내용");
-        final CommunityArticle sut = communityContent.createArticle(studyRoom, new Accessor(owner.getId(), studyRoom.getId()));
+    @MethodSource("provideForbiddenAccessor")
+    void deleteByNotAuthor(final Accessor forbiddenAccessor) {
+        final Member owner = createOwner();
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final CommunityArticle sut = createCommunityArticle(owner, studyRoom);
 
-        assertThatThrownBy(() -> sut.delete(new Accessor(memberId, studyId)))
+        assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
-    private StudyRoom createStudyRoom(long studyId, Member owner, Member... participant) {
+    private Member createOwner() {
+        return new Member(OWNER_ID, OWNER_ID, "owner", "image", "profile");
+    }
+
+    private StudyRoom createStudyRoom(Member owner, Member... participant) {
         final Set<Long> participants = Stream.of(participant)
                 .map(Member::getId)
                 .collect(Collectors.toSet());
-        return new StudyRoom(studyId, owner.getId(), participants);
+        return new StudyRoom(STUDY_ID, owner.getId(), participants);
     }
 
-    private Member createMember(final long id) {
-        return new Member(id, id, "username" + id, "image", "profile");
+    private CommunityArticle createCommunityArticle(final Member owner, final StudyRoom studyRoom) {
+        final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
+        final CommunityContent communityContent = new CommunityContent("제목", "내용");
+        return communityContent.createArticle(studyRoom, accessor);
+    }
+
+    private static Stream<Arguments> provideForbiddenAccessor() {
+        final long otherMemberId = OWNER_ID + 1;
+        final long otherStudyId = STUDY_ID + 1;
+
+        return Stream.of(
+                Arguments.of(new Accessor(otherMemberId, STUDY_ID)),
+                Arguments.of(new Accessor(OWNER_ID, otherStudyId)),
+                Arguments.of(new Accessor(otherMemberId, otherStudyId))
+        );
     }
 }
