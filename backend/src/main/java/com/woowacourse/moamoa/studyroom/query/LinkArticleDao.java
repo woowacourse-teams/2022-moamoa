@@ -21,7 +21,7 @@ public class LinkArticleDao {
 
     public Slice<LinkArticleData> findAllByStudyId(final Long studyId, final Pageable pageable) {
         final String sql = "SELECT link.id, link.link_url, link.description, link.created_date, link.last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id as member_id, member.username, member.image_url, member.profile_url "
                 + "FROM link "
                 + "JOIN member ON link.author_id = member.id "
                 + "WHERE link.deleted = false "
@@ -55,11 +55,11 @@ public class LinkArticleDao {
             final LocalDate createdDate = rs.getObject("created_date", LocalDate.class);
             final LocalDate lastModifiedDate = rs.getObject("last_modified_date", LocalDate.class);
 
-            final Long githubId = rs.getLong("github_id");
+            final Long memberId = rs.getLong("member_id");
             final String username = rs.getString("username");
             final String imageUrl = rs.getString("image_url");
             final String profileUrl = rs.getString("profile_url");
-            final MemberData memberData = new MemberData(githubId, username, imageUrl, profileUrl);
+            final MemberData memberData = new MemberData(memberId, username, imageUrl, profileUrl);
 
             return new LinkArticleData(id, memberData, linkUrl, description, createdDate, lastModifiedDate);
         };

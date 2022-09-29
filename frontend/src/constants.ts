@@ -4,24 +4,23 @@ export const PATH = {
   CREATE_STUDY: '/study/create',
   EDIT_STUDY: (studyId: ':studyId' | number = ':studyId') => `/study/edit/${studyId}`,
   MY_STUDY: '/my/study',
-  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
-  REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
 
-  COMMUNITY: (studyId: ':studyId' | string | number = ':studyId') => `/studyroom/${studyId}/community`,
-  COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/community/article/${articleId}`,
-  COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,
-  COMMUNITY_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/community/article/${articleId}/edit`,
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
 
-  NOTICE: (studyId: ':studyId' | string | number = ':studyId') => `/studyroom/${studyId}/notice`,
-  NOTICE_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/notice/article/${articleId}`,
-  NOTICE_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/notice/article/publish`,
-  NOTICE_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/notice/article/${articleId}/edit`,
-};
+  REVIEW: 'reviews',
+  LINK: 'links',
+
+  NOTICE: 'notice',
+  NOTICE_PUBLISH: 'article/publish',
+  NOTICE_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
+  NOTICE_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+
+  COMMUNITY: 'community',
+  COMMUNITY_PUBLISH: 'article/publish',
+  COMMUNITY_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
+  COMMUNITY_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+} as const;
 
 export const API_ERROR = {
   EXPIRED_REFRESH_TOKEN: {
@@ -132,9 +131,7 @@ export const LINK_URL_LENGTH = {
   },
   FORMAT: {
     TEST(text: string) {
-      return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
-        text,
-      );
+      return /http(s)?:\/\/[(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(text);
     },
     get MESSAGE() {
       return 'URL을 입력해주세요.';
@@ -143,12 +140,6 @@ export const LINK_URL_LENGTH = {
 };
 
 export const LINK_DESCRIPTION_LENGTH = {
-  MIN: {
-    VALUE: 1,
-    get MESSAGE() {
-      return `${this.VALUE}글자 이상이어야 합니다`;
-    },
-  },
   MAX: {
     VALUE: 40,
     get MESSAGE() {
@@ -156,3 +147,5 @@ export const LINK_DESCRIPTION_LENGTH = {
     },
   },
 };
+
+export const COMMA = ',';

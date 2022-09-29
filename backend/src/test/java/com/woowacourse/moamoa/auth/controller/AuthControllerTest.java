@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.auth.service.AuthService;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,7 +22,7 @@ class AuthControllerTest extends WebMVCTest {
     @Test
     void getJwtToken() throws Exception {
         given(authService.createToken("Authorization code"))
-                .willReturn(new TokensResponse("jwt token", "refreshtoken"));
+                .willReturn(new AccessTokenResponse("jwt token", 30000));
 
         mockMvc.perform(post("/api/auth/login?code=Authorization code"))
                 .andExpect(status().isOk())

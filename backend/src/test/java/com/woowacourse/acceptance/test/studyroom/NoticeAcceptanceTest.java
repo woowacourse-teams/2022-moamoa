@@ -1,9 +1,5 @@
 package com.woowacourse.acceptance.test.studyroom;
 
-import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_깃허브_ID;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +17,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -109,9 +106,10 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(ArticleResponse.class);
 
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
         final ArticleResponse expectedResponse = ArticleResponse.builder()
                 .id(articleId)
-                .author(new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL))
+                .author(new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl()))
                 .title("공지사항 제목")
                 .content("공지사항 내용")
                 .createdDate(LocalDate.now())
@@ -216,7 +214,8 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
                 .extract().as(ArticleSummariesResponse.class);
 
         // assert
-        AuthorResponse 그린론 = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
+        AuthorResponse 그린론 = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
         List<ArticleSummaryResponse> articles = List.of(
                 new ArticleSummaryResponse(자바_공지글4_ID, 그린론, "자바 게시글 제목4", LocalDate.now(), LocalDate.now()),
@@ -249,7 +248,8 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
                 .extract().as(ArticleSummariesResponse.class);
 
         // assert
-        AuthorResponse 그린론 = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
+        AuthorResponse 그린론 = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
         List<ArticleSummaryResponse> articles = List.of(
                 new ArticleSummaryResponse(공지글4_ID, 그린론, "자바 게시글 제목4", LocalDate.now(), LocalDate.now()),
@@ -308,7 +308,8 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
                 .extract()
                 .as(ArticleResponse.class);
 
-        final AuthorResponse authorResponse = new AuthorResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
+        final AuthorResponse authorResponse = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
         assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목 수정",
                 "게시글 내용 수정", LocalDate.now(), LocalDate.now()));

@@ -16,8 +16,7 @@ import lombok.ToString;
 @ToString
 public class ParticipatingMemberData {
 
-    @JsonProperty("id")
-    private Long githubId;
+    private Long id;
 
     private String username;
 

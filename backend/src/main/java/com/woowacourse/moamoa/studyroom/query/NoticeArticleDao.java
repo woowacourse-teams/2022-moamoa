@@ -23,11 +23,11 @@ public class NoticeArticleDao {
         final LocalDate createdDate = rs.getObject("article_created_date", LocalDate.class);
         final LocalDate lastModifiedDate = rs.getObject("article_last_modified_date", LocalDate.class);
 
-        final long githubId = rs.getLong("member.github_id");
+        final long memberId = rs.getLong("member.id");
         final String username = rs.getString("member.username");
         final String imageUrl = rs.getString("member.image_url");
         final String profileUrl = rs.getString("member.profile_url");
-        MemberData memberData = new MemberData(githubId, username, imageUrl, profileUrl);
+        MemberData memberData = new MemberData(memberId, username, imageUrl, profileUrl);
 
         return new ArticleData(id, memberData, title, content, createdDate, lastModifiedDate);
     };
@@ -41,7 +41,7 @@ public class NoticeArticleDao {
     public Optional<ArticleData> getById(final Long articleId) {
         final String sql = "SELECT notice.id as article_id, notice.title as article_title, notice.content as article_content, "
                 + "notice.created_date as article_created_date, notice.last_modified_date as article_last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id, member.username, member.image_url, member.profile_url "
                 + "FROM notice JOIN member ON notice.author_id = member.id "
                 + "WHERE notice.id = :noticeId and notice.deleted = false";
 
@@ -58,7 +58,7 @@ public class NoticeArticleDao {
     private List<ArticleData> getContent(final Long studyId, final Pageable pageable) {
         final String sql = "SELECT notice.id as article_id, notice.title as article_title, notice.content as article_content, "
                 + "notice.created_date as article_created_date, notice.last_modified_date as article_last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id, member.username, member.image_url, member.profile_url "
                 + "FROM notice JOIN member ON notice.author_id = member.id "
                 + "WHERE notice.study_id = :studyId and notice.deleted = false "
                 + "ORDER BY created_date DESC, notice.id DESC "

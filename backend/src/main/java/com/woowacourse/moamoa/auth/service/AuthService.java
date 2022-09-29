@@ -1,17 +1,14 @@
 package com.woowacourse.moamoa.auth.service;
 
-import com.woowacourse.moamoa.auth.domain.Token;
-import com.woowacourse.moamoa.auth.domain.repository.TokenRepository;
-import com.woowacourse.moamoa.auth.exception.TokenNotFoundException;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
-import com.woowacourse.moamoa.auth.service.response.TokensResponse;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
+import com.woowacourse.moamoa.auth.service.response.TokenResponse;
+import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.MemberService;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,49 +21,28 @@ public class AuthService {
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
     private final OAuthClient oAuthClient;
-    private final TokenRepository tokenRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public TokensResponse createToken(final String code) {
+    public AccessTokenResponse createToken(final String code) {
         final String accessToken = oAuthClient.getAccessToken(code);
         final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
         final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
         final Long memberId = memberResponse.getId();
 
-        final Optional<Token> token = tokenRepository.findByMemberId(memberId);
-        final TokensResponse tokenResponse = tokenProvider.createToken(memberId);
-
-        if (token.isPresent()) {
-            token.get().updateRefreshToken(tokenResponse.getRefreshToken());
-            return tokenResponse;
-        }
-
-        tokenRepository.save(new Token(memberId, tokenResponse.getRefreshToken()));
-
-        return tokenResponse;
+        final TokenResponse token = tokenProvider.createToken(memberId);
+        return new AccessTokenResponse(token.getAccessToken(), tokenProvider.getValidityInMilliseconds());
     }
 
-    public AccessTokenResponse refreshToken(final Long memberId, final String refreshToken) {
-        final Token token = tokenRepository.findByMemberId(memberId)
-                .orElseThrow(TokenNotFoundException::new);
+    public AccessTokenResponse refreshToken(final Long memberId) {
+        checkExistMember(memberId);
 
-        if (!token.getRefreshToken().equals(refreshToken)) {
-            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
-        }
-
-        String accessToken = tokenProvider.recreationAccessToken(memberId, refreshToken);
-        return new AccessTokenResponse(accessToken, tokenProvider.getValidityInMilliseconds());
+        final TokenResponse token = tokenProvider.createToken(memberId);
+        return new AccessTokenResponse(token.getAccessToken(), tokenProvider.getValidityInMilliseconds());
     }
 
-    @Transactional
-    public void logout(final Long memberId) {
-        final Token token = tokenRepository.findByMemberId(memberId)
-                .orElseThrow(TokenNotFoundException::new);
-
-        tokenRepository.delete(token);
-    }
-
-    public long getExpireTime() {
-        return tokenProvider.getValidityInMilliseconds();
+    private void checkExistMember(final Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
     }
 }

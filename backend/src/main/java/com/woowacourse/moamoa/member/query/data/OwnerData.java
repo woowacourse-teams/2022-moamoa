@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.member.query.data;
 
 import static lombok.AccessLevel.PRIVATE;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -17,8 +16,7 @@ import lombok.ToString;
 @ToString
 public class OwnerData {
 
-    @JsonProperty("id")
-    private Long githubId;
+    private Long id;
 
     private String username;
 

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { COMMA, PATH } from '@constants';
 
 import { getRandomInt } from '@utils';
 
@@ -33,11 +33,12 @@ const useCreateStudyPage = () => {
 
     const { values } = submitResult;
     const { feTagId, beTagId } = getAreaTagId();
+    const subject = values['subject'].split(COMMA);
     const tagIds = [
       values['area-fe'] === 'checked' ? feTagId : null,
       values['area-be'] === 'checked' ? beTagId : null,
       values['generation'] === '선택 안함' ? null : values['generation'],
-      values['subject'] === '선택 안함' ? null : values['subject'],
+      ...subject,
     ]
       .filter(val => val === 0 || !!val)
       .map(Number);
