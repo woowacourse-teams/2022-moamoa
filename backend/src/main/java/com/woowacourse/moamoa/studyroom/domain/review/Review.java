@@ -46,22 +46,14 @@ public class Review extends BaseEntity {
         this(null, associatedStudy, reviewer, content, false);
     }
 
-    public void updateContent(final AssociatedStudy associatedStudy, final Reviewer reviewer, final String content) {
-        validateReview(associatedStudy, reviewer);
+    public void updateContent(final Accessor accessor, final String content) {
+        validateReview(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
         this.content = content;
     }
 
-    public void updateContent(final Accessor accessor, final String content) {
-        updateContent(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()), content);
-    }
-
-    public void delete(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
-        validateReview(associatedStudy, reviewer);
-        deleted = true;
-    }
-
     public void delete(final Accessor accessor) {
-        delete(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
+        validateReview(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
+        deleted = true;
     }
 
     private void validateReview(final AssociatedStudy associatedStudy, final Reviewer reviewer) {

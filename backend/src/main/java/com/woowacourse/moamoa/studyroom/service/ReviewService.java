@@ -7,9 +7,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
-import com.woowacourse.moamoa.studyroom.domain.review.Reviewer;
 import com.woowacourse.moamoa.studyroom.service.exception.review.ReviewNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
@@ -51,7 +49,7 @@ public class ReviewService {
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
-        review.updateContent(new AssociatedStudy(studyId), new Reviewer(memberId), editingReviewRequest.getContent());
+        review.updateContent(new Accessor(memberId, studyId), editingReviewRequest.getContent());
     }
 
     public void deleteReview(final Long memberId, final Long studyId, final Long reviewId) {
@@ -62,6 +60,6 @@ public class ReviewService {
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
-        review.delete(new AssociatedStudy(studyId), new Reviewer(memberId));
+        review.delete(new Accessor(memberId, studyId));
     }
 }
