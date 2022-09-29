@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.review.exception.ReviewNotWrittenInTheStudyException;
 import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
 import javax.persistence.Column;
@@ -50,9 +51,17 @@ public class Review extends BaseEntity {
         this.content = content;
     }
 
+    public void updateContent(final Accessor accessor, final String content) {
+        updateContent(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()), content);
+    }
+
     public void delete(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
         validateReview(associatedStudy, reviewer);
         deleted = true;
+    }
+
+    public void delete(final Accessor accessor) {
+        delete(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
     }
 
     private void validateReview(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
