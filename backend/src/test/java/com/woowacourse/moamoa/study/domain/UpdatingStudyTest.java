@@ -19,10 +19,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class UpdatingStudyTest {
 
-    @DisplayName("Recruit Planner| 수정하려는 모집 마감 일이 생성일 이전이거나 수정 인원이 현재 인원 보다 적은 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({"1,3", "0,2"})
-    void updateRecruitPlannerException(int modifyCreateDate, int memberCount) {
+    @DisplayName("Recruit Planner| 수정하려는 모집 마감 일이 생성일 이전인 경우 예외가 발생한다.")
+    @Test
+    void updateRecruitPlannerExceptionIfStudyCreateAfterStudyEnrollmentEnd() {
         //given
         LocalDateTime now = now();
         LocalDateTime createdAt = now;
@@ -42,8 +41,39 @@ public class UpdatingStudyTest {
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(memberCount, RECRUITMENT_END, createdAt.toLocalDate()
-                .minusDays(modifyCreateDate));
+        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, createdAt.toLocalDate()
+                .minusDays(1));
+
+        assertThatThrownBy(() -> {
+            study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+            study.updateContent(1L, content, AttachedTags.empty());
+        }).isInstanceOf(InvalidUpdatingException.class)
+                .hasMessageContaining("스터디 수정이 불가능합니다.");
+    }
+
+    @DisplayName("Recruit Planner| 수정 인원이 현재 인원 보다 적은 경우 예외가 발생한다.")
+    @Test
+    void updateRecruitPlannerExceptionIfMemberNumberLessThanPresentMember() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        study.participate(2L);
+        study.participate(3L);
+
+        //when && then
+        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, createdAt.toLocalDate());
 
         assertThatThrownBy(() -> {
             study.updatePlanners(updateRecruitPlanner, studyPlanner, now);

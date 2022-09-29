@@ -12,12 +12,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class CreatingStudyTest {
 
-    @DisplayName("RECRUIT Planner| 스터디 모집 마감일은 생성일보다 이전이면 예외가 발생합니다.")
+    @DisplayName("RECRUIT Planner| 스터디 모집 마감일은 생성일보다 이전이면 예외가 발생한다.")
     @Test
     void createStudyRecruitStatusException() {
         //given
@@ -41,7 +39,7 @@ public class CreatingStudyTest {
                 .hasMessageContaining("잘못된 기간 설정입니다.");
     }
 
-    @DisplayName("RECRUIT Planner| 스터디의 현재 인원(1명)이 모집 인원과 같은 경우 모집이 종료(END)된다")
+    @DisplayName("RECRUIT Planner| 스터디의 현재 인원(1명)이 모집 인원과 같은 경우 모집이 종료(END)된다.")
     @Test
     void createStudyRecruitStatusIsEnd() {
         //given
@@ -88,18 +86,43 @@ public class CreatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
-    @DisplayName("STUDY Planner| 스터디 시작이 스터디 종료일 이후인 경우 또는 스터디 생성일이 스터디 시작일 이후인 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({"0,1", "1,0"})
-    void createStudyPlannerStatusException(int modifyStartDate, int modifyEndDate) {
+    @DisplayName("STUDY Planner| 스터디 생성이 스터디 시작일 이후인 경우 예외가 발생한다.")
+    @Test
+    void createStudyPlannerStatusExceptionIfStudyCreateAfterStudyStart() {
         //given
         LocalDateTime now = now();
         LocalDateTime createdAt = now;
 
         LocalDate enrollmentEndDate = now.toLocalDate();
         //target
-        LocalDate startDate = now.toLocalDate().minusDays(modifyStartDate);
-        LocalDate endDate = now.toLocalDate().minusDays(modifyEndDate);
+        LocalDate startDate = now.toLocalDate().minusDays(1);
+        LocalDate endDate = now.toLocalDate().minusDays(0);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
+
+        //when && then
+        assertThatThrownBy(
+                () -> {
+                    StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+                    new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+                })
+                .isInstanceOf(InvalidPeriodException.class)
+                .hasMessageContaining("잘못된 기간 설정입니다.");
+    }
+
+    @DisplayName("STUDY Planner| 스터디 시작이 스터디 종료일 이후인 경우 예외가 발생한다.")
+    @Test
+    void createStudyPlannerStatusExceptionIfStudyStartAfterStudyEnd() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        //target
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().minusDays(1);
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
@@ -140,7 +163,7 @@ public class CreatingStudyTest {
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(IN_PROGRESS);
     }
 
-    @DisplayName("STUDY Planner| 예외가 발생하지 않고 스터디 상태가 IN PROGRESS가 아닌 경우, 준비중(PREPARE) 상태이다.")
+    @DisplayName("STUDY Planner| 스터디 시작 일자 <= 스터디 종료 일자이인 경우(정상적인 경우)")
     @Test
     void createStudyPlannerStatusIsPrepare() {
         //given
