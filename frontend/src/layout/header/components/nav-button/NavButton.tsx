@@ -1,6 +1,7 @@
-import { noop } from '@utils';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import * as S from '@layout/header/components/nav-button/NavButton.style';
+import { mqDown, noop } from '@utils';
 
 export type NavButtonProps = {
   children: React.ReactNode;
@@ -10,10 +11,43 @@ export type NavButtonProps = {
 
 const NavButton: React.FC<NavButtonProps> = ({ children, ariaLabel, onClick: handleClick = noop }) => {
   return (
-    <S.NavButton aria-label={ariaLabel} onClick={handleClick}>
+    <Self aria-label={ariaLabel} onClick={handleClick}>
       {children}
-    </S.NavButton>
+    </Self>
   );
 };
+
+const Self = styled.button`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4px;
+
+    padding: 8px 4px;
+
+    color: ${theme.colors.primary.base};
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      border-bottom: 1px solid ${theme.colors.secondary.base};
+    }
+
+    & > svg {
+      fill: ${theme.colors.primary.base};
+    }
+
+    & > span {
+      color: ${theme.colors.primary.base};
+    }
+  `}
+
+  ${mqDown('md')} {
+    & > span {
+      display: none;
+    }
+  }
+`;
 
 export default NavButton;
