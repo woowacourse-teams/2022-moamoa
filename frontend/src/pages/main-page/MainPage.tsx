@@ -31,13 +31,13 @@ const MainPage: React.FC = () => {
     }
 
     return (
-      <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
+      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
         <S.CardList>
-          {searchedStudies.map(study => (
+          {searchedStudies.map((study, i) => (
             <li key={study.id}>
               <Link to={PATH.STUDY_DETAIL(study.id)}>
                 <StudyCard
-                  thumbnailUrl={study.thumbnail}
+                  thumbnailUrl={`static/${(i + 1) % 29}.jpg`}
                   thumbnailAlt={`${study.title} 스터디 이미지`}
                   title={study.title}
                   excerpt={study.excerpt}

@@ -7,7 +7,7 @@ export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & 
 export type Noop = () => void;
 
 export type CssLengthUnits = 'px' | 'rem' | '%';
-export type CssLength = 0 | `${number}${CssLengthUnits}` | 'auto' | 'fit-content';
+export type CssLength = 0 | `${number}${CssLengthUnits}` | 'auto' | 'fit-content' | `calc(${string})`;
 
 export type oneToNine = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type d = oneToNine | 0;
@@ -26,6 +26,7 @@ export type CategoryId = number;
 export type LinkId = number;
 export type Page = number;
 export type Size = number;
+export type ArticleId = number;
 
 export type SitePage = 'home' | 'studyroom';
 
@@ -126,3 +127,24 @@ export type NoticeArticle = {
 };
 
 export type NoticeArticleMode = 'publish' | 'edit';
+
+// api
+export type GetMethod<Params, ResponseData> = {
+  variables: Params;
+  responseData: ResponseData;
+};
+
+export type PostMethod<Params, Body, ResponseData> = {
+  variables: Params & Body;
+  responseData: ResponseData;
+};
+
+export type PutMethod<Params, Body> = {
+  variables: Params & Body;
+  responseData: null;
+};
+
+export type DeleteMethod<Params> = {
+  variables: Params;
+  responseData: null;
+};

@@ -1,7 +1,7 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import type { ReviewId, StudyId } from '@custom-types';
+import type { ReviewId, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -10,27 +10,23 @@ export type ApiReview = {
     params: {
       studyId: StudyId;
     };
-    body: {
-      content: string;
-    };
+    body: Pick<StudyReview, 'content'>;
     variables: ApiReview['post']['params'] & ApiReview['post']['body'];
   };
   put: {
     params: {
-      studyId: number;
-      reviewId: number;
-    };
-    body: {
-      content: string;
-    };
-    variables: ApiReview['put']['params'] & ApiReview['put']['body'];
-  };
-  delete: {
-    body: {
       studyId: StudyId;
       reviewId: ReviewId;
     };
-    variables: ApiReview['delete']['body'];
+    body: ApiReview['post']['body'];
+    variables: ApiReview['put']['params'] & ApiReview['put']['body'];
+  };
+  delete: {
+    params: {
+      studyId: StudyId;
+      reviewId: ReviewId;
+    };
+    variables: ApiReview['delete']['params'];
   };
 };
 
@@ -65,4 +61,4 @@ export const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['v
   return response.data;
 };
 
-export const useDeleteReview = () => useMutation<null, AxiosError, ApiReview['delete']['body']>(deleteReview);
+export const useDeleteReview = () => useMutation<null, AxiosError, ApiReview['delete']['variables']>(deleteReview);

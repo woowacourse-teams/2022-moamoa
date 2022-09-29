@@ -2,9 +2,7 @@ import type { Story } from '@storybook/react';
 
 import { noop } from '@utils';
 
-import LinkEditForm, {
-  type LinkEditFormProps,
-} from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm';
+import LinkEditForm, { type LinkEditFormProps } from '@link-tab/components/link-edit-form/LinkEditForm';
 
 export default {
   title: 'Pages/StudyRoomPage/LinkEditForm',

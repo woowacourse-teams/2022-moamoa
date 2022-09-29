@@ -3,24 +3,26 @@ const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
-const smp = new SpeedMeasurePlugin();
-
-module.exports = smp.wrap({
+module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
-    filename: 'main.js',
+    filename: '[name]-[contenthash].js',
     path: join(__dirname, '../dist'),
     publicPath: '/',
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'esnext',
+        },
       },
       {
         test: /\.(png|jpg|jpeg)$/i,
@@ -47,6 +49,9 @@ module.exports = smp.wrap({
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: '../frontend/static', to: '../dist/static' }],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -69,8 +74,10 @@ module.exports = smp.wrap({
       '@edit-study-page': resolve(__dirname, '../src/pages/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
-      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
       '@notice-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/notice-tab-panel'),
+      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
+      '@link-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/link-room-tab-panel'),
+      '@review-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/review-tab-panel'),
       '@error-page': resolve(__dirname, '../src/pages/error-page'),
       '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
       '@layout': resolve(__dirname, '../src/layout'),
@@ -78,4 +85,17 @@ module.exports = smp.wrap({
       '@mocks': resolve(__dirname, '../src/mocks'),
     },
   },
-});
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'esnext',
+      }),
+    ],
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
+};

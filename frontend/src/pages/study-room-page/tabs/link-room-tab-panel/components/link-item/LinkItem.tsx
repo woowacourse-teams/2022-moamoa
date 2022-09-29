@@ -11,10 +11,10 @@ import DropDownBox from '@components/drop-down-box/DropDownBox';
 import { MeatballMenuIcon } from '@components/icons';
 import ModalPortal from '@components/modal/Modal';
 
-import LinkEditForm from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm';
-import { useLinkItem } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/hooks/useLinkItem';
-import LinkPreview from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview';
-import UserDescription from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
+import LinkEditForm from '@link-tab/components/link-edit-form/LinkEditForm';
+import { useLinkItem } from '@link-tab/components/link-item/hooks/useLinkItem';
+import LinkPreview from '@link-tab/components/link-preview/LinkPreview';
+import UserDescription from '@link-tab/components/user-description/UserDescription';
 
 export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUrl'> & {
   studyId: StudyId;
@@ -71,19 +71,17 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             >
               <MeatballMenuIcon />
             </IconButton>
-            {isOpenDropBox && (
-              <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
-                <ButtonGroup orientation="vertical">
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
-                    수정
-                  </TextButton>
-                  <Divider space="8px" />
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
-                    삭제
-                  </TextButton>
-                </ButtonGroup>
-              </DropDownBox>
-            )}
+            <DropDownBox isOpen={isOpenDropBox} onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
+              <ButtonGroup orientation="vertical">
+                <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
+                  수정
+                </TextButton>
+                <Divider space="8px" />
+                <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
+                  삭제
+                </TextButton>
+              </ButtonGroup>
+            </DropDownBox>
           </div>
         )}
         <a href={linkUrl} rel="noreferrer" target="_blank">

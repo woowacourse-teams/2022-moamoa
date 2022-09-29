@@ -48,7 +48,7 @@ const Head: React.FC<HeadProps> = ({
         <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
       </Flex>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
-      <Flex gap="16px">
+      <Flex gap="16px" wrap>
         {tags.map(({ id, name }) => (
           <span key={id}>#{name}</span>
         ))}

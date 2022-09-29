@@ -13,8 +13,8 @@ import Flex from '@components/flex/Flex';
 import { KebabMenuIcon } from '@components/icons';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
-import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
-import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
+import useReviewComment from '@review-tab/components/review-comment/useReviewComment';
+import ReviewEditForm from '@review-tab/components/review-edit-form/ReviewEditForm';
 
 export type ReviewCommentProps = {
   id: ReviewId;
@@ -72,19 +72,17 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
               >
                 <KebabMenuIcon />
               </IconButton>
-              {isOpen && (
-                <DropDownBox onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
-                  <ButtonGroup orientation="vertical">
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
-                      수정
-                    </TextButton>
-                    <Divider />
-                    <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
-                      삭제
-                    </TextButton>
-                  </ButtonGroup>
-                </DropDownBox>
-              )}
+              <DropDownBox isOpen={isOpen} onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
+                <ButtonGroup orientation="vertical">
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
+                    수정
+                  </TextButton>
+                  <Divider />
+                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
+                    삭제
+                  </TextButton>
+                </ButtonGroup>
+              </DropDownBox>
             </div>
           )}
         </Flex>

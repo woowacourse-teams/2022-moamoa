@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -11,7 +11,7 @@ import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
 
 const StudyRoomPage: React.FC = () => {
-  const { tabs, activeTab, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
+  const { tabs, activeTabId, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
   const { data, isError, isSuccess } = userRoleQueryResult;
 
   if (isSuccess && data.role === 'NON_MEMBER') {
@@ -27,8 +27,10 @@ const StudyRoomPage: React.FC = () => {
   return (
     <Wrapper>
       <Flex alignItems="flex-start">
-        <SideMenu activeTabId={activeTab.id} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
-        <section css={tw`flex-grow`}>{activeTab.content}</section>
+        <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
+        <section css={tw`flex-grow`}>
+          <Outlet />
+        </section>
       </Flex>
     </Wrapper>
   );
