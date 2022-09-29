@@ -20,33 +20,34 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+          src: url('/static/Pretendard-Light.woff2') format('woff2');
           font-weight: ${theme.fontWeight.light};
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-            format('woff');
+          src: url('/static/Pretendard-Regular.woff2') format('woff2');
           font-weight: ${theme.fontWeight.normal};
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff')
-            format('woff');
+          src: url('/static/Pretendard-SemiBold.woff2') format('woff2');
           font-weight: ${theme.fontWeight.bold};
           font-style: normal;
+          font-display: swap;
         }
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff')
-            format('woff');
+          src: url('/static/Pretendard-ExtraBold.woff2') format('woff2');
           font-weight: ${theme.fontWeight.bolder};
           font-style: normal;
+          font-display: swap;
         }
 
         body {

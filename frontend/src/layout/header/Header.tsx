@@ -16,14 +16,12 @@ import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@components/avatar/Avatar';
+import { IconButton } from '@components/button';
 import DropDownBox from '@components/drop-down-box/DropDownBox';
-import { BookmarkSvg, LoginSvg, LogoutSvg } from '@components/svg';
+import Flex from '@components/flex/Flex';
+import { BookmarkIcon, LoginIcon, LogoutIcon } from '@components/icons';
 
-export type HeaderProps = {
-  className?: string;
-};
-
-const Header: React.FC<HeaderProps> = ({ className }) => {
+const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);
 
   const [isOpenDropDownBox, setIsOpenDropDownBox] = useState(false);
@@ -53,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const handleDropDownBoxClose = () => setIsOpenDropDownBox(false);
 
   return (
-    <S.Header className={className}>
+    <S.Header>
       <a href={PATH.MAIN}>
         <Logo />
       </a>
@@ -61,31 +59,43 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         <SearchBar onSubmit={handleKeywordSubmit} />
       </S.SearchBarContainer>
       {isLoggedIn ? (
-        <S.Nav>
-          <Link to={PATH.MY_STUDY}>
-            <NavButton ariaLabel="내 스터디">
-              <BookmarkSvg />
-              <span>내 스터디</span>
-            </NavButton>
-          </Link>
-          <S.AvatarContainer>
-            <S.AvatarButton onClick={handleAvatarButtonClick}>
-              <Avatar profileImg={userInfo.imageUrl} profileAlt={`${userInfo.username} 이미지`} />
-            </S.AvatarButton>
-            {isOpenDropDownBox && (
-              <DropDownBox top={'40px'} right={'0'} onClose={handleDropDownBoxClose} css={tw`p-16`}>
+        <nav>
+          <Flex gap="16px">
+            <Link to={PATH.MY_STUDY}>
+              <NavButton ariaLabel="내 스터디">
+                <BookmarkIcon />
+                <span>내 스터디</span>
+              </NavButton>
+            </Link>
+            <div css={tw`relative`}>
+              <IconButton
+                onClick={handleAvatarButtonClick}
+                width="38px"
+                height="38px"
+                ariaLabel={userInfo.username}
+                variant="secondary"
+              >
+                <Avatar src={userInfo.imageUrl} name={userInfo.username} />
+              </IconButton>
+              <DropDownBox
+                isOpen={isOpenDropDownBox}
+                top="40px"
+                right={0}
+                onClose={handleDropDownBoxClose}
+                padding="16px"
+              >
                 <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-                  <LogoutSvg />
+                  <LogoutIcon />
                   <span>로그아웃</span>
                 </NavButton>
               </DropDownBox>
-            )}
-          </S.AvatarContainer>
-        </S.Nav>
+            </div>
+          </Flex>
+        </nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
           <NavButton ariaLabel="로그인">
-            <LoginSvg />
+            <LoginIcon />
             <span>로그인</span>
           </NavButton>
         </a>

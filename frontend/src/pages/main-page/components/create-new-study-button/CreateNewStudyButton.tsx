@@ -1,16 +1,19 @@
-import { PencilSvg } from '@components/svg';
+import tw from '@utils/tw';
 
-import * as S from '@main-page/components/create-new-study-button/CreateNewStudyButton.style';
+import { IconButton } from '@components/button';
+import { PencilIcon } from '@components/icons';
 
-type CreateNewStudyButtonProps = {
+export type CreateNewStudyButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const CreateNewStudyButton = ({ onClick: handleClick }: CreateNewStudyButtonProps) => {
   return (
-    <S.CreateNewStudyButton onClick={handleClick} aria-label="스터디 개설 페이지 이동">
-      <PencilSvg />
-    </S.CreateNewStudyButton>
+    <div css={tw`fixed right-60 bottom-50 z-3`}>
+      <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" width="70px" height="70px">
+        <PencilIcon />
+      </IconButton>
+    </div>
   );
 };
 

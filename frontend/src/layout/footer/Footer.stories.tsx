@@ -4,7 +4,7 @@ import Footer from '@layout/footer/Footer';
 import type { FooterProps } from '@layout/footer/Footer';
 
 export default {
-  title: 'Components/Footer',
+  title: 'Layout/Footer',
   component: Footer,
 };
 

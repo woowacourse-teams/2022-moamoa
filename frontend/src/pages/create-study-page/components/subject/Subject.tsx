@@ -1,59 +1,61 @@
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import MetaBox from '@create-study-page/components/meta-box/MetaBox';
-import * as S from '@create-study-page/components/subject/Subject.style';
+import Label from '@components/label/Label';
+import MetaBox from '@components/meta-box/MetaBox';
+import MultiTagSelect, { type MultiTagSelectProps } from '@components/multi-tag-select/MultiTagSelect';
 
 export type SubjectProps = {
-  className?: string;
   originalSubjects?: StudyDetail['tags'];
 };
 
-const Subject: React.FC<SubjectProps> = ({ className, originalSubjects }) => {
+const SUBJECT = 'subject';
+
+const subjectsToOptions = (subjects: StudyDetail['tags']): MultiTagSelectProps['options'] => {
+  return subjects.map(({ id, description }) => ({
+    label: description,
+    value: id,
+  }));
+};
+
+const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
-  const { data, isLoading, isError } = useGetTags();
+  const { data, isLoading, isError, isSuccess } = useGetTags();
+
+  const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
 
   const render = () => {
     if (isLoading) return <div>loading...</div>;
 
-    if (isError) return <div>Error!</div>;
+    if (isError || !isSuccess) return <div>Error!</div>;
 
-    if (data?.tags) {
-      const { tags } = data;
-      const subjects = tags.filter(({ category }) => category.name === 'subject');
-      const etcTagId = subjects.find(tag => tag.name === 'Etc');
+    const { tags } = data;
+    if (tags.length === 0) return <div>선택 가능한 주제(태그)가 없습니다</div>;
 
-      return (
-        <S.Select
-          id="subject-list"
-          defaultValue={(originalSubjects && originalSubjects[0].id) || etcTagId?.id}
-          css={tw`w-full`}
-          {...register('subject')}
-        >
-          {subjects.map(({ id, description }) => (
-            <option key={id} value={id}>
-              {description}
-            </option>
-          ))}
-        </S.Select>
-      );
+    const subjects = tags.filter(({ category }) => category.name === SUBJECT);
+    const etcTag = subjects.find(tag => tag.name === 'Etc');
+    if (!etcTag) {
+      console.error('기타 태그의 name이 변경되었습니다');
+      alert('기타 태그의 name이 변경되었습니다');
+      return;
     }
+    const selectedOptions = originalOptions ? originalOptions : [{ value: etcTag.id, label: etcTag.description }];
+
+    const options = subjectsToOptions(subjects);
+
+    return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
   };
 
   return (
-    <S.Subject className={className}>
-      <MetaBox>
-        <MetaBox.Title>
-          <label htmlFor="subject-list">주제</label>
-        </MetaBox.Title>
-        <MetaBox.Content>{render()}</MetaBox.Content>
-      </MetaBox>
-    </S.Subject>
+    <MetaBox>
+      <MetaBox.Title>
+        <Label htmlFor={SUBJECT}>주제</Label>
+      </MetaBox.Title>
+      <MetaBox.Content>{render()}</MetaBox.Content>
+    </MetaBox>
   );
 };
 

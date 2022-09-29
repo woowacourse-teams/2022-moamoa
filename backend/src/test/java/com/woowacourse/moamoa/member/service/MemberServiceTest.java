@@ -41,12 +41,13 @@ class MemberServiceTest {
     @DisplayName("신규 사용자일 경우 사용자 정보를 저장한다.")
     @Test
     void saveMember() {
-        memberService.saveOrUpdate(new Member(5L, "sc0116", "https://image", "github.com"));
+        final MemberResponse memberResponse = memberService.saveOrUpdate(
+                new Member(5L, "sc0116", "https://image", "github.com"));
 
-        final MemberResponse member = memberService.getByGithubId(5L);
+        final MemberResponse member = memberService.getByMemberId(memberResponse.getId());
 
         assertAll(
-                () -> assertThat(member.getId()).isEqualTo(5L),
+                () -> assertThat(member.getId()).isEqualTo(memberResponse.getId()),
                 () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
                 () -> assertThat(member.getImageUrl()).isEqualTo("https://image"),
                 () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")
@@ -56,14 +57,15 @@ class MemberServiceTest {
     @DisplayName("기존 사용자일 경우 사용자 정보를 갱신한다.")
     @Test
     void updateMember() {
-        memberService.saveOrUpdate(new Member(1L, "sc0116", "jjanggu.image", "github.com"));
+        final MemberResponse memberResponse = memberService.saveOrUpdate(
+                new Member(1L, "sc0116", "jjanggu.image", "github.com"));
         entityManager.flush();
         entityManager.clear();
 
-        final MemberResponse member = memberService.getByGithubId(1L);
+        final MemberResponse member = memberService.getByMemberId(memberResponse.getId());
 
         assertAll(
-                () -> assertThat(member.getId()).isEqualTo(1L),
+                () -> assertThat(member.getId()).isEqualTo(memberResponse.getId()),
                 () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
                 () -> assertThat(member.getImageUrl()).isEqualTo("jjanggu.image"),
                 () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")

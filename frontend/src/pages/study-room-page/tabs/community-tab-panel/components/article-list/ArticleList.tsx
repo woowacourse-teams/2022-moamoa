@@ -5,8 +5,10 @@ import { PATH } from '@constants';
 
 import { useGetCommunityArticles } from '@api/community';
 
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+
 import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
-import * as S from '@study-room-page/tabs/community-tab-panel/components/article-list/ArticleList.style';
 
 import Pagination from '@community-tab/components/pagination/Pagination';
 
@@ -31,14 +33,17 @@ const ArticleList: React.FC = () => {
   }
 
   return (
-    <S.Container>
-      <S.ArticleList>
+    <Flex direction="column" rowGap="20px">
+      <ul>
         {articles.map(article => (
-          <Link key={article.id} to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
-            <ArticleListItem key={article.id} {...article}></ArticleListItem>
-          </Link>
+          <li key={article.id}>
+            <Link to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+              <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
+            </Link>
+            <Divider />
+          </li>
         ))}
-      </S.ArticleList>
+      </ul>
       <Pagination
         count={lastPage - 1}
         defaultPage={currentPage}
@@ -46,7 +51,7 @@ const ArticleList: React.FC = () => {
           setPage(num);
         }}
       />
-    </S.Container>
+    </Flex>
   );
 };
 

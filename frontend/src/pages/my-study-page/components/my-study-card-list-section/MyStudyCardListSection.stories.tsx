@@ -6,12 +6,8 @@ import MyStudyCardListSection from '@my-study-page/components/my-study-card-list
 import type { MyStudyCardListSectionProps } from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 
 export default {
-  title: 'Components/MyStudyCardListSection',
+  title: 'Pages/MyStudyPage/MyStudyCardListSection',
   component: MyStudyCardListSection,
-  argTypes: {
-    sectionTitle: { controls: 'text' },
-    myStudies: { controls: 'object' },
-  },
 };
 
 const Template: Story<MyStudyCardListSectionProps> = props => (
@@ -22,6 +18,7 @@ const Template: Story<MyStudyCardListSectionProps> = props => (
 
 export const Default = Template.bind({});
 Default.args = {
+  done: false,
   sectionTitle: '활동 중!',
   studies: [
     {

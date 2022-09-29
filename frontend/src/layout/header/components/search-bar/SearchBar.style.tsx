@@ -36,28 +36,3 @@ export const Input = styled.input`
     }
   `}
 `;
-
-export const Button = styled.button`
-  ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-
-    padding-right: 20px;
-    font-size: ${theme.fontSize.lg};
-
-    background: transparent;
-    border: none;
-
-    &:hover,
-    &:active {
-      svg {
-        stroke: ${theme.colors.primary.light};
-      }
-    }
-  `}
-`;

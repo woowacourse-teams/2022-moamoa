@@ -1,18 +1,35 @@
-import type { MakeOptional } from '@custom-types';
+import type { CssLength } from '@custom-types';
 
 import * as S from '@components/button-group/ButtonGroup.style';
 
 export type ButtonGroupProps = {
-  className?: string;
   children: React.ReactNode;
-  variation: 'flex-start' | 'flex-end';
+  width?: CssLength;
+  height?: CssLength;
+  orientation?: 'vertical' | 'horizontal';
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between';
+  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'space-between';
+  gap?: CssLength;
 };
 
-type OptionalButtonGroupProps = MakeOptional<ButtonGroupProps, 'variation'>;
-
-const ButtonGroup: React.FC<OptionalButtonGroupProps> = ({ className, children, variation = 'flex-end' }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
+  children,
+  width = '100%',
+  height = 'fit-content',
+  orientation = 'horizontal',
+  justifyContent,
+  alignItems,
+  gap = 0,
+}) => {
   return (
-    <S.ButtonGroup className={className} variation={variation}>
+    <S.ButtonGroup
+      width={width}
+      height={height}
+      orientation={orientation}
+      gap={gap}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+    >
       {children}
     </S.ButtonGroup>
   );

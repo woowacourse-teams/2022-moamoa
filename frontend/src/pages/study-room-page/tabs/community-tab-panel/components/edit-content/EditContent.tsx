@@ -2,22 +2,29 @@ import { useEffect, useState } from 'react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
+import tw from '@utils/tw';
+
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
+import { ToggleButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Label from '@components/label/Label';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import MetaBox from '@components/meta-box/MetaBox';
+import Textarea from '@components/textarea/Textarea';
 
-import * as S from '@community-tab/components/edit-content/EditContent.style';
-
-const EditContentTabIds = {
-  write: 'write',
-  preview: 'preview',
-};
-
-type TabIds = typeof EditContentTabIds[keyof typeof EditContentTabIds];
+type TabIds = typeof tabMode[keyof typeof tabMode];
 
 export type EditContentProps = {
   content: string;
 };
+
+const tabMode = {
+  write: 'write',
+  preview: 'preview',
+};
+
+const CONTENT = 'content';
 
 const EditContent: React.FC<EditContentProps> = ({ content }) => {
   const {
@@ -28,79 +35,82 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
 
   const [description, setDescription] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<TabIds>(EditContentTabIds.write);
+  const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
 
-  const isValid = !!errors['content']?.hasError;
+  const isValid = !errors[CONTENT]?.hasError;
 
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
   useEffect(() => {
-    const field = getField('content');
+    const field = getField(CONTENT);
     if (!field) return;
-    if (activeTab !== EditContentTabIds.preview) return;
+    if (activeTab !== tabMode.preview) return;
 
     const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
+  const renderTabContent = () => {
+    const isWriteTab = activeTab === tabMode.write;
+
+    return (
+      <>
+        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
+          <Label htmlFor={CONTENT} hidden>
+            소개글
+          </Label>
+          <Textarea
+            id={CONTENT}
+            placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+            invalid={!isValid}
+            defaultValue={content}
+            {...register(CONTENT, {
+              validate: (val: string) => {
+                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+                }
+                return makeValidationResult(false);
+              },
+              validationMode: 'change',
+              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+              required: true,
+            })}
+          ></Textarea>
+        </div>
+        <div css={isWriteTab && tw`hidden`}>
+          <MarkdownRender markdownContent={description} />
+        </div>
+      </>
+    );
+  };
+
   return (
-    <S.EditContent>
-      <S.TabListContainer>
-        <S.TabList>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === EditContentTabIds.write}
-              onClick={handleNavItemClick(EditContentTabIds.write)}
-            >
-              Write
-            </S.TabItemButton>
-          </S.Tab>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === EditContentTabIds.preview}
-              onClick={handleNavItemClick(EditContentTabIds.preview)}
-            >
-              Preview
-            </S.TabItemButton>
-          </S.Tab>
-        </S.TabList>
-      </S.TabListContainer>
-      <S.TabPanelsContainer>
-        <S.TabPanels>
-          <S.TabPanel isActive={activeTab === EditContentTabIds.write}>
-            <S.TabContent>
-              <S.Textarea
-                id="description"
-                placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-                isValid={isValid}
-                defaultValue={content}
-                {...register('content', {
-                  validate: (val: string) => {
-                    if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                      return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                    }
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-                  maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-                  required: true,
-                })}
-              ></S.Textarea>
-            </S.TabContent>
-          </S.TabPanel>
-          <S.TabPanel isActive={activeTab === EditContentTabIds.preview}>
-            <S.TabContent>
-              <MarkdownRender markdownContent={description} />
-            </S.TabContent>
-          </S.TabPanel>
-        </S.TabPanels>
-      </S.TabPanelsContainer>
-    </S.EditContent>
+    <MetaBox>
+      <MetaBox.Title>
+        <ButtonGroup gap="8px">
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === tabMode.write}
+            onClick={handleNavItemClick(tabMode.write)}
+          >
+            Write
+          </ToggleButton>
+          <ToggleButton
+            variant="secondary"
+            checked={activeTab === tabMode.preview}
+            onClick={handleNavItemClick(tabMode.preview)}
+          >
+            Preview
+          </ToggleButton>
+        </ButtonGroup>
+      </MetaBox.Title>
+      <MetaBox.Content>
+        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+      </MetaBox.Content>
+    </MetaBox>
   );
 };
 

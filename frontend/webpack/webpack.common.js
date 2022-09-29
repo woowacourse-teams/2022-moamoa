@@ -3,26 +3,25 @@ const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
-    filename: 'main.js',
+    filename: '[name]-[contenthash].js',
     path: join(__dirname, '../dist'),
     publicPath: '/',
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
         loader: 'esbuild-loader',
         options: {
           loader: 'tsx',
-          target: 'es2022',
+          target: 'esnext',
         },
       },
       {
@@ -50,6 +49,9 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: '../frontend/static', to: '../dist/static' }],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -84,8 +86,14 @@ module.exports = {
   optimization: {
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: 'es2020',
+        target: 'esnext',
       }),
     ],
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
   },
 };

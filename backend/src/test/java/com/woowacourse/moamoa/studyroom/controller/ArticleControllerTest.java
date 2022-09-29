@@ -69,7 +69,7 @@ class ArticleControllerTest {
         // arrange
         Member owner = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(owner.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
@@ -97,7 +97,7 @@ class ArticleControllerTest {
         // arrange
         Member owner = memberRepository.save(new Member(1L, "username", "imageUrl", "profileUrl"));
         Study study = studyService
-                .createStudy(owner.getGithubId(), javaStudyRequest.startDate(LocalDate.now()).build());
+                .createStudy(owner.getId(), javaStudyRequest.startDate(LocalDate.now()).build());
 
         ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 

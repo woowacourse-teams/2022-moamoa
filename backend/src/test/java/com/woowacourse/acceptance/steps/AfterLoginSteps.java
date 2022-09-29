@@ -25,7 +25,12 @@ import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립�
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립트_스터디_요약;
 import static com.woowacourse.acceptance.fixture.StudyFixtures.자바스크립트_스터디_제목;
 
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
+import io.restassured.RestAssured;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 public class AfterLoginSteps extends Steps {
 
@@ -83,5 +88,16 @@ public class AfterLoginSteps extends Steps {
 
     public StudyRelatedSteps 스터디에(final Long studyId) {
         return new StudyRelatedSteps(studyId, token);
+    }
+
+    public MemberResponse 정보를_가져온다() {
+        return RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, token)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .when().log().all()
+                .get("/api/members/me")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(MemberResponse.class);
     }
 }

@@ -126,8 +126,8 @@ CREATE TABLE notice
 
 CREATE TABLE token
 (
-    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    github_id     BIGINT NOT NULL UNIQUE,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    member_id BIGINT NOT NULL UNIQUE,
     refresh_token MEDIUMTEXT
 );
 
