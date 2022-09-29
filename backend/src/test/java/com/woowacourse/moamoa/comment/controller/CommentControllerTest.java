@@ -21,16 +21,15 @@ import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
 import com.woowacourse.moamoa.common.RepositoryTest;
-import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
-import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,9 +64,10 @@ class CommentControllerTest {
     @Autowired
     private EntityManager entityManager;
 
-    private CommentService commentService;
+    @Autowired
+    private ArticleRepositoryFactory articleRepositoryFactory;
 
-    private StudyService studyService;
+    private CommentService commentService;
 
     private CommentController sut;
 
@@ -84,8 +84,7 @@ class CommentControllerTest {
 
     @BeforeEach
     void setUp() {
-        studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        commentService = new CommentService(commentRepository, memberRepository, myStudyDao, commentDao);
+        commentService = new CommentService(commentRepository, memberRepository, articleRepositoryFactory, myStudyDao, commentDao);
         sut = new CommentController(commentService);
 
         짱구 = memberRepository.save(짱구());
@@ -140,13 +139,14 @@ class CommentControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
+
         assertThat(response.getBody().getComments())
                 .hasSize(2)
                 .filteredOn(it -> it.getId() != null)
-                .extracting("author.githubId", "content")
-                .contains(
-                        tuple(디우.getGithubId(), "댓글 내용2"),
-                        tuple(베루스.getGithubId(), "댓글 내용3")
+                .extracting("author.memberId", "content")
+                .containsExactlyInAnyOrder(
+                        tuple(디우.getId(), "댓글 내용2"),
+                        tuple(베루스.getId(), "댓글 내용3")
                 );
     }
 

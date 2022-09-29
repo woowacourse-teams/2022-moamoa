@@ -2,8 +2,11 @@ package com.woowacourse.moamoa.studyroom.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import com.woowacourse.moamoa.comment.domain.AssociatedCommunity;
+import com.woowacourse.moamoa.comment.domain.Author;
+import com.woowacourse.moamoa.comment.domain.Comment;
+import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
-import com.woowacourse.moamoa.member.service.exception.NotParticipatedMemberException;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,10 +33,18 @@ public abstract class Article extends BaseEntity {
     @JoinColumn(name = "study_id")
     private StudyRoom studyRoom;
 
-    public Article(final Long id, final Long authorId, StudyRoom studyRoom) {
+    Article(final Long id, final Long authorId, StudyRoom studyRoom) {
         this.id = id;
         this.authorId = authorId;
         this.studyRoom = studyRoom;
+    }
+
+    public Comment writeComment(final Accessor accessor, final String content) {
+        if (studyRoom.isPermittedAccessor(accessor)) {
+            return new Comment(new Author(accessor.getMemberId()), new AssociatedCommunity(id), content);
+        }
+
+        throw new UnwrittenCommentException();
     }
 
     protected final boolean isPermittedAccessor(final Accessor accessor) {

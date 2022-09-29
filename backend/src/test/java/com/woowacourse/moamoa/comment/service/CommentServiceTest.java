@@ -27,6 +27,7 @@ import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.studyroom.domain.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
 import java.util.Optional;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -59,6 +60,9 @@ class CommentServiceTest {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private ArticleRepositoryFactory articleRepositoryFactory;
+
     private StudyParticipantService studyService;
 
     private CommentService sut;
@@ -75,7 +79,7 @@ class CommentServiceTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyParticipantService(memberRepository, studyRepository);
-        sut = new CommentService(commentRepository, memberRepository, myStudyDao, commentDao);
+        sut = new CommentService(commentRepository, memberRepository, articleRepositoryFactory, myStudyDao, commentDao);
 
         짱구 = memberRepository.save(짱구());
         그린론 = memberRepository.save(그린론());
@@ -117,7 +121,7 @@ class CommentServiceTest {
         final Long communityId = 자바스크립트_스터디_게시판.getId();
         assertThatThrownBy(
                 () -> sut.writeComment(memberId, studyId, communityId, request)
-        ).isInstanceOf(IllegalArgumentException.class);
+        ).isInstanceOf(UnwrittenCommentException.class);
     }
 
     @DisplayName("내가 작성한 댓글은 수정할 수 있다.")

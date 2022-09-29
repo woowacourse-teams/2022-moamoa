@@ -96,11 +96,10 @@ class CommentDaoTest {
 
         // then
         assertThat(commentData).hasSize(2)
-                .extracting("id", "member.githubId", "content")
+                .extracting("id", "member.id", "content")
                 .contains(
-                        tuple(savedFirstComment.getId(), 그린론.getGithubId(), "댓글내용1"),
-                        tuple(savedSecondComment.getId(), 디우.getGithubId(), "댓글내용2")
+                        tuple(savedFirstComment.getId(), 그린론.getId(), "댓글내용1"),
+                        tuple(savedSecondComment.getId(), 디우.getId(), "댓글내용2")
                 );
     }
-
 }

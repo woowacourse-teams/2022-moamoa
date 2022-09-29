@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.comment.service;
 
+import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.moamoa.comment.domain.AssociatedCommunity;
 import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
@@ -17,6 +17,11 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.Article;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,16 +35,17 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+    private final ArticleRepositoryFactory articleRepositoryFactory;
     private final MyStudyDao myStudyDao;
     private final CommentDao commentDao;
 
     public Long writeComment(final Long memberId, final Long studyId, final Long communityId,
-                                        final CommentRequest request) {
-        final List<MyStudySummaryData> myStudies = myStudyDao.findMyStudyByMemberId(memberId);
-        validateAuthor(studyId, myStudies);
+                             final CommentRequest request) {
+        final ArticleRepository<Article> repository = articleRepositoryFactory.getRepository(COMMUNITY);
+        final Article article = repository.findById(communityId)
+                .orElseThrow(() -> new ArticleNotFoundException(communityId));
 
-        final Comment comment = new Comment(new Author(memberId), new AssociatedCommunity(communityId),
-                request.getContent());
+        final Comment comment = article.writeComment(new Accessor(memberId, studyId), request.getContent());
 
         final Comment savedComment = commentRepository.save(comment);
         return savedComment.getId();
@@ -52,7 +58,8 @@ public class CommentService {
         return CommentsResponse.from(comments);
     }
 
-    public void update(final Long memberId, final Long studyId, final Long commentId, final EditingCommentRequest editingCommentRequest) {
+    public void update(final Long memberId, final Long studyId, final Long commentId,
+                       final EditingCommentRequest editingCommentRequest) {
         final List<MyStudySummaryData> myStudies = myStudyDao.findMyStudyByMemberId(memberId);
         validateAuthor(studyId, myStudies);
 

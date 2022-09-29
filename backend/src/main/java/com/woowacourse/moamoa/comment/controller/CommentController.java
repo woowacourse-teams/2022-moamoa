@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.comment.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.comment.service.CommentService;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
@@ -29,7 +29,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<Void> createComment(@AuthenticatedMember final Long memberId,
+    public ResponseEntity<Void> createComment(@AuthenticatedMemberId final Long memberId,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long communityId,
                                               @Valid @RequestBody final CommentRequest request
@@ -53,7 +53,7 @@ public class CommentController {
 
     @PutMapping("/{comment-id}")
     public ResponseEntity<Void> updateComment(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("comment-id") final Long commentId,
             @Valid @RequestBody final EditingCommentRequest editingCommentRequest
@@ -64,7 +64,7 @@ public class CommentController {
 
     @DeleteMapping("/{comment-id}")
     public ResponseEntity<Void> deleteComment(
-            @AuthenticatedMember final Long memberId,
+            @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("comment-id") final Long commentId
     ) {

@@ -21,7 +21,7 @@ public class CommentDao {
         final long offset = pageable.getOffset();
         final int pageSize = pageable.getPageSize();
         String sql = "SELECT comment.id, comment.content, comment.created_date, comment.last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id, member.username, member.image_url, member.profile_url "
                 + "FROM comment JOIN member ON comment.member_id = member.id "
                 + "WHERE comment.community_id = :communityId "
                 + "ORDER BY comment.created_date DESC, comment.id DESC LIMIT :limit OFFSET :offset";
@@ -37,12 +37,12 @@ public class CommentDao {
             final LocalDate lastModifiedDate = rs.getObject("last_modified_date", LocalDate.class);
             final String content = rs.getString("content");
 
-            final Long githubId = rs.getLong("github_id");
+            final Long memberId = rs.getLong("member.id");
             final String username = rs.getString("username");
             final String imageUrl = rs.getString("image_url");
             final String profileUrl = rs.getString("profile_url");
 
-            return new CommentData(commentId, new MemberData(githubId, username, imageUrl, profileUrl),
+            return new CommentData(commentId, new MemberData(memberId, username, imageUrl, profileUrl),
                     createdDate, lastModifiedDate, content);
         };
     }
