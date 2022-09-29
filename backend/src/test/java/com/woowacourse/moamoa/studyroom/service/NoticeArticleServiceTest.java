@@ -163,7 +163,7 @@ class NoticeArticleServiceTest {
         assertThat(deletedArticle.isDeleted()).isTrue();
     }
 
-    @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
+    @DisplayName("존재하지 않는 게시글을 삭제할 수 없다.")
     @Test
     void deleteByInvalidLinkId() {
         final Member 짱구 = saveMember(짱구());
@@ -173,7 +173,7 @@ class NoticeArticleServiceTest {
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
-    @DisplayName("스터디에 참여하지 않은 경우 링크 공유글을 삭제할 수 없다.")
+    @DisplayName("스터디에 참여하지 않은 경우 게시글을 삭제할 수 없다.")
     @Test
     void deleteByNotParticipatedMember() {
         final Member 짱구 = saveMember(짱구());

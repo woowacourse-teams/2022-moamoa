@@ -18,27 +18,31 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class NoticeContentTest {
 
+    private static final long OWNER_ID = 1L;
+    private static final long PARTICIPANT_ID = 2L;
+    private static final long STUDY_ID = 1L;
+
     @DisplayName("방장은 공지글을 작성할 수 있다.")
     @Test
     void writeNoticeArticleByOwner() {
         // arrange
-        final Member owner = createMember(1L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner);
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
         final NoticeContent sut = new NoticeContent("제목", "내용");
 
         // act & assert
-        assertThatCode(() -> sut.createArticle(studyRoom, new Accessor(1L, 1L)))
+        assertThatCode(() -> sut.createArticle(studyRoom, new Accessor(OWNER_ID, STUDY_ID)))
                 .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
     @DisplayName("방장 외에는 공지글을 작성할 수 없다.")
-    @MethodSource("provideNonAccessibleAccessorForNoticeArticle")
+    @MethodSource("provideForbiddenAccessorForNoticeArticle")
     void cantWriteNoticeArticleByNonOwner(final Accessor accessor) {
         // arrange
-        final Member owner = createMember(1L);
-        final Member participant = createMember(2L);
-        final StudyRoom studyRoom = createStudyRoom(1L, owner, participant);
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
         final NoticeContent sut = new NoticeContent("제목", "내용");
 
         // act && assert
@@ -46,18 +50,22 @@ class NoticeContentTest {
                 .isInstanceOf(UneditableArticleException.class);
     }
 
-    private static Stream<Arguments> provideNonAccessibleAccessorForNoticeArticle() {
+    private static Stream<Arguments> provideForbiddenAccessorForNoticeArticle() {
+        final long otherMemberId = Math.max(OWNER_ID, PARTICIPANT_ID) + 1;
+        final long otherStudyId = STUDY_ID + 1;
+
         return Stream.of(
-                Arguments.of(new Accessor(1L, 2L)), // studyId가 잘못된 경우
-                Arguments.of(new Accessor(2L, 1L)) // 방장 외에 참여자인 경우
+                Arguments.of(new Accessor(OWNER_ID, otherStudyId)), // studyId가 잘못된 경우
+                Arguments.of(new Accessor(PARTICIPANT_ID, STUDY_ID)),
+                Arguments.of(new Accessor(otherMemberId, STUDY_ID))
         );
     }
 
-    private StudyRoom createStudyRoom(long studyId, Member owner, Member... participant) {
+    private StudyRoom createStudyRoom(Member owner, Member... participant) {
         final Set<Long> participants = Stream.of(participant)
                 .map(Member::getId)
                 .collect(Collectors.toSet());
-        return new StudyRoom(studyId, owner.getId(), participants);
+        return new StudyRoom(STUDY_ID, owner.getId(), participants);
     }
 
     private Member createMember(final long id) {
