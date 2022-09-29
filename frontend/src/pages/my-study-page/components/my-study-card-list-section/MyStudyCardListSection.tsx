@@ -13,6 +13,8 @@ import type { MyStudy } from '@custom-types';
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';
 
+import { useUserInfo } from '@hooks/useUserInfo';
+
 import LinkedButton from '@components/button/linked-button/LinkedButton';
 import SectionTitle from '@components/section-title/SectionTitle';
 
@@ -27,11 +29,17 @@ export type MyStudyCardListSectionProps = {
 const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ sectionTitle, studies, done = false }) => {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteMyStudy();
+  const { userInfo } = useUserInfo();
 
   const handleTrashButtonClick =
-    ({ title, id }: Pick<MyStudy, 'title' | 'id'>) =>
+    ({ title, id, owner }: Pick<MyStudy, 'title' | 'id' | 'owner'>) =>
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
+
+      if (userInfo.id === owner.id) {
+        alert('스터디장은 스터디를 탈퇴할 수 없습니다.');
+        return;
+      }
 
       if (!confirm(`정말 '${title}'을(를) 탈퇴하실 건가요? :(`)) return;
 

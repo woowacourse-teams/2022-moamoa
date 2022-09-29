@@ -10,6 +10,11 @@ import { applyHoverTransitionStyle, theme } from '@styles/theme';
 import Flex from '@components/flex/Flex';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
+<<<<<<< HEAD
+=======
+import * as S from '@community-tab/components/article-list-item/ArticleListItem.style';
+
+>>>>>>> develop
 export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 
 const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, createdDate }) => {

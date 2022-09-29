@@ -17,16 +17,20 @@ const SideMenu: React.FC<SideMenuProps> = ({ activeTabId, tabs, onTabButtonClick
     <>
       <Sidebar>
         {tabs.map(({ id, name }) => (
-          <TabButton key={id} onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
-            {name}
-          </TabButton>
+          <Link key={id} to={id}>
+            <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
+              {name}
+            </TabButton>
+          </Link>
         ))}
       </Sidebar>
       <Bottombar>
         {tabs.map(({ id, name }) => (
-          <TabButton key={id} onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
-            {name}
-          </TabButton>
+          <Link key={id} to={id}>
+            <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
+              {name}
+            </TabButton>
+          </Link>
         ))}
       </Bottombar>
     </>

@@ -10,7 +10,7 @@ export const QK_STUDY_DETAIL = 'study-detail';
 export type ApiStudy = {
   get: {
     params: {
-      studyId: number;
+      studyId: StudyId;
     };
     responseData: StudyDetail;
     variables: ApiStudy['get']['params'];

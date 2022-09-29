@@ -1,22 +1,25 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { PATH } from '@constants';
+
+import type { StudyId } from '@custom-types';
 
 import { useGetCommunityArticles } from '@api/community';
 
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
 
-import ArticleListItem from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem';
-
+import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
 import Pagination from '@community-tab/components/pagination/Pagination';
 
-const ArticleList: React.FC = () => {
-  const { studyId } = useParams<{ studyId: string }>();
-  const numStudyId = Number(studyId);
+export type ArticleListProps = {
+  studyId: StudyId;
+};
+
+const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
   const [page, setPage] = useState<number>(1);
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticles(numStudyId, page);
+  const { isFetching, isSuccess, isError, data } = useGetCommunityArticles({ studyId, page });
 
   if (isFetching) {
     return <div>Loading...</div>;
@@ -37,7 +40,7 @@ const ArticleList: React.FC = () => {
       <ul>
         {articles.map(article => (
           <li key={article.id}>
-            <Link to={PATH.COMMUNITY_ARTICLE(studyId, article.id)}>
+            <Link to={PATH.COMMUNITY_ARTICLE(article.id)}>
               <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
             </Link>
             <Divider />

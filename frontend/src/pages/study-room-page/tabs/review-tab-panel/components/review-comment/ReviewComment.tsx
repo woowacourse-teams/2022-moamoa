@@ -13,8 +13,8 @@ import Flex from '@components/flex/Flex';
 import { KebabMenuIcon } from '@components/icons';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
-import useReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/useReviewComment';
-import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
+import useReviewComment from '@review-tab/components/review-comment/useReviewComment';
+import ReviewEditForm from '@review-tab/components/review-edit-form/ReviewEditForm';
 
 export type ReviewCommentProps = {
   id: ReviewId;
