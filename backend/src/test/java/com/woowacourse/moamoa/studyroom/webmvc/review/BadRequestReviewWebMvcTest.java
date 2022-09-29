@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class BadRequestReviewWebMvcTest extends WebMVCTest {
     @Test
     void requestByBlankContent() throws Exception {
         final String token = "Bearer " + tokenProvider.createToken(1L).getAccessToken();
-        final String content = objectMapper.writeValueAsString(new WriteReviewRequest(""));
+        final String content = objectMapper.writeValueAsString(new ReviewRequest(""));
 
         mockMvc.perform(post("/api/studies/1/reviews")
                         .header(HttpHeaders.AUTHORIZATION, token)

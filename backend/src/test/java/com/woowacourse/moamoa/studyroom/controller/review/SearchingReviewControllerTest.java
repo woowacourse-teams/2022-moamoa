@@ -27,7 +27,7 @@ import com.woowacourse.moamoa.studyroom.query.ReviewDao;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
 import com.woowacourse.moamoa.studyroom.service.SearchingReviewService;
 import com.woowacourse.moamoa.studyroom.service.request.review.SizeRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.response.review.ReviewResponse;
 import com.woowacourse.moamoa.studyroom.service.response.review.ReviewsResponse;
 import com.woowacourse.moamoa.studyroom.service.response.review.WriterResponse;
@@ -97,14 +97,14 @@ class SearchingReviewControllerTest {
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
 
         final Long javaReviewId1 = reviewService
-                .writeReview(짱구_아이디, javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
+                .writeReview(짱구_아이디, javaStudy.getId(), new ReviewRequest("리뷰 내용1"));
         final Long javaReviewId2 = reviewService
-                .writeReview(그린론_아이디, javaStudy.getId(), new WriteReviewRequest("리뷰 내용2"));
+                .writeReview(그린론_아이디, javaStudy.getId(), new ReviewRequest("리뷰 내용2"));
         final Long javaReviewId3 = reviewService
-                .writeReview(디우_아이디, javaStudy.getId(), new WriteReviewRequest("리뷰 내용3"));
+                .writeReview(디우_아이디, javaStudy.getId(), new ReviewRequest("리뷰 내용3"));
         final Long javaReviewId4 = reviewService
-                .writeReview(베루스_아이디, javaStudy.getId(), new WriteReviewRequest("리뷰 내용4"));
-        reviewService.writeReview(짱구_아이디, reactStudy.getId(), new WriteReviewRequest("리뷰 내용5"));
+                .writeReview(베루스_아이디, javaStudy.getId(), new ReviewRequest("리뷰 내용4"));
+        reviewService.writeReview(짱구_아이디, reactStudy.getId(), new ReviewRequest("리뷰 내용5"));
 
         final ReviewResponse 리뷰_내용1 = new ReviewResponse(javaReviewId1, new WriterResponse(짱구_응답(짱구_아이디)),
                 LocalDate.now(),

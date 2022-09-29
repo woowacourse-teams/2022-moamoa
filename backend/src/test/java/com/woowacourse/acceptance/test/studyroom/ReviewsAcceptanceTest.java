@@ -24,8 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.response.review.ReviewResponse;
 import com.woowacourse.moamoa.studyroom.service.response.review.ReviewsResponse;
 import com.woowacourse.moamoa.studyroom.service.response.review.WriterResponse;
@@ -49,7 +48,7 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
         long 자바_스터디 = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         final String token = 짱구가().로그인한다();
 
-        final WriteReviewRequest writeReviewRequest = new WriteReviewRequest("짱구의 스터디 리뷰입니다.");
+        final ReviewRequest reviewRequest = new ReviewRequest("짱구의 스터디 리뷰입니다.");
 
         // act & assert
         RestAssured.given(spec).log().all()
@@ -57,7 +56,7 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디)
-                .body(writeReviewRequest)
+                .body(reviewRequest)
                 .filter(document("reviews/create"))
                 .when().log().all()
                 .post("/api/studies/{study-id}/reviews")
@@ -206,7 +205,7 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
         long 짱구_리뷰_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
         String token = 짱구가().로그인한다();
 
-        EditingReviewRequest request = new EditingReviewRequest("수정 리뷰");
+        ReviewRequest request = new ReviewRequest("수정 리뷰");
 
         // act
         RestAssured.given(spec).log().all()

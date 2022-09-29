@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class WriteReviewRequest {
+public class ReviewRequest {
 
     @NotBlank(message = "내용을 입력해 주세요.")
     private String content;

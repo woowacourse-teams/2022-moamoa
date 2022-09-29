@@ -8,18 +8,17 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.service.ReviewService;
-import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
-import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.controller.ReviewController;
+import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
+import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
+import com.woowacourse.moamoa.studyroom.service.ReviewService;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +79,7 @@ class ReviewControllerTest {
         ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
 
         짱구_리뷰 = reviewService
-                .writeReview(짱구.getId(), javaStudy.getId(), new WriteReviewRequest("리뷰 내용1"));
+                .writeReview(짱구.getId(), javaStudy.getId(), new ReviewRequest("리뷰 내용1"));
 
         entityManager.flush();
         entityManager.clear();
@@ -89,7 +88,7 @@ class ReviewControllerTest {
     @DisplayName("내가 작성하지 않은 리뷰를 수정할 수 없다.")
     @Test
     void notUpdate() {
-        final EditingReviewRequest request = new EditingReviewRequest("수정한 리뷰 내용입니다.");
+        final ReviewRequest request = new ReviewRequest("수정한 리뷰 내용입니다.");
         final Long memberId = 그린론.getId();
 
         assertThatThrownBy(() -> sut.updateReview(memberId, 자바_스터디_아이디, 짱구_리뷰, request))

@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class UnauthorizedReviewWebMvcTest extends WebMVCTest {
     @Test
     void requestByInvalidToken() throws Exception {
         final String invalidToken = "JJANGGUInvalidToken";
-        final String content = objectMapper.writeValueAsString(new WriteReviewRequest("짱구"));
+        final String content = objectMapper.writeValueAsString(new ReviewRequest("짱구"));
 
         mockMvc.perform(post("/api/studies/1/reviews")
                         .header(HttpHeaders.AUTHORIZATION, invalidToken)

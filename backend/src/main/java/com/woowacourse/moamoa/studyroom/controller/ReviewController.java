@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.studyroom.service.ReviewService;
-import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.studyroom.service.ReviewService;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +26,9 @@ public class ReviewController {
     public ResponseEntity<Void> writeReview(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
-            @Valid @RequestBody final WriteReviewRequest writeReviewRequest
+            @Valid @RequestBody final ReviewRequest reviewRequest
     ) {
-        final Long id = reviewService.writeReview(memberId, studyId, writeReviewRequest);
+        final Long id = reviewService.writeReview(memberId, studyId, reviewRequest);
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reviews/" + id)).build();
     }
 
@@ -38,9 +37,9 @@ public class ReviewController {
             @AuthenticatedMemberId final Long memberId,
             @PathVariable(name = "study-id") final Long studyId,
             @PathVariable(name = "review-id") final Long reviewId,
-            @Valid @RequestBody final EditingReviewRequest editingReviewRequest
+            @Valid @RequestBody final ReviewRequest reviewRequest
     ) {
-        reviewService.updateReview(memberId, studyId, reviewId, editingReviewRequest);
+        reviewService.updateReview(memberId, studyId, reviewId, reviewRequest);
         return ResponseEntity.noContent().build();
     }
 

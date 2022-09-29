@@ -9,8 +9,7 @@ import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepositor
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
 import com.woowacourse.moamoa.studyroom.service.exception.review.ReviewNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.request.review.EditingReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +23,14 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StudyRoomRepository studyRoomRepository;
 
-    public Long writeReview(final Long memberId, final Long studyId, final WriteReviewRequest writeReviewRequest) {
+    public Long writeReview(final Long memberId, final Long studyId, final ReviewRequest reviewRequest) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         final Accessor accessor = new Accessor(memberId, studyId);
-        final Review review = studyRoom.writeReview(accessor, writeReviewRequest.getContent());
+        final Review review = studyRoom.writeReview(accessor, reviewRequest.getContent());
 
         return reviewRepository.save(review).getId();
     }
@@ -40,7 +39,7 @@ public class ReviewService {
             final Long memberId,
             final Long studyId,
             final Long reviewId,
-            final EditingReviewRequest editingReviewRequest
+            final ReviewRequest reviewRequest
     ) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -49,7 +48,7 @@ public class ReviewService {
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
-        review.updateContent(new Accessor(memberId, studyId), editingReviewRequest.getContent());
+        review.updateContent(new Accessor(memberId, studyId), reviewRequest.getContent());
     }
 
     public void deleteReview(final Long memberId, final Long studyId, final Long reviewId) {

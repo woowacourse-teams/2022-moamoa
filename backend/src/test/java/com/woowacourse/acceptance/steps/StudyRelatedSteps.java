@@ -5,7 +5,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.WriteReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +40,7 @@ public class StudyRelatedSteps extends Steps {
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .pathParams("study-id", studyId)
-                    .body(objectMapper.writeValueAsString(new WriteReviewRequest(content)))
+                    .body(objectMapper.writeValueAsString(new ReviewRequest(content)))
                     .when().post("/api/studies/{study-id}/reviews")
                     .then().log().all()
                     .statusCode(HttpStatus.CREATED.value())
