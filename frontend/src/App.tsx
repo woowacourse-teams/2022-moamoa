@@ -1,13 +1,4 @@
-import {
-  CreateStudyPage,
-  DetailPage,
-  EditStudyPage,
-  ErrorPage,
-  LoginRedirectPage,
-  MainPage,
-  MyStudyPage,
-  StudyRoomPage,
-} from '@pages';
+import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -19,21 +10,17 @@ import { Footer, Header, Main } from '@layout';
 import RouteWithCondition from '@components/route-with-condition/RouteWithCondition';
 
 const CreateStudyPage = lazy(
-  () => import(/* webpackChunkName: "create-study-page" */ '@pages/create-study-page/CreateStudyPage'),
+  () => import(/* webpackChunkName: "create-study-page" */ '@create-study-page/CreateStudyPage'),
 );
-const EditStudyPage = lazy(
-  () => import(/* webpackChunkName: "create-study-page" */ '@pages/edit-study-page/EditStudyPage'),
-);
-const DetailPage = lazy(() => import(/* webpackChunkName: "detail-page" */ '@pages/detail-page/DetailPage'));
-const ErrorPage = lazy(() => import(/* webpackChunkName: "error-page" */ '@pages/error-page/ErrorPage'));
+const EditStudyPage = lazy(() => import(/* webpackChunkName: "create-study-page" */ '@edit-study-page/EditStudyPage'));
+const DetailPage = lazy(() => import(/* webpackChunkName: "detail-page" */ '@detail-page/DetailPage'));
+const ErrorPage = lazy(() => import(/* webpackChunkName: "error-page" */ '@error-page/ErrorPage'));
 const LoginRedirectPage = lazy(
-  () => import(/* webpackChunkName: "login-redirect-page" */ '@pages/login-redirect-page/LoginRedirectPage'),
+  () => import(/* webpackChunkName: "login-redirect-page" */ '@login-redirect-page/LoginRedirectPage'),
 );
-const MainPage = lazy(() => import(/* webpackChunkName: "main-page" */ '@pages/main-page/MainPage'));
-const MyStudyPage = lazy(() => import(/* webpackChunkName: "my-study-page" */ '@pages/my-study-page/MyStudyPage'));
-const StudyRoomPage = lazy(
-  () => import(/* webpackChunkName: "study-room-page" */ '@pages/study-room-page/StudyRoomPage'),
-);
+const MainPage = lazy(() => import(/* webpackChunkName: "main-page" */ '@main-page/MainPage'));
+const MyStudyPage = lazy(() => import(/* webpackChunkName: "my-study-page" */ '@my-study-page/MyStudyPage'));
+const StudyRoomPage = lazy(() => import(/* webpackChunkName: "study-room-page" */ '@study-room-page/StudyRoomPage'));
 const NoticeTabPanel = lazy(() => import(/* webpackChunkName: "notice-tab-panel" */ '@notice-tab/NoticeTabPanel'));
 const CommunityTabPanel = lazy(
   () => import(/* webpackChunkName: "community-tab-panel" */ '@community-tab/CommunityTabPanel'),
