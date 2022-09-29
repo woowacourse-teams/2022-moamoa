@@ -1,7 +1,7 @@
 import type { Story } from '@storybook/react';
 
-import type { ReviewFormProps } from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
-import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
+import type { ReviewFormProps } from '@review-tab/components/reivew-form/ReviewForm';
+import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
 
 export default {
   title: 'Pages/StudyRoomPage/ReviewForm',

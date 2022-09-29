@@ -26,7 +26,7 @@ export const Sidebar = styled.nav`
 export const Bottombar = styled.nav`
   ${({ theme }) => css`
     display: flex;
-    align-items: space-between;
+    justify-content: space-between;
     column-gap: 16px;
 
     position: fixed;

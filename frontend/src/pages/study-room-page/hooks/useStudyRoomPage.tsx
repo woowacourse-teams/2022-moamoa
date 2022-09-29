@@ -1,43 +1,42 @@
-import NoticeTabPanel from '@notice-tab/NoticeTabPanel';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+
+import { PATH } from '@constants';
 
 import { useGetUserRole } from '@api/member';
 
-import CommunityTabPanel from '@study-room-page/tabs/community-tab-panel/CommunityTabPanel';
-import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
-import ReviewTabPanel from '@study-room-page/tabs/review-tab-panel/ReviewTabPanel';
-
-export type TabId = 'notice' | 'community' | 'link-room' | 'review';
-
-export type Tab = { id: TabId; name: string; content: React.ReactNode };
-
+export type TabId = typeof PATH[keyof Pick<typeof PATH, 'NOTICE' | 'COMMUNITY' | 'LINK' | 'REVIEW'>];
+export type Tab = { id: TabId; name: string };
 export type Tabs = Array<Tab>;
 
 const useStudyRoomPage = () => {
-  const { studyId: _studyId } = useParams() as { studyId: string };
+  const location = useLocation();
+
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
 
-  const userRoleQueryResult = useGetUserRole({ studyId: Number(studyId) });
+  const userRoleQueryResult = useGetUserRole({ studyId });
 
   const tabs: Tabs = [
-    { id: 'notice', name: '공지사항', content: <NoticeTabPanel studyId={studyId} /> },
-    { id: 'community', name: '게시판', content: <CommunityTabPanel studyId={studyId} /> },
-    { id: 'link-room', name: '링크 모음', content: <LinkRoomTabPanel /> },
-    { id: 'review', name: '후기', content: <ReviewTabPanel studyId={studyId} /> },
+    { id: PATH.NOTICE, name: '공지사항' },
+    { id: PATH.COMMUNITY, name: '게시판' },
+    { id: PATH.LINK, name: '링크 모음' },
+    { id: PATH.REVIEW, name: '후기' },
   ];
+  const tabIds = tabs.map(tab => tab.id);
 
-  const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
-
-  const activeTab = tabs.find(({ id }) => id === activeTabId) as Tab;
+  const paths = location.pathname.split('/');
+  const initialSelectedTabId = tabIds.find(tabId => paths.includes(tabId)) ?? tabs[0].id;
+  const [activeTabId, setActiveTabId] = useState<TabId>(initialSelectedTabId);
 
   const handleTabButtonClick = (id: TabId) => () => {
     setActiveTabId(id);
   };
 
   return {
+    studyId,
     tabs,
-    activeTab,
+    activeTabId,
     userRoleQueryResult,
     handleTabButtonClick,
   };

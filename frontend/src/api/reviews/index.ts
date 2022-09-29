@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import type { StudyReview } from '@custom-types';
+import type { Size, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -10,8 +10,8 @@ export const QK_STUDY_REVIEWS = 'study-reviews';
 export type ApiReviews = {
   get: {
     params: {
-      studyId: number;
-      size?: number;
+      studyId: StudyId;
+      size?: Size;
     };
     responseData: {
       reviews: Array<StudyReview>;

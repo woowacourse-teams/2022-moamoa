@@ -96,7 +96,7 @@ const Header: React.FC = () => {
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
           <NavButton ariaLabel="로그인">
             <LoginIcon />
-            <span>로그인</span>
+            <span>Github 로그인</span>
           </NavButton>
         </a>
       )}

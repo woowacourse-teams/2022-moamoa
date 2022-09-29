@@ -26,6 +26,7 @@ export type CategoryId = number;
 export type LinkId = number;
 export type Page = number;
 export type Size = number;
+export type ArticleId = number;
 
 export type SitePage = 'home' | 'studyroom';
 
@@ -126,3 +127,24 @@ export type NoticeArticle = {
 };
 
 export type NoticeArticleMode = 'publish' | 'edit';
+
+// api
+export type GetMethod<Params, ResponseData> = {
+  variables: Params;
+  responseData: ResponseData;
+};
+
+export type PostMethod<Params, Body, ResponseData> = {
+  variables: Params & Body;
+  responseData: ResponseData;
+};
+
+export type PutMethod<Params, Body> = {
+  variables: Params & Body;
+  responseData: null;
+};
+
+export type DeleteMethod<Params> = {
+  variables: Params;
+  responseData: null;
+};

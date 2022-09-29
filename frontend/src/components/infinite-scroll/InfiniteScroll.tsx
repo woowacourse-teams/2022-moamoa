@@ -4,21 +4,21 @@ import type { Noop } from '@custom-types';
 
 type InfiniteScrollProps = {
   onContentLoad: Noop;
-  observingCondition: boolean;
+  isContentLoading: boolean;
   children: React.ReactNode;
 };
 
 const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   onContentLoad: handleContentLoad,
-  observingCondition,
+  isContentLoading,
   children,
 }) => {
-  const endRef = useRef<HTMLDivElement>(null);
+  const endOfContentRef = useRef<HTMLDivElement>(null);
 
   const endOfContentObserver = useMemo(
     () =>
-      new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
           handleContentLoad();
         }
       }),
@@ -26,18 +26,21 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   );
 
   useEffect(() => {
-    if (!endRef.current) return;
-    if (observingCondition) {
-      endOfContentObserver.observe(endRef.current);
+    if (!endOfContentRef.current) return;
+
+    if (!isContentLoading) {
+      // 콘텐트 로딩이 끝나면 타겟을 다시 observe -> 뷰포트 내부에 타겟이 존재하면 콘텐트 추가 로드
+      endOfContentObserver.observe(endOfContentRef.current);
       return;
     }
-    endOfContentObserver.unobserve(endRef.current);
-  }, [observingCondition, endRef.current]);
+
+    return () => endOfContentObserver.disconnect();
+  }, [isContentLoading, endOfContentRef.current]);
 
   return (
     <>
       {children}
-      <div ref={endRef} />
+      <div ref={endOfContentRef} />
     </>
   );
 };
