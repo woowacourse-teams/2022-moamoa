@@ -29,8 +29,7 @@ public class AuthController {
 
     @PostMapping("/api/auth/login")
     public ResponseEntity<AccessTokenResponse> login(@RequestParam final String code) {
-        final String accessToken = oAuthClient.getAccessToken(code);
-        final GithubProfileResponse profile = oAuthClient.getProfile(accessToken);
+        final GithubProfileResponse profile = oAuthClient.getProfile(code);
         final TokensResponse tokenResponse = authService.createToken(profile);
 
         final AccessTokenResponse response = new AccessTokenResponse(tokenResponse.getAccessToken(), authService.getExpireTime());

@@ -29,9 +29,7 @@ class AuthControllerTest extends WebMVCTest {
         final GithubProfileResponse dwoo = new GithubProfileResponse(1L, "dwoo", "http://imageUrl",
                 "http://profileUrl");
 
-        given(oAuthClient.getAccessToken("Authorization code"))
-                .willReturn("AccessToken");
-        given(oAuthClient.getProfile("AccessToken"))
+        given(oAuthClient.getProfile("Authorization code"))
                 .willReturn(dwoo);
         given(authService.createToken(dwoo))
                 .willReturn(new TokensResponse("jwt token", "refreshtoken"));
