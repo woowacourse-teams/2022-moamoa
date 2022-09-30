@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.auth.service;
 
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
-import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import com.woowacourse.moamoa.auth.service.response.TokenResponse;
@@ -19,14 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final MemberService memberService;
-    private final TokenProvider tokenProvider;
-    private final OAuthClient oAuthClient;
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
 
     @Transactional
-    public AccessTokenResponse createToken(final String code) {
-        final String accessToken = oAuthClient.getAccessToken(code);
-        final GithubProfileResponse githubProfileResponse = oAuthClient.getProfile(accessToken);
+    public AccessTokenResponse createToken(final GithubProfileResponse githubProfileResponse) {
         final MemberResponse memberResponse = memberService.saveOrUpdate(githubProfileResponse.toMember());
         final Long memberId = memberResponse.getId();
 

@@ -46,10 +46,11 @@ class OAuthClientTest {
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
 
-    @DisplayName("Authorization code를 받아서 access token을 발급한다.")
+    @DisplayName("token을 받아서 사용자 프로필을 조회한다.")
     @Test
-    void getAccessToken() throws JsonProcessingException {
+    void getProfile() throws JsonProcessingException {
         final Map<String, String> accessTokenResponse = Map.of("access_token", "access-token", "token_type", "bearer", "scope", "");
+        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "sc0116", "https://image", "github.com");
 
         mockServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                 .andExpect(method(HttpMethod.POST))
@@ -57,25 +58,13 @@ class OAuthClientTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(objectMapper.writeValueAsString(accessTokenResponse)));
 
-        final String accessToken = oAuthClient.getAccessToken("code");
-
-        mockServer.verify();
-
-        assertThat(accessTokenResponse).containsEntry("access_token", accessToken);
-    }
-
-    @DisplayName("token을 받아서 사용자 프로필을 조회한다.")
-    @Test
-    void getProfile() throws JsonProcessingException {
-        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "sc0116", "https://image", "github.com");
-
         mockServer.expect(requestTo("https://api.github.com/user"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(objectMapper.writeValueAsString(profileResponse)));
 
-        final GithubProfileResponse response = oAuthClient.getProfile("token");
+        final GithubProfileResponse response = oAuthClient.getProfile("code");
 
         mockServer.verify();
 
