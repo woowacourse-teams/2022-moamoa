@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
-import com.woowacourse.moamoa.auth.service.response.TokensResponse;
 import com.woowacourse.moamoa.auth.service.AuthService;
+import com.woowacourse.moamoa.auth.service.response.AccessTokenResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,7 +32,7 @@ class AuthControllerTest extends WebMVCTest {
         given(oAuthClient.getProfile("Authorization code"))
                 .willReturn(dwoo);
         given(authService.createToken(dwoo))
-                .willReturn(new TokensResponse("jwt token", "refreshtoken"));
+                .willReturn(new AccessTokenResponse("jwt token", 10L));
 
         mockMvc.perform(post("/api/auth/login?code=Authorization code"))
                 .andExpect(status().isOk())
