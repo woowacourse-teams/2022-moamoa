@@ -3,9 +3,9 @@ import { useRef } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
-
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
+
+import { mqDown } from '@styles/responsive';
 
 import { useGetTags } from '@api/tags';
 

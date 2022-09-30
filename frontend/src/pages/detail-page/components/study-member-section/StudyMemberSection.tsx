@@ -4,11 +4,12 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
-import { changeDateSeperator, mqDown } from '@utils';
+import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
 
 import type { StudyDetail } from '@custom-types';
 
+import { mqDown } from '@styles/responsive';
 import { theme } from '@styles/theme';
 
 import { CrownIcon } from '@components/icons';

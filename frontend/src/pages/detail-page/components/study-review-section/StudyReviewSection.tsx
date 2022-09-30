@@ -4,9 +4,9 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
-import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
+import { mqDown } from '@styles/responsive';
 import { theme } from '@styles/theme';
 
 import { useGetStudyReviews } from '@api/reviews';

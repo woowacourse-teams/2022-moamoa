@@ -3,10 +3,8 @@ import React from 'react';
 
 import { css } from '@emotion/react';
 
-import { BreakpointsFor } from '@utils/media-query';
-
-import getResponsiveStyle from '@styles/getResponsiveStyle';
 import parseStyle from '@styles/parseStyle';
+import { type BreakpointsFor } from '@styles/responsive';
 
 export type CSSProperty = keyof CSS.StandardProperties;
 
@@ -69,7 +67,6 @@ const Flex: React.FC<FlexBoxProps> = ({
       maxWidth,
       maxHeight,
     })};
-    ${getResponsiveStyle(responsiveObjs)};
   `;
 
   return <div css={style}>{children}</div>;

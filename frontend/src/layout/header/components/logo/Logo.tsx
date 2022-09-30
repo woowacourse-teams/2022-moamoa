@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import logoImage from '@assets/images/logo.png';
 
-import { mqDown } from '@utils';
+import { mqDown } from '@styles/responsive';
 
 import Flex from '@components/flex/Flex';
 import Image from '@components/image/Image';

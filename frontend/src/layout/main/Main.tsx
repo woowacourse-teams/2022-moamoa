@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
+import { mqDown } from '@styles/responsive';
 
 export type MainProps = {
   children: React.ReactNode;

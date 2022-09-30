@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown, noop } from '@utils';
+import { noop } from '@utils';
+
+import { mqDown } from '@styles/responsive';
 
 export type NavButtonProps = {
   children: React.ReactNode;

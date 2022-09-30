@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import type { Link } from '@custom-types';
+
+import { mqDown } from '@styles/responsive';
 
 import { TextButton } from '@components/button';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';

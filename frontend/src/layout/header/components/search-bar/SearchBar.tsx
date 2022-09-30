@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
 import tw from '@utils/tw';
+
+import { mqDown } from '@styles/responsive';
 
 import { IconButton } from '@components/button';
 import Form from '@components/form/Form';

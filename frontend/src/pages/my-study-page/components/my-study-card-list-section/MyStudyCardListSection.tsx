@@ -5,10 +5,11 @@ import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
 
-import { mqDown } from '@utils';
 import tw from '@utils/tw';
 
 import type { MyStudy } from '@custom-types';
+
+import { mqDown } from '@styles/responsive';
 
 import { QK_MY_STUDIES } from '@api/my-studies';
 import { useDeleteMyStudy } from '@api/my-study';

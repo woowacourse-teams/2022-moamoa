@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown, mqUp } from '@utils';
+import { mqDown, mqUp } from '@styles/responsive';
 
 import TabButton from '@study-room-page/components/tab-button/TabButton';
 import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';

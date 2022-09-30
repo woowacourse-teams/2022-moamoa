@@ -1,8 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
-
+import { mqDown } from '@styles/responsive';
 import { ThemeFontSize } from '@styles/theme';
 
 export type ToggleButtonProps = {

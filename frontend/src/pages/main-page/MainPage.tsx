@@ -4,9 +4,9 @@ import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
 
-import { mqDown } from '@utils';
-
 import type { Study } from '@custom-types';
+
+import { mqDown } from '@styles/responsive';
 
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';

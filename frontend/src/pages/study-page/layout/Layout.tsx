@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { mqDown } from '@utils';
+import { mqDown } from '@styles/responsive';
 
 const sidebarWidth = 280;
 const mainGabSidebar = 40;
