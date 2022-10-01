@@ -1,62 +1,72 @@
-import { AxiosError } from 'axios';
-
-import { API_ERROR } from '@constants';
-
-import { deleteLogout, getRefresh } from '@api/auth';
-
 class AccessTokenController {
-  private static ACCESS_TOKEN_KEY = 'accessToken';
-  private static _tokenExpiredMsTime: number = 20 * 60000;
+  private static ACCESS_TOKEN_KEY = 'mmatk';
+  private static TOKEN_DATE_TIME_KEY = 'mmTokenDateTime';
 
   static setAccessToken(newAccessToken: string) {
     window.sessionStorage.setItem(this.ACCESS_TOKEN_KEY, newAccessToken);
   }
 
-  static get accessToken() {
+  static setTokenDateTime(expiredTime: number) {
+    const currentDateTime = new Date();
+    const properDateTime = new Date(currentDateTime);
+    const expiredDateTime = new Date(currentDateTime);
+
+    const properTime = Math.max(Math.floor(expiredTime * 0.8), expiredTime - 5 * 60000);
+    properDateTime.setMilliseconds(properDateTime.getMilliseconds() + properTime);
+
+    expiredDateTime.setMilliseconds(expiredDateTime.getMilliseconds() + expiredTime);
+
+    window.sessionStorage.setItem(this.TOKEN_DATE_TIME_KEY, JSON.stringify({ properDateTime, expiredDateTime }));
+  }
+
+  static get accessToken(): string | null {
     return window.sessionStorage.getItem(this.ACCESS_TOKEN_KEY);
   }
 
-  static setTokenExpiredMsTime(newTime: number) {
-    this._tokenExpiredMsTime = Math.max(Math.floor(newTime * 0.8), newTime - 5 * 60000);
-  }
+  static get tokenDateTime(): { properDateTime: Date; expiredDateTime: Date } | null {
+    const result = window.sessionStorage.getItem(this.TOKEN_DATE_TIME_KEY);
+    if (!result) return null;
 
-  static get tokenExpiredMsTime() {
-    return this._tokenExpiredMsTime;
+    try {
+      const { properDateTime, expiredDateTime } = JSON.parse(result, (key, value) =>
+        key === 'properDateTime' || key === 'expiredDateTime' ? new Date(value) : value,
+      ) as {
+        properDateTime: unknown;
+        expiredDateTime: unknown;
+      };
+
+      if (!(properDateTime instanceof Date) || !(expiredDateTime instanceof Date)) return null;
+      return { properDateTime, expiredDateTime };
+    } catch (error) {
+      console.error('corrupted datetime data: ', error);
+      return null;
+    }
   }
 
   static get hasAccessToken() {
     return !!this.accessToken;
   }
 
+  static get hasTokenDateTime() {
+    return !!this.tokenDateTime;
+  }
+
   static removeAccessToken() {
     window.sessionStorage.removeItem(this.ACCESS_TOKEN_KEY);
   }
 
-  private static async fetchLogout() {
-    try {
-      await deleteLogout();
-      this.removeAccessToken();
-    } catch (error) {
-      alert('로그아웃에 실패했습니다. :(');
-      window.location.reload();
-    }
+  static removeTokenDateTime() {
+    window.sessionStorage.removeItem(this.TOKEN_DATE_TIME_KEY);
   }
 
-  static async fetchAccessTokenWithRefresh() {
-    try {
-      const data = await getRefresh();
-      this.setAccessToken(data.accessToken);
-      this.setTokenExpiredMsTime(data.expiredTime);
+  static login(accesssToken: string, expiredTime: number) {
+    this.setAccessToken(accesssToken);
+    this.setTokenDateTime(expiredTime);
+  }
 
-      setTimeout(() => {
-        this.fetchAccessTokenWithRefresh();
-      }, this.tokenExpiredMsTime);
-    } catch (error) {
-      if (!(error instanceof AxiosError)) return;
-      if (error.response?.data.code === API_ERROR.EXPIRED_REFRESH_TOKEN.CODE) {
-        await this.fetchLogout();
-      }
-    }
+  static logout() {
+    this.removeAccessToken();
+    this.removeTokenDateTime();
   }
 }
 
