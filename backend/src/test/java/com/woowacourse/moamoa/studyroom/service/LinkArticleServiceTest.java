@@ -15,27 +15,20 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
-import com.woowacourse.moamoa.studyroom.controller.LinkArticleController;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
-import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import java.time.LocalDate;
-import java.util.function.Supplier;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 @RepositoryTest
 class LinkArticleServiceTest {
@@ -53,7 +46,7 @@ class LinkArticleServiceTest {
     private EntityManager entityManager;
 
     @Autowired
-    private ArticleRepository<LinkArticle> articleRepository;
+    private LinkArticleRepository articleRepository;
 
     @Autowired
     private LinkArticleDao linkArticleDao;
@@ -71,15 +64,14 @@ class LinkArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final LinkArticleRequest articleRequest = new LinkArticleRequest("www.naver.com", "설명");
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
         // act
-        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
+        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
         // assert
-        LinkArticle actualArticle = articleRepository.findById(article.getId())
-                .orElseThrow();
-        assertThat(actualArticle.getContent()).isEqualTo(articleRequest.createContent());
+        LinkArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        assertThat(actualArticle.getContent()).isEqualTo(linkContent);
     }
 
     @DisplayName("스터디가 없는 경우 게시글 작성 시 예외가 발생한다.")
@@ -87,10 +79,10 @@ class LinkArticleServiceTest {
     void throwExceptionWhenWriteToNotFoundStudy() {
         // arrange
         final Member 짱구 = saveMember(짱구());
-        final LinkArticleRequest articleRequest = new LinkArticleRequest("www.naver.com", "설명");
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
         // act & assert
-        assertThatThrownBy(() -> sut.createArticle(짱구.getId(), 1L, articleRequest))
+        assertThatThrownBy(() -> sut.createArticle(짱구.getId(), 1L, linkContent))
                 .isInstanceOf(StudyNotFoundException.class);
     }
 
@@ -100,10 +92,9 @@ class LinkArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
-        final LinkArticleRequest articleRequest = new LinkArticleRequest("www.naver.com", "설명");
-
-        assertThatThrownBy(() -> sut.createArticle(디우.getId(), 자바_스터디.getId(), articleRequest))
+        assertThatThrownBy(() -> sut.createArticle(디우.getId(), 자바_스터디.getId(), linkContent))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -113,12 +104,13 @@ class LinkArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final LinkArticleRequest articleRequest = new LinkArticleRequest("www.naver.com", "설명");
-        final ArticleRequest<LinkContent> updatingArticleRequest = new LinkArticleRequest("링크 수정", "설명 수정");
-        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
+        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
+
+        final LinkContent newContent = new LinkContent("링크 수정", "설명 수정");
 
         // act
-        sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), updatingArticleRequest);
+        sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), newContent);
 
         // assert
         LinkArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
@@ -131,9 +123,9 @@ class LinkArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        final ArticleRequest<LinkContent> articleRequest = new LinkArticleRequest("www.naver.com", "수정");
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
-        assertThatThrownBy(() -> sut.updateArticle(짱구.getId(), 자바_스터디.getId(), -1L, articleRequest))
+        assertThatThrownBy(() -> sut.updateArticle(짱구.getId(), 자바_스터디.getId(), -1L, linkContent))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
@@ -144,10 +136,12 @@ class LinkArticleServiceTest {
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        final ArticleRequest<LinkContent> articleRequest = new LinkArticleRequest("www.naver.com", "설명");
-        final Article<LinkContent> 링크_게시글 = createArticle(짱구, 자바_스터디, articleRequest);
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
-        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(), articleRequest))
+        final LinkArticle 링크_게시글 = createArticle(짱구, 자바_스터디, linkContent);
+
+        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(),
+                linkContent))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -157,8 +151,8 @@ class LinkArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final ArticleRequest<LinkContent> articleRequest = new LinkArticleRequest("www.naver.com", "설명");
-        final Article<LinkContent> 게시글 = createArticle(짱구, 자바_스터디, articleRequest);
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
+        final LinkArticle 게시글 = createArticle(짱구, 자바_스터디, linkContent);
 
         //act
         sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
@@ -186,9 +180,8 @@ class LinkArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-
-        final ArticleRequest<LinkContent> articleRequest = new LinkArticleRequest("www.naver.com", "설명");
-        final LinkArticle 링크_게시글 = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
+        final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
+        final LinkArticle 링크_게시글 = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
         assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId()))
                 .isInstanceOf(UneditableArticleException.class);
@@ -209,9 +202,8 @@ class LinkArticleServiceTest {
         return study;
     }
 
-    private LinkArticle createArticle(final Member author, final Study study,
-                                      final ArticleRequest<LinkContent> articleRequest) {
-        final LinkArticle article = sut.createArticle(author.getId(), study.getId(), articleRequest);
+    private LinkArticle createArticle(final Member author, final Study study, final LinkContent content) {
+        final LinkArticle article = sut.createArticle(author.getId(), study.getId(), content);
         entityManager.flush();
         entityManager.clear();
         return article;

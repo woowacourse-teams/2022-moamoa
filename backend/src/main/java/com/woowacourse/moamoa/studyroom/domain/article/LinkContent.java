@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LinkContent implements Content<LinkArticle> {
+public class LinkContent {
 
     @Column(nullable = false)
     private String linkUrl;
@@ -21,15 +21,6 @@ public class LinkContent implements Content<LinkArticle> {
     public LinkContent(final String linkUrl, final String description) {
         this.linkUrl = linkUrl;
         this.description = description;
-    }
-
-    @Override
-    public LinkArticle createArticle(final StudyRoom studyRoom, final Accessor accessor) {
-        if (studyRoom.isPermittedAccessor(accessor)) {
-            return new LinkArticle(studyRoom, accessor.getMemberId(), this);
-        }
-
-        throw new UneditableArticleException(studyRoom.getId(), accessor, LinkArticle.class);
     }
 
     @Override

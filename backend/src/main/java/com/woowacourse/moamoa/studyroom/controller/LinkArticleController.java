@@ -43,7 +43,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        final Long id = linkArticleService.createArticle(memberId, studyId, articleRequest).getId();
+        final Long id = linkArticleService.createArticle(memberId, studyId, articleRequest.createContent()).getId();
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 
@@ -54,7 +54,7 @@ public class LinkArticleController {
             @PathVariable("link-id") final Long linkId,
             @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        linkArticleService.updateArticle(memberId, studyId, linkId, articleRequest);
+        linkArticleService.updateArticle(memberId, studyId, linkId, articleRequest.createContent());
         return ResponseEntity.noContent().build();
     }
 
