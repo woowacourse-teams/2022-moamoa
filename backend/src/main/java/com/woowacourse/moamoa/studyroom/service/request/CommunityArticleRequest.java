@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor
-public class CommunityArticleRequest implements ArticleRequest<CommunityContent> {
+public class CommunityArticleRequest {
 
     @NotBlank(message = "내용을 입력해 주세요.")
     @Length(max = 30)
@@ -23,7 +23,6 @@ public class CommunityArticleRequest implements ArticleRequest<CommunityContent>
         this.content = content;
     }
 
-    @Override
     public CommunityContent createContent() {
         return new CommunityContent(title, content);
     }

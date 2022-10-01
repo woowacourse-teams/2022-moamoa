@@ -15,15 +15,13 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.CommunityContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.CommunityArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.CommunityArticleDao;
-import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
@@ -48,7 +46,7 @@ class CommunityArticleServiceTest {
     private EntityManager entityManager;
 
     @Autowired
-    private ArticleRepository<CommunityArticle> articleRepository;
+    private CommunityArticleRepository articleRepository;
 
     @Autowired
     private CommunityArticleDao articleDao;
@@ -66,7 +64,7 @@ class CommunityArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final ArticleRequest<CommunityContent> articleRequest = new CommunityArticleRequest("제목", "설명");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "설명");
 
         // act
         final CommunityArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
@@ -110,7 +108,7 @@ class CommunityArticleServiceTest {
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
         final CommunityArticle article = createArticle(짱구, 자바_스터디, new CommunityArticleRequest("제목", "설명"));
 
-        final ArticleRequest<CommunityContent> updatingArticleRequest = new CommunityArticleRequest("제목 수정", "설명 수정");
+        final CommunityArticleRequest updatingArticleRequest = new CommunityArticleRequest("제목 수정", "설명 수정");
 
         // act
         sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), updatingArticleRequest);
@@ -126,7 +124,7 @@ class CommunityArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        final ArticleRequest<CommunityContent> articleRequest = new CommunityArticleRequest("제목", "수정");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "수정");
 
         assertThatThrownBy(() -> sut.updateArticle(짱구.getId(), 자바_스터디.getId(), -1L, articleRequest))
                 .isInstanceOf(ArticleNotFoundException.class);
@@ -139,8 +137,8 @@ class CommunityArticleServiceTest {
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        final ArticleRequest<CommunityContent> articleRequest = new CommunityArticleRequest("제목", "설명");
-        final Article<CommunityContent> 링크_게시글 = createArticle(짱구, 자바_스터디, articleRequest);
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "설명");
+        final CommunityArticle 링크_게시글 = createArticle(짱구, 자바_스터디, articleRequest);
 
         assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(), articleRequest))
                 .isInstanceOf(UneditableArticleException.class);
@@ -152,8 +150,8 @@ class CommunityArticleServiceTest {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final ArticleRequest<CommunityContent> articleRequest = new CommunityArticleRequest("제목", "설명");
-        final Article<CommunityContent> 게시글 = createArticle(짱구, 자바_스터디, articleRequest);
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "설명");
+        final CommunityArticle 게시글 = createArticle(짱구, 자바_스터디, articleRequest);
 
         //act
         sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
@@ -182,7 +180,7 @@ class CommunityArticleServiceTest {
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        final ArticleRequest<CommunityContent> articleRequest = new CommunityArticleRequest("제목", "설명");
+        final CommunityArticleRequest articleRequest = new CommunityArticleRequest("제목", "설명");
         final CommunityArticle 링크_게시글 = sut.createArticle(짱구.getId(), 자바_스터디.getId(), articleRequest);
 
         assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId()))
@@ -205,7 +203,7 @@ class CommunityArticleServiceTest {
     }
 
     private CommunityArticle createArticle(final Member author, final Study study,
-                                           final ArticleRequest<CommunityContent> articleRequest) {
+                                           final CommunityArticleRequest articleRequest) {
         final CommunityArticle article = sut.createArticle(author.getId(), study.getId(), articleRequest);
         entityManager.flush();
         entityManager.clear();

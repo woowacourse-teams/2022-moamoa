@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommunityContent implements Content<CommunityArticle> {
+public class CommunityContent {
 
     @Column(nullable = false)
     private String title;
@@ -24,13 +24,8 @@ public class CommunityContent implements Content<CommunityArticle> {
         this.content = content;
     }
 
-    @Override
     public CommunityArticle createArticle(final StudyRoom studyRoom, final Accessor accessor) {
-        if (!studyRoom.isPermittedAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, CommunityArticle.class);
-        }
-
-        return new CommunityArticle(studyRoom, accessor.getMemberId(), this);
+        return CommunityArticle.create(studyRoom, accessor, this);
     }
 
     public String getTitle() {
