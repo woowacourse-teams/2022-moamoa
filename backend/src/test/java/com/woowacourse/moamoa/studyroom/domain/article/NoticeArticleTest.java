@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -30,10 +31,10 @@ class NoticeArticleTest {
         // arrange
         final Member owner = createMember(OWNER_ID);
         final StudyRoom studyRoom = createStudyRoom(owner);
-        final NoticeContent sut = new NoticeContent("제목", "내용");
+        final Content content = new Content("제목", "내용");
 
         // act & assert
-        assertThatCode(() -> NoticeArticle.create(studyRoom, new Accessor(OWNER_ID, STUDY_ID), sut))
+        assertThatCode(() -> Article.create(studyRoom, new Accessor(OWNER_ID, STUDY_ID), content, NOTICE))
                 .doesNotThrowAnyException();
     }
 
@@ -45,10 +46,10 @@ class NoticeArticleTest {
         final Member owner = createMember(OWNER_ID);
         final Member participant = createMember(PARTICIPANT_ID);
         final StudyRoom studyRoom = createStudyRoom(owner, participant);
-        final NoticeContent sut = new NoticeContent("제목", "내용");
+        final Content content = new Content("제목", "내용");
 
         // act && assert
-        assertThatThrownBy(() -> NoticeArticle.create(studyRoom, accessor, sut))
+        assertThatThrownBy(() -> Article.create(studyRoom, accessor, content, NOTICE))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -58,15 +59,15 @@ class NoticeArticleTest {
         // arrange
         final Member owner = createMember(OWNER_ID);
         final StudyRoom studyRoom = createStudyRoom(owner);
-        final NoticeArticle sut = createNoticeArticle(owner, studyRoom);
+        final Article sut = createNoticeArticle(owner, studyRoom);
 
         final Accessor authorAccessor = new Accessor(owner.getId(), studyRoom.getId());
 
         // act
-        sut.update(authorAccessor, new NoticeContent("수정된 제목", "수정된 내용"));
+        sut.update(authorAccessor, new Content("수정된 제목", "수정된 내용"));
 
         // assert
-        assertThat(sut.getContent()).isEqualTo(new NoticeContent("수정된 제목", "수정된 내용"));
+        assertThat(sut.getContent()).isEqualTo(new Content("수정된 제목", "수정된 내용"));
     }
 
     @ParameterizedTest
@@ -76,9 +77,9 @@ class NoticeArticleTest {
         final Member owner = createMember(OWNER_ID);
         final Member participant = createMember(PARTICIPANT_ID);
         final StudyRoom studyRoom = createStudyRoom(owner, participant);
-        final NoticeArticle sut = createNoticeArticle(owner, studyRoom);
+        final Article sut = createNoticeArticle(owner, studyRoom);
 
-        assertThatThrownBy(() -> sut.update(forbiddenAccessor, new NoticeContent("수정된 제목", "수정된 설명")))
+        assertThatThrownBy(() -> sut.update(forbiddenAccessor, new Content("수정된 제목", "수정된 설명")))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -87,7 +88,7 @@ class NoticeArticleTest {
     void delete() {
         final Member owner = createMember(OWNER_ID);
         final StudyRoom studyRoom = createStudyRoom(owner);
-        final NoticeArticle sut = createNoticeArticle(owner, studyRoom);
+        final Article sut = createNoticeArticle(owner, studyRoom);
 
         sut.delete(new Accessor(OWNER_ID, STUDY_ID));
 
@@ -101,7 +102,7 @@ class NoticeArticleTest {
         final Member owner = createMember(OWNER_ID);
         final Member participant = createMember(PARTICIPANT_ID);
         final StudyRoom studyRoom = createStudyRoom(owner, participant);
-        final NoticeArticle sut = createNoticeArticle(owner, studyRoom);
+        final Article sut = createNoticeArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
                 .isInstanceOf(UneditableArticleException.class);
@@ -129,9 +130,9 @@ class NoticeArticleTest {
         return new StudyRoom(STUDY_ID, owner.getId(), participants);
     }
 
-    private NoticeArticle createNoticeArticle(final Member owner, final StudyRoom studyRoom) {
+    private Article createNoticeArticle(final Member owner, final StudyRoom studyRoom) {
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
-        final NoticeContent noticeContent = new NoticeContent("제목", "내용");
-        return NoticeArticle.create(studyRoom, accessor, noticeContent);
+        final Content content = new Content("제목", "내용");
+        return Article.create(studyRoom, accessor, content, NOTICE);
     }
 }

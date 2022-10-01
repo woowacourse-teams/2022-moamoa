@@ -1,7 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
-import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NoticeContent {
+public class Content {
 
     @Column(nullable = false)
     private String title;
@@ -18,7 +16,7 @@ public class NoticeContent {
     @Column(nullable = false)
     private String content;
 
-    public NoticeContent(final String title, final String content) {
+    public Content(final String title, final String content) {
         this.title = title;
         this.content = content;
     }
@@ -39,7 +37,7 @@ public class NoticeContent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final NoticeContent that = (NoticeContent) o;
+        final Content that = (Content) o;
         return Objects.equals(title, that.title) && Objects.equals(content, that.content);
     }
 

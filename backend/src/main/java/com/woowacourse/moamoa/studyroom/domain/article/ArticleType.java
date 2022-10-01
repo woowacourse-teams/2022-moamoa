@@ -12,8 +12,13 @@ public enum ArticleType {
         }
 
         @Override
-        NoticeArticle createArticle(final StudyRoom studyRoom, final Accessor accessor, final NoticeContent content) {
-            return new NoticeArticle(accessor.getMemberId(), studyRoom, content);
+        boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
+            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
+        }
+
+        @Override
+        Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content) {
+            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
         }
     },
     COMMUNITY{
@@ -23,12 +28,19 @@ public enum ArticleType {
         }
 
         @Override
-        NoticeArticle createArticle(final StudyRoom studyRoom, final Accessor accessor, final NoticeContent content) {
+        boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
+            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
+        }
+
+        @Override
+        Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content) {
             throw new UnsupportedOperationException("#createArticle not implemented yet !!");
         }
     };
 
     abstract boolean isWritableAccessor(final StudyRoom studyRoom, final Accessor accessor);
 
-    abstract NoticeArticle createArticle(final StudyRoom studyRoom, final Accessor accessor, final NoticeContent content);
+    abstract boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor);
+
+    abstract Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content);
 }

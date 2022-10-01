@@ -7,6 +7,8 @@ import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleExcept
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +22,9 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "community")
+@Table(name = "article")
 @Where(clause = "deleted = false")
-public class CommunityArticle extends BaseEntity {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,32 +40,37 @@ public class CommunityArticle extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted;
 
-
     @Embedded
-    private CommunityContent content;
+    private Content content;
 
-    public static CommunityArticle create(final StudyRoom studyRoom, final Accessor accessor, final CommunityContent content) {
-        if (!studyRoom.isPermittedAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, CommunityArticle.class);
+    @Enumerated(EnumType.STRING)
+    private ArticleType type;
+
+    public static Article create(
+            final StudyRoom studyRoom, final Accessor accessor, final Content content, final ArticleType type
+    ) {
+        if (type == ArticleType.COMMUNITY && studyRoom.isPermittedAccessor(accessor)) {
+            return new Article(null, studyRoom, accessor.getMemberId(), content, type);
         }
 
-        return new CommunityArticle(studyRoom, accessor.getMemberId(), content);
+        if (type == ArticleType.NOTICE && studyRoom.isOwner(accessor)) {
+            return new Article(null, studyRoom, accessor.getMemberId(), content, type);
+        }
+
+        throw new UneditableArticleException(studyRoom.getId(), accessor, Article.class);
     }
 
-    CommunityArticle(final StudyRoom studyRoom, final Long authorId, final CommunityContent content) {
-        this(null, authorId, studyRoom, content);
-    }
-
-    private CommunityArticle(final Long id, final Long authorId, final StudyRoom studyRoom,
-                            final CommunityContent content
+    private Article(
+            final Long id, final StudyRoom studyRoom, final Long authorId, final Content content, final ArticleType type
     ) {
         this.id = id;
         this.authorId = authorId;
         this.studyRoom = studyRoom;
         this.content = content;
+        this.type = type;
     }
 
-    public void update(final Accessor accessor, final CommunityContent content) {
+    public void update(final Accessor accessor, final Content content) {
         if (isUneditableAccessor(accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
         }
@@ -79,19 +86,27 @@ public class CommunityArticle extends BaseEntity {
         deleted = true;
     }
 
+    private boolean isUneditableAccessor(final Accessor accessor) {
+        if (type == ArticleType.COMMUNITY) {
+            return !studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId());
+        }
+
+        if (type == ArticleType.NOTICE) {
+            return !studyRoom.isOwner(accessor);
+        }
+
+        return false;
+    }
+
     public Long getId() {
         return id;
     }
 
+    public Content getContent() {
+        return content;
+    }
+
     boolean isDeleted() {
         return deleted;
-    }
-
-    protected boolean isUneditableAccessor(final Accessor accessor) {
-        return !studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId());
-    }
-
-    public CommunityContent getContent() {
-        return content;
     }
 }

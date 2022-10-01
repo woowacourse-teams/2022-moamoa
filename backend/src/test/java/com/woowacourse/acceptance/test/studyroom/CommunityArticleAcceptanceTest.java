@@ -16,7 +16,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
@@ -40,7 +40,7 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
         String 토큰 = 그린론이().로그인한다();
-        CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목", "게시글 내용");
+        ArticleRequest request = new ArticleRequest("게시글 제목", "게시글 내용");
 
         // act
         final String location = RestAssured.given(spec).log().all()
@@ -272,7 +272,7 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
         long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).게시글을_작성한다("게시글 제목", "게시글 내용");
         String 토큰 = 그린론이().로그인한다();
 
-        final CommunityArticleRequest request = new CommunityArticleRequest("게시글 제목 수정", "게시글 내용 수정");
+        final ArticleRequest request = new ArticleRequest("게시글 제목 수정", "게시글 내용 수정");
 
         // act
         RestAssured.given(spec).log().all()
@@ -314,7 +314,7 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
         final AuthorResponse authorResponse = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
-        assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목 수정",
+        assertThat(response).isEqualTo(new ArticleResponse(게시글_ID, authorResponse, "게시글 제목 수정",
                 "게시글 내용 수정", LocalDate.now(), LocalDate.now()));
     }
 }

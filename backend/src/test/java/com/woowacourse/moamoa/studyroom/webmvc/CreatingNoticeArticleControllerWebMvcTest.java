@@ -1,26 +1,20 @@
 package com.woowacourse.moamoa.studyroom.webmvc;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.moamoa.WebMVCTest;
-import com.woowacourse.moamoa.studyroom.service.NoticeArticleService;
-import com.woowacourse.moamoa.studyroom.service.request.CommunityArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
-
-    @MockBean
-    private NoticeArticleService noticeArticleService;
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
@@ -57,7 +51,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new CommunityArticleRequest(title, "content")))
+                .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -73,7 +67,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest("title", content)))
+                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -89,7 +83,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest(title, "content")))
+                        .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -105,7 +99,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                 post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new CommunityArticleRequest("title", content)))
+                        .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -120,7 +114,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                         post("/api/studies/{study-id}/community/articles", "1")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new CommunityArticleRequest("a".repeat(31), "cotent")))
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -135,7 +129,7 @@ class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
                         post("/api/studies/{study-id}/community/articles", "1")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(new CommunityArticleRequest("a".repeat(5001), "cotent")))
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
