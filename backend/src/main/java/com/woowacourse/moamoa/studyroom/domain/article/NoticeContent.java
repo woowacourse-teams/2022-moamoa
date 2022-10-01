@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NoticeContent implements Content<NoticeArticle> {
+public class NoticeContent {
 
     @Column(nullable = false)
     private String title;
@@ -22,15 +21,6 @@ public class NoticeContent implements Content<NoticeArticle> {
     public NoticeContent(final String title, final String content) {
         this.title = title;
         this.content = content;
-    }
-
-    @Override
-    public NoticeArticle createArticle(final StudyRoom studyRoom, final Accessor accessor) {
-        if (studyRoom.isOwner(accessor)) {
-            return new NoticeArticle(accessor.getMemberId(), studyRoom, this);
-        }
-
-        throw new UneditableArticleException(studyRoom.getId(), accessor, NoticeArticle.class);
     }
 
     public String getTitle() {

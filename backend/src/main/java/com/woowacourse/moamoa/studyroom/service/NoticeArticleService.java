@@ -1,9 +1,12 @@
 package com.woowacourse.moamoa.studyroom.service;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.NoticeContent;
 import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.repository.article.NoticeArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.NoticeArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
@@ -20,15 +23,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class NoticeArticleService extends AbstractArticleService<NoticeArticle, NoticeContent> {
+public class NoticeArticleService {
 
+    private final StudyRoomRepository studyRoomRepository;
+    private final NoticeArticleRepository articleRepository;
     private final NoticeArticleDao noticeArticleDao;
 
     @Autowired
     public NoticeArticleService(final StudyRoomRepository studyRoomRepository,
-                                final ArticleRepository<NoticeArticle> articleRepository,
+                                final NoticeArticleRepository articleRepository,
                                 final NoticeArticleDao noticeArticleDao) {
-        super(studyRoomRepository, articleRepository, NoticeArticle.class);
+        this.studyRoomRepository = studyRoomRepository;
+        this.articleRepository = articleRepository;
         this.noticeArticleDao = noticeArticleDao;
     }
 
@@ -48,4 +54,33 @@ public class NoticeArticleService extends AbstractArticleService<NoticeArticle, 
         return new ArticleSummariesResponse(articles, page.getNumber(), page.getTotalPages() - 1,
                 page.getTotalElements());
     }
+
+    @Transactional
+    public NoticeArticle createArticle(final Long memberId, final Long studyId, final NoticeContent content) {
+        final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
+        final NoticeArticle article = NoticeArticle.create(studyRoom, new Accessor(memberId, studyId), content);
+
+        return articleRepository.save(article);
+    }
+
+    @Transactional
+    public void updateArticle(
+            final Long memberId, final Long studyId, final Long articleId, final NoticeContent newContent
+    ) {
+        final NoticeArticle article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, NoticeArticle.class));
+
+        article.update(new Accessor(memberId, studyId), newContent);
+    }
+
+    @Transactional
+    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
+        final NoticeArticle article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, NoticeArticle.class));
+        final Accessor accessor = new Accessor(memberId, studyId);
+
+        article.delete(accessor);
+    }
+
 }

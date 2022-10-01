@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class NoticeArticleTest {
@@ -23,6 +23,34 @@ class NoticeArticleTest {
     private static final long OWNER_ID = 1L;
     private static final long PARTICIPANT_ID = 2L;
     private static final long STUDY_ID = 1L;
+
+    @DisplayName("방장은 공지글을 작성할 수 있다.")
+    @Test
+    void writeNoticeArticleByOwner() {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final NoticeContent sut = new NoticeContent("제목", "내용");
+
+        // act & assert
+        assertThatCode(() -> NoticeArticle.create(studyRoom, new Accessor(OWNER_ID, STUDY_ID), sut))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @DisplayName("방장 외에는 공지글을 작성할 수 없다.")
+    @MethodSource("provideForbiddenAccessor")
+    void cantWriteNoticeArticleByNonOwner(final Accessor accessor) {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
+        final NoticeContent sut = new NoticeContent("제목", "내용");
+
+        // act && assert
+        assertThatThrownBy(() -> NoticeArticle.create(studyRoom, accessor, sut))
+                .isInstanceOf(UneditableArticleException.class);
+    }
 
     @DisplayName("공지 게시글은 방장만 수정할 수 있다.")
     @Test
@@ -79,6 +107,17 @@ class NoticeArticleTest {
                 .isInstanceOf(UneditableArticleException.class);
     }
 
+    private static Stream<Arguments> provideForbiddenAccessor() {
+        final long otherMemberId = Math.max(OWNER_ID, PARTICIPANT_ID) + 1;
+        final long otherStudyId = STUDY_ID + 1;
+
+        return Stream.of(
+                Arguments.of(new Accessor(PARTICIPANT_ID, STUDY_ID)),
+                Arguments.of(new Accessor(OWNER_ID, otherStudyId)),
+                Arguments.of(new Accessor(otherMemberId, otherStudyId))
+        );
+    }
+
     private Member createMember(final long id) {
         return new Member(id, id, "username" + id, "image", "profile");
     }
@@ -93,17 +132,6 @@ class NoticeArticleTest {
     private NoticeArticle createNoticeArticle(final Member owner, final StudyRoom studyRoom) {
         final Accessor accessor = new Accessor(owner.getId(), studyRoom.getId());
         final NoticeContent noticeContent = new NoticeContent("제목", "내용");
-        return noticeContent.createArticle(studyRoom, accessor);
-    }
-
-    private static Stream<Arguments> provideForbiddenAccessor() {
-        final long otherMemberId = OWNER_ID + 1;
-        final long otherStudyId = STUDY_ID + 1;
-
-        return Stream.of(
-                Arguments.of(new Accessor(otherMemberId, STUDY_ID)),
-                Arguments.of(new Accessor(OWNER_ID, otherStudyId)),
-                Arguments.of(new Accessor(otherMemberId, otherStudyId))
-        );
+        return NoticeArticle.create(studyRoom, accessor, noticeContent);
     }
 }

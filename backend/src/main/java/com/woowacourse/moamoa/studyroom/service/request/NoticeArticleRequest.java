@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor
-public class NoticeArticleRequest implements ArticleRequest<NoticeContent> {
+public class NoticeArticleRequest {
 
     @NotBlank(message = "내용을 입력해 주세요.")
     @Length(max = 30)
@@ -23,7 +23,6 @@ public class NoticeArticleRequest implements ArticleRequest<NoticeContent> {
         this.content = content;
     }
 
-    @Override
     public NoticeContent createContent() {
         return new NoticeContent(title, content);
     }

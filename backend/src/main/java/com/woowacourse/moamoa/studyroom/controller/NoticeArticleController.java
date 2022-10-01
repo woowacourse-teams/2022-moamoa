@@ -36,7 +36,7 @@ public class NoticeArticleController {
                                               @PathVariable("study-id") final Long studyId,
                                               @Valid @RequestBody final NoticeArticleRequest request
     ) {
-        final NoticeArticle article = noticeArticleService.createArticle(id, studyId, request);
+        final NoticeArticle article = noticeArticleService.createArticle(id, studyId, request.createContent());
         final URI location = URI.create("/api/studies/" + studyId + "/notice/articles/" + article.getId());
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
@@ -72,7 +72,7 @@ public class NoticeArticleController {
                                               @PathVariable("article-id") final Long articleId,
                                               @Valid @RequestBody final NoticeArticleRequest request
     ) {
-        noticeArticleService.updateArticle(id, studyId, articleId, request);
+        noticeArticleService.updateArticle(id, studyId, articleId, request.createContent());
         return ResponseEntity.noContent().build();
     }
 }

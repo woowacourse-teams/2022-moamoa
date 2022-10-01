@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,9 @@ public abstract class Article<T extends Content<? extends Article<T>>> extends B
 
     @Column(nullable = false)
     private boolean deleted;
+
+    @Transient
+    private ArticleType type;
 
     protected Article(final Long id, final StudyRoom studyRoom, final Long authorId) {
         this.id = id;
