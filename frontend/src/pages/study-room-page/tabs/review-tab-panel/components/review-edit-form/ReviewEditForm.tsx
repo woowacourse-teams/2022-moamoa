@@ -116,7 +116,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
         <Divider space="4px" />
         <Flex justifyContent="space-between" alignItems="center">
           <LetterCounter count={count} maxCount={maxCount} />
-          <ButtonGroup gap="12px" width="fit-content">
+          <ButtonGroup gap="12px" custom={{ width: 'fit-content' }}>
             <CancelButton theme={theme} onClick={handleCancelEditButtonClick} />
             <EditButton theme={theme} />
           </ButtonGroup>

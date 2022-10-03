@@ -54,7 +54,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     if (data.author.username !== getUserInformationQueryResult.data.username) return;
 
     return (
-      <ButtonGroup gap="8px" width="fit-content">
+      <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
         <GoToEditArticleLinkButton />
         <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
       </ButtonGroup>
