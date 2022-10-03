@@ -23,6 +23,7 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
       {filters.map(({ id, name, description, category }) => (
         <FilterButton
           key={id}
+          custom={{ marginBottom: '8px' }}
           name={name}
           description={description}
           isChecked={isSelected(id, category.name, selectedFilters)}
