@@ -13,8 +13,8 @@ export default {
 const Template: Story<SideMenuProps> = () => {
   const tabs: Tabs = [
     { id: 'notice', name: '공지사항' },
-    { id: 'link-room', name: '자료실' },
-    { id: 'review', name: '후기' },
+    { id: 'links', name: '자료실' },
+    { id: 'reviews', name: '후기' },
   ];
 
   const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);
