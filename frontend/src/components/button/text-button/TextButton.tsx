@@ -1,38 +1,39 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { type ThemeFontSize } from '@styles/theme';
 
 export type TextButtonProps = {
   children: React.ReactNode;
   fluid?: boolean;
-  fontSize?: ThemeFontSize;
   variant: 'primary' | 'secondary';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  custom?: CustomCSS<'fontSize'>;
 };
 
 const TextButton: React.FC<TextButtonProps> = ({
   children,
   fluid = false,
-  fontSize = 'md',
   variant = 'primary',
   onClick: handleClick,
+  custom,
 }) => {
   return (
-    <Self type="button" fluid={fluid} onClick={handleClick} fontSize={fontSize} variant={variant}>
+    <Self type="button" fluid={fluid} onClick={handleClick} variant={variant} css={resolveCustomCSS(custom)}>
       {children}
     </Self>
   );
 };
 
-type StyledTextButtonProps = Required<Pick<TextButtonProps, 'fluid' | 'variant' | 'fontSize'>>;
+type StyledTextButtonProps = Required<Pick<TextButtonProps, 'fluid' | 'variant'>>;
 
 export const Self = styled.button<StyledTextButtonProps>`
-  ${({ theme, fluid, variant, fontSize }) => css`
+  ${({ theme, fluid, variant }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;
 
-    font-size: ${theme.fontSize[fontSize]};
+    font-size: ${theme.fontSize.md};
     font-weight: ${theme.fontWeight.normal};
     color: ${theme.colors.primary.base};
     background-color: transparent;

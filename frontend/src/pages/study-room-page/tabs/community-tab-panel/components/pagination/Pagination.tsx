@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Theme, useTheme } from '@emotion/react';
+
 import tw from '@utils/tw';
 
 import { TextButton } from '@components/button';
@@ -18,6 +20,7 @@ const range = (start: number, end: number): Array<number> => {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberButtonClick }) => {
+  const theme = useTheme();
   const [page, setPage] = useState<number>(defaultPage);
 
   const handleNumButtonClick = (num: number) => () => {
@@ -54,13 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
               {num === '...' ? (
                 <MeatballMenuIcon />
               ) : (
-                <TextButton
-                  variant={num === page ? 'primary' : 'secondary'}
-                  fontSize={num === page ? 'xl' : 'md'}
-                  onClick={handleNumButtonClick(num)}
-                >
-                  {num}
-                </TextButton>
+                <PageButton theme={theme} num={num} page={page} onClick={handleNumButtonClick} />
               )}
             </div>
           );
@@ -75,5 +72,21 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
     </ButtonGroup>
   );
 };
+
+type PageButtonProps = {
+  theme: Theme;
+  num: number;
+  page: number;
+  onClick: (num: number) => () => void;
+};
+const PageButton: React.FC<PageButtonProps> = ({ theme, num, page, onClick: handleClick }) => (
+  <TextButton
+    variant={num === page ? 'primary' : 'secondary'}
+    onClick={handleClick(num)}
+    custom={{ fontSize: num === page ? theme.fontSize.xl : theme.fontSize.md }}
+  >
+    {num}
+  </TextButton>
+);
 
 export default Pagination;

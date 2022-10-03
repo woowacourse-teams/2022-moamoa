@@ -1,3 +1,4 @@
+import { Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import tw from '@utils/tw';
@@ -16,6 +17,7 @@ import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-
 import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
 
 const LinkRoomTabPanel: React.FC = () => {
+  const theme = useTheme();
   const {
     studyId,
     userInfo,
@@ -61,9 +63,7 @@ const LinkRoomTabPanel: React.FC = () => {
   return (
     <Wrapper>
       <div css={tw`py-4 mb-16 text-right`}>
-        <TextButton variant="primary" fontSize="lg" onClick={handleLinkAddButtonClick}>
-          링크 추가하기
-        </TextButton>
+        <AddLinkButton theme={theme} onClick={handleLinkAddButtonClick} />
       </div>
       {renderLinkList()}
       {isModalOpen && (
@@ -88,5 +88,15 @@ const LinkList = styled.ul`
     grid-template-columns: repeat(1, 1fr);
   }
 `;
+
+type AddLinkButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme, onClick: handleClick }) => (
+  <TextButton variant="primary" onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
+    링크 추가하기
+  </TextButton>
+);
 
 export default LinkRoomTabPanel;

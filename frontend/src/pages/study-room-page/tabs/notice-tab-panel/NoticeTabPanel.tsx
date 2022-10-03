@@ -1,8 +1,8 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { Theme, useTheme } from '@emotion/react';
 
-import { theme } from '@styles/theme';
+import { PATH } from '@constants';
 
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
@@ -16,6 +16,7 @@ import Publish from '@notice-tab/components/publish/Publish';
 import usePermission from '@notice-tab/hooks/usePermission';
 
 const NoticeTabPanel: React.FC = () => {
+  const theme = useTheme();
   const location = useLocation();
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
@@ -30,15 +31,7 @@ const NoticeTabPanel: React.FC = () => {
   const renderArticleListPage = () => {
     return (
       <>
-        <Flex justifyContent="flex-end">
-          {isOwner && (
-            <Link to={PATH.NOTICE_PUBLISH}>
-              <TextButton variant="primary" fontSize="lg">
-                글쓰기
-              </TextButton>
-            </Link>
-          )}
-        </Flex>
+        <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton theme={theme} />}</Flex>
         <Divider color={theme.colors.secondary.dark} space="8px" />
         <ArticleList studyId={studyId} />
       </>
@@ -67,5 +60,16 @@ const NoticeTabPanel: React.FC = () => {
     </Wrapper>
   );
 };
+
+type GoToPublishPageLinkButtonProps = {
+  theme: Theme;
+};
+const GoToPublishPageLinkButton: React.FC<GoToPublishPageLinkButtonProps> = ({ theme }) => (
+  <Link to={PATH.NOTICE_PUBLISH}>
+    <TextButton variant="primary" custom={{ fontSize: theme.fontSize.lg }}>
+      글쓰기
+    </TextButton>
+  </Link>
+);
 
 export default NoticeTabPanel;

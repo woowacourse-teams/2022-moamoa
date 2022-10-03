@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { StudyDetail } from '@custom-types';
+import type { StudyDetail, StudyId } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';
@@ -38,11 +38,7 @@ const Head: React.FC<HeadProps> = ({
           <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
         </Flex>
-        {isOwner && (
-          <Link to={PATH.EDIT_STUDY(studyId)}>
-            <TextButton variant="secondary">수정</TextButton>
-          </Link>
-        )}
+        {isOwner && <GoToEditPageLinkButton studyId={studyId} />}
       </Flex>
       <Flex alignItems="center" columnGap="16px">
         <span>시작일: {changeDateSeperator(startDate)}</span> ~
@@ -65,5 +61,14 @@ const Excerpt = styled.p`
     font-size: ${theme.fontSize.xl};
   `}
 `;
+
+type GoToEditPageLinkButtonProps = {
+  studyId: StudyId;
+};
+const GoToEditPageLinkButton: React.FC<GoToEditPageLinkButtonProps> = ({ studyId }) => (
+  <Link to={PATH.EDIT_STUDY(studyId)}>
+    <TextButton variant="secondary">수정</TextButton>
+  </Link>
+);
 
 export default Head;

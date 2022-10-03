@@ -1,4 +1,4 @@
-import { Theme } from '@emotion/react';
+import { Theme, useTheme } from '@emotion/react';
 
 import tw from '@utils/tw';
 
@@ -23,6 +23,7 @@ export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUr
 };
 
 const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, author, description }) => {
+  const theme = useTheme();
   const {
     userInfo,
     linkPreviewQueryResult,
@@ -67,13 +68,9 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             <ToggleButton onClick={handleMeatballMenuClick} />
             <DropDownBox isOpen={isOpenDropBox} onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
               <ButtonGroup orientation="vertical">
-                <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
-                  수정
-                </TextButton>
+                <EditButton theme={theme} onClick={handleEditLinkButtonClick} />
                 <Divider space="8px" />
-                <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteLinkButtonClick}>
-                  삭제
-                </TextButton>
+                <DeleteButton theme={theme} onClick={handleDeleteLinkButtonClick} />
               </ButtonGroup>
             </DropDownBox>
           </div>
@@ -110,6 +107,26 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick: handleClick }) => 
   >
     <MeatballMenuIcon />
   </IconButton>
+);
+
+type EditButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const EditButton: React.FC<EditButtonProps> = ({ theme, onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+    수정
+  </TextButton>
+);
+
+type DeleteButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteButton: React.FC<DeleteButtonProps> = ({ theme, onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+    삭제
+  </TextButton>
 );
 
 export default LinkItem;

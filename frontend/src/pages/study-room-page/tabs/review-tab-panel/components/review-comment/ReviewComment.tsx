@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
@@ -26,6 +26,7 @@ export type ReviewCommentProps = {
 };
 
 const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date, content, isMyComment }) => {
+  const theme = useTheme();
   const {
     isOpen,
     isEditing,
@@ -63,24 +64,12 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
           </UserInfoItem>
           {isMyComment && (
             <div css={tw`relative`}>
-              <IconButton
-                ariaLabel="리뷰 수정 삭제 메뉴"
-                width="24px"
-                height="24px"
-                variant="secondary"
-                onClick={handleKebabMenuClick}
-              >
-                <KebabMenuIcon />
-              </IconButton>
+              <ToggleButton onClick={handleKebabMenuClick} />
               <DropDownBox isOpen={isOpen} onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
                 <ButtonGroup orientation="vertical">
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleEditReviewBtnClick}>
-                    수정
-                  </TextButton>
+                  <EditButton theme={theme} onClick={handleEditReviewBtnClick} />
                   <Divider />
-                  <TextButton variant="secondary" fontSize="sm" onClick={handleDeleteReviewBtnClick}>
-                    삭제
-                  </TextButton>
+                  <DeleteButton theme={theme} onClick={handleDeleteReviewBtnClick} />
                 </ButtonGroup>
               </DropDownBox>
             </div>
@@ -99,5 +88,39 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
 
   return render();
 };
+
+type EditButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const EditButton: React.FC<EditButtonProps> = ({ theme, onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+    수정
+  </TextButton>
+);
+
+type DeleteButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteButton: React.FC<DeleteButtonProps> = ({ theme, onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+    삭제
+  </TextButton>
+);
+
+type ToggleButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick: handleClick }) => (
+  <IconButton
+    ariaLabel="리뷰 수정 삭제 메뉴"
+    variant="secondary"
+    onClick={handleClick}
+    custom={{ width: '24px', height: '24px' }}
+  >
+    <KebabMenuIcon />
+  </IconButton>
+);
 
 export default ReviewComment;
