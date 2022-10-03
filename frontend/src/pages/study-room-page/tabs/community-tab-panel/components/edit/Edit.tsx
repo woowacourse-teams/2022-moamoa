@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Theme, useTheme } from '@emotion/react';
+
 import { PATH } from '@constants';
 
 import type { ArticleId, StudyId } from '@custom-types';
@@ -23,6 +25,7 @@ export type EditProps = {
 };
 
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
+  const theme = useTheme();
   const formMethods = useForm();
   const navigate = useNavigate();
 
@@ -72,14 +75,8 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
           <EditContent content={getCommunityArticleQueryResult.data.content} />
           <Divider space="16px" />
           <ButtonGroup justifyContent="space-between">
-            <Link to={`../${PATH.COMMUNITY}`}>
-              <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
-                돌아가기
-              </BoxButton>
-            </Link>
-            <BoxButton type="submit" padding="4px 8px" fontSize="lg" fluid={false}>
-              수정하기
-            </BoxButton>
+            <GoBackLinkButton theme={theme} />
+            <EditButton theme={theme} />
           </ButtonGroup>
         </Form>
       );
@@ -93,5 +90,25 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     </FormProvider>
   );
 };
+
+type GoBackLinkButtonProps = {
+  theme: Theme;
+};
+const GoBackLinkButton: React.FC<GoBackLinkButtonProps> = ({ theme }) => (
+  <Link to={`../${PATH.COMMUNITY}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+type EditButtonProps = {
+  theme: Theme;
+};
+const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+    수정하기
+  </BoxButton>
+);
 
 export default Edit;

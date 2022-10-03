@@ -50,20 +50,8 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
 
     return (
       <ButtonGroup gap="8px" width="fit-content">
-        <Link to="edit" relative="path">
-          <BoxButton type="button" padding="4px 8px" fluid={false}>
-            글수정
-          </BoxButton>
-        </Link>
-        <BoxButton
-          type="button"
-          padding="4px 8px"
-          fluid={false}
-          variant="secondary"
-          onClick={handleDeleteArticleButtonClick}
-        >
-          글삭제
-        </BoxButton>
+        <GoToEditPageLinkButton />
+        <DeleteArticle onClick={handleDeleteArticleButtonClick} />
       </ButtonGroup>
     );
   };
@@ -93,11 +81,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
             <MarkdownRender markdownContent={content} />
           </div>
           <Divider space="8px" />
-          <Link to={`../${PATH.NOTICE}`}>
-            <BoxButton type="button" padding="8px" variant="secondary">
-              목록보기
-            </BoxButton>
-          </Link>
+          <GoToListPageLinkButton />
         </article>
       );
     }
@@ -105,5 +89,30 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
 
   return <div>{render()}</div>;
 };
+
+const GoToEditPageLinkButton: React.FC = () => (
+  <Link to="edit">
+    <BoxButton type="button" custom={{ padding: '4px 8px' }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+type DeleteArticleProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteArticle: React.FC<DeleteArticleProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
+    글삭제
+  </BoxButton>
+);
+
+const GoToListPageLinkButton: React.FC = () => (
+  <Link to={`../${PATH.NOTICE}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
+      목록보기
+    </BoxButton>
+  </Link>
+);
 
 export default Article;

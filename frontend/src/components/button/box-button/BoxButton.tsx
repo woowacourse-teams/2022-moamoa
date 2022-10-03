@@ -5,6 +5,7 @@ import { noop } from '@utils';
 
 import type { CssLength } from '@custom-types';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { type ThemeFontSize } from '@styles/theme';
 
 export type BoxButtonProps = {
@@ -13,9 +14,8 @@ export type BoxButtonProps = {
   type: 'submit' | 'button';
   fluid?: boolean;
   disabled?: boolean;
-  padding?: `${CssLength} ${CssLength}` | CssLength;
-  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  custom?: CustomCSS<'padding' | 'fontSize'>;
 };
 
 const BoxButton: React.FC<BoxButtonProps> = ({
@@ -24,9 +24,8 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   variant = 'primary',
   fluid = true,
   disabled = false,
-  padding = '20px 10px',
-  fontSize = 'md',
   onClick: handleClick = noop,
+  custom,
 }) => {
   return (
     <Self
@@ -34,16 +33,15 @@ const BoxButton: React.FC<BoxButtonProps> = ({
       fluid={fluid}
       disabled={disabled}
       variant={variant}
-      padding={padding}
-      fontSize={fontSize}
       onClick={handleClick}
+      css={resolveCustomCSS(custom)}
     >
       {children}
     </Self>
   );
 };
 
-type StyledBoxButtonProps = Required<Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant' | 'padding' | 'fontSize'>>;
+type StyledBoxButtonProps = Required<Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant'>>;
 
 const applyFilledButtonStyle = (theme: Theme) => css`
   background-color: ${theme.colors.primary.base};
@@ -83,14 +81,14 @@ const applyOutlineButtonStyle = (theme: Theme) => css`
 `;
 
 export const Self = styled.button<StyledBoxButtonProps>`
-  ${({ theme, fluid, disabled, variant, padding, fontSize }) => css`
+  ${({ theme, fluid, disabled, variant }) => css`
     width: ${fluid ? '100%' : 'auto'};
-    padding: ${padding};
+    padding: 20px 10px;
     min-height: 30px;
 
     border-radius: ${theme.radius.sm};
     text-align: center;
-    font-size: ${theme.fontSize[fontSize]};
+    font-size: ${theme.fontSize['md']};
     color: ${theme.colors.white};
 
     ${applyFilledButtonStyle(theme)}

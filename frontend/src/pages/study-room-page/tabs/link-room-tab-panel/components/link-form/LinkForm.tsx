@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 
+import { Theme, useTheme } from '@emotion/react';
+
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
 import type { Member, Noop } from '@custom-types';
-
-import { theme } from '@styles/theme';
 
 import { usePostLink } from '@api/link';
 
@@ -34,6 +34,7 @@ const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
 const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError }) => {
+  const theme = useTheme();
   const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = usePostLink();
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
@@ -124,14 +125,21 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
                 <LetterCounter count={count} maxCount={maxCount} />
               </div>
             </div>
-            <BoxButton type="submit" padding="8px" fontSize="lg">
-              링크 등록
-            </BoxButton>
+            <AddLinkButton theme={theme} />
           </Flex>
         </Form>
       </Card>
     </div>
   );
 };
+
+type AddLinkButtonProps = {
+  theme: Theme;
+};
+const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
+    링크등록
+  </BoxButton>
+);
 
 export default LinkForm;

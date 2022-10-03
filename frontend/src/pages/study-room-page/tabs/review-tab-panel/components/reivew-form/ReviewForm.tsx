@@ -1,3 +1,5 @@
+import { Theme } from '@emotion/react';
+
 import { REVIEW_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
@@ -100,13 +102,20 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
         <Divider space="4px" />
         <Flex justifyContent="space-between" alignItems="center">
           <LetterCounter count={count} maxCount={maxCount} />
-          <BoxButton type="submit" fluid={false} padding="4px 10px" fontSize="sm">
-            등록
-          </BoxButton>
+          <PublishButton theme={theme} />
         </Flex>
       </Form>
     </Card>
   );
 };
+
+type PublishButtonProps = {
+  theme: Theme;
+};
+const PublishButton: React.FC<PublishButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 10px', fontSize: theme.fontSize.sm }}>
+    등록
+  </BoxButton>
+);
 
 export default ReviewForm;

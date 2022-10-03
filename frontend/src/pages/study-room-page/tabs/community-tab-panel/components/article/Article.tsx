@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Theme } from '@emotion/react';
+
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
+
+import { theme } from '@styles/theme';
 
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
 import { useGetUserInformation } from '@api/member';
@@ -51,20 +55,8 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 
     return (
       <ButtonGroup gap="8px" width="fit-content">
-        <Link to="edit" relative="path">
-          <BoxButton type="button" padding="4px 8px" fluid={false}>
-            글수정
-          </BoxButton>
-        </Link>
-        <BoxButton
-          type="button"
-          padding="4px 8px"
-          fluid={false}
-          variant="secondary"
-          onClick={handleDeleteArticleButtonClick}
-        >
-          글삭제
-        </BoxButton>
+        <GoToEditArticleLinkButton />
+        <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
       </ButtonGroup>
     );
   };
@@ -94,11 +86,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
             <MarkdownRender markdownContent={content} />
           </div>
           <Divider space="8px" />
-          <Link to={`../${PATH.COMMUNITY}`}>
-            <BoxButton type="button" padding="8px" variant="secondary">
-              목록보기
-            </BoxButton>
-          </Link>
+          <GoToListPageLinkButton />
         </article>
       );
     }
@@ -106,5 +94,30 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 
   return <div>{render()}</div>;
 };
+
+const GoToEditArticleLinkButton: React.FC = () => (
+  <Link to="edit">
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px' }}>
+      글 수정
+    </BoxButton>
+  </Link>
+);
+
+type DeleteArticleButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
+    글 삭제
+  </BoxButton>
+);
+
+const GoToListPageLinkButton: React.FC = () => (
+  <Link to={`../${PATH.COMMUNITY}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
+      목록보기
+    </BoxButton>
+  </Link>
+);
 
 export default Article;

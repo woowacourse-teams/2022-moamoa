@@ -1,11 +1,11 @@
+import { Theme, useTheme } from '@emotion/react';
+
 import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
 
 import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
-
-import { theme } from '@styles/theme';
 
 import { usePutReview } from '@api/review';
 
@@ -45,8 +45,9 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   author,
   onEditSuccess,
   onEditError,
-  onCancelEditBtnClick,
+  onCancelEditBtnClick: handleCancelEditButtonClick,
 }) => {
+  const theme = useTheme();
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
   const {
     register,
@@ -116,24 +117,37 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
         <Flex justifyContent="space-between" alignItems="center">
           <LetterCounter count={count} maxCount={maxCount} />
           <ButtonGroup gap="12px" width="fit-content">
-            <BoxButton
-              type="button"
-              variant="secondary"
-              fluid={false}
-              padding="4px 10px"
-              fontSize="sm"
-              onClick={onCancelEditBtnClick}
-            >
-              취소
-            </BoxButton>
-            <BoxButton type="submit" fluid={false} padding="4px 10px" fontSize="sm">
-              수정
-            </BoxButton>
+            <CancelButton theme={theme} onClick={handleCancelEditButtonClick} />
+            <EditButton theme={theme} />
           </ButtonGroup>
         </Flex>
       </Form>
     </Card>
   );
 };
+
+type CancelButtonProps = {
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const CancelButton: React.FC<CancelButtonProps> = ({ theme, onClick: handleClick }) => (
+  <BoxButton
+    type="submit"
+    fluid={false}
+    onClick={handleClick}
+    custom={{ padding: '4px 10px', fontSize: theme.fontSize.sm }}
+  >
+    등록
+  </BoxButton>
+);
+
+type EditButtonProps = {
+  theme: Theme;
+};
+const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+    수정하기
+  </BoxButton>
+);
 
 export default ReviewEditForm;

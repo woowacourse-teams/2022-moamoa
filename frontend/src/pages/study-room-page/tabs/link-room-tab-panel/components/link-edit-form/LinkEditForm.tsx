@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 
+import { Theme, useTheme } from '@emotion/react';
+
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
 import type { Link, LinkId, Member, Noop } from '@custom-types';
-
-import { theme } from '@styles/theme';
 
 import { usePutLink } from '@api/link';
 
@@ -36,6 +36,7 @@ const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
 const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
+  const theme = useTheme();
   const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = usePutLink();
   const { count, maxCount, setCount } = useLetterCount(
@@ -132,14 +133,21 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
                 <LetterCounter count={count} maxCount={maxCount} />
               </div>
             </div>
-            <BoxButton type="submit" padding="8px" fontSize="lg">
-              링크 수정
-            </BoxButton>
+            <EditLinkButton theme={theme} />
           </Flex>
         </Form>
       </Card>
     </div>
   );
 };
+
+type EditLinkButtonProps = {
+  theme: Theme;
+};
+const EditLinkButton: React.FC<EditLinkButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
+    링크 수정
+  </BoxButton>
+);
 
 export default LinkEditForm;

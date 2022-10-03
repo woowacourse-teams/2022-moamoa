@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
 
+import { Theme, useTheme } from '@emotion/react';
+
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 import tw from '@utils/tw';
 
-import type { StudyDetail, UserRole } from '@custom-types';
+import type { StudyDetail, StudyId, UserRole } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
 import { BoxButton } from '@components/button';
+import { BoxButtonProps } from '@components/button/box-button/BoxButton';
 import Card from '@components/card/Card';
 import Flex from '@components/flex/Flex';
 
@@ -34,6 +37,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const theme = useTheme();
 
   const renderEnrollmentEndDateContent = () => {
     if (userRole === 'MEMBER' || userRole === 'OWNER') {
@@ -56,24 +60,6 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     );
   };
 
-  const renderButton = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
-      return (
-        <Link to={PATH.STUDY_ROOM(studyId)}>
-          <BoxButton type="button" fontSize="lg">
-            스터디 방으로 이동하기
-          </BoxButton>
-        </Link>
-      );
-    }
-
-    return (
-      <BoxButton type="submit" fontSize="lg" disabled={!isOpen} onClick={handleRegisterButtonClick}>
-        {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
-      </BoxButton>
-    );
-  };
-
   return (
     <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
       <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
@@ -91,9 +77,32 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           <span>{ownerName}</span>
         </Flex>
       </Card.Content>
-      {renderButton()}
+      {userRole === 'MEMBER' || userRole === 'OWNER' ? (
+        <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
+      ) : (
+        <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
+      )}
     </Card>
   );
 };
+
+type GoToStudyRoomLinkButtonProps = {
+  theme: Theme;
+  studyId: StudyId;
+};
+const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ theme, studyId }) => (
+  <Link to={PATH.STUDY_ROOM(studyId)}>
+    <BoxButton type="button" custom={{ fontSize: theme.fontSize.lg }}>
+      스터디 방으로 이동하기
+    </BoxButton>
+  </Link>
+);
+
+type RegisterButtonProps = { theme: Theme } & Pick<BoxButtonProps, 'disabled' | 'onClick'>;
+const RegisterButton: React.FC<RegisterButtonProps> = ({ theme, disabled: isOpen, onClick: handleClick }) => (
+  <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
+    {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+  </BoxButton>
+);
 
 export default StudyFloatBox;
