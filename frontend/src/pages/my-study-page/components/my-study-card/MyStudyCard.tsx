@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { type Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -50,15 +52,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
         </Card.Content>
       </Card>
       <div css={tw`absolute bottom-12 right-12 z-3`}>
-        <IconButton
-          variant="secondary"
-          onClick={handleQuitStudyButtonClick}
-          ariaLabel="스터디 탈퇴"
-          width="auto"
-          height="auto"
-        >
-          <TrashcanIcon />
-        </IconButton>
+        <QuitStudyButton onClick={handleQuitStudyButtonClick} />
       </div>
     </Self>
   );
@@ -87,5 +81,19 @@ const Self = styled.div<StyledMyStudyCardProps>`
     ${applyHoverTransitionStyle()}
   `}
 `;
+
+type QuitStudyButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const QuitStudyButton: React.FC<QuitStudyButtonProps> = ({ onClick: handleClick }) => (
+  <IconButton
+    variant="secondary"
+    onClick={handleClick}
+    ariaLabel="스터디 탈퇴"
+    custom={{ width: 'auto', height: 'auto' }}
+  >
+    <TrashcanIcon />
+  </IconButton>
+);
 
 export default MyStudyCard;

@@ -3,48 +3,27 @@ import { type ReactSVG } from 'react';
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { CssLength, MakeRequired } from '@custom-types';
+import type { MakeRequired } from '@custom-types';
 
-import { type ThemeFontSize } from '@styles/theme';
+import { CustomCSS } from '@styles/custom-css';
 
 export type IconButtonProps = {
   children: React.ReactElement<ReactSVG>;
   ariaLabel: string;
   variant?: 'primary' | 'secondary';
-  width: CssLength;
-  height: CssLength;
-  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  custom?: CustomCSS<'width' | 'height' | 'fontSize'>;
 };
 
-const IconButton: React.FC<IconButtonProps> = ({
-  children,
-  ariaLabel,
-  variant = 'primary',
-  width,
-  height,
-  fontSize = 'md',
-  onClick: handleClick,
-}) => {
+const IconButton: React.FC<IconButtonProps> = ({ children, ariaLabel, variant = 'primary', onClick: handleClick }) => {
   return (
-    <Self
-      type="button"
-      onClick={handleClick}
-      variant={variant}
-      aria-label={ariaLabel}
-      width={width}
-      height={height}
-      fontSize={fontSize}
-    >
+    <Self type="button" onClick={handleClick} variant={variant} aria-label={ariaLabel}>
       {children}
     </Self>
   );
 };
 
-type StyledIconButtonProps = MakeRequired<
-  Pick<IconButtonProps, 'variant' | 'height' | 'width' | 'fontSize'>,
-  'variant'
->;
+type StyledIconButtonProps = MakeRequired<Pick<IconButtonProps, 'variant'>, 'variant'>;
 
 const applyPrimaryStyle = (theme: Theme) => css`
   background-color: ${theme.colors.primary.base};
@@ -75,15 +54,12 @@ const applySecondaryStyle = (theme: Theme) => css`
 `;
 
 export const Self = styled.button<StyledIconButtonProps>`
-  ${({ theme, variant, height, width, fontSize }) => css`
+  ${({ theme, variant }) => css`
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center
 
-    width: ${width};
-    height: ${height};
-
-    ${fontSize && `font-size: ${theme.fontSize[fontSize]};`}
+    font-size: ${theme.fontSize.md}
     border: none;
     border-radius: ${theme.radius.circle};
     transition: background-color 0.2s ease;

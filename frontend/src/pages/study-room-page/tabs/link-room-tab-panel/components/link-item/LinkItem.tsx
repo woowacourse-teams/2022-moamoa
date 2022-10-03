@@ -1,3 +1,5 @@
+import { Theme } from '@emotion/react';
+
 import tw from '@utils/tw';
 
 import type { Link, StudyId } from '@custom-types';
@@ -62,15 +64,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
       <div css={tw`relative`}>
         {isMyLink && (
           <div css={tw`absolute top-8 right-8 z-3`}>
-            <IconButton
-              ariaLabel="수정 및 삭제 메뉴"
-              onClick={handleMeatballMenuClick}
-              width="30px"
-              height="30px"
-              variant="secondary"
-            >
-              <MeatballMenuIcon />
-            </IconButton>
+            <ToggleButton onClick={handleMeatballMenuClick} />
             <DropDownBox isOpen={isOpenDropBox} onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
               <ButtonGroup orientation="vertical">
                 <TextButton variant="secondary" fontSize="sm" onClick={handleEditLinkButtonClick}>
@@ -103,5 +97,19 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     </>
   );
 };
+
+type ToggleButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick: handleClick }) => (
+  <IconButton
+    ariaLabel="수정 및 삭제 메뉴"
+    onClick={handleClick}
+    variant="secondary"
+    custom={{ width: '30px', height: '30px' }}
+  >
+    <MeatballMenuIcon />
+  </IconButton>
+);
 
 export default LinkItem;

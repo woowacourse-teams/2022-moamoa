@@ -8,6 +8,8 @@ import { PATH } from '@constants';
 
 import tw from '@utils/tw';
 
+import { Member } from '@custom-types';
+
 import { mqDown } from '@styles/responsive';
 
 import { useAuth } from '@hooks/useAuth';
@@ -72,15 +74,7 @@ const Header: React.FC = () => {
               </NavButton>
             </Link>
             <div css={tw`relative`}>
-              <IconButton
-                onClick={handleAvatarButtonClick}
-                width="38px"
-                height="38px"
-                ariaLabel={userInfo.username}
-                variant="secondary"
-              >
-                <Avatar src={userInfo.imageUrl} name={userInfo.username} />
-              </IconButton>
+              <AvatarButton userInfo={userInfo} onClick={handleAvatarButtonClick} />
               <DropDownBox
                 isOpen={isOpenDropDownBox}
                 top="40px"
@@ -152,5 +146,20 @@ export const SearchBarContainer = styled.div`
     transform: none;
   }
 `;
+
+type AvatarButtonProps = {
+  userInfo: Member;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const AvatarButton: React.FC<AvatarButtonProps> = ({ userInfo, onClick: handleClick }) => (
+  <IconButton
+    onClick={handleClick}
+    ariaLabel={userInfo.username}
+    variant="secondary"
+    custom={{ width: '38px', height: '38px' }}
+  >
+    <Avatar src={userInfo.imageUrl} name={userInfo.username} />
+  </IconButton>
+);
 
 export default Header;

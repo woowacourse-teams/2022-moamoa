@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import tw from '@utils/tw';
@@ -15,14 +15,13 @@ export type SearchBarProps = {
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }) => {
+  const theme = useTheme();
   return (
     <Self>
       <Form onSubmit={e => onSubmit(e, inputName)}>
         <Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
         <div css={tw`absolute top-10 right-14`}>
-          <IconButton ariaLabel="검색하기" width="fit-content" height="fit-content" variant="secondary" fontSize="xl">
-            <SearchIcon />
-          </IconButton>
+          <SearchButton theme={theme} />
         </div>
       </Form>
     </Self>
@@ -62,5 +61,18 @@ export const Input = styled.input`
     }
   `}
 `;
+
+type SearchButtonProps = {
+  theme: Theme;
+};
+const SearchButton: React.FC<SearchButtonProps> = ({ theme }) => (
+  <IconButton
+    ariaLabel="검색하기"
+    variant="secondary"
+    custom={{ width: 'fit-content', height: 'fit-content', fontSize: theme.fontSize.xl }}
+  >
+    <SearchIcon />
+  </IconButton>
+);
 
 export default SearchBar;

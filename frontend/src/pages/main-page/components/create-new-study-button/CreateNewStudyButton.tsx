@@ -10,7 +10,7 @@ export type CreateNewStudyButtonProps = {
 const CreateNewStudyButton = ({ onClick: handleClick }: CreateNewStudyButtonProps) => {
   return (
     <Self>
-      <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" width="70px" height="70px">
+      <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" custom={{ width: '70px', height: '70px' }}>
         <PencilIcon />
       </IconButton>
     </Self>

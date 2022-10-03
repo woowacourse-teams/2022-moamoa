@@ -9,7 +9,12 @@ export type FilterSlideButtonProps = {
 
 const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ direction, ariaLabel, onClick: handleClick }) => {
   return (
-    <IconButton ariaLabel={ariaLabel} onClick={handleClick} width="25px" height="25px" variant="secondary">
+    <IconButton
+      ariaLabel={ariaLabel}
+      onClick={handleClick}
+      variant="secondary"
+      custom={{ width: '25px', height: '25px' }}
+    >
       {direction === 'right' ? <RightDirectionIcon /> : <LeftDirectionIcon />}
     </IconButton>
   );
