@@ -5,6 +5,8 @@ import notFoundImage from '@assets/images/no-image-found.png';
 
 import type { CssLength } from '@custom-types';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+
 export type ImageProps = {
   shape: 'circular' | 'rectangular';
   src?: string | null;
@@ -13,16 +15,16 @@ export type ImageProps = {
   height?: CssLength;
   objectFit?: 'cover' | 'fill' | 'contain' | 'none' | 'scale-down';
   ratio?: string;
+  custom?: CustomCSS<'width' | 'height' | 'marginBottom'>;
 };
 
 const Image: React.FC<ImageProps> = ({
   shape = 'rectangular',
   src,
   alt,
-  width = '100%',
-  height = '100%',
   objectFit = 'cover',
   ratio = '16 / 10',
+  custom,
 }) => {
   const handleImageError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = notFoundImage;
@@ -34,20 +36,19 @@ const Image: React.FC<ImageProps> = ({
       alt={alt}
       onError={handleImageError}
       shape={shape}
-      width={width}
-      height={height}
       objectFit={objectFit}
       ratio={ratio}
+      css={resolveCustomCSS(custom)}
     />
   );
 };
 
-type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'width' | 'height' | 'objectFit' | 'ratio'>>;
+type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'objectFit' | 'ratio'>>;
 
 export const Self = styled.img<StyledImageProps>`
-  ${({ theme, shape, width, height, objectFit, ratio }) => css`
-    width: ${width};
-    height: ${height};
+  ${({ theme, shape, objectFit, ratio }) => css`
+    width: 100%;
+    height: 100%;
 
     object-fit: ${objectFit};
     object-position: center;
