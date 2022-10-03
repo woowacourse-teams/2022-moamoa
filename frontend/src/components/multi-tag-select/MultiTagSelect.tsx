@@ -1,10 +1,12 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { css } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import isFunction from '@utils/isFunction';
 import isObject from '@utils/isObject';
+
+import { theme } from '@styles/theme';
 
 import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';
@@ -27,6 +29,7 @@ export type MultiTagSelectProps = {
 
 const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
   ({ defaultSelectedOptions = [], options, name }, inputRef) => {
+    const theme = useTheme();
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
@@ -84,18 +87,14 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             {selectedOptions.map(option => (
               <SelectedOption key={option.value}>
                 <SelectedOptionValue>{option.label}</SelectedOptionValue>
-                <UnselectButton fontSize="sm" onClick={handleUnselectButtonClick(option)}>
-                  <Center>
-                    <XMarkIcon />
-                  </Center>
-                </UnselectButton>
+                <UnselectButton onClick={handleUnselectButtonClick(option)} />
               </SelectedOption>
             ))}
           </SelectedOptionList>
           <Indicators>
             {selectedOptions.length > 0 && (
               <Center>
-                <AllClearButton fontSize="md" onClick={handleAllClearButtonClick}>
+                <AllClearButton onClick={handleAllClearButtonClick}>
                   <Center>
                     <XMarkIcon />
                   </Center>
@@ -112,7 +111,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             <ul>
               {unSelectedOptions.map(option => (
                 <UnselectedOption key={option.value}>
-                  <SelectButton fontSize="sm" onClick={handleSelectButtonClick(option)}>
+                  <SelectButton theme={theme} onClick={handleSelectButtonClick(option)}>
                     {option.label}
                   </SelectButton>
                 </UnselectedOption>
@@ -187,17 +186,26 @@ const SelectedOptionValue = styled.div`
   white-space: nowrap;
 `;
 
-const UnselectButton = styled(UnstyledButton)`
-  display: flex;
-  align-items: center;
-
-  font-size: 14px;
-
-  -webkit-box-align: center;
-  border-radius: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
-`;
+type UnselectButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const UnselectButton: React.FC<UnselectButtonProps> = ({ onClick: handleClick }) => (
+  <UnstyledButton
+    onClick={handleClick}
+    custom={{
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '14px',
+      borderRadius: '2px',
+      paddingLeft: '4px',
+      paddingRight: '4px',
+    }}
+  >
+    <Center>
+      <XMarkIcon />
+    </Center>
+  </UnstyledButton>
+);
 
 const Indicators = styled.div`
   display: flex;
@@ -237,12 +245,19 @@ const UnselectedOption = styled.li`
   `}
 `;
 
-const SelectButton = styled(UnstyledButton)`
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  text-align: left;
-`;
+type SelectButtonProps = {
+  children: string;
+  theme: Theme;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const SelectButton: React.FC<SelectButtonProps> = ({ children, theme, onClick: handleClick }) => (
+  <UnstyledButton
+    onClick={handleClick}
+    custom={{ width: '100%', height: '100%', padding: '10px', textAlign: 'left', fontSize: theme.fontSize.sm }}
+  >
+    {children}
+  </UnstyledButton>
+);
 
 export const AllClearButton = styled(UnstyledButton)``;
 
