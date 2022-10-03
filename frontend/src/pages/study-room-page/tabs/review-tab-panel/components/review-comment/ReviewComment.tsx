@@ -65,7 +65,13 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
           {isMyComment && (
             <div css={tw`relative`}>
               <ToggleButton onClick={handleKebabMenuClick} />
-              <DropDownBox isOpen={isOpen} onClose={handleDropDownBoxClose} top="24px" right="10px" padding="10px">
+              <DropDownBox
+                isOpen={isOpen}
+                onClose={handleDropDownBoxClose}
+                top="24px"
+                right="10px"
+                custom={{ padding: '10px' }}
+              >
                 <ButtonGroup orientation="vertical">
                   <EditButton theme={theme} onClick={handleEditReviewBtnClick} />
                   <Divider />

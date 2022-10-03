@@ -66,7 +66,13 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
         {isMyLink && (
           <div css={tw`absolute top-8 right-8 z-3`}>
             <ToggleButton onClick={handleMeatballMenuClick} />
-            <DropDownBox isOpen={isOpenDropBox} onClose={handleDropDownBoxClose} top="24px" right="-36px" padding="8px">
+            <DropDownBox
+              isOpen={isOpenDropBox}
+              onClose={handleDropDownBoxClose}
+              top="24px"
+              right="-36px"
+              custom={{ padding: '8px' }}
+            >
               <ButtonGroup orientation="vertical">
                 <EditButton theme={theme} onClick={handleEditLinkButtonClick} />
                 <Divider space="8px" />

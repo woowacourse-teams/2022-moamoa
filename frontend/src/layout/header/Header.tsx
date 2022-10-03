@@ -80,7 +80,7 @@ const Header: React.FC = () => {
                 top="40px"
                 right={0}
                 onClose={handleDropDownBoxClose}
-                padding="16px"
+                custom={{ padding: '16px' }}
               >
                 <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
                   <LogoutIcon />

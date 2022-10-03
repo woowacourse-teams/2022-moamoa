@@ -5,19 +5,20 @@ import styled from '@emotion/styled';
 
 import type { CssLength, Noop } from '@custom-types';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+
 export type DropDownBoxProps = {
   children: React.ReactNode;
-  className?: string;
   isOpen: boolean;
   onClose: Noop;
   top?: CssLength;
   bottom?: CssLength;
   left?: CssLength;
   right?: CssLength;
-  padding?: CssLength;
+  custom?: CustomCSS<'padding'>;
 };
 
-const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, isOpen, onClose, padding, ...positions }) => {
+const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, custom, ...positions }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, isOpen, 
   return (
     <>
       {isOpen && (
-        <Self className={className} {...positions} padding={padding} ref={ref}>
+        <Self css={resolveCustomCSS(custom)} {...positions} ref={ref}>
           {children}
         </Self>
       )}
@@ -50,10 +51,10 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ className, children, isOpen, 
   );
 };
 
-type StyledDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right' | 'padding'>;
+type StyledDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right'>;
 
 export const Self = styled.div<StyledDropDownBox>`
-  ${({ theme, top, bottom, left, right, padding }) => css`
+  ${({ theme, top, bottom, left, right }) => css`
     position: absolute;
     ${(top || top === 0) && `top: ${top};`}
     ${(bottom || bottom === 0) && `bottom: ${bottom};`}
@@ -61,8 +62,6 @@ export const Self = styled.div<StyledDropDownBox>`
     ${(right || right === 0) && `right: ${right};`}
     z-index: 3;
     white-space: nowrap;
-
-    ${padding && `padding: ${padding};`}
 
     border: 1px solid ${theme.colors.secondary.dark};
     border-radius: ${theme.radius.xs};
