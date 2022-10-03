@@ -9,7 +9,6 @@ export type ToggleButtonProps = {
   variant?: 'primary' | 'secondary';
   fluid?: boolean;
   checked: boolean;
-  fontSize?: ThemeFontSize;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -18,17 +17,16 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   checked,
   fluid = false,
   variant = 'primary',
-  fontSize = 'md',
   onClick: handleClick,
 }) => {
   return (
-    <Self type="button" fluid={fluid} checked={checked} onClick={handleClick} variant={variant} fontSize={fontSize}>
+    <Self type="button" fluid={fluid} checked={checked} onClick={handleClick} variant={variant}>
       {children}
     </Self>
   );
 };
 
-type StyledToggleButtonProps = Required<Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant' | 'fontSize'>>;
+type StyledToggleButtonProps = Required<Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant'>>;
 
 const applyCheckedStyle = (theme: Theme) => css`
   color: ${theme.colors.primary.base};
@@ -42,7 +40,7 @@ const applyCheckedStyle = (theme: Theme) => css`
 `;
 
 export const Self = styled.button<StyledToggleButtonProps>`
-  ${({ theme, checked, fluid, variant, fontSize }) => css`
+  ${({ theme, checked, fluid, variant }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,7 +50,7 @@ export const Self = styled.button<StyledToggleButtonProps>`
     padding: 8px 4px;
 
     color: ${theme.colors.primary.base};
-    font-size: ${theme.fontSize[fontSize]};
+    font-size: ${theme.fontSize.md};
     border: none;
     border-bottom: 2px solid transparent;
     background-color: transparent;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { Theme } from '@emotion/react';
+
 import { DESCRIPTION_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
@@ -18,7 +20,7 @@ import Textarea from '@components/textarea/Textarea';
 const tabMode = {
   write: 'write',
   preview: 'preview',
-};
+} as const;
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
 
@@ -41,7 +43,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
 
   const isValid = !errors[DESCRIPTION]?.hasError;
 
-  const handleNavItemClick = (tabId: string) => () => {
+  const handleNavItemClick = (tabId: TabIds) => () => {
     setActiveTab(tabId);
   };
 
@@ -94,20 +96,8 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
       <MetaBox>
         <MetaBox.Title>
           <ButtonGroup gap="8px">
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === tabMode.write}
-              onClick={handleNavItemClick(tabMode.write)}
-            >
-              Write
-            </ToggleButton>
-            <ToggleButton
-              variant="secondary"
-              checked={activeTab === tabMode.preview}
-              onClick={handleNavItemClick(tabMode.preview)}
-            >
-              Preview
-            </ToggleButton>
+            <WriteTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.write)} />
+            <PreviewTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.preview)} />
           </ButtonGroup>
         </MetaBox.Title>
         <MetaBox.Content>
@@ -117,5 +107,22 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
     </div>
   );
 };
+
+type WriteTabButtonProps = {
+  activeTab: TabIds;
+  onClick: () => void;
+};
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
+    Write
+  </ToggleButton>
+);
+
+type PreviewTabButtonProps = WriteTabButtonProps;
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
+    Preview
+  </ToggleButton>
+);
 
 export default DescriptionTab;

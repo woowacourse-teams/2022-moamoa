@@ -86,20 +86,8 @@ const PublishContent = () => {
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.write}
-            onClick={handleNavItemClick(tabMode.write)}
-          >
-            Write
-          </ToggleButton>
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.preview}
-            onClick={handleNavItemClick(tabMode.preview)}
-          >
-            Preview
-          </ToggleButton>
+          <WriteTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.write)} />
+          <PreviewTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.preview)} />
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>
@@ -108,5 +96,22 @@ const PublishContent = () => {
     </MetaBox>
   );
 };
+
+type WriteTabButtonProps = {
+  activeTab: TabIds;
+  onClick: () => void;
+};
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
+    Write
+  </ToggleButton>
+);
+
+type PreviewTabButtonProps = WriteTabButtonProps;
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
+    Preview
+  </ToggleButton>
+);
 
 export default PublishContent;
