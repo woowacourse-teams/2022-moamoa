@@ -1,4 +1,4 @@
-import tw from '@utils/tw';
+import styled from '@emotion/styled';
 
 import { IconButton } from '@components/button';
 import { PencilIcon } from '@components/icons';
@@ -9,12 +9,19 @@ export type CreateNewStudyButtonProps = {
 
 const CreateNewStudyButton = ({ onClick: handleClick }: CreateNewStudyButtonProps) => {
   return (
-    <div css={tw`fixed right-60 bottom-50 z-3`}>
+    <Self>
       <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" width="70px" height="70px">
         <PencilIcon />
       </IconButton>
-    </div>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+  z-index: 3;
+`;
 
 export default CreateNewStudyButton;
