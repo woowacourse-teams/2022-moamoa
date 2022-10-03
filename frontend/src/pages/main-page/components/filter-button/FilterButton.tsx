@@ -19,9 +19,9 @@ export type FilterButtonProps = {
 const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, isChecked, onClick: handleClick }) => {
   return (
     <Self css={resolveCustomCSS(custom)}>
-      <Flex alignItems="center" height="70px">
+      <Flex alignItems="center" custom={{ height: '70px' }}>
         <ToggleButton checked={isChecked} onClick={handleClick}>
-          <Flex flexDirection="column" width="80px">
+          <Flex flexDirection="column" custom={{ width: '80px' }}>
             <Name>{name}</Name>
             <Description>{description}</Description>
           </Flex>
