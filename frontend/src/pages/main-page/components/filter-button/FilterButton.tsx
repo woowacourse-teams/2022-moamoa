@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 import { ToggleButton } from '@components/button';
 import Flex from '@components/flex/Flex';
@@ -13,11 +13,12 @@ export type FilterButtonProps = {
   description: string;
   isChecked: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
+  custom?: CustomCSS<'marginBottom'>;
 };
 
-const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecked, onClick: handleClick }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, isChecked, onClick: handleClick }) => {
   return (
-    <div css={tw`mb-8`}>
+    <Self css={resolveCustomCSS(custom)}>
       <Flex alignItems="center" height="70px">
         <ToggleButton checked={isChecked} onClick={handleClick}>
           <Flex flexDirection="column" width="80px">
@@ -26,9 +27,11 @@ const FilterButton: React.FC<FilterButtonProps> = ({ name, description, isChecke
           </Flex>
         </ToggleButton>
       </Flex>
-    </div>
+    </Self>
   );
 };
+
+const Self = styled.div``;
 
 const Name = styled.span`
   ${({ theme }) => css`
