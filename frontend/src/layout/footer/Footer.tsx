@@ -1,23 +1,20 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { CssLength } from '@custom-types';
+import { CustomCSS } from '@styles/custom-css';
 
 export type FooterProps = {
   children?: React.ReactNode;
-  marginBottom?: CssLength;
+  custom?: CustomCSS<'marginBottom'>;
 };
 
-const Footer: React.FC<FooterProps> = ({ children = '그린론 디우 베루스 병민 짱구 태태', marginBottom = 0 }) => {
-  return <Self marginBottom={marginBottom}>{children}</Self>;
+const Footer: React.FC<FooterProps> = ({ children = '그린론 디우 베루스 병민 짱구 태태', custom }) => {
+  return <Self css={custom}>{children}</Self>;
 };
 
-type StyledFooterProps = Required<Pick<FooterProps, 'marginBottom'>>;
-
-export const Self = styled.footer<StyledFooterProps>`
-  ${({ theme, marginBottom }) => css`
+export const Self = styled.footer`
+  ${({ theme }) => css`
     padding: 24px 0;
-    margin-bottom: ${marginBottom};
 
     text-align: center;
     color: ${theme.colors.secondary.dark};

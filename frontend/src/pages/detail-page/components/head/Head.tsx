@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { StudyDetail, StudyId } from '@custom-types';
+import type { StudyDetail, StudyId, Tag } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';
@@ -40,16 +40,9 @@ const Head: React.FC<HeadProps> = ({
         </Flex>
         {isOwner && <GoToEditPageLinkButton studyId={studyId} />}
       </Flex>
-      <Flex alignItems="center" columnGap="16px">
-        <span>시작일: {changeDateSeperator(startDate)}</span> ~
-        <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
-      </Flex>
+      <Period startDate={startDate} endDate={endDate} />
       <Excerpt>&quot;{excerpt}&quot;</Excerpt>
-      <Flex columnGap="16px">
-        {tags.map(({ id, name }) => (
-          <span key={id}>#{name}</span>
-        ))}
-      </Flex>
+      <TagList tags={tags} />
     </Flex>
   );
 };
@@ -69,6 +62,28 @@ const GoToEditPageLinkButton: React.FC<GoToEditPageLinkButtonProps> = ({ studyId
   <Link to={PATH.EDIT_STUDY(studyId)}>
     <TextButton variant="secondary">수정</TextButton>
   </Link>
+);
+
+type TagListProps = {
+  tags: Array<Tag>;
+};
+const TagList: React.FC<TagListProps> = ({ tags }) => (
+  <Flex columnGap="16px">
+    {tags.map(({ id, name }) => (
+      <span key={id}>#{name}</span>
+    ))}
+  </Flex>
+);
+
+type PeriodProps = {
+  startDate: string;
+  endDate?: string;
+};
+const Period: React.FC<PeriodProps> = ({ startDate, endDate }) => (
+  <Flex alignItems="center" columnGap="16px">
+    <span>시작일: {changeDateSeperator(startDate)}</span> ~
+    <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
+  </Flex>
 );
 
 export default Head;
