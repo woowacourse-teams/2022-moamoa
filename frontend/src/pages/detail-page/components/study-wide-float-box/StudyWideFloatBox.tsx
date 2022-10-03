@@ -60,8 +60,8 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     <Card backgroundColor={theme.colors.white} padding="20px" shadow>
       <Flex justifyContent="space-between" alignItems="center">
         <div>
-          <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
-          <Card.Content fontSize="md" maxLine={1}>
+          <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>{renderEnrollmentEndDateContent()}</Card.Heading>
+          <Card.Content custom={{ fontSize: theme.fontSize.md }} maxLine={1}>
             <span css={tw`mr-16`}>모집인원</span>
             <span>
               {currentMemberCount} / {maxMemberCount ?? '∞'}

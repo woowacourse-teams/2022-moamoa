@@ -10,41 +10,30 @@ import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
 
 export type CardProps = {
   children: React.ReactNode;
-  width?: CssLength;
-  height?: CssLength;
   backgroundColor?: ThemeColor | 'transparent';
   shadow?: boolean;
   gap?: CssLength;
   padding?: CssLength;
+  custom?: CustomCSS<'width' | 'height'>;
 };
 
 export type CardHeadingProps = {
   children: React.ReactNode;
   maxLine?: number;
-  fontSize?: ThemeFontSize;
-  custom?: CustomCSS<'marginBottom'>;
+  custom?: CustomCSS<'marginBottom' | 'fontSize'>;
 };
 
 export type CardContentProps = {
   children: React.ReactNode;
   maxLine?: number;
   align?: 'right' | 'left' | 'center';
-  fontSize?: ThemeFontSize;
+  custom?: CustomCSS<'fontSize'>;
 };
 
-const Card: React.FC<CardProps> = ({
-  children,
-  width = '100%',
-  height = 'fit-content',
-  backgroundColor = 'transparent',
-  shadow,
-  gap,
-  padding,
-}) => {
+const Card: React.FC<CardProps> = ({ custom, children, backgroundColor = 'transparent', shadow, gap, padding }) => {
   return (
     <CardSelf
-      width={width}
-      height={height}
+      css={resolveCustomCSS(custom)}
       backgroundColor={backgroundColor}
       shadow={shadow}
       gap={gap}
@@ -55,39 +44,39 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-const CardHeading: React.FC<CardHeadingProps> = ({ custom, children, maxLine = 1, fontSize = 'lg' }) => {
+const CardHeading: React.FC<CardHeadingProps> = ({ custom, children, maxLine = 1 }) => {
   return (
-    <CardHeadingSelf css={resolveCustomCSS(custom)} maxLine={maxLine} fontSize={fontSize}>
+    <CardHeadingSelf css={resolveCustomCSS(custom)} maxLine={maxLine}>
       {children}
     </CardHeadingSelf>
   );
 };
 
-const CardContent: React.FC<CardContentProps> = ({ children, maxLine = 2, align = 'left', fontSize = 'sm' }) => {
+const CardContent: React.FC<CardContentProps> = ({ custom, children, maxLine = 2, align = 'left' }) => {
   return (
-    <CardContentSelf maxLine={maxLine} align={align} fontSize={fontSize}>
+    <CardContentSelf css={resolveCustomCSS(custom)} maxLine={maxLine} align={align}>
       {children}
     </CardContentSelf>
   );
 };
 
 type StyledCardProps = MakeRequired<
-  Pick<CardProps, 'height' | 'width' | 'backgroundColor' | 'shadow' | 'gap' | 'padding'>,
-  'width' | 'height' | 'backgroundColor'
+  Pick<CardProps, 'backgroundColor' | 'shadow' | 'gap' | 'padding'>,
+  'backgroundColor'
 >;
 
-type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine' | 'fontSize'>>;
+type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine'>>;
 
-type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align' | 'fontSize'>>;
+type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align'>>;
 
 export const CardSelf = styled.div<StyledCardProps>`
-  ${({ theme, width, height, backgroundColor, shadow, gap, padding }) => css`
+  ${({ theme, backgroundColor, shadow, gap, padding }) => css`
     display: flex;
+    width: 100%;
+    height: fit-content;
     flex-direction: column;
     ${gap && `gap: ${gap}`};
 
-    width: ${width};
-    height: ${height};
     ${padding && `padding: ${padding}`};
     overflow: hidden;
 
@@ -98,24 +87,24 @@ export const CardSelf = styled.div<StyledCardProps>`
 `;
 
 export const CardHeadingSelf = styled.h1<StyledCardHeadingProps>`
-  ${({ theme, maxLine, fontSize }) => css`
+  ${({ theme, maxLine }) => css`
     width: 100%;
 
-    font-size: ${theme.fontSize[fontSize]};
+    font-size: ${theme.fontSize.lg};
     font-weight: ${theme.fontWeight.bold};
-    line-height: ${theme.fontSize[fontSize]};
+    line-height: ${theme.fontSize.lg};
 
     ${nLineEllipsis(maxLine)};
   `}
 `;
 
 export const CardContentSelf = styled.p<StyledCardContentProps>`
-  ${({ theme, maxLine, align, fontSize }) => css`
+  ${({ theme, maxLine, align }) => css`
     width: 100%;
-    height: calc(${theme.fontSize[fontSize]} * ${maxLine});
+    height: calc(${theme.fontSize.sm} * ${maxLine});
 
-    font-size: ${theme.fontSize[fontSize]};
-    line-height: ${theme.fontSize[fontSize]};
+    font-size: ${theme.fontSize.sm};
+    line-height: ${theme.fontSize.sm};
     text-align: ${align};
 
     ${nLineEllipsis(maxLine)};

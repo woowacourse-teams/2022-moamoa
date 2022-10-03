@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type Theme, css } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import tw from '@utils/tw';
@@ -32,22 +32,23 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   done = false,
   onQuitStudyButtonClick: handleQuitStudyButtonClick,
 }) => {
+  const theme = useTheme();
   return (
     <Self done={done}>
       <Card gap="8px" padding="16px" shadow>
         <Card.Heading>{title}</Card.Heading>
-        <Card.Content fontSize="md">
+        <Card.Content custom={{ fontSize: theme.fontSize.md }}>
           <CrownIcon />
           <span>{ownerName}</span>
         </Card.Content>
-        <Card.Content maxLine={1} fontSize="md">
+        <Card.Content maxLine={1} custom={{ fontSize: theme.fontSize.md }}>
           {tags.map(tag => (
             <span key={tag.id} css={tw`mr-8`}>
               #{tag.name}
             </span>
           ))}
         </Card.Content>
-        <Card.Content fontSize="md">
+        <Card.Content custom={{ fontSize: theme.fontSize.md }}>
           <span>{startDate}</span> ~ <span>{endDate || ''}</span>
         </Card.Content>
       </Card>

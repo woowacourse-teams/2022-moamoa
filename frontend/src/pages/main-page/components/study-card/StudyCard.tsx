@@ -22,7 +22,7 @@ export type StudyCardProps = {
 const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, tags, isOpen }) => {
   return (
     <Self>
-      <Card height="280px">
+      <Card custom={{ width: '280px' }}>
         <CardImage alt={thumbnailAlt} src={thumbnailUrl} />
         <div>
           <Card.Heading custom={{ marginBottom: '8px' }}>{title}</Card.Heading>

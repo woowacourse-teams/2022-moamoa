@@ -62,8 +62,8 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
   return (
     <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
-      <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
-      <Card.Content fontSize="lg">
+      <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>{renderEnrollmentEndDateContent()}</Card.Heading>
+      <Card.Content custom={{ fontSize: theme.fontSize.lg }}>
         <Flex justifyContent="space-between">
           <span>모집인원</span>
           <span>
@@ -71,7 +71,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
           </span>
         </Flex>
       </Card.Content>
-      <Card.Content fontSize="lg">
+      <Card.Content custom={{ fontSize: theme.fontSize.lg }}>
         <Flex justifyContent="space-between">
           <span>스터디장</span>
           <span>{ownerName}</span>
