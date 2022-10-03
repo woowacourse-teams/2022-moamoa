@@ -3,16 +3,12 @@ import styled from '@emotion/styled';
 
 import notFoundImage from '@assets/images/no-image-found.png';
 
-import type { CssLength } from '@custom-types';
-
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type ImageProps = {
   shape: 'circular' | 'rectangular';
   src?: string | null;
   alt: string;
-  width?: CssLength;
-  height?: CssLength;
   objectFit?: 'cover' | 'fill' | 'contain' | 'none' | 'scale-down';
   ratio?: string;
   custom?: CustomCSS<'width' | 'height' | 'marginBottom'>;

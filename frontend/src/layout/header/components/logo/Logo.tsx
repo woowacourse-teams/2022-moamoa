@@ -12,7 +12,7 @@ const Logo: React.FC = () => {
   return (
     <Flex justifyContent="center" alignItems="center">
       <ImageContainer>
-        <Image src={logoImage} alt="모아모아 로고" shape="circular" width="38px" height="38px" />
+        <Image src={logoImage} alt="모아모아 로고" shape="circular" custom={{ width: '38px', height: '38px' }} />
       </ImageContainer>
       <BorderText>MOAMOA</BorderText>
     </Flex>

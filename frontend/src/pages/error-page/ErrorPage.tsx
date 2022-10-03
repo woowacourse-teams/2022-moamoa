@@ -15,7 +15,12 @@ const ErrorPage: React.FC = () => {
 
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center" rowGap="4px">
-      <Image src={sthWentWrongImage} alt="잘못된 페이지" shape="rectangular" width="auto" height="auto" />
+      <Image
+        src={sthWentWrongImage}
+        alt="잘못된 페이지"
+        shape="rectangular"
+        custom={{ width: 'auto', height: 'auto' }}
+      />
       <p>잘못된 접근입니다.</p>
       <GoToHomeButton theme={theme} />
     </Flex>
