@@ -38,7 +38,6 @@ const DetailPage: React.FC = () => {
     id,
     title,
     excerpt,
-    thumbnail,
     recruitmentStatus,
     description,
     currentMemberCount,
@@ -66,15 +65,15 @@ const DetailPage: React.FC = () => {
       />
       <Divider space="20px" />
       <Flex columnGap="40px">
-        <section css={tw`w-full`}>
-          <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
+        <Main>
+          <MarkdownRendererContainer>
             <MarkdownRender markdownContent={description} />
-          </section>
+          </MarkdownRendererContainer>
           <Divider space="20px" />
           <StudyMemberSection owner={owner} members={members} />
-        </section>
-        <FloatButtonContainer>
-          <div css={tw`sticky top-150 pb-20`}>
+        </Main>
+        <Sidebar>
+          <FloatButtonContainer>
             <StudyFloatBox
               studyId={id}
               userRole={userRoleQueryResult.data?.role}
@@ -85,8 +84,8 @@ const DetailPage: React.FC = () => {
               recruitmentStatus={recruitmentStatus}
               onRegisterButtonClick={handleRegisterButtonClick}
             />
-          </div>
-        </FloatButtonContainer>
+          </FloatButtonContainer>
+        </Sidebar>
       </Flex>
       <Divider space="20px" />
       <StudyReviewSection studyId={id} />
@@ -105,7 +104,16 @@ const DetailPage: React.FC = () => {
   );
 };
 
-export const FloatButtonContainer = styled.div`
+const Main = styled.div`
+  width: 100%;
+`;
+
+const MarkdownRendererContainer = styled.div`
+  padding: 16px;
+  border-radius: 15px;
+`;
+
+const Sidebar = styled.div`
   min-width: 30%;
 
   ${mqDown('lg')} {
@@ -113,7 +121,13 @@ export const FloatButtonContainer = styled.div`
   }
 `;
 
-export const FixedBottomContainer = styled.div`
+const FloatButtonContainer = styled.div`
+  position: sticky;
+  top: 150px;
+  padding-bottom: 20px;
+`;
+
+const FixedBottomContainer = styled.div`
   display: none;
 
   position: fixed;
