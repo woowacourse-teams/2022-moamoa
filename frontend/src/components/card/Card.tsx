@@ -5,6 +5,7 @@ import { nLineEllipsis } from '@utils/nLineEllipsis';
 
 import type { CssLength, MakeRequired } from '@custom-types';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
 
 export type CardProps = {
@@ -21,6 +22,7 @@ export type CardHeadingProps = {
   children: React.ReactNode;
   maxLine?: number;
   fontSize?: ThemeFontSize;
+  custom?: CustomCSS<'marginBottom'>;
 };
 
 export type CardContentProps = {
@@ -53,9 +55,9 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-const CardHeading: React.FC<CardHeadingProps> = ({ children, maxLine = 1, fontSize = 'lg' }) => {
+const CardHeading: React.FC<CardHeadingProps> = ({ custom, children, maxLine = 1, fontSize = 'lg' }) => {
   return (
-    <CardHeadingSelf maxLine={maxLine} fontSize={fontSize}>
+    <CardHeadingSelf css={resolveCustomCSS(custom)} maxLine={maxLine} fontSize={fontSize}>
       {children}
     </CardHeadingSelf>
   );
@@ -98,7 +100,6 @@ export const CardSelf = styled.div<StyledCardProps>`
 export const CardHeadingSelf = styled.h1<StyledCardHeadingProps>`
   ${({ theme, maxLine, fontSize }) => css`
     width: 100%;
-    margin-bottom: 8px;
 
     font-size: ${theme.fontSize[fontSize]};
     font-weight: ${theme.fontWeight.bold};

@@ -2,14 +2,12 @@ import { memo } from 'react';
 
 import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
-
 import type { Study } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Card from '@components/card/Card';
-import Image from '@components/image/Image';
+import Image, { ImageProps } from '@components/image/Image';
 import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {
@@ -25,26 +23,17 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
   return (
     <Self>
       <Card height="280px">
-        <div css={tw`mb-16 flex-grow overflow-hidden`}>
-          <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} />
-        </div>
+        <CardImage alt={thumbnailAlt} src={thumbnailUrl} />
         <div>
-          <Card.Heading>{title}</Card.Heading>
-          <div css={tw`mb-8`}>
-            <Card.Content>{excerpt}</Card.Content>
-          </div>
+          <Card.Heading custom={{ marginBottom: '8px' }}>{title}</Card.Heading>
+          <Card.Content>{excerpt}</Card.Content>
           <Card.Content align="right" maxLine={1}>
-            {tags &&
-              tags.map(tag => (
-                <span key={tag.id} css={tw`mr-8`}>
-                  #{tag.name}
-                </span>
-              ))}
+            {tags && tags.map(tag => <Tag key={tag.id}>#{tag.name}</Tag>)}
           </Card.Content>
         </div>
-        <div css={tw`absolute top-8 right-8`}>
+        <StudyChipContainer>
           <StudyChip isOpen={isOpen} />
-        </div>
+        </StudyChipContainer>
       </Card>
     </Self>
   );
@@ -55,6 +44,22 @@ const Self = styled.div`
   height: 280px;
 
   ${applyHoverTransitionStyle()}
+`;
+
+type CardImageProps = Pick<ImageProps, 'alt' | 'src'>;
+
+const CardImage = ({ alt, src }: CardImageProps) => (
+  <Image custom={{ marginBottom: '16px' }} shape="rectangular" alt={alt} src={src} />
+);
+
+const Tag = styled.span`
+  margin-bottom: 8px;
+`;
+
+const StudyChipContainer = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
 `;
 
 export default memo(StudyCard);
