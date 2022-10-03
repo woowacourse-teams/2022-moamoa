@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
@@ -16,7 +17,6 @@ import { useDeleteMyStudy } from '@api/my-study';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import LinkedButton from '@components/button/linked-button/LinkedButton';
 import SectionTitle from '@components/section-title/SectionTitle';
 
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
@@ -68,7 +68,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
         ) : (
           studies.map(study => (
             <li key={study.id}>
-              <LinkedButton to={PATH.STUDY_ROOM(study.id)}>
+              <Link to={PATH.STUDY_ROOM(study.id)}>
                 <MyStudyCard
                   title={study.title}
                   ownerName={study.owner.username}
@@ -78,7 +78,7 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
                   done={done}
                   onQuitStudyButtonClick={handleTrashButtonClick(study)}
                 />
-              </LinkedButton>
+              </Link>
             </li>
           ))
         )}
