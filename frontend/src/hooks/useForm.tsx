@@ -22,7 +22,7 @@ export type UseFormSubmitResult = {
   errors?: FieldErrors;
 };
 
-type UseFormHandleSubmit = (
+export type UseFormHandleSubmit = (
   onSubmit: (e: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any> | undefined,
 ) => (e: React.FormEvent<HTMLFormElement>) => void;
 
