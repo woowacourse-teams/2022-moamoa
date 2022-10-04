@@ -1,17 +1,19 @@
-import { EXCERPT_LENGTH } from '@constants';
+import { css } from '@emotion/react';
 
-import tw from '@utils/tw';
+import { EXCERPT_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
 import Label from '@components/label/Label';
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import ImportedLetterCounter, {
+  type LetterCounterProps as ImportedLetterCounterProps,
+} from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 import MetaBox from '@components/meta-box/MetaBox';
-import Textarea from '@components/textarea/Textarea';
+import ImportedTextarea, { type TextareaProps as ImportedTextareaProps } from '@components/textarea/Textarea';
 
 export type ExcerptProps = {
   originalExcerpt?: StudyDetail['description'];
@@ -35,33 +37,20 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
     <div>
       <MetaBox>
         <MetaBox.Title>
-          <Label htmlFor={EXCERPT}>한 줄 소개</Label>
+          <Label htmlFor={EXCERPT}>한 줄 소개</Label>;
         </MetaBox.Title>
         <MetaBox.Content>
-          <div css={tw`relative`}>
-            <div css={tw`absolute right-6 bottom-6`}>
-              <LetterCounter count={count} maxCount={maxCount} />
-            </div>
-            <Textarea
-              id={EXCERPT}
-              placeholder="*한줄소개를 입력해주세요"
-              invalid={!isValid}
-              defaultValue={originalExcerpt}
-              {...register(EXCERPT, {
-                validate: (val: string) => {
-                  if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
-                    return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);
-                  }
-                  if (val.length > EXCERPT_LENGTH.MAX.VALUE)
-                    return makeValidationResult(true, EXCERPT_LENGTH.MAX.MESSAGE);
-                  return makeValidationResult(false);
-                },
-                validationMode: 'change',
-                onChange: handleExcerptChange,
-                minLength: EXCERPT_LENGTH.MIN.VALUE,
-                maxLength: EXCERPT_LENGTH.MAX.VALUE,
-                required: true,
-              })}
+          <div
+            css={css`
+              position: relative;
+            `}
+          >
+            <LetterCounter count={count} maxCount={maxCount} />
+            <ExceprtTextArea
+              isValid={isValid}
+              defaultValue={originalExcerpt ?? ''}
+              register={register}
+              onChange={handleExcerptChange}
             />
           </div>
         </MetaBox.Content>
@@ -69,5 +58,53 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
     </div>
   );
 };
+
+type LetterCouterProps = ImportedLetterCounterProps;
+const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
+  const style = css`
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedLetterCounter {...props} />
+    </div>
+  );
+};
+
+type ExcerptTextAreaProps = {
+  isValid: boolean;
+  defaultValue: string;
+  register: UseFormRegister;
+  onChange: ImportedTextareaProps['onChange'];
+};
+const ExceprtTextArea: React.FC<ExcerptTextAreaProps> = ({
+  isValid,
+  defaultValue,
+  onChange: handleChange,
+  register,
+}) => (
+  <ImportedTextarea
+    id={EXCERPT}
+    placeholder="*한줄소개를 입력해주세요"
+    invalid={!isValid}
+    defaultValue={defaultValue}
+    {...register(EXCERPT, {
+      validate: (val: string) => {
+        if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
+          return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);
+        }
+        if (val.length > EXCERPT_LENGTH.MAX.VALUE) return makeValidationResult(true, EXCERPT_LENGTH.MAX.MESSAGE);
+        return makeValidationResult(false);
+      },
+      validationMode: 'change',
+      onChange: handleChange,
+      minLength: EXCERPT_LENGTH.MIN.VALUE,
+      maxLength: EXCERPT_LENGTH.MAX.VALUE,
+      required: true,
+    })}
+  />
+);
 
 export default Excerpt;
