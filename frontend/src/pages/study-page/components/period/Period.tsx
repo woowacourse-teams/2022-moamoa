@@ -1,12 +1,14 @@
 import { useMemo } from 'react';
 
+import { css } from '@emotion/react';
+
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
 import tw from '@utils/tw';
 
-import type { StudyDetail } from '@custom-types';
+import type { DateYMD, StudyDetail } from '@custom-types';
 
-import { useFormContext } from '@hooks/useForm';
+import { UseFormRegister, useFormContext } from '@hooks/useForm';
 
 import Input from '@components/input/Input';
 import Label from '@components/label/Label';
@@ -35,33 +37,65 @@ const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) =
     <MetaBox>
       <MetaBox.Title>스터디 운영 기간</MetaBox.Title>
       <MetaBox.Content>
-        <div css={tw`mb-12`}>
-          <Label htmlFor={START_DATE}>*스터디 시작 :</Label>
-          <Input
-            type="date"
-            id={START_DATE}
-            defaultValue={originalStartDate || today}
-            {...register(START_DATE, {
-              min: minStartDate,
-              max: maxStartDate,
-              required: true,
-            })}
-          />
-        </div>
-        <div>
-          <Label htmlFor={END_DATE}>스터디 종료 :</Label>
-          <Input
-            type="date"
-            id={END_DATE}
-            defaultValue={originalEndDate}
-            {...register(END_DATE, {
-              min: minEndDate,
-              max: maxEndDate,
-            })}
-          />
-        </div>
+        <StudyStartDateField
+          defaultValue={originalStartDate ?? today}
+          min={minStartDate}
+          max={maxStartDate}
+          register={register}
+        />
+        <StudyEndDateField defaultValue={originalEndDate ?? ''} min={minEndDate} max={maxEndDate} register={register} />
       </MetaBox.Content>
     </MetaBox>
+  );
+};
+
+type StudyStartDateFieldProps = {
+  defaultValue: string;
+  min: DateYMD;
+  max: DateYMD;
+  register: UseFormRegister;
+};
+const StudyStartDateField: React.FC<StudyStartDateFieldProps> = ({ defaultValue, min, max, register }) => {
+  const style = css`
+    margin-bottom: 12px;
+  `;
+  return (
+    <div css={style}>
+      <Label htmlFor={START_DATE}>*스터디 시작 :</Label>
+      <Input
+        type="date"
+        id={START_DATE}
+        defaultValue={defaultValue}
+        {...register(START_DATE, {
+          min,
+          max,
+          required: true,
+        })}
+      />
+    </div>
+  );
+};
+
+type StudyEndDateFieldProps = {
+  defaultValue: string;
+  min: DateYMD;
+  max: DateYMD;
+  register: UseFormRegister;
+};
+const StudyEndDateField: React.FC<StudyEndDateFieldProps> = ({ defaultValue, min, max, register }) => {
+  return (
+    <div>
+      <Label htmlFor={END_DATE}>스터디 종료 :</Label>
+      <Input
+        type="date"
+        id={END_DATE}
+        defaultValue={defaultValue}
+        {...register(END_DATE, {
+          min,
+          max,
+        })}
+      />
+    </div>
   );
 };
 
