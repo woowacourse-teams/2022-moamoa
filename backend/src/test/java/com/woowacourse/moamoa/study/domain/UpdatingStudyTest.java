@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class UpdatingStudyTest {
 
@@ -159,7 +161,7 @@ public class UpdatingStudyTest {
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
+        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
         study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
         study.updateContent(1L, content, AttachedTags.empty());
 
@@ -187,7 +189,7 @@ public class UpdatingStudyTest {
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
+        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
         study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
         study.updateContent(1L, content, AttachedTags.empty());
 
@@ -207,7 +209,7 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
         StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
@@ -217,6 +219,34 @@ public class UpdatingStudyTest {
         //when && then
         assertThatThrownBy(() -> {
             StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.plusDays(1), endDate, IN_PROGRESS);
+            study.updatePlanners(recruitPlanner, updateStudyPlanner, now.plusDays(1));
+            study.updateContent(1L, content, AttachedTags.empty());
+        });
+    }
+
+    @DisplayName("Study Planner| 스터디 시작일이 생성일 이전인 경우 예외가 발생한다.")
+    @Test
+    void updateStudyPlannerExceptionIfStudyStartBeforeStudyCreate() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate();
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        study.participate(2L);
+        study.participate(3L);
+
+        //when && then
+        assertThatThrownBy(() -> {
+            StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.minusDays(1), endDate, IN_PROGRESS);
             study.updatePlanners(recruitPlanner, updateStudyPlanner, now);
             study.updateContent(1L, content, AttachedTags.empty());
         });
@@ -281,7 +311,8 @@ public class UpdatingStudyTest {
     }
 
     @DisplayName("Study Planner| 수정하는 날이 스터디 종료일 이후이거나, 수정하는 날이 시작일 이전인 경우가 아니면 IN_PROGRESS 상태이다.")
-    @Test
+    @ParameterizedTest
+    @CsvSource({})
     void updateStudyPlannerIsInProgress() {
         //given
         LocalDateTime now = now();
