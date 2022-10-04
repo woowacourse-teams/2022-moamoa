@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
@@ -8,7 +8,7 @@ import tw from '@utils/tw';
 
 import type { StudyDetail } from '@custom-types';
 
-import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import { ToggleButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
@@ -56,40 +56,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
     setDescription(description);
   }, [activeTab]);
 
-  const renderTabContent = () => {
-    const isWriteTab = activeTab === tabMode.write;
-
-    return (
-      <>
-        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
-          <Label htmlFor={DESCRIPTION} hidden>
-            소개글
-          </Label>
-          <Textarea
-            id={DESCRIPTION}
-            placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-            invalid={!isValid}
-            defaultValue={originalDescription}
-            {...register(DESCRIPTION, {
-              validate: (val: string) => {
-                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                }
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-              required: true,
-            })}
-          ></Textarea>
-        </div>
-        <div css={isWriteTab && tw`hidden`}>
-          <MarkdownRender markdownContent={description} />
-        </div>
-      </>
-    );
-  };
+  const isWriteTab = activeTab === tabMode.write;
 
   return (
     <div css={tw`mb-20`}>
@@ -101,7 +68,19 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
           </ButtonGroup>
         </MetaBox.Title>
         <MetaBox.Content>
-          <div css={tw`h-400`}>{renderTabContent()}</div>
+          <div
+            css={css`
+              height: 400px;
+            `}
+          >
+            <WriteTab
+              isOpen={isWriteTab}
+              isValid={isValid}
+              originalDescription={originalDescription ?? ''}
+              register={register}
+            />
+            <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
+          </div>
         </MetaBox.Content>
       </MetaBox>
     </div>
@@ -124,5 +103,57 @@ const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick:
     Preview
   </ToggleButton>
 );
+
+type WriteTabProps = {
+  isOpen: boolean;
+  isValid: boolean;
+  originalDescription: string;
+  register: UseFormRegister;
+};
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, originalDescription, register }) => {
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+  `;
+  return (
+    <div css={style}>
+      <Label htmlFor={DESCRIPTION} hidden>
+        소개글
+      </Label>
+      <Textarea
+        id={DESCRIPTION}
+        placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+        invalid={!isValid}
+        defaultValue={originalDescription}
+        {...register(DESCRIPTION, {
+          validate: (val: string) => {
+            if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+            }
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+          maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+          required: true,
+        })}
+      ></Textarea>
+    </div>
+  );
+};
+
+type MarkdownRendererTabProps = {
+  isOpen: boolean;
+  description: string;
+};
+const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, description }) => {
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+  `;
+  return (
+    <div css={style}>
+      <MarkdownRender markdownContent={description} />
+    </div>
+  );
+};
 
 export default DescriptionTab;
