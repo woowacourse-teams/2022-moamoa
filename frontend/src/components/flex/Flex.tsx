@@ -83,5 +83,5 @@ const FlexItem: React.FC<FlexItemProps> = ({ flexGrow }) => {
 };
 
 export default Object.assign(Flex, {
-  FlexItem,
+  Item: FlexItem,
 });
