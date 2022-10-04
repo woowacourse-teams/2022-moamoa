@@ -1,9 +1,16 @@
+import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { Theme, css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
+
+import { CommunityArticle } from '@custom-types';
+
+import { theme } from '@styles/theme';
 
 import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
@@ -12,7 +19,7 @@ import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import ImportedMarkdownRender from '@components/markdown-render/MarkdownRender';
 import PageTitle from '@components/page-title/PageTitle';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
@@ -43,52 +50,71 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const renderModifierButtons = () => {
-    if (!getUserInformationQueryResult.isSuccess || getUserInformationQueryResult.isError) return;
-    if (!data?.author.username) return;
-    if (data.author.username !== getUserInformationQueryResult.data.username) return;
+  const showModifierButtons = !!(
+    getUserInformationQueryResult.isSuccess &&
+    !getUserInformationQueryResult.isError &&
+    data?.author.username &&
+    data.author.username === getUserInformationQueryResult.data.username
+  );
 
-    return (
-      <ButtonGroup gap="8px" width="fit-content">
-        <GoToEditPageLinkButton />
-        <DeleteArticle onClick={handleDeleteArticleButtonClick} />
-      </ButtonGroup>
-    );
-  };
-
-  const render = () => {
-    if (isFetching) {
-      return <div>Loading...</div>;
-    }
-    if (isError) {
-      return <div>에러가 발생했습니다</div>;
-    }
-
-    if (isSuccess) {
-      const { title, author, content, createdDate } = data;
-      return (
-        <article>
-          <Flex justifyContent="space-between" columnGap="16px">
-            <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-              <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-              <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
-            </UserInfoItem>
-            {renderModifierButtons()}
-          </Flex>
-          <Divider />
-          <PageTitle>{title}</PageTitle>
-          <div css={tw`min-h-400 pb-20`}>
-            <MarkdownRender markdownContent={content} />
-          </div>
-          <Divider space="8px" />
-          <GoToListPageLinkButton />
-        </article>
-      );
-    }
-  };
-
-  return <div>{render()}</div>;
+  return (
+    <div>
+      {isFetching && <Loading />}
+      {isError && <Error />}
+      {isSuccess && (
+        <Self
+          title={data.title}
+          author={data.author}
+          createdDate={data.createdDate}
+          content={data.content}
+          showModifierButtons={showModifierButtons}
+          onDeleteArticleButtonClick={handleDeleteArticleButtonClick}
+        />
+      )}
+    </div>
+  );
 };
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>에러가 발생했습니다</div>;
+
+type SelfProps = {
+  title: string;
+  author: CommunityArticle['author'];
+  createdDate: CommunityArticle['createdDate'];
+  content: CommunityArticle['content'];
+  showModifierButtons: boolean;
+  onDeleteArticleButtonClick: () => void;
+};
+const Self: React.FC<SelfProps> = ({
+  title,
+  author,
+  createdDate,
+  content,
+  showModifierButtons,
+  onDeleteArticleButtonClick: handleDeleteArticleButtonClick,
+}) => (
+  <article>
+    <Flex justifyContent="space-between" columnGap="16px">
+      <UserInfoItem src={author.imageUrl} name={author.username} size="md">
+        <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+        <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
+      </UserInfoItem>
+      {showModifierButtons && (
+        <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+          <GoToEditPageLinkButton />
+          <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+        </ButtonGroup>
+      )}
+    </Flex>
+    <Divider />
+    <PageTitle>{title}</PageTitle>
+    <MarkdownRender content={content} />
+    <Divider space="8px" />
+    <GoToListPageLinkButton />
+  </article>
+);
 
 const GoToEditPageLinkButton: React.FC = () => (
   <Link to="edit">
@@ -98,12 +124,12 @@ const GoToEditPageLinkButton: React.FC = () => (
   </Link>
 );
 
-type DeleteArticleProps = {
+type DeleteArticleButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const DeleteArticle: React.FC<DeleteArticleProps> = ({ onClick: handleClick }) => (
+const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: handleClick }) => (
   <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
-    글삭제
+    글 삭제
   </BoxButton>
 );
 
@@ -114,5 +140,17 @@ const GoToListPageLinkButton: React.FC = () => (
     </BoxButton>
   </Link>
 );
+
+const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
+  const style = css`
+    min-height: 400px;
+    padding-bottom: 20px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedMarkdownRender markdownContent={content} />;
+    </div>
+  );
+};
 
 export default Article;
