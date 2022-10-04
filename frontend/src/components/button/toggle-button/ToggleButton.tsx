@@ -1,6 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { mqDown } from '@styles/responsive';
 import { ThemeFontSize } from '@styles/theme';
 
@@ -10,6 +11,7 @@ export type ToggleButtonProps = {
   fluid?: boolean;
   checked: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  custom?: CustomCSS<'fontSize'>;
 };
 
 const ToggleButton: React.FC<ToggleButtonProps> = ({
@@ -18,9 +20,17 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   fluid = false,
   variant = 'primary',
   onClick: handleClick,
+  custom,
 }) => {
   return (
-    <Self type="button" fluid={fluid} checked={checked} onClick={handleClick} variant={variant}>
+    <Self
+      type="button"
+      fluid={fluid}
+      checked={checked}
+      onClick={handleClick}
+      variant={variant}
+      css={resolveCustomCSS(custom)}
+    >
       {children}
     </Self>
   );
