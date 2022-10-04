@@ -52,7 +52,7 @@ type UseFormRegisterReturn = {
   name: FieldName;
 };
 
-type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
+export type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
 
 type RmFieldFn = (filedName: FieldName) => void;
 
@@ -60,7 +60,7 @@ type GetFieldFn = (fieldName: FieldName) => Field | null;
 
 type ResetFieldFn = (fieldName: FieldName) => void;
 
-type UseFormReturn = {
+export type UseFormReturn = {
   formState: UseFormState;
   handleSubmit: UseFormHandleSubmit;
   register: UseFormRegister;
