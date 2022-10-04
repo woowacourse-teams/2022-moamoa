@@ -30,6 +30,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostNoticeArticle();
+
   const { isFetching, isError, hasPermission } = usePermission(studyId, 'OWNER');
 
   useEffect(() => {
@@ -45,7 +46,6 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
     if (!values) return;
 
     const { title, content } = values;
-
     const numStudyId = Number(studyId);
     mutateAsync(
       {
@@ -65,35 +65,35 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
     );
   };
 
-  if (isFetching) {
-    return <div>유저 정보 가져오는 중...</div>;
-  }
-
-  if (isError) {
-    return <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
-  }
-
   return (
     <FormProvider {...formMethods}>
       <PageTitle>공지사항 작성</PageTitle>
-      <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <PublishTitle />
-        <PublishContent />
-        <Divider space="16px" />
-        <ButtonGroup justifyContent="space-between">
-          <GoToListPageButton theme={theme} />
-          <PublishButton theme={theme} />
-        </ButtonGroup>
-      </Form>
+      {isFetching && <Loading />}
+      {isError && <Error />}
+      {hasPermission && (
+        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <PublishTitle />
+          <PublishContent />
+          <Divider space="16px" />
+          <ButtonGroup justifyContent="space-between">
+            <GoToListPageButton theme={theme} />
+            <PublishButton theme={theme} />
+          </ButtonGroup>
+        </Form>
+      )}
     </FormProvider>
   );
 };
+
+const Loading = () => <div>유저 정보 가져오는 중...</div>;
+
+const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
 
 type GoToListPageButtonProps = {
   theme: Theme;
 };
 const GoToListPageButton: React.FC<GoToListPageButtonProps> = ({ theme }) => (
-  <Link to={`../${PATH.NOTICE}`}>
+  <Link to={`../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
       돌아가기
     </BoxButton>
