@@ -1,15 +1,20 @@
 import { useState } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { TITLE_LENGTH } from '@constants';
 
 import tw from '@utils/tw';
 
-import { makeValidationResult, useFormContext } from '@hooks/useForm';
+import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 import type { FieldElement } from '@hooks/useForm';
 
 import Input from '@components/input/Input';
 import Label from '@components/label/Label';
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import ImportedLetterCounter, {
+  type LetterCounterProps as ImportedLetterCounterProps,
+} from '@components/letter-counter/LetterCounter';
 
 export type EditTitleProps = {
   title: string;
@@ -26,42 +31,74 @@ const EditTitle: React.FC<EditTitleProps> = ({ title }) => {
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <div css={tw`relative`}>
-      <div css={tw`absolute right-4 bottom-2`}>
-        <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      </div>
-      <Label htmlFor={TITLE} hidden>
-        공지사항 제목
-      </Label>
-      <div css={tw`mb-20`}>
-        <Input
-          id={TITLE}
-          type="text"
-          placeholder="제목을 입력해 주세요"
-          invalid={!isValid}
-          fluid
-          fontSize="xl"
-          defaultValue={title}
-          {...register(TITLE, {
-            validate: (val: string) => {
-              if (val.length < TITLE_LENGTH.MIN.VALUE) {
-                return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
-              }
-              if (val.length > TITLE_LENGTH.MAX.VALUE) {
-                return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
-              }
-              return makeValidationResult(false);
-            },
-            validationMode: 'change',
-            onChange: handleTitleChange,
-            minLength: TITLE_LENGTH.MIN.VALUE,
-            maxLength: TITLE_LENGTH.MAX.VALUE,
-            required: true,
-          })}
-        />
-      </div>
+    <Self>
+      <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
+      <TitleField isValid={isValid} title={title} onChange={handleTitleChange} register={register} />
+    </Self>
+  );
+};
+
+const Self = styled.div`
+  position: relative;
+`;
+
+type LetterCouterProps = ImportedLetterCounterProps;
+const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
+  const style = css`
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedLetterCounter {...props} />
     </div>
   );
 };
+
+type TitleFieldProps = {
+  isValid: boolean;
+  title: string;
+  register: UseFormRegister;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
+const TitleField: React.FC<TitleFieldProps> = ({ isValid, title, register, onChange: handleChange }) => (
+  <>
+    <Label htmlFor={TITLE} hidden>
+      공지사항 제목
+    </Label>
+    <div
+      css={css`
+        margin-bottom: 20px;
+      `}
+    >
+      <Input
+        id={TITLE}
+        type="text"
+        placeholder="제목을 입력해 주세요"
+        invalid={!isValid}
+        fluid
+        fontSize="xl"
+        defaultValue={title}
+        {...register(TITLE, {
+          validate: (val: string) => {
+            if (val.length < TITLE_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
+            }
+            if (val.length > TITLE_LENGTH.MAX.VALUE) {
+              return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
+            }
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          onChange: handleChange,
+          minLength: TITLE_LENGTH.MIN.VALUE,
+          maxLength: TITLE_LENGTH.MAX.VALUE,
+          required: true,
+        })}
+      />
+    </div>
+  </>
+);
 
 export default EditTitle;
