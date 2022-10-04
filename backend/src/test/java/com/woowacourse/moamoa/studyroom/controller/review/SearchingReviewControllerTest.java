@@ -94,7 +94,7 @@ class SearchingReviewControllerTest {
         participantService.participateStudy(베루스_아이디, javaStudy.getId());
 
         // 리뷰 추가
-        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
+        ReviewService reviewService = new ReviewService(reviewRepository, studyRoomRepository);
 
         final Long javaReviewId1 = reviewService
                 .writeReview(짱구_아이디, javaStudy.getId(), new ReviewRequest("리뷰 내용1"));

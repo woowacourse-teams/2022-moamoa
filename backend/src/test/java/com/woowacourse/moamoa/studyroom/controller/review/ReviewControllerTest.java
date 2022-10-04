@@ -54,7 +54,7 @@ class ReviewControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new ReviewController(new ReviewService(reviewRepository, memberRepository, studyRoomRepository));
+        sut = new ReviewController(new ReviewService(reviewRepository, studyRoomRepository));
 
         // 사용자 추가
         짱구 = memberRepository.save(짱구());
@@ -76,7 +76,7 @@ class ReviewControllerTest {
         participantService.participateStudy(그린론.getId(), javaStudy.getId());
 
         // 리뷰 추가
-        ReviewService reviewService = new ReviewService(reviewRepository, memberRepository, studyRoomRepository);
+        ReviewService reviewService = new ReviewService(reviewRepository, studyRoomRepository);
 
         짱구_리뷰 = reviewService
                 .writeReview(짱구.getId(), javaStudy.getId(), new ReviewRequest("리뷰 내용1"));
