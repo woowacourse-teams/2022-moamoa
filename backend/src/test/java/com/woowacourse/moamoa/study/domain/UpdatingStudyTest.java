@@ -108,6 +108,36 @@ public class UpdatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
     }
 
+    @DisplayName("Recruit Planner| 모집 마감 날짜를 현재 날짜보다 이전으로 변경하는 경우 예외가 발생한다.")
+    @Test
+    void updateRecruitPlannerIs() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(3);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        study.participate(2L);
+        study.participate(3L);
+
+        //when
+        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(3, RECRUITMENT_END,
+                enrollmentEndDate.minusDays(1));
+
+        //then
+        assertThatThrownBy(
+                () -> study.updatePlanners(updateRecruitPlanner, studyPlanner, now.plusDays(3))
+        ).isInstanceOf(InvalidUpdatingException.class);
+    }
+
     @DisplayName("Recruit Planner| 수정하는 현재 날짜가 모집 마감 날짜 이전이고, 현재 인원이 수정 인원보다 적은 경우 스터디 모집(START) 상태이다.")
     @Test
     void updateRecruitPlannerIsStart() {
