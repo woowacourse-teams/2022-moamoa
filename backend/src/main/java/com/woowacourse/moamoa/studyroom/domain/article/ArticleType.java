@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 
 public enum ArticleType {
 

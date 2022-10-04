@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service.request;
 
-import com.woowacourse.moamoa.studyroom.domain.article.LinkContent;
+import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;

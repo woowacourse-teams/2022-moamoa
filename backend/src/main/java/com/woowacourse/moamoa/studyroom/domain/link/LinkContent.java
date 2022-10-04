@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.domain.article;
+package com.woowacourse.moamoa.studyroom.domain.link;
 
 import java.util.Objects;
 import javax.persistence.Column;

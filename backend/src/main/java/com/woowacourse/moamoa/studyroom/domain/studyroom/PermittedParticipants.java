@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.domain;
+package com.woowacourse.moamoa.studyroom.domain.studyroom;
 
 import com.woowacourse.moamoa.common.entity.ReadOnlyCollectionPersister;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;

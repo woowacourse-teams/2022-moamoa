@@ -1,8 +1,8 @@
-package com.woowacourse.moamoa.studyroom.domain.article;
+package com.woowacourse.moamoa.studyroom.domain.link;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
