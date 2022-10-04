@@ -15,7 +15,7 @@ export type DropDownBoxProps = {
   bottom?: CssLength;
   left?: CssLength;
   right?: CssLength;
-  custom?: CustomCSS<'padding'>;
+  custom?: CustomCSS<'padding' | 'maxHeight' | 'backgroundColor' | 'boxShadow' | 'borderRadius'>;
 };
 
 const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, custom, ...positions }) => {

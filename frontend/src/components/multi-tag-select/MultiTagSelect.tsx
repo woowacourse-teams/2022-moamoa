@@ -219,21 +219,18 @@ const Indicators = styled.div`
 
 type DropDownProps = { children?: React.ReactNode } & Pick<ImportedDropDownBoxProps, 'isOpen' | 'onClose'>;
 
-const DropDown = ({ children, isOpen, onClose }: DropDownProps) => {
-  const style = css`
-    max-height: 180px;
-    background-color: white;
-    box-shadow: 0px 0px 4px 0px;
-
-    border-radius: 4px;
-  `;
-
-  return (
-    <ImportedDropDownBox css={style} top={'calc(100% + 10px)'} left={0} right={0} isOpen={isOpen} onClose={onClose}>
-      {children}
-    </ImportedDropDownBox>
-  );
-};
+const DropDown = ({ children, isOpen, onClose }: DropDownProps) => (
+  <ImportedDropDownBox
+    top={'calc(100% + 10px)'}
+    left={0}
+    right={0}
+    isOpen={isOpen}
+    onClose={onClose}
+    custom={{ maxHeight: '180px', backgroundColor: 'white', boxShadow: '0px 0px 4px 0px', borderRadius: '4px' }}
+  >
+    {children}
+  </ImportedDropDownBox>
+);
 
 const UnselectedOption = styled.li`
   ${({ theme }) => css`
