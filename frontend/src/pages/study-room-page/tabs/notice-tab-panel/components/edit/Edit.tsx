@@ -5,11 +5,11 @@ import { Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, StudyId } from '@custom-types';
+import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
-import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, UseFormReturn, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
@@ -26,6 +26,8 @@ export type EditProps = {
   articleId: ArticleId;
 };
 
+type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
+
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const theme = useTheme();
   const formMethods = useForm();
@@ -33,7 +35,6 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
   const getNoticeArticleQueryResult = useGetNoticeArticle({ studyId, articleId });
   const { mutateAsync } = usePutNoticeArticle();
-
   const { isFetching, hasPermission } = usePermission(studyId, 'OWNER');
 
   useEffect(() => {
@@ -44,7 +45,10 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     navigate(`../${PATH.NOTICE}`);
   }, [studyId, navigate, isFetching, hasPermission]);
 
-  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const handleSubmit: HandleEditFormSubmit = async (
+    _: React.FormEvent<HTMLFormElement>,
+    submitResult: UseFormSubmitResult,
+  ) => {
     const { values } = submitResult;
     if (!values) return;
 
@@ -65,48 +69,33 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
           navigate(`../${PATH.NOTICE}`);
         },
         onError: () => {
-          alert('글 수정 실패!');
+          alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');
         },
       },
     );
   };
 
-  const render = () => {
-    if (getNoticeArticleQueryResult.isFetching) {
-      return <div>Loading...</div>;
-    }
-
-    if (getNoticeArticleQueryResult.isError) {
-      return <div>Error...</div>;
-    }
-
-    if (getNoticeArticleQueryResult.isSuccess) {
-      return (
-        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <EditTitle title={getNoticeArticleQueryResult.data.title} />
-          <EditContent content={getNoticeArticleQueryResult.data.content} />
-          <Divider space="16px" />
-          <ButtonGroup justifyContent="space-between">
-            <GoToListPageButton theme={theme} />
-            <EditButton theme={theme} />
-          </ButtonGroup>
-        </Form>
-      );
-    }
-  };
-
   return (
     <FormProvider {...formMethods}>
       <PageTitle>공지사항 수정</PageTitle>
-      {render()}
+      {getNoticeArticleQueryResult.isFetching && <Loading />}
+      {getNoticeArticleQueryResult.isError && <Error />}
+      {getNoticeArticleQueryResult.isSuccess && getNoticeArticleQueryResult.data && (
+        <EditForm
+          theme={theme}
+          article={getNoticeArticleQueryResult.data}
+          formMethods={formMethods}
+          onSubmit={handleSubmit}
+        />
+      )}
     </FormProvider>
   );
 };
 
-type GoBackLinkButtonProps = {
+type GoToListPageButtonProps = {
   theme: Theme;
 };
-const GoToListPageButton: React.FC<GoBackLinkButtonProps> = ({ theme }) => (
+const GoToListPageButton: React.FC<GoToListPageButtonProps> = ({ theme }) => (
   <Link to={`../${PATH.NOTICE}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
       돌아가기
@@ -121,6 +110,28 @@ const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
   <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
     수정하기
   </BoxButton>
+);
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error...</div>;
+
+type EditFormProps = {
+  theme: Theme;
+  article: NoticeArticle;
+  formMethods: UseFormReturn;
+  onSubmit: HandleEditFormSubmit;
+};
+const EditForm: React.FC<EditFormProps> = ({ theme, article, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <EditTitle title={article.title} />
+    <EditContent content={article.content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <GoToListPageButton theme={theme} />
+      <EditButton theme={theme} />
+    </ButtonGroup>
+  </Form>
 );
 
 export default Edit;
