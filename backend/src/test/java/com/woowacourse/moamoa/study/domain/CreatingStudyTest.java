@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.study.domain;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -210,5 +211,30 @@ public class CreatingStudyTest {
 
         //then
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(IN_PROGRESS);
+    }
+
+    @DisplayName("STUDY Planner| 생성일보다 시작과 종료가 이후이고, 현재 날짜가 시작보다 이전이면 PREPARE 상태이다.")
+    @Test
+    void nowDateIsBeforeStartDate() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now.minusDays(1);
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate().plusDays(1);
+        LocalDate endDate = now.toLocalDate().plusDays(3);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+
+        //target
+        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(PREPARE);
     }
 }
