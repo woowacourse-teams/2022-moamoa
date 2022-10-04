@@ -19,9 +19,7 @@ class ReviewTest {
     @DisplayName("리뷰 내용을 수정한다.")
     @Test
     void updateReviewContent() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Reviewer reviewer = new Reviewer(writtenMemberId);
-        final Review review = new Review(associatedStudy, reviewer, "content");
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final String updatedContent = "update content";
         final Accessor accessor = new Accessor(writtenMemberId, studyId);
 
@@ -33,23 +31,17 @@ class ReviewTest {
     @DisplayName("리뷰 작성자가 아니면 수정할 수 없다.")
     @Test
     void updateReviewException() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Review review = new Review(associatedStudy, new Reviewer(writtenMemberId), "content");
-        final String updatedContent = "update content";
-        final Reviewer reviewer = new Reviewer(unwrittenMemberId);
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final Accessor accessor = new Accessor(unwrittenMemberId, studyId);
 
-        assertThatThrownBy(() -> review.updateContent(accessor, updatedContent))
+        assertThatThrownBy(() -> review.updateContent(accessor, "update content"))
                 .isInstanceOf(UnwrittenReviewException.class);
     }
 
     @DisplayName("작성자는 맞지만 해당 스터디에 작성된 리뷰가 아니면 수정할 수 없다.")
     @Test
     void  notWrittenInTheStudyCannotBeEdited() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Reviewer reviewer = new Reviewer(writtenMemberId);
-        final Review review = new Review(associatedStudy, reviewer, "content");
-        final AssociatedStudy unassociatedStudy = new AssociatedStudy(wrongStudyId);
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final Accessor accessor = new Accessor(writtenMemberId, wrongStudyId);
 
         assertThatThrownBy(() -> review.updateContent(accessor, "update content"))
@@ -59,9 +51,7 @@ class ReviewTest {
     @DisplayName("리뷰 내용을 삭제하면 deleted가 true가 된다.")
     @Test
     void deleteReview() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Reviewer reviewer = new Reviewer(writtenMemberId);
-        final Review review = new Review(associatedStudy, new Reviewer(writtenMemberId), "content");
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final Accessor accessor = new Accessor(writtenMemberId, studyId);
 
         review.delete(accessor);
@@ -72,9 +62,7 @@ class ReviewTest {
     @DisplayName("리뷰 작성자가 아니면 삭제할 수 없다.")
     @Test
     void deleteReviewException() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Reviewer unwrittenReviewer = new Reviewer(unwrittenMemberId);
-        final Review review = new Review(associatedStudy, new Reviewer(writtenMemberId), "content");
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final Accessor accessor = new Accessor(unwrittenMemberId, studyId);
 
         assertThatThrownBy(() -> review.delete(accessor))
@@ -84,10 +72,7 @@ class ReviewTest {
     @DisplayName("작성자는 맞지만 해당 스터디에 작성된 리뷰가 아니면 삭제할 수 없다.")
     @Test
     void unwrittenReviewInStudyException() {
-        final AssociatedStudy associatedStudy = new AssociatedStudy(studyId);
-        final Reviewer reviewer = new Reviewer(writtenMemberId);
-        final Review review = new Review(associatedStudy, reviewer, "content");
-        final AssociatedStudy unassociatedStudy = new AssociatedStudy(wrongStudyId);
+        final Review review = new Review(new AssociatedStudy(studyId), new Reviewer(writtenMemberId), "content");
         final Accessor accessor = new Accessor(writtenMemberId, wrongStudyId);
 
         assertThatThrownBy(() -> review.delete(accessor))
