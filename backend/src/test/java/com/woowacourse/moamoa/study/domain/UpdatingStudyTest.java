@@ -136,6 +136,34 @@ public class UpdatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
+    @DisplayName("Recruit Planner| 수정하는 현재 날짜가 모집 마감 날짜 이전이고, 스터디 모집 인원이 null이면 스터디 모집(START) 상태이다.")
+    @Test
+    void updateRecruitPlannerMemberSizeIsNull() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(3);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(null, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        study.participate(2L);
+        study.participate(3L);
+
+        //when && then
+        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
+        study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+        study.updateContent(1L, content, AttachedTags.empty());
+
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
+    }
+
     @DisplayName("Study Planner| 스터디 시작일이 종료일 이후인 경우 예외가 발생한다.")
     @Test
     void updateStudyPlannerExceptionIfStudyStartAfterStudyEnd() {
