@@ -1,4 +1,4 @@
-import { Theme, useTheme } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import tw from '@utils/tw';
@@ -8,7 +8,7 @@ import type { Link } from '@custom-types';
 import { mqDown } from '@styles/responsive';
 
 import { TextButton } from '@components/button';
-import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
+import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
 import Wrapper from '@components/wrapper/Wrapper';
 
@@ -29,43 +29,19 @@ const LinkRoomTabPanel: React.FC = () => {
     handlePostLinkSuccess,
   } = useLinkRoomTabPanel();
 
-  const renderLinkList = () => {
-    const { data, isError, isSuccess, isFetching, fetchNextPage } = infiniteLinksQueryResult;
-    if (isError || !isSuccess) {
-      return <div>에러가 발생했습니다</div>;
-    }
+  const { data, isError, isSuccess, isFetching, fetchNextPage } = infiniteLinksQueryResult;
 
-    const links = data.pages.reduce<Array<Link>>((acc, cur) => [...acc, ...cur.links], []);
-
-    if (links.length === 0) {
-      return <div>등록된 링크가 없습니다</div>;
-    }
-
-    return (
-      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
-        <LinkList>
-          {links.map(link => (
-            <li key={link.id}>
-              <LinkItem
-                studyId={studyId}
-                id={link.id}
-                linkUrl={link.linkUrl}
-                author={link.author}
-                description={link.description}
-              />
-            </li>
-          ))}
-        </LinkList>
-      </InfiniteScroll>
-    );
-  };
+  const links = data ? data.pages.reduce<Array<Link>>((acc, cur) => [...acc, ...cur.links], []) : [];
 
   return (
     <Wrapper>
-      <div css={tw`py-4 mb-16 text-right`}>
-        <AddLinkButton theme={theme} onClick={handleLinkAddButtonClick} />
-      </div>
-      {renderLinkList()}
+      {isFetching && <Loading />}
+      {isError && <Error />}
+      {isSuccess && links.length === 0 && <NoLinks />}
+      <AddLinkButton theme={theme} onClick={handleLinkAddButtonClick} />
+      {isSuccess && links.length > 0 && (
+        <InfiniteLinkList links={links} isContentLoading={isFetching} studyId={studyId} onContentLoad={fetchNextPage} />
+      )}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
           <LinkForm author={userInfo} onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
@@ -74,6 +50,25 @@ const LinkRoomTabPanel: React.FC = () => {
     </Wrapper>
   );
 };
+
+type InfiniteLinkListProps = { links: Array<Link>; studyId: number } & Omit<InfiniteScrollProps, 'children'>;
+const InfiniteLinkList: React.FC<InfiniteLinkListProps> = ({ links, studyId, isContentLoading, onContentLoad }) => (
+  <InfiniteScroll isContentLoading={isContentLoading} onContentLoad={onContentLoad}>
+    <LinkList>
+      {links.map(link => (
+        <li key={link.id}>
+          <LinkItem
+            studyId={studyId}
+            id={link.id}
+            linkUrl={link.linkUrl}
+            author={link.author}
+            description={link.description}
+          />
+        </li>
+      ))}
+    </LinkList>
+  </InfiniteScroll>
+);
 
 const LinkList = styled.ul`
   display: grid;
@@ -89,14 +84,29 @@ const LinkList = styled.ul`
   }
 `;
 
+const Error = () => <div>에러가 발생했습니다</div>;
+
+const Loading = () => <div>Loading...</div>;
+
+const NoLinks = () => <div>등록된 링크가 없습니다</div>;
+
 type AddLinkButtonProps = {
   theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme, onClick: handleClick }) => (
-  <TextButton variant="primary" onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
-    링크 추가하기
-  </TextButton>
+  <div
+    css={css`
+      padding-left: 4px;
+      padding-right: 4px;
+      margin-bottom: 16px;
+      text-align: right;
+    `}
+  >
+    <TextButton variant="primary" onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
+      링크 추가하기
+    </TextButton>
+  </div>
 );
 
 export default LinkRoomTabPanel;
