@@ -49,15 +49,11 @@ public class Article extends BaseEntity {
     public static Article create(
             final StudyRoom studyRoom, final Accessor accessor, final Content content, final ArticleType type
     ) {
-        if (type == ArticleType.COMMUNITY && studyRoom.isPermittedAccessor(accessor)) {
-            return new Article(null, studyRoom, accessor.getMemberId(), content, type);
+        if (type.isUnwritableAccessor(studyRoom, accessor)) {
+            throw new UneditableArticleException(studyRoom.getId(), accessor, Article.class);
         }
 
-        if (type == ArticleType.NOTICE && studyRoom.isOwner(accessor)) {
-            return new Article(null, studyRoom, accessor.getMemberId(), content, type);
-        }
-
-        throw new UneditableArticleException(studyRoom.getId(), accessor, Article.class);
+        return new Article(null, studyRoom, accessor.getMemberId(), content, type);
     }
 
     private Article(
@@ -71,7 +67,7 @@ public class Article extends BaseEntity {
     }
 
     public void update(final Accessor accessor, final Content content) {
-        if (isUneditableAccessor(accessor)) {
+        if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
         }
 
@@ -79,23 +75,11 @@ public class Article extends BaseEntity {
     }
 
     public final void delete(final Accessor accessor) {
-        if (isUneditableAccessor(accessor)) {
+        if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
             throw new UneditableArticleException(studyRoom.getId(), accessor, getClass());
         }
 
         deleted = true;
-    }
-
-    private boolean isUneditableAccessor(final Accessor accessor) {
-        if (type == ArticleType.COMMUNITY) {
-            return !studyRoom.isPermittedAccessor(accessor) || !authorId.equals(accessor.getMemberId());
-        }
-
-        if (type == ArticleType.NOTICE) {
-            return !studyRoom.isOwner(accessor);
-        }
-
-        return false;
     }
 
     public Long getId() {

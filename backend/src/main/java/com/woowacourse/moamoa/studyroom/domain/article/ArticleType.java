@@ -7,40 +7,28 @@ public enum ArticleType {
 
     NOTICE{
         @Override
-        boolean isWritableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
-            return studyRoom.isOwner(accessor);
+        boolean isUnwritableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
+            return !studyRoom.isOwner(accessor);
         }
 
         @Override
-        boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
-            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
-        }
-
-        @Override
-        Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content) {
-            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
+        boolean isUneditableAccessor(final StudyRoom studyRoom, final Long authorId, final Accessor accessor) {
+            return !studyRoom.isOwner(accessor);
         }
     },
     COMMUNITY{
         @Override
-        boolean isWritableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
-            throw new UnsupportedOperationException("#isWritableAccessor not implemented yet !!");
+        boolean isUnwritableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
+            return !studyRoom.isPermittedAccessor(accessor);
         }
 
         @Override
-        boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor) {
-            throw new UnsupportedOperationException("#isEditableAccessor not implemented yet !!");
-        }
-
-        @Override
-        Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content) {
-            throw new UnsupportedOperationException("#createArticle not implemented yet !!");
+        boolean isUneditableAccessor(final StudyRoom studyRoom, final Long authorId, final Accessor accessor) {
+            return !(studyRoom.isPermittedAccessor(accessor) && authorId.equals(accessor.getMemberId()));
         }
     };
 
-    abstract boolean isWritableAccessor(final StudyRoom studyRoom, final Accessor accessor);
+    abstract boolean isUnwritableAccessor(final StudyRoom studyRoom, final Accessor accessor);
 
-    abstract boolean isEditableAccessor(final StudyRoom studyRoom, final Accessor accessor);
-
-    abstract Article createArticle(final StudyRoom studyRoom, final Accessor accessor, final Content content);
+    abstract boolean isUneditableAccessor(final StudyRoom studyRoom, final Long authorId, final Accessor accessor);
 }
