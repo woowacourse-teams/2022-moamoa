@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { css } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
@@ -9,10 +9,13 @@ import { mqDown } from '@styles/responsive';
 
 import { useGetTags } from '@api/tags';
 
+import Center from '@components/center/Center';
 import Divider from '@components/divider/Divider';
 
-import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
-import FilterSlideButton from '@main-page/components/filter-slide-button/FilterSlideButton';
+import FilterButtonList, { FilterButtonListProps } from '@main-page/components/filter-button-list/FilterButtonList';
+import ImportedFilterSlideButton, {
+  type FilterSlideButtonProps as ImportedFilterSlideButtonProps,
+} from '@main-page/components/filter-slide-button/FilterSlideButton';
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
@@ -28,6 +31,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   selectedFilters,
   onFilterButtonClick: handleFilterButtonClick,
 }) => {
+  const theme = useTheme();
   const sliderRef = useRef<HTMLElement>(null);
 
   const { data, isLoading, isError } = useGetTags();
@@ -62,33 +66,35 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   return (
     <Self>
-      <LeftButtonContainer>
-        <FilterSlideButton direction="left" ariaLabel="왼쪽으로 스크롤" onClick={handleLeftSlideButtonClick} />
-      </LeftButtonContainer>
+      <FilterSlideButton
+        theme={theme}
+        direction="left"
+        ariaLabel="왼쪽으로 스크롤"
+        onClick={handleLeftSlideButtonClick}
+      />
       <Filter ref={sliderRef}>
-        {isLoading && <div>로딩 중...</div>}
-        {isError && <div>필터 불러오기에 실패했습니다.</div>}
-        <FilterButtonList
-          filters={areaTags}
-          selectedFilters={selectedFilters}
-          onFilterButtonClick={handleFilterButtonClick}
-        />
+        {isLoading && <Loading />}
+        {isError && <Error />}
+        <AreaTags filters={areaTags} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
         <Divider orientation="vertical" verticalLength="40px" space={0} />
-        <FilterButtonList
+        <GenerationTags
           filters={generationTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
         <Divider orientation="vertical" verticalLength="40px" />
-        <FilterButtonList
+        <SubjectTags
           filters={subjectTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
       </Filter>
-      <RightButtonContainer>
-        <FilterSlideButton direction="right" ariaLabel="오른쪽으로 스크롤" onClick={handleRightSlideButtonClick} />
-      </RightButtonContainer>
+      <FilterSlideButton
+        theme={theme}
+        direction="right"
+        ariaLabel="오른쪽으로 스크롤"
+        onClick={handleRightSlideButtonClick}
+      />
     </Self>
   );
 };
@@ -117,27 +123,27 @@ const Self = styled.div`
   }
 `;
 
-const RightButtonContainer = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+type FilterSlideButtonProps = { theme: Theme } & ImportedFilterSlideButtonProps;
+const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction, ...props }) => {
+  const style = css`
     position: absolute;
     top: 0;
-    right: 20px;
+    right: ${direction === 'left' ? 'calc(100% - 20px - 24px)' : '20px'};
     z-index: 2;
 
     height: 100%;
     padding: auto 0;
 
     background-color: ${theme.colors.secondary.light}66;
-  `}
-`;
-
-const LeftButtonContainer = styled(RightButtonContainer)`
-  right: calc(100% - 20px - 24px);
-`;
+  `;
+  return (
+    <div css={style}>
+      <Center>
+        <ImportedFilterSlideButton direction={direction} {...props} />
+      </Center>
+    </div>
+  );
+};
 
 const Filter = styled.section`
   display: flex;
@@ -157,5 +163,36 @@ const Filter = styled.section`
     column-gap: 16px;
   }
 `;
+
+type AreaTagsProps = FilterButtonListProps;
+const AreaTags: React.FC<AreaTagsProps> = ({
+  filters,
+  selectedFilters,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => (
+  <FilterButtonList filters={filters} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+);
+
+type GenerationTagsProps = FilterButtonListProps;
+const GenerationTags: React.FC<GenerationTagsProps> = ({
+  filters,
+  selectedFilters,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => (
+  <FilterButtonList filters={filters} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+);
+
+type SubjectTagsProps = FilterButtonListProps;
+const SubjectTags: React.FC<SubjectTagsProps> = ({
+  filters,
+  selectedFilters,
+  onFilterButtonClick: handleFilterButtonClick,
+}) => (
+  <FilterButtonList filters={filters} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+);
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>필터 불러오기에 실패했습니다.</div>;
 
 export default FilterSection;
