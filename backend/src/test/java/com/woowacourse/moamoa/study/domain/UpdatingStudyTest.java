@@ -14,8 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 public class UpdatingStudyTest {
 
@@ -32,20 +30,14 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3, enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, createdAt.toLocalDate()
-                .minusDays(1));
-
         assertThatThrownBy(() -> {
-            study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+            study.updatePlanners(createdAt.toLocalDate(), 3, enrollmentEndDate.minusDays(1),
+                    startDate, endDate);
             study.updateContent(1L, content, AttachedTags.empty());
         }).isInstanceOf(InvalidUpdatingException.class)
                 .hasMessageContaining("스터디 수정이 불가능합니다.");
@@ -64,19 +56,13 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3, enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, createdAt.toLocalDate());
-
         assertThatThrownBy(() -> {
-            study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+            study.updatePlanners(now.toLocalDate(), 2, createdAt.toLocalDate(), startDate, endDate);
             study.updateContent(1L, content, AttachedTags.empty());
         }).isInstanceOf(InvalidUpdatingException.class)
                 .hasMessageContaining("스터디 수정이 불가능합니다.");
@@ -95,16 +81,12 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3, enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
-        final RecruitPlanner updateRecruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        study.updatePlanners(updateRecruitPlanner, studyPlanner, now.plusDays(3));
+        study.updatePlanners(now.plusDays(3).toLocalDate(), 3, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
@@ -123,20 +105,15 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
-        //when
-        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(3, RECRUITMENT_END,
-                enrollmentEndDate.minusDays(1));
-
         //then
         assertThatThrownBy(
-                () -> study.updatePlanners(updateRecruitPlanner, studyPlanner, now.plusDays(3))
+                () -> study.updatePlanners(now.plusDays(3).toLocalDate(), 3,
+                        enrollmentEndDate.minusDays(1), startDate, endDate)
         ).isInstanceOf(InvalidUpdatingException.class);
     }
 
@@ -153,16 +130,14 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
-        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
-        study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+        study.updatePlanners(now.toLocalDate(), 4, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
@@ -181,16 +156,14 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(null, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, null,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
-        RecruitPlanner updateRecruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
-        study.updatePlanners(updateRecruitPlanner, studyPlanner, now);
+        study.updatePlanners(now.toLocalDate(), 4, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
@@ -209,17 +182,14 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 4,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
         assertThatThrownBy(() -> {
-            StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.plusDays(1), endDate, IN_PROGRESS);
-            study.updatePlanners(recruitPlanner, updateStudyPlanner, now.plusDays(1));
+            study.updatePlanners(now.plusDays(1).toLocalDate(), 4, enrollmentEndDate, startDate.plusDays(1), endDate);
             study.updateContent(1L, content, AttachedTags.empty());
         });
     }
@@ -237,17 +207,15 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 4,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when && then
         assertThatThrownBy(() -> {
-            StudyPlanner updateStudyPlanner = new StudyPlanner(startDate.minusDays(1), endDate, IN_PROGRESS);
-            study.updatePlanners(recruitPlanner, updateStudyPlanner, now);
+            study.updatePlanners(now.toLocalDate(), 4, enrollmentEndDate, startDate.minusDays(1), endDate);
             study.updateContent(1L, content, AttachedTags.empty());
         });
     }
@@ -265,16 +233,13 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 4,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when
-        final StudyPlanner updateStudyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-        study.updatePlanners(recruitPlanner, updateStudyPlanner, now.plusDays(1));
+        study.updatePlanners(now.plusDays(1).toLocalDate(), 4, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         //then
@@ -294,16 +259,13 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 4,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when
-        final StudyPlanner updateStudyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
-        study.updatePlanners(recruitPlanner, updateStudyPlanner, now.plusDays(2));
+        study.updatePlanners(now.plusDays(2).toLocalDate(), 4, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         //then
@@ -323,16 +285,13 @@ public class UpdatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(4, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 4,
+                enrollmentEndDate, startDate, endDate);
         study.participate(2L);
         study.participate(3L);
 
         //when
-        final StudyPlanner updateStudyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-        study.updatePlanners(recruitPlanner, updateStudyPlanner, now);
+        study.updatePlanners(now.toLocalDate(), 4, enrollmentEndDate, startDate, endDate);
         study.updateContent(1L, content, AttachedTags.empty());
 
         //then

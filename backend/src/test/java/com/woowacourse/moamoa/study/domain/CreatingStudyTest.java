@@ -30,14 +30,12 @@ public class CreatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         //when && then
         assertThatThrownBy(
-                () -> new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt))
-                .isInstanceOf(InvalidPeriodException.class)
-                .hasMessageContaining("잘못된 기간 설정입니다.");
+                () -> new Study(content, participants, AttachedTags.empty(), createdAt, 1,
+                        enrollmentEndDate, startDate, endDate))
+                .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("RECRUIT Planner| 스터디의 현재 인원(1명)이 모집 인원과 같은 경우 모집이 종료(END)된다.")
@@ -53,12 +51,9 @@ public class CreatingStudyTest {
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
 
-        //target
-        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now);
+        Study study = new Study(content, participants, AttachedTags.empty(), now, 1,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
@@ -77,11 +72,10 @@ public class CreatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(3, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 3,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
@@ -99,12 +93,11 @@ public class CreatingStudyTest {
         LocalDate endDate = now.toLocalDate().plusDays(1);
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
-        Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(null, RECRUITMENT_END, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+        Participants participants = Participants.createBy(1L);;
 
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, null,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
@@ -125,16 +118,15 @@ public class CreatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
 
         //when && then
         assertThatThrownBy(
                 () -> {
                     StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-                    new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+                    new Study(content, participants, AttachedTags.empty(), createdAt, 1,
+                            enrollmentEndDate, startDate, endDate);
                 })
-                .isInstanceOf(InvalidPeriodException.class)
-                .hasMessageContaining("잘못된 기간 설정입니다.");
+                .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("STUDY Planner| 스터디 시작이 스터디 종료일 이후인 경우 예외가 발생한다.")
@@ -151,16 +143,15 @@ public class CreatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-        RecruitPlanner recruitPlanner = new RecruitPlanner(1, RECRUITMENT_START, enrollmentEndDate);
 
         //when && then
         assertThatThrownBy(
                 () -> {
                     StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-                    new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+                    new Study(content, participants, AttachedTags.empty(), createdAt, 1,
+                            enrollmentEndDate, startDate, endDate);
                 })
-                .isInstanceOf(InvalidPeriodException.class)
-                .hasMessageContaining("잘못된 기간 설정입니다.");
+                .isInstanceOf(InvalidPeriodException.class);
     }
 
     @DisplayName("STUDY Planner| 스터디 시작일과 생성일이 같은 경우, 스터디는 진행중(IN PROGRESS) 상태이다.")
@@ -176,13 +167,9 @@ public class CreatingStudyTest {
 
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
-
-        //target
-        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 2,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(IN_PROGRESS);
@@ -202,12 +189,9 @@ public class CreatingStudyTest {
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
 
-        //target
-        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 2,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(IN_PROGRESS);
@@ -227,12 +211,9 @@ public class CreatingStudyTest {
         Content content = new Content("title", "excerpt", "thumbnail", "description");
         Participants participants = Participants.createBy(1L);
 
-        //target
-        RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, enrollmentEndDate);
-        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
         //when
-        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+        Study study = new Study(content, participants, AttachedTags.empty(), createdAt, 2,
+                enrollmentEndDate, startDate, endDate);
 
         //then
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(PREPARE);

@@ -2,9 +2,7 @@ package com.woowacourse.moamoa.study.domain;
 
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
 import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.DONE;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
-import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -43,13 +41,10 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
-        final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
 
         assertThatThrownBy(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, AttachedTags.empty(), createdAt, 10,
+                        enrollmentEndDate, startDate, endDate)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -65,13 +60,10 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
-        final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, PREPARE);
-
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
 
         assertThatThrownBy(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, AttachedTags.empty(), createdAt, 10,
+                        enrollmentEndDate, startDate, endDate)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -87,11 +79,10 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
-        final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
 
         assertThatCode(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt)
+                new Study(content, participants, AttachedTags.empty(), createdAt, 10,
+                        enrollmentEndDate, startDate, endDate)
         ).doesNotThrowAnyException();
     }
 
@@ -107,13 +98,10 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
-        final StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
-
-        final AttachedTags emptyAttachedTags = AttachedTags.empty();
 
         assertThatCode(() ->
-                new Study(content, participants, recruitPlanner, studyPlanner, emptyAttachedTags, createdAt)
+                new Study(content, participants, AttachedTags.empty(), createdAt, 10,
+                        enrollmentEndDate, startDate, endDate)
         ).isInstanceOf(InvalidPeriodException.class);
     }
 
@@ -122,9 +110,8 @@ class StudyTest {
     void participate() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 10,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         sut.participate(2L);
 
@@ -137,9 +124,8 @@ class StudyTest {
     void participateTwice() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 10,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         sut.participate(2L);
 
@@ -153,9 +139,8 @@ class StudyTest {
     void participateByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 10,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         assertThatThrownBy(() -> sut.participate(1L)).isInstanceOf(FailureParticipationException.class);
         assertThat(sut.getParticipants()).isEqualTo(Participants.createBy(1L));
@@ -168,8 +153,8 @@ class StudyTest {
         final Participants participants = Participants.createBy(1L);
         final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
         final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
-
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
         sut.participate(2L);
 
         assertThatThrownBy(() -> sut.participate(3L)).isInstanceOf(FailureParticipationException.class);
@@ -181,9 +166,8 @@ class StudyTest {
     void closeStudyByLastParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         sut.participate(2L);
 
@@ -196,13 +180,12 @@ class StudyTest {
     @MethodSource("provideStudyPeriod")
     void writeReviewAfterStartDate(
             final LocalDateTime createdAt, final LocalDate enrollmentEndDate,
-            final StudyPlanner studyPlanner, boolean isWritable
+            final LocalDate startDate, final LocalDate endDate, boolean isWritable
     ) {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, enrollmentEndDate);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                createdAt);
+        final Study sut = new Study(content, participants, AttachedTags.empty(), createdAt, 10,
+                enrollmentEndDate, startDate, endDate);
 
         assertThat(sut.isReviewWritable(1L)).isEqualTo(isWritable);
     }
@@ -214,19 +197,19 @@ class StudyTest {
                 Arguments.of(
                         now,
                         now.toLocalDate(),
-                        new StudyPlanner(now.toLocalDate().plusDays(1), now.toLocalDate().plusDays(10), PREPARE),
+                        now.toLocalDate().plusDays(1), now.toLocalDate().plusDays(10),
                         false
                 ),
                 Arguments.of(
                         now.minusDays(1),
                         now.toLocalDate(),
-                        new StudyPlanner(now.toLocalDate().minusDays(1), now.toLocalDate().plusDays(10), IN_PROGRESS),
+                        now.toLocalDate().minusDays(1), now.toLocalDate().plusDays(10),
                         true
                 ),
                 Arguments.of(
                         now.minusDays(3),
                         now.toLocalDate().minusDays(2),
-                        new StudyPlanner(now.toLocalDate().minusDays(2), now.toLocalDate().minusDays(1), PREPARE),
+                        now.toLocalDate().minusDays(2), now.toLocalDate().minusDays(1),
                         false
                 )
         );
@@ -237,9 +220,8 @@ class StudyTest {
     void writeReviewByOwner() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         assertThat(sut.isReviewWritable(1L)).isTrue();
     }
@@ -249,9 +231,8 @@ class StudyTest {
     void writeReviewByParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         sut.participate(2L);
 
@@ -263,9 +244,8 @@ class StudyTest {
     void writeReviewByNotParticipant() {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         assertThat(sut.isReviewWritable(2L)).isFalse();
     }
@@ -276,9 +256,8 @@ class StudyTest {
     void getMyRoleInStudy(Long memberId, MemberRole role) {
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(10, RecruitStatus.RECRUITMENT_START, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now(), IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 10,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
 
         sut.participate(2L);
 
@@ -291,11 +270,8 @@ class StudyTest {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_END, LocalDate.now());
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(3),
-                IN_PROGRESS);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now());
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 10,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(3));
 
         // when
         sut.changeStatus(LocalDate.now().plusDays(4));
@@ -310,10 +286,8 @@ class StudyTest {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
 
         // when
         sut.changeStatus(LocalDate.now());
@@ -328,10 +302,8 @@ class StudyTest {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now().minusDays(1), 2,
+                LocalDate.now().minusDays(1), LocalDate.now(), LocalDate.now().plusDays(5));
 
         // when
         sut.changeStatus(LocalDate.now());
@@ -347,10 +319,8 @@ class StudyTest {
         // arrange
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(ownerId);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
 
         sut.participate(participantId);
 
@@ -365,10 +335,8 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
 
         assertThatThrownBy(() -> sut.leave(owner, new DateTimeSystem().now().toLocalDate()))
                 .isInstanceOf(OwnerCanNotLeaveException.class);
@@ -382,10 +350,8 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
 
         assertThatThrownBy(() -> sut.leave(participant, new DateTimeSystem().now().toLocalDate()))
                 .isInstanceOf(NotParticipatedMemberException.class);
@@ -399,10 +365,8 @@ class StudyTest {
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(owner.getMemberId());
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(),
-                now().minusDays(2));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
 
         sut.participate(participant.getMemberId());
 
@@ -418,13 +382,9 @@ class StudyTest {
         // given
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = Participants.createBy(1L);
-        final RecruitPlanner recruitPlanner = new RecruitPlanner(2, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner studyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
-        final Study sut = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), now().minusDays(2));
-
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now().plusDays(5));
         final Content updatingContent = new Content("새로운 title", "새로운 excerpt", "새로운 thumbnail", "새로운 description");
-        final RecruitPlanner updatingRecruitPlanner = new RecruitPlanner(10, RECRUITMENT_START, LocalDate.now().minusDays(1));
-        final StudyPlanner updatingStudyPlanner = new StudyPlanner(LocalDate.now(), LocalDate.now().plusDays(5), PREPARE);
 
         // when & then
         assertThatThrownBy(() -> sut.updateContent(2L, updatingContent, null))

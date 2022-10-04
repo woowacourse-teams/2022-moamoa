@@ -49,39 +49,6 @@ public class Study {
     private LocalDateTime createdAt;
 
     public Study(
-            final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
-            final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
-    ) {
-        this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
-    }
-
-    public Study(
-            final Long id, final Content content, final Participants participants,
-            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
-            final LocalDateTime createdAt
-    ) {
-        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
-                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
-            throw new InvalidPeriodException();
-        }
-
-        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
-            throw new InvalidPeriodException();
-        }
-
-        this.id = id;
-        this.content = content;
-        this.participants = participants;
-        this.recruitPlanner = recruitPlanner;
-        this.studyPlanner = studyPlanner;
-        this.createdAt = createdAt;
-        this.attachedTags = attachedTags;
-        updatePlanners(recruitPlanner, studyPlanner, createdAt);
-    }
-
-    // --------
-
-    public Study(
             final Content content, final Participants participants, final AttachedTags attachedTags,
             final LocalDateTime createdAt, final Integer maxMemberCount, final LocalDate enrollmentEndDate,
             final LocalDate startDate, final LocalDate endDate
@@ -114,7 +81,7 @@ public class Study {
         this.participants = participants;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
-        updatePlanners(recruitPlanner, studyPlanner, createdAt);
+        updatePlanners(createdAt.toLocalDate(), maxMemberCount, enrollmentEndDate, startDate, endDate);
     }
 
     private StudyPlanner makStudyPlanner(final LocalDateTime createdAt,
@@ -204,8 +171,12 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void updatePlanners(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner,
-                               final LocalDateTime requestNow) {
+    public void updatePlanners(final LocalDate requestNow,
+                               final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+                               final LocalDate startDate, final LocalDate endDate) {
+        recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
+        studyPlanner = makStudyPlanner(createdAt, startDate, endDate);
+
         validatePlanner(recruitPlanner, studyPlanner);
 
         updateStudyPlanner(studyPlanner, requestNow);
@@ -216,7 +187,7 @@ public class Study {
             return;
         }
 
-        if (recruitPlanner.isRecruitedBeforeThan(requestNow.toLocalDate())) {
+        if (recruitPlanner.isRecruitedBeforeThan(requestNow)) {
             recruitPlanner.closeRecruiting();
             setPlanner(studyPlanner, recruitPlanner);
             return;
@@ -257,17 +228,17 @@ public class Study {
         }
     }
 
-    private void updateStudyPlanner(final StudyPlanner studyPlanner, final LocalDateTime requestNow) {
-        if (studyPlanner.getStartDate().isAfter(requestNow.toLocalDate())) {
+    private void updateStudyPlanner(final StudyPlanner studyPlanner, final LocalDate requestNow) {
+        if (studyPlanner.getStartDate().isAfter(requestNow)) {
             studyPlanner.prepareStudy();
         }
 
-        if (studyPlanner.getStartDate().equals(requestNow.toLocalDate()) || studyPlanner.getStartDate().isBefore(
-                requestNow.toLocalDate())) {
+        if (studyPlanner.getStartDate().equals(requestNow) || studyPlanner.getStartDate().isBefore(
+                requestNow)) {
             studyPlanner.inProgressStudy();
         }
 
-        if (studyPlanner.getEndDate() != null && requestNow.toLocalDate().isAfter(studyPlanner.getEndDate())) {
+        if (studyPlanner.getEndDate() != null && requestNow.isAfter(studyPlanner.getEndDate())) {
             studyPlanner.doneStudy();
         }
     }

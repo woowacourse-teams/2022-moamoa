@@ -66,10 +66,11 @@ public class StudyService {
                 .orElseThrow(StudyNotFoundException::new);
 
         final Content content = request.mapToContent();
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
+//        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
+//        final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
 
-        study.updatePlanners(recruitPlanner, studyPlanner, dateTimeSystem.now());
+        study.updatePlanners(LocalDate.now(), request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate());
         study.updateContent(memberId, content, request.mapToAttachedTags());
     }
 }
