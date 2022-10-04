@@ -4,6 +4,8 @@ import { Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
+import { StudyId } from '@custom-types';
+
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
@@ -26,36 +28,12 @@ const CommunityTabPanel: React.FC = () => {
   const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
-  const renderArticleListPage = () => {
-    return (
-      <>
-        <Flex justifyContent="flex-end">
-          <GoToPublishPageLinkButton theme={theme} />
-        </Flex>
-        <Divider color={theme.colors.secondary.dark} space="8px" />
-        <ArticleList studyId={studyId} />
-      </>
-    );
-  };
-
-  const render = () => {
-    if (isListPage) {
-      return renderArticleListPage();
-    }
-    if (isArticleDetailPage) {
-      return <Article studyId={studyId} articleId={articleId} />;
-    }
-    if (isPublishPage) {
-      return <Publish studyId={studyId} />;
-    }
-    if (isEditPage) {
-      return <Edit studyId={studyId} articleId={articleId} />;
-    }
-  };
-
   return (
     <Wrapper>
-      <div>{render()}</div>
+      {isListPage && <ArticleListPage theme={theme} studyId={studyId} />}
+      {isArticleDetailPage && <Article studyId={studyId} articleId={articleId} />}
+      {isPublishPage && <Publish studyId={studyId} />}
+      {isEditPage && <Edit studyId={studyId} articleId={articleId} />}
     </Wrapper>
   );
 };
@@ -70,6 +48,20 @@ const GoToPublishPageLinkButton: React.FC<GoToPublishPageLinkButtonProps> = ({ t
       글쓰기
     </TextButton>
   </Link>
+);
+
+type ArticleListPageProps = {
+  theme: Theme;
+  studyId: StudyId;
+};
+const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => (
+  <>
+    <Flex justifyContent="flex-end">
+      <GoToPublishPageLinkButton theme={theme} />
+    </Flex>
+    <Divider color={theme.colors.secondary.dark} space="8px" />
+    <ArticleList studyId={studyId} />
+  </>
 );
 
 export default CommunityTabPanel;
