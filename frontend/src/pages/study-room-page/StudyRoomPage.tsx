@@ -28,9 +28,9 @@ const StudyRoomPage: React.FC = () => {
     <Wrapper>
       <Flex alignItems="flex-start">
         <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
-        <section css={tw`flex-grow`}>
+        <Flex.Item flexGrow={1}>
           <Outlet />
-        </section>
+        </Flex.Item>
       </Flex>
     </Wrapper>
   );
