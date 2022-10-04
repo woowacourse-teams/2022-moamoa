@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
@@ -25,38 +27,48 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
+  const hasTags = !isError && isSuccess && data.tags.length > 0;
+
   const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
 
-  const render = () => {
-    if (isLoading) return <div>loading...</div>;
+  const subjects = data?.tags?.filter(({ category }) => category.name === SUBJECT);
+  const etcTag = subjects?.find(tag => tag.name === 'Etc');
 
-    if (isError || !isSuccess) return <div>Error!</div>;
+  const selectedOptions = originalOptions
+    ? originalOptions
+    : etcTag
+    ? [{ value: etcTag.id, label: etcTag.description }]
+    : [];
 
-    const { tags } = data;
-    if (tags.length === 0) return <div>선택 가능한 주제(태그)가 없습니다</div>;
+  const options = subjects ? subjectsToOptions(subjects) : [];
 
-    const subjects = tags.filter(({ category }) => category.name === SUBJECT);
-    const etcTag = subjects.find(tag => tag.name === 'Etc');
-    if (!etcTag) {
+  useEffect(() => {
+    if (!isError && isSuccess && !etcTag) {
       console.error('기타 태그의 name이 변경되었습니다');
       alert('기타 태그의 name이 변경되었습니다');
       return;
     }
-    const selectedOptions = originalOptions ? originalOptions : [{ value: etcTag.id, label: etcTag.description }];
-
-    const options = subjectsToOptions(subjects);
-
-    return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
-  };
+  }, [isError, isSuccess, etcTag]);
 
   return (
     <MetaBox>
       <MetaBox.Title>
         <Label htmlFor={SUBJECT}>주제</Label>
       </MetaBox.Title>
-      <MetaBox.Content>{render()}</MetaBox.Content>
+      <MetaBox.Content>
+        {isLoading && <Loading />}
+        {isError && <Error />}
+        {!isError && isSuccess && !hasTags && <NoTags />}
+        <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+      </MetaBox.Content>
     </MetaBox>
   );
 };
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error!</div>;
+
+const NoTags = () => <div>선택 가능한 주제(태그)가 없습니다</div>;
 
 export default Subject;
