@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -75,6 +77,53 @@ public class Study {
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
         updatePlanners(recruitPlanner, studyPlanner, createdAt);
+    }
+
+    // --------
+
+    public Study(
+            final Content content, final Participants participants, final AttachedTags attachedTags,
+            final LocalDateTime createdAt, final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+            final LocalDate startDate, final LocalDate endDate
+    ) {
+        this(null, content, participants, attachedTags, createdAt,
+                maxMemberCount, enrollmentEndDate, startDate, endDate);
+    }
+
+    public Study(
+            final Long id,
+            final Content content, final Participants participants, final AttachedTags attachedTags,
+            final LocalDateTime createdAt, final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+            final LocalDate startDate, final LocalDate endDate
+
+    ) {
+        recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
+        studyPlanner = makStudyPlanner(createdAt, startDate, endDate);
+
+        if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
+                isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
+            throw new InvalidPeriodException();
+        }
+
+        if (studyPlanner.isInappropriateCondition(createdAt.toLocalDate())) {
+            throw new InvalidPeriodException();
+        }
+
+        this.id = id;
+        this.content = content;
+        this.participants = participants;
+        this.createdAt = createdAt;
+        this.attachedTags = attachedTags;
+        updatePlanners(recruitPlanner, studyPlanner, createdAt);
+    }
+
+    private StudyPlanner makStudyPlanner(final LocalDateTime createdAt,
+                                         final LocalDate startDate,
+                                         final LocalDate endDate) {
+        if (startDate.equals(createdAt.toLocalDate())) {
+            return new StudyPlanner(startDate, endDate, IN_PROGRESS);
+        }
+        return new StudyPlanner(startDate, endDate, PREPARE);
     }
 
     public boolean isReviewWritable(final Long memberId) {

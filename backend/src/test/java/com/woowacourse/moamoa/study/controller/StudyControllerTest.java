@@ -81,7 +81,7 @@ class StudyControllerTest {
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getStudyPlanner()).isEqualTo(
                 new StudyPlanner(
-                        studyRequest.getStartDate(), LocalDate.parse(studyRequest.getEndDate()), PREPARE));
+                        studyRequest.getStartDate(), studyRequest.getEndDate(), PREPARE));
         assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(studyRequest.getTagIds());
     }

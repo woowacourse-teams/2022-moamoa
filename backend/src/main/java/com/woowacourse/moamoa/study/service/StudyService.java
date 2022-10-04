@@ -42,12 +42,14 @@ public class StudyService {
                 .orElseThrow(MemberNotFoundException::new);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
 
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
-        return studyRepository.save(new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+
+        return studyRepository.save(
+                new Study(content, participants, attachedTags, createdAt, request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate())
+        );
     }
 
     public void autoUpdateStatus() {

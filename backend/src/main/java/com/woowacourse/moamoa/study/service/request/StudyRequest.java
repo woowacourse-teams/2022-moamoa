@@ -59,10 +59,6 @@ public class StudyRequest {
         return tagIds == null ? List.of() : tagIds;
     }
 
-    public String getEndDate() {
-        return endDate == null ? "" : endDate.toString();
-    }
-
     public StudyPlanner mapToStudyPlanner(final LocalDate now) {
         if (startDate.equals(now)) {
             return new StudyPlanner(startDate, endDate, IN_PROGRESS);
