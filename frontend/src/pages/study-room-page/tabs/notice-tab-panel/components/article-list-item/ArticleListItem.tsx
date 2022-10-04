@@ -1,3 +1,4 @@
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
@@ -13,12 +14,13 @@ import UserInfoItem from '@components/user-info-item/UserInfoItem';
 export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 
 const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, createdDate }) => {
+  const theme = useTheme();
   return (
     <Self>
       <Flex alignItems="center">
-        <div css={tw`flex-grow text-[${theme.fontSize.lg}]`}>
-          <span>{title}</span>
-        </div>
+        <Flex.Item flexGrow={1}>
+          <Title theme={theme} title={title} />
+        </Flex.Item>
         <UserInfoItem size="md" src={author.imageUrl} name={author.username}>
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
           <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
@@ -28,8 +30,22 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, create
   );
 };
 
-const Self = styled.li`
+const Self = styled.div`
   ${applyHoverTransitionStyle()}
 `;
+
+type TitleProps = {
+  theme: Theme;
+  title: string;
+};
+const Title: React.FC<TitleProps> = ({ theme, title }) => (
+  <span
+    css={css`
+      font-size: ${theme.fontSize.lg};
+    `}
+  >
+    {title}
+  </span>
+);
 
 export default ArticleListItem;
