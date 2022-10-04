@@ -310,9 +310,8 @@ public class UpdatingStudyTest {
         assertThat(study.getStudyPlanner().getStudyStatus()).isEqualTo(PREPARE);
     }
 
-    @DisplayName("Study Planner| 수정하는 날이 스터디 종료일 이후이거나, 수정하는 날이 시작일 이전인 경우가 아니면 IN_PROGRESS 상태이다.")
-    @ParameterizedTest
-    @CsvSource({})
+    @DisplayName("Study Planner| 시작일자가 지금보다 이전이거나 같은 경우 IN_PROGRESS 상태이다.")
+    @Test
     void updateStudyPlannerIsInProgress() {
         //given
         LocalDateTime now = now();
