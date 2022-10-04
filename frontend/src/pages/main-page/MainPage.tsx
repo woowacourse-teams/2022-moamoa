@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -8,7 +10,7 @@ import type { Study } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
-import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
+import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
@@ -22,50 +24,61 @@ const MainPage: React.FC = () => {
 
   const { isFetching, isError, isSuccess, data, fetchNextPage } = studiesQueryResult;
 
-  const renderStudyList = () => {
-    if (isError) {
-      return <div>에러가 발생했습니다</div>;
-    }
-
-    const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) ?? [];
-
-    if (isSuccess && searchedStudies.length === 0) {
-      return <div>검색 결과가 없습니다</div>;
-    }
-
-    return (
-      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
-        <CardList>
-          {searchedStudies.map((study, i) => (
-            <li key={study.id}>
-              <Link to={PATH.STUDY_DETAIL(study.id)}>
-                <StudyCard
-                  thumbnailUrl={`static/${(i + 1) % 29}.jpg`}
-                  thumbnailAlt={`${study.title} 스터디 이미지`}
-                  title={study.title}
-                  excerpt={study.excerpt}
-                  tags={study.tags}
-                  isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
-                />
-              </Link>
-            </li>
-          ))}
-        </CardList>
-        {isFetching && <div>Loading...</div>}
-      </InfiniteScroll>
-    );
-  };
+  const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) ?? [];
+  const hasResult = isSuccess && searchedStudies.length > 0;
 
   return (
     <Page>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
-      <Wrapper>{renderStudyList()}</Wrapper>
+      <Wrapper>
+        {isError && <Error />}
+        {!hasResult && <NoResult />}
+        {hasResult && (
+          <InfinitScrollCardList
+            isContentLoading={isFetching}
+            onContentLoad={fetchNextPage}
+            studies={searchedStudies}
+          />
+        )}
+      </Wrapper>
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </Page>
   );
 };
 
-export const CardList = styled.ul`
+const Error = () => <div>에러가 발생했습니다</div>;
+
+const NoResult = () => <div>검색 결과가 없습니다</div>;
+
+type InfinitScrollCardListProps = { studies: Array<Study> } & Omit<InfiniteScrollProps, 'children'>;
+
+const InfinitScrollCardList: React.FC<InfinitScrollCardListProps> = ({
+  studies,
+  isContentLoading,
+  onContentLoad: handleContentLoad,
+}) => (
+  <InfiniteScroll isContentLoading={isContentLoading} onContentLoad={handleContentLoad}>
+    <CardList>
+      {studies.map((study, i) => (
+        <li key={study.id}>
+          <Link to={PATH.STUDY_DETAIL(study.id)}>
+            <StudyCard
+              thumbnailUrl={`static/${(i + 1) % 29}.jpg`}
+              thumbnailAlt={`${study.title} 스터디 이미지`}
+              title={study.title}
+              excerpt={study.excerpt}
+              tags={study.tags}
+              isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
+            />
+          </Link>
+        </li>
+      ))}
+    </CardList>
+    {isContentLoading && <div>Loading...</div>}
+  </InfiniteScroll>
+);
+
+const CardList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, minmax(auto, 1fr));
   grid-template-rows: 1fr;
@@ -87,6 +100,6 @@ export const CardList = styled.ul`
   }
 `;
 
-export const Page = styled.div``;
+const Page = styled.div``;
 
 export default MainPage;

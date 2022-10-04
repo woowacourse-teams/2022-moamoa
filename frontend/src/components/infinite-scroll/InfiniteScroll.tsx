@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 
 import type { Noop } from '@custom-types';
 
-type InfiniteScrollProps = {
+export type InfiniteScrollProps = {
   onContentLoad: Noop;
   isContentLoading: boolean;
   children: React.ReactNode;
