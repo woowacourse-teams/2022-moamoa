@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import { css } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown, mqUp } from '@styles/responsive';
 
 import TabButton from '@study-room-page/components/tab-button/TabButton';
-import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
+import type { Tab, TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export type SideMenuProps = {
   activeTabId: TabId;
@@ -15,32 +15,20 @@ export type SideMenuProps = {
 };
 
 const SideMenu: React.FC<SideMenuProps> = ({ activeTabId, tabs, onTabButtonClick: handleTabButtonClick }) => {
+  const theme = useTheme();
   return (
     <>
-      <Sidebar>
-        {tabs.map(({ id, name }) => (
-          <Link key={id} to={id}>
-            <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
-              {name}
-            </TabButton>
-          </Link>
-        ))}
-      </Sidebar>
-      <Bottombar>
-        {tabs.map(({ id, name }) => (
-          <Link key={id} to={id}>
-            <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
-              {name}
-            </TabButton>
-          </Link>
-        ))}
-      </Bottombar>
+      <Sidebar theme={theme} tabs={tabs} activeTabId={activeTabId} onTabButtonClick={handleTabButtonClick} />
+      <BottomBar theme={theme} tabs={tabs} activeTabId={activeTabId} onTabButtonClick={handleTabButtonClick} />
     </>
   );
 };
 
-const Sidebar = styled.nav`
-  ${({ theme }) => css`
+type SidebarProps = {
+  theme: Theme;
+} & SideMenuProps;
+const Sidebar: React.FC<SidebarProps> = ({ theme, tabs, activeTabId, onTabButtonClick: handleTabButtonClick }) => {
+  const style = css`
     position: sticky;
     top: 100px;
     left: 0;
@@ -56,11 +44,25 @@ const Sidebar = styled.nav`
     ${mqDown('lg')} {
       display: none;
     }
-  `}
-`;
+  `;
+  return (
+    <div css={style}>
+      {tabs.map(({ id, name }) => (
+        <Link key={id} to={id}>
+          <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
+            {name}
+          </TabButton>
+        </Link>
+      ))}
+    </div>
+  );
+};
 
-const Bottombar = styled.nav`
-  ${({ theme }) => css`
+type BottomBarProps = {
+  theme: Theme;
+} & SideMenuProps;
+const BottomBar: React.FC<BottomBarProps> = ({ theme, tabs, activeTabId, onTabButtonClick: handleTabButtonClick }) => {
+  const style = css`
     display: flex;
     align-items: space-between;
     column-gap: 16px;
@@ -80,7 +82,18 @@ const Bottombar = styled.nav`
     ${mqUp('lg')} {
       display: none;
     }
-  `}
-`;
+  `;
+  return (
+    <div css={style}>
+      {tabs.map(({ id, name }) => (
+        <Link key={id} to={id}>
+          <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
+            {name}
+          </TabButton>
+        </Link>
+      ))}
+    </div>
+  );
+};
 
 export default SideMenu;
