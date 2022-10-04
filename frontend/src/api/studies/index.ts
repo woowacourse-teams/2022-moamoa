@@ -64,6 +64,7 @@ const getStudiesWithPage =
       selectedFilters,
       size: DEFAULT_STUDY_CARD_QUERY_PARAM.SIZE,
     });
+
     return { ...data, page: pageParam.page + 1 };
   };
 

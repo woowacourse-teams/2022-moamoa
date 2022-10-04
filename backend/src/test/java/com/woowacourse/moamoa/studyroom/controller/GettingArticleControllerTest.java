@@ -79,7 +79,7 @@ class GettingArticleControllerTest {
 
         //assert
         final AuthorResponse expectedAuthorResponse = new AuthorResponse(
-                member.getGithubId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()
+                member.getId(), member.getUsername(), member.getImageUrl(), member.getProfileUrl()
         );
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(

@@ -1,14 +1,10 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
-import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -18,6 +14,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.query.LinkDao;
@@ -115,6 +112,15 @@ class SearchingReferenceRoomControllerTest {
 
         entityManager.flush();
         entityManager.clear();
+
+        final MemberData 짱구_응답 = new MemberData(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(),
+                짱구.getProfileUrl());
+        final MemberData 그린론_응답 = new MemberData(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(),
+                그린론.getProfileUrl());
+        final MemberData 디우_응답 = new MemberData(디우.getId(), 디우.getUsername(), 디우.getImageUrl(),
+                디우.getProfileUrl());
+        final MemberData 베루스_응답 = new MemberData(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(),
+                베루스.getProfileUrl());
 
         final LinkResponse 링크1 = new LinkResponse(
                 new LinkData(link1.getId(), 짱구_응답, link1.getLinkUrl(), link1.getDescription(),

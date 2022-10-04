@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useGetStudyReviews } from '@api/reviews';
 
@@ -7,14 +8,13 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import ReviewForm from '@study-room-page/tabs/review-tab-panel/components/reivew-form/ReviewForm';
-import ReviewComment from '@study-room-page/tabs/review-tab-panel/components/review-comment/ReviewComment';
+import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
+import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
 
-export type ReviewTabPanelProps = {
-  studyId: number;
-};
+const ReviewTabPanel: React.FC = () => {
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
 
-const ReviewTabPanel: React.FC<ReviewTabPanelProps> = ({ studyId }) => {
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
   const { userInfo, fetchUserInfo } = useUserInfo();
 

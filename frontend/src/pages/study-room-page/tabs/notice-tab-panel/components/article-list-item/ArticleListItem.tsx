@@ -8,7 +8,7 @@ import { theme } from '@styles/theme';
 import Flex from '@components/flex/Flex';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
-import * as S from '@study-room-page/tabs/notice-tab-panel/components/article-list-item/ArticleListItem.style';
+import * as S from '@notice-tab/components/article-list-item/ArticleListItem.style';
 
 export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 

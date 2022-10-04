@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -8,8 +7,6 @@ import tw from '@utils/tw';
 
 import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
-
-import { useAuth } from '@hooks/useAuth';
 
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
@@ -24,16 +21,12 @@ export type ArticleProps = {
   articleId: number;
 };
 
-const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
-  const { isFetching, isSuccess, isError, data } = useGetNoticeArticle(studyId, articleId);
+const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
+  const { isFetching, isSuccess, isError, data } = useGetNoticeArticle({ studyId, articleId });
   const getUserInformationQueryResult = useGetUserInformation();
 
   const { mutateAsync } = useDeleteNoticeArticle();
   const navigate = useNavigate();
-  const {} = useAuth();
-  const handleBackToArticleListButtonClick = () => {
-    navigate(`${PATH.COMMUNITY(studyId)}`);
-  };
 
   const handleDeleteArticleButtonClick = () => {
     mutateAsync(
@@ -41,17 +34,13 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       {
         onSuccess: () => {
           alert('성공적으로 삭제했습니다');
-          navigate(`${PATH.COMMUNITY(studyId)}`);
+          navigate(`../${PATH.NOTICE}`);
         },
         onError: () => {
-          alert('알수 없는 에러가 발생했습니다');
+          alert('알 수 없는 에러가 발생했습니다');
         },
       },
     );
-  };
-
-  const handleEditArticleButtonClick = () => {
-    navigate(`${PATH.COMMUNITY_EDIT(studyId, articleId)}`);
   };
 
   const renderModifierButtons = () => {
@@ -61,9 +50,11 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 
     return (
       <ButtonGroup gap="8px" width="fit-content">
-        <BoxButton type="button" padding="4px 8px" fluid={false} onClick={handleEditArticleButtonClick}>
-          글수정
-        </BoxButton>
+        <Link to="edit" relative="path">
+          <BoxButton type="button" padding="4px 8px" fluid={false}>
+            글수정
+          </BoxButton>
+        </Link>
         <BoxButton
           type="button"
           padding="4px 8px"
@@ -102,9 +93,11 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
             <MarkdownRender markdownContent={content} />
           </div>
           <Divider space="8px" />
-          <BoxButton type="button" padding="8px" variant="secondary" onClick={handleBackToArticleListButtonClick}>
-            목록보기
-          </BoxButton>
+          <Link to={`../${PATH.NOTICE}`}>
+            <BoxButton type="button" padding="8px" variant="secondary">
+              목록보기
+            </BoxButton>
+          </Link>
         </article>
       );
     }

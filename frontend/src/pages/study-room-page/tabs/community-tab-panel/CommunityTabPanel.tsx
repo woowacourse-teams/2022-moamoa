@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -14,34 +14,29 @@ import Article from '@community-tab/components/article/Article';
 import Edit from '@community-tab/components/edit/Edit';
 import Publish from '@community-tab/components/publish/Publish';
 
-type CommunityTabPanelProps = {
-  studyId: number;
-};
+const CommunityTabPanel: React.FC = () => {
+  const location = useLocation();
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
-  const { articleId } = useParams<{ articleId: string }>();
-  const navigate = useNavigate();
-
-  const lastPath = window.location.pathname.split('/').at(-1);
+  const lastPath = location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
   const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
-  const handleGoToPublishPageButtonClick = () => {
-    navigate(`${PATH.COMMUNITY_PUBLISH(studyId)}`);
-  };
-
   const renderArticleListPage = () => {
     return (
       <>
         <Flex justifyContent="flex-end">
-          <TextButton variant="primary" fontSize="lg" onClick={handleGoToPublishPageButtonClick}>
-            글쓰기
-          </TextButton>
+          <Link to={PATH.COMMUNITY_PUBLISH}>
+            <TextButton variant="primary" fontSize="lg">
+              글쓰기
+            </TextButton>
+          </Link>
         </Flex>
         <Divider color={theme.colors.secondary.dark} space="8px" />
-        <ArticleList />
+        <ArticleList studyId={studyId} />
       </>
     );
   };
@@ -51,14 +46,13 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
       return renderArticleListPage();
     }
     if (isArticleDetailPage) {
-      const numArticleId = Number(articleId);
-      return <Article studyId={studyId} articleId={numArticleId} />;
+      return <Article studyId={studyId} articleId={articleId} />;
     }
     if (isPublishPage) {
-      return <Publish />;
+      return <Publish studyId={studyId} />;
     }
     if (isEditPage) {
-      return <Edit />;
+      return <Edit studyId={studyId} articleId={articleId} />;
     }
   };
 

@@ -1,6 +1,6 @@
 import type { Story } from '@storybook/react';
 
-import LinkRoomTabPanel from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel';
+import LinkRoomTabPanel from '@link-tab/LinkRoomTabPanel';
 
 export default {
   title: 'Pages/StudyRoomPage/LinkRoomTabPanel',

@@ -12,6 +12,7 @@ export type FlexProps = {
   justifyContent?: FlexProps['alignItems'];
   rowGap?: CssLength;
   grow?: boolean;
+  wrap?: boolean;
 };
 
 const Flex: React.FC<FlexProps> = ({
@@ -24,6 +25,7 @@ const Flex: React.FC<FlexProps> = ({
   justifyContent,
   rowGap,
   grow,
+  wrap,
 }) => (
   <S.Flex
     width={width}
@@ -34,6 +36,7 @@ const Flex: React.FC<FlexProps> = ({
     justifyContent={justifyContent}
     rowGap={rowGap}
     grow={grow}
+    wrap={wrap}
   >
     {children}
   </S.Flex>
