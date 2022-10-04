@@ -86,6 +86,30 @@ public class CreatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
+    @DisplayName("RECRUIT Planner| 모집 인원이 null인 경우 모집중(START) 상태이다.")
+    @Test
+    void recruitMemberSizeIsNull() {
+        //given
+        LocalDateTime now = now();
+        LocalDateTime createdAt = now;
+
+        LocalDate enrollmentEndDate = now.toLocalDate();
+        LocalDate startDate = now.toLocalDate();
+        LocalDate endDate = now.toLocalDate().plusDays(1);
+
+        Content content = new Content("title", "excerpt", "thumbnail", "description");
+        Participants participants = Participants.createBy(1L);
+        RecruitPlanner recruitPlanner = new RecruitPlanner(null, RECRUITMENT_END, enrollmentEndDate);
+        StudyPlanner studyPlanner = new StudyPlanner(startDate, endDate, IN_PROGRESS);
+
+        //when
+        Study study = new Study(content, participants, recruitPlanner, studyPlanner, AttachedTags.empty(), createdAt);
+
+        //then
+        assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
+    }
+
+
     @DisplayName("STUDY Planner| 스터디 생성이 스터디 시작일 이후인 경우 예외가 발생한다.")
     @Test
     void createStudyPlannerStatusExceptionIfStudyCreateAfterStudyStart() {
