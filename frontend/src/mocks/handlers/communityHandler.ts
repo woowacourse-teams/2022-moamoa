@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 import communityArticlesJSON from '@mocks/community-articles.json';
-import { user } from '@mocks/memberHandlers';
+import { user } from '@mocks/handlers/memberHandlers';
 
 import { ApiCommunityArticle } from '@api/community';
 

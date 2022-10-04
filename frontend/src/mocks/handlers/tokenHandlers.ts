@@ -12,8 +12,7 @@ export const tokenHandlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        accessToken:
-          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
+        accessToken: 123,
         expiredTime: EXPIRED_TIME,
       }),
       ctx.cookie('refreshToken', 'test-refreshToken!!!sdfsdf', {

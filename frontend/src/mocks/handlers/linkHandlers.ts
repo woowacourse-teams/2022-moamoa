@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
+import { user } from '@mocks/handlers/memberHandlers';
 import linkJson from '@mocks/links.json';
-import { user } from '@mocks/memberHandlers';
 
 import { ApiLink } from '@api/link';
 
