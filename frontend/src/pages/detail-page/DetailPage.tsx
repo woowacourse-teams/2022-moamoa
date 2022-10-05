@@ -4,8 +4,6 @@ import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { mqDown } from '@styles/responsive';
 import { theme } from '@styles/theme';
 

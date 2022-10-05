@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
-import tw from '@utils/tw';
 
 import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
 
@@ -81,7 +80,13 @@ const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, us
   return (
     <>
       <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
-      <span css={tw`text-[${theme.fontSize.lg}]`}>까지 가입 가능</span>
+      <span
+        css={css`
+          font-size: ${theme.fontSize.lg};
+        `}
+      >
+        까지 가입 가능
+      </span>
     </>
   );
 };
