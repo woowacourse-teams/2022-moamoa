@@ -151,6 +151,7 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
     <div
       css={css`
         position: relative;
+        width: 100%;
       `}
     >
       <Textarea
