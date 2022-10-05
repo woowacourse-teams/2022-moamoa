@@ -126,21 +126,23 @@ const Self = styled.div`
 type FilterSlideButtonProps = { theme: Theme } & ImportedFilterSlideButtonProps;
 const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction, ...props }) => {
   const style = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
     top: 0;
     right: ${direction === 'left' ? 'calc(100% - 20px - 24px)' : '20px'};
     z-index: 2;
 
     height: 100%;
-    padding: auto 0;
+    padding: 0;
 
     background-color: ${theme.colors.secondary.light}66;
   `;
   return (
     <div css={style}>
-      <Center>
-        <ImportedFilterSlideButton direction={direction} {...props} />
-      </Center>
+      <ImportedFilterSlideButton direction={direction} {...props} />
     </div>
   );
 };
