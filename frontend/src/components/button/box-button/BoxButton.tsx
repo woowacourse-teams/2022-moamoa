@@ -1,8 +1,6 @@
 import { Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { noop } from '@utils';
-
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type BoxButtonProps = {
@@ -21,7 +19,7 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   variant = 'primary',
   fluid = true,
   disabled = false,
-  onClick: handleClick = noop,
+  onClick: handleClick,
   custom,
 }) => {
   return (
