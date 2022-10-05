@@ -102,6 +102,8 @@ const MarkdownRendererContainer = styled.div`
 
 const Sidebar = styled.div`
   min-width: 30%;
+  position: sticky;
+  top: 150px;
 
   ${mqDown('lg')} {
     display: none;
@@ -109,8 +111,6 @@ const Sidebar = styled.div`
 `;
 
 const FloatButtonContainer = styled.div`
-  position: sticky;
-  top: 150px;
   padding-bottom: 20px;
 `;
 
