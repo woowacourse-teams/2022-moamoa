@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { css } from '@emotion/react';
+
 import { PATH } from '@constants';
 
 import type { CommunityArticle, StudyId } from '@custom-types';
@@ -52,7 +54,11 @@ type SelfProps = {
   articles: Array<CommunityArticle>;
 };
 const Self: React.FC<SelfProps> = ({ articles }) => (
-  <ul>
+  <ul
+    css={css`
+      width: 100%;
+    `}
+  >
     {articles.map(article => (
       <li key={article.id}>
         <Link to={PATH.COMMUNITY_ARTICLE(article.id)}>
