@@ -84,7 +84,7 @@ type RegisterButtonProps = {
   theme: Theme;
 };
 const RegisterButton: React.FC<RegisterButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
     등록하기
   </BoxButton>
 );
