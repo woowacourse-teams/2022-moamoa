@@ -1,6 +1,9 @@
-import type { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
+import checkType, { isNull } from '@utils/typeChecker';
+
+import { checkLogin, checkRefresh } from '@api/auth/typeChecker';
 import axiosInstance from '@api/axiosInstance';
 
 export type ApiLogin = {
@@ -30,7 +33,8 @@ export const postLogin = async ({ code }: ApiLogin['post']['variables']) => {
     AxiosResponse<ApiLogin['post']['responseData']>,
     ApiLogin['post']['variables']
   >(`/api/auth/login?code=${code}`);
-  return response.data;
+
+  return checkLogin(response.data);
 };
 
 export const usePostLogin = () =>
@@ -39,12 +43,14 @@ export const usePostLogin = () =>
 // logout
 export const deleteLogout = async () => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>, null>(`/api/auth/logout`);
-  return response.data;
+
+  return checkType(response.data, isNull);
 };
 
 export const useDeleteLogout = () => useMutation<null, AxiosError, null>(deleteLogout);
 
 export const getRefresh = async () => {
   const response = await axiosInstance.get<ApiRefreshToken['get']['responseData']>(`/api/auth/refresh`);
-  return response.data;
+
+  return checkRefresh(response.data);
 };
