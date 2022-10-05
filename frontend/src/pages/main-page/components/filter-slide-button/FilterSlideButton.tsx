@@ -13,7 +13,13 @@ const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ direction, ariaLa
       ariaLabel={ariaLabel}
       onClick={handleClick}
       variant="secondary"
-      custom={{ width: '25px', height: '25px' }}
+      custom={{
+        width: '25px',
+        height: '25px',
+        borderRadius: '50%',
+        transition: 'background-color 0.2s ease 0s',
+        backgroundColor: 'rgb(255, 255, 255)',
+      }}
     >
       {direction === 'right' ? <RightDirectionIcon /> : <LeftDirectionIcon />}
     </IconButton>
