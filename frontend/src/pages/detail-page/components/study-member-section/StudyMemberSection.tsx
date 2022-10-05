@@ -17,7 +17,7 @@ import { CrownIcon } from '@components/icons';
 import SectionTitle from '@components/section-title/SectionTitle';
 
 import { default as ImportedMoreButton, MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
-import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
+import StudyMemberCard, { StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export type StudyMemberSectionProps = {
   owner: StudyDetail['owner'];
@@ -38,9 +38,16 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
   };
 
   return (
-    <section css={tw`p-16`}>
+    <Self>
       <SectionTitle>
-        스터디원 <span css={tw`text-[${theme.fontSize.md}]`}>{totalMembers.length}명</span>
+        스터디원
+        <span
+          css={css`
+            font-size: ${theme.fontSize.md};
+          `}
+        >
+          {totalMembers.length}명
+        </span>
       </SectionTitle>
       <StudyMemberList>
         {!hasStudyMembers && <NoStudyMember />}
@@ -60,9 +67,13 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
           unfoldText="+ 더보기"
         />
       )}
-    </section>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  padding: 16px;
+`;
 
 const StudyMemberList = styled.ul`
   display: grid;
@@ -82,32 +93,59 @@ const NoStudyMember = () => <li>스터디원이 없습니다</li>;
 type StudyMemberListItemsProps = { size: number } & StudyMemberSectionProps;
 const StudyMemberListItems: React.FC<StudyMemberListItemsProps> = ({ size, owner, members }) => (
   <>
-    <li key={owner.id} css={tw`relative`}>
-      <a href={owner.profileUrl}>
-        <div css={tw`absolute top-0 left-20 z-5`}>
-          <CrownIcon />
-        </div>
-        <StudyMemberCard
-          username={owner.username}
-          imageUrl={owner.imageUrl}
-          startDate={changeDateSeperator(owner.participationDate)}
-          studyCount={owner.numberOfStudy}
-        />
-      </a>
+    <li
+      key={owner.id}
+      css={css`
+        position: relative;
+      `}
+    >
+      <StudyOwnerCardLink
+        profileUrl={owner.profileUrl}
+        username={owner.username}
+        imageUrl={owner.imageUrl}
+        startDate={changeDateSeperator(owner.participationDate)}
+        studyCount={owner.numberOfStudy}
+      />
     </li>
     {members.slice(0, size).map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
       <li key={id}>
-        <a href={profileUrl}>
-          <StudyMemberCard
-            username={username}
-            imageUrl={imageUrl}
-            startDate={changeDateSeperator(participationDate)}
-            studyCount={numberOfStudy}
-          />
-        </a>
+        <StudyMemberCardLink
+          profileUrl={profileUrl}
+          username={username}
+          imageUrl={imageUrl}
+          startDate={changeDateSeperator(participationDate)}
+          studyCount={numberOfStudy}
+        />
       </li>
     ))}
   </>
+);
+
+type StudyOwnerCardLinkProps = { profileUrl: string } & StudyMemberCardProps;
+const StudyOwnerCardLink: React.FC<StudyOwnerCardLinkProps> = ({
+  profileUrl,
+  username,
+  imageUrl,
+  startDate,
+  studyCount,
+}) => (
+  <a href={profileUrl}>
+    <CrownIcon custom={{ position: 'absolute', top: 0, left: '20px', zIndex: 5 }} />
+    <StudyMemberCard username={username} imageUrl={imageUrl} startDate={startDate} studyCount={studyCount} />
+  </a>
+);
+
+type StudyMemberCardLinkProps = { profileUrl: string } & StudyMemberCardProps;
+const StudyMemberCardLink: React.FC<StudyMemberCardLinkProps> = ({
+  profileUrl,
+  username,
+  imageUrl,
+  startDate,
+  studyCount,
+}) => (
+  <a href={profileUrl}>
+    <StudyMemberCard username={username} imageUrl={imageUrl} startDate={startDate} studyCount={studyCount} />
+  </a>
 );
 
 const MoreButton: React.FC<MoreButtonProps> = ({ ...props }) => {
