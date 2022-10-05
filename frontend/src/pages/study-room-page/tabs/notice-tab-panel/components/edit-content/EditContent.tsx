@@ -102,6 +102,7 @@ type WriteTabProps = {
 const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, defaultValue, register }) => {
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
   `;
   return (
     <div css={style}>
