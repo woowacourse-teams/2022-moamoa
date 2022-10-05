@@ -37,7 +37,7 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
     <div>
       <MetaBox>
         <MetaBox.Title>
-          <Label htmlFor={EXCERPT}>한 줄 소개</Label>;
+          <Label htmlFor={EXCERPT}>한 줄 소개</Label>
         </MetaBox.Title>
         <MetaBox.Content>
           <div
