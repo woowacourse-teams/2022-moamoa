@@ -66,7 +66,6 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
             </DropDownBox>
           </MyLink>
         )}
-        <UserDescription author={author} description={description} />
         <Preview
           isFetching={isFetching}
           isError={isError}
@@ -74,6 +73,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
           linkUrl={linkUrl}
           previewResult={data}
         />
+        <UserDescription author={author} description={description} />
       </Self>
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
