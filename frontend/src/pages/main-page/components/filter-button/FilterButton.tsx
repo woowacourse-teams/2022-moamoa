@@ -21,7 +21,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, 
     <Self css={resolveCustomCSS(custom)}>
       <Flex alignItems="center" custom={{ height: '70px' }}>
         <ToggleButton checked={isChecked} onClick={handleClick}>
-          <Flex flexDirection="column" custom={{ width: '80px' }}>
+          <Flex flexDirection="column" alignItems="center" custom={{ width: '80px' }}>
             <Name>{name}</Name>
             <Description>{description}</Description>
           </Flex>
