@@ -1,10 +1,14 @@
 package com.woowacourse.moamoa.referenceroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.병민;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
