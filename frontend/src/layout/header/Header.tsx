@@ -62,7 +62,7 @@ const Header: React.FC = () => {
       </SearchBarContainer>
       {isLoggedIn ? (
         <nav>
-          <Flex columnGap="16px" flexWrap="wrap">
+          <Flex columnGap="16px" flexWrap="nowrap">
             <GoToMyStudyPageLink />
             <div
               css={css`
