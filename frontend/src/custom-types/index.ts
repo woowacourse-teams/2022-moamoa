@@ -30,19 +30,14 @@ export type ArticleId = number;
 
 export type SitePage = 'home' | 'studyroom';
 
-export type Owner = {
-  id: MemberId;
-  username: string;
-  imageUrl: string;
-  profileUrl: string;
-};
-
 export type Member = {
   id: MemberId;
   username: string;
   imageUrl: string;
   profileUrl: string;
 };
+
+export type Owner = Member;
 
 export type CategoryName = 'generation' | 'area' | 'subject';
 
