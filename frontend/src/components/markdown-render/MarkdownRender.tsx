@@ -3,8 +3,7 @@ import { marked } from 'marked';
 import { useEffect, useRef } from 'react';
 
 import { css } from '@emotion/react';
-
-import tw from '@utils/tw';
+import styled from '@emotion/styled';
 
 import markdown from '@styles/markdown';
 
@@ -22,15 +21,20 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
   }, [contentRef, markdownContent]);
 
   return (
-    <div css={tw`overflow-y-auto h-full`}>
+    <Self>
       <div
         css={css`
           ${markdown}
         `}
         ref={contentRef}
       ></div>
-    </div>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  overflow-y: auto;
+  height: 100%;
+`;
 
 export default MarkdownRender;
