@@ -12,7 +12,7 @@ export type CardProps = {
   children: React.ReactNode;
   backgroundColor?: ThemeColor | 'transparent';
   shadow?: boolean;
-  custom?: CustomCSS<'width' | 'height' | 'padding' | 'gap'>;
+  custom?: CustomCSS<'width' | 'height' | 'padding' | 'gap' | 'position'>;
 };
 
 export type CardHeadingProps = {
@@ -85,10 +85,9 @@ export const CardHeadingSelf = styled.h1<StyledCardHeadingProps>`
   `}
 `;
 
-export const CardContentSelf = styled.p<StyledCardContentProps>`
+export const CardContentSelf = styled.div<StyledCardContentProps>`
   ${({ theme, maxLine, align }) => css`
     width: 100%;
-    height: calc(${theme.fontSize.sm} * ${maxLine});
 
     font-size: ${theme.fontSize.sm};
     line-height: ${theme.fontSize.sm};
