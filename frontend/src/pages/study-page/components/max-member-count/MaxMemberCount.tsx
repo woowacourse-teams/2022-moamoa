@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
-
 import { MEMBER_COUNT } from '@constants';
 
 import { StudyDetail } from '@custom-types';
@@ -42,12 +40,13 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
       <MetaBox.Title>스터디 최대 인원</MetaBox.Title>
       <MetaBox.Content>
         <ToggleCheckbox isChecked={!isMaxMemberCountInputEnabled} onClick={handleNoSelectCheckboxChange} />
-        <MaxMemberCountField
-          isShow={isMaxMemberCountInputEnabled}
-          defaultValue={originalMaxMemberCount ?? 0}
-          onKeyDown={handleKeyDown}
-          register={register}
-        />
+        {isMaxMemberCountInputEnabled && (
+          <MaxMemberCountField
+            defaultValue={originalMaxMemberCount ?? 0}
+            onKeyDown={handleKeyDown}
+            register={register}
+          />
+        )}
       </MetaBox.Content>
     </MetaBox>
   );
@@ -65,40 +64,33 @@ const ToggleCheckbox: React.FC<ToggleCheckboxProps> = ({ isChecked, onClick: han
 );
 
 type MaxMemberCountFieldProps = {
-  isShow: boolean;
   defaultValue: number;
   onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
   register: UseFormRegister;
 };
 const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({
-  isShow,
   defaultValue,
   onKeyDown: handleKeyDown,
   register,
 }) => {
-  const style = css`
-    display: ${isShow ? 'block' : 'none'};
-  `;
   return (
-    <div css={style}>
-      <Flex columnGap="8px" alignItems="center">
-        <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
-        <Flex.Item flexGrow={1}>
-          <Input
-            id={MAX_MEMBER_COUNT}
-            type="number"
-            fluid
-            placeholder="최대 인원"
-            defaultValue={defaultValue}
-            onKeyDown={handleKeyDown}
-            {...register(MAX_MEMBER_COUNT, {
-              min: MEMBER_COUNT.MIN.VALUE,
-              max: MEMBER_COUNT.MAX.VALUE,
-            })}
-          />
-        </Flex.Item>
-      </Flex>
-    </div>
+    <Flex columnGap="8px" alignItems="center">
+      <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
+      <Flex.Item flexGrow={1}>
+        <Input
+          id={MAX_MEMBER_COUNT}
+          type="number"
+          fluid
+          placeholder="최대 인원"
+          defaultValue={defaultValue}
+          onKeyDown={handleKeyDown}
+          {...register(MAX_MEMBER_COUNT, {
+            min: MEMBER_COUNT.MIN.VALUE,
+            max: MEMBER_COUNT.MAX.VALUE,
+          })}
+        />
+      </Flex.Item>
+    </Flex>
   );
 };
 
