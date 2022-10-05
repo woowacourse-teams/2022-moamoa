@@ -81,7 +81,7 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <Card shadow padding="8px" backgroundColor={theme.colors.white}>
+    <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
