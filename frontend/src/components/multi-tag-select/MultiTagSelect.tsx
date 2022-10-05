@@ -224,7 +224,7 @@ const DropDown = ({ children, isOpen, onClose }: DropDownProps) => (
     right={0}
     isOpen={isOpen}
     onClose={onClose}
-    custom={{ maxHeight: '180px', backgroundColor: 'white', boxShadow: '0px 0px 4px 0px', borderRadius: '4px' }}
+    custom={{ maxHeight: '180px', backgroundColor: 'white', boxShadow: '0 0 4px 0', borderRadius: '4px' }}
   >
     {children}
   </ImportedDropDownBox>
