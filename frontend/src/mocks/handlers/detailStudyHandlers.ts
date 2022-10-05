@@ -3,6 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/handlers/memberHandlers';
 import studiesJSON from '@mocks/studies.json';
 
+import { ApiStudies } from '@api/studies';
 import type { ApiStudy } from '@api/study';
 
 const detailStudyHandlers = [
@@ -18,7 +19,7 @@ const detailStudyHandlers = [
   rest.post<ApiStudy['post']['body']>('/api/studies', (req, res, ctx) => {
     const { thumbnail, title, description, excerpt, enrollmentEndDate, endDate, startDate, maxMemberCount } = req.body;
 
-    const { studies } = studiesJSON;
+    const { studies } = studiesJSON as Pick<ApiStudies['get']['responseData'], 'studies'>;
 
     studiesJSON.studies = [
       {
@@ -27,11 +28,11 @@ const detailStudyHandlers = [
         title,
         description,
         excerpt,
-        endDate: endDate ?? '',
-        enrollmentEndDate: enrollmentEndDate ?? '',
+        endDate: endDate ?? null,
+        enrollmentEndDate: enrollmentEndDate ?? null,
         startDate,
-        maxMemberCount: maxMemberCount ?? 100,
-        recruitmentStatus: 'OPEN',
+        maxMemberCount: maxMemberCount ?? null,
+        recruitmentStatus: 'RECRUITMENT_START',
         createdDate: '2022-08-18',
         currentMemberCount: 1,
         owner: user,

@@ -12,7 +12,8 @@ export const tokenHandlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        accessToken: 123,
+        accessToken:
+          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
         expiredTime: EXPIRED_TIME,
       }),
       ctx.cookie('refreshToken', 'test-refreshToken!!!sdfsdf', {
@@ -30,7 +31,7 @@ export const tokenHandlers = [
       ctx.status(200),
       ctx.json({
         accessToken:
-          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
+          '1234eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
         expiredTime: EXPIRED_TIME,
       }),
       ctx.cookie('refreshToken', 'test-refreshToken!!!sdfsdf', {
