@@ -10,7 +10,7 @@ import Image from '@components/image/Image';
 
 const Logo: React.FC = () => {
   return (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center" flexDirection="row">
       <ImageContainer>
         <Image src={logoImage} alt="모아모아 로고" shape="circular" custom={{ width: '38px', height: '38px' }} />
       </ImageContainer>
