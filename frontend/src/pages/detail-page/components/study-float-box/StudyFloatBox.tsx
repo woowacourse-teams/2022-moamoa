@@ -8,8 +8,6 @@ import { yyyymmddTommdd } from '@utils';
 
 import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
 
-import { theme } from '@styles/theme';
-
 import { BoxButton } from '@components/button';
 import { BoxButtonProps } from '@components/button/box-button/BoxButton';
 import Card from '@components/card/Card';
@@ -40,20 +38,18 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
-      <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>
+      <Card.Heading custom={{ fontSize: theme.fontSize.xl, marginBottom: '10px' }}>
         <EnrollmentEndDate theme={theme} isOpen={isOpen} userRole={userRole} enrollmentEndDate={enrollmentEndDate} />
       </Card.Heading>
       <Card.Content custom={{ fontSize: theme.fontSize.lg }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
-      </Card.Content>
-      <Card.Content custom={{ fontSize: theme.fontSize.lg }}>
         <StudyOwner ownerName={ownerName} />
+        {userRole === 'MEMBER' || userRole === 'OWNER' ? (
+          <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
+        ) : (
+          <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
+        )}
       </Card.Content>
-      {userRole === 'MEMBER' || userRole === 'OWNER' ? (
-        <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
-      ) : (
-        <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
-      )}
     </Card>
   );
 };
@@ -115,7 +111,7 @@ type NumberOfApplicantsProps = {
   maxMemberCount?: number;
 };
 const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCount, maxMemberCount }) => (
-  <Flex justifyContent="space-between">
+  <Flex justifyContent="space-between" custom={{ marginBottom: '30px' }}>
     <span>모집인원</span>
     <span>
       {currentMemberCount} / {maxMemberCount ?? '∞'}
@@ -127,7 +123,7 @@ type StudyOwnerProps = {
   ownerName: string;
 };
 const StudyOwner: React.FC<StudyOwnerProps> = ({ ownerName }) => (
-  <Flex justifyContent="space-between">
+  <Flex justifyContent="space-between" custom={{ marginBottom: '20px' }}>
     <span>스터디장</span>
     <span>{ownerName}</span>
   </Flex>
