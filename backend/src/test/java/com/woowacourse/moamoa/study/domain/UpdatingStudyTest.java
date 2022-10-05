@@ -68,7 +68,7 @@ public class UpdatingStudyTest {
                 .hasMessageContaining("스터디 수정이 불가능합니다.");
     }
 
-    @DisplayName("Recruit Planner| 수정하는 현재 날짜가 모집 마감 날짜 이전이고, 수정 인원이 현재 인원과 같은 경우 모집 상태는 END이다.")
+    @DisplayName("Recruit Planner| 수정 인원이 현재 인원과 같은 경우 모집 상태는 END이다.")
     @Test
     void updateRecruitPlannerIsEnd() {
         //given
@@ -143,7 +143,7 @@ public class UpdatingStudyTest {
         assertThat(study.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_START);
     }
 
-    @DisplayName("Recruit Planner| 수정하는 현재 날짜가 모집 마감 날짜 이전이고, 스터디 모집 인원이 null이면 스터디 모집(START) 상태이다.")
+    @DisplayName("Recruit Planner| 스터디 모집 인원이 null이면 스터디 모집(START) 상태이다.")
     @Test
     void updateRecruitPlannerMemberSizeIsNull() {
         //given
