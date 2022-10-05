@@ -1,4 +1,5 @@
 import { Theme, css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
@@ -31,69 +32,112 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
     isOpen,
     isEditing,
     handleKebabMenuClick,
-    handleDropDownBoxClose,
-    handleEditReviewBtnClick,
-    handleDeleteReviewBtnClick,
-    handleCancelEditBtnClick,
+    handleDropboxCloseButtonClick,
+    handleCancelEditButtonClick,
+    handleDeleteReviewButtonClick,
+    handleEditReviewButtonClick,
     handleEditSuccess,
     handleEditError,
   } = useReviewComment(id, studyId);
 
-  const render = () => {
-    if (isEditing) {
-      return (
+  return (
+    <>
+      {isEditing && (
         <ReviewEditForm
           reviewId={id}
           studyId={studyId}
           originalContent={content}
           date={date}
           author={author}
-          onCancelEditBtnClick={handleCancelEditBtnClick}
+          onCancelEditBtnClick={handleCancelEditButtonClick}
           onEditSuccess={handleEditSuccess}
           onEditError={handleEditError}
         />
-      );
-    }
-
-    return (
-      <Flex flexDirection="column" rowGap="12px">
-        <Flex justifyContent="space-between" alignItems="center">
-          <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-            <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
-          </UserInfoItem>
-          {isMyComment && (
-            <div css={tw`relative`}>
-              <ToggleButton onClick={handleKebabMenuClick} />
-              <DropDownBox
-                isOpen={isOpen}
-                onClose={handleDropDownBoxClose}
-                top="24px"
-                right="10px"
-                custom={{ padding: '10px' }}
-              >
-                <ButtonGroup orientation="vertical">
-                  <EditButton theme={theme} onClick={handleEditReviewBtnClick} />
-                  <Divider />
-                  <DeleteButton theme={theme} onClick={handleDeleteReviewBtnClick} />
-                </ButtonGroup>
-              </DropDownBox>
-            </div>
-          )}
-        </Flex>
-        <p
-          css={css`
-            word-break: break-all;
-          `}
-        >
-          {content}
-        </p>
-      </Flex>
-    );
-  };
-
-  return render();
+      )}
+      {!isEditing && (
+        <Self
+          theme={theme}
+          author={author}
+          isMyComment={isMyComment}
+          isOpen={isOpen}
+          date={date}
+          content={content}
+          onToggleButtonClick={handleKebabMenuClick}
+          onDropBoxCloseButtonClick={handleDropboxCloseButtonClick}
+          onEditReivewButtonClick={handleEditReviewButtonClick}
+          onDeleteReivewButtonClick={handleDeleteReviewButtonClick}
+        />
+      )}
+    </>
+  );
 };
+
+const CommentHead = styled.div`
+  position: relative;
+`;
+
+type SelfProps = {
+  theme: Theme;
+  isOpen: boolean;
+  content: string;
+  onToggleButtonClick: React.MouseEventHandler<HTMLButtonElement>;
+  onDropBoxCloseButtonClick: () => void;
+  onEditReivewButtonClick: () => void;
+  onDeleteReivewButtonClick: () => void;
+} & Omit<ReviewCommentProps, 'id' | 'studyId'>;
+const Self: React.FC<SelfProps> = ({
+  theme,
+  author,
+  isMyComment,
+  isOpen,
+  date,
+  content,
+  onToggleButtonClick: handleToggleButtonClick,
+  onDropBoxCloseButtonClick: handleDropBoxButtonClick,
+  onEditReivewButtonClick: handleEditReviewButtonClick,
+  onDeleteReivewButtonClick: handleDeleteReviewButtonClick,
+}) => (
+  <Flex flexDirection="column" rowGap="12px">
+    <Flex justifyContent="space-between" alignItems="center">
+      <UserInfoItem src={author.imageUrl} name={author.username} size="md">
+        <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+        <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
+      </UserInfoItem>
+      {isMyComment && (
+        <CommentHead>
+          <ToggleButton onClick={handleToggleButtonClick} />
+          <DropDownBox
+            isOpen={isOpen}
+            onClose={handleDropBoxButtonClick}
+            top="24px"
+            right="10px"
+            custom={{ padding: '10px' }}
+          >
+            <ButtonGroup orientation="vertical">
+              <EditButton theme={theme} onClick={handleEditReviewButtonClick} />
+              <Divider />
+              <DeleteButton theme={theme} onClick={handleDeleteReviewButtonClick} />
+            </ButtonGroup>
+          </DropDownBox>
+        </CommentHead>
+      )}
+    </Flex>
+    <Content content={content} />
+  </Flex>
+);
+
+type ContentProps = {
+  content: string;
+};
+const Content: React.FC<ContentProps> = ({ content }) => (
+  <p
+    css={css`
+      word-break: break-all;
+    `}
+  >
+    {content}
+  </p>
+);
 
 type EditButtonProps = {
   theme: Theme;
