@@ -33,7 +33,7 @@ const Head: React.FC<HeadProps> = ({
 }) => {
   return (
     <Flex flexDirection="column" rowGap="4px">
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex justifyContent="space-between" alignItems="center" fluid>
         <Flex alignItems="center" columnGap="16px">
           <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
