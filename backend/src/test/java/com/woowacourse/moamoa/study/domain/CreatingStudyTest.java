@@ -16,6 +16,15 @@ import org.junit.jupiter.api.Test;
 
 public class CreatingStudyTest {
 
+    @DisplayName("시작일자는 종료일자보다 클 수 없다.")
+    @Test
+    void startDateMustBeforeEndDate() {
+        assertThatThrownBy(() -> new StudyPlanner(
+                LocalDate.of(2022, 7, 10),
+                LocalDate.of(2022, 7, 9), StudyStatus.PREPARE))
+                .isInstanceOf(InvalidPeriodException.class);
+    }
+
     @DisplayName("RECRUIT Planner| 스터디 모집 마감일은 생성일보다 이전이면 예외가 발생한다.")
     @Test
     void createStudyRecruitStatusException() {
