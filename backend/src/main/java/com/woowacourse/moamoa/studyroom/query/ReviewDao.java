@@ -18,7 +18,7 @@ public class ReviewDao {
 
     public List<ReviewData> findAllByStudyId(final Long studyId) {
         String sql = "SELECT review.id, review.content, review.created_date, review.last_modified_date, "
-                + "member.id member_id, member.username, member.image_url, member.profile_url "
+                + "member.id as member_id, member.username, member.image_url, member.profile_url "
                 + "FROM review JOIN member ON review.member_id = member.id "
                 + "WHERE review.deleted = false "
                 + "AND review.study_id = :studyId "

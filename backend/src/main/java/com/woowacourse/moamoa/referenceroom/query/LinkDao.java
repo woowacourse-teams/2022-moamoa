@@ -21,7 +21,7 @@ public class LinkDao {
 
     public Slice<LinkData> findAllByStudyId(final Long studyId, final Pageable pageable) {
         final String sql = "SELECT link.id, link.link_url, link.description, link.created_date, link.last_modified_date, "
-                + "member.id member_id, member.username, member.image_url, member.profile_url "
+                + "member.id as member_id, member.username, member.image_url, member.profile_url "
                 + "FROM link "
                 + "JOIN member ON link.member_id = member.id "
                 + "WHERE link.deleted = false "

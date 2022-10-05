@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.auth.config;
 
 import com.woowacourse.moamoa.auth.controller.AuthenticatedMemberResolver;
-import com.woowacourse.moamoa.auth.controller.AuthenticatedRefreshArgumentResolver;
 import com.woowacourse.moamoa.auth.controller.interceptor.AuthenticationInterceptor;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class AuthConfig implements WebMvcConfigurer {
 
-    private final AuthenticatedRefreshArgumentResolver authenticatedRefreshArgumentResolver;
     private final AuthenticatedMemberResolver authenticatedMemberResolver;
 
     private final PathMatcherContainer pathMatcherContainer;
@@ -30,7 +28,6 @@ public class AuthConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authenticatedMemberResolver);
-        resolvers.add(authenticatedRefreshArgumentResolver);
     }
 
     @Override

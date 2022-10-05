@@ -1,28 +1,29 @@
+import { changeDateSeperator } from '@utils';
+import tw from '@utils/tw';
+
 import { CommunityArticle } from '@custom-types';
 
-import Avatar from '@components/avatar/Avatar';
+import { theme } from '@styles/theme';
 
-import * as S from '@study-room-page/tabs/community-tab-panel/components/article-list-item/ArticleListItem.style';
+import Flex from '@components/flex/Flex';
+import UserInfoItem from '@components/user-info-item/UserInfoItem';
 
-export type ArticleListItemProps = CommunityArticle;
+import * as S from '@community-tab/components/article-list-item/ArticleListItem.style';
+
+export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 
 const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, createdDate }) => {
   return (
     <S.ArticleListItem>
-      <S.Main>
-        <S.Title>{title}</S.Title>
-        <S.Content>{}</S.Content>
-      </S.Main>
-      <S.MoreInfo>
-        <S.Author>
-          <Avatar size="xs" profileImg={author.imageUrl} profileAlt={author.username} />
-          <S.Username>{author.username}</S.Username>
-        </S.Author>
-        <S.Date>
-          <div>작성일</div>
-          <div>{createdDate}</div>
-        </S.Date>
-      </S.MoreInfo>
+      <Flex alignItems="center">
+        <div css={tw`flex-grow text-[${theme.fontSize.lg}]`}>
+          <span>{title}</span>
+        </div>
+        <UserInfoItem size="md" src={author.imageUrl} name={author.username}>
+          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+          <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
+        </UserInfoItem>
+      </Flex>
     </S.ArticleListItem>
   );
 };

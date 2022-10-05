@@ -1,49 +1,47 @@
-import * as S from '@notice-tab/NoticeTabPanel.style';
+import { Link, useLocation, useParams } from 'react-router-dom';
+
+import { PATH } from '@constants';
+
+import { theme } from '@styles/theme';
+
+import { TextButton } from '@components/button';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
+import Wrapper from '@components/wrapper/Wrapper';
+
 import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
 import Edit from '@notice-tab/components/edit/Edit';
 import Publish from '@notice-tab/components/publish/Publish';
 import usePermission from '@notice-tab/hooks/usePermission';
-import { useNavigate, useParams } from 'react-router-dom';
 
-import { PATH } from '@constants';
+const NoticeTabPanel: React.FC = () => {
+  const location = useLocation();
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-import tw from '@utils/tw';
-
-import Wrapper from '@components/wrapper/Wrapper';
-
-type NoticeTabPanelProps = {
-  studyId: number;
-};
-
-const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
-  const { articleId } = useParams<{ articleId: string }>();
-  const navigate = useNavigate();
   const { hasPermission: isOwner } = usePermission(studyId, 'OWNER');
-  const lastPath = window.location.pathname.split('/').at(-1);
+  const lastPath = location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
   const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
-  const handleGoToPublishPageButtonClick = () => {
-    navigate(`${PATH.NOTICE_PUBLISH(studyId)}`);
-  };
-
   const renderArticleListPage = () => {
     return (
-      <div css={tw`flex flex-col gap-y-40`}>
-        <div css={tw`flex-1 min-h-[500px]`}>
-          <ArticleList />
-        </div>
-        <div css={tw`flex justify-end`}>
+      <>
+        <Flex justifyContent="flex-end">
           {isOwner && (
-            <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
-              글쓰기
-            </S.Button>
+            <Link to={PATH.NOTICE_PUBLISH}>
+              <TextButton variant="primary" fontSize="lg">
+                글쓰기
+              </TextButton>
+            </Link>
           )}
-        </div>
-      </div>
+        </Flex>
+        <Divider color={theme.colors.secondary.dark} space="8px" />
+        <ArticleList studyId={studyId} />
+      </>
     );
   };
 
@@ -56,10 +54,10 @@ const NoticeTabPanel: React.FC<NoticeTabPanelProps> = ({ studyId }) => {
       return <Article studyId={studyId} articleId={numArticleId} />;
     }
     if (isPublishPage) {
-      return <Publish />;
+      return <Publish studyId={studyId} />;
     }
     if (isEditPage) {
-      return <Edit />;
+      return <Edit studyId={studyId} articleId={articleId} />;
     }
   };
 

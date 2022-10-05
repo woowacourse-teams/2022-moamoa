@@ -8,7 +8,6 @@ import com.woowacourse.moamoa.WebMVCTest;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.util.Collections;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -57,7 +56,6 @@ class AuthenticationInterceptorTest extends WebMVCTest {
                 .willReturn(Collections.enumeration(List.of(token)));
 
         assertThatThrownBy(() -> pathMatcherInterceptor.preHandle(httpServletRequest, null, null))
-                .isInstanceOf(UnauthorizedException.class)
-                        .hasMessageContaining("유효하지 않은 토큰입니다.");
+                .isInstanceOf(UnauthorizedException.class);
     }
 }

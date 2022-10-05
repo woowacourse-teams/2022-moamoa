@@ -1,4 +1,4 @@
-const isNullOrUndefined = (value: unknown): value is null | undefined => value == null;
+import isNullOrUndefined from '@utils/isNullOrUndefined';
 
 const isObjectType = (value: unknown) => typeof value === 'object';
 

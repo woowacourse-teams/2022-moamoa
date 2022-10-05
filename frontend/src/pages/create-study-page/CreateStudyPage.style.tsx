@@ -1,29 +1,9 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@utils';
 
-import { DescriptionTab as OriginalDesriptionTab } from '@create-study-page/components/description-tab/DescriptionTab.style';
-
 const sidebarWidth = 280;
 const mainGabSidebar = 40;
-
-export const CreateStudyPage = styled.div``;
-
-export const Form = styled.form``;
-
-export const PageTitle = styled.h1`
-  ${({ theme }) => css`
-    margin-bottom: 20px;
-
-    font-size: ${theme.fontSize.xxl};
-    font-weight: ${theme.fontWeight.bold};
-  `}
-`;
-
-export const DescriptionTab = styled(OriginalDesriptionTab)`
-  margin-bottom: 15px;
-`;
 
 export const Container = styled.div`
   display: flex;
@@ -46,10 +26,12 @@ export const Main = styled.div`
 `;
 
 export const Sidebar = styled.ul`
-  min-width: 280px;
-  li {
+  width: 280px;
+
+  & > li {
     margin-bottom: 15px;
   }
+
   ${mqDown('md')} {
     min-width: 100%;
   }

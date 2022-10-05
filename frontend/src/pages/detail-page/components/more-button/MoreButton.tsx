@@ -1,4 +1,4 @@
-import * as S from '@detail-page/components/more-button/MoreButton.style';
+import { TextButton } from '@components/button';
 
 export type MoreButtonProps = {
   status: 'fold' | 'unfold';
@@ -8,7 +8,11 @@ export type MoreButtonProps = {
 };
 
 const MoreButton: React.FC<MoreButtonProps> = ({ status, foldText, unfoldText, onClick: handleClick }) => {
-  return <S.MoreButton onClick={handleClick}>{status === 'fold' ? unfoldText : foldText}</S.MoreButton>;
+  return (
+    <TextButton variant="secondary" onClick={handleClick}>
+      {status === 'fold' ? unfoldText : foldText}
+    </TextButton>
+  );
 };
 
 export default MoreButton;

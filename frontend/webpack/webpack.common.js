@@ -3,26 +3,25 @@ const { join, resolve } = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: join(__dirname, '../src/index.tsx'),
   output: {
-    filename: 'main.js',
+    filename: '[name]-[contenthash].js',
     path: join(__dirname, '../dist'),
     publicPath: '/',
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
         loader: 'esbuild-loader',
         options: {
           loader: 'tsx',
-          target: 'es2022',
+          target: 'esnext',
         },
       },
       {
@@ -50,6 +49,9 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: '../frontend/static', to: '../dist/static' }],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -72,8 +74,10 @@ module.exports = {
       '@edit-study-page': resolve(__dirname, '../src/pages/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
-      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
       '@notice-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/notice-tab-panel'),
+      '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
+      '@link-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/link-room-tab-panel'),
+      '@review-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/review-tab-panel'),
       '@error-page': resolve(__dirname, '../src/pages/error-page'),
       '@login-redirect-page': resolve(__dirname, '../src/pages/login-redirect-page'),
       '@layout': resolve(__dirname, '../src/layout'),
@@ -84,8 +88,14 @@ module.exports = {
   optimization: {
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: 'es2020',
+        target: 'esnext',
       }),
     ],
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
   },
 };

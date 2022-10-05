@@ -92,7 +92,7 @@ class GettingCommunityArticleSummariesControllerTest {
                 COMMUNITY, PageRequest.of(0, 3));
 
         // assert
-        AuthorResponse author = new AuthorResponse(1L, "그린론", "http://image", "http://profile");
+        AuthorResponse author = new AuthorResponse(그린론.getId(), "그린론", "http://image", "http://profile");
 
         List<ArticleSummaryResponse> articles = List.of(
                 new ArticleSummaryResponse(article5.getId(), author, "제목5", LocalDate.now(), LocalDate.now()),

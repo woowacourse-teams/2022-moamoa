@@ -3,11 +3,9 @@ package com.woowacourse.acceptance.test.study;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.그린론_프로필_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.디우_프로필_URL;
-import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_깃허브_ID;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이름;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_이미지_URL;
 import static com.woowacourse.acceptance.fixture.MemberFixtures.베루스_프로필_URL;
@@ -75,7 +73,7 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("enrollmentEndDate", is(지금.plusDays(4).toString()))
                 .body("startDate", is(지금.toString()))
                 .body("endDate", is(지금.plusDays(10).toString()))
-                .body("owner.id", is((int)디우_깃허브_ID))
+                .body("owner.id", not(empty()))
                 .body("owner.username", is(디우_이름))
                 .body("owner.imageUrl", is(디우_이미지_URL))
                 .body("owner.profileUrl", is(디우_프로필_URL))
@@ -114,7 +112,7 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                 .body("enrollmentEndDate", is(nullValue()))
                 .body("startDate", is(지금.toString()))
                 .body("endDate", is(nullValue()))
-                .body("owner.id", is((int)베루스_깃허브_ID))
+                .body("owner.id", not(empty()))
                 .body("owner.username", is(베루스_이름))
                 .body("owner.imageUrl", is(베루스_이미지_URL))
                 .body("owner.profileUrl", is(베루스_프로필_URL))

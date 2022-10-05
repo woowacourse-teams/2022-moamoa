@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.webmvc;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.HttpHeaders;
 
 class GettingArticleControllerWebMvcTest extends WebMVCTest {
 
@@ -20,7 +20,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedGetArticleByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles/{article-id}", 1L, 1L)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(AUTHORIZATION, token)
         )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -34,7 +34,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles/{article-id}", studyId, articleId)
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(AUTHORIZATION, token)
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -46,7 +46,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
     void unauthorizedGetArticleListByInvalidToken(String token) throws Exception {
         mockMvc.perform(
                         get("/api/studies/{study-id}/community/articles?page=0&size=3", 1L)
-                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .header(AUTHORIZATION, token)
                 )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -59,7 +59,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                         get("/api/studies/{study-id}/community/articles", "one")
-                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .header(AUTHORIZATION, token)
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -73,7 +73,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(AUTHORIZATION, token)
                         .param("page", page)
                         .param("size", size)
         )
@@ -88,7 +88,7 @@ class GettingArticleControllerWebMvcTest extends WebMVCTest {
 
         mockMvc.perform(
                 get("/api/studies/{study-id}/community/articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .header(AUTHORIZATION, token)
                         .param("page", "")
                         .param("size", "5")
         )

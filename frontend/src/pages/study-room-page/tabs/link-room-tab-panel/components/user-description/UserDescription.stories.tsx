@@ -1,10 +1,10 @@
 import type { Story } from '@storybook/react';
 
-import UserDescription from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
-import type { UserDescriptionProps } from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
+import UserDescription from '@link-tab/components/user-description/UserDescription';
+import type { UserDescriptionProps } from '@link-tab/components/user-description/UserDescription';
 
 export default {
-  title: 'Components/UserDescription',
+  title: 'Pages/StudyRoomPage/UserDescription',
   component: UserDescription,
 };
 

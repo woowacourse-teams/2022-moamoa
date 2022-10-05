@@ -1,10 +1,10 @@
 import type { Story } from '@storybook/react';
 
-import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
-import type { LinkItemProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
+import LinkItem from '@link-tab/components/link-item/LinkItem';
+import type { LinkItemProps } from '@link-tab/components/link-item/LinkItem';
 
 export default {
-  title: 'Components/LinkItem',
+  title: 'Pages/StudyRoomPage/LinkItem',
   component: LinkItem,
 };
 
