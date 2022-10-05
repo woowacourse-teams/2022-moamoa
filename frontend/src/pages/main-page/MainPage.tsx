@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -74,7 +72,7 @@ const InfinitScrollCardList: React.FC<InfinitScrollCardListProps> = ({
         </li>
       ))}
     </CardList>
-    {isContentLoading && <div>Loading...</div>}
+    {isContentLoading && <Loading />}
   </InfiniteScroll>
 );
 
@@ -101,5 +99,7 @@ const CardList = styled.ul`
 `;
 
 const Page = styled.div``;
+
+const Loading = () => <div>Loading...</div>;
 
 export default MainPage;
