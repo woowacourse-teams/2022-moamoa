@@ -58,22 +58,19 @@ const Header: React.FC = () => {
 
   return (
     <Self>
-      <a href={PATH.MAIN}>
-        <Logo />
-      </a>
+      <LogoLink />
       <SearchBarContainer>
         <SearchBar onSubmit={handleKeywordSubmit} />
       </SearchBarContainer>
       {isLoggedIn ? (
         <nav>
           <Flex columnGap="16px" flexWrap="wrap">
-            <Link to={PATH.MY_STUDY}>
-              <NavButton ariaLabel="내 스터디">
-                <BookmarkIcon />
-                <span>내 스터디</span>
-              </NavButton>
-            </Link>
-            <div css={tw`relative`}>
+            <GoToMyStudyPageLink />
+            <div
+              css={css`
+                position: relative;
+              `}
+            >
               <AvatarButton userInfo={userInfo} onClick={handleAvatarButtonClick} />
               <DropDownBox
                 isOpen={isOpenDropDownBox}
@@ -91,12 +88,7 @@ const Header: React.FC = () => {
           </Flex>
         </nav>
       ) : (
-        <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-          <NavButton ariaLabel="로그인">
-            <LoginIcon />
-            <span>Github 로그인</span>
-          </NavButton>
-        </a>
+        <LoginButton />
       )}
     </Self>
   );
@@ -130,7 +122,22 @@ export const Self = styled.header`
   `}
 `;
 
-export const SearchBarContainer = styled.div`
+const LogoLink = () => (
+  <a href={PATH.MAIN}>
+    <Logo />
+  </a>
+);
+
+const GoToMyStudyPageLink = () => (
+  <Link to={PATH.MY_STUDY}>
+    <NavButton ariaLabel="내 스터디">
+      <BookmarkIcon />
+      <span>내 스터디</span>
+    </NavButton>
+  </Link>
+);
+
+const SearchBarContainer = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -146,6 +153,15 @@ export const SearchBarContainer = styled.div`
     transform: none;
   }
 `;
+
+const LoginButton = () => (
+  <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
+    <NavButton ariaLabel="로그인">
+      <LoginIcon />
+      <span>Github 로그인</span>
+    </NavButton>
+  </a>
+);
 
 type AvatarButtonProps = {
   userInfo: Member;
