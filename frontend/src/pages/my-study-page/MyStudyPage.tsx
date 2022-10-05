@@ -49,7 +49,7 @@ const PrepareStudyList: React.FC<PrepareStudyListProps> = ({ studies }) => (
 
 type DoneStudyListProps = InProgressStudyListProps;
 const DoneStudyList: React.FC<DoneStudyListProps> = ({ studies }) => (
-  <MyStudyCardListSection sectionTitle="종료했어요" studies={studies.done} />
+  <MyStudyCardListSection sectionTitle="종료했어요" done={true} studies={studies.done} />
 );
 
 export default MyStudyPage;
