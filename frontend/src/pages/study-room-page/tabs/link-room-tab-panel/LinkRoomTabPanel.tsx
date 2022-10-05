@@ -1,8 +1,6 @@
 import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
-
 import type { Link } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';

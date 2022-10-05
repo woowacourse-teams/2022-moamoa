@@ -2,12 +2,9 @@ import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
-import { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
-
-import tw from '@utils/tw';
 
 import type { MyStudy } from '@custom-types';
 

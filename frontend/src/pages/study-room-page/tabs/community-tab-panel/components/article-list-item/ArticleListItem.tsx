@@ -2,11 +2,10 @@ import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import { CommunityArticle } from '@custom-types';
 
-import { applyHoverTransitionStyle, theme } from '@styles/theme';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Flex from '@components/flex/Flex';
 import UserInfoItem from '@components/user-info-item/UserInfoItem';

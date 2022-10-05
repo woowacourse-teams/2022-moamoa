@@ -4,7 +4,6 @@ import { css } from '@emotion/react';
 
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
-import tw from '@utils/tw';
 
 import type { DateYMD, StudyDetail } from '@custom-types';
 

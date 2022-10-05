@@ -1,8 +1,7 @@
-import { Theme, css, useTheme } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 

@@ -2,8 +2,6 @@ import { Theme, css } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import tw from '@utils/tw';
-
 import type { Member, Noop, StudyId } from '@custom-types';
 
 import { theme } from '@styles/theme';

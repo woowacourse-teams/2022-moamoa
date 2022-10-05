@@ -4,8 +4,6 @@ import { css } from '@emotion/react';
 
 import { MEMBER_COUNT } from '@constants';
 
-import tw from '@utils/tw';
-
 import { StudyDetail } from '@custom-types';
 
 import { UseFormRegister, useFormContext } from '@hooks/useForm';

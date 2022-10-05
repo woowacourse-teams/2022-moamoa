@@ -1,16 +1,12 @@
-import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import { CommunityArticle } from '@custom-types';
-
-import { theme } from '@styles/theme';
 
 import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';

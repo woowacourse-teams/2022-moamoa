@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Theme, css } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 

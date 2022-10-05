@@ -1,15 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import { Theme } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
-import tw from '@utils/tw';
 
-import type { StudyDetail, StudyId, UserRole } from '@custom-types';
-
-import { theme } from '@styles/theme';
+import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
 
 import { BoxButton } from '@components/button';
 import { BoxButtonProps } from '@components/button/box-button/BoxButton';
@@ -34,38 +31,23 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
+  const theme = useTheme();
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
-
-  const renderEnrollmentEndDateContent = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
-      return <span>이미 가입한 스터디입니다</span>;
-    }
-
-    if (!isOpen) {
-      return <span>모집 마감</span>;
-    }
-
-    if (!enrollmentEndDate) {
-      return <span>모집중</span>;
-    }
-
-    return (
-      <>
-        <span>{yyyymmddTommdd(enrollmentEndDate)}</span>까지 가입 가능
-      </>
-    );
-  };
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '20px' }}>
       <Flex justifyContent="space-between" alignItems="center">
         <div>
-          <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>{renderEnrollmentEndDateContent()}</Card.Heading>
+          <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>
+            <EnrollmentEndDate
+              theme={theme}
+              isOpen={isOpen}
+              userRole={userRole}
+              enrollmentEndDate={enrollmentEndDate}
+            />
+          </Card.Heading>
           <Card.Content custom={{ fontSize: theme.fontSize.md }} maxLine={1}>
-            <span css={tw`mr-16`}>모집인원</span>
-            <span>
-              {currentMemberCount} / {maxMemberCount ?? '∞'}
-            </span>
+            <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
           </Card.Content>
         </div>
         {userRole === 'MEMBER' || userRole === 'OWNER' ? (
@@ -77,6 +59,58 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     </Card>
   );
 };
+
+type EnrollmentEndDateProps = {
+  theme: Theme;
+  isOpen: boolean;
+  userRole?: UserRole;
+  enrollmentEndDate?: DateYMD;
+};
+const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, userRole, enrollmentEndDate }) => {
+  if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    return <AlreadyRegistered />;
+  }
+
+  if (!isOpen) {
+    return <Closed />;
+  }
+
+  if (!enrollmentEndDate) {
+    return <Open />;
+  }
+
+  return (
+    <>
+      <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
+      <span
+        css={css`
+          font-size: ${theme.fontSize.lg};
+        `}
+      >
+        까지 가입 가능
+      </span>
+    </>
+  );
+};
+
+const AlreadyRegistered = () => <span>이미 가입한 스터디입니다</span>;
+
+const Closed = () => <span>모집 마감</span>;
+
+const Open = () => <span>모집중</span>;
+
+type NumberOfApplicantsProps = {
+  currentMemberCount: number;
+  maxMemberCount?: number;
+};
+const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCount, maxMemberCount }) => (
+  <Flex justifyContent="space-between">
+    <span>모집인원</span>
+    <span>
+      {currentMemberCount} / {maxMemberCount ?? '∞'}
+    </span>
+  </Flex>
+);
 
 type GoToStudyRoomLinkButtonProps = {
   theme: Theme;

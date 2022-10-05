@@ -2,8 +2,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import Flex from '@components/flex/Flex';
 import Wrapper from '@components/wrapper/Wrapper';
 

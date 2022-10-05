@@ -35,8 +35,8 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
   const theme = useTheme();
+  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>

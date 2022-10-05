@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
-import tw from '@utils/tw';
-
 import { StudyReview } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
