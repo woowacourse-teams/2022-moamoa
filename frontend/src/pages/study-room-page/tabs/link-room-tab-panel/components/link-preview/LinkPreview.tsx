@@ -26,7 +26,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
           <span>{domain.hostname.replace('www.', '')}</span>
         </PreviewDomain>
         <div>
-          <Card.Heading>{previewResult.title}</Card.Heading>
+          <Card.Heading custom={{ marginBottom: '8px' }}>{previewResult.title}</Card.Heading>
           <Card.Content>{previewResult.description}</Card.Content>
         </div>
       </Card>
