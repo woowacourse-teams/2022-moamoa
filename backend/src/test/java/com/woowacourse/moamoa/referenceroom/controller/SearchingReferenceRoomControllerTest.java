@@ -95,7 +95,7 @@ class SearchingReferenceRoomControllerTest {
 
         javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(그린론.getId(), javaStudy.getId());
         participantService.participateStudy(디우.getId(), javaStudy.getId());
         participantService.participateStudy(베루스.getId(), javaStudy.getId());

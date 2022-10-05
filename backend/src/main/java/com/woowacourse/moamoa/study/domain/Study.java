@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.domain;
 
+import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
+import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -47,17 +49,24 @@ public class Study {
     private LocalDateTime createdAt;
 
     public Study(
-            final Content content, final Participants participants, final RecruitPlanner recruitPlanner,
-            final StudyPlanner studyPlanner, final AttachedTags attachedTags, LocalDateTime createdAt
+            final Content content, final Participants participants, final AttachedTags attachedTags,
+            final LocalDateTime createdAt, final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+            final LocalDate startDate, final LocalDate endDate
     ) {
-        this(null, content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt);
+        this(null, content, participants, attachedTags, createdAt,
+                maxMemberCount, enrollmentEndDate, startDate, endDate);
     }
 
     public Study(
-            final Long id, final Content content, final Participants participants,
-            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final AttachedTags attachedTags,
-            final LocalDateTime createdAt
+            final Long id,
+            final Content content, final Participants participants, final AttachedTags attachedTags,
+            final LocalDateTime createdAt, final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+            final LocalDate startDate, final LocalDate endDate
+
     ) {
+        recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
+        studyPlanner = makeStudyPlanner(createdAt, startDate, endDate);
+
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidPeriodException();
@@ -70,10 +79,18 @@ public class Study {
         this.id = id;
         this.content = content;
         this.participants = participants;
-        this.recruitPlanner = recruitPlanner;
-        this.studyPlanner = studyPlanner;
         this.createdAt = createdAt;
         this.attachedTags = attachedTags;
+        updatePlanners(createdAt.toLocalDate(), maxMemberCount, enrollmentEndDate, startDate, endDate);
+    }
+
+    private StudyPlanner makeStudyPlanner(final LocalDateTime createdAt,
+                                         final LocalDate startDate,
+                                         final LocalDate endDate) {
+        if (startDate.equals(createdAt.toLocalDate())) {
+            return new StudyPlanner(startDate, endDate, IN_PROGRESS);
+        }
+        return new StudyPlanner(startDate, endDate, PREPARE);
     }
 
     public boolean isParticipant(final Long memberId) {
@@ -98,9 +115,13 @@ public class Study {
         studyPlanner.updateStatus(now);
     }
 
-    public void leave(final Participant participant) {
+    public void leave(final Participant participant, final LocalDate now) {
         verifyCanLeave(participant);
         participants.leave(participant);
+
+        if (!recruitPlanner.isRecruitedBeforeThan(now)) {
+            recruitPlanner.startRecruiting();
+        }
     }
 
     private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
@@ -146,9 +167,49 @@ public class Study {
         return MemberRole.NON_MEMBER;
     }
 
-    public void update(Long memberId, Content content, RecruitPlanner recruitPlanner, AttachedTags attachedTags,
-                       StudyPlanner studyPlanner
-    ) {
+    public void updatePlanners(final LocalDate requestNow,
+                               final Integer maxMemberCount, final LocalDate enrollmentEndDate,
+                               final LocalDate startDate, final LocalDate endDate) {
+        recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
+        studyPlanner = makeStudyPlanner(createdAt, startDate, endDate);
+
+        validatePlanner(recruitPlanner, studyPlanner);
+
+        updateStudyPlanner(studyPlanner, requestNow);
+
+        if (recruitPlanner.getEnrollmentEndDate() == null && isNotMaxMemberCount(recruitPlanner)) {
+            recruitPlanner.startRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (recruitPlanner.isRecruitedBeforeThan(requestNow)) {
+            recruitPlanner.closeRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (isNotMaxMemberCount(recruitPlanner)) {
+            recruitPlanner.startRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        if (participants.isParticipantsMaxCount(recruitPlanner.getMaxMemberCount())) {
+            recruitPlanner.closeRecruiting();
+            setPlanner(studyPlanner, recruitPlanner);
+            return;
+        }
+
+        throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
+    }
+
+    private boolean isNotMaxMemberCount(final RecruitPlanner recruitPlanner) {
+        return recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(
+                recruitPlanner.getMaxMemberCount());
+    }
+
+    private void validatePlanner(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
             throw new InvalidUpdatingException();
@@ -158,20 +219,37 @@ public class Study {
             throw new InvalidUpdatingException();
         }
 
-        if ((recruitPlanner.getMax() != null && recruitPlanner.getMax() < participants.getSize())) {
+        if ((recruitPlanner.getMaxMemberCount() != null && recruitPlanner.getMaxMemberCount() < participants.getSize())) {
             throw new InvalidUpdatingException();
         }
-
-        checkOwner(memberId);
-        this.content = content;
-        this.recruitPlanner = recruitPlanner;
-        this.attachedTags = attachedTags;
-        this.studyPlanner = studyPlanner;
     }
 
-    private void checkOwner(Long memberId) {
+    private void updateStudyPlanner(final StudyPlanner studyPlanner, final LocalDate requestNow) {
+        if (studyPlanner.getStartDate().isAfter(requestNow)) {
+            studyPlanner.prepareStudy();
+        }
+
+        if (studyPlanner.getStartDate().equals(requestNow) || studyPlanner.getStartDate().isBefore(
+                requestNow)) {
+            studyPlanner.inProgressStudy();
+        }
+
+        if (studyPlanner.getEndDate() != null && requestNow.isAfter(studyPlanner.getEndDate())) {
+            studyPlanner.doneStudy();
+        }
+    }
+
+    private void setPlanner(final StudyPlanner studyPlanner, final RecruitPlanner recruitPlanner) {
+        this.studyPlanner = studyPlanner;
+        this.recruitPlanner = recruitPlanner;
+    }
+
+    public void updateContent(Long memberId, Content content, AttachedTags attachedTags) {
         if (!participants.isOwner(memberId)) {
             throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
         }
+
+        this.content = content;
+        this.attachedTags = attachedTags;
     }
 }

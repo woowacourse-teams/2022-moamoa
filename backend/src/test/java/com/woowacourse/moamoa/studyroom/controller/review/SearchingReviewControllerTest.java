@@ -88,11 +88,10 @@ class SearchingReviewControllerTest {
         javaStudy = studyService.createStudy(짱구_아이디, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(짱구_아이디, reactStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(그린론_아이디, javaStudy.getId());
         participantService.participateStudy(디우_아이디, javaStudy.getId());
         participantService.participateStudy(베루스_아이디, javaStudy.getId());
-
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, studyRoomRepository);
 

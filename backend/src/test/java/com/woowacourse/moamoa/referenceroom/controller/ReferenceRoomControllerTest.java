@@ -66,7 +66,7 @@ class ReferenceRoomControllerTest {
 
         javaStudyId = studyService.createStudy(jjangguId, javaStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(verusId, javaStudyId);
 
         // 링크 공유 생성

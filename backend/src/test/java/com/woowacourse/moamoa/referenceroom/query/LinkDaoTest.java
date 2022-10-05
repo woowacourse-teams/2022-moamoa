@@ -1,12 +1,16 @@
 package com.woowacourse.moamoa.referenceroom.query;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스_응답;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
+import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_아이디;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구_응답;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
@@ -65,18 +70,18 @@ class LinkDaoTest {
         final Long 디우_아이디 = memberRepository.save(디우()).getId();
         final Long 베루스_아이디 = memberRepository.save(베루스()).getId();
 
-        // 짱구가 스터디 생성하고 그린론, 디우, 베루스가 스터디 참여
+        // 스터디 생성
         StudyService createStudyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-
         final LocalDate startDate = LocalDate.now();
         StudyRequest javaStudyRequest = 자바_스터디_신청서(startDate);
 
         javaStudy = createStudyService.createStudy(짱구_아이디, javaStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(그린론_아이디, javaStudy.getId());
         participantService.participateStudy(디우_아이디, javaStudy.getId());
         participantService.participateStudy(베루스_아이디, javaStudy.getId());
+
 
         // 링크 공유 추가
         final ReferenceRoomService linkService = new ReferenceRoomService(memberRepository, studyRepository, linkRepository);
