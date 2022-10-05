@@ -10,9 +10,9 @@
       "currentMemberCount": 26,
       "maxMemberCount": 40,
       "createdDate": "2022-07-21",
-      "enrollmentEndDate": "2022-07-10",
+      "enrollmentEndDate": null,
       "startDate": "2022-07-24",
-      "endDate": "2022-08-10",
+      "endDate": null,
       "owner": {
         "id": 1,
         "username": "jaejae-yoo",
@@ -286,7 +286,7 @@
       "currentMemberCount": 25,
       "maxMemberCount": 33,
       "createdDate": "2022-07-21",
-      "enrollmentEndDate": "2022-07-19",
+      "enrollmentEndDate": null,
       "startDate": "2022-07-01",
       "endDate": "2022-08-17",
       "owner": {
