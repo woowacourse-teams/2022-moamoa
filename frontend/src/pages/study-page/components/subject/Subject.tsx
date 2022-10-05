@@ -59,7 +59,7 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         {isLoading && <Loading />}
         {isError && <Error />}
         {!isError && isSuccess && !hasTags && <NoTags />}
-        <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+        <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />
       </MetaBox.Content>
     </MetaBox>
   );
