@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
-import { ThemeFontSize } from '@styles/theme';
 
 export type UnstyledButtonProps = {
   children?: React.ReactNode;

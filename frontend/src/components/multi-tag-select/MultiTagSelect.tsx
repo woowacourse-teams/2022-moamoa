@@ -6,8 +6,6 @@ import styled from '@emotion/styled';
 import isFunction from '@utils/isFunction';
 import isObject from '@utils/isObject';
 
-import { theme } from '@styles/theme';
-
 import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';
 import ImportedDropDownBox, {

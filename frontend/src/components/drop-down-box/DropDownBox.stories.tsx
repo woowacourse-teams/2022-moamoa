@@ -36,6 +36,8 @@ Default.args = {
   children: 'hihi',
   top: '70px',
   right: 0,
-  padding: '16px',
+  custom: {
+    padding: '16px',
+  },
 };
 Default.parameters = { controls: { exclude: ['buttonRef', 'onClose'] } };

@@ -15,7 +15,9 @@ Default.args = {
   children: <PlusIcon />,
   ariaLabel: '더하기',
   variant: 'primary',
-  width: '30px',
-  height: '30px',
+  custom: {
+    width: '30px',
+    height: '30px',
+  },
 };
 Default.parameters = { controls: { exclude: ['children', 'onClick'] } };

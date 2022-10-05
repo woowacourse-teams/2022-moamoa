@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { Member, StudyId, StudyReview } from '@custom-types';
 
-import { ApiReviews, useGetStudyReviews } from '@api/reviews';
+import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 

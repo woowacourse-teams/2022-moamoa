@@ -33,8 +33,10 @@ const ImageHeadingContent: Story<CardProps> = props => (
 
 export const WithImage = ImageHeadingContent.bind({});
 WithImage.args = {
-  width: '250px',
-  height: '300px',
+  custom: {
+    width: '250px',
+    height: '300px',
+  },
 };
 WithImage.parameters = { controls: { exclude: ['children'] } };
 
@@ -59,7 +61,9 @@ const HeadingContent: Story<CardProps> = props => (
 
 export const WithoutImage = HeadingContent.bind({});
 WithoutImage.args = {
-  width: '250px',
-  height: '200px',
+  custom: {
+    width: '250px',
+    height: '200px',
+  },
 };
 WithoutImage.parameters = { controls: { exclude: ['children'] } };

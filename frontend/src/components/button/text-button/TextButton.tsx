@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
-import { type ThemeFontSize } from '@styles/theme';
 
 export type TextButtonProps = {
   children: React.ReactNode;

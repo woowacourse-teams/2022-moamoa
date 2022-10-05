@@ -2,7 +2,6 @@ import type * as CSS from 'csstype';
 import React from 'react';
 
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 
 import { CustomCSS, getResponsiveStyle, resolveCustomCSS } from '@styles/custom-css';
 import parseStyle from '@styles/parseStyle';

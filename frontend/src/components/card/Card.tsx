@@ -6,7 +6,7 @@ import { nLineEllipsis } from '@utils/nLineEllipsis';
 import type { MakeRequired } from '@custom-types';
 
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
-import { type ThemeColor, type ThemeFontSize } from '@styles/theme';
+import { type ThemeColor } from '@styles/theme';
 
 export type CardProps = {
   children: React.ReactNode;

@@ -3,10 +3,7 @@ import styled from '@emotion/styled';
 
 import { noop } from '@utils';
 
-import type { CssLength } from '@custom-types';
-
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
-import { type ThemeFontSize } from '@styles/theme';
 
 export type BoxButtonProps = {
   variant?: 'primary' | 'secondary';

@@ -1,5 +1,7 @@
 import type { Story } from '@storybook/react';
 
+import { theme } from '@styles/theme';
+
 import TextButton, { type TextButtonProps } from '@components/button/text-button/TextButton';
 
 export default {
@@ -12,8 +14,10 @@ const Template: Story<TextButtonProps> = props => <TextButton {...props} />;
 export const Default = Template.bind({});
 Default.args = {
   children: '내 스터디',
-  fontSize: 'md',
   variant: 'primary',
   fluid: false,
+  custom: {
+    fontSize: theme.fontSize.md,
+  },
 };
 Default.parameters = { controls: { exclude: ['onClick'] } };

@@ -24,7 +24,9 @@ export const Default = Template.bind({});
 Default.args = {
   orientation: 'vertical',
   gap: '8px',
-  width: '200px',
-  height: '100px',
+  custom: {
+    width: '200px',
+    height: '100px',
+  },
 };
 Default.parameters = { controls: { exclude: ['children'] } };

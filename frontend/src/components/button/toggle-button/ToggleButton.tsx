@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 
 import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { mqDown } from '@styles/responsive';
-import { ThemeFontSize } from '@styles/theme';
 
 export type ToggleButtonProps = {
   children: React.ReactNode;
