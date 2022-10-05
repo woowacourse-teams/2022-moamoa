@@ -11,21 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class StudyTest {
 
@@ -173,81 +170,6 @@ class StudyTest {
 
         assertThat(sut.getParticipants()).isEqualTo(new Participants(1L, Set.of(2L)));
         assertThat(sut.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END);
-    }
-
-    @DisplayName("리뷰는 스터디 시작 후 작성할 수 있다.")
-    @ParameterizedTest
-    @MethodSource("provideStudyPeriod")
-    void writeReviewAfterStartDate(
-            final LocalDateTime createdAt, final LocalDate enrollmentEndDate,
-            final LocalDate startDate, final LocalDate endDate, boolean isWritable
-    ) {
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(1L);
-        final Study sut = new Study(content, participants, AttachedTags.empty(), createdAt, 10,
-                enrollmentEndDate, startDate, endDate);
-
-        assertThat(sut.isReviewWritable(1L)).isEqualTo(isWritable);
-    }
-
-    private static Stream<Arguments> provideStudyPeriod() {
-        final LocalDateTime now = now();
-
-        return Stream.of(
-                Arguments.of(
-                        now,
-                        now.toLocalDate(),
-                        now.toLocalDate().plusDays(1), now.toLocalDate().plusDays(10),
-                        false
-                ),
-                Arguments.of(
-                        now.minusDays(1),
-                        now.toLocalDate(),
-                        now.toLocalDate().minusDays(1), now.toLocalDate().plusDays(10),
-                        true
-                ),
-                Arguments.of(
-                        now.minusDays(3),
-                        now.toLocalDate().minusDays(2),
-                        now.toLocalDate().minusDays(2), now.toLocalDate().minusDays(1),
-                        false
-                )
-        );
-    }
-
-    @DisplayName("스터디에 참여한 방장은 리뷰를 작성할 수 있다.")
-    @Test
-    void writeReviewByOwner() {
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(1L);
-        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
-                LocalDate.now(), LocalDate.now(), LocalDate.now());
-
-        assertThat(sut.isReviewWritable(1L)).isTrue();
-    }
-
-    @DisplayName("스터디에 참여한 사용자는 리뷰를 작성할 수 있다.")
-    @Test
-    void writeReviewByParticipant() {
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(1L);
-        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
-                LocalDate.now(), LocalDate.now(), LocalDate.now());
-
-        sut.participate(2L);
-
-        assertThat(sut.isReviewWritable(2L)).isTrue();
-    }
-
-    @DisplayName("스터디에 참여하지 않은 사용자는 리뷰를 작성할 수 없다.")
-    @Test
-    void writeReviewByNotParticipant() {
-        final Content content = new Content("title", "excerpt", "thumbnail", "description");
-        final Participants participants = Participants.createBy(1L);
-        final Study sut = new Study(content, participants, AttachedTags.empty(), now(), 2,
-                LocalDate.now(), LocalDate.now(), LocalDate.now());
-
-        assertThat(sut.isReviewWritable(2L)).isFalse();
     }
 
     @DisplayName("스터디에서 나의 역할을 조회한다.")

@@ -93,10 +93,6 @@ public class Study {
         return new StudyPlanner(startDate, endDate, PREPARE);
     }
 
-    public boolean isReviewWritable(final Long memberId) {
-        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
-    }
-
     public boolean isParticipant(final Long memberId) {
         return participants.isParticipation(memberId);
     }

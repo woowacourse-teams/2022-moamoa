@@ -12,6 +12,7 @@ on:
     branches : develop
     paths:
       - 'backend/**'
+  workflow_dispatch:
 
 defaults:
   run:
@@ -57,4 +58,4 @@ jobs:
         
       - name : Deploy
         run: |
-          curl ${{ secrets.DEPLOY_REQUEST_URL }}
+          curl ${{ secrets.DEPLOY_BACKEND_REQUEST_URL }}

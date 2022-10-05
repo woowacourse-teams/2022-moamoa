@@ -10,11 +10,11 @@ public class Accessor {
         this.studyId = studyId;
     }
 
-    Long getStudyId() {
+    public Long getStudyId() {
         return studyId;
     }
 
-    Long getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 }
