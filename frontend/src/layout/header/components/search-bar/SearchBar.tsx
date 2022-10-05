@@ -1,8 +1,6 @@
 import { Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
-
 import { mqDown } from '@styles/responsive';
 
 import { IconButton } from '@components/button';
@@ -20,9 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }
     <Self>
       <Form onSubmit={e => onSubmit(e, inputName)}>
         <Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
-        <div css={tw`absolute top-10 right-14`}>
-          <SearchButton theme={theme} />
-        </div>
+        <SearchButton theme={theme} />
       </Form>
     </Self>
   );
@@ -66,13 +62,21 @@ type SearchButtonProps = {
   theme: Theme;
 };
 const SearchButton: React.FC<SearchButtonProps> = ({ theme }) => (
-  <IconButton
-    ariaLabel="검색하기"
-    variant="secondary"
-    custom={{ width: 'fit-content', height: 'fit-content', fontSize: theme.fontSize.xl }}
+  <div
+    css={css`
+      position: absolute;
+      top: 10px;
+      right: 14px;
+    `}
   >
-    <SearchIcon />
-  </IconButton>
+    <IconButton
+      ariaLabel="검색하기"
+      variant="secondary"
+      custom={{ width: 'fit-content', height: 'fit-content', fontSize: theme.fontSize.xl }}
+    >
+      <SearchIcon />
+    </IconButton>
+  </div>
 );
 
 export default SearchBar;

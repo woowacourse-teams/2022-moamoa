@@ -6,8 +6,6 @@ import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
-
 import { Member } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
