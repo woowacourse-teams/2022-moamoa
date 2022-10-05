@@ -3,6 +3,8 @@ name: Deploy Frontend Prod
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'frontend/**'
   workflow_dispatch:
   
 defaults:
