@@ -188,15 +188,6 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
   </>
 );
 
-type EditLinkButtonProps = {
-  theme: Theme;
-};
-const EditLinkButton: React.FC<EditLinkButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
-    링크 수정
-  </BoxButton>
-);
-
 type LetterCouterProps = ImportedLetterCounterProps;
 const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
   const style = css`
@@ -210,5 +201,14 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
     </div>
   );
 };
+
+type EditLinkButtonProps = {
+  theme: Theme;
+};
+const EditLinkButton: React.FC<EditLinkButtonProps> = ({ theme }) => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
+    링크 수정
+  </BoxButton>
+);
 
 export default LinkEditForm;

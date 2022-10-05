@@ -1,4 +1,5 @@
 import { Theme, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import tw from '@utils/tw';
 
@@ -15,7 +16,7 @@ import ModalPortal from '@components/modal/Modal';
 
 import LinkEditForm from '@link-tab/components/link-edit-form/LinkEditForm';
 import { useLinkItem } from '@link-tab/components/link-item/hooks/useLinkItem';
-import LinkPreview from '@link-tab/components/link-preview/LinkPreview';
+import LinkPreview, { LinkPreviewProps } from '@link-tab/components/link-preview/LinkPreview';
 import UserDescription from '@link-tab/components/user-description/UserDescription';
 
 export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUrl'> & {
@@ -44,27 +45,13 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     description,
   };
 
-  const renderLinkPreview = () => {
-    const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
-
-    const errorPreviewResult: ApiLinkPreview['get']['responseData'] = {
-      title: '%Error%',
-      description: '링크 불러오기에 실패했습니다 :(',
-      imageUrl: null,
-      domainName: null,
-    };
-    if (isFetching) return <div>로딩중...</div>;
-
-    if (isError || !isSuccess) return <LinkPreview previewResult={errorPreviewResult} linkUrl={linkUrl} />;
-
-    return <LinkPreview previewResult={data} linkUrl={linkUrl} />;
-  };
+  const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
 
   return (
     <>
       <div css={tw`relative`}>
         {isMyLink && (
-          <div css={tw`absolute top-8 right-8 z-3`}>
+          <MyLink>
             <ToggleButton onClick={handleMeatballMenuClick} />
             <DropDownBox
               isOpen={isOpenDropBox}
@@ -79,12 +66,16 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
                 <DeleteButton theme={theme} onClick={handleDeleteLinkButtonClick} />
               </ButtonGroup>
             </DropDownBox>
-          </div>
+          </MyLink>
         )}
-        <a href={linkUrl} rel="noreferrer" target="_blank">
-          {renderLinkPreview()}
-        </a>
         <UserDescription author={author} description={description} />
+        <Preview
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess}
+          linkUrl={linkUrl}
+          previewResult={data}
+        />
       </div>
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
@@ -100,6 +91,43 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     </>
   );
 };
+
+const Loading = () => <div>Loading...</div>;
+
+type PreviewProps = {
+  isFetching: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  linkUrl: LinkPreviewProps['linkUrl'];
+  previewResult?: LinkPreviewProps['previewResult'];
+};
+const Preview: React.FC<PreviewProps> = ({ linkUrl, previewResult, isFetching, isError, isSuccess }) => (
+  <a href={linkUrl} rel="noreferrer" target="_blank">
+    {isFetching && <Loading />}
+    {isError && !isSuccess && <ErrorPreview linkUrl={linkUrl} />}
+    {isSuccess && previewResult && <LinkPreview previewResult={previewResult} linkUrl={linkUrl} />}
+  </a>
+);
+
+type ErrorPreviewProps = {
+  linkUrl: LinkPreviewProps['linkUrl'];
+};
+const ErrorPreview: React.FC<ErrorPreviewProps> = ({ linkUrl }) => {
+  const errorPreviewResult: ApiLinkPreview['get']['responseData'] = {
+    title: '%Error%',
+    description: '링크 불러오기에 실패했습니다 :(',
+    imageUrl: null,
+    domainName: null,
+  };
+  return <LinkPreview previewResult={errorPreviewResult} linkUrl={linkUrl} />;
+};
+
+const MyLink = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+`;
 
 type ToggleButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
