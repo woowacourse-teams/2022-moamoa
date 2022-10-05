@@ -4,7 +4,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 
 import { CustomCSS, getResponsiveStyle, resolveCustomCSS } from '@styles/custom-css';
-import parseStyle from '@styles/parseStyle';
 import { type BreakpointsFor } from '@styles/responsive';
 
 export type CSSProperty = keyof CSS.StandardProperties;

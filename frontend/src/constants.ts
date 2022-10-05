@@ -1,5 +1,3 @@
-import * as CSS from 'csstype';
-
 export const PATH = {
   MAIN: '/',
   STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
@@ -149,20 +147,5 @@ export const LINK_DESCRIPTION_LENGTH = {
     },
   },
 };
-
-export const CSSPropertyMap = {
-  alignItems: 'align-items',
-  justifyContent: 'justify-content',
-  flexDirection: 'flex-direction',
-  flexWrap: 'flex-wrap',
-  rowGap: 'row-gap',
-  columnGap: 'column-gap',
-  width: 'width',
-  height: 'height',
-  minWidth: 'min-width',
-  minHeight: 'min-height',
-  maxWidth: 'max-width',
-  maxHeight: 'max-height',
-} as Record<keyof CSS.StandardProperties, keyof CSS.StandardLonghandPropertiesHyphen>;
 
 export const COMMA = ',';
