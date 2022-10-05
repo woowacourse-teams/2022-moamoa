@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { Study } from '@custom-types';
@@ -7,6 +8,7 @@ import type { Study } from '@custom-types';
 import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Card from '@components/card/Card';
+import Flex from '@components/flex/Flex';
 import Image, { ImageProps } from '@components/image/Image';
 import StudyChip from '@components/study-chip/StudyChip';
 
@@ -26,9 +28,9 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
         <CardImage alt={thumbnailAlt} src={thumbnailUrl} />
         <div>
           <Card.Heading custom={{ marginBottom: '8px' }}>{title}</Card.Heading>
-          <Card.Content>{excerpt}</Card.Content>
-          <Card.Content align="right" maxLine={1}>
-            {tags && tags.map(tag => <Tag key={tag.id}>#{tag.name}</Tag>)}
+          <Card.Content>
+            <Exceprt content={excerpt} />
+            <TagList tags={tags ?? []} />
           </Card.Content>
         </div>
         <StudyChipContainer>
@@ -46,6 +48,30 @@ const Self = styled.div`
   ${applyHoverTransitionStyle()}
 `;
 
+type ExceprtProps = {
+  content: string;
+};
+const Exceprt: React.FC<ExceprtProps> = ({ content }) => (
+  <p
+    css={css`
+      margin-bottom: 20px;
+    `}
+  >
+    {content}
+  </p>
+);
+
+type TagListProps = {
+  tags: StudyCardProps['tags'];
+};
+const TagList: React.FC<TagListProps> = ({ tags }) => (
+  <Flex flexWrap="wrap" columnGap="6px" justifyContent="flex-end">
+    {tags.map(tag => (
+      <Tag key={tag.id}>#{tag.name}</Tag>
+    ))}
+  </Flex>
+);
+
 type CardImageProps = Pick<ImageProps, 'alt' | 'src'>;
 
 const CardImage = ({ alt, src }: CardImageProps) => (
@@ -53,7 +79,7 @@ const CardImage = ({ alt, src }: CardImageProps) => (
 );
 
 const Tag = styled.span`
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 `;
 
 const StudyChipContainer = styled.div`
