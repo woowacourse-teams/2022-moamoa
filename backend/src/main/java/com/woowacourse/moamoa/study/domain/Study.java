@@ -65,7 +65,7 @@ public class Study {
 
     ) {
         recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
-        studyPlanner = makStudyPlanner(createdAt, startDate, endDate);
+        studyPlanner = makeStudyPlanner(createdAt, startDate, endDate);
 
         if (isRecruitingAfterEndStudy(recruitPlanner, studyPlanner) ||
                 isRecruitedOrStartStudyBeforeCreatedAt(recruitPlanner, studyPlanner, createdAt)) {
@@ -84,7 +84,7 @@ public class Study {
         updatePlanners(createdAt.toLocalDate(), maxMemberCount, enrollmentEndDate, startDate, endDate);
     }
 
-    private StudyPlanner makStudyPlanner(final LocalDateTime createdAt,
+    private StudyPlanner makeStudyPlanner(final LocalDateTime createdAt,
                                          final LocalDate startDate,
                                          final LocalDate endDate) {
         if (startDate.equals(createdAt.toLocalDate())) {
@@ -175,7 +175,7 @@ public class Study {
                                final Integer maxMemberCount, final LocalDate enrollmentEndDate,
                                final LocalDate startDate, final LocalDate endDate) {
         recruitPlanner = new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
-        studyPlanner = makStudyPlanner(createdAt, startDate, endDate);
+        studyPlanner = makeStudyPlanner(createdAt, startDate, endDate);
 
         validatePlanner(recruitPlanner, studyPlanner);
 
