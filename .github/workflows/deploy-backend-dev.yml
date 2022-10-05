@@ -12,7 +12,7 @@ on:
     branches : develop
     paths:
       - 'backend/**'
-  workflow_dispatch: develop
+  workflow_dispatch:
   
 defaults:
   run:
