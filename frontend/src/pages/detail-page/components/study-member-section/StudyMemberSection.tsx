@@ -39,14 +39,7 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
   return (
     <Self>
       <SectionTitle>
-        스터디원
-        <span
-          css={css`
-            font-size: ${theme.fontSize.md};
-          `}
-        >
-          {totalMembers.length}명
-        </span>
+        <StudyMemberCount count={totalMembers.length} />
       </SectionTitle>
       <StudyMemberList>
         {!hasStudyMembers && <NoStudyMember />}
@@ -73,6 +66,22 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
 const Self = styled.div`
   padding: 16px;
 `;
+
+type StudyMemberCountProps = {
+  count: number;
+};
+const StudyMemberCount: React.FC<StudyMemberCountProps> = ({ count }) => (
+  <>
+    스터디원
+    <span
+      css={css`
+        font-size: ${theme.fontSize.md};
+      `}
+    >
+      {count}명
+    </span>
+  </>
+);
 
 const StudyMemberList = styled.ul`
   display: grid;
