@@ -21,6 +21,7 @@ const detailStudyHandlers = [
 
     const { studies } = studiesJSON as Pick<ApiStudies['get']['responseData'], 'studies'>;
 
+    // TODO: json 파일의 타입을 지정할 순 없을까?
     studiesJSON.studies = [
       {
         id: 1000001,
