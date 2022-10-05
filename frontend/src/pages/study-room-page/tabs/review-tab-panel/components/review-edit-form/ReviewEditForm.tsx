@@ -12,7 +12,6 @@ import { UseFormRegister, makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
 import Card from '@components/card/Card';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
