@@ -5,19 +5,25 @@ import styled from '@emotion/styled';
 
 import type { MakeRequired } from '@custom-types';
 
-import { CustomCSS } from '@styles/custom-css';
+import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type IconButtonProps = {
   children: React.ReactElement<ReactSVG>;
   ariaLabel: string;
   variant?: 'primary' | 'secondary';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  custom?: CustomCSS<'width' | 'height' | 'fontSize'>;
+  custom?: CustomCSS<'width' | 'height' | 'fontSize' | 'borderRadius' | 'transition' | 'backgroundColor'>;
 };
 
-const IconButton: React.FC<IconButtonProps> = ({ children, ariaLabel, variant = 'primary', onClick: handleClick }) => {
+const IconButton: React.FC<IconButtonProps> = ({
+  custom,
+  children,
+  ariaLabel,
+  variant = 'primary',
+  onClick: handleClick,
+}) => {
   return (
-    <Self type="button" onClick={handleClick} variant={variant} aria-label={ariaLabel}>
+    <Self css={resolveCustomCSS(custom)} type="button" onClick={handleClick} variant={variant} aria-label={ariaLabel}>
       {children}
     </Self>
   );
@@ -57,9 +63,9 @@ export const Self = styled.button<StyledIconButtonProps>`
   ${({ theme, variant }) => css`
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
 
-    font-size: ${theme.fontSize.md}
+    font-size: ${theme.fontSize.md};
     border: none;
     border-radius: ${theme.radius.circle};
     transition: background-color 0.2s ease;
