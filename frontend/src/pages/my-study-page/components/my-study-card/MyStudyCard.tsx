@@ -36,7 +36,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   const theme = useTheme();
   return (
     <Self done={done}>
-      <Card gap="8px" padding="16px" shadow>
+      <Card shadow custom={{ padding: '16px', gap: '8px' }}>
         <Card.Heading>{title}</Card.Heading>
         <Card.Content custom={{ fontSize: theme.fontSize.md }}>
           <Owner name={ownerName} />

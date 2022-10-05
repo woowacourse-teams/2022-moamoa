@@ -73,7 +73,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
 
   return (
     <div css={tw`w-480 h-300`}>
-      <Card backgroundColor={theme.colors.white} padding="16px" gap="12px">
+      <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
         <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         </UserInfoItem>

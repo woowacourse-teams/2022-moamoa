@@ -57,7 +57,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   };
 
   return (
-    <Card backgroundColor={theme.colors.white} padding="20px" shadow>
+    <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '20px' }}>
       <Flex justifyContent="space-between" alignItems="center">
         <div>
           <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>{renderEnrollmentEndDateContent()}</Card.Heading>

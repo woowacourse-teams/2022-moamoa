@@ -40,7 +40,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   const theme = useTheme();
 
   return (
-    <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
+    <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
       <Card.Heading custom={{ fontSize: theme.fontSize.xl }}>
         <EnrollmentEndDate theme={theme} isOpen={isOpen} userRole={userRole} enrollmentEndDate={enrollmentEndDate} />
       </Card.Heading>
