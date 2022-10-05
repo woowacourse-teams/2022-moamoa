@@ -58,7 +58,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     <div>
       {isFetching && <Loading />}
       {isError && <Error />}
-      {data && data.title && data.author && data.content && data.createdDate && (
+      {isSuccess && (
         <Self
           title={data.title}
           author={data.author}
