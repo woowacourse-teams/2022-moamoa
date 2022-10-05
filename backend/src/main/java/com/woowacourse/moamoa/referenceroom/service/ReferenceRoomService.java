@@ -11,7 +11,7 @@ import com.woowacourse.moamoa.referenceroom.service.exception.NotCreatingLinkExc
 import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
 import com.woowacourse.moamoa.referenceroom.service.request.EditingLinkRequest;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;

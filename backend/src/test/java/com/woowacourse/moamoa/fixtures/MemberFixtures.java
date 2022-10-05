@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.fixtures;
 
 import com.woowacourse.moamoa.member.domain.Member;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 
 public class MemberFixtures {
 
@@ -64,7 +65,31 @@ public class MemberFixtures {
         return new Member(병민_깃허브_아이디, 병민_유저네임, 병민_이미지, 병민_프로필);
     }
 
-    public static Member 태태() {
-        return new Member(태태_깃허브_아이디, 태태_유저네임, 태태_이미지, 태태_프로필);
+    public static MemberData 짱구_응답(final Long id) {
+        return 응답(id, 짱구_유저네임, 짱구_이미지, 짱구_프로필);
+    }
+
+    public static MemberData 그린론_응답(final Long id) {
+        return 응답(id, 그린론_유저네임, 그린론_이미지, 그린론_프로필);
+    }
+
+    public static MemberData 디우_응답(final Long id) {
+        return 응답(id, 디우_유저네임, 디우_이미지, 디우_프로필);
+    }
+
+    public static MemberData 베루스_응답(final Long id) {
+        return 응답(id, 베루스_유저네임, 베루스_이미지, 베루스_프로필);
+    }
+
+    public static MemberData 병민_응답(final Long id) {
+        return 응답(id, 병민_유저네임, 병민_이미지, 병민_프로필);
+    }
+
+    public static MemberData 태태_응답(final Long id) {
+        return 응답(id, 태태_유저네임, 태태_이미지, 태태_프로필);
+    }
+
+    private static MemberData 응답(final Long id, final String name, final String image, final String profile) {
+        return new MemberData(id, name, image, profile);
     }
 }

@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.referenceroom.service.request;
 
 import com.woowacourse.moamoa.referenceroom.domain.Author;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;

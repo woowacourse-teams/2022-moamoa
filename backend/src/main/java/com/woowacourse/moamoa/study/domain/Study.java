@@ -76,10 +76,6 @@ public class Study {
         this.attachedTags = attachedTags;
     }
 
-    public boolean isReviewWritable(final Long memberId) {
-        return participants.isParticipation(memberId) && !studyPlanner.isPreparing();
-    }
-
     public boolean isParticipant(final Long memberId) {
         return participants.isParticipation(memberId);
     }
