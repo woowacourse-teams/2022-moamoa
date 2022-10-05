@@ -97,7 +97,7 @@ const Self: React.FC<SelfProps> = ({
   onDeleteReivewButtonClick: handleDeleteReviewButtonClick,
 }) => (
   <Flex flexDirection="column" rowGap="12px">
-    <Flex justifyContent="space-between" alignItems="center">
+    <Flex justifyContent="space-between" alignItems="center" fluid>
       <UserInfoItem src={author.imageUrl} name={author.username} size="md">
         <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
