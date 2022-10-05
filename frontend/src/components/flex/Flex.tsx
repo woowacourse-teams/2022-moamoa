@@ -26,13 +26,15 @@ export type FlexItemStyleProperty = {
 export type FlexBoxProps = Partial<
   {
     children: React.ReactNode;
-    custom?: CustomCSS<'width' | 'height' | 'maxWidth' | 'maxHeight' | 'minWidth' | 'minHeight'>;
+    fluid: boolean;
+    custom?: CustomCSS<'width' | 'height' | 'maxWidth' | 'maxHeight' | 'minWidth' | 'minHeight' | 'marginBottom'>;
   } & FlexBoxStyleProperty &
     BreakpointsFor<FlexBoxStyleProperty>
 >;
 
 const Flex: React.FC<FlexBoxProps> = ({
   children,
+  fluid = false,
   alignItems = 'flex-start',
   justifyContent = 'flex-start',
   flexDirection = 'row',
@@ -45,24 +47,24 @@ const Flex: React.FC<FlexBoxProps> = ({
   const { xs, sm, md, lg, xl, xxl, xxxl } = responsive;
 
   const style = css`
-    ${resolveCustomCSS(custom)}
-
-    ${parseStyle({
+    display: flex;
+    width: ${fluid ? '100%' : 'auto'};
+    ${resolveCustomCSS(custom)};
+    ${resolveCustomCSS({
       alignItems,
       justifyContent,
       flexDirection,
       flexWrap,
       rowGap,
       columnGap,
-    })}
-
-    ${xxxl && getResponsiveStyle('xxxl', xxxl)}
-    ${xxl && getResponsiveStyle('xxl', xxl)}
-    ${xl && getResponsiveStyle('xl', xl)}
-    ${lg && getResponsiveStyle('lg', lg)}
-    ${md && getResponsiveStyle('md', md)}
-    ${sm && getResponsiveStyle('sm', sm)}
-    ${xs && getResponsiveStyle('xs', xs)}
+    })};
+    ${xxxl && getResponsiveStyle('xxxl', xxxl)};
+    ${xxl && getResponsiveStyle('xxl', xxl)};
+    ${xl && getResponsiveStyle('xl', xl)};
+    ${lg && getResponsiveStyle('lg', lg)};
+    ${md && getResponsiveStyle('md', md)};
+    ${sm && getResponsiveStyle('sm', sm)};
+    ${xs && getResponsiveStyle('xs', xs)};
   `;
 
   return <div css={style}>{children}</div>;
@@ -72,13 +74,10 @@ export type FlexItemStyle = {
   flexGrow: CSS.Properties['flexGrow'];
 };
 
-export type FlexItemProps = Partial<{ children?: React.ReactNode } & FlexItemStyle>;
+export type FlexItemProps = Partial<{ children: React.ReactNode } & FlexItemStyle>;
 
-const FlexItem: React.FC<FlexItemProps> = ({ flexGrow }) => {
-  const style = css`
-    ${parseStyle({ flexGrow })}
-  `;
-  return <div css={style}></div>;
+const FlexItem: React.FC<FlexItemProps> = ({ children, flexGrow }) => {
+  return <div css={resolveCustomCSS({ flexGrow })}>{children}</div>;
 };
 
 export default Object.assign(Flex, {
