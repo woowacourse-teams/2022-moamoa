@@ -1,4 +1,4 @@
-import { Theme } from '@emotion/react';
+import { Theme, css } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
@@ -10,7 +10,7 @@ import { theme } from '@styles/theme';
 
 import { usePostReview } from '@api/review';
 
-import { makeValidationResult, useForm } from '@hooks/useForm';
+import { UseFormRegister, makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
@@ -69,36 +69,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
   const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <Card shadow padding="8px" backgroundColor={theme.colors.white}>
+    <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         </UserInfoItem>
-        <div css={tw`py-10`}>
-          <Label htmlFor={REVIEW} hidden>
-            스터디 후기
-          </Label>
-          <Textarea
-            id={REVIEW}
-            placeholder="스터디 후기를 작성해주세요."
-            invalid={!isValid}
-            border={false}
-            {...register(REVIEW, {
-              validate: (val: string) => {
-                if (val.length < REVIEW_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
-                }
-                if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              onChange: handleReviewChange,
-              minLength: REVIEW_LENGTH.MIN.VALUE,
-              maxLength: REVIEW_LENGTH.MAX.VALUE,
-              required: true,
-            })}
-          ></Textarea>
-        </div>
+        <ReviewField isValid={isValid} handleChange={handleReviewChange} register={register} />
         <Divider space="4px" />
         <Flex justifyContent="space-between" alignItems="center">
           <LetterCounter count={count} maxCount={maxCount} />
@@ -108,6 +84,44 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
     </Card>
   );
 };
+
+type ReviewFieldProps = {
+  isValid: boolean;
+  register: UseFormRegister;
+  handleChange: React.ChangeEventHandler<FieldElement>;
+};
+const ReviewField: React.FC<ReviewFieldProps> = ({ isValid, register, handleChange }) => (
+  <div
+    css={css`
+      padding-top: 10px;
+      padding-bottom: 10px;
+    `}
+  >
+    <Label htmlFor={REVIEW} hidden>
+      스터디 후기
+    </Label>
+    <Textarea
+      id={REVIEW}
+      placeholder="스터디 후기를 작성해주세요."
+      invalid={!isValid}
+      border={false}
+      {...register(REVIEW, {
+        validate: (val: string) => {
+          if (val.length < REVIEW_LENGTH.MIN.VALUE) {
+            return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
+          }
+          if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
+          return makeValidationResult(false);
+        },
+        validationMode: 'change',
+        onChange: handleChange,
+        minLength: REVIEW_LENGTH.MIN.VALUE,
+        maxLength: REVIEW_LENGTH.MAX.VALUE,
+        required: true,
+      })}
+    ></Textarea>
+  </div>
+);
 
 type PublishButtonProps = {
   theme: Theme;
