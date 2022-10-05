@@ -36,15 +36,15 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   const theme = useTheme();
   return (
     <Self done={done}>
-      <Card shadow custom={{ padding: '16px', gap: '8px' }}>
+      <Card shadow custom={{ height: '100%', padding: '16px', gap: '8px', position: 'relative' }}>
         <Card.Heading>{title}</Card.Heading>
         <Card.Content custom={{ fontSize: theme.fontSize.md }}>
           <Owner name={ownerName} />
           <TagList tags={tags} />
           <Period startDate={startDate} endDate={endDate} />
         </Card.Content>
+        <QuitStudyButton onClick={handleQuitStudyButtonClick} />
       </Card>
-      <QuitStudyButton onClick={handleQuitStudyButtonClick} />
     </Self>
   );
 };
@@ -63,8 +63,6 @@ const doneStyle = (theme: Theme) => css`
 
 const Self = styled.div<StyledMyStudyCardProps>`
   ${({ theme, done }) => css`
-    position: relative;
-
     height: 100%;
 
     ${done && doneStyle(theme)}
@@ -77,10 +75,14 @@ type OwnerProps = {
   name: string;
 };
 const Owner: React.FC<OwnerProps> = ({ name }) => (
-  <>
+  <div
+    css={css`
+      margin-bottom: 20px;
+    `}
+  >
     <CrownIcon />
     <span>{name}</span>
-  </>
+  </div>
 );
 
 type TagListProps = {
@@ -89,10 +91,12 @@ type TagListProps = {
 const TagList: React.FC<TagListProps> = ({ tags }) => {
   const style = css`
     ${nLineEllipsis(1)};
+    margin-bottom: 10px;
+    line-height: 20px;
   `;
   return (
     <div css={style}>
-      <Flex columnGap="8px">
+      <Flex columnGap="8px" flexWrap="wrap">
         {tags.map(({ id, name }) => (
           <span key={id}>#{name}</span>
         ))}
@@ -106,9 +110,13 @@ type PeriodProps = {
   endDate?: string;
 };
 const Period: React.FC<PeriodProps> = ({ startDate, endDate }) => (
-  <>
+  <div
+    css={css`
+      margin-bottom: 16px;
+    `}
+  >
     <span>{startDate}</span> ~ <span>{endDate || ''}</span>
-  </>
+  </div>
 );
 
 type QuitStudyButtonProps = {
