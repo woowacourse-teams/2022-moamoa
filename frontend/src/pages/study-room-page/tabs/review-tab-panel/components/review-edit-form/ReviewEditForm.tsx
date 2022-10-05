@@ -1,15 +1,14 @@
-import { Theme, useTheme } from '@emotion/react';
+import { Theme, css, useTheme } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
 
 import { usePutReview } from '@api/review';
 
-import { makeValidationResult, useForm } from '@hooks/useForm';
+import { UseFormRegister, makeValidationResult, useForm } from '@hooks/useForm';
 import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
@@ -87,32 +86,12 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
           <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
         </UserInfoItem>
-        <div css={tw`py-10`}>
-          <Label htmlFor={REVIEW_EDIT} hidden>
-            스터디 후기
-          </Label>
-          <Textarea
-            id={REVIEW_EDIT}
-            placeholder="스터디 후기를 수정해주세요."
-            invalid={!isValid}
-            border={false}
-            defaultValue={originalContent}
-            {...register(REVIEW_EDIT, {
-              validate: (val: string) => {
-                if (val.length < REVIEW_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
-                }
-                if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              onChange: handleReviewChange,
-              minLength: REVIEW_LENGTH.MIN.VALUE,
-              maxLength: REVIEW_LENGTH.MAX.VALUE,
-              required: true,
-            })}
-          ></Textarea>
-        </div>
+        <ReviewField
+          isValid={isValid}
+          defaultValue={originalContent}
+          onChange={handleReviewChange}
+          register={register}
+        />
         <Divider space="4px" />
         <Flex justifyContent="space-between" alignItems="center">
           <LetterCounter count={count} maxCount={maxCount} />
@@ -125,6 +104,45 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
     </Card>
   );
 };
+
+type ReviewFieldProps = {
+  isValid: boolean;
+  defaultValue: string;
+  onChange: React.ChangeEventHandler<FieldElement>;
+  register: UseFormRegister;
+};
+const ReviewField: React.FC<ReviewFieldProps> = ({ isValid, defaultValue, onChange: handleChange, register }) => (
+  <div
+    css={css`
+      padding: 10px;
+    `}
+  >
+    <Label htmlFor={REVIEW_EDIT} hidden>
+      스터디 후기
+    </Label>
+    <Textarea
+      id={REVIEW_EDIT}
+      placeholder="스터디 후기를 수정해주세요."
+      invalid={!isValid}
+      border={false}
+      defaultValue={defaultValue}
+      {...register(REVIEW_EDIT, {
+        validate: (val: string) => {
+          if (val.length < REVIEW_LENGTH.MIN.VALUE) {
+            return makeValidationResult(true, REVIEW_LENGTH.MIN.MESSAGE);
+          }
+          if (val.length > REVIEW_LENGTH.MAX.VALUE) return makeValidationResult(true, REVIEW_LENGTH.MAX.MESSAGE);
+          return makeValidationResult(false);
+        },
+        validationMode: 'change',
+        onChange: handleChange,
+        minLength: REVIEW_LENGTH.MIN.VALUE,
+        maxLength: REVIEW_LENGTH.MAX.VALUE,
+        required: true,
+      })}
+    ></Textarea>
+  </div>
+);
 
 type CancelButtonProps = {
   theme: Theme;

@@ -1,8 +1,6 @@
 import { type Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
-
 import type { Link, StudyId } from '@custom-types';
 
 import type { ApiLinkPreview } from '@api/link-preview';
@@ -49,7 +47,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
 
   return (
     <>
-      <div css={tw`relative`}>
+      <Self>
         {isMyLink && (
           <MyLink>
             <ToggleButton onClick={handleMeatballMenuClick} />
@@ -76,7 +74,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
           linkUrl={linkUrl}
           previewResult={data}
         />
-      </div>
+      </Self>
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>
           <LinkEditForm
@@ -91,6 +89,10 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     </>
   );
 };
+
+const Self = styled.div`
+  position: relative;
+`;
 
 const Loading = () => <div>Loading...</div>;
 

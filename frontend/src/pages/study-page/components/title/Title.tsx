@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 import { TITLE_LENGTH } from '@constants';
 
-import tw from '@utils/tw';
-
 import type { StudyDetail } from '@custom-types';
 
 import { type FieldElement, UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
@@ -73,7 +71,11 @@ const StudyNameField: React.FC<StudyNameFieldProps> = ({ isValid, defaultValue, 
     <Label htmlFor={TITLE} hidden>
       스터디 이름
     </Label>
-    <div css={tw`mb-20`}>
+    <div
+      css={css`
+        margin-bottom: 20px;
+      `}
+    >
       <Input
         id={TITLE}
         type="text"

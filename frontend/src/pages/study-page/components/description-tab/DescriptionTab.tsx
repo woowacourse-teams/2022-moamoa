@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { DESCRIPTION_LENGTH } from '@constants';
-
-import tw from '@utils/tw';
 
 import type { StudyDetail } from '@custom-types';
 
@@ -59,7 +58,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
   const isWriteTab = activeTab === tabMode.write;
 
   return (
-    <div css={tw`mb-20`}>
+    <Self>
       <MetaBox>
         <MetaBox.Title>
           <ButtonGroup gap="8px">
@@ -83,9 +82,13 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
           </div>
         </MetaBox.Content>
       </MetaBox>
-    </div>
+    </Self>
   );
 };
+
+const Self = styled.div`
+  margin-bottom: 20px;
+`;
 
 type WriteTabButtonProps = {
   activeTab: TabIds;

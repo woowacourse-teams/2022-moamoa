@@ -1,5 +1,3 @@
-import tw from '@utils/tw';
-
 import type { StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
@@ -86,7 +84,7 @@ type GenerationSelectProps = {
 const GenerationSelect: React.FC<GenerationSelectProps> = ({ generations, originalGeneration, register }) => (
   <Flex columnGap="8px" alignItems="center">
     <Label htmlFor={GENERATION}>기수 :</Label>
-    <div css={tw`flex-grow`}>
+    <Flex.Item flexGrow={1}>
       <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
         <option>선택 안함</option>
         {generations.map(({ id, name }) => (
@@ -95,7 +93,7 @@ const GenerationSelect: React.FC<GenerationSelectProps> = ({ generations, origin
           </option>
         ))}
       </Select>
-    </div>
+    </Flex.Item>
   </Flex>
 );
 

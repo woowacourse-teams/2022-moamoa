@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { Theme, useTheme } from '@emotion/react';
-
-import tw from '@utils/tw';
+import { Theme, css, useTheme } from '@emotion/react';
 
 import { TextButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
@@ -53,7 +51,12 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
       <>
         {list.map((num, i) => {
           return (
-            <div key={i} css={tw`p-8`}>
+            <div
+              key={i}
+              css={css`
+                padding: 8px;
+              `}
+            >
               {num === '...' ? (
                 <MeatballMenuIcon />
               ) : (

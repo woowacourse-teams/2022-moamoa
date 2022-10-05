@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
-import tw from '@utils/tw';
 
 import { ApiLinkPreview } from '@api/link-preview';
 
@@ -21,9 +20,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
   return (
     <Self>
       <Card custom={{ height: '240px' }}>
-        <div css={tw`mb-16 flex-grow overflow-hidden`}>
-          <Image shape="rectangular" alt={`${previewResult.title} 썸네일`} src={previewResult.imageUrl} />
-        </div>
+        <Thunbnail alt={previewResult.title} src={previewResult.imageUrl} />
         <PreviewDomain>
           <RightUpArrowIcon />
           <span>{domain.hostname.replace('www.', '')}</span>
@@ -47,6 +44,21 @@ const Self = styled.div`
     }
   }
 `;
+
+type ThunbnailProps = {
+  alt: string | null;
+  src: string | null;
+};
+const Thunbnail: React.FC<ThunbnailProps> = ({ alt, src }) => (
+  <div
+    css={css`
+      margin-bottom: 16px;
+      overflow: hidden;
+    `}
+  >
+    <Image shape="rectangular" alt={`${alt} 썸네일`} src={src} />
+  </div>
+);
 
 const PreviewDomain = styled.div`
   ${({ theme }) => css`
