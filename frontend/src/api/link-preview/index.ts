@@ -2,6 +2,8 @@ import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
+import { checkLinkPreview } from '@api/link-preview/typeChecker';
+
 import AccessTokenController from '@auth/accessToken';
 
 export type ApiLinkPreview = {
@@ -65,7 +67,7 @@ export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variabl
   const response = await axiosInstance.get<ApiLinkPreview['get']['responseData']>(
     `/api/link-preview?linkUrl=${linkUrl}`,
   );
-  return response.data;
+  return checkLinkPreview(response.data);
 };
 
 export const useGetLinkPreview = ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
