@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { PATH } from '@constants';
 
 import { mqDown } from '@styles/responsive';
-import { theme } from '@styles/theme';
 
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
@@ -28,79 +27,69 @@ const DetailPage: React.FC = () => {
     return <Navigate to={PATH.MAIN} replace={true} />;
   }
 
-  if (isFetching) return <div>Loading...</div>;
-
-  if (!isSuccess || isError) return <div>조회에 실패했습니다</div>;
-
-  const {
-    id,
-    title,
-    excerpt,
-    recruitmentStatus,
-    description,
-    currentMemberCount,
-    maxMemberCount,
-    enrollmentEndDate,
-    startDate,
-    endDate,
-    owner,
-    members,
-    tags,
-  } = data;
-
   // TODO: background에 thumbnail 이미지 사용
   return (
     <Wrapper>
-      <Head
-        id={id}
-        title={title}
-        recruitmentStatus={recruitmentStatus}
-        excerpt={excerpt}
-        startDate={startDate}
-        endDate={endDate}
-        tags={tags}
-        isOwner={userRoleQueryResult.data?.role === 'OWNER'}
-      />
-      <Divider space="20px" />
-      <Flex columnGap="40px">
-        <Main>
-          <MarkdownRendererContainer>
-            <MarkdownRender markdownContent={description} />
-          </MarkdownRendererContainer>
+      {isFetching && <Loading />}
+      {isError && <Error />}
+      {isSuccess && (
+        <>
+          <Head
+            id={data.id}
+            title={data.title}
+            recruitmentStatus={data.recruitmentStatus}
+            excerpt={data.excerpt}
+            startDate={data.startDate}
+            endDate={data.endDate}
+            tags={data.tags}
+            isOwner={userRoleQueryResult.data?.role === 'OWNER'}
+          />
           <Divider space="20px" />
-          <StudyMemberSection owner={owner} members={members} />
-        </Main>
-        <Sidebar>
-          <FloatButtonContainer>
-            <StudyFloatBox
-              studyId={id}
+          <Flex columnGap="40px">
+            <Main>
+              <MarkdownRendererContainer>
+                <MarkdownRender markdownContent={data.description} />
+              </MarkdownRendererContainer>
+              <Divider space="20px" />
+              <StudyMemberSection owner={data.owner} members={data.members} />
+            </Main>
+            <Sidebar>
+              <FloatButtonContainer>
+                <StudyFloatBox
+                  studyId={data.id}
+                  userRole={userRoleQueryResult.data?.role}
+                  ownerName={data.owner.username}
+                  currentMemberCount={data.currentMemberCount}
+                  maxMemberCount={data.maxMemberCount}
+                  enrollmentEndDate={data.enrollmentEndDate}
+                  recruitmentStatus={data.recruitmentStatus}
+                  onRegisterButtonClick={handleRegisterButtonClick}
+                />
+              </FloatButtonContainer>
+            </Sidebar>
+          </Flex>
+          <Divider space="20px" />
+          <StudyReviewSection studyId={data.id} />
+          <FixedBottomContainer>
+            <StudyWideFloatBox
+              studyId={data.id}
               userRole={userRoleQueryResult.data?.role}
-              ownerName={owner.username}
-              currentMemberCount={currentMemberCount}
-              maxMemberCount={maxMemberCount}
-              enrollmentEndDate={enrollmentEndDate}
-              recruitmentStatus={recruitmentStatus}
+              currentMemberCount={data.currentMemberCount}
+              maxMemberCount={data.maxMemberCount}
+              enrollmentEndDate={data.enrollmentEndDate}
+              recruitmentStatus={data.recruitmentStatus}
               onRegisterButtonClick={handleRegisterButtonClick}
             />
-          </FloatButtonContainer>
-        </Sidebar>
-      </Flex>
-      <Divider space="20px" />
-      <StudyReviewSection studyId={id} />
-      <FixedBottomContainer>
-        <StudyWideFloatBox
-          studyId={id}
-          userRole={userRoleQueryResult.data?.role}
-          currentMemberCount={currentMemberCount}
-          maxMemberCount={maxMemberCount}
-          enrollmentEndDate={enrollmentEndDate}
-          recruitmentStatus={recruitmentStatus}
-          onRegisterButtonClick={handleRegisterButtonClick}
-        />
-      </FixedBottomContainer>
+          </FixedBottomContainer>
+        </>
+      )}
     </Wrapper>
   );
 };
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>조회에 실패했습니다</div>;
 
 const Main = styled.div`
   width: 100%;
