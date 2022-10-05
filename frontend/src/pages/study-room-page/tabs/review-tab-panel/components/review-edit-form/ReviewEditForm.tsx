@@ -93,12 +93,12 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
           register={register}
         />
         <Divider space="4px" />
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between">
           <LetterCounter count={count} maxCount={maxCount} />
-          <ButtonGroup gap="12px" custom={{ width: 'fit-content' }}>
+          <Flex columnGap="12px">
             <CancelButton theme={theme} onClick={handleCancelEditButtonClick} />
             <EditButton theme={theme} />
-          </ButtonGroup>
+          </Flex>
         </Flex>
       </Form>
     </Card>
@@ -163,7 +163,12 @@ type EditButtonProps = {
   theme: Theme;
 };
 const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+  <BoxButton
+    type="submit"
+    variant="secondary"
+    fluid={false}
+    custom={{ padding: '4px 10px', fontSize: theme.fontSize.sm }}
+  >
     수정하기
   </BoxButton>
 );
