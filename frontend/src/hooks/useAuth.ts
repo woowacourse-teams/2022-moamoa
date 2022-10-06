@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 

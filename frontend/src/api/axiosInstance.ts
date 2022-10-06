@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 
 import { getRefreshAccessToken } from '@api/auth';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 const axiosConfig = {
   baseURL: process.env.API_URL,
@@ -17,7 +17,7 @@ const refreshAxiosInstance = axios.create(axiosConfig);
 
 const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>) => {
   if (error.response?.status === 401) {
-    AccessTokenController.logout();
+    AccessTokenController.clear();
     alert('장시간 접속하지 않아 로그아웃되었습니다.');
     window.location.reload();
     return Promise.reject(error);

@@ -2,7 +2,7 @@ import { ReactNode, createContext, useEffect, useState } from 'react';
 
 import { noop } from '@utils';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
