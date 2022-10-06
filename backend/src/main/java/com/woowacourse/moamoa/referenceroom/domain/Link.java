@@ -3,7 +3,7 @@ package com.woowacourse.moamoa.referenceroom.domain;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotLinkAuthorException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotRelatedLinkException;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

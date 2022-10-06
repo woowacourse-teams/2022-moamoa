@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.referenceroom.service.exception.NotLinkAuthorException;
 import com.woowacourse.moamoa.referenceroom.service.exception.NotRelatedLinkException;
-import com.woowacourse.moamoa.review.domain.AssociatedStudy;
+import com.woowacourse.moamoa.studyroom.domain.review.AssociatedStudy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

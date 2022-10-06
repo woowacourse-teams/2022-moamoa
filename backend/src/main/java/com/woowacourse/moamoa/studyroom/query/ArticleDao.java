@@ -24,11 +24,11 @@ public class ArticleDao {
         final LocalDate createdDate = rs.getObject("article_created_date", LocalDate.class);
         final LocalDate lastModifiedDate = rs.getObject("article_last_modified_date", LocalDate.class);
 
-        final long githubId = rs.getLong("member.github_id");
+        final long memberId = rs.getLong("member.id");
         final String username = rs.getString("member.username");
         final String imageUrl = rs.getString("member.image_url");
         final String profileUrl = rs.getString("member.profile_url");
-        MemberData memberData = new MemberData(githubId, username, imageUrl, profileUrl);
+        MemberData memberData = new MemberData(memberId, username, imageUrl, profileUrl);
 
         return new ArticleData(id, memberData, title, content, createdDate, lastModifiedDate);
     };
@@ -42,7 +42,7 @@ public class ArticleDao {
     public Optional<ArticleData> getById(final Long articleId, ArticleType type) {
         final String sql = "SELECT {}.id as article_id, {}.title as article_title, {}.content as article_content, "
                 + "{}.created_date as article_created_date, {}.last_modified_date as article_last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id, member.username, member.image_url, member.profile_url "
                 + "FROM {} JOIN member ON {}.author_id = member.id "
                 + "WHERE {}.id = :{}Id";
 
@@ -59,7 +59,7 @@ public class ArticleDao {
     private List<ArticleData> getContent(final Long studyId, final Pageable pageable, ArticleType type) {
         final String sql = "SELECT {}.id as article_id, {}.title as article_title, {}.content as article_content, "
                 + "{}.created_date as article_created_date, {}.last_modified_date as article_last_modified_date, "
-                + "member.github_id, member.username, member.image_url, member.profile_url "
+                + "member.id, member.username, member.image_url, member.profile_url "
                 + "FROM {} JOIN member ON {}.author_id = member.id "
                 + "WHERE {}.study_id = :studyId "
                 + "ORDER BY created_date DESC, {}.id DESC "

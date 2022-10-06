@@ -123,10 +123,3 @@ CREATE TABLE notice
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
 );
-
-CREATE TABLE token
-(
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    member_id BIGINT NOT NULL UNIQUE,
-    refresh_token MEDIUMTEXT
-);

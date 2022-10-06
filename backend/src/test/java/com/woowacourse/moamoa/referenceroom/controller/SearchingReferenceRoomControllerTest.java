@@ -18,6 +18,7 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.referenceroom.domain.Link;
 import com.woowacourse.moamoa.referenceroom.domain.repository.LinkRepository;
 import com.woowacourse.moamoa.referenceroom.query.LinkDao;
@@ -94,7 +95,7 @@ class SearchingReferenceRoomControllerTest {
 
         javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         participantService.participateStudy(그린론.getId(), javaStudy.getId());
         participantService.participateStudy(디우.getId(), javaStudy.getId());
         participantService.participateStudy(베루스.getId(), javaStudy.getId());
@@ -116,20 +117,29 @@ class SearchingReferenceRoomControllerTest {
         entityManager.flush();
         entityManager.clear();
 
+        final MemberData 짱구_응답 = new MemberData(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(),
+                짱구.getProfileUrl());
+        final MemberData 그린론_응답 = new MemberData(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(),
+                그린론.getProfileUrl());
+        final MemberData 디우_응답 = new MemberData(디우.getId(), 디우.getUsername(), 디우.getImageUrl(),
+                디우.getProfileUrl());
+        final MemberData 베루스_응답 = new MemberData(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(),
+                베루스.getProfileUrl());
+
         final LinkResponse 링크1 = new LinkResponse(
-                new LinkData(link1.getId(), 짱구_응답, link1.getLinkUrl(), link1.getDescription(),
+                new LinkData(link1.getId(), 짱구_응답(짱구.getId()), link1.getLinkUrl(), link1.getDescription(),
                         link1.getCreatedDate().toLocalDate(), link1.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크2 = new LinkResponse(
-                new LinkData(link2.getId(), 그린론_응답, link2.getLinkUrl(), link2.getDescription(),
+                new LinkData(link2.getId(), 그린론_응답(그린론.getId()), link2.getLinkUrl(), link2.getDescription(),
                         link2.getCreatedDate().toLocalDate(), link2.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크3 = new LinkResponse(
-                new LinkData(link3.getId(), 디우_응답, link3.getLinkUrl(), link3.getDescription(),
+                new LinkData(link3.getId(), 디우_응답(디우.getId()), link3.getLinkUrl(), link3.getDescription(),
                         link3.getCreatedDate().toLocalDate(), link3.getLastModifiedDate().toLocalDate()));
         final LinkResponse 링크4 = new LinkResponse(
-                new LinkData(link4.getId(), 베루스_응답, link4.getLinkUrl(), link4.getDescription(),
+                new LinkData(link4.getId(), 베루스_응답(베루스.getId()), link4.getLinkUrl(), link4.getDescription(),
                         link4.getCreatedDate().toLocalDate(), link4.getLastModifiedDate().toLocalDate()));
 
-        linkResponses = List.of(링크1, 링크2, 링크3, 링크4);
+        linkResponses = List.of(링크4, 링크3, 링크2, 링크1);
     }
 
     @DisplayName("링크 공유글 전체 목록 조회를 할 수 있다.")
