@@ -46,8 +46,8 @@ axiosInstance.interceptors.request.use(
     if (!tokenDateTime) return config;
 
     const { properDateTime, expiredDateTime } = tokenDateTime;
-    const today = new Date();
-    const willTokenBeExpired = properDateTime < today && today < expiredDateTime;
+    const now = new Date();
+    const willTokenBeExpired = properDateTime < now && now < expiredDateTime;
     if (willTokenBeExpired) {
       // refresh access token
       const { accessToken: newAccessToken, expiredTime: newExpiredTime } = await getRefreshAccessToken();
