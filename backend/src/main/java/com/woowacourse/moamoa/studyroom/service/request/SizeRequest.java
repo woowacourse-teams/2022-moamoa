@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.request.review;
+package com.woowacourse.moamoa.studyroom.service.request;
 
 public class SizeRequest {
 

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.request.review;
+package com.woowacourse.moamoa.studyroom.service.request;
 
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

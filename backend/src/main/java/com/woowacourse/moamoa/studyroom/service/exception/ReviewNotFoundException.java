@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.exception.review;
+package com.woowacourse.moamoa.studyroom.service.exception;
 
 import com.woowacourse.moamoa.common.exception.NotFoundException;
 

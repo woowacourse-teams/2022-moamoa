@@ -24,10 +24,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
-import com.woowacourse.moamoa.studyroom.service.response.review.ReviewResponse;
-import com.woowacourse.moamoa.studyroom.service.response.review.ReviewsResponse;
-import com.woowacourse.moamoa.studyroom.service.response.review.WriterResponse;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ReviewResponse;
+import com.woowacourse.moamoa.studyroom.service.response.ReviewsResponse;
+import com.woowacourse.moamoa.studyroom.service.response.WriterResponse;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.util.List;

@@ -2,8 +2,8 @@ package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.studyroom.query.ReviewDao;
 import com.woowacourse.moamoa.studyroom.query.data.ReviewData;
-import com.woowacourse.moamoa.studyroom.service.request.review.SizeRequest;
-import com.woowacourse.moamoa.studyroom.service.response.review.ReviewsResponse;
+import com.woowacourse.moamoa.studyroom.service.request.SizeRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ReviewsResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

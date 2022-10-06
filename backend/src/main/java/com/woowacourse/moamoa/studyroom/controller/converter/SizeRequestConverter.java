@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller.converter;
 
-import com.woowacourse.moamoa.studyroom.service.request.review.SizeRequest;
+import com.woowacourse.moamoa.studyroom.service.request.SizeRequest;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

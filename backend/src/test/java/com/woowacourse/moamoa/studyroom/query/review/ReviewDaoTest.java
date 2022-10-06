@@ -28,7 +28,7 @@ import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
-import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
 import com.woowacourse.moamoa.studyroom.query.ReviewDao;
 import com.woowacourse.moamoa.studyroom.query.data.ReviewData;

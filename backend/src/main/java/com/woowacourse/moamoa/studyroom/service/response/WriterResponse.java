@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.service.response.review;
+package com.woowacourse.moamoa.studyroom.service.response;
 
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import lombok.AccessLevel;
