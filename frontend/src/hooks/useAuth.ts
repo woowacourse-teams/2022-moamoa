@@ -11,13 +11,13 @@ export const useAuth = () => {
   const { fetchUserInfo } = useUserInfo();
 
   const login = (accesssToken: string, expiredTime: number) => {
-    AccessTokenController.login(accesssToken, expiredTime);
+    AccessTokenController.save(accesssToken, expiredTime);
     setIsLoggedIn(true);
     fetchUserInfo();
   };
 
   const logout = () => {
-    AccessTokenController.logout();
+    AccessTokenController.clear();
     setIsLoggedIn(false);
     alert('로그아웃 되었습니다.');
   };

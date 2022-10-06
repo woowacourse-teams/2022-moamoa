@@ -59,12 +59,12 @@ class AccessTokenController {
     window.sessionStorage.removeItem(this.TOKEN_DATE_TIME_KEY);
   }
 
-  static login(accesssToken: string, expiredTime: number) {
+  static save(accesssToken: string, expiredTime: number) {
     this.setAccessToken(accesssToken);
     this.setTokenDateTime(expiredTime);
   }
 
-  static logout() {
+  static clear() {
     this.removeAccessToken();
     this.removeTokenDateTime();
   }
