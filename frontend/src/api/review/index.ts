@@ -1,21 +1,37 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import type { ReviewId, StudyId } from '@custom-types';
+import type { ReviewId, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-// post
-export type PostReviewRequestParams = {
-  studyId: StudyId;
+export type ApiReview = {
+  post: {
+    params: {
+      studyId: StudyId;
+    };
+    body: Pick<StudyReview, 'content'>;
+    variables: ApiReview['post']['params'] & ApiReview['post']['body'];
+  };
+  put: {
+    params: {
+      studyId: StudyId;
+      reviewId: ReviewId;
+    };
+    body: ApiReview['post']['body'];
+    variables: ApiReview['put']['params'] & ApiReview['put']['body'];
+  };
+  delete: {
+    params: {
+      studyId: StudyId;
+      reviewId: ReviewId;
+    };
+    variables: ApiReview['delete']['params'];
+  };
 };
-export type PostReviewRequestBody = {
-  content: string;
-};
-export type PostReviewRequestVariables = PostReviewRequestParams & PostReviewRequestBody;
 
-export const postReview = async ({ studyId, content }: PostReviewRequestVariables) => {
-  const response = await axiosInstance.post<null, AxiosResponse<null>, PostReviewRequestBody>(
+export const postReview = async ({ studyId, content }: ApiReview['post']['variables']) => {
+  const response = await axiosInstance.post<null, AxiosResponse<null>, ApiReview['post']['body']>(
     `/api/studies/${studyId}/reviews`,
     {
       content,
@@ -24,20 +40,10 @@ export const postReview = async ({ studyId, content }: PostReviewRequestVariable
   return response.data;
 };
 
-export const usePostReview = () => useMutation<null, AxiosError, PostReviewRequestVariables>(postReview);
+export const usePostReview = () => useMutation<null, AxiosError, ApiReview['post']['variables']>(postReview);
 
-// patch
-export type PutReviewRequestParams = {
-  studyId: number;
-  reviewId: number;
-};
-export type PutReviewRequestBody = {
-  content: string;
-};
-export type PutReviewRequestVariables = PutReviewRequestParams & PutReviewRequestBody;
-
-export const putReview = async ({ studyId, reviewId, content }: PutReviewRequestVariables) => {
-  const response = await axiosInstance.put<null, AxiosResponse<null>, PutReviewRequestBody>(
+export const putReview = async ({ studyId, reviewId, content }: ApiReview['put']['variables']) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiReview['put']['body']>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
     {
       content,
@@ -46,19 +52,13 @@ export const putReview = async ({ studyId, reviewId, content }: PutReviewRequest
   return response.data;
 };
 
-export const usePutReview = () => useMutation<null, AxiosError, PutReviewRequestVariables>(putReview);
+export const usePutReview = () => useMutation<null, AxiosError, ApiReview['put']['variables']>(putReview);
 
-// delete
-export type DeleteReviewRequestBody = {
-  studyId: StudyId;
-  reviewId: ReviewId;
-};
-
-export const deleteReview = async ({ studyId, reviewId }: DeleteReviewRequestBody) => {
-  const response = await axiosInstance.delete<null, AxiosResponse<null>, DeleteReviewRequestBody>(
+export const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['variables']) => {
+  const response = await axiosInstance.delete<null, AxiosResponse<null>, ApiReview['delete']['variables']>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
   );
   return response.data;
 };
 
-export const useDeleteReview = () => useMutation<null, AxiosError, DeleteReviewRequestBody>(deleteReview);
+export const useDeleteReview = () => useMutation<null, AxiosError, ApiReview['delete']['variables']>(deleteReview);

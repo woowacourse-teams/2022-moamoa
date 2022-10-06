@@ -89,7 +89,7 @@ class MyStudyServiceTest {
     @DisplayName("내가 참여한 스터디를 조회한다.")
     @Test
     void findMyStudies() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getGithubId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(짱구.getId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -103,29 +103,25 @@ class MyStudyServiceTest {
 
         final List<MyStudyResponse> studies = myStudiesResponse.getStudies();
 
-        for (MyStudyResponse study : studies) {
-            System.out.println("study.getTitle() = " + study.getTitle());
-        }
-
         assertThat(studies)
                 .hasSize(4)
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
-                        tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(), 자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMax()),
-                        tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(), 리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMax()),
-                        tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(), HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMax()),
-                        tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(), OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMax())
+                        tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(), 자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(), 리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(), HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(), OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMaxMemberCount())
                 );
 
         assertThat(owners)
                 .hasSize(4)
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags).hasSize(4);
@@ -134,7 +130,7 @@ class MyStudyServiceTest {
     @DisplayName("태그가 없는 스터디를 조회한다.")
     @Test
     void findMyStudiesWithoutTags() {
-        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getGithubId());
+        final MyStudiesResponse myStudiesResponse = myStudyService.getStudies(디우.getId());
 
         final List<MemberData> owners = myStudiesResponse.getStudies()
                 .stream()
@@ -154,32 +150,32 @@ class MyStudyServiceTest {
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
                         tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(),
-                                자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMax()),
+                                자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(),
-                                리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMax()),
+                                리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(자바스크립트_스터디.getContent().getTitle(), 자바스크립트_스터디.getStudyPlanner().getStudyStatus(),
-                                자바스크립트_스터디.getParticipants().getSize(), 자바스크립트_스터디.getRecruitPlanner().getMax()),
+                                자바스크립트_스터디.getParticipants().getSize(), 자바스크립트_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(),
-                                HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMax()),
+                                HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(알고리즘_스터디.getContent().getTitle(), 알고리즘_스터디.getStudyPlanner().getStudyStatus(),
-                                알고리즘_스터디.getParticipants().getSize(), 알고리즘_스터디.getRecruitPlanner().getMax()),
+                                알고리즘_스터디.getParticipants().getSize(), 알고리즘_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(리눅스_스터디.getContent().getTitle(), 리눅스_스터디.getStudyPlanner().getStudyStatus(),
-                                리눅스_스터디.getParticipants().getSize(), 리눅스_스터디.getRecruitPlanner().getMax()),
+                                리눅스_스터디.getParticipants().getSize(), 리눅스_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(),
-                                OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMax())
+                                OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMaxMemberCount())
                 );
 
         assertThat(owners)
                 .hasSize(7)
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .contains(
-                        tuple(짱구.getGithubId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(그린론.getGithubId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
-                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
-                        tuple(디우.getGithubId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
+                        tuple(짱구.getId(), 짱구.getUsername(), 짱구.getImageUrl(), 짱구.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(그린론.getId(), 그린론.getUsername(), 그린론.getImageUrl(), 그린론.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl()),
+                        tuple(디우.getId(), 디우.getUsername(), 디우.getImageUrl(), 디우.getProfileUrl())
                 );
 
         assertThat(tags.get(4)).isEmpty();
@@ -205,7 +201,8 @@ class MyStudyServiceTest {
     @DisplayName("사용자 역할 조회하는 기능에서 존재하지 않는 스터디 조회 시 예외 발생")
     @Test
     void getMemberRoleNotExistStudy() {
-        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(1L, 10L))
+        final Long memberId = 짱구.getId();
+        assertThatThrownBy(() -> myStudyService.findMyRoleInStudy(memberId, 10L))
                 .isInstanceOf(StudyNotFoundException.class)
                 .hasMessageContaining("스터디가 존재하지 않습니다.");
     }

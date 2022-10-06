@@ -4,7 +4,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-import com.woowacourse.moamoa.auth.exception.RefreshTokenExpirationException;
 import com.woowacourse.moamoa.common.advice.response.ErrorResponse;
 import com.woowacourse.moamoa.common.exception.BadRequestException;
 import com.woowacourse.moamoa.common.exception.InvalidFormatException;
@@ -50,12 +49,6 @@ public class CommonControllerAdvice {
         log.debug("UnauthorizedException : {}", e.getMessage());
         log.debug("Exception Stack Trace : \n{}", e.getStackTrace());
         return ResponseEntity.status(UNAUTHORIZED).build();
-    }
-
-    @ExceptionHandler(RefreshTokenExpirationException.class)
-    public ResponseEntity<ErrorResponse> handle(RefreshTokenExpirationException e) {
-        log.debug("RefreshTokenExpirationException : {}", e.getMessage());
-        return ResponseEntity.status(UNAUTHORIZED).body(new ErrorResponse(e.getMessage(), 4001));
     }
 
     @ExceptionHandler(NotFoundException.class)

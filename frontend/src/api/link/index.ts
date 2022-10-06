@@ -5,13 +5,25 @@ import type { Link, LinkId, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-// post
-export type PostLinkRequestBody = Pick<Link, 'linkUrl' | 'description'>;
-export type PostLinkRequestParams = { studyId: StudyId };
-export type PostLinkRequestVariables = PostLinkRequestBody & PostLinkRequestParams;
+export type ApiLink = {
+  post: {
+    params: { studyId: StudyId };
+    body: Pick<Link, 'linkUrl' | 'description'>;
+    variables: ApiLink['post']['params'] & ApiLink['post']['body'];
+  };
+  put: {
+    params: { studyId: StudyId; linkId: LinkId };
+    body: ApiLink['post']['body'];
+    variables: ApiLink['put']['params'] & ApiLink['put']['body'];
+  };
+  delete: {
+    params: { studyId: StudyId; linkId: LinkId };
+    variables: ApiLink['delete']['params'];
+  };
+};
 
-export const postLink = async ({ studyId, linkUrl, description }: PostLinkRequestVariables) => {
-  const response = await axiosInstance.post<null, AxiosResponse<null>, PostLinkRequestBody>(
+export const postLink = async ({ studyId, linkUrl, description }: ApiLink['post']['variables']) => {
+  const response = await axiosInstance.post<null, AxiosResponse<null>, ApiLink['post']['body']>(
     `/api/studies/${studyId}/reference-room/links`,
     {
       linkUrl,
@@ -21,15 +33,12 @@ export const postLink = async ({ studyId, linkUrl, description }: PostLinkReques
   return response.data;
 };
 
-export const usePostLink = () => useMutation<null, AxiosError, PostLinkRequestVariables>(postLink);
+export const usePostLink = () => useMutation<null, AxiosError, ApiLink['post']['variables']>(postLink);
 
 // put
-export type PutLinkRequestBody = PostLinkRequestBody;
-export type PutLinkRequestParams = { studyId: StudyId; linkId: LinkId };
-export type PutLinkRequestVariables = PutLinkRequestBody & PutLinkRequestParams;
 
-export const putLink = async ({ studyId, linkId, linkUrl, description }: PutLinkRequestVariables) => {
-  const response = await axiosInstance.put<null, AxiosResponse<null>, PutLinkRequestBody>(
+export const putLink = async ({ studyId, linkId, linkUrl, description }: ApiLink['put']['variables']) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiLink['put']['body']>(
     `/api/studies/${studyId}/reference-room/links/${linkId}`,
     {
       linkUrl,
@@ -39,16 +48,13 @@ export const putLink = async ({ studyId, linkId, linkUrl, description }: PutLink
   return response.data;
 };
 
-export const usePutLink = () => useMutation<null, AxiosError, PutLinkRequestVariables>(putLink);
+export const usePutLink = () => useMutation<null, AxiosError, ApiLink['put']['variables']>(putLink);
 
-// delete
-export type DeleteLinkRequestParams = { studyId: StudyId; linkId: LinkId };
-
-export const deleteLink = async ({ studyId, linkId }: DeleteLinkRequestParams) => {
+export const deleteLink = async ({ studyId, linkId }: ApiLink['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>, null>(
     `/api/studies/${studyId}/reference-room/links/${linkId}`,
   );
   return response.data;
 };
 
-export const useDeleteLink = () => useMutation<null, AxiosError, DeleteLinkRequestParams>(deleteLink);
+export const useDeleteLink = () => useMutation<null, AxiosError, ApiLink['delete']['variables']>(deleteLink);

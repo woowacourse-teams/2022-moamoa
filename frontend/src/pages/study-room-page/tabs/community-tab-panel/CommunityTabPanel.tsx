@@ -1,47 +1,43 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
+import { theme } from '@styles/theme';
 
+import { TextButton } from '@components/button';
+import Divider from '@components/divider/Divider';
+import Flex from '@components/flex/Flex';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@community-tab/CommunityTabPanel.style';
 import ArticleList from '@community-tab/components/article-list/ArticleList';
 import Article from '@community-tab/components/article/Article';
 import Edit from '@community-tab/components/edit/Edit';
 import Publish from '@community-tab/components/publish/Publish';
 
-type CommunityTabPanelProps = {
-  studyId: number;
-};
+const CommunityTabPanel: React.FC = () => {
+  const location = useLocation();
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
-  const { articleId } = useParams<{ articleId: string }>();
-  const navigate = useNavigate();
-
-  const lastPath = window.location.pathname.split('/').at(-1);
+  const lastPath = location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
   const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
-  const handleGoToPublishPageButtonClick = () => {
-    navigate(`${PATH.COMMUNITY_PUBLISH(studyId)}`);
-  };
-
   const renderArticleListPage = () => {
     return (
-      <div css={tw`flex flex-col gap-y-40`}>
-        <div css={tw`flex-1 min-h-[500px]`}>
-          <ArticleList />
-        </div>
-        <div css={tw`flex justify-end`}>
-          <S.Button type="button" onClick={handleGoToPublishPageButtonClick}>
-            글쓰기
-          </S.Button>
-        </div>
-      </div>
+      <>
+        <Flex justifyContent="flex-end">
+          <Link to={PATH.COMMUNITY_PUBLISH}>
+            <TextButton variant="primary" fontSize="lg">
+              글쓰기
+            </TextButton>
+          </Link>
+        </Flex>
+        <Divider color={theme.colors.secondary.dark} space="8px" />
+        <ArticleList studyId={studyId} />
+      </>
     );
   };
 
@@ -50,23 +46,19 @@ const CommunityTabPanel: React.FC<CommunityTabPanelProps> = ({ studyId }) => {
       return renderArticleListPage();
     }
     if (isArticleDetailPage) {
-      const numArticleId = Number(articleId);
-      return <Article studyId={studyId} articleId={numArticleId} />;
+      return <Article studyId={studyId} articleId={articleId} />;
     }
     if (isPublishPage) {
-      return <Publish />;
+      return <Publish studyId={studyId} />;
     }
     if (isEditPage) {
-      return <Edit />;
+      return <Edit studyId={studyId} articleId={articleId} />;
     }
   };
 
   return (
     <Wrapper>
-      <div>
-        <h1 css={tw`text-center text-30 mb-40`}>커뮤니티</h1>
-        <div>{render()}</div>
-      </div>
+      <div>{render()}</div>
     </Wrapper>
   );
 };

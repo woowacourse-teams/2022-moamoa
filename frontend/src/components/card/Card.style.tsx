@@ -1,64 +1,60 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Card = styled.div`
-  ${({ theme }) => css`
+import { nLineEllipsis } from '@utils/nLineEllipsis';
+
+import type { MakeRequired } from '@custom-types';
+
+import { type CardContentProps, type CardHeadingProps, type CardProps } from '@components/card/Card';
+
+type StyledCardProps = MakeRequired<
+  Pick<CardProps, 'height' | 'width' | 'backgroundColor' | 'shadow' | 'gap' | 'padding'>,
+  'width' | 'height' | 'backgroundColor'
+>;
+
+type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine' | 'fontSize'>>;
+
+type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align' | 'fontSize'>>;
+
+export const Card = styled.div<StyledCardProps>`
+  ${({ theme, width, height, backgroundColor, shadow, gap, padding }) => css`
     display: flex;
     flex-direction: column;
+    ${gap && `gap: ${gap}`};
 
-    height: 350px;
+    width: ${width};
+    height: ${height};
+    ${padding && `padding: ${padding}`};
     overflow: hidden;
 
-    border: 3px solid ${theme.colors.primary.base};
-    border-radius: 25px;
-    box-shadow: 8px 8px 0 0 ${theme.colors.secondary.dark};
-
-    :hover {
-      opacity: 0.9;
-    }
+    background-color: ${backgroundColor};
+    border-radius: ${theme.radius.sm};
+    ${shadow && `box-shadow: 0 0 2px 1px ${theme.colors.secondary.base};`}
   `}
 `;
 
-export const ImageContainer = styled.div`
-  flex-grow: 1;
+export const CardHeading = styled.h1<StyledCardHeadingProps>`
+  ${({ theme, maxLine, fontSize }) => css`
+    width: 100%;
+    margin-bottom: 8px;
 
-  overflow: hidden;
+    font-size: ${theme.fontSize[fontSize]};
+    font-weight: ${theme.fontWeight.bold};
+    line-height: ${theme.fontSize[fontSize]};
+
+    ${nLineEllipsis(maxLine)};
+  `}
 `;
 
-export const Content = styled.div`
-  padding: 8px 8px 12px;
+export const CardContent = styled.p<StyledCardContentProps>`
+  ${({ theme, maxLine, align, fontSize }) => css`
+    width: 100%;
+    height: calc(${theme.fontSize[fontSize]} * ${maxLine});
 
-  background-color: ${({ theme }) => theme.colors.secondary.light};
-`;
+    font-size: ${theme.fontSize[fontSize]};
+    line-height: ${theme.fontSize[fontSize]};
+    text-align: ${align};
 
-const onelineEllipsis = css`
-  overflow: clip;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  word-break: break-all;
-`;
-
-export const Title = styled.h4`
-  margin-bottom: 20px;
-
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 24px;
-  ${onelineEllipsis};
-`;
-
-export const Excerpt = styled.p`
-  width: 100%;
-  margin-bottom: 20px;
-
-  font-size: 20px;
-  line-height: 20px;
-  ${onelineEllipsis};
-`;
-
-export const Extra = styled.div`
-  display: flex;
-  justify-content: flex-end;
+    ${nLineEllipsis(maxLine)};
+  `}
 `;

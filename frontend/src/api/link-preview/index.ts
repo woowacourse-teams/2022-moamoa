@@ -2,17 +2,21 @@ import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
-// get
-export type GetLinkPreviewRequestParams = {
-  linkUrl: string;
-};
-export type GetLinkPreviewResponseData = {
-  title: string;
-  description: string | null;
-  imageUrl: string | null;
-  domainName: string | null;
+export type ApiLinkPreview = {
+  get: {
+    params: {
+      linkUrl: string;
+    };
+    responseData: {
+      title: string | null;
+      description: string | null;
+      imageUrl: string | null;
+      domainName: string | null;
+    };
+    variables: ApiLinkPreview['get']['params'];
+  };
 };
 
 const axiosInstance = axios.create({
@@ -57,11 +61,19 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const getLinkPreview = async ({ linkUrl }: GetLinkPreviewRequestParams) => {
-  const response = await axiosInstance.get<GetLinkPreviewResponseData>(`/api/link-preview?linkUrl=${linkUrl}`);
+export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
+  const response = await axiosInstance.get<ApiLinkPreview['get']['responseData']>(
+    `/api/link-preview?linkUrl=${linkUrl}`,
+  );
   return response.data;
 };
 
-export const useGetLinkPreview = ({ linkUrl }: GetLinkPreviewRequestParams) => {
-  return useQuery<GetLinkPreviewResponseData, AxiosError>(['link-preview', linkUrl], () => getLinkPreview({ linkUrl }));
+export const useGetLinkPreview = ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
+  return useQuery<ApiLinkPreview['get']['responseData'], AxiosError>(
+    ['link-preview', linkUrl],
+    () => getLinkPreview({ linkUrl }),
+    {
+      staleTime: 5 * 60 * 1000, // 5 min
+    },
+  );
 };

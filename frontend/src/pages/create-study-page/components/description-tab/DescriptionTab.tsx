@@ -2,24 +2,31 @@ import { useEffect, useState } from 'react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
+import tw from '@utils/tw';
+
 import type { StudyDetail } from '@custom-types';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
+import { ToggleButton } from '@components/button';
+import ButtonGroup from '@components/button-group/ButtonGroup';
+import Label from '@components/label/Label';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
+import MetaBox from '@components/meta-box/MetaBox';
+import Textarea from '@components/textarea/Textarea';
 
-import * as S from '@create-study-page/components/description-tab/DescriptionTab.style';
-
-const studyDescriptionTabIds = {
+const tabMode = {
   write: 'write',
   preview: 'preview',
 };
 
-type TabIds = typeof studyDescriptionTabIds[keyof typeof studyDescriptionTabIds];
+type TabIds = typeof tabMode[keyof typeof tabMode];
 
 export type DescriptionTabProps = {
   originalDescription?: StudyDetail['description'];
 };
+
+const DESCRIPTION = 'description';
 
 const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) => {
   const {
@@ -30,81 +37,84 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
 
   const [description, setDescription] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<TabIds>(studyDescriptionTabIds.write);
+  const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
 
-  const isValid = !!errors['description']?.hasError;
+  const isValid = !errors[DESCRIPTION]?.hasError;
 
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
   useEffect(() => {
-    const field = getField('description');
+    const field = getField(DESCRIPTION);
     if (!field) return;
-    if (activeTab !== studyDescriptionTabIds.preview) return;
+    if (activeTab !== tabMode.preview) return;
 
     const description = field.fieldElement.value;
     setDescription(description);
   }, [activeTab]);
 
+  const renderTabContent = () => {
+    const isWriteTab = activeTab === tabMode.write;
+
+    return (
+      <>
+        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
+          <Label htmlFor={DESCRIPTION} hidden>
+            소개글
+          </Label>
+          <Textarea
+            id={DESCRIPTION}
+            placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+            invalid={!isValid}
+            defaultValue={originalDescription}
+            {...register(DESCRIPTION, {
+              validate: (val: string) => {
+                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+                }
+                return makeValidationResult(false);
+              },
+              validationMode: 'change',
+              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+              required: true,
+            })}
+          ></Textarea>
+        </div>
+        <div css={isWriteTab && tw`hidden`}>
+          <MarkdownRender markdownContent={description} />
+        </div>
+      </>
+    );
+  };
+
   return (
-    <S.DescriptionTab>
-      <S.TabListContainer>
-        <S.TabList>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === studyDescriptionTabIds.write}
-              onClick={handleNavItemClick(studyDescriptionTabIds.write)}
+    <div css={tw`mb-20`}>
+      <MetaBox>
+        <MetaBox.Title>
+          <ButtonGroup gap="8px">
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === tabMode.write}
+              onClick={handleNavItemClick(tabMode.write)}
             >
               Write
-            </S.TabItemButton>
-          </S.Tab>
-          <S.Tab>
-            <S.TabItemButton
-              type="button"
-              isActive={activeTab === studyDescriptionTabIds.preview}
-              onClick={handleNavItemClick(studyDescriptionTabIds.preview)}
+            </ToggleButton>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === tabMode.preview}
+              onClick={handleNavItemClick(tabMode.preview)}
             >
               Preview
-            </S.TabItemButton>
-          </S.Tab>
-        </S.TabList>
-      </S.TabListContainer>
-      <S.TabPanelsContainer>
-        <S.TabPanels>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.write}>
-            <S.TabContent>
-              {/* TODO: HiddenLabel Component 생성 */}
-              <S.Label htmlFor="description">소개글</S.Label>
-              <S.Textarea
-                id="description"
-                placeholder={`*스터디 소개글(${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-                isValid={isValid}
-                defaultValue={originalDescription}
-                {...register('description', {
-                  validate: (val: string) => {
-                    if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                      return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                    }
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-                  maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-                  required: true,
-                })}
-              ></S.Textarea>
-            </S.TabContent>
-          </S.TabPanel>
-          <S.TabPanel isActive={activeTab === studyDescriptionTabIds.preview}>
-            <S.TabContent>
-              <MarkdownRender markdownContent={description} />
-            </S.TabContent>
-          </S.TabPanel>
-        </S.TabPanels>
-      </S.TabPanelsContainer>
-    </S.DescriptionTab>
+            </ToggleButton>
+          </ButtonGroup>
+        </MetaBox.Title>
+        <MetaBox.Content>
+          <div css={tw`h-400`}>{renderTabContent()}</div>
+        </MetaBox.Content>
+      </MetaBox>
+    </div>
   );
 };
 

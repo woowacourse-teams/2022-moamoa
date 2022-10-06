@@ -41,11 +41,7 @@ export const RightButtonContainer = styled.div`
     height: 100%;
     padding: auto 0;
 
-    background-color: ${theme.colors.secondary.light}cc;
-
-    ${mqDown('md')} {
-      display: none;
-    }
+    background-color: ${theme.colors.secondary.light}66;
   `}
 `;
 
@@ -69,16 +65,5 @@ export const FilterSection = styled.section`
 
   ${mqDown('sm')} {
     column-gap: 16px;
-  }
-`;
-
-export const VerticalLine = styled.div`
-  ${({ theme }) => css`
-    height: 40px;
-    border-right: 1px solid ${theme.colors.secondary.dark};
-  `}
-
-  ${mqDown('sm')} {
-    display: none;
   }
 `;

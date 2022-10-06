@@ -1,14 +1,13 @@
 import type { Story } from '@storybook/react';
 
 import Header from '@layout/header/Header';
-import type { HeaderProps } from '@layout/header/Header';
 
 export default {
-  title: 'Components/Header',
+  title: 'Layout/Header',
   component: Header,
 };
 
-const Template: Story<HeaderProps> = props => <Header {...props} />;
+const Template: Story = () => <Header />;
 
 export const Default = Template.bind({});
 Default.args = {};

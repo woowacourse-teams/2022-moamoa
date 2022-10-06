@@ -1,14 +1,16 @@
+import tw from '@utils/tw';
+
 import type { Link } from '@custom-types';
 
+import { TextButton } from '@components/button';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
-import { PlusSvg } from '@components/svg';
 import Wrapper from '@components/wrapper/Wrapper';
 
-import * as S from '@study-room-page/tabs/link-room-tab-panel/LinkRoomTabPanel.style';
-import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
-import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
-import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
+import * as S from '@link-tab/LinkRoomTabPanel.style';
+import LinkForm from '@link-tab/components/link-form/LinkForm';
+import LinkItem from '@link-tab/components/link-item/LinkItem';
+import { useLinkRoomTabPanel } from '@link-tab/hooks/useLinkRoomTabPanel';
 
 const LinkRoomTabPanel: React.FC = () => {
   const {
@@ -23,7 +25,7 @@ const LinkRoomTabPanel: React.FC = () => {
   } = useLinkRoomTabPanel();
 
   const renderLinkList = () => {
-    const { data, isError, isSuccess, fetchNextPage } = infiniteLinksQueryResult;
+    const { data, isError, isSuccess, isFetching, fetchNextPage } = infiniteLinksQueryResult;
     if (isError || !isSuccess) {
       return <div>에러가 발생했습니다</div>;
     }
@@ -35,7 +37,7 @@ const LinkRoomTabPanel: React.FC = () => {
     }
 
     return (
-      <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
+      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
         <S.LinkList>
           {links.map(link => (
             <li key={link.id}>
@@ -55,14 +57,11 @@ const LinkRoomTabPanel: React.FC = () => {
 
   return (
     <Wrapper>
-      <S.LinkAddButtonContainer>
-        <S.LinkAddButton type="button" onClick={handleLinkAddButtonClick}>
-          <S.PlusSvgContainer>
-            <PlusSvg />
-          </S.PlusSvgContainer>
-          <span>링크 추가하기</span>
-        </S.LinkAddButton>
-      </S.LinkAddButtonContainer>
+      <div css={tw`py-4 mb-16 text-right`}>
+        <TextButton variant="primary" fontSize="lg" onClick={handleLinkAddButtonClick}>
+          링크 추가하기
+        </TextButton>
+      </div>
       {renderLinkList()}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>

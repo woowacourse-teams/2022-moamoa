@@ -33,20 +33,26 @@ public class StudySummaryDao {
 
     public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
         final List<StudySummaryData> data = jdbcTemplate
-                .query(sql(searchingTags), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
+                .query(sql(searchingTags, title), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
         return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
-
     }
 
-    private String sql(final SearchingTags searchingTags) {
+    private String sql(final SearchingTags searchingTags, final String title) {
         return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status, study.created_at "
                 + "FROM study "
                 + joinTableClause(searchingTags)
-                + "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' "
+                + joinTitleClause(title)
                 + filtersInQueryClause(searchingTags)
                 + "GROUP BY study.id "
                 + "ORDER BY study.created_at DESC "
                 + "LIMIT :limit OFFSET :offset ";
+    }
+
+    private String joinTitleClause(final String title) {
+        if (title.isBlank()) {
+            return "";
+        }
+        return "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' ";
     }
 
     private String joinTableClause(final SearchingTags searchingTags) {

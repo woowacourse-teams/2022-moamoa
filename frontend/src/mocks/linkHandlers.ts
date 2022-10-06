@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import linkJson from '@mocks/links.json';
 import { user } from '@mocks/memberHandlers';
 
-import { PostLinkRequestBody, PutLinkRequestBody } from '@api/link';
+import { ApiLink } from '@api/link';
 
 export const linkHandlers = [
   rest.get('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {
@@ -27,10 +27,9 @@ export const linkHandlers = [
       }),
     );
   }),
-  rest.post<PostLinkRequestBody>('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {
+  rest.post<ApiLink['post']['body']>('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {
     const { linkUrl, description } = req.body;
-    if (!linkUrl || !description)
-      return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
+    if (!linkUrl) return res(ctx.status(400), ctx.json({ message: 'linkeUrl이 없음' }));
 
     const { links } = linkJson;
     linkJson.links = [
@@ -47,13 +46,12 @@ export const linkHandlers = [
 
     return res(ctx.status(201));
   }),
-  rest.put<PutLinkRequestBody>('/api/studies/:studyId/reference-room/links/:linkId', (req, res, ctx) => {
+  rest.put<ApiLink['put']['body']>('/api/studies/:studyId/reference-room/links/:linkId', (req, res, ctx) => {
     const linkId = Number(req.params.linkId);
     if (!linkId) return res(ctx.status(400), ctx.json({ message: '링크 아이디가 없음' }));
 
     const { linkUrl, description } = req.body;
-    if (!linkUrl || !description)
-      return res(ctx.status(400), ctx.json({ message: 'linkeUrl 또는 description이 없음' }));
+    if (!linkUrl) return res(ctx.status(400), ctx.json({ message: 'linkeUrl이 없음' }));
 
     const { links } = linkJson;
     const isExist = links.some(link => link.id === linkId);

@@ -1,8 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMember;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
+import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/studies/{study-id}/{article-type}/articles")
+@RequestMapping("api/studies/{study-id}/{type}/articles")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -33,54 +32,57 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> createArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-type") final ArticleType type,
+                                              @PathVariable("type") final String typeName,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final Article article = articleService.createArticle(id, studyId, request, type);
-        final URI location = URI.create("/api/studies/" + studyId + "/" + type.lowerName() + "/articles/" + article.getId());
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        final Long articleId = articleService.createArticle(id, studyId, request.createContent(), type);
+        final URI location = URI.create("/api/studies/" + studyId + "/" + typeName + "/articles/" + articleId);
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
-    public ResponseEntity<ArticleResponse> getArticle(@AuthenticatedMember final Long id,
-                                                      @PathVariable("study-id") final Long studyId,
-                                                      @PathVariable("article-type") final ArticleType articleType,
-                                                      @PathVariable("article-id") final Long articleId
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable("article-id") final Long articleId,
+                                                      @PathVariable("type") final String typeName
     ) {
-        ArticleResponse response = articleService.getArticle(id, studyId, articleId, articleType);
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        ArticleResponse response = articleService.getArticle(articleId, type);
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("{article-id}")
-    public ResponseEntity<Void> deleteArticle(@AuthenticatedMember final Long id,
+    @DeleteMapping("/{article-id}")
+    public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("article-type") final ArticleType type
+                                              @PathVariable("type") final String typeName
     ) {
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         articleService.deleteArticle(id, studyId, articleId, type);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<ArticleSummariesResponse> getArticles(@AuthenticatedMember final Long id,
-                                                                @PathVariable("study-id") final Long studyId,
-                                                                @PathVariable("article-type") final ArticleType type,
-                                                                @PageableDefault final Pageable pageable
+    public ResponseEntity<ArticleSummariesResponse> getArticles(
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("type") final String typeName,
+            @PageableDefault final Pageable pageable
     ) {
-        ArticleSummariesResponse response = articleService.getArticles(id, studyId, pageable, type);
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        ArticleSummariesResponse response = articleService.getArticles(studyId, pageable, type);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{article-id}")
-    public ResponseEntity<Void> updateArticle(@AuthenticatedMember final Long id,
+    public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("article-type") final ArticleType type,
+                                              @PathVariable("type") final String typeName,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request, type);
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        articleService.updateArticle(id, studyId, articleId, request.createContent(), type);
         return ResponseEntity.noContent().build();
     }
 }

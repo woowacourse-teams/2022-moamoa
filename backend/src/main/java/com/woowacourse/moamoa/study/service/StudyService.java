@@ -1,9 +1,9 @@
 package com.woowacourse.moamoa.study.service;
 
-import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
+import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
@@ -36,29 +36,20 @@ public class StudyService {
         this.dateTimeSystem = dateTimeSystem;
     }
 
-    public Study createStudy(final Long githubId, final StudyRequest request) {
+    public Study createStudy(final Long memberId, final StudyRequest request) {
         final LocalDateTime createdAt = dateTimeSystem.now();
-        final Member owner = findMemberBy(githubId);
+        final Member owner = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
 
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
 
         return studyRepository.save(
-                new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
-    }
-
-    private Study findStudyBy(final Long studyId) {
-        return studyRepository.findById(studyId)
-                .orElseThrow(StudyNotFoundException::new);
-    }
-
-    private Member findMemberBy(final Long githubId) {
-        return memberRepository.findByGithubId(githubId)
-                .orElseThrow(() -> new UnauthorizedException(String.format("%d의 githubId를 가진 사용자는 없습니다.", githubId)));
+                new Study(content, participants, attachedTags, createdAt, request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate())
+        );
     }
 
     public void autoUpdateStatus() {
@@ -75,9 +66,9 @@ public class StudyService {
                 .orElseThrow(StudyNotFoundException::new);
 
         final Content content = request.mapToContent();
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
-
-        study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);
+        study.updatePlanners(LocalDate.now(), request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate());
+        study.updateContent(memberId, content, request.mapToAttachedTags());
     }
 }
+

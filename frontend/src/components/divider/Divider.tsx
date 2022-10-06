@@ -1,23 +1,33 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import type { CssLength } from '@custom-types';
 
-import type { MakeOptional } from '@custom-types';
+import { type ThemeColor } from '@styles/theme';
 
-import type { ThemeColor } from '@styles/theme';
+import * as S from '@components/divider/Divider.style';
 
-type DividerProps = {
-  space: number;
-  color: ThemeColor;
+export type DividerProps = {
+  orientation?: 'vertical' | 'horizontal';
+  color?: ThemeColor;
+  space?: CssLength;
+  verticalLength?: CssLength;
+  horizontalLength?: CssLength;
 };
 
-const Divider = styled.div<MakeOptional<DividerProps, 'space' | 'color'>>(({ space = 1, color, theme }) => {
-  const defaultColor = theme.colors.secondary.dark;
-  return css`
-    height: 1px;
-    background-color: ${color ? color : defaultColor};
-    margin-top: ${space * 10}px;
-    margin-bottom: ${space * 10}px;
-  `;
-});
+const Divider: React.FC<DividerProps> = ({
+  orientation = 'horizontal',
+  color = '#cfd8dc',
+  space = '4px',
+  horizontalLength = '100%',
+  verticalLength = 'auto',
+}) => {
+  return (
+    <S.Divider
+      orientation={orientation}
+      color={color}
+      space={space}
+      horizontalLength={horizontalLength}
+      verticalLength={verticalLength}
+    />
+  );
+};
 
 export default Divider;

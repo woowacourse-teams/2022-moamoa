@@ -86,28 +86,28 @@ class SearchingStudyControllerTest {
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
         StudyRequest javaStudyRequest = 자바_스터디_신청서(List.of(1L, 2L, 3L), 10, LocalDate.now());
-        javaStudyId = studyService.createStudy(jjanggu.getGithubId(), javaStudyRequest).getId();
+        javaStudyId = studyService.createStudy(jjanggu.getId(), javaStudyRequest).getId();
 
         StudyRequest reactStudyRequest = 리액트_스터디_신청서(List.of(2L, 4L, 5L), 5, LocalDate.now());
-        reactStudyId = studyService.createStudy(dwoo.getGithubId(), reactStudyRequest).getId();
+        reactStudyId = studyService.createStudy(dwoo.getId(), reactStudyRequest).getId();
 
         StudyRequest javaScriptStudyRequest = 자바스크립트_스터디_신청서(List.of(2L, 4L), LocalDate.now());
-        javaScriptId = studyService.createStudy(jjanggu.getGithubId(), javaScriptStudyRequest).getId();
+        javaScriptId = studyService.createStudy(jjanggu.getId(), javaScriptStudyRequest).getId();
 
         StudyRequest httpStudyRequest = HTTP_스터디_신청서(List.of(2L, 3L), LocalDate.now());
-        httpStudyId = studyService.createStudy(jjanggu.getGithubId(), httpStudyRequest).getId();
+        httpStudyId = studyService.createStudy(jjanggu.getId(), httpStudyRequest).getId();
 
         StudyRequest algorithmStudyRequest = 알고리즘_스터디_신청서(List.of(), LocalDate.now());
-        algorithmStudyId = studyService.createStudy(jjanggu.getGithubId(), algorithmStudyRequest).getId();
+        algorithmStudyId = studyService.createStudy(jjanggu.getId(), algorithmStudyRequest).getId();
 
         StudyRequest linuxStudyRequest = StudyRequest.builder()
                 .title("Linux 스터디").excerpt("리눅스 설명").thumbnail("linux thumbnail").description("Linux를 공부하자의 베루스입니다.")
                 .startDate(LocalDate.now()).endDate(LocalDate.now()).enrollmentEndDate(LocalDate.now())
                 .tagIds(List.of())
                 .build();
-        linuxStudyId = studyService.createStudy(verus.getGithubId(), linuxStudyRequest).getId();
+        linuxStudyId = studyService.createStudy(verus.getId(), linuxStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository);
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
         
         participantService.participateStudy(dwoo.getId(), javaStudyId);
         participantService.participateStudy(verus.getId(), javaStudyId);
@@ -245,14 +245,14 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(3).maxMemberCount(10)
-                .owner(new OwnerData(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com", LocalDate.now(), 5))
+                .owner(new OwnerData(jjanggu.getId(), "jjanggu", "https://image", "github.com", LocalDate.now(), 5))
                 // Study Period
                 .startDate(LocalDate.now())
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(dwoo.getGithubId(), "dwoo", "https://image", "github.com"),
-                tuple(verus.getGithubId(), "verus", "https://image", "github.com")
+                tuple(dwoo.getId(), "dwoo", "https://image", "github.com"),
+                tuple(verus.getId(), "verus", "https://image", "github.com")
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -280,7 +280,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
-                .owner(new OwnerData(dwoo.getGithubId(), "dwoo", "https://image", "github.com", LocalDate.now(),3))
+                .owner(new OwnerData(dwoo.getId(), "dwoo", "https://image", "github.com", LocalDate.now(),3))
                 // Study Period
                 .enrollmentEndDate(LocalDate.now())
                 .startDate(LocalDate.now())
@@ -288,9 +288,9 @@ class SearchingStudyControllerTest {
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(jjanggu.getGithubId(), "jjanggu", "https://image", "github.com"),
-                tuple(greenlawn.getGithubId(), "greenlawn", "https://image", "github.com"),
-                tuple(verus.getGithubId(), "verus", "https://image", "github.com")
+                tuple(jjanggu.getId(), "jjanggu", "https://image", "github.com"),
+                tuple(greenlawn.getId(), "greenlawn", "https://image", "github.com"),
+                tuple(verus.getId(), "verus", "https://image", "github.com")
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -318,7 +318,7 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(1)
-                .owner(new OwnerData(verus.getGithubId(), "verus", "https://image", "github.com", LocalDate.now(), 4))
+                .owner(new OwnerData(verus.getId(), "verus", "https://image", "github.com", LocalDate.now(), 4))
                 // Study Period
                 .startDate(LocalDate.now())
                 .enrollmentEndDate(LocalDate.now())
@@ -350,10 +350,10 @@ class SearchingStudyControllerTest {
         assertThat(responseBody.getMembers())
                 .filteredOn(member -> member.getParticipationDate() != null)
                 .hasSize(2)
-                .extracting("githubId", "username", "imageUrl", "profileUrl", "numberOfStudy")
+                .extracting("id", "username", "imageUrl", "profileUrl", "numberOfStudy")
                 .containsExactlyInAnyOrder(
-                        tuple(dwoo.getGithubId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
-                        tuple(verus.getGithubId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
+                        tuple(dwoo.getId(), dwoo.getUsername(), dwoo.getImageUrl(), dwoo.getProfileUrl(), 3),
+                        tuple(verus.getId(), verus.getUsername(), verus.getImageUrl(), verus.getProfileUrl(), 4)
                 );
     }
 
@@ -375,7 +375,7 @@ class SearchingStudyControllerTest {
         assertThat(actual.getOwner()).isEqualTo(expect.getOwner());
         assertThat(actual.getMembers())
                 .hasSize(expectParticipants.size())
-                .extracting("githubId", "username", "imageUrl", "profileUrl")
+                .extracting("id", "username", "imageUrl", "profileUrl")
                 .containsExactlyInAnyOrderElementsOf(expectParticipants);
     }
 

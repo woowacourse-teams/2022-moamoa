@@ -6,7 +6,7 @@ import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox
 import type { StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';
 
 export default {
-  title: 'Components/StudyFloatBox',
+  title: 'Pages/DetailPage/StudyFloatBox',
   component: StudyFloatBox,
 };
 

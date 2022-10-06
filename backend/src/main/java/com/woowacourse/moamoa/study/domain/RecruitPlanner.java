@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class RecruitPlanner {
 
     @Column(name = "max_member_count")
-    private Integer max;
+    private Integer maxMemberCount;
 
     @Enumerated(STRING)
     @Column(name = "recruitment_status")
@@ -26,14 +26,10 @@ public class RecruitPlanner {
 
     private LocalDate enrollmentEndDate;
 
-    public RecruitPlanner(final Integer max, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
-        this.max = max;
+    public RecruitPlanner(final Integer maxMemberCount, final RecruitStatus recruitStatus, final LocalDate enrollmentEndDate) {
+        this.maxMemberCount = maxMemberCount;
         this.recruitStatus = recruitStatus;
         this.enrollmentEndDate = enrollmentEndDate;
-    }
-
-    boolean hasEnrollmentEndDate() {
-        return enrollmentEndDate != null;
     }
 
     boolean isRecruitedBeforeThan(LocalDate date) {
@@ -41,6 +37,10 @@ public class RecruitPlanner {
             return false;
         }
         return enrollmentEndDate.isBefore(date);
+    }
+
+    boolean hasEnrollmentEndDate() {
+        return enrollmentEndDate != null;
     }
 
     void updateRecruiting(final LocalDate now) {
@@ -57,8 +57,8 @@ public class RecruitPlanner {
         recruitStatus = RECRUITMENT_END;
     }
 
-    public LocalDate getEnrollmentEndDate() {
-        return enrollmentEndDate;
+    void startRecruiting() {
+        recruitStatus = RECRUITMENT_START;
     }
 
     boolean isCloseEnrollment() {
@@ -67,12 +67,16 @@ public class RecruitPlanner {
 
     int getCapacity() {
         if (hasCapacity()) {
-            return max;
+            return maxMemberCount;
         }
         throw new IllegalStateException("최대 인원 정보가 없습니다.");
     }
 
     boolean hasCapacity() {
-        return max != null;
+        return maxMemberCount != null;
+    }
+
+    public LocalDate getEnrollmentEndDate() {
+        return enrollmentEndDate;
     }
 }

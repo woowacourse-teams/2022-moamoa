@@ -1,62 +1,63 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
-import type { CommunityArticle } from '@custom-types';
+import type { ArticleId, CommunityArticle, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
-export type GetCommunityArticlesResponseData = {
-  articles: Array<CommunityArticle>;
-  currentPage: number;
-  lastPage: number;
-  totalCount: number;
+export type ApiCommunityArticles = {
+  get: {
+    responseData: {
+      articles: Array<CommunityArticle>;
+      currentPage: number;
+      lastPage: number;
+      totalCount: number;
+    };
+    params: {
+      studyId: StudyId;
+      page?: Page;
+      size?: Size;
+    };
+    variables: ApiCommunityArticles['get']['params'];
+  };
 };
 
-export type GetCommunityArticleResponseData = CommunityArticle;
-
-export type GetCommunityArticlesParams = {
-  studyId: number;
-  page?: number;
-  size?: number;
+export type ApiCommunityArticle = {
+  get: {
+    responseData: CommunityArticle;
+    params: {
+      studyId: StudyId;
+      articleId: ArticleId;
+    };
+    variables: ApiCommunityArticle['get']['params'];
+  };
+  post: {
+    params: {
+      studyId: StudyId;
+    };
+    body: Pick<CommunityArticle, 'title' | 'content'>;
+    variables: ApiCommunityArticle['post']['params'] & ApiCommunityArticle['post']['body'];
+  };
+  put: {
+    params: {
+      studyId: StudyId;
+      articleId: ArticleId;
+    };
+    body: ApiCommunityArticle['post']['body'];
+    variables: ApiCommunityArticle['put']['params'] & ApiCommunityArticle['put']['body'];
+  };
+  delete: {
+    params: {
+      studyId: StudyId;
+      articleId: ArticleId;
+    };
+    variables: ApiCommunityArticle['delete']['params'];
+  };
 };
 
-export type GetCommunityArticleParams = {
-  studyId: number;
-  articleId: number;
-};
-
-export type PostCommunityArticleRequestParams = {
-  studyId: number;
-};
-export type PostCommunityArticleRequestBody = {
-  title: string;
-  content: string;
-};
-export type PostCommunityArticleRequestVariables = PostCommunityArticleRequestParams & PostCommunityArticleRequestBody;
-export type PostCommunityArticleResponseData = {
-  studyId: number;
-  title: string;
-  content: string;
-};
-
-export type PutCommunityArticleRequestParams = {
-  studyId: number;
-  articleId: number;
-};
-export type PutCommunityArticleRequestBody = {
-  title: string;
-  content: string;
-};
-export type PutCommunityArticleRequestVariables = PutCommunityArticleRequestParams & PutCommunityArticleRequestBody;
-
-export type DeleteCommunityArticleRequestParams = {
-  studyId: number;
-  articleId: number;
-};
-
-const getCommunityArticles = async ({ studyId, page = 1, size = 8 }: GetCommunityArticlesParams) => {
+const getCommunityArticles = async ({ studyId, page = 1, size = 8 }: ApiCommunityArticles['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
-  const response = await axiosInstance.get<GetCommunityArticlesResponseData>(
+  const response = await axiosInstance.get<ApiCommunityArticles['get']['responseData']>(
     `/api/studies/${studyId}/community/articles?page=${page - 1}&size=${size}`,
   );
   const { totalCount, currentPage, lastPage } = response.data;
@@ -71,16 +72,33 @@ const getCommunityArticles = async ({ studyId, page = 1, size = 8 }: GetCommunit
   return response.data;
 };
 
-const getCommunityArticle = async ({ studyId, articleId }: GetCommunityArticleParams) => {
+// articles
+export const useGetCommunityArticles = ({ studyId, page }: ApiCommunityArticles['get']['variables']) => {
+  return useQuery<ApiCommunityArticles['get']['responseData'], AxiosError>(
+    ['get-community-articles', studyId, page],
+    () => getCommunityArticles({ studyId, page }),
+  );
+};
+
+// get
+const getCommunityArticle = async ({ studyId, articleId }: ApiCommunityArticle['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
-  const response = await axiosInstance.get<GetCommunityArticleResponseData>(
+  const response = await axiosInstance.get<ApiCommunityArticle['get']['responseData']>(
     `/api/studies/${studyId}/community/articles/${articleId}`,
   );
   return response.data;
 };
 
-const postCommunityArticle = async ({ studyId, title, content }: PostCommunityArticleRequestVariables) => {
-  const response = await axiosInstance.post<null, AxiosResponse<null>, PostCommunityArticleRequestBody>(
+export const useGetCommunityArticle = ({ studyId, articleId }: ApiCommunityArticle['get']['variables']) => {
+  return useQuery<ApiCommunityArticle['get']['responseData'], AxiosError>(
+    ['get-community-article', studyId, articleId],
+    () => getCommunityArticle({ studyId, articleId }),
+  );
+};
+
+// post
+const postCommunityArticle = async ({ studyId, title, content }: ApiCommunityArticle['post']['variables']) => {
+  const response = await axiosInstance.post<null, AxiosResponse<null>, ApiCommunityArticle['post']['body']>(
     `/api/studies/${studyId}/community/articles`,
     {
       title,
@@ -91,8 +109,13 @@ const postCommunityArticle = async ({ studyId, title, content }: PostCommunityAr
   return response.data;
 };
 
-const putCommunityArticle = async ({ studyId, title, content, articleId }: PutCommunityArticleRequestVariables) => {
-  const response = await axiosInstance.put<null, AxiosResponse<null>, PutCommunityArticleRequestBody>(
+export const usePostCommunityArticle = () => {
+  return useMutation<null, AxiosError, ApiCommunityArticle['post']['variables']>(postCommunityArticle);
+};
+
+// put
+const putCommunityArticle = async ({ studyId, title, content, articleId }: ApiCommunityArticle['put']['variables']) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiCommunityArticle['put']['body']>(
     `/api/studies/${studyId}/community/articles/${articleId}`,
     {
       title,
@@ -103,7 +126,12 @@ const putCommunityArticle = async ({ studyId, title, content, articleId }: PutCo
   return response.data;
 };
 
-const deleteCommunityArticle = async ({ studyId, articleId }: DeleteCommunityArticleRequestParams) => {
+export const usePutCommunityArticle = () => {
+  return useMutation<null, AxiosError, ApiCommunityArticle['put']['variables']>(putCommunityArticle);
+};
+
+// delete
+const deleteCommunityArticle = async ({ studyId, articleId }: ApiCommunityArticle['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>>(
     `/api/studies/${studyId}/community/articles/${articleId}`,
   );
@@ -111,22 +139,6 @@ const deleteCommunityArticle = async ({ studyId, articleId }: DeleteCommunityArt
   return response.data;
 };
 
-export const useGetCommunityArticles = (studyId: number, page: number) => {
-  return useQuery(['get-community-articles', studyId, page], () => getCommunityArticles({ studyId, page }));
-};
-
-export const useGetCommunityArticle = (studyId: number, articleId: number) => {
-  return useQuery(['get-community-article', studyId, articleId], () => getCommunityArticle({ studyId, articleId }));
-};
-
-export const usePostCommunityArticle = () => {
-  return useMutation<null, AxiosError, PostCommunityArticleRequestVariables>(postCommunityArticle);
-};
-
-export const usePutCommunityArticle = () => {
-  return useMutation<null, AxiosError, PutCommunityArticleRequestVariables>(putCommunityArticle);
-};
-
 export const useDeleteCommunityArticle = () => {
-  return useMutation<null, AxiosError, DeleteCommunityArticleRequestParams>(deleteCommunityArticle);
+  return useMutation<null, AxiosError, ApiCommunityArticle['delete']['variables']>(deleteCommunityArticle);
 };

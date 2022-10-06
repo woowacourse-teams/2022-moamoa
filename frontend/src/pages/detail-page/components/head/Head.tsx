@@ -6,8 +6,10 @@ import { changeDateSeperator } from '@utils';
 
 import type { StudyDetail } from '@custom-types';
 
+import { TextButton } from '@components/button';
+import Flex from '@components/flex/Flex';
+import PageTitle from '@components/page-title/PageTitle';
 import StudyChip from '@components/study-chip/StudyChip';
-import TagChip from '@components/tag-chip/TagChip';
 
 import * as S from '@detail-page/components/head/Head.style';
 
@@ -29,31 +31,29 @@ const Head: React.FC<HeadProps> = ({
   isOwner,
 }) => {
   return (
-    <S.Head>
-      <S.TitleContainer>
-        <S.Title>
-          <S.StudyTitle>{title}</S.StudyTitle>
+    <Flex direction="column" rowGap="4px">
+      <Flex justifyContent="space-between" alignItems="center">
+        <Flex alignItems="center" gap="16px">
+          <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
-        </S.Title>
+        </Flex>
         {isOwner && (
-          <S.ButtonsContainer>
-            <Link to={PATH.EDIT_STUDY(studyId)}>
-              <S.Button type="button">수정</S.Button>
-            </Link>
-          </S.ButtonsContainer>
+          <Link to={PATH.EDIT_STUDY(studyId)}>
+            <TextButton variant="secondary">수정</TextButton>
+          </Link>
         )}
-      </S.TitleContainer>
-      <S.ExtraInfoContainer>
+      </Flex>
+      <Flex alignItems="center" gap="16px">
         <span>시작일: {changeDateSeperator(startDate)}</span> ~
         <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
-      </S.ExtraInfoContainer>
+      </Flex>
       <S.Excerpt>&quot;{excerpt}&quot;</S.Excerpt>
-      <S.TagContainer>
+      <Flex gap="16px" wrap>
         {tags.map(({ id, name }) => (
-          <TagChip key={id}>{name}</TagChip>
+          <span key={id}>#{name}</span>
         ))}
-      </S.TagContainer>
-    </S.Head>
+      </Flex>
+    </Flex>
   );
 };
 

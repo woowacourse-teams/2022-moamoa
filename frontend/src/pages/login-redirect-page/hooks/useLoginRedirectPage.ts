@@ -5,8 +5,6 @@ import { PATH } from '@constants';
 
 import { usePostLogin } from '@api/auth';
 
-import AccessTokenController from '@auth/accessToken';
-
 import { useAuth } from '@hooks/useAuth';
 
 const useLoginRedirectPage = () => {
@@ -32,14 +30,8 @@ const useLoginRedirectPage = () => {
           alert('로그인에 실패했습니다.');
           navigate(PATH.MAIN, { replace: true });
         },
-        onSuccess: data => {
-          login(data.accessToken);
-          AccessTokenController.setTokenExpiredMsTime(data.expiredTime);
-
-          setTimeout(() => {
-            AccessTokenController.fetchAccessTokenWithRefresh();
-          }, AccessTokenController.tokenExpiredMsTime);
-
+        onSuccess: ({ accessToken, expiredTime }) => {
+          login(accessToken, expiredTime);
           navigate(PATH.MAIN, { replace: true });
         },
       },

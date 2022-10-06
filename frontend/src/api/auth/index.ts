@@ -1,43 +1,43 @@
-import type { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import axiosInstance from '@api/axiosInstance';
+import axiosInstance, { refreshAxiosInstance } from '@api/axiosInstance';
+
+export type ApiLogin = {
+  post: {
+    params: { code: string };
+    responseData: {
+      accessToken: string;
+      expiredTime: number;
+    };
+    variables: ApiLogin['post']['params'];
+  };
+};
+
+export type ApiRefreshToken = {
+  get: {
+    responseData: {
+      accessToken: string;
+      expiredTime: number;
+    };
+  };
+};
 
 // login
-export type PostLoginRequestParams = {
-  code: string;
-};
-export type PostLoginResponseData = {
-  accessToken: string;
-  expiredTime: number;
-};
-
-export const postLogin = async ({ code }: PostLoginRequestParams) => {
+export const postLogin = async ({ code }: ApiLogin['post']['variables']) => {
   const response = await axiosInstance.post<
-    PostLoginResponseData,
-    AxiosResponse<PostLoginResponseData>,
-    PostLoginRequestParams
+    ApiLogin['post']['responseData'],
+    AxiosResponse<ApiLogin['post']['responseData']>,
+    ApiLogin['post']['variables']
   >(`/api/auth/login?code=${code}`);
   return response.data;
 };
 
-export const usePostLogin = () => useMutation<PostLoginResponseData, AxiosError, PostLoginRequestParams>(postLogin);
+export const usePostLogin = () =>
+  useMutation<ApiLogin['post']['responseData'], AxiosError, ApiLogin['post']['variables']>(postLogin);
 
-// logout
-export const deleteLogout = async () => {
-  const response = await axiosInstance.delete<null, AxiosResponse<null>, null>(`/api/auth/logout`);
-  return response.data;
-};
-
-export const useDeleteLogout = () => useMutation<null, AxiosError, null>(deleteLogout);
-
-// refresh
-export type GetRefreshResponseData = {
-  accessToken: string;
-  expiredTime: number;
-};
-
-export const getRefresh = async () => {
-  const response = await axiosInstance.get<GetRefreshResponseData>(`/api/auth/refresh`);
+// refresh - get new access token
+export const getRefreshAccessToken = async () => {
+  const response = await refreshAxiosInstance.get<ApiRefreshToken['get']['responseData']>(`/api/auth/refresh`);
   return response.data;
 };

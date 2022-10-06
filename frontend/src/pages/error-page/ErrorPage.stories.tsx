@@ -1,5 +1,6 @@
-import { ErrorPage } from '@pages';
 import type { Story } from '@storybook/react';
+
+import { ErrorPage } from '@pages';
 
 import Wrapper from '@components/wrapper/Wrapper';
 

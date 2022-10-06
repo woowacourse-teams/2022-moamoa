@@ -1,10 +1,14 @@
-import styled from '@emotion/styled';
+import type { CssLength } from '@custom-types';
 
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
+import * as S from '@components/wrapper/Wrapper.style';
+
+export type WrapperProps = {
+  children: React.ReactNode;
+  space?: CssLength;
+};
+
+const Wrapper: React.FC<WrapperProps> = ({ children, space = '20px' }) => {
+  return <S.Wrapper space={space}>{children}</S.Wrapper>;
+};
 
 export default Wrapper;

@@ -1,7 +1,5 @@
 package com.woowacourse.moamoa.study.service.request;
 
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_END;
-import static com.woowacourse.moamoa.study.domain.RecruitStatus.RECRUITMENT_START;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.IN_PROGRESS;
 import static com.woowacourse.moamoa.study.domain.StudyStatus.PREPARE;
 
@@ -10,6 +8,7 @@ import com.woowacourse.moamoa.study.domain.AttachedTags;
 import com.woowacourse.moamoa.study.domain.Content;
 import com.woowacourse.moamoa.study.domain.Participants;
 import com.woowacourse.moamoa.study.domain.RecruitPlanner;
+import com.woowacourse.moamoa.study.domain.RecruitStatus;
 import com.woowacourse.moamoa.study.domain.StudyPlanner;
 import java.time.LocalDate;
 import java.util.List;
@@ -60,18 +59,6 @@ public class StudyRequest {
         return tagIds == null ? List.of() : tagIds;
     }
 
-    public String getEndDate() {
-        return endDate == null ? "" : endDate.toString();
-    }
-
-    public String getMaxMemberCount() {
-        return maxMemberCount == null ? null : String.valueOf(maxMemberCount);
-    }
-
-    public String getEnrollmentEndDate() {
-        return enrollmentEndDate == null ? "" : enrollmentEndDate.toString();
-    }
-
     public StudyPlanner mapToStudyPlanner(final LocalDate now) {
         if (startDate.equals(now)) {
             return new StudyPlanner(startDate, endDate, IN_PROGRESS);
@@ -88,11 +75,7 @@ public class StudyRequest {
     }
 
     public RecruitPlanner mapToRecruitPlan() {
-        if (maxMemberCount != null && maxMemberCount == 1) {
-            return new RecruitPlanner(maxMemberCount, RECRUITMENT_END, enrollmentEndDate);
-        }
-
-        return new RecruitPlanner(maxMemberCount, RECRUITMENT_START, enrollmentEndDate);
+        return new RecruitPlanner(maxMemberCount, RecruitStatus.RECRUITMENT_START, enrollmentEndDate);
     }
 
     public AttachedTags mapToAttachedTags() {

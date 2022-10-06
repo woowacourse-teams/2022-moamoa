@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service.request;
 
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,9 @@ public class ArticleRequest {
     public ArticleRequest(final String title, final String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public Content createContent() {
+        return new Content(title, content);
     }
 }

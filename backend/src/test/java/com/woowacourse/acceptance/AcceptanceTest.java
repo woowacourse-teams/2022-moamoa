@@ -96,14 +96,13 @@ public class AcceptanceTest {
     @AfterEach
     void tearDown() {
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY FALSE");
-        jdbcTemplate.update("TRUNCATE TABLE notice");
-        jdbcTemplate.update("TRUNCATE TABLE community");
         jdbcTemplate.update("TRUNCATE TABLE member");
         jdbcTemplate.update("TRUNCATE TABLE study_tag");
         jdbcTemplate.update("TRUNCATE TABLE study_member");
         jdbcTemplate.update("TRUNCATE TABLE review");
         jdbcTemplate.update("TRUNCATE TABLE study");
         jdbcTemplate.update("TRUNCATE TABLE link");
+        jdbcTemplate.update("TRUNCATE TABLE article");
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
         jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
         jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
