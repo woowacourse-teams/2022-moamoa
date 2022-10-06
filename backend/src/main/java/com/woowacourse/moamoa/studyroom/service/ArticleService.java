@@ -6,7 +6,7 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -39,7 +39,7 @@ public class ArticleService {
 
     public ArticleResponse getArticle(final Long articleId, final ArticleType type) {
         final ArticleData data = articleDao.getById(articleId, type)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, Article.class));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type.name()));
         return new ArticleResponse(data);
     }
 
@@ -55,30 +55,31 @@ public class ArticleService {
     }
 
     @Transactional
-    public Article createArticle(
+    public Long createArticle(
             final Long memberId, final Long studyId, final Content content, final ArticleType type
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(() -> new StudyNotFoundException(studyId));
         final Article article = Article.create(studyRoom, new Accessor(memberId, studyId), content, type);
 
-        return articleRepository.save(article);
+        return articleRepository.save(article).getId();
     }
 
     @Transactional
     public void updateArticle(
-            final Long memberId, final Long studyId, final Long articleId, final Content newContent
+            final Long memberId, final Long studyId, final Long articleId, final Content newContent,
+            final ArticleType type
     ) {
         final Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, Article.class));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type.name()));
 
         article.update(new Accessor(memberId, studyId), newContent);
     }
 
     @Transactional
-    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
+    public void deleteArticle(final Long memberId, final Long studyId, final Long articleId, final ArticleType type) {
         final Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, Article.class));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, type.name()));
         final Accessor accessor = new Accessor(memberId, studyId);
 
         article.delete(accessor);

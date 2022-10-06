@@ -18,7 +18,7 @@ import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +69,10 @@ class ArticleServiceTest {
         final Content content = new Content("제목", "설명");
 
         // act
-        final Article article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), content, type);
+        final Long articleId = sut.createArticle(짱구.getId(), 자바_스터디.getId(), content, type);
 
         // assert
-        Article actualArticle = articleRepository.findById(article.getId())
+        Article actualArticle = articleRepository.findById(articleId)
                 .orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(content);
     }
@@ -106,91 +105,96 @@ class ArticleServiceTest {
     }
 
     @DisplayName("게시글을 수정한다.")
-    @Test
-    void updateArticle() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void updateArticle(ArticleType type) {
         // arrange
-        final Member 짱구 = saveMember(짱구());
-        final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
-        final Article article = createArticle(짱구, 자바_스터디, new Content("제목", "설명"));
+        final Member 방장 = saveMember(짱구());
+        final Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        final Long articleId = createArticle(방장, 자바_스터디, new Content("제목", "설명"));
 
         final Content newContent = new Content("제목 수정", "설명 수정");
 
         // act
-        sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), newContent);
+        sut.updateArticle(방장.getId(), 자바_스터디.getId(), articleId, newContent, type);
 
         // assert
-        Article actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        Article actualArticle = articleRepository.findById(articleId).orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(new Content("제목 수정", "설명 수정"));
     }
 
     @DisplayName("존재하지 않는 게시글을 수정할 수 없다.")
-    @Test
-    void updateByInvalidLinkId() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void updateByInvalidLinkId(ArticleType type) {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
         final Content content = new Content("제목", "수정");
 
-        assertThatThrownBy(() -> sut.updateArticle(짱구.getId(), 자바_스터디.getId(), -1L, content))
+        assertThatThrownBy(() -> sut.updateArticle(짱구.getId(), 자바_스터디.getId(), -1L, content, type))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 게시글을 수정할 수 없다.")
-    @Test
-    void updateByNotParticipatedMember() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void updateByNotParticipatedMember(ArticleType type) {
         final Member 짱구 = saveMember(짱구());
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
         final Content content = new Content("제목", "설명");
-        final Article 링크_게시글 = createArticle(짱구, 자바_스터디, content);
+        final Long 링크_ID = createArticle(짱구, 자바_스터디, content);
 
-        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(),
-                content))
+        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_ID, content, type))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
     @DisplayName("게시글을 삭제한다.")
-    @Test
-    void deleteArticle() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void deleteArticle(ArticleType type) {
         // arrange
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
         final Content content = new Content("제목", "설명");
-        final Article 게시글 = createArticle(짱구, 자바_스터디, content);
+        final Long 게시글_ID = createArticle(짱구, 자바_스터디, content);
 
         //act
-        sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
+        sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글_ID, type);
 
         //assert
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(articleRepository.findById(게시글.getId())).isEmpty();
+        assertThat(articleRepository.findById(게시글_ID)).isEmpty();
     }
 
     @DisplayName("존재하지 않는 게시글을 삭제할 수 없다.")
-    @Test
-    void deleteByInvalidLinkId() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void deleteByInvalidLinkId(ArticleType type) {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
-        assertThatThrownBy(() -> sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), -1L))
+        assertThatThrownBy(() -> sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), -1L, type))
                 .isInstanceOf(ArticleNotFoundException.class);
     }
 
     @DisplayName("스터디에 참여하지 않은 경우 게시글을 삭제할 수 없다.")
-    @Test
-    void deleteByNotParticipatedMember() {
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void deleteByNotParticipatedMember(ArticleType type) {
         final Member 짱구 = saveMember(짱구());
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
 
         final Content content = new Content("제목", "설명");
-        final Article 링크_게시글 = sut.createArticle(짱구.getId(), 자바_스터디.getId(), content, ArticleType.COMMUNITY
+        final Long 게시글_ID = sut.createArticle(짱구.getId(), 자바_스터디.getId(), content, type
         );
 
-        assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID, ArticleType.COMMUNITY))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -209,13 +213,13 @@ class ArticleServiceTest {
         return study;
     }
 
-    private Article createArticle(final Member author, final Study study,
+    private Long createArticle(final Member author, final Study study,
                                   final Content content) {
-        final Article article = sut.createArticle(author.getId(), study.getId(), content,
+        final Long articleId = sut.createArticle(author.getId(), study.getId(), content,
                 ArticleType.COMMUNITY
         );
         entityManager.flush();
         entityManager.clear();
-        return article;
+        return articleId;
     }
 }

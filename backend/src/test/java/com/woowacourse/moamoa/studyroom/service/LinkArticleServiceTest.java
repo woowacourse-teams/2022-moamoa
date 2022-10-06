@@ -17,7 +17,7 @@ import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
 import com.woowacourse.moamoa.studyroom.domain.link.repository.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
@@ -66,10 +66,10 @@ class LinkArticleServiceTest {
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
         // act
-        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
+        final Long articleId = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
         // assert
-        LinkArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        LinkArticle actualArticle = articleRepository.findById(articleId).orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(linkContent);
     }
 
@@ -104,15 +104,15 @@ class LinkArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
-        final LinkArticle article = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
+        final Long articleId = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
         final LinkContent newContent = new LinkContent("링크 수정", "설명 수정");
 
         // act
-        sut.updateArticle(짱구.getId(), 자바_스터디.getId(), article.getId(), newContent);
+        sut.updateArticle(짱구.getId(), 자바_스터디.getId(), articleId, newContent);
 
         // assert
-        LinkArticle actualArticle = articleRepository.findById(article.getId()).orElseThrow();
+        LinkArticle actualArticle = articleRepository.findById(articleId).orElseThrow();
         assertThat(actualArticle.getContent()).isEqualTo(new LinkContent("링크 수정", "설명 수정"));
     }
 
@@ -137,9 +137,9 @@ class LinkArticleServiceTest {
 
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
-        final LinkArticle 링크_게시글 = createArticle(짱구, 자바_스터디, linkContent);
+        final Long 게시글_ID = createArticle(짱구, 자바_스터디, linkContent);
 
-        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId(),
+        assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID,
                 linkContent))
                 .isInstanceOf(UneditableArticleException.class);
     }
@@ -151,16 +151,16 @@ class LinkArticleServiceTest {
         final Member 짱구 = saveMember(짱구());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
-        final LinkArticle 게시글 = createArticle(짱구, 자바_스터디, linkContent);
+        final Long 게시글_ID = createArticle(짱구, 자바_스터디, linkContent);
 
         //act
-        sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글.getId());
+        sut.deleteArticle(짱구.getId(), 자바_스터디.getId(), 게시글_ID);
 
         //assert
         entityManager.flush();
         entityManager.clear();
 
-        assertThat(articleRepository.findById(게시글.getId())).isEmpty();
+        assertThat(articleRepository.findById(게시글_ID)).isEmpty();
     }
 
     @DisplayName("존재하지 않는 링크 공유글을 삭제할 수 없다.")
@@ -180,9 +180,9 @@ class LinkArticleServiceTest {
         final Member 디우 = saveMember(디우());
         final Study 자바_스터디 = createStudy(짱구, 자바_스터디_신청서(LocalDate.now()));
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
-        final LinkArticle 링크_게시글 = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
+        final Long 게시글_ID = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
-        assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 링크_게시글.getId()))
+        assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID))
                 .isInstanceOf(UneditableArticleException.class);
     }
 
@@ -201,10 +201,10 @@ class LinkArticleServiceTest {
         return study;
     }
 
-    private LinkArticle createArticle(final Member author, final Study study, final LinkContent content) {
-        final LinkArticle article = sut.createArticle(author.getId(), study.getId(), content);
+    private Long createArticle(final Member author, final Study study, final LinkContent content) {
+        final Long articleId = sut.createArticle(author.getId(), study.getId(), content);
         entityManager.flush();
         entityManager.clear();
-        return article;
+        return articleId;
     }
 }

@@ -43,7 +43,7 @@ public class LinkArticleController {
             @PathVariable("study-id") final Long studyId,
             @Valid @RequestBody final LinkArticleRequest articleRequest
     ) {
-        final Long id = linkArticleService.createArticle(memberId, studyId, articleRequest.createContent()).getId();
+        final Long id = linkArticleService.createArticle(memberId, studyId, articleRequest.createContent());
         return ResponseEntity.created(URI.create("/api/studies/" + studyId + "/reference-room/links/" + id)).build();
     }
 

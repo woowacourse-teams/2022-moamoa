@@ -5,7 +5,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
-import com.woowacourse.moamoa.studyroom.domain.exception.ArticleNotFoundException;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.link.repository.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
@@ -39,12 +39,12 @@ public class LinkArticleService {
     }
 
     @Transactional
-    public LinkArticle createArticle(final Long memberId, final Long studyId, final LinkContent content) {
+    public Long createArticle(final Long memberId, final Long studyId, final LinkContent content) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(() -> new StudyNotFoundException(studyId));
         final LinkArticle article = LinkArticle.create(studyRoom, new Accessor(memberId, studyId), content);
 
-        return linkArticleRepository.save(article);
+        return linkArticleRepository.save(article).getId();
     }
 
     @Transactional
@@ -52,7 +52,7 @@ public class LinkArticleService {
             final Long memberId, final Long studyId, final Long articleId, final LinkContent newContent
     ) {
         final LinkArticle article = linkArticleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, LinkArticle.class));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, "LINK"));
 
         article.update(new Accessor(memberId, studyId), newContent);
     }
@@ -60,7 +60,7 @@ public class LinkArticleService {
     @Transactional
     public void deleteArticle(final Long memberId, final Long studyId, final Long articleId) {
         final LinkArticle article = linkArticleRepository.findById(articleId)
-                .orElseThrow(() -> new ArticleNotFoundException(articleId, LinkArticle.class));
+                .orElseThrow(() -> new ArticleNotFoundException(articleId, "LINK"));
         final Accessor accessor = new Accessor(memberId, studyId);
 
         article.delete(accessor);

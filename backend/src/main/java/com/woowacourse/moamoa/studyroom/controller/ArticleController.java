@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
-import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.ArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -39,8 +38,8 @@ public class ArticleController {
                                               @Valid @RequestBody final ArticleRequest request
     ) {
         final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
-        final Article article = articleService.createArticle(id, studyId, request.createContent(), type);
-        final URI location = URI.create("/api/studies/" + studyId + "/" + typeName + "/articles/" + article.getId());
+        final Long articleId = articleService.createArticle(id, studyId, request.createContent(), type);
+        final URI location = URI.create("/api/studies/" + studyId + "/" + typeName + "/articles/" + articleId);
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
@@ -56,9 +55,11 @@ public class ArticleController {
     @DeleteMapping("/{article-id}")
     public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-id") final Long articleId
+                                              @PathVariable("article-id") final Long articleId,
+                                              @PathVariable("type") final String typeName
     ) {
-        articleService.deleteArticle(id, studyId, articleId);
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        articleService.deleteArticle(id, studyId, articleId, type);
         return ResponseEntity.noContent().build();
     }
 
@@ -77,9 +78,11 @@ public class ArticleController {
     public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
+                                              @PathVariable("type") final String typeName,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        articleService.updateArticle(id, studyId, articleId, request.createContent());
+        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
+        articleService.updateArticle(id, studyId, articleId, request.createContent(), type);
         return ResponseEntity.noContent().build();
     }
 }

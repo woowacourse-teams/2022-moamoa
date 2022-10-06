@@ -18,7 +18,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ArticleTest {
+class CommunityArticleTest {
 
     private static final long OWNER_ID = 1L;
     private static final long PARTICIPANT_ID = 2L;
