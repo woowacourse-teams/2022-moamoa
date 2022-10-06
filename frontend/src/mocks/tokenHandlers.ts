@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-const EXPIRED_TIME = 30 * 60000;
+const EXPIRED_TIME = 30 * 1000;
 
 export const tokenHandlers = [
   rest.post('/api/auth/login', (req, res, ctx) => {
@@ -9,38 +9,34 @@ export const tokenHandlers = [
     if (!code) {
       return res(ctx.status(400), ctx.json({ message: '잘못된 요청입니다.' }));
     }
+
     return res(
       ctx.status(200),
       ctx.json({
         accessToken:
           'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
         expiredTime: EXPIRED_TIME,
-      }),
-      ctx.cookie('refreshToken', 'test-refreshToken!!!sdfsdf', {
-        // httpOnly: true,
-        // secure: true,
       }),
     );
   }),
   rest.get('/api/auth/refresh', (req, res, ctx) => {
-    if (!req.cookies.refreshToken) return res(ctx.status(400), ctx.json({ message: '리프레시 토큰 없음' }));
+    const accessToken = req.headers.get('Authorization');
 
-    // return res(ctx.status(401), ctx.json({ message: '리프레시 토큰 만료', code: 4001 }));
+    if (!accessToken?.split('Bearer ').length) {
+      return res(ctx.status(400), ctx.json({ message: '유효하지 않은 토큰입니다.' }));
+    }
+
+    if (accessToken.includes('12345G')) {
+      return res(ctx.status(401), ctx.json({ message: '액세스 토큰 만료' }));
+    }
 
     return res(
       ctx.status(200),
       ctx.json({
         accessToken:
-          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
+          '12345GciOiJIUzI1NiJ9.eyJzdWIiOiI1NDAwMjEwNSIsImlhdCI6MTY2MDEyMDczOCwiZXhwIjoxNjYwMTI0MzM4fQ.scUIdy0iHg52NYugHLxMilgh_vbpHNdVIEwLeRRDRRk',
         expiredTime: EXPIRED_TIME,
       }),
-      ctx.cookie('refreshToken', 'test-refreshToken!!!sdfsdf', {
-        // httpOnly: true,
-        // secure: true,
-      }),
     );
-  }),
-  rest.delete('/api/auth/logout', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.cookie('refreshToken', ''));
   }),
 ];
