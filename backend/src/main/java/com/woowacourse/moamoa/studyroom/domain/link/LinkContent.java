@@ -1,18 +1,22 @@
 package com.woowacourse.moamoa.studyroom.domain.link;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import lombok.AccessLevel;
+import javax.persistence.Lob;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class LinkContent {
 
+    @Lob
     @Column(nullable = false)
     private String linkUrl;
 
+    @Lob
     private String description;
 
     public LinkContent(final String linkUrl, final String description) {

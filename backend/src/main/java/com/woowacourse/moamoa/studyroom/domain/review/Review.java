@@ -13,6 +13,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -37,6 +38,7 @@ public class Review extends BaseEntity {
     @Embedded
     private Reviewer reviewer;
 
+    @Lob
     @Column(nullable = false)
     private String content;
 
