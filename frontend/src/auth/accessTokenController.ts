@@ -11,7 +11,9 @@ class AccessTokenController {
     const properDateTime = new Date(currentDateTime);
     const expiredDateTime = new Date(currentDateTime);
 
-    const properTime = Math.max(Math.floor(expiredTime * 0.8), expiredTime - 5 * 60000);
+    const fiveMin = 5 * 60 * 1000;
+    const expiredTimeMinus5Min = expiredTime - fiveMin;
+    const properTime = expiredTimeMinus5Min > fiveMin ? expiredTimeMinus5Min : Math.floor(expiredTime * 0.8);
     properDateTime.setMilliseconds(properDateTime.getMilliseconds() + properTime);
 
     expiredDateTime.setMilliseconds(expiredDateTime.getMilliseconds() + expiredTime);
