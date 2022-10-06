@@ -43,6 +43,9 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 
     implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuar'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 ext {
