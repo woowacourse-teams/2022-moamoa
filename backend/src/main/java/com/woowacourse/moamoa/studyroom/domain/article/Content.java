@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ public class Content {
     @Column(nullable = false)
     private String title;
 
+    @Lob
     @Column(nullable = false)
     private String content;
 
