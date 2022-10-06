@@ -5,8 +5,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.review.exception.ReviewNotWrittenInTheStudyException;
-import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -24,6 +25,8 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted = false")
 public class Review extends BaseEntity {
 
+    private static final String TYPE_NAME = "REVIEW";
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -40,6 +43,13 @@ public class Review extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted;
 
+    public static Review write(final StudyRoom studyRoom, final Accessor accessor, final String content) {
+        if (!studyRoom.isPermittedAccessor(accessor)) {
+            throw new UnwritableException(studyRoom.getId(), accessor, TYPE_NAME);
+        }
+        return new Review(new AssociatedStudy(studyRoom.getId()), new Reviewer(accessor.getMemberId()), content);
+    }
+
     public Review(
             final AssociatedStudy associatedStudy, final Reviewer reviewer, final String content
     ) {
@@ -47,30 +57,22 @@ public class Review extends BaseEntity {
     }
 
     public void updateContent(final Accessor accessor, final String content) {
-        validateReview(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
+        if (isUneditableAccessor(accessor)) {
+            throw new UneditableException(associatedStudy.getStudyId(), accessor, TYPE_NAME);
+        }
         this.content = content;
     }
 
     public void delete(final Accessor accessor) {
-        validateReview(new AssociatedStudy(accessor.getStudyId()), new Reviewer(accessor.getMemberId()));
+        if (isUneditableAccessor(accessor)) {
+            throw new UneditableException(associatedStudy.getStudyId(), accessor, TYPE_NAME);
+        }
         deleted = true;
     }
 
-    private void validateReview(final AssociatedStudy associatedStudy, final Reviewer reviewer) {
-        validateReviewWrittenInTheStudy(associatedStudy);
-        validateReviewer(reviewer);
-    }
-
-    private void validateReviewWrittenInTheStudy(final AssociatedStudy associatedStudy) {
-        if (!this.associatedStudy.equals(associatedStudy)) {
-            throw new ReviewNotWrittenInTheStudyException();
-        }
-    }
-
-    private void validateReviewer(final Reviewer reviewer) {
-        if (!this.reviewer.equals(reviewer)) {
-            throw new UnwrittenReviewException();
-        }
+    private boolean isUneditableAccessor(final Accessor accessor) {
+        return !associatedStudy.isSameStudyId(accessor.getStudyId()) || !
+                reviewer.isSameMemberId(accessor.getMemberId());
     }
 
     public Long getId() {

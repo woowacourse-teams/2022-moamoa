@@ -69,6 +69,23 @@ operation::article/update[snippets='http-request,request-headers,http-response']
 === 커뮤니티 삭제
 operation::article/delete[snippets='http-request,request-headers,http-response']
 
+[[Notice]]
+== 공지 게시글
+=== 공지 생성
+operation::write/notice[snippets='http-request,request-headers,request-fields,http-response']
+
+=== 공지 단건 조회
+operation::get/notice[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 공지 전체 조회
+operation::get/notices[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 공지 수정
+operation::update/notice[snippets='http-request,request-headers,http-response']
+
+=== 공지 삭제
+operation::delete/notice[snippets='http-request,request-headers,http-response']
+
 [[Reference-Room]]
 == 링크 공유
 

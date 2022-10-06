@@ -17,4 +17,12 @@ public class Accessor {
     public Long getMemberId() {
         return memberId;
     }
+
+    @Override
+    public String toString() {
+        return "Accessor{" +
+                "memberId=" + memberId +
+                ", studyId=" + studyId +
+                '}';
+    }
 }

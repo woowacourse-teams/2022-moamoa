@@ -4,9 +4,9 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.woowacourse.moamoa.referenceroom.service.request.CreatingLinkRequest;
-import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
@@ -51,7 +51,7 @@ public class StudyRelatedSteps extends Steps {
             return null;
         }
     }
-    public Long 링크를_공유한다(final CreatingLinkRequest request) {
+    public Long 링크를_공유한다(final LinkArticleRequest request) {
         try {
             final String location = RestAssured.given().log().all()
                     .header(AUTHORIZATION, token)

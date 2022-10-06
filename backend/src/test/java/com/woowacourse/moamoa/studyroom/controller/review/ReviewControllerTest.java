@@ -14,11 +14,11 @@ import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.controller.ReviewController;
-import com.woowacourse.moamoa.studyroom.domain.repository.review.ReviewRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.studyroom.StudyRoomRepository;
-import com.woowacourse.moamoa.studyroom.domain.review.exception.UnwrittenReviewException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
+import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
-import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +92,7 @@ class ReviewControllerTest {
         final Long memberId = 그린론.getId();
 
         assertThatThrownBy(() -> sut.updateReview(memberId, 자바_스터디_아이디, 짱구_리뷰, request))
-                .isInstanceOf(UnwrittenReviewException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("내가 작성하지 않은 리뷰를 삭제할 수 없다.")
@@ -101,6 +101,6 @@ class ReviewControllerTest {
         final Long memberId = 그린론.getId();
 
         assertThatThrownBy(() -> sut.deleteReview(memberId, 자바_스터디_아이디, 짱구_리뷰))
-                .isInstanceOf(UnwrittenReviewException.class);
+                .isInstanceOf(UneditableException.class);
     }
 }

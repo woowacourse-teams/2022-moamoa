@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.studyroom.service.SearchingReviewService;
-import com.woowacourse.moamoa.studyroom.service.request.review.SizeRequest;
-import com.woowacourse.moamoa.studyroom.service.response.review.ReviewsResponse;
+import com.woowacourse.moamoa.studyroom.service.request.SizeRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ReviewsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

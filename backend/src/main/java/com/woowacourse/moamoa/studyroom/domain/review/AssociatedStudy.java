@@ -18,4 +18,8 @@ public class AssociatedStudy {
 
     @Column(name = "study_id", nullable = false)
     private Long studyId;
+
+    boolean isSameStudyId(final Long studyId) {
+        return this.studyId.equals(studyId);
+    }
 }

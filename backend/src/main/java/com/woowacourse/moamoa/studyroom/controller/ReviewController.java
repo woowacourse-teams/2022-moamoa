@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
-import com.woowacourse.moamoa.studyroom.service.request.review.ReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

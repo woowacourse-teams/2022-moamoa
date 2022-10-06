@@ -16,8 +16,8 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -76,14 +76,10 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
 
         final ArticleResponse actualResponse = RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", articleId)
                 .filter(document("get/notice",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별 ID"),
                                 parameterWithName("article-id").description("공지사항 식별 ID")
@@ -153,7 +149,6 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         // assert
         RestAssured
                 .given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 공지사항_ID)
                 .when().log().all()
@@ -179,14 +174,10 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 자바_스터디_ID)
                 .queryParam("page", 0)
                 .queryParam("size", 3)
                 .filter(document("get/notices",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID")
                         ),
@@ -249,7 +240,6 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .when().log().all()
                 .get("/api/studies/{study-id}/notice/articles")
@@ -309,7 +299,6 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         // assert
         final ArticleResponse response = RestAssured
                 .given().log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
                 .pathParam("study-id", 스터디_ID)
                 .pathParam("article-id", 공지글_ID)
                 .when().log().all()

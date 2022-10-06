@@ -10,9 +10,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.moamoa.study.domain.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.referenceroom.service.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;

@@ -12,9 +12,6 @@ import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.referenceroom.service.ReferenceRoomService;
-import com.woowacourse.moamoa.referenceroom.service.SearchingReferenceRoomService;
-
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,12 +43,6 @@ public abstract class WebMVCTest {
 
     @MockBean
     private MemberRepository memberRepository;
-
-    @MockBean
-    protected ReferenceRoomService referenceRoomService;
-
-    @MockBean
-    protected SearchingReferenceRoomService searchingReferenceRoomService;
 
     @MockBean
     protected HttpServletRequest httpServletRequest;

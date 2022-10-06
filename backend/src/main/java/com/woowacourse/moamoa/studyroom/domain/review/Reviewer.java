@@ -17,4 +17,8 @@ public class Reviewer {
     public Reviewer(final Long memberId) {
         this.memberId = memberId;
     }
+
+    boolean isSameMemberId(final Long memberId) {
+        return this.memberId.equals(memberId);
+    }
 }
