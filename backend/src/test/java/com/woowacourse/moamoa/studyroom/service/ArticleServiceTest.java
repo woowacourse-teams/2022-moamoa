@@ -18,8 +18,9 @@ import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
@@ -101,7 +102,7 @@ class ArticleServiceTest {
         final Content content = new Content("제목", "설명");
 
         assertThatThrownBy(() -> sut.createArticle(디우.getId(), 자바_스터디.getId(), content, type))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UnwritableException.class);
     }
 
     @DisplayName("게시글을 수정한다.")
@@ -148,7 +149,7 @@ class ArticleServiceTest {
         final Long 링크_ID = createArticle(짱구, 자바_스터디, content);
 
         assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 링크_ID, content, type))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("게시글을 삭제한다.")
@@ -195,7 +196,7 @@ class ArticleServiceTest {
         );
 
         assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID, ArticleType.COMMUNITY))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     private Member saveMember(final Member member) {

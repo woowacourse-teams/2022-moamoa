@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -50,7 +51,7 @@ class NoticeArticleTest {
 
         // act && assert
         assertThatThrownBy(() -> Article.create(studyRoom, accessor, content, NOTICE))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UnwritableException.class);
     }
 
     @DisplayName("공지 게시글은 방장만 수정할 수 있다.")
@@ -80,7 +81,7 @@ class NoticeArticleTest {
         final Article sut = createNoticeArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.update(forbiddenAccessor, new Content("수정된 제목", "수정된 설명")))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("스터디에 참여한 방장만 공지 게시글을 삭제할 수 있다.")
@@ -105,7 +106,7 @@ class NoticeArticleTest {
         final Article sut = createNoticeArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     private static Stream<Arguments> provideForbiddenAccessor() {

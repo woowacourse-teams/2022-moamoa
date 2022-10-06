@@ -7,8 +7,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,7 +49,7 @@ class CommunityArticleTest {
         final Content sut = new Content("제목", "설명");
 
         assertThatThrownBy(() -> Article.create(studyRoom, forbiddenAccessor, sut, COMMUNITY))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UnwritableException.class);
     }
 
     @DisplayName("스터디에 참여한 작성자만 커뮤니티 게시글을 수정할 수 있다.")
@@ -77,7 +78,7 @@ class CommunityArticleTest {
         final Article sut = createCommunityArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.update(forbiddenAccessor, new Content("수정된 제목", "수정된 내용")))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("스터디에 참여한 작성자만 커뮤니티 게시글을 삭제할 수 있다.")
@@ -103,7 +104,7 @@ class CommunityArticleTest {
         final Article sut = createCommunityArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     private Member createMember(final long id) {

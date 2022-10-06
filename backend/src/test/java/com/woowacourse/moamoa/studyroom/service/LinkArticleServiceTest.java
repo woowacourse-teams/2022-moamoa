@@ -15,10 +15,11 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.link.repository.LinkArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
@@ -94,7 +95,7 @@ class LinkArticleServiceTest {
         final LinkContent linkContent = new LinkContent("www.naver.com", "설명");
 
         assertThatThrownBy(() -> sut.createArticle(디우.getId(), 자바_스터디.getId(), linkContent))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UnwritableException.class);
     }
 
     @DisplayName("게시글을 수정한다.")
@@ -141,7 +142,7 @@ class LinkArticleServiceTest {
 
         assertThatThrownBy(() -> sut.updateArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID,
                 linkContent))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("게시글을 삭제한다.")
@@ -183,7 +184,7 @@ class LinkArticleServiceTest {
         final Long 게시글_ID = sut.createArticle(짱구.getId(), 자바_스터디.getId(), linkContent);
 
         assertThatThrownBy(() -> sut.deleteArticle(디우.getId(), 자바_스터디.getId(), 게시글_ID))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     private Member saveMember(final Member member) {

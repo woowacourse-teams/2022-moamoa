@@ -2,8 +2,9 @@ package com.woowacourse.moamoa.studyroom.domain.link;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -23,6 +24,8 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "deleted = false")
 public class LinkArticle extends BaseEntity {
+
+    private static final String TYPE_NAME = "LINK";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +49,7 @@ public class LinkArticle extends BaseEntity {
             return new LinkArticle(studyRoom, accessor.getMemberId(), content);
         }
 
-        throw new UneditableArticleException(studyRoom.getId(), accessor, "LINK");
+        throw new UnwritableException(studyRoom.getId(), accessor, TYPE_NAME);
     }
 
     private LinkArticle(final StudyRoom studyRoom, final Long authorId, final LinkContent content) {
@@ -62,7 +65,7 @@ public class LinkArticle extends BaseEntity {
 
     public final void delete(final Accessor accessor) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, "LINK");
+            throw new UneditableException(studyRoom.getId(), accessor, TYPE_NAME);
         }
 
         deleted = true;
@@ -70,7 +73,7 @@ public class LinkArticle extends BaseEntity {
 
     public void update(final Accessor accessor, final LinkContent content) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableArticleException(studyRoom.getId(), accessor, "LINK");
+            throw new UneditableException(studyRoom.getId(), accessor, TYPE_NAME);
         }
 
         this.content = content;

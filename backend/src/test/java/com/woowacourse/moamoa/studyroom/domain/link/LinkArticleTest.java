@@ -7,8 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableArticleException;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -52,7 +53,7 @@ class LinkArticleTest {
 
         // act & assert
         assertThatThrownBy(() -> LinkArticle.create(studyRoom, forbiddenAccessor, sut))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UnwritableException.class);
     }
 
     @DisplayName("링크 게시글을 작성자가 수정한다.")
@@ -80,7 +81,7 @@ class LinkArticleTest {
         final LinkArticle sut = createLinkArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.update(forbiddenAccessor, new LinkContent("updated link", "수정된 설명")))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     @DisplayName("스터디에 참여한 작성자만 링크 게시글을 삭제할 수 있다.")
@@ -104,7 +105,7 @@ class LinkArticleTest {
         final LinkArticle sut = createLinkArticle(owner, studyRoom);
 
         assertThatThrownBy(() -> sut.delete(forbiddenAccessor))
-                .isInstanceOf(UneditableArticleException.class);
+                .isInstanceOf(UneditableException.class);
     }
 
     private static Stream<Arguments> providePermittedAccessor() {
