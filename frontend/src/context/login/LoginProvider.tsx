@@ -2,7 +2,7 @@ import { ReactNode, createContext, useEffect, useState } from 'react';
 
 import { noop } from '@utils';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -21,13 +21,12 @@ export const LoginContext = createContext<ContextType>({
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(AccessTokenController.hasAccessToken);
+  const { hasAccessToken, hasTokenDateTime } = AccessTokenController;
+  const [isLoggedIn, setIsLoggedIn] = useState(hasAccessToken && hasTokenDateTime);
   const { fetchUserInfo } = useUserInfo();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserInfo();
-    }
+    if (isLoggedIn) fetchUserInfo();
   }, []);
 
   return <LoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>{children}</LoginContext.Provider>;

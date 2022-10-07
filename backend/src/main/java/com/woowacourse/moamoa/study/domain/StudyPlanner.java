@@ -39,6 +39,24 @@ public class StudyPlanner {
         this.endDate = endDate;
     }
 
+    void updateStatus(final LocalDate now) {
+        if (isNeedToChangeStatus(now)) {
+            studyStatus = studyStatus.nextStatus();
+        }
+    }
+
+    void prepareStudy() {
+        this.studyStatus = PREPARE;
+    }
+
+    void doneStudy() {
+        this.studyStatus = DONE;
+    }
+
+    void inProgressStudy() {
+        this.studyStatus = IN_PROGRESS;
+    }
+
     boolean isStartBeforeThan(LocalDate date) {
         return startDate.isBefore(date);
     }
@@ -48,12 +66,6 @@ public class StudyPlanner {
             return false;
         }
         return endDate.isBefore(date);
-    }
-
-    void updateStatus(final LocalDate now) {
-        if (isNeedToChangeStatus(now)) {
-            studyStatus = studyStatus.nextStatus();
-        }
     }
 
     private boolean isNeedToChangeStatus(final LocalDate now) {

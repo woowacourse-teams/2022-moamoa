@@ -10,11 +10,19 @@ public class Accessor {
         this.studyId = studyId;
     }
 
-    Long getStudyId() {
+    public Long getStudyId() {
         return studyId;
     }
 
-    Long getMemberId() {
+    public Long getMemberId() {
         return memberId;
+    }
+
+    @Override
+    public String toString() {
+        return "Accessor{" +
+                "memberId=" + memberId +
+                ", studyId=" + studyId +
+                '}';
     }
 }
