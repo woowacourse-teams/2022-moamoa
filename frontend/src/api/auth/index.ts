@@ -1,8 +1,6 @@
 import { AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import checkType, { isNull } from '@utils/typeChecker';
-
 import { checkLogin, checkRefresh } from '@api/auth/typeChecker';
 import axiosInstance, { refreshAxiosInstance } from '@api/axiosInstance';
 

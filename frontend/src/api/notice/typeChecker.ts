@@ -2,13 +2,11 @@ import { AxiosError } from 'axios';
 
 import { checkType, hasOwnProperties, isArray, isDateYMD, isNumber, isObject, isString } from '@utils';
 
-import type { NoticeArticle } from '@custom-types';
-
 import { checkMember } from '@api/member/typeChecker';
-import { type ApiNoticeArticles } from '@api/notice';
+import { type ApiNoticeArticle, type ApiNoticeArticles } from '@api/notice';
 
-type NoticeArticleKeys = keyof NoticeArticle;
-export const checkNoticeArticle = (data: unknown): NoticeArticle => {
+type NoticeArticleKeys = keyof ApiNoticeArticle['get']['responseData'];
+export const checkNoticeArticle = (data: unknown): ApiNoticeArticle['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`NoticeArticle does not have correct type: object`);
 
   const keys: Array<NoticeArticleKeys> = ['id', 'author', 'title', 'content', 'createdDate', 'lastModifiedDate'];

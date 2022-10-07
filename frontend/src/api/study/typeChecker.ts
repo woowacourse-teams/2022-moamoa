@@ -12,13 +12,14 @@ import {
   isString,
 } from '@utils';
 
-import type { DateYMD, Member, StudyDetail } from '@custom-types';
+import type { DateYMD, Member } from '@custom-types';
 
+import { ApiStudy } from '@api/study';
 import { checkTag } from '@api/tags/typeChecker';
 
 type MemberKeys = keyof (Member & { participationDate: DateYMD; numberOfStudy: number });
 
-export const checkMember = (data: unknown): Member & { participationDate: DateYMD; numberOfStudy: number } => {
+const checkMember = (data: unknown): Member & { participationDate: DateYMD; numberOfStudy: number } => {
   if (!isObject(data)) throw new AxiosError(`Member does not have correct type: object`);
 
   const keys: Array<MemberKeys> = ['id', 'username', 'imageUrl', 'profileUrl', 'participationDate', 'numberOfStudy'];
@@ -34,9 +35,9 @@ export const checkMember = (data: unknown): Member & { participationDate: DateYM
   };
 };
 
-type StudyKeys = keyof StudyDetail;
+type StudyKeys = keyof ApiStudy['get']['responseData'];
 
-export const checkStudy = (data: unknown): StudyDetail => {
+export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`Study does not have correct type: object`);
 
   const keys: Array<StudyKeys> = [

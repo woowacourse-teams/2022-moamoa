@@ -13,7 +13,7 @@ import {
 
 import type { Tag } from '@custom-types';
 
-import { ApiTags } from '.';
+import { type ApiTags } from '@api/tags';
 
 type TagKeys = keyof Tag;
 

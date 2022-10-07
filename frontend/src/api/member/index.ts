@@ -4,7 +4,7 @@ import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
 import type { Member, StudyId, UserRole } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
-import { checkMember, checkUserRole } from '@api/member/typeChecker';
+import { checkUserInformation, checkUserRole } from '@api/member/typeChecker';
 
 export type ApiUserRole = {
   get: {
@@ -45,7 +45,7 @@ export const useGetUserRole = ({ studyId, options }: ApiUserRole['get']['variabl
 
 export const getUserInformation = async () => {
   const response = await axiosInstance.get<ApiUserInformation['get']['responseData']>(`/api/members/me`);
-  return checkMember(response.data);
+  return checkUserInformation(response.data);
 };
 
 export const useGetUserInformation = () =>
