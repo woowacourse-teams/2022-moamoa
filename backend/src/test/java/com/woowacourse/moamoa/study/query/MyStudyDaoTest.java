@@ -105,18 +105,18 @@ class MyStudyDaoTest {
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount", "startDate", "endDate")
                 .containsExactlyInAnyOrder(
                         tuple(자바_스터디_내용.getTitle(), 자바_스터디_계획.getStudyStatus(), 자바_스터디_참가자들.getSize(),
-                                자바_스터디_모집계획.getMax(), 자바_스터디_계획.getStartDate().toString(),
+                                자바_스터디_모집계획.getMaxMemberCount(), 자바_스터디_계획.getStartDate().toString(),
                                 자바_스터디_계획.getEndDate().toString()),
                         tuple(리액트_스터디_내용.getTitle(), 리액트_스터디_계획.getStudyStatus(), 리액트_스터디_참가자들.getSize(),
-                                리액트_스터디_모집계획.getMax(), 리액트_스터디_계획.getStartDate().toString(),
+                                리액트_스터디_모집계획.getMaxMemberCount(), 리액트_스터디_계획.getStartDate().toString(),
                                 자바_스터디_계획.getEndDate().toString()),
                         tuple(자바스크립트_스터디_내용.getTitle(), 자바스크립트_스터디_계획.getStudyStatus(), 자바스크립트_스터디_참가자들.getSize(),
-                                자바스크립트_스터디_모집계획.getMax(), 자바스크립트_스터디_계획.getStartDate().toString(),
+                                자바스크립트_스터디_모집계획.getMaxMemberCount(), 자바스크립트_스터디_계획.getStartDate().toString(),
                                 자바스크립트_스터디_계획.getEndDate().toString()),
                         tuple(알고리즘_스터디_내용.getTitle(), 알고리즘_스터디_계획.getStudyStatus(), 알고리즘_스터디_참가자들.getSize(),
-                                알고리즘_스터디_모집계획.getMax(), 알고리즘_스터디_계획.getStartDate().toString(), null),
+                                알고리즘_스터디_모집계획.getMaxMemberCount(), 알고리즘_스터디_계획.getStartDate().toString(), null),
                         tuple(리눅스_스터디_내용.getTitle(), 리눅스_스터디_계획.getStudyStatus(), 리눅스_스터디_참가자들.getSize(),
-                                리눅스_스터디_모집계획.getMax(), 리눅스_스터디_계획.getStartDate().toString(),
+                                리눅스_스터디_모집계획.getMaxMemberCount(), 리눅스_스터디_계획.getStartDate().toString(),
                                 리눅스_스터디_계획.getEndDate().toString())
                 );
     }

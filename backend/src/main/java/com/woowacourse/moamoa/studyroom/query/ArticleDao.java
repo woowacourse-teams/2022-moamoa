@@ -1,8 +1,8 @@
 package com.woowacourse.moamoa.studyroom.query;
 
-import com.woowacourse.moamoa.studyroom.domain.ArticleType;
-import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.member.query.data.MemberData;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
+import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -39,48 +39,55 @@ public class ArticleDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Optional<ArticleData> getById(final Long articleId, ArticleType type) {
-        final String sql = "SELECT {}.id as article_id, {}.title as article_title, {}.content as article_content, "
-                + "{}.created_date as article_created_date, {}.last_modified_date as article_last_modified_date, "
+    public Optional<ArticleData> getById(final Long articleId, final ArticleType type) {
+        final String sql = "SELECT article.id as article_id, article.title as article_title, article.content as article_content, "
+                + "article.created_date as article_created_date, article.last_modified_date as article_last_modified_date, "
                 + "member.id, member.username, member.image_url, member.profile_url "
-                + "FROM {} JOIN member ON {}.author_id = member.id "
-                + "WHERE {}.id = :{}Id";
+                + "FROM article JOIN member ON article.author_id = member.id "
+                + "WHERE article.id = :articleId and article.deleted = false and article.type = :type ";
 
-        final Map<String, Long> params = Map.of(nameOf(type) + "Id", articleId);
-        return namedParameterJdbcTemplate.query(sql.replaceAll("\\{\\}", nameOf(type)), params, ROW_MAPPER).stream().findAny();
+        final Map<String, Object> params = Map.of(
+                "articleId", articleId,
+                "type", type.name()
+        );
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER).stream().findAny();
     }
 
-    public Page<ArticleData> getAllByStudyId(final Long studyId, final Pageable pageable, ArticleType type) {
+    public Page<ArticleData> getAllByStudyId(final Long studyId, final Pageable pageable, final ArticleType type) {
         final List<ArticleData> content = getContent(studyId, pageable, type);
         final int totalCount = getTotalCount(studyId, type);
         return new PageImpl<>(content, pageable, totalCount);
     }
 
-    private List<ArticleData> getContent(final Long studyId, final Pageable pageable, ArticleType type) {
-        final String sql = "SELECT {}.id as article_id, {}.title as article_title, {}.content as article_content, "
-                + "{}.created_date as article_created_date, {}.last_modified_date as article_last_modified_date, "
+    private List<ArticleData> getContent(final Long studyId, final Pageable pageable, final ArticleType type) {
+        final String sql = "SELECT article.id as article_id, article.title as article_title, article.content as article_content, "
+                + "article.created_date as article_created_date, article.last_modified_date as article_last_modified_date, "
                 + "member.id, member.username, member.image_url, member.profile_url "
-                + "FROM {} JOIN member ON {}.author_id = member.id "
-                + "WHERE {}.study_id = :studyId "
-                + "ORDER BY created_date DESC, {}.id DESC "
+                + "FROM article JOIN member ON article.author_id = member.id "
+                + "WHERE article.study_id = :studyId and article.deleted = false and article.type = :type "
+                + "ORDER BY created_date DESC, article.id DESC "
                 + "LIMIT :size OFFSET :offset";
 
         final Map<String, Object> params = Map.of(
                 "studyId", studyId,
                 "size", pageable.getPageSize(),
-                "offset", pageable.getOffset()
+                "offset", pageable.getOffset(),
+                "type", type.name()
         );
 
-        return namedParameterJdbcTemplate.query(sql.replaceAll("\\{\\}", nameOf(type)), params, ROW_MAPPER);
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
-    private Integer getTotalCount(final Long studyId, ArticleType type) {
-        final String sql = "SELECT count({}.id) FROM {} WHERE {}.study_id = :studyId";
-        final Map<String, Long> param = Map.of("studyId", studyId);
-        return namedParameterJdbcTemplate.queryForObject(sql.replaceAll("\\{\\}", nameOf(type)), param, (rs, rn) -> rs.getInt(1));
-    }
+    private Integer getTotalCount(final Long studyId, final ArticleType type) {
+        final String sql = "SELECT count(article.id) "
+                + "FROM article "
+                + "WHERE article.study_id = :studyId and article.deleted = false and article.type = :type ";
 
-    private String nameOf(final ArticleType type) {
-        return type.name().toLowerCase();
+        final Map<String, Object> params = Map.of(
+                "studyId", studyId,
+                "type", type.name()
+        );
+
+        return namedParameterJdbcTemplate.queryForObject(sql, params, (rs, rn) -> rs.getInt(1));
     }
 }

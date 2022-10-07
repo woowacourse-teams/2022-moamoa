@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import { checkLinkPreview } from '@api/link-preview/typeChecker';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 export type ApiLinkPreview = {
   get: {

@@ -81,7 +81,7 @@ class StudyControllerTest {
         assertThat(study.get().getCreatedAt()).isNotNull();
         assertThat(study.get().getStudyPlanner()).isEqualTo(
                 new StudyPlanner(
-                        studyRequest.getStartDate(), LocalDate.parse(studyRequest.getEndDate()), PREPARE));
+                        studyRequest.getStartDate(), studyRequest.getEndDate(), PREPARE));
         assertThat(study.get().getAttachedTags().getValue())
                 .extracting("tagId").containsAnyElementsOf(studyRequest.getTagIds());
     }
@@ -236,7 +236,7 @@ class StudyControllerTest {
         assertThat(study.getContent().getExcerpt()).isEqualTo("변경된 excerpt");
         assertThat(study.getContent().getThumbnail()).isEqualTo("변경된 image");
         assertThat(study.getContent().getDescription()).isEqualTo("변경된 상세설명");
-        assertThat(study.getRecruitPlanner().getMax()).isEqualTo(10);
+        assertThat(study.getRecruitPlanner().getMaxMemberCount()).isEqualTo(10);
         assertThat(study.getAttachedTags().getAttachedTags().get(0)).isEqualTo(new AttachedTag(1L));
     }
 

@@ -42,14 +42,14 @@ public class StudyService {
                 .orElseThrow(MemberNotFoundException::new);
 
         final Participants participants = request.mapToParticipants(owner.getId());
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
 
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(createdAt.toLocalDate());
         final AttachedTags attachedTags = request.mapToAttachedTags();
         final Content content = request.mapToContent();
 
         return studyRepository.save(
-                new Study(content, participants, recruitPlanner, studyPlanner, attachedTags, createdAt));
+                new Study(content, participants, attachedTags, createdAt, request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate())
+        );
     }
 
     public void autoUpdateStatus() {
@@ -66,9 +66,9 @@ public class StudyService {
                 .orElseThrow(StudyNotFoundException::new);
 
         final Content content = request.mapToContent();
-        final RecruitPlanner recruitPlanner = request.mapToRecruitPlan();
-        final StudyPlanner studyPlanner = request.mapToStudyPlanner(LocalDate.now());
-
-        study.update(memberId, content, recruitPlanner, request.mapToAttachedTags(), studyPlanner);
+        study.updatePlanners(LocalDate.now(), request.getMaxMemberCount(),
+                request.getEnrollmentEndDate(), request.getStartDate(), request.getEndDate());
+        study.updateContent(memberId, content, request.mapToAttachedTags());
     }
 }
+
