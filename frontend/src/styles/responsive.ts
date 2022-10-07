@@ -1,6 +1,10 @@
+import arrayOfAll from '@utils/arrayOfAll';
+
 import { theme } from '@styles/theme';
 
-export const breakPoints = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl'] as const;
+export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl';
+const arrayOfAllBreakPoint = arrayOfAll<BreakPoint>();
+export const breakPoints = arrayOfAllBreakPoint(['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl']);
 
 export const dimensions = {
   [breakPoints[0]]: '0',
@@ -11,8 +15,6 @@ export const dimensions = {
   [breakPoints[5]]: '1400px',
   [breakPoints[6]]: '2000px',
 };
-
-export type BreakPoint = typeof breakPoints[number];
 
 export type BreakpointsFor<T> = {
   [key in BreakPoint]?: T;
