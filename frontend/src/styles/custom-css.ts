@@ -1,29 +1,23 @@
 import { css } from '@emotion/react';
-import { type CSSProperties as OriginalCSSProperties } from '@emotion/serialize';
+import { type CSSProperties as AllCSSKeyValue } from '@emotion/serialize';
 
 import { BreakPoint, BreakpointsFor, mqDown } from '@styles/responsive';
 
-type KeyOfOriginalCSSProperties = keyof OriginalCSSProperties;
+type AllCSSKeys = keyof AllCSSKeyValue;
 
-export type PickAllowedCSSProperties<CSSProperties extends KeyOfOriginalCSSProperties> = Pick<
-  OriginalCSSProperties,
-  CSSProperties
->;
-
-export type CSSPropertyWithValue<AllowedCSSProperties extends KeyOfOriginalCSSProperties> = {
-  [K in keyof PickAllowedCSSProperties<AllowedCSSProperties>]: OriginalCSSProperties[K];
+type PickAllowedCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = {
+  [CSSKey in AllowedCSSKeys]?: AllCSSKeyValue[CSSKey];
 };
 
-export type ResponsiveCSSPropertyWithValue<AllowedCSSProperties extends KeyOfOriginalCSSProperties> = BreakpointsFor<
-  CSSPropertyWithValue<AllowedCSSProperties>
->;
+type ResponsiveCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = BreakpointsFor<PickAllowedCSSKeyValue<AllowedCSSKeys>>;
 
-export type CustomCSS<AllowedCSSProperties extends KeyOfOriginalCSSProperties> =
-  CSSPropertyWithValue<AllowedCSSProperties> & { responsive?: ResponsiveCSSPropertyWithValue<AllowedCSSProperties> };
+export type CustomCSS<AllowedCSSKeys extends AllCSSKeys> = PickAllowedCSSKeyValue<AllowedCSSKeys> & {
+  responsive?: ResponsiveCSSKeyValue<AllowedCSSKeys>;
+};
 
-export const getResponsiveStyle = <AllowedCSSProperties extends KeyOfOriginalCSSProperties>(
+export const getResponsiveStyle = <AllowedCSSKeys extends AllCSSKeys>(
   breakPoint: BreakPoint,
-  styleObject: CSSPropertyWithValue<AllowedCSSProperties>,
+  styleObject: PickAllowedCSSKeyValue<AllowedCSSKeys>,
 ) => {
   return css`
     ${mqDown(breakPoint)} {
@@ -32,21 +26,19 @@ export const getResponsiveStyle = <AllowedCSSProperties extends KeyOfOriginalCSS
   `;
 };
 
-export const resolveCustomCSS = <AllowedCSSProperties extends KeyOfOriginalCSSProperties>(
-  custom?: CustomCSS<AllowedCSSProperties>,
-) => {
+export const resolveCustomCSS = <AllowedCSSKeys extends AllCSSKeys>(custom?: CustomCSS<AllowedCSSKeys>) => {
   if (!custom) return css``;
   const { responsive, ...defaultStyle } = custom;
 
   if (responsive) {
     const { xs, sm, md, lg, xl, xxl, xxxl } = responsive;
-    const xsStyle = xs && getResponsiveStyle<AllowedCSSProperties>('xs', xs);
-    const smStyle = sm && getResponsiveStyle<AllowedCSSProperties>('sm', sm);
-    const mdStyle = md && getResponsiveStyle<AllowedCSSProperties>('md', md);
-    const lgStyle = lg && getResponsiveStyle<AllowedCSSProperties>('lg', lg);
-    const xlStyle = xl && getResponsiveStyle<AllowedCSSProperties>('xl', xl);
-    const xxlStyle = xxl && getResponsiveStyle<AllowedCSSProperties>('xxl', xxl);
-    const xxxlStyle = xxxl && getResponsiveStyle<AllowedCSSProperties>('xxxl', xxxl);
+    const xsStyle = xs && getResponsiveStyle<AllowedCSSKeys>('xs', xs);
+    const smStyle = sm && getResponsiveStyle<AllowedCSSKeys>('sm', sm);
+    const mdStyle = md && getResponsiveStyle<AllowedCSSKeys>('md', md);
+    const lgStyle = lg && getResponsiveStyle<AllowedCSSKeys>('lg', lg);
+    const xlStyle = xl && getResponsiveStyle<AllowedCSSKeys>('xl', xl);
+    const xxlStyle = xxl && getResponsiveStyle<AllowedCSSKeys>('xxl', xxl);
+    const xxxlStyle = xxxl && getResponsiveStyle<AllowedCSSKeys>('xxxl', xxxl);
 
     return css`
       ${defaultStyle}
