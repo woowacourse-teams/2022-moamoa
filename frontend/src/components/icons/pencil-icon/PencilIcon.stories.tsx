@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import PencilIcon from '@components/icons/pencil-icon/PencilIcon';
 

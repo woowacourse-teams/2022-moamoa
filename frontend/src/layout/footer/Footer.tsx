@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { CustomCSS } from '@styles/custom-css';
+import { type CustomCSS } from '@styles/custom-css';
 
 export type FooterProps = {
   children?: React.ReactNode;

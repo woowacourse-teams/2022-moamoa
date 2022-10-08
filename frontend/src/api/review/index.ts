@@ -1,7 +1,7 @@
-import type { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import type { ReviewId, StudyId, StudyReview } from '@custom-types';
+import { type ReviewId, type StudyId, type StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

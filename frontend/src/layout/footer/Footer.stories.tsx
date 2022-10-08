@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import Footer from '@layout/footer/Footer';
-import type { FooterProps } from '@layout/footer/Footer';
+import Footer, { type FooterProps } from '@layout/footer/Footer';
 
 export default {
   title: 'Layout/Footer',

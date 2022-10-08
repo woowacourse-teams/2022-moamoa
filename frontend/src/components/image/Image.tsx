@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import notFoundImage from '@assets/images/no-image-found.png';
 
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type ImageProps = {
   shape: 'circular' | 'rectangular';

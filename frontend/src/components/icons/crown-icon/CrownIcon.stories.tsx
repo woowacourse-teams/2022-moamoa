@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import CrownIcon from '@components/icons/crown-icon/CrownIcon';
 

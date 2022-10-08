@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
+import { type DateYMD, type Member, type ReviewId, type StudyId } from '@custom-types';
 
 import { IconButton, TextButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

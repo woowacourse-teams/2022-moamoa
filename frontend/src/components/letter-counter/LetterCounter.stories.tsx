@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import type { LetterCounterProps } from '@components/letter-counter/LetterCounter';
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import LetterCounter, { type LetterCounterProps } from '@components/letter-counter/LetterCounter';
 
 export default {
   title: 'Components/LetterCounter',

@@ -4,12 +4,17 @@ import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
+import { type DateYMD, type Member, type Noop, type ReviewId, type StudyId } from '@custom-types';
 
 import { usePutReview } from '@api/review';
 
-import { UseFormRegister, makeValidationResult, useForm } from '@hooks/useForm';
-import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
+import {
+  type FieldElement,
+  type UseFormRegister,
+  type UseFormSubmitResult,
+  makeValidationResult,
+  useForm,
+} from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
 import Card from '@components/card/Card';

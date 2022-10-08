@@ -1,7 +1,7 @@
-import { Theme, css } from '@emotion/react';
+import { type Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type BoxButtonProps = {
   variant?: 'primary' | 'secondary';

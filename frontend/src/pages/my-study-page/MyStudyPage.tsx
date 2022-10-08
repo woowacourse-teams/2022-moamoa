@@ -1,11 +1,11 @@
-import { MyStudy } from '@custom-types';
+import { type MyStudy } from '@custom-types';
 
 import Divider from '@components/divider/Divider';
 import PageTitle from '@components/page-title/PageTitle';
 import Wrapper from '@components/wrapper/Wrapper';
 
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
-import { StudyType, useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';
+import { type StudyType, useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';
 
 const MyStudyPage: React.FC = () => {
   const { myStudyQueryResult, studies } = useMyStudyPage();

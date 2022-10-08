@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { StudyDetail, StudyId, Tag } from '@custom-types';
+import { type StudyDetail, type StudyId, type Tag } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';

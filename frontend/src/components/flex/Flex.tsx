@@ -3,7 +3,7 @@ import React from 'react';
 
 import { css } from '@emotion/react';
 
-import { CustomCSS, getResponsiveStyle, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, getResponsiveStyle, resolveCustomCSS } from '@styles/custom-css';
 import { type BreakpointsFor } from '@styles/responsive';
 
 export type CSSProperty = keyof CSS.StandardProperties;

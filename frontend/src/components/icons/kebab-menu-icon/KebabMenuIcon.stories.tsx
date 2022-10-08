@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import KebabMenuIcon from '@components/icons/kebab-menu-icon/KebabMenuIcon';
 

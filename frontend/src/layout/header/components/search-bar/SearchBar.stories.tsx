@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import SearchBar from '@layout/header/components/search-bar/SearchBar';
-import type { SearchBarProps } from '@layout/header/components/search-bar/SearchBar';
+import SearchBar, { type SearchBarProps } from '@layout/header/components/search-bar/SearchBar';
 
 export default {
   title: 'Layout/SearchBar',

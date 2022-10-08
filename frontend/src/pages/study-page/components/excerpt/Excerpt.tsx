@@ -2,10 +2,9 @@ import { css } from '@emotion/react';
 
 import { EXCERPT_LENGTH } from '@constants';
 
-import type { StudyDetail } from '@custom-types';
+import { type StudyDetail } from '@custom-types';
 
-import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
-import type { FieldElement } from '@hooks/useForm';
+import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Label from '@components/label/Label';
 import ImportedLetterCounter, {

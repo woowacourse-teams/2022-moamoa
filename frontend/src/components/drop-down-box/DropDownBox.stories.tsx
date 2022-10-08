@@ -1,11 +1,10 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
 import tw from '@utils/tw';
 
 import { BoxButton } from '@components/button';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import type { DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
+import DropDownBox, { type DropDownBoxProps } from '@components/drop-down-box/DropDownBox';
 
 export default {
   title: 'Components/DropDownBox',

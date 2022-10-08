@@ -5,9 +5,9 @@ import { css } from '@emotion/react';
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
 
-import type { DateYMD, StudyDetail } from '@custom-types';
+import { type DateYMD, type StudyDetail } from '@custom-types';
 
-import { UseFormRegister, useFormContext } from '@hooks/useForm';
+import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 
 import Input from '@components/input/Input';
 import Label from '@components/label/Label';

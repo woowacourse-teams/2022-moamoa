@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import LoginIcon from '@components/icons/login-icon/LoginIcon';
 

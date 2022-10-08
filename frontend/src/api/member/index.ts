@@ -1,7 +1,7 @@
-import type { AxiosError } from 'axios';
-import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { type AxiosError } from 'axios';
+import { type QueryKey, UseQueryOptions, useQuery } from 'react-query';
 
-import type { Member, StudyId, UserRole } from '@custom-types';
+import { type Member, type StudyId, type UserRole } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

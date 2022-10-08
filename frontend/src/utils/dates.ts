@@ -1,4 +1,4 @@
-import { DateYMD } from '@custom-types';
+import { type DateYMD } from '@custom-types';
 
 const isDateYMD = (date: string): date is DateYMD => {
   const regex = /\d{4}-\d{2}-\d{2}/;

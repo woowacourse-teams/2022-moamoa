@@ -1,9 +1,9 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
-import type { Page, Size, Study, TagInfo } from '@custom-types';
+import { type Page, type Size, type Study, type TagInfo } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

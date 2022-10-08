@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import type { MyStudy, StudyStatus } from '@custom-types';
+import { type MyStudy, type StudyStatus } from '@custom-types';
 
 import { useGetMyStudies } from '@api/my-studies';
 

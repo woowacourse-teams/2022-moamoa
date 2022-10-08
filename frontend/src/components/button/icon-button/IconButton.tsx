@@ -1,11 +1,11 @@
 import { type ReactSVG } from 'react';
 
-import { Theme, css } from '@emotion/react';
+import { type Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { MakeRequired } from '@custom-types';
+import { type MakeRequired } from '@custom-types';
 
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type IconButtonProps = {
   children: React.ReactElement<ReactSVG>;

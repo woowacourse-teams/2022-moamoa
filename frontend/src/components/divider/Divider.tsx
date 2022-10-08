@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { CssLength } from '@custom-types';
+import { type CssLength } from '@custom-types';
 
 import { type ThemeColor } from '@styles/theme';
 

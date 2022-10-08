@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import BookmarkIcon from '@components/icons/bookmark-icon/BookmarkIcon';
 

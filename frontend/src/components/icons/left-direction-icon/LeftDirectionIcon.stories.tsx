@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import LeftDirectionIcon from '@components/icons/left-direction-icon/LeftDirectionIcon';
 

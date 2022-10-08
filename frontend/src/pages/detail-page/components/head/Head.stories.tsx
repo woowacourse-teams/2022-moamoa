@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import Head from '@detail-page/components/head/Head';
-import type { HeadProps } from '@detail-page/components/head/Head';
+import Head, { type HeadProps } from '@detail-page/components/head/Head';
 
 export default {
   title: 'Pages/DetailPage/Head',

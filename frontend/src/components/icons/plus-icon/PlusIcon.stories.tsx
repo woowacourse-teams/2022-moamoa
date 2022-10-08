@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import PlusIcon from '@components/icons/plus-icon/PlusIcon';
 

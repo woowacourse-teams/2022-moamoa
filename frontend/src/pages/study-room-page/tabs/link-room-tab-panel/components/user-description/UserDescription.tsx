@@ -1,4 +1,4 @@
-import type { Member } from '@custom-types';
+import { type Member } from '@custom-types';
 
 import UserInfoItem from '@components/user-info-item/UserInfoItem';
 

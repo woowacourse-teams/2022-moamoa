@@ -5,8 +5,7 @@ import styled from '@emotion/styled';
 
 import { TITLE_LENGTH } from '@constants';
 
-import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
-import type { FieldElement } from '@hooks/useForm';
+import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Input from '@components/input/Input';
 import Label from '@components/label/Label';

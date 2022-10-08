@@ -5,7 +5,7 @@ import { hasOwnProperty } from '@utils/hasOwnProperty';
 import isThemeFontSize from '@utils/isThemeFontSize';
 
 import { BreakPoint, BreakpointsFor, mqDown } from '@styles/responsive';
-import { ThemeFontSize, theme } from '@styles/theme';
+import { type ThemeFontSize, theme } from '@styles/theme';
 
 type AllCSSObject = CSSProperties & {
   fontSize: ThemeFontSize | CSSProperties['fontSize'];

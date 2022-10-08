@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
-import type { StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
+import StudyMemberCard, { type StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export default {
   title: 'Pages/DetailPage/StudyMemberCard',

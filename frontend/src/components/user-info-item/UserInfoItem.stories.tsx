@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import UserInfoItem, { type UserInfoItemProps } from '@components/user-info-item/UserInfoItem';
 

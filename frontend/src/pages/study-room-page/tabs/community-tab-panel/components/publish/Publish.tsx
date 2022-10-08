@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { StudyId } from '@custom-types';
+import { type StudyId } from '@custom-types';
 
 import { usePostCommunityArticle } from '@api/community';
 

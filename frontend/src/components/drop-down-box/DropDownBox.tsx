@@ -3,9 +3,9 @@ import { useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { CssLength, Noop } from '@custom-types';
+import { type CssLength, type Noop } from '@custom-types';
 
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type DropDownBoxProps = {
   children: React.ReactNode;

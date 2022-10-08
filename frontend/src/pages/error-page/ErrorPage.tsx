@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
+import { type Theme, useTheme } from '@emotion/react';
 
 import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 

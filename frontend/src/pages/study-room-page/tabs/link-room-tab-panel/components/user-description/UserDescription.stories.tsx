@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import UserDescription from '@link-tab/components/user-description/UserDescription';
-import type { UserDescriptionProps } from '@link-tab/components/user-description/UserDescription';
+import UserDescription, { type UserDescriptionProps } from '@link-tab/components/user-description/UserDescription';
 
 export default {
   title: 'Pages/StudyRoomPage/UserDescription',

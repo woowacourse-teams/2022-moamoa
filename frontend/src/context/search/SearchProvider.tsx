@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from 'react';
+import { type ReactNode, createContext, useState } from 'react';
 
 import { noop } from '@utils';
 

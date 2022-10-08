@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import SectionTitle, { type SectionTitleProps } from '@components/section-title/SectionTitle';
 

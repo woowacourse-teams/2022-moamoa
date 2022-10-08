@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-import type { Link, StudyId } from '@custom-types';
+import { type Link, type StudyId } from '@custom-types';
 
-import type { ApiLinkPreview } from '@api/link-preview';
+import { type ApiLinkPreview } from '@api/link-preview';
 
 import { IconButton, TextButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

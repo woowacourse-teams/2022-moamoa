@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import BoxButton, { type BoxButtonProps } from '@components/button/box-button/BoxButton';
 

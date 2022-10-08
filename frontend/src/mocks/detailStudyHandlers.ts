@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/memberHandlers';
 import studiesJSON from '@mocks/studies.json';
 
-import type { ApiStudy } from '@api/study';
+import { type ApiStudy } from '@api/study';
 
 const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {

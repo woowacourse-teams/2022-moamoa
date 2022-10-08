@@ -1,4 +1,4 @@
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { theme } from '@styles/theme';
 
 type CrownIconProps = {

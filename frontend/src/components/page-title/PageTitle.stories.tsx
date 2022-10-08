@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import PageTitle, { type PageTitleProps } from '@components/page-title/PageTitle';
 

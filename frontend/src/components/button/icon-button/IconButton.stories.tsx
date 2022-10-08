@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import IconButton, { type IconButtonProps } from '@components/button/icon-button/IconButton';
 import PlusIcon from '@components/icons/plus-icon/PlusIcon';

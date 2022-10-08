@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Member, StudyId, StudyReview } from '@custom-types';
+import { type Member, type StudyId, type StudyReview } from '@custom-types';
 
 import { useGetStudyReviews } from '@api/reviews';
 

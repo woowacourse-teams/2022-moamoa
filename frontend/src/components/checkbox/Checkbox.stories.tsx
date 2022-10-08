@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import Checkbox, { type CheckboxProps } from '@components/checkbox/Checkbox';
 

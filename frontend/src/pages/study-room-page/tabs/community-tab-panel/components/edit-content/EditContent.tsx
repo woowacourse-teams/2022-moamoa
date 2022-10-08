@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
-import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import { ToggleButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

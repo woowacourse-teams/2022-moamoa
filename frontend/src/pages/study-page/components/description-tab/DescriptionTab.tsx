@@ -5,9 +5,9 @@ import styled from '@emotion/styled';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
-import type { StudyDetail } from '@custom-types';
+import { type StudyDetail } from '@custom-types';
 
-import { UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import { ToggleButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

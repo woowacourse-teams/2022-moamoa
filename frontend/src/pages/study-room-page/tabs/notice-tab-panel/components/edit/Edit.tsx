@@ -5,11 +5,11 @@ import { useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
+import { type ArticleId, type NoticeArticle, type StudyId } from '@custom-types';
 
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
-import { FormProvider, UseFormReturn, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

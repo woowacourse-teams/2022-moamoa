@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import { Theme, css, useTheme } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
-import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
+import { type DateYMD, type StudyDetail, type StudyId, type UserRole } from '@custom-types';
 
 import { BoxButton } from '@components/button';
 import { BoxButtonProps } from '@components/button/box-button/BoxButton';

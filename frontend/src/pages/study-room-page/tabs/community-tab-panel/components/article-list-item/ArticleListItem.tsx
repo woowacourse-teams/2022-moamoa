@@ -1,9 +1,9 @@
-import { Theme, css, useTheme } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
 
-import { CommunityArticle } from '@custom-types';
+import { type CommunityArticle } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 

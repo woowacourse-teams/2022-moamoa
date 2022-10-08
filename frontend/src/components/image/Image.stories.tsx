@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import Image, { type ImageProps } from '@components/image/Image';
 

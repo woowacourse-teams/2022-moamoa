@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { MEMBER_COUNT } from '@constants';
 
-import { StudyDetail } from '@custom-types';
+import { type StudyDetail } from '@custom-types';
 
-import { UseFormRegister, useFormContext } from '@hooks/useForm';
+import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
 import Checkbox from '@components/checkbox/Checkbox';

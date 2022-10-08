@@ -2,11 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
+import { type ArticleId, type CommunityArticle, type StudyId } from '@custom-types';
 
 import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community';
 
-import { FormProvider, UseFormReturn, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';

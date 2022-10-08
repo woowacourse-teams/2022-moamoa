@@ -1,8 +1,8 @@
-import type { StudyDetail, Tag } from '@custom-types';
+import { type StudyDetail, type Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
-import { UseFormRegister, useFormContext } from '@hooks/useForm';
+import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 
 import Checkbox from '@components/checkbox/Checkbox';
 import Flex from '@components/flex/Flex';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import type { LinkId, StudyId } from '@custom-types';
+import { type LinkId, type StudyId } from '@custom-types';
 
 import { useDeleteLink } from '@api/link';
 import { useGetLinkPreview } from '@api/link-preview';

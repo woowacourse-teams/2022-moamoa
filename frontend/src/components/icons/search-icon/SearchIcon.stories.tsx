@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import SearchIcon from '@components/icons/search-icon/SearchIcon';
 

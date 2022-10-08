@@ -1,7 +1,7 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
-import type { CategoryName, Tag, TagInfo } from '@custom-types';
+import { type CategoryName, type Tag, type TagInfo } from '@custom-types';
 
 import FilterButtonList, {
   type FilterButtonListProps,

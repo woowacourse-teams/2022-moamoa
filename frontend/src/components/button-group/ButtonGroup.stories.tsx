@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import ButtonGroup, { type ButtonGroupProps } from '@components/button-group/ButtonGroup';
 import BoxButton from '@components/button/box-button/BoxButton';

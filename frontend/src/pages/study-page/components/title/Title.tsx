@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { TITLE_LENGTH } from '@constants';
 
-import type { StudyDetail } from '@custom-types';
+import { type StudyDetail } from '@custom-types';
 
 import { type FieldElement, UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 

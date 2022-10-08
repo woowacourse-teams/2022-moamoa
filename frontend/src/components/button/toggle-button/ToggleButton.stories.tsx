@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
 import ToggleButton, { type ToggleButtonProps } from '@components/button/toggle-button/ToggleButton';

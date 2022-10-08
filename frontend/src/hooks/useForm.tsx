@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef, useState } from 'react';
 
-import { DateYMD } from '@custom-types';
+import { type DateYMD } from '@custom-types';
 
 type FieldName = string;
 type FieldValues = Record<FieldName, any>;

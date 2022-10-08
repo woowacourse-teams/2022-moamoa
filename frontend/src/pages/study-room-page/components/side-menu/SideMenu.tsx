@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
-import { Theme, css, useTheme } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 
 import { mqDown, mqUp } from '@styles/responsive';
 
 import Flex from '@components/flex/Flex';
 
 import TabButton from '@study-room-page/components/tab-button/TabButton';
-import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
+import { type TabId, type Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export type SideMenuProps = {
   activeTabId: TabId;

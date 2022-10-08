@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
 
-import type { MyStudy } from '@custom-types';
+import { type MyStudy } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 

@@ -4,11 +4,9 @@ import { COMMA, PATH } from '@constants';
 
 import { getRandomInt } from '@utils';
 
-import { useGetStudy, usePutStudy } from '@api/study';
-import type { ApiStudy } from '@api/study';
+import { type ApiStudy, useGetStudy, usePutStudy } from '@api/study';
 
-import { useForm } from '@hooks/useForm';
-import type { UseFormSubmitResult } from '@hooks/useForm';
+import { type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 const useEditStudyPage = () => {
   const { studyId } = useParams<{ studyId: string }>();

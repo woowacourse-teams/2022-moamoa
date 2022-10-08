@@ -1,9 +1,10 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import Wrapper from '@components/wrapper/Wrapper';
 
-import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
-import type { MyStudyCardListSectionProps } from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
+import MyStudyCardListSection, {
+  type MyStudyCardListSectionProps,
+} from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 
 export default {
   title: 'Pages/MyStudyPage/MyStudyCardListSection',

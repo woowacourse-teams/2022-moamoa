@@ -1,11 +1,10 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
 import { noop } from '@utils';
 
 import { BoxButton } from '@components/button';
-import Modal from '@components/modal/Modal';
-import type { ModalProps } from '@components/modal/Modal';
+import Modal, { type ModalProps } from '@components/modal/Modal';
 
 import LinkForm from '@link-tab/components/link-form/LinkForm';
 

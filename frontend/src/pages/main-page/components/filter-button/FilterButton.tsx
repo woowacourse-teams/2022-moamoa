@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 import { ToggleButton } from '@components/button';
 import Flex from '@components/flex/Flex';

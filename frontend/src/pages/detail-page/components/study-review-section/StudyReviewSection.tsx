@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
-import { StudyReview } from '@custom-types';
+import { type StudyReview } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 import { theme } from '@styles/theme';

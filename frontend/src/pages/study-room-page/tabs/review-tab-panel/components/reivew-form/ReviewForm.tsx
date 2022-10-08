@@ -2,14 +2,19 @@ import { css } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import type { Member, Noop, StudyId } from '@custom-types';
+import { type Member, type Noop, type StudyId } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
 import { usePostReview } from '@api/review';
 
-import { UseFormRegister, makeValidationResult, useForm } from '@hooks/useForm';
-import type { FieldElement, UseFormSubmitResult } from '@hooks/useForm';
+import {
+  type FieldElement,
+  type UseFormRegister,
+  type UseFormSubmitResult,
+  makeValidationResult,
+  useForm,
+} from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
 import Card from '@components/card/Card';

@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import MultiTagSelect, { type MultiTagSelectProps } from '@components/multi-tag-select/MultiTagSelect';
 

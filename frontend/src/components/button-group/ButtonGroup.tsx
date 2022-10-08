@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import type { CssLength, MakeRequired } from '@custom-types';
+import { type CssLength, type MakeRequired } from '@custom-types';
 
-import { CustomCSS } from '@styles/custom-css';
+import { type CustomCSS } from '@styles/custom-css';
 
 export type ButtonGroupProps = {
   children: React.ReactNode;

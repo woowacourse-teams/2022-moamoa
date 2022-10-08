@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import RightUpArrowIcon from '@components/icons/right-up-arrow-icon/RightUpArrowIcon';
 

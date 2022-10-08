@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import MeatballMenuIcon from '@components/icons/meatball-menu-icon/MeatballMenuIcon';
 

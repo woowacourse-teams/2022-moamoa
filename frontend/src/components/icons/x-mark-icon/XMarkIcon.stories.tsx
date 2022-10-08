@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import XMarkIcon, { type XMarkIconProps } from '@components/icons/x-mark-icon/XMarkIcon';
 

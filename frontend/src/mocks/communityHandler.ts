@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import communityArticlesJSON from '@mocks/community-articles.json';
 import { user } from '@mocks/memberHandlers';
 
-import { ApiCommunityArticle } from '@api/community';
+import { type ApiCommunityArticle } from '@api/community';
 
 export const communityHandlers = [
   rest.get('/api/studies/:studyId/community/articles', (req, res, ctx) => {
