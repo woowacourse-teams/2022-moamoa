@@ -9,7 +9,6 @@ import { mqDown } from '@styles/responsive';
 
 import { useGetTags } from '@api/tags';
 
-import Center from '@components/center/Center';
 import Divider from '@components/divider/Divider';
 
 import FilterButtonList, {

@@ -1,7 +1,6 @@
 import { useTheme } from '@emotion/react';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
-import { theme } from '@styles/theme';
 
 type CrownIconProps = {
   custom?: CustomCSS<'position' | 'top' | 'left' | 'zIndex'>;

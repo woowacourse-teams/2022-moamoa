@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useTheme } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import { type ArticleId, type NoticeArticle, type StudyId } from '@custom-types';

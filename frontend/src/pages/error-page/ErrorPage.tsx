@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { type Theme, useTheme } from '@emotion/react';
-
 import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
 import { PATH } from '@constants';
@@ -11,8 +9,6 @@ import Flex from '@components/flex/Flex';
 import Image from '@components/image/Image';
 
 const ErrorPage: React.FC = () => {
-  const theme = useTheme();
-
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center" rowGap="4px">
       <Image
