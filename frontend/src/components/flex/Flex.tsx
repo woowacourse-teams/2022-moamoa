@@ -34,7 +34,7 @@ export type FlexBoxProps = Partial<
 const Flex: React.FC<FlexBoxProps> = ({
   children,
   fluid = false,
-  alignItems = 'flex-start',
+  alignItems = 'stretch',
   justifyContent = 'flex-start',
   flexDirection = 'row',
   flexWrap = 'nowrap',
