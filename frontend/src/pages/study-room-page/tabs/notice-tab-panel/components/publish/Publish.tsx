@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
@@ -26,7 +24,6 @@ export type PublishProps = {
 };
 
 const Publish: React.FC<PublishProps> = ({ studyId }) => {
-  const theme = useTheme();
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostNoticeArticle();
@@ -76,8 +73,8 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
           <PublishContent />
           <Divider space="16px" />
           <ButtonGroup justifyContent="space-between">
-            <GoToListPageButton theme={theme} />
-            <PublishButton theme={theme} />
+            <GoToListPageButton />
+            <PublishButton />
           </ButtonGroup>
         </Form>
       )}
@@ -89,22 +86,16 @@ const Loading = () => <div>유저 정보 가져오는 중...</div>;
 
 const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
 
-type GoToListPageButtonProps = {
-  theme: Theme;
-};
-const GoToListPageButton: React.FC<GoToListPageButtonProps> = ({ theme }) => (
+const GoToListPageButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
-    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
   </Link>
 );
 
-type PublishButtonProps = {
-  theme: Theme;
-};
-const PublishButton: React.FC<PublishButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+const PublishButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     등록하기
   </BoxButton>
 );

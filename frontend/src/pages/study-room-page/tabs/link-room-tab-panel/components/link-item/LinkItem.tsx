@@ -1,4 +1,3 @@
-import { type Theme, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { Link, StudyId } from '@custom-types';
@@ -22,7 +21,6 @@ export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUr
 };
 
 const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, author, description }) => {
-  const theme = useTheme();
   const {
     userInfo,
     linkPreviewQueryResult,
@@ -59,9 +57,9 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
               custom={{ padding: '8px' }}
             >
               <ButtonGroup orientation="vertical">
-                <EditButton theme={theme} onClick={handleEditLinkButtonClick} />
+                <EditButton onClick={handleEditLinkButtonClick} />
                 <Divider space="8px" />
-                <DeleteButton theme={theme} onClick={handleDeleteLinkButtonClick} />
+                <DeleteButton onClick={handleDeleteLinkButtonClick} />
               </ButtonGroup>
             </DropDownBox>
           </MyLink>
@@ -146,21 +144,19 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick: handleClick }) => 
 );
 
 type EditButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const EditButton: React.FC<EditButtonProps> = ({ theme, onClick: handleClick }) => (
-  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+const EditButton: React.FC<EditButtonProps> = ({ onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: 'sm' }}>
     수정
   </TextButton>
 );
 
 type DeleteButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const DeleteButton: React.FC<DeleteButtonProps> = ({ theme, onClick: handleClick }) => (
-  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: 'sm' }}>
     삭제
   </TextButton>
 );

@@ -27,12 +27,9 @@ const ErrorPage: React.FC = () => {
   );
 };
 
-type GoToHomeButtonProps = {
-  theme: Theme;
-};
-const GoToHomeButton: React.FC<GoToHomeButtonProps> = ({ theme }) => (
+const GoToHomeButton: React.FC = () => (
   <Link to={PATH.MAIN} replace>
-    <BoxButton type="button" custom={{ fontSize: theme.fontSize.lg }} fluid={false}>
+    <BoxButton type="button" custom={{ fontSize: 'lg' }} fluid={false}>
       홈으로 이동
     </BoxButton>
   </Link>

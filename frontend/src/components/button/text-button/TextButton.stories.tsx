@@ -17,7 +17,7 @@ Default.args = {
   variant: 'primary',
   fluid: false,
   custom: {
-    fontSize: theme.fontSize.md,
+    fontSize: 'md',
   },
 };
 Default.parameters = { controls: { exclude: ['onClick'] } };

@@ -33,12 +33,11 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   done = false,
   onQuitStudyButtonClick: handleQuitStudyButtonClick,
 }) => {
-  const theme = useTheme();
   return (
     <Self done={done}>
       <Card shadow custom={{ height: '100%', padding: '16px', gap: '8px', position: 'relative' }}>
         <Card.Heading>{title}</Card.Heading>
-        <Card.Content custom={{ fontSize: theme.fontSize.md }}>
+        <Card.Content custom={{ fontSize: 'md' }}>
           <Owner name={ownerName} />
           <TagList tags={tags} />
           <Period startDate={startDate} endDate={endDate} />

@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
@@ -24,7 +22,6 @@ export type PublishProps = {
 };
 
 const Publish: React.FC<PublishProps> = ({ studyId }) => {
-  const theme = useTheme();
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostCommunityArticle();
@@ -61,30 +58,24 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
         <PublishContent />
         <Divider space="16px" />
         <ButtonGroup justifyContent="space-between">
-          <GoBackLinkButton theme={theme} />
-          <RegisterButton theme={theme} />
+          <GoBackLinkButton />
+          <RegisterButton />
         </ButtonGroup>
       </Form>
     </FormProvider>
   );
 };
 
-type GoBackLinkButtonProps = {
-  theme: Theme;
-};
-const GoBackLinkButton: React.FC<GoBackLinkButtonProps> = ({ theme }) => (
+const GoBackLinkButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
-    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
   </Link>
 );
 
-type RegisterButtonProps = {
-  theme: Theme;
-};
-const RegisterButton: React.FC<RegisterButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+const RegisterButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     등록하기
   </BoxButton>
 );

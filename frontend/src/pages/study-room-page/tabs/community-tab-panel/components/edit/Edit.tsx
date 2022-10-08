@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
@@ -27,7 +25,6 @@ export type EditProps = {
 type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
 
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
-  const theme = useTheme();
   const formMethods = useForm();
   const navigate = useNavigate();
 
@@ -69,27 +66,21 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
       <PageTitle>게시글 수정</PageTitle>
       {isFetching && <Loading />}
       {isError && <Error />}
-      {isSuccess && data && <EditForm theme={theme} article={data} formMethods={formMethods} onSubmit={handleSubmit} />}
+      {isSuccess && data && <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />}
     </FormProvider>
   );
 };
 
-type GoBackLinkButtonProps = {
-  theme: Theme;
-};
-const GoBackLinkButton: React.FC<GoBackLinkButtonProps> = ({ theme }) => (
+const GoBackLinkButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
-    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
   </Link>
 );
 
-type EditButtonProps = {
-  theme: Theme;
-};
-const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: theme.fontSize.lg }}>
+const EditButton: React.FC = () => (
+  <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     수정하기
   </BoxButton>
 );
@@ -99,19 +90,18 @@ const Loading = () => <div>Loading...</div>;
 const Error = () => <div>Error...</div>;
 
 type EditFormProps = {
-  theme: Theme;
   article: CommunityArticle;
   formMethods: UseFormReturn;
   onSubmit: HandleEditFormSubmit;
 };
-const EditForm: React.FC<EditFormProps> = ({ theme, article, formMethods, onSubmit }) => (
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
   <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
     <EditTitle title={article.title} />
     <EditContent content={article.content} />
     <Divider space="16px" />
     <ButtonGroup justifyContent="space-between">
-      <GoBackLinkButton theme={theme} />
-      <EditButton theme={theme} />
+      <GoBackLinkButton />
+      <EditButton />
     </ButtonGroup>
   </Form>
 );

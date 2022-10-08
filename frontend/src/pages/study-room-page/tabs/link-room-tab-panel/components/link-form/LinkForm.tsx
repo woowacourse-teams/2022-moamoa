@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { Theme, css, useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
@@ -88,7 +88,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
               onChange={handleLinkDescriptionChange}
               register={register}
             />
-            <AddLinkButton theme={theme} />
+            <AddLinkButton />
           </Flex>
         </Form>
       </Card>
@@ -189,11 +189,8 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
   );
 };
 
-type AddLinkButtonProps = {
-  theme: Theme;
-};
-const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
+const AddLinkButton: React.FC = () => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
     링크등록
   </BoxButton>
 );

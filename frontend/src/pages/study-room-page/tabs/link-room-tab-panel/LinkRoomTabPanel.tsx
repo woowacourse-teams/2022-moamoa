@@ -1,4 +1,4 @@
-import { Theme, css, useTheme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { Link } from '@custom-types';
@@ -15,7 +15,6 @@ import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-
 import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
 
 const LinkRoomTabPanel: React.FC = () => {
-  const theme = useTheme();
   const {
     studyId,
     userInfo,
@@ -36,7 +35,7 @@ const LinkRoomTabPanel: React.FC = () => {
       {isFetching && <Loading />}
       {isError && <Error />}
       {isSuccess && links.length === 0 && <NoLinks />}
-      <AddLinkButton theme={theme} onClick={handleLinkAddButtonClick} />
+      <AddLinkButton onClick={handleLinkAddButtonClick} />
       {isSuccess && links.length > 0 && (
         <InfiniteLinkList links={links} isContentLoading={isFetching} studyId={studyId} onContentLoad={fetchNextPage} />
       )}
@@ -89,10 +88,9 @@ const Loading = () => <div>Loading...</div>;
 const NoLinks = () => <div>등록된 링크가 없습니다</div>;
 
 type AddLinkButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme, onClick: handleClick }) => (
+const AddLinkButton: React.FC<AddLinkButtonProps> = ({ onClick: handleClick }) => (
   <div
     css={css`
       padding-left: 4px;
@@ -101,7 +99,7 @@ const AddLinkButton: React.FC<AddLinkButtonProps> = ({ theme, onClick: handleCli
       text-align: right;
     `}
   >
-    <TextButton variant="primary" onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
+    <TextButton variant="primary" onClick={handleClick} custom={{ fontSize: 'lg' }}>
       링크 추가하기
     </TextButton>
   </div>

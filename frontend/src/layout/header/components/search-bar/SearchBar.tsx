@@ -72,7 +72,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({ theme }) => (
     <IconButton
       ariaLabel="검색하기"
       variant="secondary"
-      custom={{ width: 'fit-content', height: 'fit-content', fontSize: theme.fontSize.xl }}
+      custom={{ width: 'fit-content', height: 'fit-content', fontSize: 'xl' }}
     >
       <SearchIcon />
     </IconButton>

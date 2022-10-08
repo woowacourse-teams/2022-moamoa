@@ -38,13 +38,9 @@ const CommunityTabPanel: React.FC = () => {
   );
 };
 
-type GoToPublishPageLinkButtonProps = {
-  theme: Theme;
-};
-
-const GoToPublishPageLinkButton: React.FC<GoToPublishPageLinkButtonProps> = ({ theme }) => (
+const GoToPublishPageLinkButton: React.FC = () => (
   <Link to={PATH.COMMUNITY_PUBLISH}>
-    <TextButton variant="primary" custom={{ fontSize: theme.fontSize.lg }}>
+    <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
       글쓰기
     </TextButton>
   </Link>
@@ -57,7 +53,7 @@ type ArticleListPageProps = {
 const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => (
   <>
     <Flex justifyContent="flex-end">
-      <GoToPublishPageLinkButton theme={theme} />
+      <GoToPublishPageLinkButton />
     </Flex>
     <Divider color={theme.colors.secondary.dark} space="8px" />
     <ArticleList studyId={studyId} />

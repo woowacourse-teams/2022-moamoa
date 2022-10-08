@@ -38,10 +38,10 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
-      <Card.Heading custom={{ fontSize: theme.fontSize.xl, marginBottom: '10px' }}>
+      <Card.Heading custom={{ fontSize: 'xl', marginBottom: '10px' }}>
         <EnrollmentEndDate theme={theme} isOpen={isOpen} userRole={userRole} enrollmentEndDate={enrollmentEndDate} />
       </Card.Heading>
-      <Card.Content custom={{ fontSize: theme.fontSize.lg }}>
+      <Card.Content custom={{ fontSize: 'lg' }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
         {userRole === 'MEMBER' || userRole === 'OWNER' ? (
@@ -93,7 +93,7 @@ type GoToStudyRoomLinkButtonProps = {
 };
 const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ theme, studyId }) => (
   <Link to={PATH.STUDY_ROOM(studyId)}>
-    <BoxButton type="button" custom={{ fontSize: theme.fontSize.lg }}>
+    <BoxButton type="button" custom={{ fontSize: 'lg' }}>
       스터디 방으로 이동하기
     </BoxButton>
   </Link>
@@ -101,7 +101,7 @@ const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ theme
 
 type RegisterButtonProps = { theme: Theme } & Pick<BoxButtonProps, 'disabled' | 'onClick'>;
 const RegisterButton: React.FC<RegisterButtonProps> = ({ theme, disabled: isOpen, onClick: handleClick }) => (
-  <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: theme.fontSize.lg }}>
+  <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: 'lg' }}>
     {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
   </BoxButton>
 );

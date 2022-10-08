@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { Theme, css, useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
@@ -95,7 +95,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
               onChange={handleLinkDescriptionChange}
               register={register}
             />
-            <EditLinkButton theme={theme} />
+            <EditLinkButton />
           </Flex>
         </Form>
       </Card>
@@ -201,11 +201,8 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
   );
 };
 
-type EditLinkButtonProps = {
-  theme: Theme;
-};
-const EditLinkButton: React.FC<EditLinkButtonProps> = ({ theme }) => (
-  <BoxButton type="submit" custom={{ padding: '8px', fontSize: theme.fontSize.lg }}>
+const EditLinkButton: React.FC = () => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
     링크 수정
   </BoxButton>
 );

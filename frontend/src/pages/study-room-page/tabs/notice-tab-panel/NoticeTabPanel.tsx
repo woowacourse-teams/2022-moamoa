@@ -1,6 +1,6 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
@@ -31,7 +31,7 @@ const NoticeTabPanel: React.FC = () => {
   const renderArticleListPage = () => {
     return (
       <>
-        <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton theme={theme} />}</Flex>
+        <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton />}</Flex>
         <Divider color={theme.colors.secondary.dark} space="8px" />
         <ArticleList studyId={studyId} />
       </>
@@ -61,12 +61,9 @@ const NoticeTabPanel: React.FC = () => {
   );
 };
 
-type GoToPublishPageLinkButtonProps = {
-  theme: Theme;
-};
-const GoToPublishPageLinkButton: React.FC<GoToPublishPageLinkButtonProps> = ({ theme }) => (
+const GoToPublishPageLinkButton: React.FC = () => (
   <Link to={PATH.NOTICE_PUBLISH}>
-    <TextButton variant="primary" custom={{ fontSize: theme.fontSize.lg }}>
+    <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
       글쓰기
     </TextButton>
   </Link>

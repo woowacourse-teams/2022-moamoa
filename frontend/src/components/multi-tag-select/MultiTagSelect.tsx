@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { Theme, css, useTheme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import isFunction from '@utils/isFunction';
@@ -27,7 +27,6 @@ export type MultiTagSelectProps = {
 
 const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
   ({ defaultSelectedOptions = [], options, name }, inputRef) => {
-    const theme = useTheme();
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
@@ -109,9 +108,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             <ul>
               {unSelectedOptions.map(option => (
                 <UnselectedOption key={option.value}>
-                  <SelectButton theme={theme} onClick={handleSelectButtonClick(option)}>
-                    {option.label}
-                  </SelectButton>
+                  <SelectButton onClick={handleSelectButtonClick(option)}>{option.label}</SelectButton>
                 </UnselectedOption>
               ))}
             </ul>
@@ -193,7 +190,7 @@ const UnselectButton: React.FC<UnselectButtonProps> = ({ onClick: handleClick })
     custom={{
       display: 'flex',
       alignItems: 'center',
-      fontSize: '14px',
+      fontSize: 'sm',
       borderRadius: '2px',
       paddingLeft: '4px',
       paddingRight: '4px',
@@ -242,13 +239,12 @@ const UnselectedOption = styled.li`
 
 type SelectButtonProps = {
   children: string;
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const SelectButton: React.FC<SelectButtonProps> = ({ children, theme, onClick: handleClick }) => (
+const SelectButton: React.FC<SelectButtonProps> = ({ children, onClick: handleClick }) => (
   <UnstyledButton
     onClick={handleClick}
-    custom={{ width: '100%', height: '100%', padding: '10px', textAlign: 'left', fontSize: theme.fontSize.sm }}
+    custom={{ width: '100%', height: '100%', padding: '10px', textAlign: 'left', fontSize: 'sm' }}
   >
     {children}
   </UnstyledButton>

@@ -85,7 +85,6 @@ type SelfProps = {
   onDeleteReivewButtonClick: () => void;
 } & Omit<ReviewCommentProps, 'id' | 'studyId'>;
 const Self: React.FC<SelfProps> = ({
-  theme,
   author,
   isMyComment,
   isOpen,
@@ -113,9 +112,9 @@ const Self: React.FC<SelfProps> = ({
             custom={{ padding: '10px' }}
           >
             <ButtonGroup orientation="vertical">
-              <EditButton theme={theme} onClick={handleEditReviewButtonClick} />
+              <EditButton onClick={handleEditReviewButtonClick} />
               <Divider />
-              <DeleteButton theme={theme} onClick={handleDeleteReviewButtonClick} />
+              <DeleteButton onClick={handleDeleteReviewButtonClick} />
             </ButtonGroup>
           </DropDownBox>
         </CommentHead>
@@ -139,21 +138,19 @@ const Content: React.FC<ContentProps> = ({ content }) => (
 );
 
 type EditButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const EditButton: React.FC<EditButtonProps> = ({ theme, onClick: handleClick }) => (
-  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+const EditButton: React.FC<EditButtonProps> = ({ onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: 'sm' }}>
     수정
   </TextButton>
 );
 
 type DeleteButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const DeleteButton: React.FC<DeleteButtonProps> = ({ theme, onClick: handleClick }) => (
-  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: theme.fontSize.sm }}>
+const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick: handleClick }) => (
+  <TextButton variant="secondary" onClick={handleClick} custom={{ fontSize: 'sm' }}>
     삭제
   </TextButton>
 );

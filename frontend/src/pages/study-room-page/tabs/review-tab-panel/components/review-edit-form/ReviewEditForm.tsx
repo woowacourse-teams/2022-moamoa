@@ -1,4 +1,4 @@
-import { Theme, css, useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
@@ -95,8 +95,8 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
         <Flex justifyContent="space-between">
           <LetterCounter count={count} maxCount={maxCount} />
           <Flex columnGap="12px">
-            <CancelButton theme={theme} onClick={handleCancelEditButtonClick} />
-            <EditButton theme={theme} />
+            <CancelButton onClick={handleCancelEditButtonClick} />
+            <EditButton />
           </Flex>
         </Flex>
       </Form>
@@ -144,30 +144,16 @@ const ReviewField: React.FC<ReviewFieldProps> = ({ isValid, defaultValue, onChan
 );
 
 type CancelButtonProps = {
-  theme: Theme;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-const CancelButton: React.FC<CancelButtonProps> = ({ theme, onClick: handleClick }) => (
-  <BoxButton
-    type="submit"
-    fluid={false}
-    onClick={handleClick}
-    custom={{ padding: '4px 10px', fontSize: theme.fontSize.sm }}
-  >
+const CancelButton: React.FC<CancelButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="submit" fluid={false} onClick={handleClick} custom={{ padding: '4px 10px', fontSize: 'sm' }}>
     등록
   </BoxButton>
 );
 
-type EditButtonProps = {
-  theme: Theme;
-};
-const EditButton: React.FC<EditButtonProps> = ({ theme }) => (
-  <BoxButton
-    type="submit"
-    variant="secondary"
-    fluid={false}
-    custom={{ padding: '4px 10px', fontSize: theme.fontSize.sm }}
-  >
+const EditButton: React.FC = () => (
+  <BoxButton type="submit" variant="secondary" fluid={false} custom={{ padding: '4px 10px', fontSize: 'sm' }}>
     수정하기
   </BoxButton>
 );
