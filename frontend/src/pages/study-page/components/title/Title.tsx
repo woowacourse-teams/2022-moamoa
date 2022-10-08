@@ -5,7 +5,7 @@ import { TITLE_LENGTH } from '@constants';
 
 import { type StudyDetail } from '@custom-types';
 
-import { type FieldElement, UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Input from '@components/input/Input';
 import Label from '@components/label/Label';
