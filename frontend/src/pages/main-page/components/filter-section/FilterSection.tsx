@@ -74,7 +74,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         ariaLabel="왼쪽으로 스크롤"
         onClick={handleLeftSlideButtonClick}
       />
-      <Filter ref={sliderRef}>
+      <FilterListContainer ref={sliderRef}>
         {isLoading && <Loading />}
         {isError && <Error />}
         <AreaTagList
@@ -94,7 +94,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
-      </Filter>
+      </FilterListContainer>
       <FilterSlideButton
         theme={theme}
         direction="right"
@@ -153,7 +153,7 @@ const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction,
   );
 };
 
-const Filter = styled.div`
+const FilterListContainer = styled.div`
   display: flex;
   align-items: center;
   column-gap: 32px;
