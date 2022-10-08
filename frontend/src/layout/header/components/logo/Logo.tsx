@@ -5,17 +5,17 @@ import logoImage from '@assets/images/logo.png';
 
 import { mqDown } from '@styles/responsive';
 
-import Flex from '@components/flex/Flex';
+import Center from '@components/center/Center';
 import Image from '@components/image/Image';
 
 const Logo: React.FC = () => {
   return (
-    <Flex justifyContent="center" alignItems="center" flexDirection="row">
+    <Center>
       <ImageContainer>
         <Image src={logoImage} alt="모아모아 로고" shape="circular" custom={{ width: '38px', height: '38px' }} />
       </ImageContainer>
       <BorderText>MOAMOA</BorderText>
-    </Flex>
+    </Center>
   );
 };
 
