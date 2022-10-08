@@ -15,7 +15,7 @@ import MetaBox from '@components/meta-box/MetaBox';
 import ImportedTextarea, { type TextareaProps as ImportedTextareaProps } from '@components/textarea/Textarea';
 
 export type ExcerptProps = {
-  originalExcerpt?: StudyDetail['description'];
+  originalExcerpt?: StudyDetail['excerpt'];
 };
 
 const EXCERPT = 'excerpt';
