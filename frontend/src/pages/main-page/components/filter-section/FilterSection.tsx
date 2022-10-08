@@ -34,7 +34,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   onFilterButtonClick: handleFilterButtonClick,
 }) => {
   const theme = useTheme();
-  const sliderRef = useRef<HTMLElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const { data, isLoading, isError } = useGetTags();
 
@@ -101,7 +101,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   );
 };
 
-const Self = styled.div`
+const Self = styled.section`
   ${({ theme }) => css`
     position: sticky;
     top: 85px;
@@ -149,7 +149,7 @@ const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction,
   );
 };
 
-const Filter = styled.section`
+const Filter = styled.div`
   display: flex;
   align-items: center;
   column-gap: 32px;
