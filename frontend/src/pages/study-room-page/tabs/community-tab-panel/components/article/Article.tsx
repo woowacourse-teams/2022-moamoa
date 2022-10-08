@@ -145,7 +145,7 @@ const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
   `;
   return (
     <div css={style}>
-      <ImportedMarkdownRender markdownContent={content} />;
+      <ImportedMarkdownRender markdownContent={content} />
     </div>
   );
 };
