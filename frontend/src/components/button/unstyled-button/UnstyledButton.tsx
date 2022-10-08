@@ -5,7 +5,6 @@ import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type UnstyledButtonProps = {
   children?: React.ReactNode;
-  className?: string;
   type?: 'button' | 'submit';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   custom?: CustomCSS<
