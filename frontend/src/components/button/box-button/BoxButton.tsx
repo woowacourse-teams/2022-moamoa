@@ -1,4 +1,4 @@
-import { type Theme, css } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
@@ -22,6 +22,7 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   onClick: handleClick,
   custom,
 }) => {
+  const theme = useTheme();
   return (
     <Self
       type={type}
@@ -29,7 +30,7 @@ const BoxButton: React.FC<BoxButtonProps> = ({
       disabled={disabled}
       variant={variant}
       onClick={handleClick}
-      css={resolveCustomCSS(custom)}
+      css={resolveCustomCSS(custom, theme)}
     >
       {children}
     </Self>

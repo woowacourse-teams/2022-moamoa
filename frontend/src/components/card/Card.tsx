@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
@@ -29,24 +29,27 @@ export type CardContentProps = {
 };
 
 const Card: React.FC<CardProps> = ({ custom, children, backgroundColor = 'transparent', shadow }) => {
+  const theme = useTheme();
   return (
-    <CardSelf css={resolveCustomCSS(custom)} backgroundColor={backgroundColor} shadow={shadow}>
+    <CardSelf css={resolveCustomCSS(custom, theme)} backgroundColor={backgroundColor} shadow={shadow}>
       {children}
     </CardSelf>
   );
 };
 
 const CardHeading: React.FC<CardHeadingProps> = ({ custom, children, maxLine = 1 }) => {
+  const theme = useTheme();
   return (
-    <CardHeadingSelf css={resolveCustomCSS(custom)} maxLine={maxLine}>
+    <CardHeadingSelf css={resolveCustomCSS(custom, theme)} maxLine={maxLine}>
       {children}
     </CardHeadingSelf>
   );
 };
 
 const CardContent: React.FC<CardContentProps> = ({ custom, children, maxLine = 2, align = 'left' }) => {
+  const theme = useTheme();
   return (
-    <CardContentSelf css={resolveCustomCSS(custom)} maxLine={maxLine} align={align}>
+    <CardContentSelf css={resolveCustomCSS(custom, theme)} maxLine={maxLine} align={align}>
       {children}
     </CardContentSelf>
   );

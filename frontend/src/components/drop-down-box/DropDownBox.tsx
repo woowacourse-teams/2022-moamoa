@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CssLength, type Noop } from '@custom-types';
@@ -19,6 +19,7 @@ export type DropDownBoxProps = {
 };
 
 const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, custom, ...positions }) => {
+  const theme = useTheme();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, cu
   return (
     <>
       {isOpen && (
-        <Self css={resolveCustomCSS(custom)} {...positions} ref={ref}>
+        <Self css={resolveCustomCSS(custom, theme)} {...positions} ref={ref}>
           {children}
         </Self>
       )}

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CssLength, type MakeRequired } from '@custom-types';
@@ -22,9 +22,10 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   gap = 0,
   custom,
 }) => {
+  const theme = useTheme();
   return (
     <Self
-      css={resolveCustomCSS(custom)}
+      css={resolveCustomCSS(custom, theme)}
       orientation={orientation}
       gap={gap}
       justifyContent={justifyContent}

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import notFoundImage from '@assets/images/no-image-found.png';
@@ -22,6 +22,7 @@ const Image: React.FC<ImageProps> = ({
   ratio = '16 / 10',
   custom,
 }) => {
+  const theme = useTheme();
   const handleImageError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = notFoundImage;
   };
@@ -34,7 +35,7 @@ const Image: React.FC<ImageProps> = ({
       shape={shape}
       objectFit={objectFit}
       ratio={ratio}
-      css={resolveCustomCSS(custom)}
+      css={resolveCustomCSS(custom, theme)}
     />
   );
 };

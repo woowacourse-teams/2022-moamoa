@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
@@ -22,8 +22,9 @@ export type UnstyledButtonProps = {
 };
 
 const UnstyledButton: React.FC<UnstyledButtonProps> = ({ custom, children, type = 'button', onClick }) => {
+  const theme = useTheme();
   return (
-    <Self onClick={onClick} type={type} css={resolveCustomCSS(custom)}>
+    <Self onClick={onClick} type={type} css={resolveCustomCSS(custom, theme)}>
       {children}
     </Self>
   );

@@ -1,4 +1,4 @@
-import { type Theme, css } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
@@ -21,6 +21,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   onClick: handleClick,
   custom,
 }) => {
+  const theme = useTheme();
   return (
     <Self
       type="button"
@@ -28,7 +29,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
       checked={checked}
       onClick={handleClick}
       variant={variant}
-      css={resolveCustomCSS(custom)}
+      css={resolveCustomCSS(custom, theme)}
     >
       {children}
     </Self>

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
@@ -17,8 +17,9 @@ export type FilterButtonProps = {
 };
 
 const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, isChecked, onClick: handleClick }) => {
+  const theme = useTheme();
   return (
-    <Self css={resolveCustomCSS(custom)}>
+    <Self css={resolveCustomCSS(custom, theme)}>
       <Flex alignItems="center" custom={{ height: '70px' }}>
         <ToggleButton checked={isChecked} onClick={handleClick}>
           <Flex flexDirection="column" alignItems="center" custom={{ width: '80px' }}>

@@ -1,11 +1,11 @@
-import { css } from '@emotion/react';
+import { type Theme, css } from '@emotion/react';
 import { type CSSProperties } from '@emotion/serialize';
 
 import { hasOwnProperty } from '@utils/hasOwnProperty';
 import isThemeFontSize from '@utils/isThemeFontSize';
 
 import { BreakPoint, BreakpointsFor, mqDown } from '@styles/responsive';
-import { type ThemeFontSize, theme } from '@styles/theme';
+import { type ThemeFontSize, theme as defaultTheme } from '@styles/theme';
 
 type AllCSSObject = CSSProperties & {
   fontSize: ThemeFontSize | CSSProperties['fontSize'];
@@ -34,7 +34,10 @@ export const getResponsiveStyle = <AllowedCSSKeys extends AllCSSKeys>(
   `;
 };
 
-export const resolveCustomCSS = <AllowedCSSKeys extends AllCSSKeys>(custom?: CustomCSS<AllowedCSSKeys>) => {
+export const resolveCustomCSS = <AllowedCSSKeys extends AllCSSKeys>(
+  custom?: CustomCSS<AllowedCSSKeys>,
+  theme: Theme = defaultTheme,
+) => {
   if (!custom) return css``;
   const { responsive, ...defaultStyle } = custom;
 

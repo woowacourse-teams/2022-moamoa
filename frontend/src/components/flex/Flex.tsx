@@ -1,7 +1,7 @@
 import type * as CSS from 'csstype';
 import React from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 
 import { type CustomCSS, getResponsiveStyle, resolveCustomCSS } from '@styles/custom-css';
 import { type BreakpointsFor } from '@styles/responsive';
@@ -43,20 +43,24 @@ const Flex: React.FC<FlexBoxProps> = ({
   custom,
   ...responsive
 }) => {
+  const theme = useTheme();
   const { xs, sm, md, lg, xl, xxl, xxxl } = responsive;
 
   const style = css`
     display: flex;
     width: ${fluid ? '100%' : 'auto'};
-    ${resolveCustomCSS(custom)};
-    ${resolveCustomCSS({
-      alignItems,
-      justifyContent,
-      flexDirection,
-      flexWrap,
-      rowGap,
-      columnGap,
-    })};
+    ${resolveCustomCSS(custom, theme)};
+    ${resolveCustomCSS(
+      {
+        alignItems,
+        justifyContent,
+        flexDirection,
+        flexWrap,
+        rowGap,
+        columnGap,
+      },
+      theme,
+    )};
     ${xxxl && getResponsiveStyle('xxxl', xxxl)};
     ${xxl && getResponsiveStyle('xxl', xxl)};
     ${xl && getResponsiveStyle('xl', xl)};
@@ -76,7 +80,8 @@ export type FlexItemStyle = {
 export type FlexItemProps = Partial<{ children: React.ReactNode } & FlexItemStyle>;
 
 const FlexItem: React.FC<FlexItemProps> = ({ children, flexGrow }) => {
-  return <div css={resolveCustomCSS({ flexGrow })}>{children}</div>;
+  const theme = useTheme();
+  return <div css={resolveCustomCSS({ flexGrow }, theme)}>{children}</div>;
 };
 
 export default Object.assign(Flex, {

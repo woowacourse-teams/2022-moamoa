@@ -1,6 +1,6 @@
 import { type ReactSVG } from 'react';
 
-import { type Theme, css } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { type MakeRequired } from '@custom-types';
@@ -22,8 +22,15 @@ const IconButton: React.FC<IconButtonProps> = ({
   variant = 'primary',
   onClick: handleClick,
 }) => {
+  const theme = useTheme();
   return (
-    <Self css={resolveCustomCSS(custom)} type="button" onClick={handleClick} variant={variant} aria-label={ariaLabel}>
+    <Self
+      css={resolveCustomCSS(custom, theme)}
+      type="button"
+      onClick={handleClick}
+      variant={variant}
+      aria-label={ariaLabel}
+    >
       {children}
     </Self>
   );
