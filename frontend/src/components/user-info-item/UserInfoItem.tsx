@@ -24,9 +24,13 @@ export type UserInfoItemContentProps = {
 const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }) => {
   return (
     <ItemSelf>
-      <Avatar src={src} name={name} size={size} />
-      <Flex flexDirection="column" columnGap="2px">
-        {children}
+      <Flex columnGap="8px">
+        <Avatar src={src} name={name} size={size} />
+        <Flex.Item flexGrow={1}>
+          <Flex flexDirection="column" columnGap="2px">
+            {children}
+          </Flex>
+        </Flex.Item>
       </Flex>
     </ItemSelf>
   );
@@ -42,10 +46,6 @@ const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) =
 
 export const ItemSelf = styled.div`
   ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-    column-gap: 8px;
-
     padding: 8px;
 
     background: transparent;
