@@ -22,7 +22,7 @@ const ErrorPage: React.FC = () => {
         custom={{ width: 'auto', height: 'auto' }}
       />
       <p>잘못된 접근입니다.</p>
-      <GoToHomeButton theme={theme} />
+      <GoToHomeButton />
     </Flex>
   );
 };
