@@ -1,20 +1,19 @@
+import Category from '@study-page/components/category/Category';
+import DescriptionTab from '@study-page/components/description-tab/DescriptionTab';
+import EnrollmentEndDate from '@study-page/components/enrollment-end-date/EnrollmentEndDate';
+import Excerpt from '@study-page/components/excerpt/Excerpt';
+import MaxMemberCount from '@study-page/components/max-member-count/MaxMemberCount';
+import Period from '@study-page/components/period/Period';
+import Publish from '@study-page/components/publish/Publish';
+import Subject from '@study-page/components/subject/Subject';
+import Title from '@study-page/components/title/Title';
+import useEditStudyPage from '@study-page/edit-study-page/hooks/useEditStudyPage';
+import { Container, Main, Sidebar } from '@study-page/layout/Layout';
 import { useEffect } from 'react';
 
 import { PATH } from '@constants';
 
 import { FormProvider } from '@hooks/useForm';
-
-import Category from '@pages/study-page/components/category/Category';
-import DescriptionTab from '@pages/study-page/components/description-tab/DescriptionTab';
-import EnrollmentEndDate from '@pages/study-page/components/enrollment-end-date/EnrollmentEndDate';
-import Excerpt from '@pages/study-page/components/excerpt/Excerpt';
-import MaxMemberCount from '@pages/study-page/components/max-member-count/MaxMemberCount';
-import Period from '@pages/study-page/components/period/Period';
-import Publish from '@pages/study-page/components/publish/Publish';
-import Subject from '@pages/study-page/components/subject/Subject';
-import Title from '@pages/study-page/components/title/Title';
-import useEditStudyPage from '@pages/study-page/edit-study-page/hooks/useEditStudyPage';
-import { Container, Main, Sidebar } from '@pages/study-page/layout/Layout';
 
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';

@@ -1,8 +1,7 @@
 import { type Story } from '@storybook/react';
+import DescriptionTab from '@study-page/components/description-tab/DescriptionTab';
 
 import { FormProvider, useForm } from '@hooks/useForm';
-
-import DescriptionTab from '@pages/study-page/components/description-tab/DescriptionTab';
 
 export default {
   title: 'Pages/CreateStudyPage/DescriptionTab',
