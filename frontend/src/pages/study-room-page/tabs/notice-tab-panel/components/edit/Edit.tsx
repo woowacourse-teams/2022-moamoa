@@ -86,6 +86,23 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   );
 };
 
+type EditFormProps = {
+  article: NoticeArticle;
+  formMethods: UseFormReturn;
+  onSubmit: HandleEditFormSubmit;
+};
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <EditTitle title={article.title} />
+    <EditContent content={article.content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <GoToListPageButton />
+      <EditButton />
+    </ButtonGroup>
+  </Form>
+);
+
 const GoToListPageButton: React.FC = () => (
   <Link to={`../${PATH.NOTICE}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
@@ -103,22 +120,5 @@ const EditButton: React.FC = () => (
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>Error...</div>;
-
-type EditFormProps = {
-  article: NoticeArticle;
-  formMethods: UseFormReturn;
-  onSubmit: HandleEditFormSubmit;
-};
-const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
-  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-    <EditTitle title={article.title} />
-    <EditContent content={article.content} />
-    <Divider space="16px" />
-    <ButtonGroup justifyContent="space-between">
-      <GoToListPageButton />
-      <EditButton />
-    </ButtonGroup>
-  </Form>
-);
 
 export default Edit;
