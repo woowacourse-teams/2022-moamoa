@@ -32,6 +32,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const theme = useTheme();
+  const isRegistered = userRole === 'MEMBER' || userRole === 'OWNER';
   const isOpen = recruitmentStatus === 'RECRUITMENT_START';
 
   return (
@@ -39,12 +40,12 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
       <Flex justifyContent="space-between" alignItems="center">
         <div>
           <Card.Heading custom={{ fontSize: 'xl' }}>
-            <EnrollmentEndDate
-              theme={theme}
-              isOpen={isOpen}
-              userRole={userRole}
-              enrollmentEndDate={enrollmentEndDate}
-            />
+            {isRegistered && <AlreadyRegistered />}
+            {!isRegistered && !isOpen && <Closed />}
+            {!isRegistered && isOpen && !enrollmentEndDate && <Open />}
+            {!isRegistered && isOpen && enrollmentEndDate && (
+              <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />
+            )}
           </Card.Heading>
           <Card.Content custom={{ fontSize: 'md' }} maxLine={1}>
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
@@ -62,23 +63,9 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
 
 type EnrollmentEndDateProps = {
   theme: Theme;
-  isOpen: boolean;
-  userRole?: UserRole;
-  enrollmentEndDate?: DateYMD;
+  enrollmentEndDate: DateYMD;
 };
-const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, userRole, enrollmentEndDate }) => {
-  if (userRole === 'MEMBER' || userRole === 'OWNER') {
-    return <AlreadyRegistered />;
-  }
-
-  if (!isOpen) {
-    return <Closed />;
-  }
-
-  if (!enrollmentEndDate) {
-    return <Open />;
-  }
-
+const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, enrollmentEndDate }) => {
   return (
     <>
       <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
