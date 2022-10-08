@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ReviewResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ReviewsResponse;
@@ -120,6 +121,11 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
         // arrange
         final LocalDate 지금 = LocalDate.now();
 
+        final MemberResponse 짱구_정보 = 짱구가().로그인하고().정보를_가져온다();
+        final MemberResponse 베루스_정보 = 베루스가().로그인하고().정보를_가져온다();
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
+        final MemberResponse 디우_정보 = 디우가().로그인하고().정보를_가져온다();
+
         long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 리액트_스터디_ID = 짱구가().로그인하고().리액트_스터디를().시작일자는(지금).생성한다();
 
@@ -147,16 +153,16 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
         final LocalDate 리뷰_생성일 = 지금;
         final LocalDate 리뷰_수정일 = 지금;
 
-        final WriterResponse 짱구 = new WriterResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
+        final WriterResponse 짱구 = new WriterResponse(짱구_정보.getId(), 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
         final ReviewResponse 짱구_리뷰 = new ReviewResponse(짱구_리뷰_ID, 짱구, 리뷰_생성일, 리뷰_수정일, "리뷰 내용1");
 
-        final WriterResponse 그린론 = new WriterResponse(그린론_깃허브_ID, 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
+        final WriterResponse 그린론 = new WriterResponse(그린론_정보.getId(), 그린론_이름, 그린론_이미지_URL, 그린론_프로필_URL);
         final ReviewResponse 그린론_리뷰 = new ReviewResponse(그린론_리뷰_ID, 그린론, 리뷰_생성일, 리뷰_생성일, "리뷰 내용2");
 
-        final WriterResponse 디우 = new WriterResponse(디우_깃허브_ID, 디우_이름, 디우_이미지_URL, 디우_프로필_URL);
+        final WriterResponse 디우 = new WriterResponse(디우_정보.getId(), 디우_이름, 디우_이미지_URL, 디우_프로필_URL);
         final ReviewResponse 디우_리뷰 = new ReviewResponse(디우_리뷰_ID, 디우, 리뷰_생성일, 리뷰_수정일, "리뷰 내용3");
 
-        final WriterResponse 베루스 = new WriterResponse(베루스_깃허브_ID, 베루스_이름, 베루스_이미지_URL, 베루스_프로필_URL);
+        final WriterResponse 베루스 = new WriterResponse(베루스_정보.getId(), 베루스_이름, 베루스_이미지_URL, 베루스_프로필_URL);
         final ReviewResponse 베루스_리뷰 = new ReviewResponse(베루스_리뷰_ID, 베루스, 리뷰_생성일, 리뷰_수정일, "리뷰 내용4");
 
         assertThat(reviewsResponse.getTotalCount()).isEqualTo(4);
@@ -201,6 +207,7 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
     void updateReview() {
         // arrange
         LocalDate 지금 = LocalDate.now();
+        final MemberResponse 짱구_정보 = 짱구가().로그인하고().정보를_가져온다();
         long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 짱구_리뷰_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
         String token = 짱구가().로그인한다();
@@ -231,7 +238,7 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
 
         final LocalDate 리뷰_생성일 = 지금;
         final LocalDate 리뷰_수정일 = 지금;
-        final WriterResponse 짱구 = new WriterResponse(짱구_깃허브_ID, 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
+        final WriterResponse 짱구 = new WriterResponse(짱구_정보.getId(), 짱구_이름, 짱구_이미지_URL, 짱구_프로필_URL);
         final ReviewResponse 짱구_리뷰 = new ReviewResponse(짱구_리뷰_ID, 짱구, 리뷰_생성일, 리뷰_수정일, "수정 리뷰");
         assertThat(response.getReviews()).containsExactlyInAnyOrder(짱구_리뷰);
         assertThat(response.getTotalCount()).isEqualTo(1);

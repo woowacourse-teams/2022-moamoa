@@ -170,8 +170,6 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
         베루스가().로그인하고().스터디에(리액트_스터디_ID).공지사항을_작성한다("리액트 게시글 제목", "리액트 게시글 내용");
 
-        String 토큰 = 그린론이().로그인한다();
-
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
                 .pathParam("study-id", 자바_스터디_ID)
@@ -261,7 +259,7 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         assertThat(response).isEqualTo(new ArticleSummariesResponse(articles, 0, 0, 4));
     }
 
-    @DisplayName("커뮤니티 글을 수정한다.")
+    @DisplayName("공지사항을 수정한다.")
     @Test
     void updateArticleToCommunity() throws JsonProcessingException {
         // arrange
@@ -311,7 +309,7 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
         final AuthorResponse authorResponse = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
-        assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목 수정",
+        assertThat(response).isEqualTo(new ArticleResponse(공지글_ID, authorResponse, "게시글 제목 수정",
                 "게시글 내용 수정", LocalDate.now(), LocalDate.now()));
     }
 }
