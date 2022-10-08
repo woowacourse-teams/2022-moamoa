@@ -15,6 +15,7 @@ import { useDeleteMyStudy } from '@api/my-study';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
+import LinkedButton from '@components/button/linked-button/LinkedButton';
 import SectionTitle from '@components/section-title/SectionTitle';
 
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
@@ -114,7 +115,7 @@ const MyStudyCardLinkItemList: React.FC<MyStudyCardLinkItemListProps> = ({
   <>
     {studies.map(study => (
       <li key={study.id}>
-        <Link to={PATH.STUDY_ROOM(study.id)}>
+        <LinkedButton to={PATH.STUDY_ROOM(study.id)}>
           <MyStudyCard
             title={study.title}
             ownerName={study.owner.username}
@@ -124,7 +125,7 @@ const MyStudyCardLinkItemList: React.FC<MyStudyCardLinkItemListProps> = ({
             done={done}
             onQuitStudyButtonClick={handleQuitButtonClick(study)}
           />
-        </Link>
+        </LinkedButton>
       </li>
     ))}
   </>
