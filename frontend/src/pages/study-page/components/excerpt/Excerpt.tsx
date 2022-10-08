@@ -12,7 +12,7 @@ import ImportedLetterCounter, {
 } from '@components/letter-counter/LetterCounter';
 import useLetterCount from '@components/letter-counter/useLetterCount';
 import MetaBox from '@components/meta-box/MetaBox';
-import ImportedTextarea, { type TextareaProps as ImportedTextareaProps } from '@components/textarea/Textarea';
+import Textarea, { type TextareaProps } from '@components/textarea/Textarea';
 
 export type ExcerptProps = {
   originalExcerpt?: StudyDetail['excerpt'];
@@ -76,7 +76,7 @@ type ExcerptTextAreaProps = {
   isValid: boolean;
   defaultValue: string;
   register: UseFormRegister;
-  onChange: ImportedTextareaProps['onChange'];
+  onChange: TextareaProps['onChange'];
 };
 const ExceprtTextArea: React.FC<ExcerptTextAreaProps> = ({
   isValid,
@@ -84,7 +84,7 @@ const ExceprtTextArea: React.FC<ExcerptTextAreaProps> = ({
   onChange: handleChange,
   register,
 }) => (
-  <ImportedTextarea
+  <Textarea
     id={EXCERPT}
     placeholder="*한줄소개를 입력해주세요"
     invalid={!isValid}
