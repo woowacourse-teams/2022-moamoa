@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { type CssLength, type MakeRequired } from '@custom-types';
 
-import { type CustomCSS } from '@styles/custom-css';
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
 export type ButtonGroupProps = {
   children: React.ReactNode;
@@ -20,9 +20,16 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   justifyContent,
   alignItems,
   gap = 0,
+  custom,
 }) => {
   return (
-    <Self orientation={orientation} gap={gap} justifyContent={justifyContent} alignItems={alignItems}>
+    <Self
+      css={resolveCustomCSS(custom)}
+      orientation={orientation}
+      gap={gap}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+    >
       {children}
     </Self>
   );
