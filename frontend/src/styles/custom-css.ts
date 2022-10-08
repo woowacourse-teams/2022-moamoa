@@ -7,14 +7,14 @@ import isThemeFontSize from '@utils/isThemeFontSize';
 import { BreakPoint, BreakpointsFor, mqDown } from '@styles/responsive';
 import { ThemeFontSize, theme } from '@styles/theme';
 
-type AllCSSKeyValue = CSSProperties & {
+type AllCSSObject = CSSProperties & {
   fontSize: ThemeFontSize | CSSProperties['fontSize'];
 };
 
-type AllCSSKeys = keyof AllCSSKeyValue;
+type AllCSSKeys = keyof AllCSSObject;
 
 type PickAllowedCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = {
-  [CSSKey in AllowedCSSKeys]?: AllCSSKeyValue[CSSKey];
+  [CSSKey in AllowedCSSKeys]?: AllCSSObject[CSSKey];
 };
 
 type ResponsiveCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = BreakpointsFor<PickAllowedCSSKeyValue<AllowedCSSKeys>>;
