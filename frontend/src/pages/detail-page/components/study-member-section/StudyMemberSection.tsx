@@ -111,21 +111,23 @@ const StudyMemberListItems: React.FC<StudyMemberListItemsProps> = ({ size, owner
         profileUrl={owner.profileUrl}
         username={owner.username}
         imageUrl={owner.imageUrl}
-        startDate={changeDateSeperator(owner.participationDate)}
+        startDate={owner.participationDate}
         studyCount={owner.numberOfStudy}
       />
     </li>
-    {members.slice(0, size).map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
-      <li key={id}>
-        <StudyMemberCardLink
-          profileUrl={profileUrl}
-          username={username}
-          imageUrl={imageUrl}
-          startDate={changeDateSeperator(participationDate)}
-          studyCount={numberOfStudy}
-        />
-      </li>
-    ))}
+    {members
+      .slice(0, size)
+      .map(({ id, username, imageUrl, profileUrl, participationDate: startDate, numberOfStudy }) => (
+        <li key={id}>
+          <StudyMemberCardLink
+            profileUrl={profileUrl}
+            username={username}
+            imageUrl={imageUrl}
+            startDate={startDate}
+            studyCount={numberOfStudy}
+          />
+        </li>
+      ))}
   </>
 );
 

@@ -27,7 +27,7 @@ Default.args = {
       name: 'FE',
     },
   ],
-  startDate: '2022.08.13',
-  endDate: '2022.08.20',
+  startDate: '2022-08-13',
+  endDate: '2022-08-20',
   done: false,
 };

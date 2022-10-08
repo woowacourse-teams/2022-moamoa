@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { type StudyDetail, type StudyId, type Tag } from '@custom-types';
+import { type DateYMD, type StudyDetail, type StudyId, type Tag } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Flex from '@components/flex/Flex';
@@ -76,8 +76,8 @@ const TagList: React.FC<TagListProps> = ({ tags }) => (
 );
 
 type PeriodProps = {
-  startDate: string;
-  endDate?: string;
+  startDate: DateYMD;
+  endDate?: DateYMD;
 };
 const Period: React.FC<PeriodProps> = ({ startDate, endDate }) => (
   <Flex alignItems="center" columnGap="16px">

@@ -35,7 +35,7 @@ export const yyyymmddTommdd = (date: DateYMD, seperator = '-') => {
   return `${m}월 ${d}일`;
 };
 
-export const changeDateSeperator = (date: string, fromSeperator = '-', toSeperator = '.') => {
+export const changeDateSeperator = (date: DateYMD, fromSeperator = '-', toSeperator = '.') => {
   return date.replaceAll(fromSeperator, toSeperator);
 };
 

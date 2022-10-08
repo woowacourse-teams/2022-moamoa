@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
-import { type Tag } from '@custom-types';
+import { type DateYMD, type Tag } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
@@ -18,8 +18,8 @@ export type MyStudyCardProps = {
   title: string;
   ownerName: string;
   tags: Array<Pick<Tag, 'id' | 'name'>>;
-  startDate: string;
-  endDate?: string;
+  startDate: DateYMD;
+  endDate?: DateYMD;
   done?: boolean;
   onQuitStudyButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
@@ -105,8 +105,8 @@ const TagList: React.FC<TagListProps> = ({ tags }) => {
 };
 
 type PeriodProps = {
-  startDate: string;
-  endDate?: string;
+  startDate: DateYMD;
+  endDate?: DateYMD;
 };
 const Period: React.FC<PeriodProps> = ({ startDate, endDate }) => (
   <div
