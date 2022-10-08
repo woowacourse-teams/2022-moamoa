@@ -14,7 +14,7 @@ export default {
 const Template: Story<MyStudyCardListSectionProps> = props => (
   <PageWrapper>
     <MyStudyCardListSection {...props} />
-  </Wrapper>
+  </PageWrapper>
 );
 
 export const Default = Template.bind({});

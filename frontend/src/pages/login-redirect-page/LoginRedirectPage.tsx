@@ -8,7 +8,7 @@ const LoginRedirectPage: React.FC = () => {
   return (
     <PageWrapper>
       <div>로그인 진행 중입니다...</div>
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

@@ -44,7 +44,7 @@ const LinkRoomTabPanel: React.FC = () => {
           <LinkForm author={userInfo} onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
         </ModalPortal>
       )}
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

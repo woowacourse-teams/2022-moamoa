@@ -38,7 +38,7 @@ const MainPage: React.FC = () => {
             studies={searchedStudies}
           />
         )}
-      </Wrapper>
+      </PageWrapper>
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </Page>
   );

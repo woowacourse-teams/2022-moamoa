@@ -46,7 +46,7 @@ const ReviewTabPanel: React.FC = () => {
       {isError && !isSuccess && <Error />}
       {noReview && <NoReview />}
       {hasReview(reviews) && <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />}
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

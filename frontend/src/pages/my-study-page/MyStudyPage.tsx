@@ -27,7 +27,7 @@ const MyStudyPage: React.FC = () => {
           <DoneStudyList studies={studies} />
         </>
       )}
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

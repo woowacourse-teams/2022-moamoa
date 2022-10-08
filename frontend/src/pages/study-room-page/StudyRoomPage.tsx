@@ -30,7 +30,7 @@ const StudyRoomPage: React.FC = () => {
           <Outlet />
         </Flex.Item>
       </Flex>
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

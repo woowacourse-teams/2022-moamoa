@@ -73,7 +73,7 @@ const EditStudyPage: React.FC = () => {
           </Container>
         </Form>
       </FormProvider>
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

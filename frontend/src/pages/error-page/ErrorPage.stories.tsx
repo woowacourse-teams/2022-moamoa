@@ -12,7 +12,7 @@ export default {
 const Template: Story = () => (
   <PageWrapper>
     <ErrorPage />
-  </Wrapper>
+  </PageWrapper>
 );
 
 export const Default = Template.bind({});

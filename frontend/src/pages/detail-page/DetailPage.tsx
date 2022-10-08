@@ -83,7 +83,7 @@ const DetailPage: React.FC = () => {
           </FixedBottomContainer>
         </>
       )}
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

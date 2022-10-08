@@ -41,7 +41,7 @@ const defaultMarkdown = `
 const Template: Story = () => (
   <PageWrapper>
     <MarkdownRender markdownContent={defaultMarkdown} />
-  </Wrapper>
+  </PageWrapper>
 );
 
 export const Default = Template.bind({});

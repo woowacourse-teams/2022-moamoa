@@ -53,7 +53,7 @@ const CreateStudyPage: React.FC = () => {
           </Container>
         </Form>
       </FormProvider>
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

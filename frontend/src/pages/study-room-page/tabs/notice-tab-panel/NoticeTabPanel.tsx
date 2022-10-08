@@ -57,7 +57,7 @@ const NoticeTabPanel: React.FC = () => {
   return (
     <PageWrapper>
       <div>{render()}</div>
-    </Wrapper>
+    </PageWrapper>
   );
 };
 

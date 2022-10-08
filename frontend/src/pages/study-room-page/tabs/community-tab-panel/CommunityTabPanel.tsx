@@ -34,7 +34,7 @@ const CommunityTabPanel: React.FC = () => {
       {isArticleDetailPage && <Article studyId={studyId} articleId={articleId} />}
       {isPublishPage && <Publish studyId={studyId} />}
       {isEditPage && <Edit studyId={studyId} articleId={articleId} />}
-    </Wrapper>
+    </PageWrapper>
   );
 };
 
