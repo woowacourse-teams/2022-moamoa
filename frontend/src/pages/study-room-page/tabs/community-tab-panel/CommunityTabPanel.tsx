@@ -9,7 +9,7 @@ import { type StudyId } from '@custom-types';
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import ArticleList from '@community-tab/components/article-list/ArticleList';
 import Article from '@community-tab/components/article/Article';
@@ -29,7 +29,7 @@ const CommunityTabPanel: React.FC = () => {
   const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
   return (
-    <Wrapper>
+    <PageWrapper>
       {isListPage && <ArticleListPage theme={theme} studyId={studyId} />}
       {isArticleDetailPage && <Article studyId={studyId} articleId={articleId} />}
       {isPublishPage && <Publish studyId={studyId} />}

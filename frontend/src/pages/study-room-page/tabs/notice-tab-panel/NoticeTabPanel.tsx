@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
@@ -55,7 +55,7 @@ const NoticeTabPanel: React.FC = () => {
   };
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <div>{render()}</div>
     </Wrapper>
   );

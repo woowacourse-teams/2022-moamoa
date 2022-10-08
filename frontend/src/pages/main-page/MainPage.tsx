@@ -9,7 +9,7 @@ import { type Study } from '@custom-types';
 import { mqDown } from '@styles/responsive';
 
 import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
 import FilterSection from '@main-page/components/filter-section/FilterSection';
@@ -28,7 +28,7 @@ const MainPage: React.FC = () => {
   return (
     <Page>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
-      <Wrapper>
+      <PageWrapper>
         {isError && <Error />}
         {!hasResult && <NoResult />}
         {hasResult && (

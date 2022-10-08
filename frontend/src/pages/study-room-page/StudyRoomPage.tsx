@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { PATH } from '@constants';
 
 import Flex from '@components/flex/Flex';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
@@ -23,7 +23,7 @@ const StudyRoomPage: React.FC = () => {
   }
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <Flex alignItems="flex-start">
         <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
         <Flex.Item flexGrow={1}>

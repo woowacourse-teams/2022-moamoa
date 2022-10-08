@@ -18,7 +18,7 @@ import { Container, Main, Sidebar } from '@pages/study-page/layout/Layout';
 
 import Form from '@components/form/Form';
 import PageTitle from '@components/page-title/PageTitle';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 const EditStudyPage: React.FC = () => {
   const { studyId, formMethods, onSubmit, navigate, studyQueryResult } = useEditStudyPage();
@@ -40,7 +40,7 @@ const EditStudyPage: React.FC = () => {
   const originalSubjects = data.tags.filter(tag => tag.category.name === 'subject');
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <FormProvider {...formMethods}>
         <PageTitle>스터디 수정하기</PageTitle>
         <Form onSubmit={formMethods.handleSubmit(onSubmit)}>

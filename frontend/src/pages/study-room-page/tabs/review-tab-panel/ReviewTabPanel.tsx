@@ -8,7 +8,7 @@ import { useGetStudyReviews } from '@api/reviews';
 import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/divider/Divider';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
 import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
@@ -39,7 +39,7 @@ const ReviewTabPanel: React.FC = () => {
   };
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <ReviewForm author={userInfo} studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
       <Divider space="30px" />
       {isFetching && <Loading />}

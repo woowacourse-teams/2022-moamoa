@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import MyStudyCardListSection, {
   type MyStudyCardListSectionProps,
@@ -12,7 +12,7 @@ export default {
 };
 
 const Template: Story<MyStudyCardListSectionProps> = props => (
-  <Wrapper>
+  <PageWrapper>
     <MyStudyCardListSection {...props} />
   </Wrapper>
 );

@@ -3,18 +3,18 @@ import styled from '@emotion/styled';
 
 import { type CssLength } from '@custom-types';
 
-export type WrapperProps = {
+export type PageWrapperProps = {
   children: React.ReactNode;
   space?: CssLength;
 };
 
-const Wrapper: React.FC<WrapperProps> = ({ children, space = '20px' }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, space = '20px' }) => {
   return <Self space={space}>{children}</Self>;
 };
 
-type StyledWrapperProps = Required<Pick<WrapperProps, 'space'>>;
+type StyledPageWrapperProps = Required<Pick<PageWrapperProps, 'space'>>;
 
-const Self = styled.div<StyledWrapperProps>`
+const Self = styled.div<StyledPageWrapperProps>`
   ${({ space }) => css`
     width: 100%;
     max-width: 1280px;
@@ -23,4 +23,4 @@ const Self = styled.div<StyledWrapperProps>`
   `}
 `;
 
-export default Wrapper;
+export default PageWrapper;

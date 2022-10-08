@@ -9,7 +9,7 @@ import { mqDown } from '@styles/responsive';
 import Divider from '@components/divider/Divider';
 import Flex from '@components/flex/Flex';
 import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
@@ -29,7 +29,7 @@ const DetailPage: React.FC = () => {
 
   // TODO: background에 thumbnail 이미지 사용
   return (
-    <Wrapper>
+    <PageWrapper>
       {isFetching && <Loading />}
       {isError && <Error />}
       {isSuccess && (

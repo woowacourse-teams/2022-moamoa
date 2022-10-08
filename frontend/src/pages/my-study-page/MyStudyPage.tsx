@@ -2,7 +2,7 @@ import { type MyStudy } from '@custom-types';
 
 import Divider from '@components/divider/Divider';
 import PageTitle from '@components/page-title/PageTitle';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 import { type StudyType, useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';
@@ -13,7 +13,7 @@ const MyStudyPage: React.FC = () => {
   const { isFetching, isError, isSuccess } = myStudyQueryResult;
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <PageTitle align="center">가입한 스터디 목록</PageTitle>
       <Divider />
       {isFetching && <Loading />}

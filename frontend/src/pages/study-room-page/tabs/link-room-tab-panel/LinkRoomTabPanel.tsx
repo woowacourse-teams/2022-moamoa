@@ -8,7 +8,7 @@ import { mqDown } from '@styles/responsive';
 import { TextButton } from '@components/button';
 import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
 import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
@@ -31,7 +31,7 @@ const LinkRoomTabPanel: React.FC = () => {
   const links = data ? data.pages.reduce<Array<Link>>((acc, cur) => [...acc, ...cur.links], []) : [];
 
   return (
-    <Wrapper>
+    <PageWrapper>
       {isFetching && <Loading />}
       {isError && <Error />}
       {isSuccess && links.length === 0 && <NoLinks />}
