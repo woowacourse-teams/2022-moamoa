@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { type DateYMD } from '@custom-types';
+
 import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Flex from '@components/flex/Flex';
@@ -8,16 +10,11 @@ import UserInfoItem from '@components/user-info-item/UserInfoItem';
 export type StudyMemberCardProps = {
   username: string;
   imageUrl: string;
-  startDate: string;
   studyCount: number;
+  startDate: string;
 };
 
-const StudyMemberCard: React.FC<StudyMemberCardProps> = ({
-  username,
-  imageUrl,
-  studyCount = 12,
-  startDate = '2022.07.02',
-}) => {
+const StudyMemberCard: React.FC<StudyMemberCardProps> = ({ username, imageUrl, studyCount, startDate }) => {
   return (
     <Self>
       <UserInfoItem src={imageUrl} name={`${username} 프로필`} size="lg">
