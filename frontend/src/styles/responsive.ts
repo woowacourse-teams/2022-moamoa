@@ -17,7 +17,7 @@ export const dimensions = {
 };
 
 export type BreakpointsFor<T> = {
-  [key in BreakPoint]?: T;
+  [Key in BreakPoint]?: T;
 };
 
 export const mqUp = (size: BreakPoint) => {
