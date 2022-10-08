@@ -58,6 +58,7 @@ export const resolveCustomCSS = <AllowedCSSKeys extends AllCSSKeys>(custom?: Cus
     return css`
       ${defaultStyle}
       // 우선순위가 중요합니다!! xxxl -> xs 순으로 놓아야 합니다
+      // 왜냐하면 getResponsiveStyle에서 mqDown(@media (max-width))을 사용했기 때문입니다
       ${xxxlStyle}
       ${xxlStyle}
       ${xlStyle}
