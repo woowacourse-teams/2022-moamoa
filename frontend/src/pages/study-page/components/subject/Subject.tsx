@@ -43,14 +43,6 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
 
   const options = subjects ? subjectsToOptions(subjects) : [];
 
-  useEffect(() => {
-    if (!isError && isSuccess && !etcTag) {
-      console.error('기타 태그의 name이 변경되었습니다');
-      alert('기타 태그의 name이 변경되었습니다');
-      return;
-    }
-  }, [isError, isSuccess, etcTag]);
-
   return (
     <MetaBox>
       <MetaBox.Title>
@@ -60,6 +52,7 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         {isLoading && <Loading />}
         {isError && <Error />}
         {!isError && isSuccess && !hasTags && <NoTags />}
+        {!isError && isSuccess && hasTags && !etcTag && <ETCTagError />}
         <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />
       </MetaBox.Content>
     </MetaBox>
@@ -71,5 +64,7 @@ const Loading = () => <div>Loading...</div>;
 const Error = () => <div>Error!</div>;
 
 const NoTags = () => <div>선택 가능한 주제(태그)가 없습니다</div>;
+
+const ETCTagError = () => <div>%ERROR%</div>;
 
 export default Subject;
