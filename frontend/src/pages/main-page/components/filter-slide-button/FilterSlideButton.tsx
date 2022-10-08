@@ -17,7 +17,7 @@ const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ direction, ariaLa
         width: '25px',
         height: '25px',
         borderRadius: '50%',
-        transition: 'background-color 0.2s ease 0s',
+        transition: 'background-color 0.2s ease',
         backgroundColor: 'rgb(255, 255, 255)',
       }}
     >
