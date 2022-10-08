@@ -15,8 +15,8 @@ import { theme } from '@styles/theme';
 import { CrownIcon } from '@components/icons';
 import SectionTitle from '@components/section-title/SectionTitle';
 
-import { default as ImportedMoreButton, MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
-import StudyMemberCard, { StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
+import { default as ImportedMoreButton, type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
+import StudyMemberCard, { type StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export type StudyMemberSectionProps = {
   owner: StudyDetail['owner'];

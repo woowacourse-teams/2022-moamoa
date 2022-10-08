@@ -8,7 +8,7 @@ import { type Study } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
-import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
+import InfiniteScroll, { type InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
 import PageWrapper from '@components/page-wrapper/PageWrapper';
 
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';

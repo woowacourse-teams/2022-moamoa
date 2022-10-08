@@ -12,7 +12,9 @@ import { useGetTags } from '@api/tags';
 import Center from '@components/center/Center';
 import Divider from '@components/divider/Divider';
 
-import FilterButtonList, { FilterButtonListProps } from '@main-page/components/filter-button-list/FilterButtonList';
+import FilterButtonList, {
+  type FilterButtonListProps,
+} from '@main-page/components/filter-button-list/FilterButtonList';
 import ImportedFilterSlideButton, {
   type FilterSlideButtonProps as ImportedFilterSlideButtonProps,
 } from '@main-page/components/filter-slide-button/FilterSlideButton';

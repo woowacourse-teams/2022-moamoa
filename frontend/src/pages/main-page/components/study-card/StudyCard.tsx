@@ -9,7 +9,7 @@ import { applyHoverTransitionStyle } from '@styles/theme';
 
 import Card from '@components/card/Card';
 import Flex from '@components/flex/Flex';
-import Image, { ImageProps } from '@components/image/Image';
+import Image, { type ImageProps } from '@components/image/Image';
 import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {

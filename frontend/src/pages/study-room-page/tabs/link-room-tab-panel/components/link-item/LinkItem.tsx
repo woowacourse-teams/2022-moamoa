@@ -13,7 +13,7 @@ import ModalPortal from '@components/modal/Modal';
 
 import LinkEditForm from '@link-tab/components/link-edit-form/LinkEditForm';
 import { useLinkItem } from '@link-tab/components/link-item/hooks/useLinkItem';
-import LinkPreview, { LinkPreviewProps } from '@link-tab/components/link-preview/LinkPreview';
+import LinkPreview, { type LinkPreviewProps } from '@link-tab/components/link-preview/LinkPreview';
 import UserDescription from '@link-tab/components/user-description/UserDescription';
 
 export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUrl'> & {

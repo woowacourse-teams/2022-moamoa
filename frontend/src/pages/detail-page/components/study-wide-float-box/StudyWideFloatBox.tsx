@@ -8,8 +8,7 @@ import { yyyymmddTommdd } from '@utils';
 
 import { type DateYMD, type StudyDetail, type StudyId, type UserRole } from '@custom-types';
 
-import { BoxButton } from '@components/button';
-import { BoxButtonProps } from '@components/button/box-button/BoxButton';
+import BoxButton, { type BoxButtonProps } from '@components/button/box-button/BoxButton';
 import Card from '@components/card/Card';
 import Flex from '@components/flex/Flex';
 

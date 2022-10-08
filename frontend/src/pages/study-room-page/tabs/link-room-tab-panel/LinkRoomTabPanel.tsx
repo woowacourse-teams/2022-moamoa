@@ -6,7 +6,7 @@ import { type Link } from '@custom-types';
 import { mqDown } from '@styles/responsive';
 
 import { TextButton } from '@components/button';
-import InfiniteScroll, { InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
+import InfiniteScroll, { type InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
 import PageWrapper from '@components/page-wrapper/PageWrapper';
 
