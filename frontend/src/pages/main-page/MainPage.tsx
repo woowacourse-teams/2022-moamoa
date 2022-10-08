@@ -30,8 +30,8 @@ const MainPage: React.FC = () => {
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <PageWrapper>
         {isError && <Error />}
-        {!hasResult && <NoResult />}
-        {hasResult && (
+        {!isError && !hasResult && <NoResult />}
+        {!isError && hasResult && (
           <InfinitScrollCardList
             isContentLoading={isFetching}
             onContentLoad={fetchNextPage}
