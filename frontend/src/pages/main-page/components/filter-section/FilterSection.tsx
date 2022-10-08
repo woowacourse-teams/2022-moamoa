@@ -77,15 +77,19 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       <Filter ref={sliderRef}>
         {isLoading && <Loading />}
         {isError && <Error />}
-        <AreaTags filters={areaTags} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+        <AreaTagList
+          filters={areaTags}
+          selectedFilters={selectedFilters}
+          onFilterButtonClick={handleFilterButtonClick}
+        />
         <Divider orientation="vertical" verticalLength="40px" space={0} />
-        <GenerationTags
+        <GenerationTagList
           filters={generationTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
         />
         <Divider orientation="vertical" verticalLength="40px" />
-        <SubjectTags
+        <SubjectTagList
           filters={subjectTags}
           selectedFilters={selectedFilters}
           onFilterButtonClick={handleFilterButtonClick}
@@ -168,8 +172,8 @@ const Filter = styled.div`
   }
 `;
 
-type AreaTagsProps = FilterButtonListProps;
-const AreaTags: React.FC<AreaTagsProps> = ({
+type AreaTagListProps = FilterButtonListProps;
+const AreaTagList: React.FC<AreaTagListProps> = ({
   filters,
   selectedFilters,
   onFilterButtonClick: handleFilterButtonClick,
@@ -177,8 +181,8 @@ const AreaTags: React.FC<AreaTagsProps> = ({
   <FilterButtonList filters={filters} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
 );
 
-type GenerationTagsProps = FilterButtonListProps;
-const GenerationTags: React.FC<GenerationTagsProps> = ({
+type GenerationTagListProps = FilterButtonListProps;
+const GenerationTagList: React.FC<GenerationTagListProps> = ({
   filters,
   selectedFilters,
   onFilterButtonClick: handleFilterButtonClick,
@@ -186,8 +190,8 @@ const GenerationTags: React.FC<GenerationTagsProps> = ({
   <FilterButtonList filters={filters} selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
 );
 
-type SubjectTagsProps = FilterButtonListProps;
-const SubjectTags: React.FC<SubjectTagsProps> = ({
+type SubjectTagListProps = FilterButtonListProps;
+const SubjectTagList: React.FC<SubjectTagListProps> = ({
   filters,
   selectedFilters,
   onFilterButtonClick: handleFilterButtonClick,
