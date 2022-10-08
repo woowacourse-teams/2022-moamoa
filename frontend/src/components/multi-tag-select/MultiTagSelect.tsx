@@ -250,6 +250,12 @@ const SelectButton: React.FC<SelectButtonProps> = ({ children, onClick: handleCl
   </UnstyledButton>
 );
 
-export const AllClearButton = styled(UnstyledButton)``;
+type AllClearButtonProps = {
+  children?: React.ReactNode;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+export const AllClearButton: React.FC<AllClearButtonProps> = ({ children, onClick: handleClick }) => (
+  <UnstyledButton onClick={handleClick}>{children}</UnstyledButton>
+);
 
 export default MultiTagSelect;
