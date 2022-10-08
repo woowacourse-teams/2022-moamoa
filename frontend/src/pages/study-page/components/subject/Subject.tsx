@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { type StudyDetail } from '@custom-types';
+import { type StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
@@ -8,11 +8,7 @@ import { useFormContext } from '@hooks/useForm';
 
 import Label from '@components/label/Label';
 import MetaBox from '@components/meta-box/MetaBox';
-import MultiTagSelect, { type MultiTagSelectProps } from '@components/multi-tag-select/MultiTagSelect';
-
-export type SubjectProps = {
-  originalSubjects?: StudyDetail['tags'];
-};
+import MultiTagSelect, { type MultiTagSelectProps, Option } from '@components/multi-tag-select/MultiTagSelect';
 
 const SUBJECT = 'subject';
 
@@ -21,6 +17,10 @@ const subjectsToOptions = (subjects: StudyDetail['tags']): MultiTagSelectProps['
     label: description,
     value: id,
   }));
+};
+
+export type SubjectProps = {
+  originalSubjects?: StudyDetail['tags'];
 };
 
 const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
@@ -34,11 +34,12 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const subjects = data?.tags?.filter(({ category }) => category.name === SUBJECT);
   const etcTag = subjects?.find(tag => tag.name === 'Etc');
 
-  const selectedOptions = originalOptions
-    ? originalOptions
-    : etcTag
-    ? [{ value: etcTag.id, label: etcTag.description }]
-    : [];
+  let selectedOptions: Array<Option> = [];
+  if (originalOptions) {
+    selectedOptions = originalOptions;
+  } else if (etcTag) {
+    selectedOptions = [{ value: etcTag.id, label: etcTag.description }];
+  }
 
   const options = subjects ? subjectsToOptions(subjects) : [];
 

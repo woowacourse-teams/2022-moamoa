@@ -14,7 +14,7 @@ import ImportedDropDownBox, {
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
 import XMarkIcon from '@components/icons/x-mark-icon/XMarkIcon';
 
-type Option = {
+export type Option = {
   value: string | number;
   label: string;
 };
