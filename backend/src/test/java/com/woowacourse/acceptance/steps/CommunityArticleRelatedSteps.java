@@ -13,29 +13,20 @@ import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class CommunityArticleRelatedSteps extends Steps {
+public class CommunityArticleRelatedSteps extends Steps<CommunityArticleRelatedSteps, CommunityArticleDocument> {
 
     private final String token;
-
     private final Long studyId;
-
-    private RequestSpecification spec;
 
     CommunityArticleRelatedSteps(final String token, final Long studyId) {
         this.token = token;
         this.studyId = studyId;
         this.spec = RestAssured.given();
-    }
-
-    public CommunityArticleRelatedSteps API_문서화를_하고(final CommunityArticleDocument document) {
-        this.spec = document.spec();
-        return this;
     }
 
     public Long 작성한다(final String title, final String content) {

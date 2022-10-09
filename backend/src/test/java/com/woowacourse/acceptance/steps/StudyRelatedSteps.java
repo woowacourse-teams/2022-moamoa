@@ -30,6 +30,10 @@ public class StudyRelatedSteps extends Steps {
         return new CommunityArticleRelatedSteps(token, studyId);
     }
 
+    public LinkArticleRelatedSteps 링크를() {
+        return new LinkArticleRelatedSteps(token, studyId);
+    }
+
     public void 참여한다() {
         spec.log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
@@ -55,24 +59,6 @@ public class StudyRelatedSteps extends Steps {
             return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reviews/", ""));
         } catch (Exception e) {
             Assertions.fail("리뷰 작성 실패");
-            return null;
-        }
-    }
-
-    public Long 링크를_공유한다(final LinkArticleRequest request) {
-        try {
-            final String location = spec.log().all()
-                    .header(AUTHORIZATION, token)
-                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                    .pathParams("study-id", studyId)
-                    .body(objectMapper.writeValueAsString(request))
-                    .when().post("/api/studies/{study-id}/reference-room/links")
-                    .then().log().all()
-                    .statusCode(HttpStatus.CREATED.value())
-                    .extract().header(HttpHeaders.LOCATION);
-            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/reference-room/links/", ""));
-        } catch (Exception e) {
-            Assertions.fail("링크 공유 작성 실패");
             return null;
         }
     }

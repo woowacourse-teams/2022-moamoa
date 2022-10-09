@@ -16,16 +16,10 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpHeaders;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-public class CommunityArticleDocument {
-
-    private final RequestSpecification spec;
+public class CommunityArticleDocument extends Document{
 
     private CommunityArticleDocument(final RequestSpecification spec) {
-        this.spec = spec;
-    }
-
-    public RequestSpecification spec() {
-        return spec;
+        super(spec);
     }
 
     public static CommunityArticleDocument 게시글_생성_문서(RequestSpecification spec) {
