@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -38,8 +39,8 @@ class StudyParticipantControllerTest {
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        jjanggu = memberRepository.save(MemberFixtures.짱구());
+        dwoo = memberRepository.save(MemberFixtures.디우());
     }
 
     @DisplayName("회원은 스터디에 참여할 수 있다.")
@@ -104,7 +105,7 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
         Study study = studyRepository.findById(studyId).orElseThrow();
 
-        final Member green = memberRepository.save(new Member(3L, "lawn", "https://image", "github.com"));
+        final Member green = memberRepository.save(MemberFixtures.그린론());
         study.participate(green.getId());
 
         entityManager.flush();

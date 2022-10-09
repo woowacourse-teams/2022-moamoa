@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.AttachedTag;
@@ -54,10 +55,10 @@ class StudySummaryDaoTest {
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+        jjanggu = memberRepository.save(MemberFixtures.짱구());
+        greenlawn = memberRepository.save(MemberFixtures.그린론());
+        dwoo = memberRepository.save(MemberFixtures.디우());
+        verus = memberRepository.save(MemberFixtures.베루스());
 
         studyRepository.save(
                 new Study(

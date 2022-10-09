@@ -24,7 +24,9 @@ public class MemberService {
         final Optional<Member> foundMember = memberRepository.findByGithubId(member.getGithubId());
 
         if (foundMember.isPresent()) {
-            foundMember.get().update(member.getUsername(), member.getImageUrl(), member.getProfileUrl());
+            foundMember.get().update(
+                    member.getUsername(), member.getEmail(), member.getImageUrl(), member.getProfileUrl()
+            );
             return new MemberResponse(foundMember.get());
         }
 

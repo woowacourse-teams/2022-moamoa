@@ -50,7 +50,8 @@ class OAuthClientTest {
     @Test
     void getProfile() throws JsonProcessingException {
         final Map<String, String> accessTokenResponse = Map.of("access_token", "access-token", "token_type", "bearer", "scope", "");
-        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "sc0116", "https://image", "github.com");
+        final GithubProfileResponse profileResponse = new GithubProfileResponse(1L, "sc0116",
+                "sc0116@moamoa.space", "https://image", "github.com");
 
         mockServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                 .andExpect(method(HttpMethod.POST))

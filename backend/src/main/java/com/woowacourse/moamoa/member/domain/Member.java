@@ -22,25 +22,29 @@ public class Member {
 
     private String username;
 
+    private String email;
+
     private String imageUrl;
 
     private String profileUrl;
 
-    public Member(final Long githubId, final String username, final String imageUrl, final String profileUrl) {
-        this(null, githubId, username, imageUrl, profileUrl);
+    public Member(final Long githubId, final String username, final String email, final String imageUrl, final String profileUrl) {
+        this(null, githubId, username, email, imageUrl, profileUrl);
     }
 
-    public Member(final Long id, final Long githubId, final String username, final String imageUrl,
+    public Member(final Long id, final Long githubId, final String username, final String email, final String imageUrl,
                   final String profileUrl) {
         this.id = id;
         this.githubId = githubId;
         this.username = username;
+        this.email = email;
         this.imageUrl = imageUrl;
         this.profileUrl = profileUrl;
     }
 
-    public void update(final String username, final String imageUrl, final String profileUrl) {
+    public void update(final String username, final String email, final String imageUrl, final String profileUrl) {
         this.username = username;
+        this.email = email;
         this.imageUrl = imageUrl;
         this.profileUrl = profileUrl;
     }

@@ -53,6 +53,7 @@ public abstract class WebMVCTest {
     @BeforeEach
     void setUp() {
         when(memberRepository.findByGithubId(any()))
-                .thenReturn(Optional.of(new Member(1L, 1L, "username", "image", "profile")));
+                .thenReturn(Optional.of(new Member(1L, 1L, "moa@moamoa.space",
+                        "username", "image", "profile")));
     }
 }

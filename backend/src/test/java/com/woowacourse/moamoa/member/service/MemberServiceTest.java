@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
@@ -32,25 +33,24 @@ class MemberServiceTest {
     void setUp() {
         memberService = new MemberService(memberRepository, memberDao);
 
-        memberService.saveOrUpdate(new Member(1L, "jjanggu", "https://image", "github.com"));
-        memberService.saveOrUpdate(new Member(2L, "greenlawn", "https://image", "github.com"));
-        memberService.saveOrUpdate(new Member(3L, "dwoo", "https://image", "github.com"));
-        memberService.saveOrUpdate(new Member(4L, "verus", "https://image", "github.com"));
+        memberService.saveOrUpdate(MemberFixtures.짱구());
+        memberService.saveOrUpdate(MemberFixtures.그린론());
+        memberService.saveOrUpdate(MemberFixtures.디우());
     }
 
     @DisplayName("신규 사용자일 경우 사용자 정보를 저장한다.")
     @Test
     void saveMember() {
         final MemberResponse memberResponse = memberService.saveOrUpdate(
-                new Member(5L, "sc0116", "https://image", "github.com"));
+                MemberFixtures.베루스());
 
         final MemberResponse member = memberService.getByMemberId(memberResponse.getId());
 
         assertAll(
                 () -> assertThat(member.getId()).isEqualTo(memberResponse.getId()),
-                () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
-                () -> assertThat(member.getImageUrl()).isEqualTo("https://image"),
-                () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")
+                () -> assertThat(member.getUsername()).isEqualTo("verus"),
+                () -> assertThat(member.getImageUrl()).isEqualTo("https://verus.png"),
+                () -> assertThat(member.getProfileUrl()).isEqualTo("https://verus.com")
         );
     }
 
@@ -58,7 +58,7 @@ class MemberServiceTest {
     @Test
     void updateMember() {
         final MemberResponse memberResponse = memberService.saveOrUpdate(
-                new Member(1L, "sc0116", "jjanggu.image", "github.com"));
+                MemberFixtures.짱구());
         entityManager.flush();
         entityManager.clear();
 
@@ -66,9 +66,9 @@ class MemberServiceTest {
 
         assertAll(
                 () -> assertThat(member.getId()).isEqualTo(memberResponse.getId()),
-                () -> assertThat(member.getUsername()).isEqualTo("sc0116"),
-                () -> assertThat(member.getImageUrl()).isEqualTo("jjanggu.image"),
-                () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")
+                () -> assertThat(member.getUsername()).isEqualTo("jjanggu"),
+                () -> assertThat(member.getImageUrl()).isEqualTo("https://jjanggu.png"),
+                () -> assertThat(member.getProfileUrl()).isEqualTo("https://jjanggu.com")
         );
     }
 }
