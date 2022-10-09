@@ -7,6 +7,7 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_깃허브
 
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
+import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
 public class LoginSteps extends Steps {
