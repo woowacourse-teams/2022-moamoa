@@ -38,12 +38,12 @@ export const isCategoryName = (value: unknown): value is CategoryName =>
 export const hasOwnProperty = <X extends object, Y extends PropertyKey>(
   obj: X,
   prop: Y,
-): obj is X & Record<Y, unknown> => obj.hasOwnProperty(prop);
+): obj is X & Record<Y, unknown> => Object.hasOwn(obj, prop);
 
 export const hasOwnProperties = <X extends object, Y extends PropertyKey>(
   obj: X,
   props: Array<Y>,
-): obj is X & Record<Y, unknown> => props.every(prop => obj.hasOwnProperty(prop));
+): obj is X & Record<Y, unknown> => props.every(prop => Object.hasOwn(obj, prop));
 
 type isTypeFn<T> = (value: unknown) => value is T;
 
