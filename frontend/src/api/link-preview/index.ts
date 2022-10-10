@@ -12,10 +12,10 @@ export type ApiLinkPreview = {
       linkUrl: string;
     };
     responseData: {
-      title: string | null;
-      description: string | null;
-      imageUrl: string | null;
-      domainName: string | null;
+      title?: string;
+      description?: string;
+      imageUrl?: string;
+      domainName?: string;
     };
     variables: ApiLinkPreview['get']['params'];
   };
