@@ -60,6 +60,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       {isError && <Error />}
       {isSuccess && (
         <Self
+          articleId={articleId}
           title={data.title}
           author={data.author}
           createdDate={data.createdDate}
@@ -77,6 +78,7 @@ const Loading = () => <div>Loading...</div>;
 const Error = () => <div>에러가 발생했습니다</div>;
 
 type SelfProps = {
+  articleId: number;
   title: string;
   author: CommunityArticle['author'];
   createdDate: CommunityArticle['createdDate'];
@@ -85,6 +87,7 @@ type SelfProps = {
   onDeleteArticleButtonClick: () => void;
 };
 const Self: React.FC<SelfProps> = ({
+  articleId,
   title,
   author,
   createdDate,
@@ -100,7 +103,7 @@ const Self: React.FC<SelfProps> = ({
       </UserInfoItem>
       {showModifierButtons && (
         <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-          <GoToEditArticleLinkButton />
+          <GoToEditArticleLinkButton articleId={articleId} />
           <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
         </ButtonGroup>
       )}
@@ -113,9 +116,12 @@ const Self: React.FC<SelfProps> = ({
   </article>
 );
 
-const GoToEditArticleLinkButton: React.FC = () => (
-  <Link to="edit">
-    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px' }}>
+type GoToEditArticleLinkButtonProps = {
+  articleId: number;
+};
+const GoToEditArticleLinkButton: React.FC<GoToEditArticleLinkButtonProps> = ({ articleId }) => (
+  <Link to={PATH.NOTICE_EDIT(articleId)}>
+    <BoxButton type="button" custom={{ padding: '4px 8px' }}>
       글 수정
     </BoxButton>
   </Link>
