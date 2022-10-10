@@ -80,7 +80,7 @@ const GoBackLinkButton: React.FC = () => (
 );
 
 const EditButton: React.FC = () => (
-  <BoxButton type="submit" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     수정하기
   </BoxButton>
 );
