@@ -10,13 +10,19 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.steps.Steps;
 import com.woowacourse.moamoa.MoamoaApplication;
+import com.woowacourse.moamoa.alarm.SlackUserProfile;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
+import com.woowacourse.moamoa.alarm.response.SlackUsersResponse;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,9 +73,20 @@ public class AcceptanceTest {
     private String clientSecret;
 
     protected MockRestServiceServer mockServer;
+    protected String slackUsersUri;
+    protected String slackSendMessageUri;
+    protected String slackAuthorization;
 
     @BeforeEach
-    protected void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
+    protected void setRestDocumentation(
+            @Value("${slack.users}") final String slackUsersUri,
+            @Value("${slack.send.message}") final String slackSendMessageUri,
+            @Value("${slack.authorization}") final String slackAuthorization,
+            RestDocumentationContextProvider restDocumentation
+    ) {
+        this.slackUsersUri = slackUsersUri;
+        this.slackSendMessageUri = slackSendMessageUri;
+        this.slackAuthorization = slackAuthorization;
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation)
                         .operationPreprocessors()
@@ -130,5 +147,31 @@ public class AcceptanceTest {
                 .andRespond(withStatus(status)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(objectMapper.writeValueAsString(response)));
+    }
+
+    protected void mockingSlackAlarm(SlackMessageRequest slackMessageRequest) {
+        final SlackUsersResponse slackUsersResponse = new SlackUsersResponse(List.of(
+                new SlackUserResponse("green", new SlackUserProfile("greenlawn@moamoa.space")),
+                new SlackUserResponse("jjanggu", new SlackUserProfile("jjanggu@moamoa.space")),
+                new SlackUserResponse("verus", new SlackUserProfile("verus@moamoa.space")),
+                new SlackUserResponse("dwoo", new SlackUserProfile("dwoo@moamoa.space")))
+        );
+
+        try {
+            mockServer.expect(requestTo(slackUsersUri))
+                    .andExpect(method(HttpMethod.GET))
+                    .andExpect(header("Authorization", slackAuthorization))
+                    .andRespond(withStatus(HttpStatus.OK)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(objectMapper.writeValueAsString(slackUsersResponse)));
+
+            mockServer.expect(requestTo(slackSendMessageUri))
+                    .andExpect(method(HttpMethod.POST))
+                    .andExpect(content().json(objectMapper.writeValueAsString(slackMessageRequest)))
+                    .andRespond(withStatus(HttpStatus.OK)
+                            .contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
