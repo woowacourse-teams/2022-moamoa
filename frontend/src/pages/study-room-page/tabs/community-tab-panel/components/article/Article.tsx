@@ -59,15 +59,25 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
       {isFetching && <Loading />}
       {isError && <Error />}
       {isSuccess && (
-        <Self
-          articleId={articleId}
-          title={data.title}
-          author={data.author}
-          createdDate={data.createdDate}
-          content={data.content}
-          showModifierButtons={showModifierButtons}
-          onDeleteArticleButtonClick={handleDeleteArticleButtonClick}
-        />
+        <article>
+          <Flex justifyContent="space-between" columnGap="16px">
+            <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+              <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+              <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+            </UserInfoItem>
+            {showModifierButtons && (
+              <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                <GoToEditArticleLinkButton articleId={articleId} />
+                <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+              </ButtonGroup>
+            )}
+          </Flex>
+          <Divider />
+          <PageTitle>{data.title}</PageTitle>
+          <MarkdownRender content={data.content} />
+          <Divider space="8px" />
+          <GoToListPageLinkButton />
+        </article>
       )}
     </div>
   );
@@ -76,45 +86,6 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
-
-type SelfProps = {
-  articleId: number;
-  title: string;
-  author: CommunityArticle['author'];
-  createdDate: CommunityArticle['createdDate'];
-  content: CommunityArticle['content'];
-  showModifierButtons: boolean;
-  onDeleteArticleButtonClick: () => void;
-};
-const Self: React.FC<SelfProps> = ({
-  articleId,
-  title,
-  author,
-  createdDate,
-  content,
-  showModifierButtons,
-  onDeleteArticleButtonClick: handleDeleteArticleButtonClick,
-}) => (
-  <article>
-    <Flex justifyContent="space-between" columnGap="16px">
-      <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-        <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-        <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
-      </UserInfoItem>
-      {showModifierButtons && (
-        <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-          <GoToEditArticleLinkButton articleId={articleId} />
-          <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
-        </ButtonGroup>
-      )}
-    </Flex>
-    <Divider />
-    <PageTitle>{title}</PageTitle>
-    <MarkdownRender content={content} />
-    <Divider space="8px" />
-    <GoToListPageLinkButton />
-  </article>
-);
 
 type GoToEditArticleLinkButtonProps = {
   articleId: number;
