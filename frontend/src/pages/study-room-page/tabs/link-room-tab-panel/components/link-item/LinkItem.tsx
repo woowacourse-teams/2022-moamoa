@@ -11,10 +11,10 @@ import DropDownBox from '@components/drop-down-box/DropDownBox';
 import { MeatballMenuIcon } from '@components/icons';
 import ModalPortal from '@components/modal/Modal';
 
-import LinkEditForm from '@study-room-page/tabs/link-room-tab-panel/components/link-edit-form/LinkEditForm';
-import { useLinkItem } from '@study-room-page/tabs/link-room-tab-panel/components/link-item/hooks/useLinkItem';
-import LinkPreview from '@study-room-page/tabs/link-room-tab-panel/components/link-preview/LinkPreview';
-import UserDescription from '@study-room-page/tabs/link-room-tab-panel/components/user-description/UserDescription';
+import LinkEditForm from '@link-tab/components/link-edit-form/LinkEditForm';
+import { useLinkItem } from '@link-tab/components/link-item/hooks/useLinkItem';
+import LinkPreview from '@link-tab/components/link-preview/LinkPreview';
+import UserDescription from '@link-tab/components/user-description/UserDescription';
 
 export type LinkItemProps = Pick<Link, 'id' | 'author' | 'description' | 'linkUrl'> & {
   studyId: StudyId;

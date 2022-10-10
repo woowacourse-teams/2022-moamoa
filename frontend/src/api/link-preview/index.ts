@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import AccessTokenController from '@auth/accessToken';
+import AccessTokenController from '@auth/accessTokenController';
 
 export type ApiLinkPreview = {
   get: {
@@ -10,7 +10,7 @@ export type ApiLinkPreview = {
       linkUrl: string;
     };
     responseData: {
-      title: string;
+      title: string | null;
       description: string | null;
       imageUrl: string | null;
       domainName: string | null;
@@ -69,7 +69,11 @@ export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variabl
 };
 
 export const useGetLinkPreview = ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
-  return useQuery<ApiLinkPreview['get']['responseData'], AxiosError>(['link-preview', linkUrl], () =>
-    getLinkPreview({ linkUrl }),
+  return useQuery<ApiLinkPreview['get']['responseData'], AxiosError>(
+    ['link-preview', linkUrl],
+    () => getLinkPreview({ linkUrl }),
+    {
+      staleTime: 5 * 60 * 1000, // 5 min
+    },
   );
 };

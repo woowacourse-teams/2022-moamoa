@@ -31,7 +31,7 @@ const MainPage: React.FC = () => {
     }
 
     return (
-      <InfiniteScroll observingCondition={true} onContentLoad={fetchNextPage}>
+      <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
         <S.CardList>
           {searchedStudies.map((study, i) => (
             <li key={study.id}>

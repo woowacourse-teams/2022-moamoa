@@ -108,10 +108,10 @@ class MyStudyServiceTest {
                 .filteredOn(study -> study.getId() != null)
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
-                        tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(), 자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMax()),
-                        tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(), 리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMax()),
-                        tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(), HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMax()),
-                        tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(), OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMax())
+                        tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(), 자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(), 리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(), HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMaxMemberCount()),
+                        tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(), OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMaxMemberCount())
                 );
 
         assertThat(owners)
@@ -150,19 +150,19 @@ class MyStudyServiceTest {
                 .extracting("title", "studyStatus", "currentMemberCount", "maxMemberCount")
                 .contains(
                         tuple(자바_스터디.getContent().getTitle(), 자바_스터디.getStudyPlanner().getStudyStatus(),
-                                자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMax()),
+                                자바_스터디.getParticipants().getSize(), 자바_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(리액트_스터디.getContent().getTitle(), 리액트_스터디.getStudyPlanner().getStudyStatus(),
-                                리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMax()),
+                                리액트_스터디.getParticipants().getSize(), 리액트_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(자바스크립트_스터디.getContent().getTitle(), 자바스크립트_스터디.getStudyPlanner().getStudyStatus(),
-                                자바스크립트_스터디.getParticipants().getSize(), 자바스크립트_스터디.getRecruitPlanner().getMax()),
+                                자바스크립트_스터디.getParticipants().getSize(), 자바스크립트_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(HTTP_스터디.getContent().getTitle(), HTTP_스터디.getStudyPlanner().getStudyStatus(),
-                                HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMax()),
+                                HTTP_스터디.getParticipants().getSize(), HTTP_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(알고리즘_스터디.getContent().getTitle(), 알고리즘_스터디.getStudyPlanner().getStudyStatus(),
-                                알고리즘_스터디.getParticipants().getSize(), 알고리즘_스터디.getRecruitPlanner().getMax()),
+                                알고리즘_스터디.getParticipants().getSize(), 알고리즘_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(리눅스_스터디.getContent().getTitle(), 리눅스_스터디.getStudyPlanner().getStudyStatus(),
-                                리눅스_스터디.getParticipants().getSize(), 리눅스_스터디.getRecruitPlanner().getMax()),
+                                리눅스_스터디.getParticipants().getSize(), 리눅스_스터디.getRecruitPlanner().getMaxMemberCount()),
                         tuple(OS_스터디.getContent().getTitle(), OS_스터디.getStudyPlanner().getStudyStatus(),
-                                OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMax())
+                                OS_스터디.getParticipants().getSize(), OS_스터디.getRecruitPlanner().getMaxMemberCount())
                 );
 
         assertThat(owners)

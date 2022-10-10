@@ -1,6 +1,8 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
+
+import type { StudyId } from '@custom-types';
 
 import { usePostCommunityArticle } from '@api/community';
 
@@ -15,15 +17,14 @@ import PageTitle from '@components/page-title/PageTitle';
 import PublishContent from '@community-tab/components/publish-content/PublishContent';
 import PublishTitle from '@community-tab/components/publish-title/PublishTitle';
 
-const Publish = () => {
+export type PublishProps = {
+  studyId: StudyId;
+};
+
+const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
-  const { studyId } = useParams<{ studyId: string }>();
   const { mutateAsync } = usePostCommunityArticle();
-
-  const handleGoToArticleListPageButtonClick = () => {
-    navigate(`${PATH.COMMUNITY()}`);
-  };
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     const { values } = submitResult;
@@ -31,20 +32,19 @@ const Publish = () => {
 
     const { title, content } = values;
 
-    const numStudyId = Number(studyId);
     mutateAsync(
       {
-        studyId: numStudyId,
+        studyId,
         title,
         content,
       },
       {
         onSuccess: () => {
-          alert('글 작성 완료!');
-          navigate(PATH.COMMUNITY(numStudyId));
+          alert('글을 작성했습니다. :D');
+          navigate(`../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
         },
         onError: () => {
-          alert('글 작성 실패!');
+          alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
         },
       },
     );
@@ -58,16 +58,11 @@ const Publish = () => {
         <PublishContent />
         <Divider space="16px" />
         <ButtonGroup justifyContent="space-between">
-          <BoxButton
-            type="button"
-            variant="secondary"
-            padding="4px 8px"
-            fluid={false}
-            fontSize="lg"
-            onClick={handleGoToArticleListPageButtonClick}
-          >
-            돌아가기
-          </BoxButton>
+          <Link to={`../${PATH.COMMUNITY}`}>
+            <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
+              돌아가기
+            </BoxButton>
+          </Link>
           <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
             등록하기
           </BoxButton>

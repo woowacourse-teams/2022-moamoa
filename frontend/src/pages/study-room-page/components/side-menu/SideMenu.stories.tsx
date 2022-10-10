@@ -1,9 +1,11 @@
 import type { Story } from '@storybook/react';
 import { useState } from 'react';
 
+import { PATH } from '@constants';
+
 import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import type { SideMenuProps } from '@study-room-page/components/side-menu/SideMenu';
-import type { TabId, Tabs } from '@study-room-page/hooks/useStudyRoomPage';
+import { type TabId, type Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export default {
   title: 'Pages/StudyRoomPage/SideMenu',
@@ -12,9 +14,10 @@ export default {
 
 const Template: Story<SideMenuProps> = () => {
   const tabs: Tabs = [
-    { id: 'notice', name: '공지사항', content: '공지사항입니다.' },
-    { id: 'link-room', name: '자료실', content: '자료실입니다.' },
-    { id: 'review', name: '후기', content: '후기입니다.' },
+    { id: PATH.NOTICE, name: '공지사항' },
+    { id: PATH.COMMUNITY, name: '커뮤니티' },
+    { id: PATH.LINK, name: '링크 모음' },
+    { id: PATH.REVIEW, name: '후기' },
   ];
 
   const [activeTabId, setActiveTabId] = useState<TabId>(tabs[0].id);

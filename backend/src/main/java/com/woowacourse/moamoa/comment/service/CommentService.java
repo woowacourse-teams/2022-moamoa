@@ -1,6 +1,5 @@
 package com.woowacourse.moamoa.comment.service;
 
-import static com.woowacourse.moamoa.studyroom.domain.ArticleType.COMMUNITY;
 import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.moamoa.comment.domain.Author;
@@ -18,9 +17,7 @@ import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.query.data.MyStudySummaryData;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.Article;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepositoryFactory;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

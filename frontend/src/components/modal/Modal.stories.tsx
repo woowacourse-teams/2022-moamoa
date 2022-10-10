@@ -7,7 +7,7 @@ import { BoxButton } from '@components/button';
 import Modal from '@components/modal/Modal';
 import type { ModalProps } from '@components/modal/Modal';
 
-import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
+import LinkForm from '@link-tab/components/link-form/LinkForm';
 
 export default {
   title: 'Components/Modal',

@@ -2,7 +2,7 @@ import type { Story } from '@storybook/react';
 
 import { noop } from '@utils';
 
-import LinkForm, { type LinkFormProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
+import LinkForm, { type LinkFormProps } from '@link-tab/components/link-form/LinkForm';
 
 export default {
   title: 'Pages/StudyRoomPage/LinkForm',

@@ -86,7 +86,7 @@ class StudyDetailsDaoTest {
                 .description(알고리즘_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participants
                 .currentMemberCount(알고리즘_스터디.getParticipants().getSize())
-                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
+                .owner(new OwnerData(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
                 // Study Period
                 .startDate(알고리즘_스터디.getStudyPlanner().getStartDate())
                 .build();
@@ -108,7 +108,7 @@ class StudyDetailsDaoTest {
                 .status(리눅스_스터디.getRecruitPlanner().getRecruitStatus().toString()).description(리눅스_스터디.getContent().getDescription()).createdDate(actual.getCreatedDate())
                 // Study Participant
                 .currentMemberCount(리눅스_스터디.getParticipants().getSize())
-                .owner(new OwnerData(베루스.getGithubId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
+                .owner(new OwnerData(베루스.getId(), 베루스.getUsername(), 베루스.getImageUrl(), 베루스.getProfileUrl(), LocalDate.now(), 5))
                 // Study Period
                 .startDate(리눅스_스터디.getStudyPlanner().getStartDate())
                 .enrollmentEndDate(리눅스_스터디.getRecruitPlanner().getEnrollmentEndDate())

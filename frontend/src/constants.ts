@@ -4,24 +4,23 @@ export const PATH = {
   CREATE_STUDY: '/study/create',
   EDIT_STUDY: (studyId: ':studyId' | number = ':studyId') => `/study/edit/${studyId}`,
   MY_STUDY: '/my/study',
-  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
   LOGIN: '/login',
-  REVIEW: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/reviews`,
 
-  COMMUNITY: (studyId: ':studyId' | string | number = ':studyId') => `/studyroom/${studyId}/community`,
-  COMMUNITY_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/community/article/${articleId}`,
-  COMMUNITY_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/community/article/publish`,
-  COMMUNITY_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/community/article/${articleId}/edit`,
+  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
 
-  NOTICE: (studyId: ':studyId' | string | number = ':studyId') => `/studyroom/${studyId}/notice`,
-  NOTICE_ARTICLE: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/notice/article/${articleId}`,
-  NOTICE_PUBLISH: (studyId: string | number = ':studyId') => `/studyroom/${studyId}/notice/article/publish`,
-  NOTICE_EDIT: (studyId: string | number = ':studyId', articleId: string | number = ':articleId') =>
-    `/studyroom/${studyId}/notice/article/${articleId}/edit`,
-};
+  REVIEW: 'reviews',
+  LINK: 'links',
+
+  NOTICE: 'notice',
+  NOTICE_PUBLISH: 'article/publish',
+  NOTICE_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
+  NOTICE_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+
+  COMMUNITY: 'community',
+  COMMUNITY_PUBLISH: 'article/publish',
+  COMMUNITY_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
+  COMMUNITY_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+} as const;
 
 export const API_ERROR = {
   EXPIRED_REFRESH_TOKEN: {

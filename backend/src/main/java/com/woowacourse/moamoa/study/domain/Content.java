@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 import lombok.NoArgsConstructor;
 
 @Embeddable
@@ -20,6 +21,7 @@ public class Content {
     @Column(nullable = false)
     private String thumbnail;
 
+    @Lob
     @Column(nullable = false)
     private String description;
 
