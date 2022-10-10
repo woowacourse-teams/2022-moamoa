@@ -14,16 +14,24 @@ import {
 
 import type { DateYMD, Member } from '@custom-types';
 
-import { ApiStudy } from '@api/study';
+import { type ApiStudy } from '@api/study';
 import { checkTag } from '@api/tags/typeChecker';
 
-type MemberKeys = keyof (Member & { participationDate: DateYMD; numberOfStudy: number });
+type StudyMember = Member & { participationDate: DateYMD; numberOfStudy: number };
+type StudyMemberKeys = keyof StudyMember;
 
-const checkMember = (data: unknown): Member & { participationDate: DateYMD; numberOfStudy: number } => {
-  if (!isObject(data)) throw new AxiosError(`Member does not have correct type: object`);
+const checkStudyMember = (data: unknown): StudyMember => {
+  if (!isObject(data)) throw new AxiosError(`StudyMember does not have correct type: object`);
 
-  const keys: Array<MemberKeys> = ['id', 'username', 'imageUrl', 'profileUrl', 'participationDate', 'numberOfStudy'];
-  if (!hasOwnProperties(data, keys)) throw new AxiosError('Member does not have some properties');
+  const keys: Array<StudyMemberKeys> = [
+    'id',
+    'username',
+    'imageUrl',
+    'profileUrl',
+    'participationDate',
+    'numberOfStudy',
+  ];
+  if (!hasOwnProperties(data, keys)) throw new AxiosError('StudyMember does not have some properties');
 
   return {
     id: checkType(data.id, isNumber),
@@ -72,8 +80,8 @@ export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
     enrollmentEndDate: checkOptionalType(data.enrollmentEndDate, isDateYMD),
     startDate: checkType(data.startDate, isDateYMD),
     endDate: checkOptionalType(data.endDate, isDateYMD),
-    owner: checkMember(data.owner),
-    members: checkType(data.members, isArray).map(member => checkMember(member)),
+    owner: checkStudyMember(data.owner),
+    members: checkType(data.members, isArray).map(member => checkStudyMember(member)),
     tags: checkType(data.tags, isArray).map(tag => checkTag(tag)),
   };
 };

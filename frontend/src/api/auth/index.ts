@@ -15,7 +15,7 @@ export type ApiLogin = {
   };
 };
 
-export type ApiRefreshToken = {
+export type ApiRefresh = {
   get: {
     responseData: {
       accessToken: string;
@@ -40,6 +40,6 @@ export const usePostLogin = () =>
 
 // refresh - get new access token
 export const getRefreshAccessToken = async () => {
-  const response = await refreshAxiosInstance.get<ApiRefreshToken['get']['responseData']>(`/api/auth/refresh`);
+  const response = await refreshAxiosInstance.get<ApiRefresh['get']['responseData']>(`/api/auth/refresh`);
   return checkRefresh(response.data);
 };

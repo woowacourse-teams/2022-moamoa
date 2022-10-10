@@ -6,6 +6,7 @@ import { checkMember } from '@api/member/typeChecker';
 import { type ApiNoticeArticle, type ApiNoticeArticles } from '@api/notice';
 
 type NoticeArticleKeys = keyof ApiNoticeArticle['get']['responseData'];
+
 export const checkNoticeArticle = (data: unknown): ApiNoticeArticle['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`NoticeArticle does not have correct type: object`);
 

@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 
 import { checkType, hasOwnProperties, hasOwnProperty, isNumber, isObject, isString, isUserRole } from '@utils';
 
-import { Member } from '@custom-types';
+import type { Member } from '@custom-types';
 
 import { type ApiUserInformation, type ApiUserRole } from '@api/member';
 

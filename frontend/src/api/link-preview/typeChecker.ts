@@ -6,7 +6,7 @@ import { type ApiLinkPreview } from '@api/link-preview';
 
 type LinkPreviewKeys = keyof ApiLinkPreview['get']['responseData'];
 
-export const checkLinkPreview = (data: unknown) => {
+export const checkLinkPreview = (data: unknown): ApiLinkPreview['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`LinkPreview does not have correct type: object`);
 
   const keys: Array<LinkPreviewKeys> = ['title', 'description', 'imageUrl', 'domainName'];

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { checkType, hasOwnProperties, isArray, isNumber, isObject } from '@utils';
 
 import { checkStudyReview } from '@api/review/typeChecker';
-import { ApiReviews } from '@api/reviews';
+import { type ApiReviews } from '@api/reviews';
 
 type StudyReviewsKeys = keyof ApiReviews['get']['responseData'];
 
