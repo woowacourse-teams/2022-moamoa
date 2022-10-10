@@ -53,7 +53,7 @@ function checkType<T>(value: unknown, isType: isTypeFn<T>, isOptional: true): T 
 function checkType<T>(value: unknown, isType: isTypeFn<T>, isOptional?: false): T;
 function checkType<T>(value: unknown, isType: isTypeFn<T>, isOptional?: boolean): T | undefined {
   if (isOptional) {
-    if (!isType(value) && !isNullOrUndefined(value)) {
+    if (!isType(value) && !isNull(value)) {
       console.error(`${isType} ${value} does not have correct type`);
       throw new Error(`${value} does not have correct type`);
     }
