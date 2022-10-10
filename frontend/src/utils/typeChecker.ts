@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-
 import type { CategoryName, DateYMD, RecruitmentStatus, StudyStatus, UserRole } from '@custom-types';
 
 export const isNull = (value: unknown): value is null => value === null;
@@ -50,7 +48,7 @@ export const hasOwnProperties = <X extends object, Y extends PropertyKey>(
 export const checkOptionalType = <T>(value: unknown, isTypeFn: (value: unknown) => value is T): T | undefined => {
   if (!isTypeFn(value) && !isNullOrUndefined(value)) {
     console.error(`${isTypeFn} ${value} does not have correct type`);
-    throw new AxiosError(`${value} does not have correct type`);
+    throw new Error(`${value} does not have correct type`);
   }
 
   return value ?? undefined;
@@ -59,7 +57,7 @@ export const checkOptionalType = <T>(value: unknown, isTypeFn: (value: unknown) 
 const checkType = <T>(value: unknown, isTypeFn: (value: unknown) => value is T): T => {
   if (!isTypeFn(value)) {
     console.error(`${isTypeFn} ${value} does not have correct type`);
-    throw new AxiosError(`${value} does not have correct type`);
+    throw new Error(`${value} does not have correct type`);
   }
 
   return value;
