@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { type CategoryName, type TagId, type TagInfo } from '@custom-types';
+import type { CategoryName, TagId, TagInfo } from '@custom-types';
 
 import { useGetInfiniteStudies } from '@api/studies';
 

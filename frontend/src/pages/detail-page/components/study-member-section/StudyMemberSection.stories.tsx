@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import { type StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import StudyMemberSection, {
   type StudyMemberSectionProps,

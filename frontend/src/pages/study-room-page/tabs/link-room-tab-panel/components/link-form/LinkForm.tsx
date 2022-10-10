@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
-import { type Member, type Noop } from '@custom-types';
+import type { Member, Noop } from '@custom-types';
 
 import { usePostLink } from '@api/link';
 

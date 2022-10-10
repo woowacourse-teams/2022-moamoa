@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
 
-import { type StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 

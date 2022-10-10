@@ -4,7 +4,7 @@ import { REVIEW_LENGTH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { type DateYMD, type Member, type Noop, type ReviewId, type StudyId } from '@custom-types';
+import type { DateYMD, Member, Noop, ReviewId, StudyId } from '@custom-types';
 
 import { usePutReview } from '@api/review';
 

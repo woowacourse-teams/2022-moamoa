@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import { REVIEW_LENGTH } from '@constants';
 
-import { type Member, type Noop, type StudyId } from '@custom-types';
+import type { Member, Noop, StudyId } from '@custom-types';
 
 import { theme } from '@styles/theme';
 

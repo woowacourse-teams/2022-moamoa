@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { type StudyDetail, Tag } from '@custom-types';
+import type { StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 

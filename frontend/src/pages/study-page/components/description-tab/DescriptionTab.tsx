@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { DESCRIPTION_LENGTH } from '@constants';
 
-import { type StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 

@@ -2,7 +2,7 @@ import { type ReactNode, createContext, useState } from 'react';
 
 import { noop } from '@utils';
 
-import { type Member } from '@custom-types';
+import type { Member } from '@custom-types';
 
 type LoginProviderProps = {
   children: ReactNode;

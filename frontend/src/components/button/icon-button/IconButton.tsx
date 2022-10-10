@@ -3,7 +3,7 @@ import { type ReactSVG } from 'react';
 import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type MakeRequired } from '@custom-types';
+import type { MakeRequired } from '@custom-types';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 

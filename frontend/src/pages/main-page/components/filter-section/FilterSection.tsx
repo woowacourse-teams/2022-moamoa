@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type CategoryName, type Tag, type TagId, type TagInfo } from '@custom-types';
+import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 

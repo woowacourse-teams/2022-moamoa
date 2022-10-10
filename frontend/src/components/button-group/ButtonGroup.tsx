@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type CssLength, type MakeRequired } from '@custom-types';
+import type { CssLength, MakeRequired } from '@custom-types';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 

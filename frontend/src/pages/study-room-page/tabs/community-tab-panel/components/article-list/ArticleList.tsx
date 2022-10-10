@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { type CommunityArticle, type StudyId } from '@custom-types';
+import type { CommunityArticle, StudyId } from '@custom-types';
 
 import { useGetCommunityArticles } from '@api/community';
 

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
 
-import { type DateYMD } from '@custom-types';
+import type { DateYMD } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 

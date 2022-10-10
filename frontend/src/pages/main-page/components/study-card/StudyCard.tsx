@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type Study } from '@custom-types';
+import type { Study } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 

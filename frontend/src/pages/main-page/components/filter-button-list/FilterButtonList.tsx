@@ -1,4 +1,4 @@
-import { type CategoryName, type Tag, type TagId, type TagInfo } from '@custom-types';
+import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
 import ButtonGroup from '@components/button-group/ButtonGroup';
 

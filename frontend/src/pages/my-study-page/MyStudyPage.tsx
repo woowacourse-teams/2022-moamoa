@@ -1,4 +1,4 @@
-import { type MyStudy } from '@custom-types';
+import type { MyStudy } from '@custom-types';
 
 import Divider from '@components/divider/Divider';
 import PageTitle from '@components/page-title/PageTitle';

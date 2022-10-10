@@ -3,7 +3,7 @@ import * as CSS from 'csstype';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type CssLength, type MakeOptional } from '@custom-types';
+import type { CssLength, MakeOptional } from '@custom-types';
 
 import Image, { type ImageProps } from '@components/image/Image';
 

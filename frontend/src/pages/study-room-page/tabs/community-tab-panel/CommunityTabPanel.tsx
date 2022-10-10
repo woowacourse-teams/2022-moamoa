@@ -4,7 +4,7 @@ import { type Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { type StudyId } from '@custom-types';
+import type { StudyId } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';

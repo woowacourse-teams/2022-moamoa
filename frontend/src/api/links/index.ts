@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_LINK_QUERY_PARAM } from '@constants';
 
-import { type Link, type Page, type Size, type StudyId } from '@custom-types';
+import type { Link, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

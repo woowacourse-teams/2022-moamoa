@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import { EXCERPT_LENGTH } from '@constants';
 
-import { type StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 

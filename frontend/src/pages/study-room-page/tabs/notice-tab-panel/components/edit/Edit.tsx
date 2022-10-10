@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import { type ArticleId, type NoticeArticle, type StudyId } from '@custom-types';
+import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 

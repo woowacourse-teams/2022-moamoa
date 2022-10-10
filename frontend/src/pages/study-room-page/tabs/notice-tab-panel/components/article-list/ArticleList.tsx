@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { type NoticeArticle, type StudyId } from '@custom-types';
+import type { NoticeArticle, StudyId } from '@custom-types';
 
 import { useGetNoticeArticles } from '@api/notice';
 

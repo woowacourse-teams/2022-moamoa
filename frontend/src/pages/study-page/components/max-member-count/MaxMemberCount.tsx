@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { MEMBER_COUNT } from '@constants';
 
-import { type StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';

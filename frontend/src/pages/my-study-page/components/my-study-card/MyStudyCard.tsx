@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
-import { type DateYMD, type Tag } from '@custom-types';
+import type { DateYMD, Tag } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 

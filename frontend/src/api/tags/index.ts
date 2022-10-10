@@ -1,7 +1,7 @@
 import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import { type Tag } from '@custom-types';
+import type { Tag } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 

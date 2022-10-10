@@ -1,4 +1,4 @@
-import { type UserRole } from '@custom-types';
+import type { UserRole } from '@custom-types';
 
 import { useGetUserRole } from '@api/member';
 

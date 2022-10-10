@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type Link } from '@custom-types';
+import type { Link } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 

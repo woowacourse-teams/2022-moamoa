@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
-import { type MakeRequired } from '@custom-types';
+import type { MakeRequired } from '@custom-types';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 import { type ThemeColor } from '@styles/theme';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { type ReviewId, type StudyId } from '@custom-types';
+import type { ReviewId, StudyId } from '@custom-types';
 
 import { useDeleteReview } from '@api/review';
 import { QK_STUDY_REVIEWS } from '@api/reviews';

@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
-import { type DateYMD, type StudyDetail, type StudyId, type UserRole } from '@custom-types';
+import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
 
 import BoxButton, { type BoxButtonProps } from '@components/button/box-button/BoxButton';
 import Card from '@components/card/Card';

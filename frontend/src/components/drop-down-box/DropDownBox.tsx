@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { type CssLength, type Noop } from '@custom-types';
+import type { CssLength, Noop } from '@custom-types';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 

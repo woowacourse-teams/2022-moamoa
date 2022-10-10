@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 
-import { type Noop } from '@custom-types';
+import type { Noop } from '@custom-types';
 
 export type InfiniteScrollProps = {
   onContentLoad: Noop;
