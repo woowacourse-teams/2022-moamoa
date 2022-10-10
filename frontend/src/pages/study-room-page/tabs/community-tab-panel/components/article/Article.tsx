@@ -50,7 +50,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
   const showModifierButtons = !!(
     getUserInformationQueryResult.isSuccess &&
     !getUserInformationQueryResult.isError &&
-    data?.author.username &&
+    data?.author &&
     data.author.username === getUserInformationQueryResult.data.username
   );
 
