@@ -66,7 +66,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
             </UserInfoItem>
             {showModifierButtons && (
               <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                <GoToEditPageLinkButton />
+                <GoToEditPageLinkButton articleId={articleId} />
                 <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
               </ButtonGroup>
             )}
@@ -86,8 +86,11 @@ const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 
-const GoToEditPageLinkButton: React.FC = () => (
-  <Link to="edit">
+type GoToEditPageLinkButtonProps = {
+  articleId: number;
+};
+const GoToEditPageLinkButton: React.FC<GoToEditPageLinkButtonProps> = ({ articleId }) => (
+  <Link to={PATH.NOTICE_EDIT(articleId)}>
     <BoxButton type="button" custom={{ padding: '4px 8px' }}>
       글수정
     </BoxButton>
