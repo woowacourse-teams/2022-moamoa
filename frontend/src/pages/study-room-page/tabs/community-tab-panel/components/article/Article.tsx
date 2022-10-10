@@ -120,7 +120,7 @@ type GoToEditArticleLinkButtonProps = {
   articleId: number;
 };
 const GoToEditArticleLinkButton: React.FC<GoToEditArticleLinkButtonProps> = ({ articleId }) => (
-  <Link to={PATH.NOTICE_EDIT(articleId)}>
+  <Link to={PATH.COMMUNITY_EDIT(articleId)}>
     <BoxButton type="button" custom={{ padding: '4px 8px' }}>
       글 수정
     </BoxButton>
