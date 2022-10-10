@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 
 import {
+  arrayOfAll,
   checkType,
   hasOwnProperties,
   isArray,
@@ -19,17 +20,19 @@ import { checkTag } from '@api/tags/typeChecker';
 type StudyMember = Member & { participationDate: DateYMD; numberOfStudy: number };
 type StudyMemberKeys = keyof StudyMember;
 
+const arrayOfAllStudyMemberKeys = arrayOfAll<StudyMemberKeys>();
+
 const checkStudyMember = (data: unknown): StudyMember => {
   if (!isObject(data)) throw new AxiosError(`StudyMember does not have correct type: object`);
 
-  const keys: Array<StudyMemberKeys> = [
+  const keys = arrayOfAllStudyMemberKeys([
     'id',
     'username',
     'imageUrl',
     'profileUrl',
     'participationDate',
     'numberOfStudy',
-  ];
+  ]);
   if (!hasOwnProperties(data, keys)) throw new AxiosError('StudyMember does not have some properties');
 
   return {
@@ -44,10 +47,12 @@ const checkStudyMember = (data: unknown): StudyMember => {
 
 type StudyKeys = keyof ApiStudy['get']['responseData'];
 
+const arrayOfAllStudyKeys = arrayOfAll<StudyKeys>();
+
 export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`Study does not have correct type: object`);
 
-  const keys: Array<StudyKeys> = [
+  const keys = arrayOfAllStudyKeys([
     'id',
     'title',
     'excerpt',
@@ -63,7 +68,7 @@ export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
     'owner',
     'members',
     'tags',
-  ];
+  ]);
   if (!hasOwnProperties(data, keys)) throw new AxiosError('Study does not have some properties');
 
   return {

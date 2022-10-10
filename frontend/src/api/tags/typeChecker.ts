@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 
 import {
+  arrayOfAll,
   checkType,
   hasOwnProperties,
   hasOwnProperty,
@@ -17,15 +18,18 @@ import { type ApiTags } from '@api/tags';
 
 type TagKeys = keyof Tag;
 
+const arrayOfAllTagKeys = arrayOfAll<TagKeys>();
+
 export const checkTag = (data: unknown): Tag => {
   if (!isObject(data)) throw new AxiosError(`Tag does not have correct type: object`);
 
-  const keys: Array<TagKeys> = ['id', 'name', 'description', 'category'];
+  const keys = arrayOfAllTagKeys(['id', 'name', 'description', 'category']);
   if (!hasOwnProperties(data, keys)) throw new AxiosError('Tag does not have some properties');
 
   if (!isObject(data.category)) throw new AxiosError(`Tag category does not have correct type: object`);
 
-  if (!hasOwnProperties(data.category, ['id', 'name']))
+  const categoryKeys: Array<keyof Tag['category']> = ['id', 'name'];
+  if (!hasOwnProperties(data.category, categoryKeys))
     throw new AxiosError('Tag category does not have some properties');
 
   return {
