@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, USER_ROLE } from '@constants';
 
 import tw from '@utils/tw';
 
@@ -14,7 +14,7 @@ const StudyRoomPage: React.FC = () => {
   const { tabs, activeTabId, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
   const { data, isError, isSuccess } = userRoleQueryResult;
 
-  if (isSuccess && data.role === 'NON_MEMBER') {
+  if (isSuccess && data.role === USER_ROLE.NON_MEMBER) {
     alert('잘못된 접근입니다.');
     return <Navigate to={PATH.MAIN} replace={true} />;
   }

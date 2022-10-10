@@ -1,3 +1,5 @@
+import { CATEGORY_NAME, RECRUITMENT_STATUS, STUDY_STATUS, USER_ROLE } from '@constants';
+
 export type EmptyObject = Record<string, never>;
 
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -16,7 +18,7 @@ export type MM = `0${oneToNine}` | `1${0 | 1 | 2}`;
 export type YYYY = `20${d}${d}`;
 export type DateYMD = `${YYYY}-${MM}-${DD}`;
 
-export type RecruitmentStatus = 'RECRUITMENT_START' | 'RECRUITMENT_END';
+export type RecruitmentStatus = typeof RECRUITMENT_STATUS[keyof typeof RECRUITMENT_STATUS];
 
 export type StudyId = number;
 export type TagId = number;
@@ -28,8 +30,6 @@ export type Page = number;
 export type Size = number;
 export type ArticleId = number;
 
-export type SitePage = 'home' | 'studyroom';
-
 export type Member = {
   id: MemberId;
   username: string;
@@ -39,7 +39,7 @@ export type Member = {
 
 export type Owner = Member;
 
-export type CategoryName = 'generation' | 'area' | 'subject';
+export type CategoryName = typeof CATEGORY_NAME[keyof typeof CATEGORY_NAME];
 
 export type Tag = {
   id: TagId;
@@ -82,7 +82,7 @@ export type StudyReview = {
   content: string;
 };
 
-export type StudyStatus = 'PREPARE' | 'IN_PROGRESS' | 'DONE';
+export type StudyStatus = typeof STUDY_STATUS[keyof typeof STUDY_STATUS];
 
 export type MyStudy = Pick<StudyDetail, 'id' | 'title' | 'startDate' | 'endDate'> & {
   studyStatus: StudyStatus;
@@ -90,7 +90,7 @@ export type MyStudy = Pick<StudyDetail, 'id' | 'title' | 'startDate' | 'endDate'
   owner: Owner;
 };
 
-export type UserRole = 'OWNER' | 'MEMBER' | 'NON_MEMBER';
+export type UserRole = typeof USER_ROLE[keyof typeof USER_ROLE];
 
 export type Link = {
   id: number;

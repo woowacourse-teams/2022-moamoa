@@ -1,3 +1,5 @@
+import { CATEGORY_NAME, RECRUITMENT_STATUS, STUDY_STATUS, USER_ROLE } from '@constants';
+
 import type { CategoryName, DateYMD, RecruitmentStatus, StudyStatus, UserRole } from '@custom-types';
 
 export const isNull = (value: unknown): value is null => value === null;
@@ -24,16 +26,16 @@ export const isDateYMD = (value: unknown): value is DateYMD => {
 };
 
 export const isUserRole = (value: unknown): value is UserRole =>
-  isString(value) && ['OWNER', 'MEMBER', 'NON_MEMBER'].includes(value);
+  isString(value) && Object.values(USER_ROLE).some(role => role === value);
 
 export const isStudyStatus = (value: unknown): value is StudyStatus =>
-  isString(value) && ['PREPARE', 'IN_PROGRESS', 'DONE'].includes(value);
+  isString(value) && Object.values(STUDY_STATUS).some(status => status === value);
 
 export const isRecruitmentStatus = (value: unknown): value is RecruitmentStatus =>
-  isString(value) && ['RECRUITMENT_START', 'RECRUITMENT_END'].includes(value);
+  isString(value) && Object.values(RECRUITMENT_STATUS).some(status => status === value);
 
 export const isCategoryName = (value: unknown): value is CategoryName =>
-  isString(value) && ['generation', 'area', 'subject'].includes(value);
+  isString(value) && Object.values(CATEGORY_NAME).some(name => name === value);
 
 export const hasOwnProperty = <X extends object, Y extends PropertyKey>(
   obj: X,
