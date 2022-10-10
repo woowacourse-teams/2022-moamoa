@@ -6,12 +6,13 @@ import type { MyStudy, Tag } from '@custom-types';
 
 import { checkMember } from '@api/member/typeChecker';
 
-type TagKeys = keyof Pick<Tag, 'id' | 'name'>;
+type MyStudyTag = Pick<Tag, 'id' | 'name'>;
+type MyStudyTagKeys = keyof MyStudyTag;
 
-const checkTag = (data: unknown): Pick<Tag, 'id' | 'name'> => {
+const checkMyStudyTag = (data: unknown): MyStudyTag => {
   if (!isObject(data)) throw new AxiosError(`Tag does not have correct type: object`);
 
-  const keys: Array<TagKeys> = ['id', 'name'];
+  const keys: Array<MyStudyTagKeys> = ['id', 'name'];
   if (!hasOwnProperties(data, keys)) throw new AxiosError('Tag does not have some properties');
 
   return {
@@ -34,7 +35,7 @@ export const checkMyStudy = (data: unknown): MyStudy => {
     startDate: checkType(data.startDate, isDateYMD),
     endDate: checkType(data.endDate, isDateYMD),
     studyStatus: checkType(data.studyStatus, isStudyStatus),
-    tags: checkType(data.tags, isArray).map(tag => checkTag(tag)),
+    tags: checkType(data.tags, isArray).map(tag => checkMyStudyTag(tag)),
     owner: checkMember(data.owner),
   };
 };
