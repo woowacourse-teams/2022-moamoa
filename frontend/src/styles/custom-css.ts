@@ -13,19 +13,19 @@ type AllCSSObject = CSSProperties & {
 
 type AllCSSKeys = keyof AllCSSObject;
 
-type PickAllowedCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = {
+type PickAllowedCSSObject<AllowedCSSKeys extends AllCSSKeys> = {
   [CSSKey in AllowedCSSKeys]?: AllCSSObject[CSSKey];
 };
 
-type ResponsiveCSSKeyValue<AllowedCSSKeys extends AllCSSKeys> = BreakpointsFor<PickAllowedCSSKeyValue<AllowedCSSKeys>>;
+type ResponsiveCSSObject<AllowedCSSKeys extends AllCSSKeys> = BreakpointsFor<PickAllowedCSSObject<AllowedCSSKeys>>;
 
-export type CustomCSS<AllowedCSSKeys extends AllCSSKeys> = PickAllowedCSSKeyValue<AllowedCSSKeys> & {
-  responsive?: ResponsiveCSSKeyValue<AllowedCSSKeys>;
+export type CustomCSS<AllowedCSSKeys extends AllCSSKeys> = PickAllowedCSSObject<AllowedCSSKeys> & {
+  responsive?: ResponsiveCSSObject<AllowedCSSKeys>;
 };
 
 export const getResponsiveStyle = <AllowedCSSKeys extends AllCSSKeys>(
   breakPoint: BreakPoint,
-  styleObject: PickAllowedCSSKeyValue<AllowedCSSKeys>,
+  styleObject: PickAllowedCSSObject<AllowedCSSKeys>,
 ) => {
   return css`
     ${mqDown(breakPoint)} {
