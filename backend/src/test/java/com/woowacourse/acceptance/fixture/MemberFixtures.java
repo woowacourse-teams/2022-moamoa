@@ -18,7 +18,7 @@ public class MemberFixtures {
 
     public static final long 디우_깃허브_ID = 3L;
     public static final String 디우_이름 = "dwoo";
-    public static final String 디우_이메일 = "dwo@moamoa.space";
+    public static final String 디우_이메일 = "dwoo@moamoa.space";
     public static final String 디우_이미지_URL = "https://dwoo";
     public static final String 디우_프로필_URL = "github.com/dwoo";
 

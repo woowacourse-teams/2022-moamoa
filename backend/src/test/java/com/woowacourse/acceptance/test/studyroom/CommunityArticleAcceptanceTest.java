@@ -1,6 +1,7 @@
 package com.woowacourse.acceptance.test.studyroom;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
+import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -15,7 +16,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
@@ -164,6 +167,13 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
         // arrange
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
         그린론이().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+        베루스가().로그인한다();
+
+        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("green",
+                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
+                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
+                        .color("#36288f").build()));
+        mockingSlackAlarm(slackMessageRequest);
 
         베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
         long 자바_게시글2_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
@@ -172,8 +182,6 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
 
         long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
         베루스가().로그인하고().스터디에(리액트_스터디_ID).게시글을_작성한다("리액트 게시글 제목", "리액트 게시글 내용");
-
-        String 토큰 = 그린론이().로그인한다();
 
         // act
         final ArticleSummariesResponse response = RestAssured.given(spec).log().all()

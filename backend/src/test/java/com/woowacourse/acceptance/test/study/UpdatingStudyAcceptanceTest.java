@@ -3,7 +3,9 @@ package com.woowacourse.acceptance.test.study;
 import static com.woowacourse.acceptance.fixture.TagFixtures.BE_태그_ID;
 import static com.woowacourse.acceptance.fixture.TagFixtures.우테코4기_태그_ID;
 import static com.woowacourse.acceptance.fixture.TagFixtures.자바_태그_ID;
+import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
+import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -11,7 +13,9 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
+import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import io.restassured.RestAssured;
@@ -94,8 +98,15 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
     void updateStudyWithLessThanCurrentMember() {
         final LocalDate 지금 = LocalDate.now();
         final long studyId = 짱구가().로그인하고().자바_스터디를()
-                .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID)
-                .생성한다();
+                .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID).생성한다();
+        디우가().로그인한다();
+
+        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("jjanggu",
+                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
+                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
+                        .color("#36288f").build()));
+        mockingSlackAlarm(slackMessageRequest);
+
         디우가().로그인하고().스터디에(studyId).참여한다();
         final String accessToken = 짱구가().로그인한다();
 

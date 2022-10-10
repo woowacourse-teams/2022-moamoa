@@ -28,7 +28,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
+import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.member.query.data.MemberData;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.study.domain.StudyStatus;
@@ -53,6 +55,13 @@ class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).태그는(자바_태그_ID, BE_태그_ID).생성한다();
         long 리액트_스터디_ID = 디우가().로그인하고().리액트_스터디를().시작일자는(지금.plusDays(10)).생성한다();
+
+        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("dwoo",
+                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
+                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
+                        .color("#36288f").build()));
+        mockingSlackAlarm(slackMessageRequest);
+
         그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다();
         final String token = 그린론이().로그인한다();
 

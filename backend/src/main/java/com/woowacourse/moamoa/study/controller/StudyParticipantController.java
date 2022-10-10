@@ -1,6 +1,9 @@
 package com.woowacourse.moamoa.study.controller;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudyParticipantController {
 
     private final StudyParticipantService studyParticipantService;
+    private final SlackUsersClient slackUsersClient;
+    private final SlackAlarmSender slackAlarmSender;
 
     @PostMapping
     public ResponseEntity<Void> participateStudy(
             @AuthenticatedMemberId final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
-        studyParticipantService.participateStudy(memberId, studyId);
+        final Member owner = studyParticipantService.participateStudy(memberId, studyId);
+        final String channel = slackUsersClient.getUserChannelByEmail(owner.getEmail());
+
+        slackAlarmSender.requestSlackMessage(channel);
         return ResponseEntity.noContent().build();
     }
 

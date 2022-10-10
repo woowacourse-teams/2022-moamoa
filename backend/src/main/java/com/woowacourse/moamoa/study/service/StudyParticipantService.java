@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.Participant;
@@ -21,13 +22,17 @@ public class StudyParticipantService {
     private final StudyRepository studyRepository;
     private final DateTimeSystem dateTimeSystem;
 
-    public synchronized void participateStudy(final Long memberId, final Long studyId) {
+    public synchronized Member participateStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         study.participate(memberId);
+
+        return memberRepository.findById(study.getParticipants()
+                        .getOwnerId())
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     public void leaveStudy(final Long memberId, final Long studyId) {

@@ -4,6 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.GithubOAuthClient;
@@ -26,7 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
 @WebMvcTest(includeFilters = @Filter(type = FilterType.ANNOTATION, classes = RestController.class))
-@Import({JwtTokenProvider.class, GithubOAuthClient.class, PathMatcherContainer.class, MockedServiceObjectsBeanRegister.class})
+@Import({JwtTokenProvider.class, GithubOAuthClient.class,
+        PathMatcherContainer.class, MockedServiceObjectsBeanRegister.class,
+        SlackUsersClient.class, SlackAlarmSender.class}
+)
 public abstract class WebMVCTest {
 
     @Autowired

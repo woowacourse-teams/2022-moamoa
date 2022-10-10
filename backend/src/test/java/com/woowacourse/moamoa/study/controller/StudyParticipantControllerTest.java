@@ -1,8 +1,13 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.fixtures.MemberFixtures;
@@ -34,11 +39,20 @@ class StudyParticipantControllerTest {
     @Autowired
     private EntityManager entityManager;
 
+    private SlackUsersClient slackUsersClient;
+    private SlackAlarmSender slackAlarmSender;
+
     private Member jjanggu;
     private Member dwoo;
 
     @BeforeEach
     void initDataBase() {
+        slackUsersClient = mock(SlackUsersClient.class);
+        when(slackUsersClient.getUserChannelByEmail("dwoo@moamoa.space")).thenReturn("dwoo-channel");
+
+        slackAlarmSender = mock(SlackAlarmSender.class);
+        doNothing().when(slackAlarmSender).requestSlackMessage("dwoo-channel");
+
         jjanggu = memberRepository.save(MemberFixtures.짱구());
         dwoo = memberRepository.save(MemberFixtures.디우());
     }
@@ -68,7 +82,8 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()));
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
+                        slackUsersClient, slackAlarmSender);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -112,7 +127,8 @@ class StudyParticipantControllerTest {
         entityManager.clear();
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()));
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
+                slackUsersClient, slackAlarmSender);
         sut.leaveStudy(green.getId(), studyId);
 
         // then
