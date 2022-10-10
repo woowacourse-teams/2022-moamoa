@@ -20,11 +20,11 @@ const MyStudyPage: React.FC = () => {
       {isError && !isSuccess && <Error />}
       {!isError && isSuccess && (
         <>
-          <InProgressStudyList studies={studies} />
+          <MyStudyCardListSection sectionTitle="활동 중!" studies={studies.inProgress} />
           <Divider space="10px" />
-          <PrepareStudyList studies={studies} />
+          <MyStudyCardListSection sectionTitle="곧 시작해요!" studies={studies.prepare} />
           <Divider space="10px" />
-          <DoneStudyList studies={studies} />
+          <MyStudyCardListSection sectionTitle="종료했어요" done studies={studies.done} />
         </>
       )}
     </PageWrapper>
@@ -34,22 +34,5 @@ const MyStudyPage: React.FC = () => {
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>내 스터디 불러오기를 실패했습니다</div>;
-
-type InProgressStudyListProps = {
-  studies: Record<StudyType, Array<MyStudy>>;
-};
-const InProgressStudyList: React.FC<InProgressStudyListProps> = ({ studies }) => (
-  <MyStudyCardListSection sectionTitle="활동 중!" studies={studies.inProgress} />
-);
-
-type PrepareStudyListProps = InProgressStudyListProps;
-const PrepareStudyList: React.FC<PrepareStudyListProps> = ({ studies }) => (
-  <MyStudyCardListSection sectionTitle="곧 시작해요!" studies={studies.prepare} />
-);
-
-type DoneStudyListProps = InProgressStudyListProps;
-const DoneStudyList: React.FC<DoneStudyListProps> = ({ studies }) => (
-  <MyStudyCardListSection sectionTitle="종료했어요" done={true} studies={studies.done} />
-);
 
 export default MyStudyPage;
