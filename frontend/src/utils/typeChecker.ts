@@ -45,22 +45,24 @@ export const hasOwnProperties = <X extends object, Y extends PropertyKey>(
   props: Array<Y>,
 ): obj is X & Record<Y, unknown> => props.every(prop => obj.hasOwnProperty(prop));
 
-export const checkOptionalType = <T>(value: unknown, isTypeFn: (value: unknown) => value is T): T | undefined => {
-  if (!isTypeFn(value) && !isNullOrUndefined(value)) {
-    console.error(`${isTypeFn} ${value} does not have correct type`);
-    throw new Error(`${value} does not have correct type`);
+function checkType<T>(value: unknown, isTypeFn: (value: unknown) => value is T, isOptional: true): T | undefined;
+function checkType<T>(value: unknown, isTypeFn: (value: unknown) => value is T, isOptional?: false): T;
+function checkType<T>(value: unknown, isTypeFn: (value: unknown) => value is T, isOptional?: boolean): T | undefined {
+  if (isOptional) {
+    if (!isTypeFn(value) && !isNullOrUndefined(value)) {
+      console.error(`${isTypeFn} ${value} does not have correct type`);
+      throw new Error(`${value} does not have correct type`);
+    }
+
+    return value ?? undefined;
   }
 
-  return value ?? undefined;
-};
-
-const checkType = <T>(value: unknown, isTypeFn: (value: unknown) => value is T): T => {
   if (!isTypeFn(value)) {
     console.error(`${isTypeFn} ${value} does not have correct type`);
     throw new Error(`${value} does not have correct type`);
   }
 
   return value;
-};
+}
 
 export default checkType;

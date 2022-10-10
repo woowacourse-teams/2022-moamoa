@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 
 import {
-  checkOptionalType,
   checkType,
   hasOwnProperties,
   isArray,
@@ -75,11 +74,11 @@ export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
     recruitmentStatus: checkType(data.recruitmentStatus, isRecruitmentStatus),
     description: checkType(data.description, isString),
     currentMemberCount: checkType(data.id, isNumber),
-    maxMemberCount: checkOptionalType(data.maxMemberCount, isNumber),
+    maxMemberCount: checkType(data.maxMemberCount, isNumber, true),
     createdDate: checkType(data.createdDate, isDateYMD),
-    enrollmentEndDate: checkOptionalType(data.enrollmentEndDate, isDateYMD),
+    enrollmentEndDate: checkType(data.enrollmentEndDate, isDateYMD, true),
     startDate: checkType(data.startDate, isDateYMD),
-    endDate: checkOptionalType(data.endDate, isDateYMD),
+    endDate: checkType(data.endDate, isDateYMD, true),
     owner: checkStudyMember(data.owner),
     members: checkType(data.members, isArray).map(member => checkStudyMember(member)),
     tags: checkType(data.tags, isArray).map(tag => checkTag(tag)),
