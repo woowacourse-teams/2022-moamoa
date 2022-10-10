@@ -1,6 +1,7 @@
-import { type AxiosError, type AxiosResponse } from 'axios';
+import { AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
+import { checkLogin, checkRefresh } from '@api/auth/typeChecker';
 import axiosInstance, { refreshAxiosInstance } from '@api/axiosInstance';
 
 export type ApiLogin = {
@@ -14,7 +15,7 @@ export type ApiLogin = {
   };
 };
 
-export type ApiRefreshToken = {
+export type ApiRefresh = {
   get: {
     responseData: {
       accessToken: string;
@@ -30,7 +31,8 @@ export const postLogin = async ({ code }: ApiLogin['post']['variables']) => {
     AxiosResponse<ApiLogin['post']['responseData']>,
     ApiLogin['post']['variables']
   >(`/api/auth/login?code=${code}`);
-  return response.data;
+
+  return checkLogin(response.data);
 };
 
 export const usePostLogin = () =>
@@ -38,6 +40,6 @@ export const usePostLogin = () =>
 
 // refresh - get new access token
 export const getRefreshAccessToken = async () => {
-  const response = await refreshAxiosInstance.get<ApiRefreshToken['get']['responseData']>(`/api/auth/refresh`);
-  return response.data;
+  const response = await refreshAxiosInstance.get<ApiRefresh['get']['responseData']>(`/api/auth/refresh`);
+  return checkRefresh(response.data);
 };

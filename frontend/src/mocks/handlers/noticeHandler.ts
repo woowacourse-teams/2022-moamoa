@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-import { user } from '@mocks/memberHandlers';
+import { user } from '@mocks/handlers/memberHandlers';
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 
 import { type ApiNoticeArticle } from '@api/notice';

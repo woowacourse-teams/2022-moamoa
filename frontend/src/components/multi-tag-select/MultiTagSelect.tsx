@@ -1,7 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import isFunction from '@utils/isFunction';
-import isObject from '@utils/isObject';
+import { isFunction, isObject } from '@utils';
 
 import Center from '@components/center/Center';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';

@@ -1,9 +1,6 @@
-import { DateYMD } from '@custom-types';
+import { isDateYMD } from '@utils';
 
-const isDateYMD = (date: string): date is DateYMD => {
-  const regex = /\d{4}-\d{2}-\d{2}/;
-  return regex.test(date);
-};
+import { DateYMD } from '@custom-types';
 
 export const getToday = (): DateYMD => {
   const koKRDate = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
