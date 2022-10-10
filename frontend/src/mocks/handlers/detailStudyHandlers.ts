@@ -3,7 +3,8 @@ import { rest } from 'msw';
 import { user } from '@mocks/handlers/memberHandlers';
 import studiesJSON from '@mocks/studies.json';
 
-import { ApiStudies } from '@api/studies';
+import { RECRUITMENT_STATUS } from '@constants';
+
 import type { ApiStudy } from '@api/study';
 
 const detailStudyHandlers = [
@@ -12,14 +13,16 @@ const detailStudyHandlers = [
 
     if (!studyId) return res(ctx.status(400), ctx.json({ message: '스터디 아이디가 없음' }));
 
-    const study = studiesJSON.studies.find(study => String(study.id) === studyId);
+    const studies = studiesJSON.studies;
+    const study = studies.find(study => String(study.id) === studyId);
 
+    if (!study) return res(ctx.status(404), ctx.json({ message: '해당하는 스터디 없음' }));
     return res(ctx.status(200), ctx.json(study));
   }),
   rest.post<ApiStudy['post']['body']>('/api/studies', (req, res, ctx) => {
     const { thumbnail, title, description, excerpt, enrollmentEndDate, endDate, startDate, maxMemberCount } = req.body;
 
-    const { studies } = studiesJSON as Pick<ApiStudies['get']['responseData'], 'studies'>;
+    const { studies } = studiesJSON;
 
     // TODO: json 파일의 타입을 지정할 순 없을까?
     studiesJSON.studies = [
@@ -33,7 +36,7 @@ const detailStudyHandlers = [
         enrollmentEndDate: enrollmentEndDate ?? null,
         startDate,
         maxMemberCount: maxMemberCount ?? null,
-        recruitmentStatus: 'RECRUITMENT_START',
+        recruitmentStatus: RECRUITMENT_STATUS.START,
         createdDate: '2022-08-18',
         currentMemberCount: 1,
         owner: user,

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
@@ -35,7 +35,7 @@ const Head: React.FC<HeadProps> = ({
       <Flex justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" gap="16px">
           <PageTitle>{title}</PageTitle>
-          <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
+          <StudyChip isOpen={recruitmentStatus === RECRUITMENT_STATUS.START} />
         </Flex>
         {isOwner && (
           <Link to={PATH.EDIT_STUDY(studyId)}>

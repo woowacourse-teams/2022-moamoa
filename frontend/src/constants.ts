@@ -149,3 +149,8 @@ export const LINK_DESCRIPTION_LENGTH = {
 };
 
 export const COMMA = ',';
+
+export const RECRUITMENT_STATUS = {
+  START: 'RECRUITMENT_START',
+  END: 'RECRUITMENT_END',
+} as const;
