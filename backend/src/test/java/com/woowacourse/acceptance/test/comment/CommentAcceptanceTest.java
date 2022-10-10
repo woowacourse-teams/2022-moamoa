@@ -2,6 +2,7 @@ package com.woowacourse.acceptance.test.comment;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.apache.http.HttpHeaders.LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,6 +55,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(ACCEPT, APPLICATION_JSON_VALUE)
                 .pathParam("study-id", 자바_스터디)
+                .pathParam("article-type", "community")
                 .pathParam("article-id", 자바_게시글)
                 .body(commentRequest)
                 .filter(document("comments/create",
@@ -62,10 +64,11 @@ class CommentAcceptanceTest extends AcceptanceTest {
                         ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID"),
+                                parameterWithName("article-type").description("게시글 타입"),
                                 parameterWithName("article-id").description("게시글 ID")
                         )))
                 .when().log().all()
-                .post("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                .post("/api/studies/{study-id}/{article-type}/{article-id}/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
@@ -73,14 +76,14 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         // then
         final long commentId = Long.parseLong(
-                location.replaceAll("/api/studies/\\d++/community/articles/\\d++/comments/", ""));
+                location.replaceAll("/api/studies/\\d++/community/\\d++/comments/", ""));
         final CommentsResponse response = RestAssured.given(spec).log().all()
                 .pathParam("study-id", 자바_스터디)
                 .pathParam("article-id", 자바_게시글)
                 .queryParam("page", 0)
                 .queryParam("size", 2)
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                .get("/api/studies/{study-id}/community/{article-id}/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(CommentsResponse.class);
@@ -98,20 +101,22 @@ class CommentAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디 = 디우가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 자바_게시글 = 디우가().로그인하고().스터디에(자바_스터디).게시글을_작성한다("자바 게시글", "자바 게시글 내용");
-        디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(자바_게시글, "댓글 내용1");
-        final Long 댓글_내용2_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(자바_게시글, "댓글 내용2");
-        final Long 댓글_내용3_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(자바_게시글, "댓글 내용3");
+        디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(COMMUNITY, 자바_게시글, "댓글 내용1");
+        final Long 댓글_내용2_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(COMMUNITY, 자바_게시글, "댓글 내용2");
+        final Long 댓글_내용3_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(COMMUNITY, 자바_게시글, "댓글 내용3");
         final MemberResponse 디우 = 디우가().로그인하고().정보를_가져온다();
 
         // when
         final CommentsResponse response = RestAssured.given(spec).log().all()
                 .pathParam("study-id", 자바_스터디)
                 .pathParam("article-id", 자바_게시글)
+                .pathParam("article-type", "community")
                 .queryParam("page", 0)
                 .queryParam("size", 2)
                 .filter(document("comments/list",
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID"),
+                                parameterWithName("article-type").description("게시글 타입"),
                                 parameterWithName("article-id").description("게시글 ID")
                         ),
                         requestParameters(
@@ -119,7 +124,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
                                 parameterWithName("size").description("사이즈")
                         )))
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                .get("/api/studies/{study-id}/{article-type}/{article-id}/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(CommentsResponse.class);
@@ -141,7 +146,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디 = 디우가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 자바_게시글 = 디우가().로그인하고().스터디에(자바_스터디).게시글을_작성한다("자바 게시글", "자바 게시글 내용");
-        final Long 댓글_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(자바_게시글, "댓글 내용");
+        final Long 댓글_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(COMMUNITY, 자바_게시글, "댓글 내용");
         final String token = 디우가().로그인한다();
         final MemberResponse 디우 = 디우가().로그인하고().정보를_가져온다();
 
@@ -151,6 +156,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         RestAssured.given(spec).log().all()
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디)
+                .pathParam("article-type", "community")
                 .pathParam("article-id", 자바_게시글)
                 .pathParam("comment-id", 댓글_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -161,6 +167,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
                         ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID"),
+                                parameterWithName("article-type").description("게시글 타입"),
                                 parameterWithName("article-id").description("게시글 ID"),
                                 parameterWithName("comment-id").description("댓글 ID")
                         ),
@@ -169,18 +176,19 @@ class CommentAcceptanceTest extends AcceptanceTest {
                         )
                 ))
                 .when().log().all()
-                .put("/api/studies/{study-id}/community/articles/{article-id}/comments/{comment-id}")
+                .put("/api/studies/{study-id}/{article-type}/{article-id}/comments/{comment-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // then
         final CommentsResponse response = RestAssured.given(spec).log().all()
                 .pathParam("study-id", 자바_스터디)
+                .pathParam("article-type", "community")
                 .pathParam("article-id", 자바_게시글)
                 .queryParam("page", 0)
                 .queryParam("size", 2)
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                .get("/api/studies/{study-id}/{article-type}/{article-id}/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(CommentsResponse.class);
@@ -199,13 +207,14 @@ class CommentAcceptanceTest extends AcceptanceTest {
         long 자바_스터디 = 디우가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 자바_게시글 = 디우가().로그인하고().스터디에(자바_스터디).게시글을_작성한다("자바 게시글", "자바 게시글 내용");
 
-        final Long 댓글_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(자바_게시글, "댓글 내용");
+        final Long 댓글_ID = 디우가().로그인하고().스터디에(자바_스터디).댓글을_작성한다(COMMUNITY, 자바_게시글, "댓글 내용");
         final String token = 디우가().로그인한다();
 
         // when
         RestAssured.given(spec).log().all()
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", 자바_스터디)
+                .pathParam("article-type", "community")
                 .pathParam("article-id", 자바_게시글)
                 .pathParam("comment-id", 댓글_ID)
                 .filter(document("comments/delete",
@@ -214,23 +223,25 @@ class CommentAcceptanceTest extends AcceptanceTest {
                         ),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 ID"),
+                                parameterWithName("article-type").description("게시글 타입"),
                                 parameterWithName("article-id").description("게시글 ID"),
                                 parameterWithName("comment-id").description("댓글 ID")
                         )
                 ))
                 .when().log().all()
-                .delete("/api/studies/{study-id}/community/articles/{article-id}/comments/{comment-id}")
+                .delete("/api/studies/{study-id}/{article-type}}/{article-id}/comments/{comment-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // then
         final CommentsResponse response = RestAssured.given(spec).log().all()
                 .pathParam("study-id", 자바_스터디)
+                .pathParam("article-type", "community")
                 .pathParam("article-id", 자바_게시글)
                 .queryParam("page", 0)
                 .queryParam("size", 2)
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                .get("/api/studies/{study-id}/{article-type}/{article-id}/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(CommentsResponse.class);

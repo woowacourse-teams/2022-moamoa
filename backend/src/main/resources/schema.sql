@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS community;
-DROP TABLE IF EXISTS notice;
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS study_tag;
 DROP TABLE IF EXISTS study_member;
 DROP TABLE IF EXISTS tag;
@@ -26,7 +26,7 @@ CREATE TABLE study
     thumbnail            VARCHAR(255) NOT NULL,
     recruitment_status   VARCHAR(255) NOT NULL,
     study_status         VARCHAR(255) NOT NULL,
-    description          MEDIUMTEXT,
+    description          LONGTEXT,
     current_member_count INTEGER DEFAULT 1,
     max_member_count     INTEGER,
     created_at           DATETIME     not null,
@@ -42,7 +42,7 @@ CREATE TABLE review
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id           BIGINT  NOT NULL,
     member_id          BIGINT  NOT NULL,
-    content            MEDIUMTEXT,
+    content            LONGTEXT,
     created_date       DATE    not null,
     last_modified_date DATE    not null,
     deleted            boolean not null,
@@ -53,13 +53,13 @@ CREATE TABLE review
 CREATE TABLE link
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-    study_id           BIGINT     NOT NULL,
-    author_id          BIGINT     NOT NULL,
-    link_url           MEDIUMTEXT NOT NULL,
-    description        MEDIUMTEXT,
-    created_date       DATETIME   NOT NULL,
-    last_modified_date DATETIME   NOT NULL,
-    deleted            boolean    NOT NULL,
+    study_id           BIGINT   NOT NULL,
+    author_id          BIGINT   NOT NULL,
+    link_url           LONGTEXT NOT NULL,
+    description        LONGTEXT,
+    created_date       DATETIME NOT NULL,
+    last_modified_date DATETIME NOT NULL,
+    deleted            boolean  NOT NULL,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (author_id) REFERENCES member (id)
 );
@@ -102,13 +102,25 @@ CREATE TABLE article
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     title              VARCHAR(255) NOT NULL,
-    content            MEDIUMTEXT   NOT NULL,
+    content            LONGTEXT     NOT NULL,
     author_id          BIGINT,
     study_id           BIGINT,
-    created_date       DATETIME     not null,
-    last_modified_date DATETIME     not null,
+    created_date       DATETIME     NOT NULL,
+    last_modified_date DATETIME     NOT NULL,
     type               VARCHAR(255) NOT NULL,
     deleted            boolean      NOT NULL,
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
+);
+
+CREATE TABLE comment
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    author_id          BIGINT,
+    article_id         BIGINT,
+    content            LONGTEXT NOT NULL,
+    created_date       DATETIME NOT NULL,
+    last_modified_date DATETIME NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (article_id) REFERENCES article (id)
 );

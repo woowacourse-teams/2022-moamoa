@@ -4,14 +4,15 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
+import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class StudyRelatedSteps extends Steps {
 
@@ -37,8 +38,8 @@ public class StudyRelatedSteps extends Steps {
     public Long 리뷰를_작성한다(String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, token)
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .header(AUTHORIZATION, token)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .pathParams("study-id", studyId)
                     .body(objectMapper.writeValueAsString(new ReviewRequest(content)))
                     .when().post("/api/studies/{study-id}/reviews")
@@ -51,6 +52,7 @@ public class StudyRelatedSteps extends Steps {
             return null;
         }
     }
+
     public Long 링크를_공유한다(final LinkArticleRequest request) {
         try {
             final String location = RestAssured.given().log().all()
@@ -72,8 +74,8 @@ public class StudyRelatedSteps extends Steps {
     public Long 공지사항을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
-                    .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .header(AUTHORIZATION, token)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
                     .pathParam("study-id", studyId)
                     .when().log().all()
@@ -91,8 +93,8 @@ public class StudyRelatedSteps extends Steps {
     public Long 게시글을_작성한다(final String title, final String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
-                    .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .header(AUTHORIZATION, token)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
                     .pathParam("study-id", studyId)
                     .when().log().all()
@@ -107,20 +109,23 @@ public class StudyRelatedSteps extends Steps {
         }
     }
 
-    public Long 댓글을_작성한다(final Long communityId, final String content) {
+    public Long 댓글을_작성한다(final ArticleType articleType, final Long articleId, final String content) {
         try {
             final String location = RestAssured.given().log().all()
-                    .header(org.apache.http.HttpHeaders.AUTHORIZATION, token)
-                    .header(org.apache.http.HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .header(AUTHORIZATION, token)
+                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .body(objectMapper.writeValueAsString(new CommentRequest(content)))
                     .pathParam("study-id", studyId)
-                    .pathParam("article-id", communityId)
+                    .pathParam("article-id", articleId)
+                    .pathParam("article-type", articleType.name().toLowerCase())
                     .when().log().all()
-                    .post("/api/studies/{study-id}/community/articles/{article-id}/comments")
+                    .post("/api/studies/{study-id}/{article-type}/{article-id}/comments")
                     .then().log().all()
                     .statusCode(HttpStatus.CREATED.value())
                     .extract().header(HttpHeaders.LOCATION);
-            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/community/articles/" + communityId + "/comments/", ""));
+            return Long.parseLong(location.replaceAll(
+                    "/api/studies/" + studyId + "/" + articleType.name().toLowerCase() + "/" + articleId + "/comments/",
+                    ""));
         } catch (Exception e) {
             Assertions.fail("게시글 작성 실패");
             return null;

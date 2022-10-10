@@ -5,6 +5,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,25 +27,25 @@ public class Comment extends BaseEntity {
     @Embedded
     private Author author;
 
-    @Embedded
-    private AssociatedCommunity associatedCommunity;
+    @Column(name = "article_id", nullable = false)
+    private Long articleId;
 
     private String content;
 
-    public Comment(final Author author, final AssociatedCommunity associatedCommunity, final String content) {
+    public Comment(final Author author, final Long articleId, final String content) {
         this.author = author;
-        this.associatedCommunity = associatedCommunity;
+        this.articleId = articleId;
         this.content = content;
     }
 
     public void updateContent(final Author author, final String content) {
-        validateAuthor(author);
+        if (!canEditingComment(author)) {
+            throw new UnwrittenCommentException();
+        }
         this.content = content;
     }
 
-    public void validateAuthor(final Author author) {
-        if (!this.author.equals(author)) {
-            throw new UnwrittenCommentException();
-        }
+    public boolean canEditingComment(final Author author) {
+        return this.author.equals(author);
     }
 }

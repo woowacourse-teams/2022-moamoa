@@ -5,10 +5,10 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
+import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.comment.domain.AssociatedCommunity;
 import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
@@ -18,8 +18,11 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.studyroom.domain.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.repository.article.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
+import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -42,7 +45,7 @@ class CommentDaoTest {
     private StudyRepository studyRepository;
 
     @Autowired
-    private ArticleRepository<CommunityArticle> communityRepository;
+    private ArticleRepository articleRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -57,7 +60,7 @@ class CommentDaoTest {
 
     private Study 자바스크립트_스터디;
 
-    private CommunityArticle 자바스크립트_스터디_게시판;
+    private Article 자바스크립트_스터디_게시판;
 
     @BeforeEach
     void setUp() {
@@ -68,10 +71,13 @@ class CommentDaoTest {
 
         자바스크립트_스터디 = studyRepository.save(자바스크립트_스터디(그린론.getId(), Set.of(디우.getId(), 베루스.getId())));
 
-        final CommunityArticle communityArticle = new CommunityArticle("게시판 제목", "게시판 내용", 짱구.getId(),
-                new StudyRoom(자바스크립트_스터디.getId(), 그린론.getId(), Set.of(디우.getId(), 베루스.getId())));
+        final StudyRoom javaStudyRoom = new StudyRoom(자바스크립트_스터디.getId(), 자바스크립트_스터디.getParticipants().getOwnerId(),
+                Set.of(그린론.getId(), 디우.getId()));
+        final Accessor accessor = new Accessor(디우.getId(), 자바스크립트_스터디.getId());
+        final Content content = new Content("게시판 제목", "게시판 내용");
+        final Article article = Article.create(javaStudyRoom, accessor, content, COMMUNITY);
 
-        자바스크립트_스터디_게시판 = communityRepository.save(communityArticle);
+        자바스크립트_스터디_게시판 = articleRepository.save(article);
 
         entityManager.flush();
     }
@@ -80,9 +86,9 @@ class CommentDaoTest {
     @Test
     void findAllByArticleId() {
         // given
-        final AssociatedCommunity associatedCommunity = new AssociatedCommunity(자바스크립트_스터디_게시판.getId());
-        final Comment firstComment = new Comment(new Author(그린론.getId()), associatedCommunity, "댓글내용1");
-        final Comment secondComment = new Comment(new Author(디우.getId()), associatedCommunity, "댓글내용2");
+        final Long articleId = 자바스크립트_스터디_게시판.getId();
+        final Comment firstComment = new Comment(new Author(그린론.getId()), articleId, "댓글내용1");
+        final Comment secondComment = new Comment(new Author(디우.getId()), articleId, "댓글내용2");
 
         final Comment savedFirstComment = commentRepository.save(firstComment);
         final Comment savedSecondComment = commentRepository.save(secondComment);
@@ -90,8 +96,7 @@ class CommentDaoTest {
         entityManager.flush();
 
         // when
-        final List<CommentData> commentData = commentDao.findAllByArticleId(associatedCommunity.getCommunityId(),
-                Pageable.ofSize(8));
+        final List<CommentData> commentData = commentDao.findAllByArticleId(articleId, Pageable.ofSize(8));
 
         // then
         assertThat(commentData).hasSize(2)

@@ -1,16 +1,18 @@
 package com.woowacourse.moamoa.comment.controller;
 
+import static org.springframework.http.HttpHeaders.LOCATION;
+
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.comment.service.CommentService;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/studies/{study-id}/community/articles/{article-id}/comments")
+@RequestMapping("/api/studies/{study-id}/{article-type}/{article-id}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -31,23 +33,25 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<Void> createComment(@AuthenticatedMemberId final Long memberId,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("article-id") final Long communityId,
+                                              @PathVariable("article-id") final Long articleId,
+                                              @PathVariable("article-type") final String type,
                                               @Valid @RequestBody final CommentRequest request
     ) {
-        final Long commentId = commentService.writeComment(memberId, studyId, communityId, request);
+        final ArticleType articleType = ArticleType.from(type);
+        final Long commentId = commentService.writeComment(memberId, studyId, articleId, articleType, request);
 
         final URI location = URI.create(
-                "/api/studies/" + studyId + "/community/articles/" + communityId + "/comments/" + commentId);
+                "/api/studies/" + studyId + "/" + type + "/" + articleId + "/comments/" + commentId);
         return ResponseEntity.created(location)
-                .header("Access-Control-Allow-Headers", HttpHeaders.LOCATION)
+                .header("Access-Control-Allow-Headers", LOCATION)
                 .build();
     }
 
     @GetMapping
-    public ResponseEntity<CommentsResponse> getComments(@PathVariable("article-id") final Long communityId,
+    public ResponseEntity<CommentsResponse> getComments(@PathVariable("article-id") final Long articleId,
                                                        @PageableDefault(size = 8) final Pageable pageable
     ) {
-        final CommentsResponse commentsResponse = commentService.getComments(communityId, pageable);
+        final CommentsResponse commentsResponse = commentService.getComments(articleId, pageable);
         return ResponseEntity.ok(commentsResponse);
     }
 

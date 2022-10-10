@@ -17,17 +17,17 @@ public class CommentDao {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<CommentData> findAllByArticleId(final Long communityId, final Pageable pageable) {
+    public List<CommentData> findAllByArticleId(final Long articleId, final Pageable pageable) {
         final long offset = pageable.getOffset();
         final int pageSize = pageable.getPageSize();
         String sql = "SELECT comment.id, comment.content, comment.created_date, comment.last_modified_date, "
                 + "member.id, member.username, member.image_url, member.profile_url "
-                + "FROM comment JOIN member ON comment.member_id = member.id "
-                + "WHERE comment.community_id = :communityId "
+                + "FROM comment JOIN member ON comment.author_id = member.id "
+                + "WHERE comment.article_id = :articleId "
                 + "ORDER BY comment.created_date DESC, comment.id DESC LIMIT :limit OFFSET :offset";
 
         return namedParameterJdbcTemplate.query(sql,
-                Map.of("communityId", communityId, "limit", pageSize, "offset", offset), rowMapper());
+                Map.of("articleId", articleId, "limit", pageSize, "offset", offset), rowMapper());
     }
 
     private RowMapper<CommentData> rowMapper() {

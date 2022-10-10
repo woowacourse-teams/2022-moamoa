@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Author {
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @Column(name = "author_id", nullable = false)
+    private Long authorId;
 }
