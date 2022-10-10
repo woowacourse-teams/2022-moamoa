@@ -1,14 +1,9 @@
 import { hasOwnProperty } from '@utils/hasOwnProperty';
+import { isString } from '@utils/type-checks';
 
 import { type ThemeFontSize, theme } from '@styles/theme';
 
-const isThemeFontSize = (fontSize: unknown): fontSize is ThemeFontSize => {
-  if (typeof fontSize === 'string') {
-    if (hasOwnProperty(theme.fontSize, fontSize)) {
-      return true;
-    }
-  }
-  return false;
-};
+const isThemeFontSize = (fontSize: unknown): fontSize is ThemeFontSize =>
+  isString(fontSize) && hasOwnProperty(theme.fontSize, fontSize);
 
 export default isThemeFontSize;
