@@ -60,9 +60,8 @@ class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
                 List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
-        mockingSlackAlarm(slackMessageRequest);
 
-        그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다();
+        그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
         final String token = 그린론이().로그인한다();
 
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();

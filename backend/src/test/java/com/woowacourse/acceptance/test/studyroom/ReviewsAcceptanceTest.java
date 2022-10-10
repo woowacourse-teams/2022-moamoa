@@ -82,16 +82,9 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        mockingSlackAlarm(slackMessageRequest);
-        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
 
         long 짱구_리뷰_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
         long 그린론_리뷰_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용2");
@@ -146,16 +139,9 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        mockingSlackAlarm(slackMessageRequest);
-        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
 
         long 짱구_리뷰_ID = 짱구가().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용1");
         long 그린론_리뷰_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).리뷰를_작성한다("리뷰 내용2");

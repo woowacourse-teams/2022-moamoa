@@ -62,16 +62,9 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        mockingSlackAlarm(slackMessageRequest);
-        짱구가().로그인하고().스터디에(리액트_스터디).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        그린론이().로그인하고().스터디에(리액트_스터디).참여한다();
-
-        mockServer.reset();
-        mockingSlackAlarm(slackMessageRequest);
-        베루스가().로그인하고().스터디에(리액트_스터디).참여한다();
+        짱구가().로그인하고().스터디에(리액트_스터디).참여한다(slackAlarmMockServer, slackMessageRequest);
+        그린론이().로그인하고().스터디에(리액트_스터디).참여한다(slackAlarmMockServer, slackMessageRequest);
+        베루스가().로그인하고().스터디에(리액트_스터디).참여한다(slackAlarmMockServer, slackMessageRequest);
 
         RestAssured.given(spec).log().all()
                 .filter(document("studies/details"))
