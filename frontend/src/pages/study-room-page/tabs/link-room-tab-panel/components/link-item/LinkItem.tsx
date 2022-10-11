@@ -116,10 +116,10 @@ type ErrorPreviewProps = {
 };
 const ErrorPreview: React.FC<ErrorPreviewProps> = ({ linkUrl }) => {
   const errorPreviewResult: ApiLinkPreview['get']['responseData'] = {
-    title: '%Error%',
-    description: '링크 불러오기에 실패했습니다 :(',
-    imageUrl: null,
-    domainName: null,
+    title: linkUrl,
+    description: linkUrl,
+    imageUrl: SiteImage,
+    domainName: linkUrl,
   };
   return <LinkPreview previewResult={errorPreviewResult} linkUrl={linkUrl} />;
 };
