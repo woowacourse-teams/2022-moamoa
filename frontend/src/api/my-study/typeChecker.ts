@@ -47,7 +47,7 @@ export const checkMyStudy = (data: unknown): MyStudy => {
     id: checkType(data.id, isNumber),
     title: checkType(data.title, isString),
     startDate: checkType(data.startDate, isDateYMD),
-    endDate: checkType(data.endDate, isDateYMD),
+    endDate: checkType(data.endDate, isDateYMD, true),
     studyStatus: checkType(data.studyStatus, isStudyStatus),
     tags: checkType(data.tags, isArray).map(tag => checkMyStudyTag(tag)),
     owner: checkMember(data.owner),
