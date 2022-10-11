@@ -3,8 +3,7 @@ import { forwardRef, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import isFunction from '@utils/isFunction';
-import isObject from '@utils/isObject';
+import { isFunction, isObject } from '@utils';
 
 import UnstyledButton from '@components/button/unstyled-button/UnstyledButton';
 import Center from '@components/center/Center';

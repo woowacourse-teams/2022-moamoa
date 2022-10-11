@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import type { Study } from '@custom-types';
 

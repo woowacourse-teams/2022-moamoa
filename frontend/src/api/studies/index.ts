@@ -6,6 +6,7 @@ import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 import type { Page, Size, Study, TagInfo } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkStudies } from '@api/studies/typeChecker';
 
 export type ApiStudies = {
   get: {
@@ -52,7 +53,7 @@ export const getStudies = async ({
   const response = await axiosInstance.get<ApiStudies['get']['responseData']>(
     `/api/studies/search?page=${page}&size=${size}${titleParams}${tagParams}`,
   );
-  return response.data;
+  return checkStudies(response.data);
 };
 
 const getStudiesWithPage =

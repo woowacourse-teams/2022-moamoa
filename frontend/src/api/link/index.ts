@@ -1,6 +1,8 @@
 import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
+import { checkType, isNull } from '@utils';
+
 import type { Link, LinkId, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -30,7 +32,7 @@ export const postLink = async ({ studyId, linkUrl, description }: ApiLink['post'
       description,
     },
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePostLink = () => useMutation<null, AxiosError, ApiLink['post']['variables']>(postLink);
@@ -45,7 +47,7 @@ export const putLink = async ({ studyId, linkId, linkUrl, description }: ApiLink
       description,
     },
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePutLink = () => useMutation<null, AxiosError, ApiLink['put']['variables']>(putLink);
@@ -54,7 +56,7 @@ export const deleteLink = async ({ studyId, linkId }: ApiLink['delete']['variabl
   const response = await axiosInstance.delete<null, AxiosResponse<null>, null>(
     `/api/studies/${studyId}/reference-room/links/${linkId}`,
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const useDeleteLink = () => useMutation<null, AxiosError, ApiLink['delete']['variables']>(deleteLink);

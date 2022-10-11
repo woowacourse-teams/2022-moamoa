@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { type Theme, css, useTheme } from '@emotion/react';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS, USER_ROLE } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
@@ -33,7 +33,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const theme = useTheme();
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>

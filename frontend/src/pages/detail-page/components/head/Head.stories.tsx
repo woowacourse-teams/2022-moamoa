@@ -1,5 +1,7 @@
 import { type Story } from '@storybook/react';
 
+import { RECRUITMENT_STATUS } from '@constants';
+
 import Head, { type HeadProps } from '@detail-page/components/head/Head';
 
 export default {
@@ -16,7 +18,7 @@ const Template: Story<HeadProps> = props => (
 export const Default = Template.bind({});
 Default.args = {
   title: '2022-모아모아',
-  recruitmentStatus: 'RECRUITMENT_START',
+  recruitmentStatus: RECRUITMENT_STATUS.START,
   startDate: '2022-07-18',
   endDate: '2022-07-18',
   excerpt: '모아모아 최고~~',

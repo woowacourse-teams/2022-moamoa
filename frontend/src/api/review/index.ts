@@ -1,7 +1,9 @@
 import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
-import { type ReviewId, type StudyId, type StudyReview } from '@custom-types';
+import { checkType, isNull } from '@utils';
+
+import type { ReviewId, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -37,7 +39,7 @@ export const postReview = async ({ studyId, content }: ApiReview['post']['variab
       content,
     },
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePostReview = () => useMutation<null, AxiosError, ApiReview['post']['variables']>(postReview);
@@ -49,7 +51,7 @@ export const putReview = async ({ studyId, reviewId, content }: ApiReview['put']
       content,
     },
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePutReview = () => useMutation<null, AxiosError, ApiReview['put']['variables']>(putReview);
@@ -58,7 +60,7 @@ export const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['v
   const response = await axiosInstance.delete<null, AxiosResponse<null>, ApiReview['delete']['variables']>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const useDeleteReview = () => useMutation<null, AxiosError, ApiReview['delete']['variables']>(deleteReview);

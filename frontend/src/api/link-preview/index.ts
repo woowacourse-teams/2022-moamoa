@@ -1,6 +1,8 @@
 import axios, { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
+import { checkLinkPreview } from '@api/link-preview/typeChecker';
+
 import AccessTokenController from '@auth/accessTokenController';
 
 export type ApiLinkPreview = {
@@ -9,10 +11,10 @@ export type ApiLinkPreview = {
       linkUrl: string;
     };
     responseData: {
-      title: string | null;
-      description: string | null;
-      imageUrl: string | null;
-      domainName: string | null;
+      title?: string;
+      description?: string;
+      imageUrl?: string;
+      domainName?: string;
     };
     variables: ApiLinkPreview['get']['params'];
   };
@@ -64,7 +66,7 @@ export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variabl
   const response = await axiosInstance.get<ApiLinkPreview['get']['responseData']>(
     `/api/link-preview?linkUrl=${linkUrl}`,
   );
-  return response.data;
+  return checkLinkPreview(response.data);
 };
 
 export const useGetLinkPreview = ({ linkUrl }: ApiLinkPreview['get']['variables']) => {

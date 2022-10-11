@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import type { MyStudy } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkMyStudies } from '@api/my-studies/typeChecker';
 
 export const QK_MY_STUDIES = 'my-studies';
 
@@ -17,7 +18,7 @@ export type ApiMyStudies = {
 
 export const getMyStudies = async () => {
   const response = await axiosInstance.get<ApiMyStudies['get']['responseData']>(`/api/my/studies`);
-  return response.data;
+  return checkMyStudies(response.data);
 };
 
 export const useGetMyStudies = () => {

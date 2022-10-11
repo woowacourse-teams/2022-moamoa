@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import type { Tag } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkTags } from '@api/tags/typeChecker';
 
 export type ApiTags = {
   get: {
@@ -15,7 +16,7 @@ export type ApiTags = {
 
 export const getTags = async () => {
   const response = await axiosInstance.get<ApiTags['get']['responseData']>(`/api/tags`);
-  return response.data;
+  return checkTags(response.data);
 };
 
 export const useGetTags = () => {

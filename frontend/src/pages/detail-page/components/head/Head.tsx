@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
@@ -36,7 +36,7 @@ const Head: React.FC<HeadProps> = ({
       <Flex justifyContent="space-between" alignItems="center" fluid>
         <Flex alignItems="center" columnGap="16px">
           <PageTitle>{title}</PageTitle>
-          <StudyChip isOpen={recruitmentStatus === 'RECRUITMENT_START'} />
+          <StudyChip isOpen={recruitmentStatus === RECRUITMENT_STATUS.START} />
         </Flex>
         {isOwner && <GoToEditPageLinkButton studyId={studyId} />}
       </Flex>

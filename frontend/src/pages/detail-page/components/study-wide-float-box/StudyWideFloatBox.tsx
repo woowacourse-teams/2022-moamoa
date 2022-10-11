@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { type Theme, css, useTheme } from '@emotion/react';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS, USER_ROLE } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
@@ -31,8 +31,8 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const theme = useTheme();
-  const isRegistered = userRole === 'MEMBER' || userRole === 'OWNER';
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const isRegistered = userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER;
+  const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '20px' }}>

@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-import { user } from '@mocks/memberHandlers';
+import { user } from '@mocks/handlers/memberHandlers';
 import reviewJSON from '@mocks/reviews.json';
 
 import { type ApiReview } from '@api/review';

@@ -11,7 +11,7 @@ import useEditStudyPage from '@study-page/edit-study-page/hooks/useEditStudyPage
 import { Container, Main, Sidebar } from '@study-page/layout/Layout';
 import { useEffect } from 'react';
 
-import { PATH } from '@constants';
+import { CATEGORY_NAME, PATH } from '@constants';
 
 import { FormProvider } from '@hooks/useForm';
 
@@ -34,9 +34,9 @@ const EditStudyPage: React.FC = () => {
   if (isError || !isSuccess) return <div>에러가 발생했습니다 :(</div>;
 
   // TODO: 반복문 -> useMemo를 사용하는 건 어떨까?
-  const originalGeneration = data.tags.find(tag => tag.category.name === 'generation');
-  const originalAreas = data.tags.filter(tag => tag.category.name === 'area');
-  const originalSubjects = data.tags.filter(tag => tag.category.name === 'subject');
+  const originalGeneration = data.tags.find(tag => tag.category.name === CATEGORY_NAME.GENERATION);
+  const originalAreas = data.tags.filter(tag => tag.category.name === CATEGORY_NAME.AREA);
+  const originalSubjects = data.tags.filter(tag => tag.category.name === CATEGORY_NAME.SUBJECT);
 
   return (
     <PageWrapper>

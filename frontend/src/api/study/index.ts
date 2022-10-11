@@ -1,9 +1,12 @@
 import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
+import { checkType, isNull } from '@utils';
+
 import type { MakeOptional, StudyDetail, StudyId, TagId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkStudy } from '@api/study/typeChecker';
 
 export const QK_STUDY_DETAIL = 'study-detail';
 
@@ -40,7 +43,7 @@ export const postStudy = async (newStudy: ApiStudy['post']['variables']) => {
     `/api/studies`,
     newStudy,
   );
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePostStudy = () => {
@@ -49,7 +52,7 @@ export const usePostStudy = () => {
 
 export const getStudy = async ({ studyId }: ApiStudy['get']['variables']) => {
   const response = await axiosInstance.get<ApiStudy['get']['responseData']>(`/api/studies/${studyId}`);
-  return response.data;
+  return checkStudy(response.data);
 };
 
 export const useGetStudy = ({ studyId }: ApiStudy['get']['variables']) => {
@@ -58,7 +61,7 @@ export const useGetStudy = ({ studyId }: ApiStudy['get']['variables']) => {
 
 export const putStudy = async ({ studyId, editedStudy }: ApiStudy['put']['variables']) => {
   const response = await axiosInstance.put<null, AxiosResponse<null>>(`/api/studies/${studyId}`, editedStudy);
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePutStudy = () => useMutation<null, AxiosError, ApiStudy['put']['variables']>(putStudy);
