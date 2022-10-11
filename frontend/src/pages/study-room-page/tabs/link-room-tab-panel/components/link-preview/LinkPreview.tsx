@@ -46,8 +46,8 @@ const Self = styled.div`
 `;
 
 type ThunbnailProps = {
-  alt: string | null;
-  src: string | null;
+  alt?: string;
+  src?: string;
 };
 const Thunbnail: React.FC<ThunbnailProps> = ({ alt, src }) => (
   <div
