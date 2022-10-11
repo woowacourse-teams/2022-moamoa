@@ -31,6 +31,9 @@ jobs:
       client-secret: ${{ secrets.CLIENT_SECRET }}
       jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
       jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+      SLACK_USERS : ${(SLACK_USERS}}
+      SLACK_SAND_MESSAGE : ${{secrets.SLACK_SAND_MESSAGE}}
+      SLACK_AUTHORIZATION : ${{secrets.SLACK_AUTHORIZATION}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
