@@ -32,7 +32,6 @@ const DESCRIPTION = 'description';
 const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) => {
   const {
     formState: { errors },
-    register,
     getField,
   } = useFormContext();
 
@@ -62,8 +61,20 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
       <MetaBox>
         <MetaBox.Title>
           <ButtonGroup gap="8px">
-            <WriteTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.write)} />
-            <PreviewTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.preview)} />
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === tabMode.write}
+              onClick={handleNavItemClick(tabMode.write)}
+            >
+              Write
+            </ToggleButton>
+            <ToggleButton
+              variant="secondary"
+              checked={activeTab === tabMode.preview}
+              onClick={handleNavItemClick(tabMode.preview)}
+            >
+              Preview
+            </ToggleButton>
           </ButtonGroup>
         </MetaBox.Title>
         <MetaBox.Content>
@@ -72,12 +83,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
               height: 400px;
             `}
           >
-            <WriteTab
-              isOpen={isWriteTab}
-              isValid={isValid}
-              originalDescription={originalDescription ?? ''}
-              register={register}
-            />
+            <WriteTab isOpen={isWriteTab} isValid={isValid} originalDescription={originalDescription ?? ''} />
             <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
           </div>
         </MetaBox.Content>
@@ -90,34 +96,18 @@ const Self = styled.div`
   margin-bottom: 20px;
 `;
 
-type WriteTabButtonProps = {
-  activeTab: TabIds;
-  onClick: () => void;
-};
-const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
-  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
-    Write
-  </ToggleButton>
-);
-
-type PreviewTabButtonProps = WriteTabButtonProps;
-const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
-  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
-    Preview
-  </ToggleButton>
-);
-
 type WriteTabProps = {
   isOpen: boolean;
   isValid: boolean;
   originalDescription: string;
-  register: UseFormRegister;
 };
-const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, originalDescription, register }) => {
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, originalDescription }) => {
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
     height: 100%;
   `;
+  const { register } = useFormContext();
+
   return (
     <div css={style}>
       <Label htmlFor={DESCRIPTION} hidden>

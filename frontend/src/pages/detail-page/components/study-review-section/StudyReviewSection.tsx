@@ -29,11 +29,6 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   const size = showAll ? undefined : DEFAULT_LOAD_STUDY_REVIEW_COUNT;
   const { data, isError, isFetching, isSuccess } = useGetStudyReviews({ studyId: Number(studyId), size });
 
-  const reviews = data?.reviews;
-  const noReview = !isFetching && isSuccess && reviews && reviews.length === 0;
-  const hasReview = (val: unknown): val is Array<StudyReview> =>
-    !isFetching && isSuccess && !!reviews && reviews.length > 0;
-
   const handleMoreButtonClick = () => {
     setIsMoreButtonVisible(prev => !prev);
   };
@@ -52,33 +47,35 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
           </span>
         }
       </SectionTitle>
-      {isFetching && <Loading />}
-      {isError && !isSuccess && <Error />}
-      {noReview && <NoReview />}
-      {hasReview(reviews) && (
-        <>
-          <ReviewList>
-            {reviews.map(review => (
-              <ReviewListItem key={review.id}>
-                <StudyReviewCard
-                  imageUrl={review.member.imageUrl}
-                  username={review.member.username}
-                  reviewDate={review.createdDate}
-                  review={review.content}
-                />
-              </ReviewListItem>
-            ))}
-          </ReviewList>
-          {reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
-            <MoreButton
-              status={showAll ? 'unfold' : 'fold'}
-              onClick={handleMoreButtonClick}
-              foldText="- 접기"
-              unfoldText="+ 더보기"
-            />
-          )}
-        </>
-      )}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError || !isSuccess) return <Error />;
+        if (data.reviews && data.reviews.length === 0) return <NoReview />;
+        return (
+          <>
+            <ReviewList>
+              {data.reviews.map(review => (
+                <ReviewListItem key={review.id}>
+                  <StudyReviewCard
+                    imageUrl={review.member.imageUrl}
+                    username={review.member.username}
+                    reviewDate={review.createdDate}
+                    review={review.content}
+                  />
+                </ReviewListItem>
+              ))}
+            </ReviewList>
+            {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
+              <MoreButton
+                status={showAll ? 'unfold' : 'fold'}
+                onClick={handleMoreButtonClick}
+                foldText="- 접기"
+                unfoldText="+ 더보기"
+              />
+            )}
+          </>
+        );
+      })()}
     </Self>
   );
 };

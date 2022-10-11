@@ -24,7 +24,7 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
     originalMaxMemberCount ? true : false,
   );
 
-  const { removeField, register } = useFormContext();
+  const { removeField } = useFormContext();
 
   const { handleKeyDown } = usePositiveNumberInput();
 
@@ -41,11 +41,7 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
       <MetaBox.Content>
         <ToggleCheckbox isChecked={!isMaxMemberCountInputEnabled} onClick={handleNoSelectCheckboxChange} />
         {isMaxMemberCountInputEnabled && (
-          <MaxMemberCountField
-            defaultValue={originalMaxMemberCount ?? 0}
-            onKeyDown={handleKeyDown}
-            register={register}
-          />
+          <MaxMemberCountField defaultValue={originalMaxMemberCount ?? 0} onKeyDown={handleKeyDown} />
         )}
       </MetaBox.Content>
     </MetaBox>
@@ -66,13 +62,10 @@ const ToggleCheckbox: React.FC<ToggleCheckboxProps> = ({ isChecked, onClick: han
 type MaxMemberCountFieldProps = {
   defaultValue: number;
   onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
-  register: UseFormRegister;
 };
-const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({
-  defaultValue,
-  onKeyDown: handleKeyDown,
-  register,
-}) => {
+const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({ defaultValue, onKeyDown: handleKeyDown }) => {
+  const { removeField, register } = useFormContext();
+
   return (
     <Flex columnGap="8px" alignItems="center">
       <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>

@@ -50,21 +50,23 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
     areaBE = _areaBE;
     generations = _generations;
   }
-  const hasAllArea = !!(areaFE && areaBE);
 
   return (
     <MetaBox>
       <MetaBox.Title>스터디 분류</MetaBox.Title>
       <MetaBox.Content>
-        {isLoading && <Loading />}
-        {isError && <Error />}
-        {isSuccess && !isError && !hasAllArea && <EmptyAreaError />}
-        {isSuccess && !isError && hasAllArea && generations && (
-          <GenerationSelect generations={generations} originalGeneration={originalGeneration} register={register} />
-        )}
-        {isSuccess && !isError && areaFE && areaBE && (
-          <AreaCheckboxList areaFE={areaFE} areaBE={areaBE} originalAreas={originalAreas} register={register} />
-        )}
+        {(() => {
+          if (isLoading) return <Loading />;
+          if (isError) return <Error />;
+          if (!areaFE || !areaBE) return <EmptyAreaError />;
+          if (!generations) return <EmptyGenerationError />;
+          return (
+            <>
+              <GenerationSelect generations={generations} originalGeneration={originalGeneration} register={register} />
+              <AreaCheckboxList areaFE={areaFE} areaBE={areaBE} originalAreas={originalAreas} register={register} />
+            </>
+          );
+        })()}
       </MetaBox.Content>
     </MetaBox>
   );
@@ -76,71 +78,81 @@ const Error = () => <div>Error...</div>;
 
 const EmptyAreaError = () => <div>FE/BE영역에 오류가 있습니다. 서버 관리자에게 문의해주세요</div>;
 
+const EmptyGenerationError = () => <div>기수 영역에 오류가 있습니다. 서버 관리자에게 문의해주세요</div>;
+
 type GenerationSelectProps = {
   generations: Array<Tag>;
   originalGeneration: CategoryProps['originalGeneration'];
-  register: UseFormRegister;
 };
-const GenerationSelect: React.FC<GenerationSelectProps> = ({ generations, originalGeneration, register }) => (
-  <Flex columnGap="8px" alignItems="center">
-    <Label htmlFor={GENERATION}>기수 :</Label>
-    <Flex.Item flexGrow={1}>
-      <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
-        <option>선택 안함</option>
-        {generations.map(({ id, name }) => (
-          <option key={id} value={id}>
-            {name}
-          </option>
-        ))}
-      </Select>
-    </Flex.Item>
-  </Flex>
-);
+const GenerationSelect: React.FC<GenerationSelectProps> = ({ generations, originalGeneration }) => {
+  const { register } = useFormContext();
+
+  return (
+    <Flex columnGap="8px" alignItems="center">
+      <Label htmlFor={GENERATION}>기수 :</Label>
+      <Flex.Item flexGrow={1}>
+        <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
+          <option>선택 안함</option>
+          {generations.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
+        </Select>
+      </Flex.Item>
+    </Flex>
+  );
+};
 
 type AreaCheckboxListProps = {
   areaFE: Tag;
   areaBE: Tag;
   originalAreas: CategoryProps['originalAreas'];
-  register: UseFormRegister;
 };
-const AreaCheckboxList: React.FC<AreaCheckboxListProps> = ({ areaFE, areaBE, originalAreas, register }) => (
+const AreaCheckboxList: React.FC<AreaCheckboxListProps> = ({ areaFE, areaBE, originalAreas }) => (
   <Flex columnGap="8px">
     <Label>영역 :</Label>
-    <FEAreaCheckbox area={areaFE} originalAreas={originalAreas} register={register} />
-    <BEAreaCheckbox area={areaBE} originalAreas={originalAreas} register={register} />
+    <FEAreaCheckbox area={areaFE} originalAreas={originalAreas} />
+    <BEAreaCheckbox area={areaBE} originalAreas={originalAreas} />
   </Flex>
 );
 
 type FEAreaCheckboxProps = {
   area: Tag;
   originalAreas: CategoryProps['originalAreas'];
-  register: UseFormRegister;
 };
-const FEAreaCheckbox: React.FC<FEAreaCheckboxProps> = ({ area, originalAreas, register }) => (
-  <Checkbox
-    id={AREA_FE}
-    dataTagId={area.id}
-    defaultChecked={originalAreas?.some(tag => tag.id === area.id)}
-    {...register(AREA_FE)}
-  >
-    FE
-  </Checkbox>
-);
+const FEAreaCheckbox: React.FC<FEAreaCheckboxProps> = ({ area, originalAreas }) => {
+  const { register } = useFormContext();
+
+  return (
+    <Checkbox
+      id={AREA_FE}
+      dataTagId={area.id}
+      defaultChecked={originalAreas?.some(tag => tag.id === area.id)}
+      {...register(AREA_FE)}
+    >
+      FE
+    </Checkbox>
+  );
+};
 
 type BEAreaCheckboxProps = {
   area: Tag;
   originalAreas: CategoryProps['originalAreas'];
-  register: UseFormRegister;
 };
-const BEAreaCheckbox: React.FC<BEAreaCheckboxProps> = ({ area, originalAreas, register }) => (
-  <Checkbox
-    id={AREA_BE}
-    dataTagId={area.id}
-    defaultChecked={originalAreas?.some(tag => tag.id === area.id)}
-    {...register(AREA_BE)}
-  >
-    BE
-  </Checkbox>
-);
+const BEAreaCheckbox: React.FC<BEAreaCheckboxProps> = ({ area, originalAreas }) => {
+  const { register } = useFormContext();
+
+  return (
+    <Checkbox
+      id={AREA_BE}
+      dataTagId={area.id}
+      defaultChecked={originalAreas?.some(tag => tag.id === area.id)}
+      {...register(AREA_BE)}
+    >
+      BE
+    </Checkbox>
+  );
+};
 
 export default Category;

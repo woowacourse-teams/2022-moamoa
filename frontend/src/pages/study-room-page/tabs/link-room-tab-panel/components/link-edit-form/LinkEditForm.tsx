@@ -15,6 +15,7 @@ import {
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,
+  useFormContext,
 } from '@hooks/useForm';
 
 import { BoxButton } from '@components/button';
@@ -50,7 +51,6 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
     originalContent.description.length,
   );
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -91,16 +91,17 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
         </UserInfoItem>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" rowGap="12px">
-            <LinkField isValid={isLinkValid} linkUrl={originalContent.linkUrl} register={register} />
+            <LinkField isValid={isLinkValid} linkUrl={originalContent.linkUrl} />
             <DescriptionField
               isValid={isDescValid}
               description={originalContent.description}
               count={count}
               maxCount={maxCount}
               onChange={handleLinkDescriptionChange}
-              register={register}
             />
-            <EditLinkButton />
+            <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
+              링크 수정
+            </BoxButton>
           </Flex>
         </Form>
       </Card>
@@ -116,35 +117,38 @@ const Self = styled.div`
 type LinkFieldProps = {
   isValid: boolean;
   linkUrl: string;
-  register: UseFormRegister;
 };
-const LinkField: React.FC<LinkFieldProps> = ({ isValid, linkUrl, register }) => (
-  <>
-    <Label htmlFor={LINK_URL}>링크*</Label>
-    <Input
-      type="url"
-      id={LINK_URL}
-      placeholder="https://moamoa.space"
-      invalid={!isValid}
-      fluid
-      defaultValue={linkUrl}
-      {...register(LINK_URL, {
-        validate: (val: string) => {
-          if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
-            return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
-          }
-          if (val.length > LINK_URL_LENGTH.MAX.VALUE) return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
-          if (!LINK_URL_LENGTH.FORMAT.TEST(val)) return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
-          return makeValidationResult(false);
-        },
-        validationMode: 'change',
-        maxLength: LINK_URL_LENGTH.MAX.VALUE,
-        minLength: LINK_URL_LENGTH.MIN.VALUE,
-        required: true,
-      })}
-    />
-  </>
-);
+const LinkField: React.FC<LinkFieldProps> = ({ isValid, linkUrl }) => {
+  const { register } = useFormContext();
+
+  return (
+    <>
+      <Label htmlFor={LINK_URL}>링크*</Label>
+      <Input
+        type="url"
+        id={LINK_URL}
+        placeholder="https://moamoa.space"
+        invalid={!isValid}
+        fluid
+        defaultValue={linkUrl}
+        {...register(LINK_URL, {
+          validate: (val: string) => {
+            if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
+            }
+            if (val.length > LINK_URL_LENGTH.MAX.VALUE) return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
+            if (!LINK_URL_LENGTH.FORMAT.TEST(val)) return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          maxLength: LINK_URL_LENGTH.MAX.VALUE,
+          minLength: LINK_URL_LENGTH.MIN.VALUE,
+          required: true,
+        })}
+      />
+    </>
+  );
+};
 
 type DescriptionFieldProps = {
   isValid: boolean;
@@ -152,7 +156,6 @@ type DescriptionFieldProps = {
   count: number;
   maxCount: number;
   onChange: React.ChangeEventHandler<FieldElement>;
-  register: UseFormRegister;
 };
 const DescriptionField: React.FC<DescriptionFieldProps> = ({
   isValid,
@@ -160,37 +163,40 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
   count,
   maxCount,
   onChange: handleChange,
-  register,
-}) => (
-  <>
-    <Label htmlFor={LINK_DESCRIPTION}>설명*</Label>
-    <div
-      css={css`
-        position: relative;
-        width: 100%;
-      `}
-    >
-      <Textarea
-        id={LINK_DESCRIPTION}
-        placeholder="링크에 관한 간단한 설명"
-        invalid={!isValid}
-        fluid
-        defaultValue={description}
-        {...register(LINK_DESCRIPTION, {
-          validate: (val: string) => {
-            if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
-              return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
-            return makeValidationResult(false);
-          },
-          validationMode: 'change',
-          onChange: handleChange,
-          maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
-        })}
-      />
-      <LetterCounter count={count} maxCount={maxCount} />
-    </div>
-  </>
-);
+}) => {
+  const { register } = useFormContext();
+
+  return (
+    <>
+      <Label htmlFor={LINK_DESCRIPTION}>설명*</Label>
+      <div
+        css={css`
+          position: relative;
+          width: 100%;
+        `}
+      >
+        <Textarea
+          id={LINK_DESCRIPTION}
+          placeholder="링크에 관한 간단한 설명"
+          invalid={!isValid}
+          fluid
+          defaultValue={description}
+          {...register(LINK_DESCRIPTION, {
+            validate: (val: string) => {
+              if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
+                return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: handleChange,
+            maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
+          })}
+        />
+        <LetterCounter count={count} maxCount={maxCount} />
+      </div>
+    </>
+  );
+};
 
 type LetterCouterProps = ImportedLetterCounterProps;
 const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
@@ -205,11 +211,5 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
     </div>
   );
 };
-
-const EditLinkButton: React.FC = () => (
-  <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
-    링크 수정
-  </BoxButton>
-);
 
 export default LinkEditForm;

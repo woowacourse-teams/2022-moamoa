@@ -22,22 +22,23 @@ const MainPage: React.FC = () => {
 
   const { isFetching, isError, isSuccess, data, fetchNextPage } = studiesQueryResult;
 
-  const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []) ?? [];
-  const hasResult = isSuccess && searchedStudies.length > 0;
+  const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
   return (
     <Page>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <PageWrapper>
-        {isError && <Error />}
-        {!isError && !hasResult && <NoResult />}
-        {!isError && hasResult && (
-          <InfinitScrollCardList
-            isContentLoading={isFetching}
-            onContentLoad={fetchNextPage}
-            studies={searchedStudies}
-          />
-        )}
+        {(() => {
+          if (isError) return <Error />;
+          if (!searchedStudies || (searchedStudies && searchedStudies.length === 0)) return <NoResult />;
+          return (
+            <InfinitScrollCardList
+              isContentLoading={isFetching}
+              onContentLoad={fetchNextPage}
+              studies={searchedStudies}
+            />
+          );
+        })()}
       </PageWrapper>
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </Page>

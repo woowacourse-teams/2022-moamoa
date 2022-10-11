@@ -22,8 +22,6 @@ const START_DATE = 'start-date';
 const END_DATE = 'end-date';
 
 const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) => {
-  const { register } = useFormContext();
-
   const today = useMemo(() => getToday(), []);
 
   const minStartDate = originalStartDate ? compareDateTime(originalStartDate, today) : today;
@@ -36,13 +34,8 @@ const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) =
     <MetaBox>
       <MetaBox.Title>스터디 운영 기간</MetaBox.Title>
       <MetaBox.Content>
-        <StudyStartDateField
-          defaultValue={originalStartDate ?? today}
-          min={minStartDate}
-          max={maxStartDate}
-          register={register}
-        />
-        <StudyEndDateField defaultValue={originalEndDate ?? ''} min={minEndDate} max={maxEndDate} register={register} />
+        <StudyStartDateField defaultValue={originalStartDate ?? today} min={minStartDate} max={maxStartDate} />
+        <StudyEndDateField defaultValue={originalEndDate ?? ''} min={minEndDate} max={maxEndDate} />
       </MetaBox.Content>
     </MetaBox>
   );
@@ -52,9 +45,9 @@ type StudyStartDateFieldProps = {
   defaultValue: string;
   min: DateYMD;
   max: DateYMD;
-  register: UseFormRegister;
 };
-const StudyStartDateField: React.FC<StudyStartDateFieldProps> = ({ defaultValue, min, max, register }) => {
+const StudyStartDateField: React.FC<StudyStartDateFieldProps> = ({ defaultValue, min, max }) => {
+  const { register } = useFormContext();
   const style = css`
     margin-bottom: 12px;
   `;
@@ -79,9 +72,9 @@ type StudyEndDateFieldProps = {
   defaultValue: string;
   min: DateYMD;
   max: DateYMD;
-  register: UseFormRegister;
 };
-const StudyEndDateField: React.FC<StudyEndDateFieldProps> = ({ defaultValue, min, max, register }) => {
+const StudyEndDateField: React.FC<StudyEndDateFieldProps> = ({ defaultValue, min, max }) => {
+  const { register } = useFormContext();
   return (
     <div>
       <Label htmlFor={END_DATE}>스터디 종료 :</Label>

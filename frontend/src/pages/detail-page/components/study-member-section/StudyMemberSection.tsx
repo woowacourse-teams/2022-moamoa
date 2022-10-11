@@ -42,8 +42,9 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
         <StudyMemberCount count={totalMembers.length} />
       </SectionTitle>
       <StudyMemberList>
-        {!hasStudyMembers && <NoStudyMember />}
-        {hasStudyMembers && (
+        {!hasStudyMembers ? (
+          <NoStudyMember />
+        ) : (
           <StudyMemberListItems
             size={showAll ? members.length : DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT}
             owner={owner}
