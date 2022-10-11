@@ -60,7 +60,7 @@ type EnrollmentEndDateProps = {
   enrollmentEndDate?: DateYMD;
 };
 const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, userRole, enrollmentEndDate }) => {
-  if (userRole === 'MEMBER' || userRole === 'OWNER') {
+  if (userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER) {
     return <span>이미 가입한 스터디입니다</span>;
   }
 
