@@ -41,7 +41,7 @@ const Head: React.FC<HeadProps> = ({
         {isOwner && <GoToEditPageLinkButton studyId={studyId} />}
       </Flex>
       <Period startDate={startDate} endDate={endDate} />
-      <Excerpt>&quot;{excerpt}&quot;</Excerpt>
+      <Excerpt>{excerpt}</Excerpt>
       <TagList tags={tags} />
     </Flex>
   );
