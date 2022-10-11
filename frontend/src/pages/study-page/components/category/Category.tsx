@@ -37,7 +37,6 @@ const checkHasTags = (tags: unknown): tags is Array<Tag> => {
 };
 
 const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }) => {
-  const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
   const tags = data?.tags;
@@ -62,8 +61,8 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
           if (!generations) return <EmptyGenerationError />;
           return (
             <>
-              <GenerationSelect generations={generations} originalGeneration={originalGeneration} register={register} />
-              <AreaCheckboxList areaFE={areaFE} areaBE={areaBE} originalAreas={originalAreas} register={register} />
+              <GenerationSelect generations={generations} originalGeneration={originalGeneration} />
+              <AreaCheckboxList areaFE={areaFE} areaBE={areaBE} originalAreas={originalAreas} />
             </>
           );
         })()}
