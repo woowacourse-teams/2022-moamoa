@@ -39,12 +39,12 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
       <Flex justifyContent="space-between" alignItems="center">
         <div>
           <Card.Heading custom={{ fontSize: 'xl' }}>
-            {isRegistered && <AlreadyRegistered />}
-            {!isRegistered && !isOpen && <Closed />}
-            {!isRegistered && isOpen && !enrollmentEndDate && <Open />}
-            {!isRegistered && isOpen && enrollmentEndDate && (
-              <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />
-            )}
+            {(() => {
+              if (isRegistered) return <AlreadyRegistered />;
+              if (!isOpen) return <Closed />;
+              if (!enrollmentEndDate) return <Open />;
+              return <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />;
+            })()}
           </Card.Heading>
           <Card.Content custom={{ fontSize: 'md' }} maxLine={1}>
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
