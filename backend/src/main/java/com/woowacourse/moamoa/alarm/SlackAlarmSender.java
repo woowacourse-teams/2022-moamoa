@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +31,7 @@ public class SlackAlarmSender {
         this.restTemplate = restTemplate;
     }
 
+    @Async
     public void requestSlackMessage(final String channel) {
         final SlackMessageRequest slackMessageRequest = setSlackMessage(channel);
 
