@@ -26,7 +26,6 @@ public class StudyRelatedSteps extends Steps {
     }
 
     public void 참여한다(final SlackAlarmMockServer slackAlarmMockServer, final SlackMessageRequest slackMessageRequest) {
-
         slackAlarmMockServer.sendAlarm(slackMessageRequest);
 
         RestAssured.given().log().all()
