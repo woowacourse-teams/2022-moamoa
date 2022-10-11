@@ -48,7 +48,8 @@ jobs:
         run: ./gradlew build --exclude-task test --exclude-task asciidoctor
 
       - name: Test
-        run: ./gradlew test -Dmoamoa.allow-origins='*' -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
+        run: ./gradlew test -Dmoamoa.allow-origins='*' -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }} -Dslack.authorization=${{ env.SLACK_AUTHORIZATION }} -Dslack.users=${{ env.SLACK_USERS }} -Dslack.send.message=${{ env.SLACK_SAND_MESSAGE }}
+
 
       - name: SonarQube
         env:
