@@ -11,17 +11,18 @@ import Image from '@components/image/Image';
 const ErrorPage: React.FC = () => {
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center" rowGap="4px">
-      <Image
-        src={sthWentWrongImage}
-        alt="잘못된 페이지"
-        shape="rectangular"
-        custom={{ width: 'auto', height: 'auto' }}
-      />
-      <p>잘못된 접근입니다.</p>
+      <ErrorImage />
+      <ErrorMessage />
       <GoToHomeButton />
     </Flex>
   );
 };
+
+const ErrorImage = () => (
+  <Image src={sthWentWrongImage} alt="잘못된 페이지" shape="rectangular" custom={{ width: 'auto', height: 'auto' }} />
+);
+
+const ErrorMessage = () => <p>잘못된 접근입니다.</p>;
 
 const GoToHomeButton: React.FC = () => (
   <Link to={PATH.MAIN} replace>

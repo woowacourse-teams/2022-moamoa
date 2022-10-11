@@ -34,16 +34,22 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 }) => {
   const theme = useTheme();
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
+  const isRegistered = userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER;
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
       <Card.Heading custom={{ fontSize: 'xl', marginBottom: '10px' }}>
-        <EnrollmentEndDate theme={theme} isOpen={isOpen} userRole={userRole} enrollmentEndDate={enrollmentEndDate} />
+        {(() => {
+          if (isRegistered) return <AlreadyRegistered />;
+          if (!isOpen) return <Closed />;
+          if (!enrollmentEndDate) return <Open />;
+          return <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />;
+        })()}
       </Card.Heading>
       <Card.Content custom={{ fontSize: 'lg' }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
-        {userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER ? (
+        {isRegistered ? (
           <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
         ) : (
           <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
@@ -55,23 +61,9 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 
 type EnrollmentEndDateProps = {
   theme: Theme;
-  isOpen: boolean;
-  userRole?: UserRole;
-  enrollmentEndDate?: DateYMD;
+  enrollmentEndDate: DateYMD;
 };
-const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, userRole, enrollmentEndDate }) => {
-  if (userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER) {
-    return <span>이미 가입한 스터디입니다</span>;
-  }
-
-  if (!isOpen) {
-    return <span>모집 마감</span>;
-  }
-
-  if (!enrollmentEndDate) {
-    return <span>모집중</span>;
-  }
-
+const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, enrollmentEndDate }) => {
   return (
     <>
       <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
@@ -86,6 +78,12 @@ const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, isOpen, us
   );
 };
 
+const AlreadyRegistered = () => <span>이미 가입한 스터디입니다</span>;
+
+const Closed = () => <span>모집 마감</span>;
+
+const Open = () => <span>모집중</span>;
+
 type GoToStudyRoomLinkButtonProps = {
   theme: Theme;
   studyId: StudyId;
@@ -99,7 +97,7 @@ const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ theme
 );
 
 type RegisterButtonProps = { theme: Theme } & Pick<BoxButtonProps, 'disabled' | 'onClick'>;
-const RegisterButton: React.FC<RegisterButtonProps> = ({ theme, disabled: isOpen, onClick: handleClick }) => (
+const RegisterButton: React.FC<RegisterButtonProps> = ({ disabled: isOpen, onClick: handleClick }) => (
   <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: 'lg' }}>
     {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
   </BoxButton>
