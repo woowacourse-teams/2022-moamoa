@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS, USER_ROLE } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 import tw from '@utils/tw';
@@ -33,10 +33,10 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   const renderEnrollmentEndDateContent = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER) {
       return <span>이미 가입한 스터디입니다</span>;
     }
 
@@ -57,7 +57,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   };
 
   const renderButton = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER) {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
           <BoxButton type="button" fontSize="lg">

@@ -1,3 +1,5 @@
+import SiteImage from '@assets/images/moamoa-site-image.png';
+
 import tw from '@utils/tw';
 
 import type { Link, StudyId } from '@custom-types';
@@ -45,10 +47,10 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
     const { data, isError, isSuccess, isFetching } = linkPreviewQueryResult;
 
     const errorPreviewResult: ApiLinkPreview['get']['responseData'] = {
-      title: '%Error%',
-      description: '링크 불러오기에 실패했습니다 :(',
-      imageUrl: null,
-      domainName: null,
+      title: linkUrl,
+      description: linkUrl,
+      imageUrl: SiteImage,
+      domainName: linkUrl,
     };
     if (isFetching) return <div>로딩중...</div>;
 

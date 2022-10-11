@@ -1,3 +1,5 @@
+import { CATEGORY_NAME } from '@constants';
+
 import tw from '@utils/tw';
 
 import type { StudyDetail, Tag } from '@custom-types';
@@ -17,7 +19,7 @@ export type CategoryProps = {
   originalAreas?: StudyDetail['tags'];
 };
 
-const GENERATION = 'generation';
+const GENERATION = CATEGORY_NAME.GENERATION;
 const AREA_FE = 'area-fe';
 const AREA_BE = 'area-be';
 

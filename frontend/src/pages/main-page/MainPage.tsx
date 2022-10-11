@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import type { Study } from '@custom-types';
 
@@ -42,7 +42,7 @@ const MainPage: React.FC = () => {
                   title={study.title}
                   excerpt={study.excerpt}
                   tags={study.tags}
-                  isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
+                  isOpen={study.recruitmentStatus === RECRUITMENT_STATUS.START}
                 />
               </Link>
             </li>
