@@ -43,7 +43,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
       <Card.Content custom={{ fontSize: 'lg' }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
-        {userRole === 'MEMBER' || userRole === 'OWNER' ? (
+        {userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER ? (
           <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
         ) : (
           <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
