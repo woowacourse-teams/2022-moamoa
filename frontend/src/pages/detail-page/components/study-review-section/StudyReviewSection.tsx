@@ -14,9 +14,7 @@ import { useGetStudyReviews } from '@api/reviews';
 
 import SectionTitle from '@components/section-title/SectionTitle';
 
-import ImportedMoreButton, {
-  type MoreButtonProps as ImportedMoreButtonProps,
-} from '@detail-page/components/more-button/MoreButton';
+import MoreButton, { type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
 
 export type StudyReviewSectionProps = {
@@ -53,25 +51,9 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
         if (data.reviews && data.reviews.length === 0) return <NoReview />;
         return (
           <>
-            <ReviewList>
-              {data.reviews.map(review => (
-                <ReviewListItem key={review.id}>
-                  <StudyReviewCard
-                    imageUrl={review.member.imageUrl}
-                    username={review.member.username}
-                    reviewDate={review.createdDate}
-                    review={review.content}
-                  />
-                </ReviewListItem>
-              ))}
-            </ReviewList>
+            <ReviewList reviews={data.reviews} />
             {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
-              <MoreButton
-                status={showAll ? 'unfold' : 'fold'}
-                onClick={handleMoreButtonClick}
-                foldText="- 접기"
-                unfoldText="+ 더보기"
-              />
+              <LoadMoreReviewButton status={showAll ? 'unfold' : 'fold'} onClick={handleMoreButtonClick} />
             )}
           </>
         );
@@ -90,34 +72,57 @@ const Error = () => <div>후기 불러오기를 실패했습니다</div>;
 
 const NoReview = () => <div>아직 작성된 후기가 없습니다</div>;
 
-const ReviewList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 60px;
+type ReviewListProps = {
+  reviews: Array<StudyReview>;
+};
+const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+  const style = css`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 60px;
 
-  ${mqDown('md')} {
-    flex-direction: column;
-    row-gap: 30px;
-  }
-`;
+    ${mqDown('md')} {
+      flex-direction: column;
+      row-gap: 30px;
+    }
+  `;
 
-const ReviewListItem = styled.li`
-  width: calc(50% - 30px);
+  const itemStyle = css`
+    width: calc(50% - 30px);
 
-  ${mqDown('md')} {
-    width: 100%;
-  }
-`;
+    ${mqDown('md')} {
+      width: 100%;
+    }
+  `;
 
-type MoreButtonProps = ImportedMoreButtonProps;
-const MoreButton: React.FC<MoreButtonProps> = ({ ...props }) => (
+  return (
+    <div css={style}>
+      {reviews.map(review => (
+        <li key={review.id} css={itemStyle}>
+          <StudyReviewCard
+            imageUrl={review.member.imageUrl}
+            username={review.member.username}
+            reviewDate={review.createdDate}
+            review={review.content}
+          />
+        </li>
+      ))}
+    </div>
+  );
+};
+
+type LoadMoreReviewButtonProps = {
+  status: MoreButtonProps['status'];
+  onClick: MoreButtonProps['onClick'];
+};
+const LoadMoreReviewButton: React.FC<LoadMoreReviewButtonProps> = ({ status, onClick }) => (
   <div
     css={css`
       padding: 16px;
       text-align: right;
     `}
   >
-    <ImportedMoreButton {...props} />
+    <MoreButton status={status} onClick={onClick} foldText="- 접기" unfoldText="+ 더보기" />
   </div>
 );
 
