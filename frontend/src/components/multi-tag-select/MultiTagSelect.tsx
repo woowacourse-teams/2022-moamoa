@@ -90,11 +90,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
           <Indicators>
             {selectedOptions.length > 0 && (
               <Center>
-                <AllClearButton onClick={handleAllClearButtonClick}>
-                  <Center>
-                    <XMarkIcon />
-                  </Center>
-                </AllClearButton>
+                <AllClearButton onClick={handleAllClearButtonClick} />
               </Center>
             )}
             <Center>
@@ -250,11 +246,14 @@ const SelectButton: React.FC<SelectButtonProps> = ({ children, onClick: handleCl
 );
 
 type AllClearButtonProps = {
-  children?: React.ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
-export const AllClearButton: React.FC<AllClearButtonProps> = ({ children, onClick: handleClick }) => (
-  <UnstyledButton onClick={handleClick}>{children}</UnstyledButton>
+export const AllClearButton: React.FC<AllClearButtonProps> = ({ onClick: handleClick }) => (
+  <UnstyledButton onClick={handleClick}>
+    <Center>
+      <XMarkIcon />
+    </Center>
+  </UnstyledButton>
 );
 
 export default MultiTagSelect;
