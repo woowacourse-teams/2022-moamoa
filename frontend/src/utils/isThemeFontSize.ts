@@ -1,5 +1,5 @@
 import { hasOwnProperty } from '@utils/hasOwnProperty';
-import { isString } from '@utils/type-checks';
+import { isString } from '@utils/typeChecker';
 
 import { type ThemeFontSize, theme } from '@styles/theme';
 
