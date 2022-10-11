@@ -153,7 +153,7 @@ type CancelButtonProps = {
 };
 const CancelButton: React.FC<CancelButtonProps> = ({ onClick: handleClick }) => (
   <BoxButton type="submit" fluid={false} onClick={handleClick} custom={{ padding: '4px 10px', fontSize: 'sm' }}>
-    등록
+    취소
   </BoxButton>
 );
 
