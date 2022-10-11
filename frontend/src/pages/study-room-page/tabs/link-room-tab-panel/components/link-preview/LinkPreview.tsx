@@ -20,7 +20,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
   return (
     <Self>
       <Card custom={{ height: '240px' }}>
-        <Thunbnail alt={previewResult.title} src={previewResult.imageUrl} />
+        <Thumbnail alt={previewResult.title} src={previewResult.imageUrl} />
         <PreviewDomain>
           <RightUpArrowIcon />
           <span>{domain.hostname.replace('www.', '')}</span>
@@ -45,11 +45,11 @@ const Self = styled.div`
   }
 `;
 
-type ThunbnailProps = {
+type ThumbnailProps = {
   alt?: string;
   src?: string;
 };
-const Thunbnail: React.FC<ThunbnailProps> = ({ alt, src }) => (
+const Thumbnail: React.FC<ThumbnailProps> = ({ alt, src }) => (
   <div
     css={css`
       margin-bottom: 16px;
