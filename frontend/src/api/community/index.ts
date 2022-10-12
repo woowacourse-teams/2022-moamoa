@@ -11,7 +11,7 @@ import { checkCommunityArticle, checkCommunityArticles } from '@api/community/ty
 export type ApiCommunityArticles = {
   get: {
     responseData: {
-      articles: Array<CommunityArticle>;
+      articles: Array<Omit<CommunityArticle, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;
