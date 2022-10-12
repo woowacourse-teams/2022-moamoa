@@ -11,7 +11,7 @@ import { checkNoticeArticle, checkNoticeArticles } from '@api/notice/typeChecker
 export type ApiNoticeArticles = {
   get: {
     responseData: {
-      articles: Array<NoticeArticle>;
+      articles: Array<Omit<NoticeArticle, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;
