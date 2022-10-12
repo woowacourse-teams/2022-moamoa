@@ -1,8 +1,8 @@
 # MOAMOA
 
-<div style="text-align:center">
-  <img src="https://user-images.githubusercontent.com/61091307/195328070-acd1d81f-2818-4931-be2c-f54e8365d30f.png" width="80%" />
-</div>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/61091307/195328070-acd1d81f-2818-4931-be2c-f54e8365d30f.png" width="50%" />
+</p>
 
 ## Description
 
@@ -19,7 +19,33 @@
 
 스터디원 모집, 학습 내용 및 공지사항 공유를 편리하게 할 수 있으며, 기존 Github이 아닌 새로운 뷰를 제공해 학습 내용을 좀 더 편리하게 확인할 수 있습니다. 스터디 후기를 통해 기획된 스터디의 장단점을 파악할 수 있고, 추후 동일한 주제의 스터디를 개설할 때 유용한 자료로 사용될 수 있습니다.
 
----
+
+## 기술 스택
+
+### 프론트엔드 기술 스택
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" width="50%" />
+</p>
+
+### 백엔드 기술 스택
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" width="50%" />
+</p>
+
+## 인프라
+
+### 인프라 기술 스택
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/61091307/195330465-cd44ea02-ecdd-486f-82e7-5007c1522400.png" width="50%" />
+</p>
+
+### 인프라 구조
+
+### CI / CD
+
+
 
 ## Crews
 
