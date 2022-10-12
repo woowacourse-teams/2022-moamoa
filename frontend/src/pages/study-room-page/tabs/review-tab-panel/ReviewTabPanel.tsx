@@ -42,10 +42,14 @@ const ReviewTabPanel: React.FC = () => {
     <PageWrapper>
       <ReviewForm author={userInfo} studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
       <Divider space="30px" />
-      {isFetching && <Loading />}
-      {isError && !isSuccess && <Error />}
-      {noReview && <NoReview />}
-      {hasReview(reviews) && <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess && reviews) {
+          if (reviews.length === 0) return <NoReview />;
+          return <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />;
+        }
+      })()}
     </PageWrapper>
   );
 };

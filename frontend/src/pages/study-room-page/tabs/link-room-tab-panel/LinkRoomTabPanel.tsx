@@ -7,10 +7,10 @@ import { mqDown } from '@styles/responsive';
 
 import { TextButton } from '@components/button';
 import InfiniteScroll, { type InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
-import ModalPortal from '@components/modal/Modal';
+import ModalPortal, { ModalProps } from '@components/modal/Modal';
 import PageWrapper from '@components/page-wrapper/PageWrapper';
 
-import LinkForm from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
+import LinkForm, { LinkFormProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
 import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
 import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
 
@@ -32,17 +32,22 @@ const LinkRoomTabPanel: React.FC = () => {
 
   return (
     <PageWrapper>
-      {isFetching && <Loading />}
-      {isError && <Error />}
-      {isSuccess && links.length === 0 && <NoLinks />}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError || !isSuccess) return <Error />;
+        if (links.length === 0) return <NoLinks />;
+      })()}
       <AddLinkButton onClick={handleLinkAddButtonClick} />
       {isSuccess && links.length > 0 && (
         <InfiniteLinkList links={links} isContentLoading={isFetching} studyId={studyId} onContentLoad={fetchNextPage} />
       )}
       {isModalOpen && (
-        <ModalPortal onModalOutsideClick={handleModalClose}>
-          <LinkForm author={userInfo} onPostSuccess={handlePostLinkSuccess} onPostError={handlePostLinkError} />
-        </ModalPortal>
+        <CreateLinkModal
+          author={userInfo}
+          onModalOutsideClick={handleModalClose}
+          onSuccess={handlePostLinkSuccess}
+          onError={handlePostLinkError}
+        />
       )}
     </PageWrapper>
   );
@@ -103,6 +108,18 @@ const AddLinkButton: React.FC<AddLinkButtonProps> = ({ onClick: handleClick }) =
       링크 추가하기
     </TextButton>
   </div>
+);
+
+type CreateLinkModalProps = {
+  author: LinkFormProps['author'];
+  onModalOutsideClick: ModalProps['onModalOutsideClick'];
+  onSuccess: LinkFormProps['onPostSuccess'];
+  onError: LinkFormProps['onPostError'];
+};
+const CreateLinkModal: React.FC<CreateLinkModalProps> = ({ author, onModalOutsideClick, onSuccess, onError }) => (
+  <ModalPortal onModalOutsideClick={onModalOutsideClick}>
+    <LinkForm author={author} onPostSuccess={onSuccess} onPostError={onError} />
+  </ModalPortal>
 );
 
 export default LinkRoomTabPanel;

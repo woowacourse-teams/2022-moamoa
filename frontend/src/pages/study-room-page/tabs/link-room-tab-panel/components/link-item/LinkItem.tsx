@@ -105,9 +105,11 @@ type PreviewProps = {
 };
 const Preview: React.FC<PreviewProps> = ({ linkUrl, previewResult, isFetching, isError, isSuccess }) => (
   <a href={linkUrl} rel="noreferrer" target="_blank">
-    {isFetching && <Loading />}
-    {isError && !isSuccess && <ErrorPreview linkUrl={linkUrl} />}
-    {isSuccess && previewResult && <LinkPreview previewResult={previewResult} linkUrl={linkUrl} />}
+    {(() => {
+      if (isFetching) return <Loading />;
+      if (isError) return <ErrorPreview linkUrl={linkUrl} />;
+      if (isSuccess && previewResult) return <LinkPreview previewResult={previewResult} linkUrl={linkUrl} />;
+    })()}
   </a>
 );
 

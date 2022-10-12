@@ -55,29 +55,32 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
 
   return (
     <div>
-      {isFetching && <Loading />}
-      {isError && <Error />}
-      {isSuccess && (
-        <article>
-          <Flex justifyContent="space-between" columnGap="16px">
-            <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
-              <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
-              <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
-            </UserInfoItem>
-            {showModifierButtons && (
-              <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                <GoToEditPageLinkButton articleId={articleId} />
-                <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
-              </ButtonGroup>
-            )}
-          </Flex>
-          <Divider />
-          <PageTitle>{data.title}</PageTitle>
-          <MarkdownRender content={data.content} />
-          <Divider space="8px" />
-          <GoToListPageLinkButton />
-        </article>
-      )}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess)
+          return (
+            <article>
+              <Flex justifyContent="space-between" columnGap="16px">
+                <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+                  <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+                  <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+                </UserInfoItem>
+                {showModifierButtons && (
+                  <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                    <GoToEditPageLinkButton articleId={articleId} />
+                    <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+                  </ButtonGroup>
+                )}
+              </Flex>
+              <Divider />
+              <PageTitle>{data.title}</PageTitle>
+              <MarkdownRender content={data.content} />
+              <Divider space="8px" />
+              <GoToListPageLinkButton />
+            </article>
+          );
+      })()}
     </div>
   );
 };

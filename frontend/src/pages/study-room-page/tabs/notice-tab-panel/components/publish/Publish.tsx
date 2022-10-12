@@ -65,19 +65,22 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>공지사항 작성</PageTitle>
-      {isFetching && <Loading />}
-      {isError && <Error />}
-      {hasPermission && (
-        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <PublishTitle />
-          <PublishContent />
-          <Divider space="16px" />
-          <ButtonGroup justifyContent="space-between">
-            <GoToListPageButton />
-            <PublishButton />
-          </ButtonGroup>
-        </Form>
-      )}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (hasPermission)
+          return (
+            <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+              <PublishTitle />
+              <PublishContent />
+              <Divider space="16px" />
+              <ButtonGroup justifyContent="space-between">
+                <GoToListPageButton />
+                <PublishButton />
+              </ButtonGroup>
+            </Form>
+          );
+      })()}
     </FormProvider>
   );
 };

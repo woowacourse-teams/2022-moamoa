@@ -25,21 +25,25 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
 
   return (
     <Flex flexDirection="column" rowGap="20px">
-      {isFetching && <Loading />}
-      {isError && <Error />}
-      {isSuccess && data.articles && data.articles.length === 0 && <NoArticle />}
-      {isSuccess && (
-        <>
-          <Self articles={data.articles} />
-          <Pagination
-            count={data.lastPage - 1}
-            defaultPage={data.currentPage}
-            onNumberButtonClick={num => {
-              setPage(num);
-            }}
-          />
-        </>
-      )}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess) {
+          if (data.articles.length === 0) return <NoArticle />;
+          return (
+            <>
+              <Self articles={data.articles} />
+              <Pagination
+                count={data.lastPage - 1}
+                defaultPage={data.currentPage}
+                onNumberButtonClick={num => {
+                  setPage(num);
+                }}
+              />
+            </>
+          );
+        }
+      })()}
     </Flex>
   );
 };

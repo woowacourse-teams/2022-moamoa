@@ -21,19 +21,20 @@ const CommunityTabPanel: React.FC = () => {
   const location = useLocation();
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
+  // @TODO: studyId가 없는 경우는 어떻게 처리할것인가?
 
   const lastPath = location.pathname.split('/').at(-1);
-  const isPublishPage = lastPath === 'publish';
-  const isEditPage = lastPath === 'edit';
-  const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
-  const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
 
   return (
     <PageWrapper>
-      {isListPage && <ArticleListPage theme={theme} studyId={studyId} />}
-      {isArticleDetailPage && <Article studyId={studyId} articleId={articleId} />}
-      {isPublishPage && <Publish studyId={studyId} />}
-      {isEditPage && <Edit studyId={studyId} articleId={articleId} />}
+      {(() => {
+        if (lastPath === 'publish') return <Publish studyId={studyId} />;
+        if (articleId) {
+          if (lastPath === 'edit') return <Edit studyId={studyId} articleId={articleId} />;
+          return <Article studyId={studyId} articleId={articleId} />;
+        }
+        return <ArticleListPage theme={theme} studyId={studyId} />;
+      })()}
     </PageWrapper>
   );
 };

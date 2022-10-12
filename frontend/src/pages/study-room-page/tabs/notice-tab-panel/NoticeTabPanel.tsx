@@ -1,8 +1,10 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 
-import { useTheme } from '@emotion/react';
+import { Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
+
+import { StudyId } from '@custom-types';
 
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
@@ -23,40 +25,17 @@ const NoticeTabPanel: React.FC = () => {
 
   const { hasPermission: isOwner } = usePermission(studyId, 'OWNER');
   const lastPath = location.pathname.split('/').at(-1);
-  const isPublishPage = lastPath === 'publish';
-  const isEditPage = lastPath === 'edit';
-  const isArticleDetailPage = !!(articleId && !isPublishPage && !isEditPage);
-  const isListPage = !!(!articleId && !isPublishPage && !isEditPage && !isArticleDetailPage);
-
-  const renderArticleListPage = () => {
-    return (
-      <>
-        <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton />}</Flex>
-        <Divider color={theme.colors.secondary.dark} space="8px" />
-        <ArticleList studyId={studyId} />
-      </>
-    );
-  };
-
-  const render = () => {
-    if (isListPage) {
-      return renderArticleListPage();
-    }
-    if (isArticleDetailPage) {
-      const numArticleId = Number(articleId);
-      return <Article studyId={studyId} articleId={numArticleId} />;
-    }
-    if (isPublishPage) {
-      return <Publish studyId={studyId} />;
-    }
-    if (isEditPage) {
-      return <Edit studyId={studyId} articleId={articleId} />;
-    }
-  };
 
   return (
     <PageWrapper>
-      <div>{render()}</div>
+      {(() => {
+        if (lastPath === 'publish') return <Publish studyId={studyId} />;
+        if (articleId) {
+          if (lastPath === 'edit') return <Edit studyId={studyId} articleId={articleId} />;
+          return <Article studyId={studyId} articleId={articleId} />;
+        }
+        return <ArticleListPage theme={theme} studyId={studyId} isOwner={isOwner} />;
+      })()}
     </PageWrapper>
   );
 };
@@ -67,6 +46,19 @@ const GoToPublishPageLinkButton: React.FC = () => (
       글쓰기
     </TextButton>
   </Link>
+);
+
+type ArticleListPageProps = {
+  theme: Theme;
+  studyId: StudyId;
+  isOwner: boolean;
+};
+const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId, isOwner }) => (
+  <>
+    <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton />}</Flex>
+    <Divider color={theme.colors.secondary.dark} space="8px" />
+    <ArticleList studyId={studyId} />
+  </>
 );
 
 export default NoticeTabPanel;
