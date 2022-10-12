@@ -26,11 +26,17 @@
 |--|--|
 |<img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" />|
 
+
 ## 인프라
 
 ### 인프라 기술 스택
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195334688-66c0aea8-dc30-40b8-b57b-71e9b0f94318.png" />
+</p>
+
+## 사용자 요청 흐름도
+<p align="left">
+  <img src="https://user-images.githubusercontent.com/61091307/195348433-2d28a9e4-1adb-4d13-a640-bd4e522048cb.png" />
 </p>
 
 ### 인프라 구조
