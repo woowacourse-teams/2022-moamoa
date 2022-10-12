@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.study;
 
+import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -140,7 +141,7 @@ class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
                         "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", "", "tagIds", List.of(1L, 3L)))
                 .when().log().all()
                 .post("/api/studies")
                 .then().log().all()
@@ -148,5 +149,22 @@ class CreatingStudyAcceptanceTest extends AcceptanceTest {
                 .extract().header(LOCATION);
 
         assertThat(location).matches(Pattern.compile("/api/studies/\\d+"));
+    }
+
+    @DisplayName("태그 없이 스터디를 생성하는 경우 예외가 발생한다.")
+    @Test
+    void validateTagNull() {
+        final String jwtToken = 디우가().로그인한다();
+
+        RestAssured.given(spec).log().all()
+                .header(AUTHORIZATION, jwtToken)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .body(Map.of("title", "제목", "excerpt", "자바를 공부하는 스터디", "thumbnail", "image",
+                        "description", "스터디 상세 설명입니다.", "startDate", LocalDate.now().plusDays(5).format(
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")), "endDate", ""))
+                .when().log().all()
+                .post("/api/studies")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }
