@@ -1,5 +1,9 @@
 # MOAMOA
 
+<div style="text-align:center">
+  <img src="https://user-images.githubusercontent.com/61091307/195328070-acd1d81f-2818-4931-be2c-f54e8365d30f.png" width="80%" />
+</div>
+
 ## Description
 
 **What?**
