@@ -53,6 +53,7 @@ public class StudyRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    @NotNull
     private List<Long> tagIds;
 
     public List<Long> getTagIds() {
