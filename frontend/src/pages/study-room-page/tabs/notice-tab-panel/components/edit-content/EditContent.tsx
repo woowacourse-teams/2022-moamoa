@@ -39,7 +39,7 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
 
   const isValid = !errors[CONTENT]?.hasError;
 
-  const handleNavItemClick = (tabId: string) => () => {
+  const handleTabButtonClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
@@ -58,20 +58,8 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.write}
-            onClick={handleNavItemClick(tabMode.write)}
-          >
-            Write
-          </ToggleButton>
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.preview}
-            onClick={handleNavItemClick(tabMode.preview)}
-          >
-            Preview
-          </ToggleButton>
+          <WriteTabButton activeTab={activeTab} onClick={handleTabButtonClick(tabMode.write)} />
+          <PreviewTabButton activeTab={activeTab} onClick={handleTabButtonClick(tabMode.preview)} />
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>
@@ -87,6 +75,23 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
     </MetaBox>
   );
 };
+
+type WriteTabButtonProps = {
+  activeTab: TabIds;
+  onClick: () => void;
+};
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
+    Write
+  </ToggleButton>
+);
+
+type PreviewTabButtonProps = WriteTabButtonProps;
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
+    Preview
+  </ToggleButton>
+);
 
 type WriteTabProps = {
   isOpen: boolean;
