@@ -22,22 +22,14 @@
 
 ## 기술 스택
 
-### 프론트엔드 기술 스택
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" width="50%" />
-</p>
-
-### 백엔드 기술 스택
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" width="50%" />
-</p>
+|프론트엔드 기술 스택|백엔드 기술 스택|
+|--|--|
+|<img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" />|
 
 ## 인프라
 
 ### 인프라 기술 스택
-<p align="center">
+<p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195330465-cd44ea02-ecdd-486f-82e7-5007c1522400.png" width="50%" />
 </p>
 
