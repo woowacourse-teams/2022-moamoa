@@ -1,10 +1,12 @@
-# MOAMOA
+# 🪐 MOAMOA
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/61091307/195328070-acd1d81f-2818-4931-be2c-f54e8365d30f.png" width="50%" />
 </p>
 
-## Description
+---
+
+## 📝 Description
 
 **What?**
 
@@ -19,36 +21,42 @@
 
 스터디원 모집, 학습 내용 및 공지사항 공유를 편리하게 할 수 있으며, 기존 Github이 아닌 새로운 뷰를 제공해 학습 내용을 좀 더 편리하게 확인할 수 있습니다. 스터디 후기를 통해 기획된 스터디의 장단점을 파악할 수 있고, 추후 동일한 주제의 스터디를 개설할 때 유용한 자료로 사용될 수 있습니다.
 
+---
 
-## 기술 스택
+## 🌐 사용자 요청 흐름도
+<p align="left">
+  <img src="https://user-images.githubusercontent.com/61091307/195348433-2d28a9e4-1adb-4d13-a640-bd4e522048cb.png" />
+</p>
+
+---
+
+## 🚀 기술 스택
 
 |프론트엔드 기술 스택|백엔드 기술 스택|
 |--|--|
 |<img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" />|
 
-## 사용자 요청 흐름도
-<p align="left">
-  <img src="https://user-images.githubusercontent.com/61091307/195348433-2d28a9e4-1adb-4d13-a640-bd4e522048cb.png" />
-</p>
-
-## 인프라
-
 ### 인프라 기술 스택
+
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195334688-66c0aea8-dc30-40b8-b57b-71e9b0f94318.png" />
 </p>
 
-### 인프라 구조
+---
+
+## ⚙️ 인프라 구조
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195333113-76b5549a-ad10-456c-9746-34886f13137f.png" />
 </p>
 
-### CI / CD
+## 🛠 CI/CD
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195333213-41325640-1fb8-45ca-a335-995b0da1e20c.png" />
 </p>
 
-## Crews (Members)
+---
+
+## 🙂 Crews (Members)
 
 |[디우(김동규)](https://github.com/tco0427)|[태태(김태윤)](https://github.com/nan-noo)|[그린론(유재서)](https://github.com/jaejae-yoo)|[베루스(정진혁)](https://github.com/wilgur513)|[짱구(신승철)](https://github.com/sc0116)|[병민(윤병인)](https://github.com/airman5573)|
 |:------:|:------:|:------:|:------:|:------:|:------:|
