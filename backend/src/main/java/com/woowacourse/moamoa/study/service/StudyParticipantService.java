@@ -39,4 +39,14 @@ public class StudyParticipantService {
         final LocalDate now = dateTimeSystem.now().toLocalDate();
         study.leave(new Participant(memberId), now);
     }
+
+    public void kickOutMember(final Long memberId, final Long studyId, final Long participantId) {
+        memberRepository.findById(participantId)
+                .orElseThrow(MemberNotFoundException::new);
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        final LocalDate now = dateTimeSystem.now().toLocalDate();
+        study.kickOut(memberId, new Participant(participantId), now);
+    }
 }
