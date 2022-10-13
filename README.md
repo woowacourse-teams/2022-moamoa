@@ -48,11 +48,9 @@
   <img src="https://user-images.githubusercontent.com/61091307/195333213-41325640-1fb8-45ca-a335-995b0da1e20c.png" />
 </p>
 
-## Crews
+## Crews (Members)
 
-- [디우(김동규)](https://github.com/tco0427)
-- [태태(김태윤)](https://github.com/nan-noo)
-- [그린론(유재서)](https://github.com/jaejae-yoo)
-- [베루스(정진혁)](https://github.com/wilgur513)
-- [짱구(신승철)](https://github.com/sc0116)
-- [병민(윤병인)](https://github.com/airman5573)
+|[디우(김동규)](https://github.com/tco0427)|[태태(김태윤)](https://github.com/nan-noo)|[그린론(유재서)](https://github.com/jaejae-yoo)|[베루스(정진혁)](https://github.com/wilgur513)|[짱구(신승철)](https://github.com/sc0116)|[병민(윤병인)](https://github.com/airman5573)|
+|:------:|:------:|:------:|:------:|:------:|:------:|
+|Backend|FrontEnd|Backend|Backend|Backend|FrontEnd|
+|<img src="https://avatars.githubusercontent.com/u/57028386?v=4" />|<img src="https://avatars.githubusercontent.com/u/54002105?v=4" />|<img src="https://avatars.githubusercontent.com/u/61091307?v=4" />|<img src="https://avatars.githubusercontent.com/u/25394140?v=4" />|<img src="https://avatars.githubusercontent.com/u/47477359?v=4" />|<img src="https://avatars.githubusercontent.com/u/68623798?v=4" />|
