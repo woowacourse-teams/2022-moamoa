@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import { useQueryClient } from 'react-query';
-import { Link } from 'react-router-dom';
 
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
@@ -78,27 +77,49 @@ const MyStudyCardListSection: React.FC<MyStudyCardListSectionProps> = ({ section
   );
 };
 
-const Self = styled.section`
-  padding: 8px;
-`;
+export default MyStudyCardListSection;
 
-const MyStudyList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(3, minmax(auto, 1fr));
-  grid-template-rows: 1fr;
-  gap: 20px;
+type SelfProps = {
+  children: React.ReactNode;
+};
+const Self: React.FC<SelfProps> = ({ children }) => (
+  <section
+    css={css`
+      padding: 8px;
+    `}
+  >
+    {children}
+  </section>
+);
 
-  & > li {
-    width: 100%;
-  }
+type MyStudyListProps = {
+  children: React.ReactNode;
+};
+const MyStudyList: React.FC<MyStudyListProps> = ({ children }) => {
+  return (
+    <ul
+      css={css`
+        display: grid;
+        grid-template-columns: repeat(3, minmax(auto, 1fr));
+        grid-template-rows: 1fr;
+        gap: 20px;
 
-  ${mqDown('lg')} {
-    grid-template-columns: repeat(2, minmax(auto, 1fr));
-  }
-  ${mqDown('sm')} {
-    grid-template-columns: repeat(1, minmax(auto, 1fr));
-  }
-`;
+        & > li {
+          width: 100%;
+        }
+
+        ${mqDown('lg')} {
+          grid-template-columns: repeat(2, minmax(auto, 1fr));
+        }
+        ${mqDown('sm')} {
+          grid-template-columns: repeat(1, minmax(auto, 1fr));
+        }
+      `}
+    >
+      {children}
+    </ul>
+  );
+};
 
 const NoResult = () => <li>해당하는 스터디가 없습니다</li>;
 
@@ -130,5 +151,3 @@ const MyStudyCardLinkItemList: React.FC<MyStudyCardLinkItemListProps> = ({
     ))}
   </>
 );
-
-export default MyStudyCardListSection;

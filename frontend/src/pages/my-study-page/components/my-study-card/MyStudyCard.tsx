@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type Theme, css } from '@emotion/react';
+import { type Theme, css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
@@ -48,7 +48,7 @@ const MyStudyCard: React.FC<MyStudyCardProps> = ({
   );
 };
 
-type StyledMyStudyCardProps = Pick<MyStudyCardProps, 'done'>;
+export default MyStudyCard;
 
 const doneStyle = (theme: Theme) => css`
   & * {
@@ -60,15 +60,25 @@ const doneStyle = (theme: Theme) => css`
   }
 `;
 
-const Self = styled.div<StyledMyStudyCardProps>`
-  ${({ theme, done }) => css`
-    height: 100%;
+type SelfProps = {
+  children: React.ReactNode;
+} & Pick<MyStudyCardProps, 'done'>;
+const Self: React.FC<SelfProps> = ({ children, done }) => {
+  const theme = useTheme();
+  return (
+    <div
+      css={css`
+        height: 100%;
 
-    ${done && doneStyle(theme)}
+        ${done && doneStyle(theme)}
 
-    ${applyHoverTransitionStyle()}
-  `}
-`;
+        ${applyHoverTransitionStyle()}
+      `}
+    >
+      {children}
+    </div>
+  );
+};
 
 type OwnerProps = {
   name: string;
@@ -88,13 +98,14 @@ type TagListProps = {
   tags: MyStudyCardProps['tags'];
 };
 const TagList: React.FC<TagListProps> = ({ tags }) => {
-  const style = css`
-    ${nLineEllipsis(1)};
-    margin-bottom: 10px;
-    line-height: 20px;
-  `;
   return (
-    <div css={style}>
+    <div
+      css={css`
+        ${nLineEllipsis(1)};
+        margin-bottom: 10px;
+        line-height: 20px;
+      `}
+    >
       <Flex columnGap="8px" flexWrap="wrap">
         {tags.map(({ id, name }) => (
           <span key={id}>#{name}</span>
@@ -122,14 +133,15 @@ type QuitStudyButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 const QuitStudyButton: React.FC<QuitStudyButtonProps> = ({ onClick: handleClick }) => {
-  const style = css`
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    z-index: 3;
-  `;
   return (
-    <div css={style}>
+    <div
+      css={css`
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        z-index: 3;
+      `}
+    >
       <IconButton
         variant="secondary"
         onClick={handleClick}
@@ -141,5 +153,3 @@ const QuitStudyButton: React.FC<QuitStudyButtonProps> = ({ onClick: handleClick 
     </div>
   );
 };
-
-export default MyStudyCard;
