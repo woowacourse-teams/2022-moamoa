@@ -32,7 +32,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, 
   );
 };
 
-export default FilterButton;
+export default memo(FilterButton);
 
 const Self = styled.div``;
 
