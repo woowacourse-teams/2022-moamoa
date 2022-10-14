@@ -69,7 +69,7 @@ const InfinitScrollCardList: React.FC<InfinitScrollCardListProps> = ({
               title={study.title}
               excerpt={study.excerpt}
               tags={study.tags}
-              isOpen={study.recruitmentStatus === 'RECRUITMENT_START'}
+              isOpen={study.recruitmentStatus === RECRUITMENT_STATUS.START}
             />
           </Link>
         </li>
