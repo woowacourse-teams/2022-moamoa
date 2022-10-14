@@ -64,7 +64,8 @@ const DetailPage: React.FC = () => {
       />
       <Divider space="20px" />
       <Flex gap="40px">
-        <section css={tw`w-full`}>
+        {/* TODO: UI 버그 수정 -> overflow-auto 적용! 수정시 이 주석은 지워주세요. */}
+        <section css={tw`w-full overflow-auto`}>
           <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
             <MarkdownRender markdownContent={description} />
           </section>
