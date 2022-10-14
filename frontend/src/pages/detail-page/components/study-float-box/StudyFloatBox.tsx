@@ -59,6 +59,8 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   );
 };
 
+export default StudyFloatBox;
+
 type EnrollmentEndDateProps = {
   theme: Theme;
   enrollmentEndDate: DateYMD;
@@ -125,5 +127,3 @@ const StudyOwner: React.FC<StudyOwnerProps> = ({ ownerName }) => (
     <span>{ownerName}</span>
   </Flex>
 );
-
-export default StudyFloatBox;

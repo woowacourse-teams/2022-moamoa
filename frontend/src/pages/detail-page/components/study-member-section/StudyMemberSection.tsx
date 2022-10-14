@@ -64,6 +64,8 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
   );
 };
 
+export default StudyMemberSection;
+
 const Self = styled.div`
   padding: 16px;
 `;
@@ -171,5 +173,3 @@ const MoreButton: React.FC<MoreButtonProps> = ({ ...props }) => {
     </div>
   );
 };
-
-export default StudyMemberSection;

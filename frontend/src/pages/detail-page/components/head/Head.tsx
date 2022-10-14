@@ -39,7 +39,7 @@ const Head: React.FC<HeadProps> = ({
           <PageTitle>{title}</PageTitle>
           <StudyChip isOpen={recruitmentStatus === RECRUITMENT_STATUS.START} />
         </Flex>
-        {isOwner && <GoToEditPageLinkButton studyId={studyId} />}
+        {isOwner && <EditPageLinkButton studyId={studyId} />}
       </Flex>
       <Period startDate={startDate} endDate={endDate} />
       <Excerpt>{excerpt}</Excerpt>
@@ -47,6 +47,8 @@ const Head: React.FC<HeadProps> = ({
     </Flex>
   );
 };
+
+export default Head;
 
 const Excerpt = styled.p`
   ${({ theme }) => css`
@@ -56,10 +58,10 @@ const Excerpt = styled.p`
   `}
 `;
 
-type GoToEditPageLinkButtonProps = {
+type EditPageLinkButtonProps = {
   studyId: StudyId;
 };
-const GoToEditPageLinkButton: React.FC<GoToEditPageLinkButtonProps> = ({ studyId }) => (
+const EditPageLinkButton: React.FC<EditPageLinkButtonProps> = ({ studyId }) => (
   <Link to={PATH.EDIT_STUDY(studyId)}>
     <TextButton variant="secondary">수정</TextButton>
   </Link>
@@ -86,5 +88,3 @@ const Period: React.FC<PeriodProps> = ({ startDate, endDate }) => (
     <span>종료일: {(endDate && changeDateSeperator(endDate)) || '없음'}</span>
   </Flex>
 );
-
-export default Head;

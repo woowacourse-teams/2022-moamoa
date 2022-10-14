@@ -30,62 +30,67 @@ const DetailPage: React.FC = () => {
   // TODO: background에 thumbnail 이미지 사용
   return (
     <PageWrapper>
-      {isFetching && <Loading />}
-      {isError && <Error />}
-      {isSuccess && (
-        <>
-          <Head
-            id={data.id}
-            title={data.title}
-            recruitmentStatus={data.recruitmentStatus}
-            excerpt={data.excerpt}
-            startDate={data.startDate}
-            endDate={data.endDate}
-            tags={data.tags}
-            isOwner={userRoleQueryResult.data?.role === 'OWNER'}
-          />
-          <Divider space="20px" />
-          <Flex columnGap="40px">
-            <Main>
-              <MarkdownRendererContainer>
-                <MarkdownRender markdownContent={data.description} />
-              </MarkdownRendererContainer>
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess)
+          return (
+            <>
+              <Head
+                id={data.id}
+                title={data.title}
+                recruitmentStatus={data.recruitmentStatus}
+                excerpt={data.excerpt}
+                startDate={data.startDate}
+                endDate={data.endDate}
+                tags={data.tags}
+                isOwner={userRoleQueryResult.data?.role === 'OWNER'}
+              />
               <Divider space="20px" />
-              <StudyMemberSection owner={data.owner} members={data.members} />
-            </Main>
-            <Sidebar>
-              <FloatButtonContainer>
-                <StudyFloatBox
+              <Flex columnGap="40px">
+                <Main>
+                  <MarkdownRendererContainer>
+                    <MarkdownRender markdownContent={data.description} />
+                  </MarkdownRendererContainer>
+                  <Divider space="20px" />
+                  <StudyMemberSection owner={data.owner} members={data.members} />
+                </Main>
+                <Sidebar>
+                  <FloatButtonContainer>
+                    <StudyFloatBox
+                      studyId={data.id}
+                      userRole={userRoleQueryResult.data?.role}
+                      ownerName={data.owner.username}
+                      currentMemberCount={data.currentMemberCount}
+                      maxMemberCount={data.maxMemberCount}
+                      enrollmentEndDate={data.enrollmentEndDate}
+                      recruitmentStatus={data.recruitmentStatus}
+                      onRegisterButtonClick={handleRegisterButtonClick}
+                    />
+                  </FloatButtonContainer>
+                </Sidebar>
+              </Flex>
+              <Divider space="20px" />
+              <StudyReviewSection studyId={data.id} />
+              <FixedBottomContainer>
+                <StudyWideFloatBox
                   studyId={data.id}
                   userRole={userRoleQueryResult.data?.role}
-                  ownerName={data.owner.username}
                   currentMemberCount={data.currentMemberCount}
                   maxMemberCount={data.maxMemberCount}
                   enrollmentEndDate={data.enrollmentEndDate}
                   recruitmentStatus={data.recruitmentStatus}
                   onRegisterButtonClick={handleRegisterButtonClick}
                 />
-              </FloatButtonContainer>
-            </Sidebar>
-          </Flex>
-          <Divider space="20px" />
-          <StudyReviewSection studyId={data.id} />
-          <FixedBottomContainer>
-            <StudyWideFloatBox
-              studyId={data.id}
-              userRole={userRoleQueryResult.data?.role}
-              currentMemberCount={data.currentMemberCount}
-              maxMemberCount={data.maxMemberCount}
-              enrollmentEndDate={data.enrollmentEndDate}
-              recruitmentStatus={data.recruitmentStatus}
-              onRegisterButtonClick={handleRegisterButtonClick}
-            />
-          </FixedBottomContainer>
-        </>
-      )}
+              </FixedBottomContainer>
+            </>
+          );
+      })()}
     </PageWrapper>
   );
 };
+
+export default DetailPage;
 
 const Loading = () => <div>Loading...</div>;
 
@@ -127,5 +132,3 @@ const FixedBottomContainer = styled.div`
     display: block;
   }
 `;
-
-export default DetailPage;

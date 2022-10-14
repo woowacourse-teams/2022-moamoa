@@ -27,6 +27,8 @@ const StudyReviewCard: React.FC<StudyReviewCardProps> = ({ imageUrl, username, r
   );
 };
 
+export default memo(StudyReviewCard);
+
 const Self = styled.div`
   height: 100%;
   max-height: 150px;
@@ -40,5 +42,3 @@ export const Review = styled.p`
 
   ${nLineEllipsis(3)}
 `;
-
-export default memo(StudyReviewCard);

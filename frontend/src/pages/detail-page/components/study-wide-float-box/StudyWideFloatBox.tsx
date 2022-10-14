@@ -60,6 +60,8 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   );
 };
 
+export default StudyWideFloatBox;
+
 type EnrollmentEndDateProps = {
   theme: Theme;
   enrollmentEndDate: DateYMD;
@@ -115,5 +117,3 @@ const RegisterButton: React.FC<RegisterButtonProps> = ({ disabled: isOpen, onCli
     {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
   </BoxButton>
 );
-
-export default StudyWideFloatBox;

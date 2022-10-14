@@ -62,6 +62,8 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
   );
 };
 
+export default StudyReviewSection;
+
 const Self = styled.section`
   padding: 16px;
 `;
@@ -125,5 +127,3 @@ const LoadMoreReviewButton: React.FC<LoadMoreReviewButtonProps> = ({ status, onC
     <MoreButton status={status} onClick={onClick} foldText="- 접기" unfoldText="+ 더보기" />
   </div>
 );
-
-export default StudyReviewSection;

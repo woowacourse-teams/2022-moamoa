@@ -30,8 +30,8 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({ username, imageUrl, s
   );
 };
 
-export const Self = styled.div`
+export default StudyMemberCard;
+
+const Self = styled.div`
   ${applyHoverTransitionStyle()}
 `;
-
-export default StudyMemberCard;
