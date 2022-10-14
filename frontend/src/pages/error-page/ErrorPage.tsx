@@ -18,6 +18,8 @@ const ErrorPage: React.FC = () => {
   );
 };
 
+export default ErrorPage;
+
 const ErrorImage = () => (
   <Image src={sthWentWrongImage} alt="잘못된 페이지" shape="rectangular" custom={{ width: 'auto', height: 'auto' }} />
 );
@@ -31,5 +33,3 @@ const GoToHomeButton: React.FC = () => (
     </BoxButton>
   </Link>
 );
-
-export default ErrorPage;
