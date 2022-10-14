@@ -10,8 +10,7 @@ export const Sidebar = styled.nav`
     left: 0;
     z-index: 1;
 
-    width: 100%;
-    max-width: 180px;
+    width: 180px;
     padding: 16px;
 
     background-color: ${theme.colors.secondary.light};

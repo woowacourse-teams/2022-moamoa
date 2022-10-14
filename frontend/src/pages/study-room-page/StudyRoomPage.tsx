@@ -1,8 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
+import styled from '@emotion/styled';
+
 import { PATH, USER_ROLE } from '@constants';
 
-import tw from '@utils/tw';
+import { mqDown } from '@utils';
 
 import Flex from '@components/flex/Flex';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -26,14 +28,25 @@ const StudyRoomPage: React.FC = () => {
 
   return (
     <Wrapper>
-      <Flex alignItems="flex-start">
+      <Flex alignItems="flex-start" gap="40px">
         <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
-        <section css={tw`flex-grow`}>
+        <MainSection>
           <Outlet />
-        </section>
+        </MainSection>
       </Flex>
     </Wrapper>
   );
 };
 
 export default StudyRoomPage;
+
+const sidebarWidth = 180;
+const MainSection = styled.section`
+  flex-grow: 1;
+
+  max-width: calc(100% - ${sidebarWidth}px);
+
+  ${mqDown('lg')} {
+    max-width: 100%;
+  }
+`;

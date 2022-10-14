@@ -22,7 +22,7 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
   }, [contentRef, markdownContent]);
 
   return (
-    <div css={tw`overflow-y-auto h-full`}>
+    <div css={tw`overflow-auto h-full`}>
       <div
         css={css`
           ${markdown}
