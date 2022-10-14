@@ -1,0 +1,50 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Deploy Backend Dev
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: backend                        
+
+jobs:
+  build:
+    runs-on: ubuntu-latest                            
+    steps:                                            
+      - name: Checkout
+        uses: actions/checkout@v3                     
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3                   
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          
+      - name: Build
+        run: ./gradlew build --exclude-task test --exclude-task asciidoctor
+
+      - name: Test  
+        env: 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+        run: ./gradlew test -Dmoamoa.allow-origins='*' -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }}
+        
+      - name: SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: ./gradlew sonarqube --info 
+        
+      - name : Deploy
+        run: |
+          curl ${{ secrets.DEPLOY_PROD_BACKEND_REQUEST_URL }}
