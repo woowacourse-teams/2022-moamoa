@@ -6,10 +6,10 @@ import { PATH } from '@constants';
 
 import { StudyId } from '@custom-types';
 
-import { TextButton } from '@components/button';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import { TextButton } from '@shared/button';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';

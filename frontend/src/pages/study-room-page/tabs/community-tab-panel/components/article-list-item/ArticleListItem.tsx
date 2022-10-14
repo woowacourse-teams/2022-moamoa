@@ -7,8 +7,8 @@ import { type CommunityArticle } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
-import Flex from '@components/flex/Flex';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import Flex from '@shared/flex/Flex';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 

@@ -6,7 +6,7 @@ import { nLineEllipsis } from '@utils/nLineEllipsis';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type StudyReviewCardProps = {
   imageUrl: string;

@@ -9,8 +9,8 @@ import type { CommunityArticle, StudyId } from '@custom-types';
 
 import { useGetCommunityArticles } from '@api/community';
 
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
 
 import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
 import Pagination from '@community-tab/components/pagination/Pagination';

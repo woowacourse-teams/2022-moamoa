@@ -13,6 +13,7 @@ module.exports = {
       ...config.resolve.alias,
       '@root': resolve(__dirname, '../'),
       '@src': resolve(__dirname, '../src/'),
+      '@shared': resolve(__dirname, '../src/components/shared'),
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@types': resolve(__dirname, '../src/types'),

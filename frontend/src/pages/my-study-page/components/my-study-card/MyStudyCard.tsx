@@ -9,10 +9,10 @@ import type { DateYMD, Tag } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
-import { IconButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
-import { CrownIcon, TrashcanIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
+import { CrownIcon, TrashcanIcon } from '@shared/icons';
 
 export type MyStudyCardProps = {
   title: string;

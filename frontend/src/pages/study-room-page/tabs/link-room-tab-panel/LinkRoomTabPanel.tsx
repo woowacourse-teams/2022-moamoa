@@ -5,10 +5,10 @@ import type { Link } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
-import { TextButton } from '@components/button';
-import InfiniteScroll, { type InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
-import ModalPortal, { ModalProps } from '@components/modal/Modal';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import { TextButton } from '@shared/button';
+import InfiniteScroll, { type InfiniteScrollProps } from '@shared/infinite-scroll/InfiniteScroll';
+import ModalPortal, { ModalProps } from '@shared/modal/Modal';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import LinkForm, { LinkFormProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
 import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';

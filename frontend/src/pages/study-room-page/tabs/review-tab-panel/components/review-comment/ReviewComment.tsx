@@ -5,13 +5,13 @@ import { changeDateSeperator } from '@utils';
 
 import type { DateYMD, Member, ReviewId, StudyId } from '@custom-types';
 
-import { IconButton, TextButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import Flex from '@components/flex/Flex';
-import { KebabMenuIcon } from '@components/icons';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import { IconButton, TextButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import DropDownBox from '@shared/drop-down-box/DropDownBox';
+import Flex from '@shared/flex/Flex';
+import { KebabMenuIcon } from '@shared/icons';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 import useReviewComment from '@review-tab/components/review-comment/useReviewComment';
 import ReviewEditForm from '@review-tab/components/review-edit-form/ReviewEditForm';

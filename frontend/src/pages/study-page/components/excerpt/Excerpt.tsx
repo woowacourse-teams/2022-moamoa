@@ -6,13 +6,13 @@ import type { StudyDetail } from '@custom-types';
 
 import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import Label from '@components/label/Label';
+import Label from '@shared/label/Label';
 import ImportedLetterCounter, {
   type LetterCounterProps as ImportedLetterCounterProps,
-} from '@components/letter-counter/LetterCounter';
-import useLetterCount from '@components/letter-counter/useLetterCount';
-import MetaBox from '@components/meta-box/MetaBox';
-import Textarea, { type TextareaProps } from '@components/textarea/Textarea';
+} from '@shared/letter-counter/LetterCounter';
+import useLetterCount from '@shared/letter-counter/useLetterCount';
+import MetaBox from '@shared/meta-box/MetaBox';
+import Textarea, { type TextareaProps } from '@shared/textarea/Textarea';
 
 export type ExcerptProps = {
   originalExcerpt?: StudyDetail['excerpt'];

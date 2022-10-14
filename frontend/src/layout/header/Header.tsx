@@ -19,11 +19,11 @@ import Logo from '@layout/header/components/logo/Logo';
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
-import Avatar from '@components/avatar/Avatar';
-import { IconButton } from '@components/button';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import Flex from '@components/flex/Flex';
-import { BookmarkIcon, LoginIcon, LogoutIcon } from '@components/icons';
+import Avatar from '@shared/avatar/Avatar';
+import { IconButton } from '@shared/button';
+import DropDownBox from '@shared/drop-down-box/DropDownBox';
+import Flex from '@shared/flex/Flex';
+import { BookmarkIcon, LoginIcon, LogoutIcon } from '@shared/icons';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);

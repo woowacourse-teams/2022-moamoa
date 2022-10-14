@@ -4,11 +4,11 @@ import { useGetTags } from '@api/tags';
 
 import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 
-import Checkbox from '@components/checkbox/Checkbox';
-import Flex from '@components/flex/Flex';
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
-import Select from '@components/select/Select';
+import Checkbox from '@shared/checkbox/Checkbox';
+import Flex from '@shared/flex/Flex';
+import Label from '@shared/label/Label';
+import MetaBox from '@shared/meta-box/MetaBox';
+import Select from '@shared/select/Select';
 
 export type CategoryProps = {
   originalGeneration?: Tag;

@@ -7,10 +7,10 @@ import type { StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 
-import Flex from '@components/flex/Flex';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
+import Flex from '@shared/flex/Flex';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
+import MetaBox from '@shared/meta-box/MetaBox';
 
 export type PeriodProps = {
   originalEnrollmentEndDate?: StudyDetail['enrollmentEndDate'];

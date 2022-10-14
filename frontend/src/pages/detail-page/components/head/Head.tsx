@@ -9,9 +9,10 @@ import { changeDateSeperator } from '@utils';
 
 import type { DateYMD, StudyDetail, StudyId, Tag } from '@custom-types';
 
-import { TextButton } from '@components/button';
-import Flex from '@components/flex/Flex';
-import PageTitle from '@components/page-title/PageTitle';
+import { TextButton } from '@shared/button';
+import Flex from '@shared/flex/Flex';
+import PageTitle from '@shared/page-title/PageTitle';
+
 import StudyChip from '@components/study-chip/StudyChip';
 
 export type HeadProps = Pick<

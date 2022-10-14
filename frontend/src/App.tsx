@@ -7,7 +7,7 @@ import { useAuth } from '@hooks/useAuth';
 
 import { Footer, Header, Main } from '@layout';
 
-import RouteWithCondition from '@components/route-with-condition/RouteWithCondition';
+import RouteWithCondition from '@shared/route-with-condition/RouteWithCondition';
 
 const CreateStudyPage = lazy(
   () => import(/* webpackChunkName: "create-study-page" */ '@create-study-page/CreateStudyPage'),

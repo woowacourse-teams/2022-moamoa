@@ -2,8 +2,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { PATH, USER_ROLE } from '@constants';
 
-import Flex from '@components/flex/Flex';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import Flex from '@shared/flex/Flex';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';

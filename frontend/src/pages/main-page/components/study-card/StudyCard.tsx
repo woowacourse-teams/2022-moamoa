@@ -7,9 +7,10 @@ import type { Study } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
-import Image, { type ImageProps } from '@components/image/Image';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
+import Image, { type ImageProps } from '@shared/image/Image';
+
 import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {

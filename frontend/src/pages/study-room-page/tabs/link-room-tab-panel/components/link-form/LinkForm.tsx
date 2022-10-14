@@ -17,18 +17,18 @@ import {
   useForm,
 } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
-import Form from '@components/form/Form';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
+import { BoxButton } from '@shared/button';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
+import Form from '@shared/form/Form';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
 import ImportedLetterCounter, {
   type LetterCounterProps as ImportedLetterCounterProps,
-} from '@components/letter-counter/LetterCounter';
-import useLetterCount from '@components/letter-counter/useLetterCount';
-import Textarea from '@components/textarea/Textarea';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+} from '@shared/letter-counter/LetterCounter';
+import useLetterCount from '@shared/letter-counter/useLetterCount';
+import Textarea from '@shared/textarea/Textarea';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type LinkFormProps = {
   author: Member;

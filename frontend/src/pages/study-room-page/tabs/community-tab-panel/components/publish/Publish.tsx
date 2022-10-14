@@ -8,11 +8,11 @@ import { usePostCommunityArticle } from '@api/community';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
 
 import PublishContent from '@community-tab/components/publish-content/PublishContent';
 import PublishTitle from '@community-tab/components/publish-title/PublishTitle';

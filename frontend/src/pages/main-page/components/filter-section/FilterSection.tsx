@@ -9,7 +9,7 @@ import { mqDown } from '@styles/responsive';
 
 import { useGetTags } from '@api/tags';
 
-import Divider from '@components/divider/Divider';
+import Divider from '@shared/divider/Divider';
 
 import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
 import ImportedFilterSlideButton, {

@@ -5,9 +5,9 @@ import { nLineEllipsis } from '@utils/nLineEllipsis';
 
 import { ApiLinkPreview } from '@api/link-preview';
 
-import Card from '@components/card/Card';
-import { RightUpArrowIcon } from '@components/icons';
-import Image from '@components/image/Image';
+import Card from '@shared/card/Card';
+import { RightUpArrowIcon } from '@shared/icons';
+import Image from '@shared/image/Image';
 
 export type LinkPreviewProps = {
   previewResult: ApiLinkPreview['get']['responseData'];

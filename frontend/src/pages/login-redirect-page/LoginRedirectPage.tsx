@@ -1,4 +1,4 @@
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import useLoginRedirectPage from '@login-redirect-page/hooks/useLoginRedirectPage';
 

@@ -2,7 +2,7 @@ import { type Story } from '@storybook/react';
 
 import { ErrorPage } from '@pages';
 
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 export default {
   title: 'Pages/ErrorPage',

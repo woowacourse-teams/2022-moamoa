@@ -5,8 +5,8 @@ import logoImage from '@assets/images/logo.png';
 
 import { mqDown } from '@styles/responsive';
 
-import Center from '@components/center/Center';
-import Image from '@components/image/Image';
+import Center from '@shared/center/Center';
+import Image from '@shared/image/Image';
 
 const Logo: React.FC = () => {
   return (

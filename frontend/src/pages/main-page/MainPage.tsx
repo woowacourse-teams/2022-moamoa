@@ -8,8 +8,8 @@ import type { Study } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
-import InfiniteScroll, { type InfiniteScrollProps } from '@components/infinite-scroll/InfiniteScroll';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import InfiniteScroll, { type InfiniteScrollProps } from '@shared/infinite-scroll/InfiniteScroll';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import CreateNewStudyButton from '@main-page/components/create-new-study-button/CreateNewStudyButton';
 import FilterSection from '@main-page/components/filter-section/FilterSection';

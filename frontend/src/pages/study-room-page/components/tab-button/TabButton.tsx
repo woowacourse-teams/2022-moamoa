@@ -1,4 +1,4 @@
-import { ToggleButton } from '@components/button';
+import { ToggleButton } from '@shared/button';
 
 export type TabButtonProps = {
   children: string;

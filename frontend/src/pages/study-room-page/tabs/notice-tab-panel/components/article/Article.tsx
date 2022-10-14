@@ -11,13 +11,13 @@ import type { CommunityArticle } from '@custom-types';
 import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import ImportedMarkdownRender from '@components/markdown-render/MarkdownRender';
-import PageTitle from '@components/page-title/PageTitle';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
+import PageTitle from '@shared/page-title/PageTitle';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ArticleProps = {
   studyId: number;

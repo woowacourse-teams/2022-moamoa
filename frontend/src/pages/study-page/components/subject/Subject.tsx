@@ -6,9 +6,9 @@ import { useGetTags } from '@api/tags';
 
 import { useFormContext } from '@hooks/useForm';
 
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
-import MultiTagSelect, { type MultiTagSelectProps, Option } from '@components/multi-tag-select/MultiTagSelect';
+import Label from '@shared/label/Label';
+import MetaBox from '@shared/meta-box/MetaBox';
+import MultiTagSelect, { type MultiTagSelectProps, Option } from '@shared/multi-tag-select/MultiTagSelect';
 
 const SUBJECT = 'subject';
 

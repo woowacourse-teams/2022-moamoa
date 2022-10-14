@@ -1,5 +1,5 @@
-import { IconButton } from '@components/button';
-import { LeftDirectionIcon, RightDirectionIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import { LeftDirectionIcon, RightDirectionIcon } from '@shared/icons';
 
 export type FilterSlideButtonProps = {
   direction: 'right' | 'left';

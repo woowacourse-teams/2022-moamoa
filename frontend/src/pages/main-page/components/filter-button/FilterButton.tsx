@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 
 import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
 
-import { ToggleButton } from '@components/button';
-import Flex from '@components/flex/Flex';
+import { ToggleButton } from '@shared/button';
+import Flex from '@shared/flex/Flex';
 
 export type FilterButtonProps = {
   name: string;

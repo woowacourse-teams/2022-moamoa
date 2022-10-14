@@ -7,11 +7,11 @@ import type { StudyDetail } from '@custom-types';
 import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
-import Checkbox from '@components/checkbox/Checkbox';
-import Flex from '@components/flex/Flex';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
+import Checkbox from '@shared/checkbox/Checkbox';
+import Flex from '@shared/flex/Flex';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
+import MetaBox from '@shared/meta-box/MetaBox';
 
 export type MaxMemberCountProps = {
   originalMaxMemberCount?: StudyDetail['maxMemberCount'];

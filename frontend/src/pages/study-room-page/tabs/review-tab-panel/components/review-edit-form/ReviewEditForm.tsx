@@ -17,16 +17,16 @@ import {
   useFormContext,
 } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import Form from '@components/form/Form';
-import Label from '@components/label/Label';
-import LetterCounter from '@components/letter-counter/LetterCounter';
-import useLetterCount from '@components/letter-counter/useLetterCount';
-import Textarea from '@components/textarea/Textarea';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import { BoxButton } from '@shared/button';
+import Card from '@shared/card/Card';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import Form from '@shared/form/Form';
+import Label from '@shared/label/Label';
+import LetterCounter from '@shared/letter-counter/LetterCounter';
+import useLetterCount from '@shared/letter-counter/useLetterCount';
+import Textarea from '@shared/textarea/Textarea';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ReviewEditFormProps = {
   studyId: StudyId;

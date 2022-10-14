@@ -15,9 +15,9 @@ import { CATEGORY_NAME, PATH } from '@constants';
 
 import { FormProvider } from '@hooks/useForm';
 
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 const EditStudyPage: React.FC = () => {
   const { studyId, formMethods, onSubmit, navigate, studyQueryResult } = useEditStudyPage();

@@ -7,8 +7,8 @@ import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import Divider from '@components/divider/Divider';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import Divider from '@shared/divider/Divider';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
 import ReviewComment from '@review-tab/components/review-comment/ReviewComment';

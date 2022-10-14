@@ -7,11 +7,11 @@ import { TITLE_LENGTH } from '@constants';
 
 import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
 import ImportedLetterCounter, {
   type LetterCounterProps as ImportedLetterCounterProps,
-} from '@components/letter-counter/LetterCounter';
+} from '@shared/letter-counter/LetterCounter';
 
 const TITLE = 'title';
 

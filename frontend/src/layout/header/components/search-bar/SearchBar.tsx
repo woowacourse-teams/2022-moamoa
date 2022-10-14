@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import { mqDown } from '@styles/responsive';
 
-import { IconButton } from '@components/button';
-import Form from '@components/form/Form';
-import { SearchIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import Form from '@shared/form/Form';
+import { SearchIcon } from '@shared/icons';
 
 export type SearchBarProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>, inputName: string) => void;

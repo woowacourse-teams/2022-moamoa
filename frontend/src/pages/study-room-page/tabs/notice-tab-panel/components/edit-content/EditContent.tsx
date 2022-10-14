@@ -6,12 +6,12 @@ import { DESCRIPTION_LENGTH } from '@constants';
 
 import { type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import { ToggleButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Label from '@components/label/Label';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import MetaBox from '@components/meta-box/MetaBox';
-import Textarea from '@components/textarea/Textarea';
+import { ToggleButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Label from '@shared/label/Label';
+import MarkdownRender from '@shared/markdown-render/MarkdownRender';
+import MetaBox from '@shared/meta-box/MetaBox';
+import Textarea from '@shared/textarea/Textarea';
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
 

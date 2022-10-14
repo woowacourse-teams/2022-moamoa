@@ -12,7 +12,7 @@ import { theme } from '@styles/theme';
 
 import { useGetStudyReviews } from '@api/reviews';
 
-import SectionTitle from '@components/section-title/SectionTitle';
+import SectionTitle from '@shared/section-title/SectionTitle';
 
 import MoreButton, { type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';

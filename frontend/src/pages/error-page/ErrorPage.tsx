@@ -4,9 +4,9 @@ import sthWentWrongImage from '@assets/images/sth-went-wrong.png';
 
 import { PATH } from '@constants';
 
-import { BoxButton } from '@components/button';
-import Flex from '@components/flex/Flex';
-import Image from '@components/image/Image';
+import { BoxButton } from '@shared/button';
+import Flex from '@shared/flex/Flex';
+import Image from '@shared/image/Image';
 
 const ErrorPage: React.FC = () => {
   return (

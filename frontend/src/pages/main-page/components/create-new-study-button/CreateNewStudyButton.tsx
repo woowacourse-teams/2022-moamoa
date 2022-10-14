@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import { IconButton } from '@components/button';
-import { PencilIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import { PencilIcon } from '@shared/icons';
 
 export type CreateNewStudyButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;

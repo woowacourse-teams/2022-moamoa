@@ -9,9 +9,9 @@ import { type DateYMD, type StudyDetail } from '@custom-types';
 
 import { type UseFormRegister, useFormContext } from '@hooks/useForm';
 
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import MetaBox from '@components/meta-box/MetaBox';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
+import MetaBox from '@shared/meta-box/MetaBox';
 
 type PeriodProps = {
   originalStartDate?: StudyDetail['startDate'];

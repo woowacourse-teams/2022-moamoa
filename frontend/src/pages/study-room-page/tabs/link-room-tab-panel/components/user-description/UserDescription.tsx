@@ -1,6 +1,6 @@
 import type { Member } from '@custom-types';
 
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type UserDescriptionProps = {
   author: Member;

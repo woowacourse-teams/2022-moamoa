@@ -1,8 +1,8 @@
 import type { MyStudy } from '@custom-types';
 
-import Divider from '@components/divider/Divider';
-import PageTitle from '@components/page-title/PageTitle';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import Divider from '@shared/divider/Divider';
+import PageTitle from '@shared/page-title/PageTitle';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import MyStudyCardListSection from '@my-study-page/components/my-study-card-list-section/MyStudyCardListSection';
 import { type StudyType, useMyStudyPage } from '@my-study-page/hooks/useMyStudyPage';

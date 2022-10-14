@@ -6,10 +6,10 @@ import { PATH } from '@constants';
 
 import { mqDown } from '@styles/responsive';
 
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import PageWrapper from '@components/page-wrapper/PageWrapper';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import MarkdownRender from '@shared/markdown-render/MarkdownRender';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';

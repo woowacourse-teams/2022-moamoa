@@ -15,8 +15,8 @@ import { useDeleteMyStudy } from '@api/my-study';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import LinkedButton from '@components/button/linked-button/LinkedButton';
-import SectionTitle from '@components/section-title/SectionTitle';
+import LinkedButton from '@shared/button/linked-button/LinkedButton';
+import SectionTitle from '@shared/section-title/SectionTitle';
 
 import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
 

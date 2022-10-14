@@ -6,12 +6,12 @@ import { type Link, type StudyId } from '@custom-types';
 
 import { type ApiLinkPreview } from '@api/link-preview';
 
-import { IconButton, TextButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import DropDownBox from '@components/drop-down-box/DropDownBox';
-import { MeatballMenuIcon } from '@components/icons';
-import ModalPortal from '@components/modal/Modal';
+import { IconButton, TextButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import DropDownBox from '@shared/drop-down-box/DropDownBox';
+import { MeatballMenuIcon } from '@shared/icons';
+import ModalPortal from '@shared/modal/Modal';
 
 import LinkEditForm from '@link-tab/components/link-edit-form/LinkEditForm';
 import { useLinkItem } from '@link-tab/components/link-item/hooks/useLinkItem';
