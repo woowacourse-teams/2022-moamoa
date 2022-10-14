@@ -42,6 +42,8 @@ const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title
   );
 };
 
+export default memo(StudyCard);
+
 const Self = styled.div`
   position: relative;
   height: 280px;
@@ -88,5 +90,3 @@ const StudyChipContainer = styled.div`
   top: 8px;
   right: 8px;
 `;
-
-export default memo(StudyCard);

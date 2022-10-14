@@ -20,7 +20,7 @@ const MainPage: React.FC = () => {
   const { studiesQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
     useMainPage();
 
-  const { isFetching, isError, isSuccess, data, fetchNextPage } = studiesQueryResult;
+  const { isFetching, isError, data, fetchNextPage } = studiesQueryResult;
 
   const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
@@ -44,6 +44,8 @@ const MainPage: React.FC = () => {
     </Page>
   );
 };
+
+export default MainPage;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 
@@ -102,5 +104,3 @@ const CardList = styled.ul`
 const Page = styled.div``;
 
 const Loading = () => <div>Loading...</div>;
-
-export default MainPage;

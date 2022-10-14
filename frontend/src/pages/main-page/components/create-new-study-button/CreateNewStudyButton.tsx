@@ -17,11 +17,11 @@ const CreateNewStudyButton = ({ onClick: handleClick }: CreateNewStudyButtonProp
   );
 };
 
+export default CreateNewStudyButton;
+
 const Self = styled.div`
   position: fixed;
   right: 60px;
   bottom: 50px;
   z-index: 3;
 `;
-
-export default CreateNewStudyButton;

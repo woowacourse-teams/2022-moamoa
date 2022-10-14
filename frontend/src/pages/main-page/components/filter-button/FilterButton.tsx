@@ -32,6 +32,8 @@ const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, 
   );
 };
 
+export default FilterButton;
+
 const Self = styled.div``;
 
 const Name = styled.span`
@@ -43,10 +45,8 @@ const Name = styled.span`
   `}
 `;
 
-export const Description = styled.span`
+const Description = styled.span`
   ${({ theme }) => css`
     font-size: ${theme.fontSize.sm};
   `}
 `;
-
-export default memo(FilterButton);

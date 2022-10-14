@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { type Theme, css, useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
@@ -12,9 +12,7 @@ import { useGetTags } from '@api/tags';
 import Divider from '@shared/divider/Divider';
 
 import FilterButtonList from '@main-page/components/filter-button-list/FilterButtonList';
-import ImportedFilterSlideButton, {
-  type FilterSlideButtonProps as ImportedFilterSlideButtonProps,
-} from '@main-page/components/filter-slide-button/FilterSlideButton';
+import FilterSlideButton, { FilterSlideButtonProps } from '@main-page/components/filter-slide-button/FilterSlideButton';
 
 export type FilterSectionProps = {
   selectedFilters: Array<TagInfo>;
@@ -30,7 +28,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   selectedFilters,
   onFilterButtonClick: handleFilterButtonClick,
 }) => {
-  const theme = useTheme();
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const { data, isLoading, isError } = useGetTags();
@@ -65,42 +62,44 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   return (
     <Self>
-      <FilterSlideButton
-        theme={theme}
-        direction="left"
-        ariaLabel="왼쪽으로 스크롤"
-        onClick={handleLeftSlideButtonClick}
-      />
+      <FilterSlideButtonContainer direction="left">
+        <FilterSlideButton direction="left" ariaLabel="왼쪽으로 스크롤" onClick={handleLeftSlideButtonClick} />
+      </FilterSlideButtonContainer>
       <FilterListContainer ref={sliderRef}>
-        {isLoading && <Loading />}
-        {isError && <Error />}
-        <FilterButtonList
-          filters={areaTags}
-          selectedFilters={selectedFilters}
-          onFilterButtonClick={handleFilterButtonClick}
-        />
-        <Divider orientation="vertical" verticalLength="40px" space={0} />
-        <FilterButtonList
-          filters={generationTags}
-          selectedFilters={selectedFilters}
-          onFilterButtonClick={handleFilterButtonClick}
-        />
-        <Divider orientation="vertical" verticalLength="40px" />
-        <FilterButtonList
-          filters={subjectTags}
-          selectedFilters={selectedFilters}
-          onFilterButtonClick={handleFilterButtonClick}
-        />
+        {(() => {
+          if (isLoading) return <Loading />;
+          if (isError) return <Error />;
+          return (
+            <>
+              <FilterButtonList
+                filters={areaTags}
+                selectedFilters={selectedFilters}
+                onFilterButtonClick={handleFilterButtonClick}
+              />
+              <Divider orientation="vertical" verticalLength="40px" space={0} />
+              <FilterButtonList
+                filters={generationTags}
+                selectedFilters={selectedFilters}
+                onFilterButtonClick={handleFilterButtonClick}
+              />
+              <Divider orientation="vertical" verticalLength="40px" />
+              <FilterButtonList
+                filters={subjectTags}
+                selectedFilters={selectedFilters}
+                onFilterButtonClick={handleFilterButtonClick}
+              />
+            </>
+          );
+        })()}
       </FilterListContainer>
-      <FilterSlideButton
-        theme={theme}
-        direction="right"
-        ariaLabel="오른쪽으로 스크롤"
-        onClick={handleRightSlideButtonClick}
-      />
+      <FilterSlideButtonContainer direction="right">
+        <FilterSlideButton direction="right" ariaLabel="오른쪽으로 스크롤" onClick={handleRightSlideButtonClick} />
+      </FilterSlideButtonContainer>
     </Self>
   );
 };
+
+export default FilterSection;
 
 const Self = styled.section`
   ${({ theme }) => css`
@@ -126,8 +125,13 @@ const Self = styled.section`
   }
 `;
 
-type FilterSlideButtonProps = { theme: Theme } & ImportedFilterSlideButtonProps;
-const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction, ...props }) => {
+type FilterSlideButtonContainerProps = {
+  children: React.ReactNode;
+  direction: FilterSlideButtonProps['direction'];
+};
+const FilterSlideButtonContainer: React.FC<FilterSlideButtonContainerProps> = ({ children, direction }) => {
+  const theme = useTheme();
+
   const style = css`
     display: flex;
     justify-content: center;
@@ -143,11 +147,8 @@ const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ theme, direction,
 
     background-color: ${theme.colors.secondary.light}66;
   `;
-  return (
-    <div css={style}>
-      <ImportedFilterSlideButton direction={direction} {...props} />
-    </div>
-  );
+
+  return <div css={style}>{children}</div>;
 };
 
 const FilterListContainer = styled.div`
@@ -172,5 +173,3 @@ const FilterListContainer = styled.div`
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>필터 불러오기에 실패했습니다.</div>;
-
-export default FilterSection;
