@@ -7,7 +7,6 @@ import static com.woowacourse.acceptance.fixture.MemberFixtures.짱구_깃허브
 
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
-import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
 public class LoginSteps extends Steps {
@@ -35,14 +34,10 @@ public class LoginSteps extends Steps {
     }
 
     public AfterLoginSteps 로그인하고() {
-        return new AfterLoginSteps(getIssuedBearerToken());
+        return new AfterLoginSteps(로그인한다());
     }
 
     public String 로그인한다() {
-        return getIssuedBearerToken();
-    }
-
-    private String getIssuedBearerToken() {
         if (tokenCache.containsKey(githubProfile.getGithubId())) {
             return tokenCache.get(githubProfile.getGithubId());
         }

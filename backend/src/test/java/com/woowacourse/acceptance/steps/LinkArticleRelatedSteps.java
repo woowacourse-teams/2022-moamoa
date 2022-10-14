@@ -17,7 +17,7 @@ public class LinkArticleRelatedSteps extends Steps<LinkArticleRelatedSteps, Link
     private final String token;
     private final Long studyId;
 
-    public LinkArticleRelatedSteps(final String token, final Long studyId) {
+    LinkArticleRelatedSteps(final String token, final Long studyId) {
         this.token = token;
         this.studyId = studyId;
     }
