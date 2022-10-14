@@ -3,10 +3,20 @@ import styled from '@emotion/styled';
 
 import logoImage from '@assets/images/logo.png';
 
+import { PATH } from '@constants';
+
 import { mqDown } from '@styles/responsive';
 
 import Center from '@shared/center/Center';
 import Image from '@shared/image/Image';
+
+const LogoLink: React.FC = ({}) => (
+  <a href={PATH.MAIN}>
+    <Logo />
+  </a>
+);
+
+export default LogoLink;
 
 const Logo: React.FC = () => {
   return (
@@ -19,7 +29,7 @@ const Logo: React.FC = () => {
   );
 };
 
-export const ImageContainer = styled.div`
+const ImageContainer = styled.div`
   margin-right: 4px;
 
   ${mqDown('lg')} {
@@ -27,7 +37,7 @@ export const ImageContainer = styled.div`
   }
 `;
 
-export const BorderText = styled.h1`
+const BorderText = styled.h1`
   ${({ theme }) => css`
     color: ${theme.colors.primary.base};
     font-size: ${theme.fontSize.xxxl};
@@ -39,5 +49,3 @@ export const BorderText = styled.h1`
     }
   `}
 `;
-
-export default Logo;

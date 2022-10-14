@@ -1,12 +1,10 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
-
-import type { Member } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
@@ -15,15 +13,14 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import Logo from '@layout/header/components/logo/Logo';
-import NavButton from '@layout/header/components/nav-button/NavButton';
+import AvatarButton from '@layout/header/components/avatar-button/AvatarButton';
+import LoginButton from '@layout/header/components/login-button/LoginButton';
+import LogoLink from '@layout/header/components/logo-link/LogoLink';
+import MyStudyPageLink from '@layout/header/components/my-study-page-link/MyStudyPageLink';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
+import UserDropDown from '@layout/header/components/user-dropdown/UserDropdown';
 
-import Avatar from '@shared/avatar/Avatar';
-import { IconButton } from '@shared/button';
-import DropDownBox from '@shared/drop-down-box/DropDownBox';
 import Flex from '@shared/flex/Flex';
-import { BookmarkIcon, LoginIcon, LogoutIcon } from '@shared/icons';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);
@@ -63,25 +60,18 @@ const Header: React.FC = () => {
       {isLoggedIn ? (
         <nav>
           <Flex columnGap="16px">
-            <GoToMyStudyPageLink />
+            <MyStudyPageLink />
             <div
               css={css`
                 position: relative;
               `}
             >
               <AvatarButton userInfo={userInfo} onClick={handleAvatarButtonClick} />
-              <DropDownBox
+              <UserDropDown
                 isOpen={isOpenDropDownBox}
-                top="40px"
-                right={0}
                 onClose={handleDropDownBoxClose}
-                custom={{ padding: '16px' }}
-              >
-                <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-                  <LogoutIcon />
-                  <span>로그아웃</span>
-                </NavButton>
-              </DropDownBox>
+                onLogoutButtonClick={handleLogoutButtonClick}
+              />
             </div>
           </Flex>
         </nav>
@@ -92,7 +82,9 @@ const Header: React.FC = () => {
   );
 };
 
-export const Self = styled.header`
+export default Header;
+
+const Self = styled.header`
   ${({ theme }) => css`
     display: flex;
     justify-content: space-between;
@@ -120,21 +112,6 @@ export const Self = styled.header`
   `}
 `;
 
-const LogoLink = () => (
-  <a href={PATH.MAIN}>
-    <Logo />
-  </a>
-);
-
-const GoToMyStudyPageLink = () => (
-  <Link to={PATH.MY_STUDY}>
-    <NavButton ariaLabel="내 스터디">
-      <BookmarkIcon />
-      <span>내 스터디</span>
-    </NavButton>
-  </Link>
-);
-
 const SearchBarContainer = styled.div`
   position: absolute;
   left: 50%;
@@ -151,29 +128,3 @@ const SearchBarContainer = styled.div`
     transform: none;
   }
 `;
-
-const LoginButton = () => (
-  <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-    <NavButton ariaLabel="로그인">
-      <LoginIcon />
-      <span>Github 로그인</span>
-    </NavButton>
-  </a>
-);
-
-type AvatarButtonProps = {
-  userInfo: Member;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-const AvatarButton: React.FC<AvatarButtonProps> = ({ userInfo, onClick: handleClick }) => (
-  <IconButton
-    onClick={handleClick}
-    ariaLabel={userInfo.username}
-    variant="secondary"
-    custom={{ width: '38px', height: '38px' }}
-  >
-    <Avatar src={userInfo.imageUrl} name={userInfo.username} />
-  </IconButton>
-);
-
-export default Header;
