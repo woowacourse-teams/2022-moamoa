@@ -32,6 +32,10 @@ public class StudyRelatedSteps extends Steps {
         return new NoticeArticleRelatedSteps(token, studyId);
     }
 
+    public ReviewRelatedSteps 리뷰를() {
+        return new ReviewRelatedSteps(token, studyId);
+    }
+
     public void 참여한다() {
         spec.log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
