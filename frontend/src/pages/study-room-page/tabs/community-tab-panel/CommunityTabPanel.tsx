@@ -1,8 +1,10 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
 import { theme } from '@styles/theme';
+
+import { useUserRole } from '@hooks/useUserRole';
 
 import { TextButton } from '@components/button';
 import Divider from '@components/divider/Divider';
@@ -19,6 +21,8 @@ const CommunityTabPanel: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
+  const { isNonMember, isOwnerOrMember } = useUserRole({ studyId });
+
   const lastPath = location.pathname.split('/').at(-1);
   const isPublishPage = lastPath === 'publish';
   const isEditPage = lastPath === 'edit';
@@ -28,13 +32,15 @@ const CommunityTabPanel: React.FC = () => {
   const renderArticleListPage = () => {
     return (
       <>
-        <Flex justifyContent="flex-end">
-          <Link to={PATH.COMMUNITY_PUBLISH}>
-            <TextButton variant="primary" fontSize="lg">
-              글쓰기
-            </TextButton>
-          </Link>
-        </Flex>
+        {isOwnerOrMember && (
+          <Flex justifyContent="flex-end">
+            <Link to={PATH.COMMUNITY_PUBLISH}>
+              <TextButton variant="primary" fontSize="lg">
+                글쓰기
+              </TextButton>
+            </Link>
+          </Flex>
+        )}
         <Divider color={theme.colors.secondary.dark} space="8px" />
         <ArticleList studyId={studyId} />
       </>
@@ -42,18 +48,15 @@ const CommunityTabPanel: React.FC = () => {
   };
 
   const render = () => {
-    if (isListPage) {
-      return renderArticleListPage();
-    }
-    if (isArticleDetailPage) {
-      return <Article studyId={studyId} articleId={articleId} />;
-    }
-    if (isPublishPage) {
-      return <Publish studyId={studyId} />;
-    }
-    if (isEditPage) {
-      return <Edit studyId={studyId} articleId={articleId} />;
-    }
+    if (isListPage) return renderArticleListPage();
+
+    if (isArticleDetailPage) return <Article studyId={studyId} articleId={articleId} />;
+
+    if (isNonMember) return <Navigate to={`../${PATH.COMMUNITY}`} replace />;
+
+    if (isPublishPage) return <Publish studyId={studyId} />;
+
+    if (isEditPage) return <Edit studyId={studyId} articleId={articleId} />;
   };
 
   return (

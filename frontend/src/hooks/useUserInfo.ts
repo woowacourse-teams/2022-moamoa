@@ -11,7 +11,7 @@ export const useUserInfo = () => {
   useEffect(() => {
     if (!data || isError || !isSuccess) return;
     setUserInfo(data);
-  }, [data]);
+  }, [data, isError, isSuccess]);
 
   return {
     fetchUserInfo,

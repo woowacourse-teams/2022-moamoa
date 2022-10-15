@@ -4,11 +4,16 @@ import { useParams } from 'react-router-dom';
 import { useGetInfiniteLinks } from '@api/links';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 export const useLinkRoomTabPanel = () => {
-  const { studyId } = useParams<{ studyId: string }>();
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { fetchUserInfo, userInfo } = useUserInfo();
-  const infiniteLinksQueryResult = useGetInfiniteLinks({ studyId: Number(studyId) });
+  const { isOwnerOrMember } = useUserRole({ studyId });
+
+  const infiniteLinksQueryResult = useGetInfiniteLinks({ studyId });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -31,10 +36,11 @@ export const useLinkRoomTabPanel = () => {
   };
 
   return {
-    studyId: Number(studyId),
+    studyId,
     userInfo,
     infiniteLinksQueryResult,
     isModalOpen,
+    isOwnerOrMember,
     handleLinkAddButtonClick,
     handleModalClose,
     handlePostLinkSuccess,

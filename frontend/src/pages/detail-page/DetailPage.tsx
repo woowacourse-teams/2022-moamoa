@@ -20,7 +20,7 @@ import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/Stud
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
 const DetailPage: React.FC = () => {
-  const { studyId, detailQueryResult, userRoleQueryResult, handleRegisterButtonClick } = useDetailPage();
+  const { studyId, detailQueryResult, isOwner, isOwnerOrMember, handleRegisterButtonClick } = useDetailPage();
   const { isFetching, isSuccess, isError, data } = detailQueryResult;
 
   if (!studyId) {
@@ -60,11 +60,12 @@ const DetailPage: React.FC = () => {
         startDate={startDate}
         endDate={endDate}
         tags={tags}
-        isOwner={userRoleQueryResult.data?.role === 'OWNER'}
+        isOwner={isOwner}
       />
       <Divider space="20px" />
       <Flex gap="40px">
-        <section css={tw`w-full`}>
+        {/* TODO: UI 버그 수정 -> overflow-auto 적용! 수정시 이 주석은 지워주세요. */}
+        <section css={tw`w-full overflow-auto`}>
           <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
             <MarkdownRender markdownContent={description} />
           </section>
@@ -75,7 +76,7 @@ const DetailPage: React.FC = () => {
           <div css={tw`sticky top-150 pb-20`}>
             <StudyFloatBox
               studyId={id}
-              userRole={userRoleQueryResult.data?.role}
+              isOwnerOrMember={isOwnerOrMember}
               ownerName={owner.username}
               currentMemberCount={currentMemberCount}
               maxMemberCount={maxMemberCount}
@@ -91,7 +92,7 @@ const DetailPage: React.FC = () => {
       <S.FixedBottomContainer>
         <StudyWideFloatBox
           studyId={id}
-          userRole={userRoleQueryResult.data?.role}
+          isOwnerOrMember={isOwnerOrMember}
           currentMemberCount={currentMemberCount}
           maxMemberCount={maxMemberCount}
           enrollmentEndDate={enrollmentEndDate}

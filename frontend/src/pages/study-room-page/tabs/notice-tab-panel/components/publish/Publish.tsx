@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -17,7 +16,6 @@ import PageTitle from '@components/page-title/PageTitle';
 
 import PublishContent from '@notice-tab/components/publish-content/PublishContent';
 import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 export type PublishProps = {
   studyId: StudyId;
@@ -27,15 +25,6 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostNoticeArticle();
-  const { isFetching, isError, hasPermission } = usePermission(studyId, 'OWNER');
-
-  useEffect(() => {
-    if (isFetching) return;
-    if (hasPermission) return;
-
-    alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`);
-  }, [studyId, navigate, isFetching, hasPermission]);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     const { values } = submitResult;
@@ -61,14 +50,6 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
       },
     );
   };
-
-  if (isFetching) {
-    return <div>유저 정보 가져오는 중...</div>;
-  }
-
-  if (isError) {
-    return <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
-  }
 
   return (
     <FormProvider {...formMethods}>

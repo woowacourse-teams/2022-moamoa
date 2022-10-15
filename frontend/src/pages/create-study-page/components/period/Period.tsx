@@ -18,7 +18,7 @@ type PeriodProps = {
 };
 
 const START_DATE = 'start-date';
-const END_DATE = 'end-date';
+export const END_DATE = 'end-date';
 
 const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) => {
   const { register } = useFormContext();

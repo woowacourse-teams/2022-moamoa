@@ -9,35 +9,40 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const SelectControl = styled.div`
-  position: relative;
+export const SelectControl = styled.div<{ invalid: boolean }>`
+  ${({ theme, invalid }) => css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  align-items: center;
+    position: relative;
+    padding-right: 8px;
+    min-height: 38px;
 
-  min-height: 38px;
+    border: 1px solid ${theme.colors.secondary.base};
+    background-color: ${theme.colors.secondary.light};
+    border-radius: ${theme.radius.sm};
 
-  -webkit-box-align: center;
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(204, 204, 204);
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px;
-  padding-right: 8px;
+    ${invalid &&
+    css`
+      border: 1px solid ${theme.colors.red};
+
+      &:focus {
+        border: 1px solid ${theme.colors.red};
+      }
+    `}
+  `}
 `;
 
 export const SelectedOptionList = styled.ul`
-  position: relative;
-
   display: flex;
-  flex: 1 1 0%;
+  flex: 1 1 0;
   flex-wrap: wrap;
   align-items: center;
 
-  -webkit-box-align: center;
+  position: relative;
+
   padding: 2px 8px;
   overflow: hidden;
 `;
@@ -46,22 +51,22 @@ export const SelectedOption = styled.li`
   ${({ theme }) => css`
     display: flex;
 
+    margin: 2px;
+
     background-color: ${theme.colors.secondary.base};
     border-radius: 2px;
-    margin: 2px;
     font-size: 14px;
   `}
 `;
 
 export const SelectedOptionValue = styled.div`
   padding: 3px 3px 3px 6px;
-  font-size: 12px;
 
+  font-size: 12px;
   border-radius: 2px;
-  color: rgb(51, 51, 51);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 `;
 
 export const UnselectButton = styled(UnstyledButton)`
@@ -70,7 +75,6 @@ export const UnselectButton = styled(UnstyledButton)`
 
   font-size: 14px;
 
-  -webkit-box-align: center;
   border-radius: 2px;
   padding-left: 4px;
   padding-right: 4px;
@@ -80,7 +84,6 @@ export const Indicators = styled.div`
   display: flex;
   align-items: center;
   align-self: stretch;
-  -webkit-box-align: center;
 
   flex-shrink: 0;
   row-gap: 10px;
@@ -88,18 +91,14 @@ export const Indicators = styled.div`
 
 export const DropDown = styled(ImportedDropDownBox)`
   max-height: 180px;
-  background-color: white;
-  box-shadow: 0px 0px 4px 0px;
-
-  border-radius: 4px;
 `;
 
 export const UnselectedOption = styled.li`
   ${({ theme }) => css`
     font-size: 20px;
+
     &:hover {
-      background-color: ${theme.colors.secondary.light}; // TODO: 색 세분화 필요
-      color: white;
+      background-color: ${theme.colors.white}; // TODO: 색 세분화 필요
     }
   `}
 `;
@@ -108,6 +107,7 @@ export const SelectButton = styled(UnstyledButton)`
   width: 100%;
   height: 100%;
   padding: 10px;
+
   text-align: left;
 `;
 

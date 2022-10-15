@@ -20,6 +20,7 @@ export const useAuth = () => {
     AccessTokenController.clear();
     setIsLoggedIn(false);
     alert('로그아웃 되었습니다.');
+    window.location.reload();
   };
 
   return { isLoggedIn, login, logout };

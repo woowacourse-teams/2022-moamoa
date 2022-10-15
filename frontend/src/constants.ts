@@ -148,6 +148,15 @@ export const LINK_DESCRIPTION_LENGTH = {
   },
 };
 
+export const SUBJECT_TAG_COUNT = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `주제를 최소 ${this.VALUE}개 선택해야 합니다.`;
+    },
+  },
+};
+
 export const COMMA = ',';
 
 export const RECRUITMENT_STATUS = {
