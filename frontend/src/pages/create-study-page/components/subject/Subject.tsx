@@ -1,8 +1,10 @@
+import { SUBJECT_TAG_COUNT } from '@constants';
+
 import type { StudyDetail } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
-import { useFormContext } from '@hooks/useForm';
+import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Label from '@components/label/Label';
 import MetaBox from '@components/meta-box/MetaBox';
@@ -22,10 +24,15 @@ const subjectsToOptions = (subjects: StudyDetail['tags']): MultiTagSelectProps['
 };
 
 const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
   const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
+
+  const isValid = !errors[SUBJECT]?.hasError;
 
   const render = () => {
     if (isLoading) return <div>loading...</div>;
@@ -46,7 +53,20 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
 
     const options = subjectsToOptions(subjects);
 
-    return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+    return (
+      <MultiTagSelect
+        defaultSelectedOptions={selectedOptions}
+        options={options}
+        invalid={!isValid}
+        {...register(SUBJECT, {
+          validate: (val: string) => {
+            if (!val || val.length === 0) return makeValidationResult(true, SUBJECT_TAG_COUNT.MIN.MESSAGE);
+            return makeValidationResult(false);
+          },
+          minLength: SUBJECT_TAG_COUNT.MIN.VALUE,
+        })}
+      />
+    );
   };
 
   return (

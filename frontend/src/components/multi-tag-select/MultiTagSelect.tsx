@@ -2,6 +2,8 @@ import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { isFunction, isObject } from '@utils';
 
+import { type UseFormRegisterReturn } from '@hooks/useForm';
+
 import Center from '@components/center/Center';
 import DownArrowIcon from '@components/icons/down-arrow-icon/DownArrowIcon';
 import XMarkIcon from '@components/icons/x-mark-icon/XMarkIcon';
@@ -13,13 +15,13 @@ type Option = {
 };
 
 export type MultiTagSelectProps = {
-  name: string;
   options: Array<Option>;
   defaultSelectedOptions?: Array<Option>;
-};
+  invalid?: boolean;
+} & Omit<UseFormRegisterReturn, 'ref'>;
 
 const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
-  ({ defaultSelectedOptions = [], options, name }, inputRef) => {
+  ({ defaultSelectedOptions = [], options, invalid = false, ...registerReturns }, inputRef) => {
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
@@ -31,6 +33,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
+    // 아래 방식대로 하면 input ChangeEvent가 발생하지 않음!
     useEffect(() => {
       if (!innerInputRef.current) return;
       if (!inputRef) return;
@@ -72,7 +75,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 
     return (
       <S.Container>
-        <S.SelectControl onClick={handleSelectControlClick}>
+        <S.SelectControl onClick={handleSelectControlClick} invalid={invalid}>
           <S.SelectedOptionList>
             {selectedOptions.map(option => (
               <S.SelectedOption key={option.value}>
@@ -113,7 +116,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             </ul>
           </S.DropDown>
         )}
-        <input hidden name={name} ref={innerInputRef} />
+        <input type="text" hidden ref={innerInputRef} {...registerReturns} />
       </S.Container>
     );
   },

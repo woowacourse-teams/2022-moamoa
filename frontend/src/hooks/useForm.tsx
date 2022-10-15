@@ -47,9 +47,15 @@ type UseFormRegisterOption = Partial<{
 
 type RefCallBack = (element: FieldElement | null) => void;
 
-type UseFormRegisterReturn = {
+export type UseFormRegisterReturn = {
   ref: RefCallBack;
   name: FieldName;
+  onChange: ChangeHandler;
+  maxLength?: UseFormRegisterOption['maxLength'];
+  minLength?: UseFormRegisterOption['minLength'];
+  min?: UseFormRegisterOption['min'];
+  max?: UseFormRegisterOption['max'];
+  required?: UseFormRegisterOption['required'];
 };
 
 type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
@@ -192,6 +198,7 @@ export const useForm: UseForm = () => {
     const {
       target: { name },
     } = e;
+
     const field = getField(name);
     if (!field) return;
 
