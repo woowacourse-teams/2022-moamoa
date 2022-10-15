@@ -114,6 +114,9 @@ export const useForm: UseForm = () => {
       if (fieldElement.type === 'checkbox') {
         return fieldElement.checked ? 'checked' : 'unchecked';
       }
+      if (fieldElement.type === 'number') {
+        return fieldElement.valueAsNumber;
+      }
     }
     return fieldElement.value;
   };
@@ -125,7 +128,7 @@ export const useForm: UseForm = () => {
 
       acc[name] = getFieldValue(field);
       return acc;
-    }, {} as Record<string, string>);
+    }, {} as Record<string, string | number>);
     return values;
   };
 
@@ -194,7 +197,7 @@ export const useForm: UseForm = () => {
     field.fieldElement.value = '';
   };
 
-  const handleChange = (e: React.ChangeEvent<FieldElement>) => {
+  const handleChange: React.ChangeEventHandler<FieldElement> = e => {
     const {
       target: { name },
     } = e;
@@ -207,7 +210,7 @@ export const useForm: UseForm = () => {
     validateFieldOnChange(field);
   };
 
-  const handleSubmit: UseFormHandleSubmit = onSubmit => (e: any) => {
+  const handleSubmit: UseFormHandleSubmit = onSubmit => e => {
     e.preventDefault();
     if (!fieldsRef.current) return;
 
