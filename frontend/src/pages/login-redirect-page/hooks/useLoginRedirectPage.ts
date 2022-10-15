@@ -9,7 +9,7 @@ import { useAuth } from '@hooks/useAuth';
 
 const useLoginRedirectPage = () => {
   const [searchParams] = useSearchParams();
-  const codeParam = searchParams.get('code') as string;
+  const codeParam = searchParams.get('code');
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -32,7 +32,7 @@ const useLoginRedirectPage = () => {
         },
         onSuccess: ({ accessToken, expiredTime }) => {
           login(accessToken, expiredTime);
-          navigate(PATH.MAIN, { replace: true });
+          navigate(-1);
         },
       },
     );
