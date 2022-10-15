@@ -10,9 +10,11 @@ const startDate = 'startDate';
 
 describe('스터디 개설 페이지 폼 유효성 테스트', () => {
   before(() => {
-    AccessTokenController.setAccessToken('hihihihihihi');
-    cy.wait(1000);
-    cy.visit(PATH.CREATE_STUDY);
+    AccessTokenController.save('asdfasdf', 30 * 1000);
+    cy.visit(PATH.MAIN).then(() => {
+      cy.wait(1000);
+      cy.visit(PATH.CREATE_STUDY);
+    });
   });
 
   after(() => {
