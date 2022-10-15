@@ -224,17 +224,17 @@ export const useForm: UseForm = () => {
 
     const errors = getFieldErrors(fieldsRef.current);
     const isValid = !Object.values(errors).some(error => error.hasError);
-
+    const values = getFieldValues(fieldsRef.current);
     if (!isValid) {
       setFormState({
         ...initialFormState,
         errors,
         isValid: false,
       });
+      onSubmit(e, { isValid, values, errors });
       return;
     }
 
-    const values = getFieldValues(fieldsRef.current);
     const result = onSubmit(e, { isValid, values, errors });
 
     if (result) {
