@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -17,7 +16,6 @@ import PageTitle from '@components/page-title/PageTitle';
 
 import EditContent from '@notice-tab/components/edit-content/EditContent';
 import EditTitle from '@notice-tab/components/edit-title/EditTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 export type EditProps = {
   studyId: StudyId;
@@ -30,16 +28,6 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
   const getNoticeArticleQueryResult = useGetNoticeArticle({ studyId, articleId });
   const { mutateAsync } = usePutNoticeArticle();
-
-  const { isFetching, hasPermission } = usePermission(studyId, 'OWNER');
-
-  useEffect(() => {
-    if (isFetching) return;
-    if (hasPermission) return;
-
-    alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`);
-  }, [studyId, navigate, isFetching, hasPermission]);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     const { values } = submitResult;

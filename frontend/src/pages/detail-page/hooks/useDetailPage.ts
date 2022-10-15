@@ -1,20 +1,22 @@
 import { useParams } from 'react-router-dom';
 
-import { useGetUserRole } from '@api/member';
 import { usePostMyStudy } from '@api/my-study';
 import { useGetStudy } from '@api/study';
 
 import { useAuth } from '@hooks/useAuth';
+import { useUserRole } from '@hooks/useUserRole';
 
 const useDetailPage = () => {
-  const { studyId } = useParams() as { studyId: string };
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { isLoggedIn } = useAuth();
 
-  const detailQueryResult = useGetStudy({ studyId: Number(studyId) });
+  const detailQueryResult = useGetStudy({ studyId });
 
   const { mutate } = usePostMyStudy();
-  const userRoleQueryResult = useGetUserRole({
-    studyId: Number(studyId),
+  const { isOwner, isOwnerOrMember, fetchUserRole } = useUserRole({
+    studyId,
     options: {
       enabled: isLoggedIn,
     },
@@ -27,7 +29,7 @@ const useDetailPage = () => {
     }
 
     mutate(
-      { studyId: Number(studyId) },
+      { studyId },
       {
         onError: () => {
           alert('가입에 실패했습니다.');
@@ -35,7 +37,7 @@ const useDetailPage = () => {
         onSuccess: () => {
           alert('가입했습니다 :D');
           detailQueryResult.refetch();
-          userRoleQueryResult.refetch();
+          fetchUserRole();
         },
       },
     );
@@ -43,7 +45,8 @@ const useDetailPage = () => {
 
   return {
     detailQueryResult,
-    userRoleQueryResult,
+    isOwner,
+    isOwnerOrMember,
     studyId,
     handleRegisterButtonClick,
   };

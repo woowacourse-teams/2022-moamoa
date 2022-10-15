@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 import Divider from '@components/divider/Divider';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -15,8 +16,10 @@ const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
 
-  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
   const { userInfo, fetchUserInfo } = useUserInfo();
+  const { isOwnerOrMember } = useUserRole({ studyId });
+
+  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
 
   useEffect(() => {
     fetchUserInfo();
@@ -67,7 +70,14 @@ const ReviewTabPanel: React.FC = () => {
 
   return (
     <Wrapper>
-      <ReviewForm author={userInfo} studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
+      {isOwnerOrMember && (
+        <ReviewForm
+          author={userInfo}
+          studyId={studyId}
+          onPostSuccess={handlePostSuccess}
+          onPostError={handlePostError}
+        />
+      )}
       <Divider space="30px" />
       {renderReviewList()}
     </Wrapper>

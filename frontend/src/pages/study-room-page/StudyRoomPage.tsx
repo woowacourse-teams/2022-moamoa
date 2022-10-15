@@ -1,8 +1,6 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import styled from '@emotion/styled';
-
-import { PATH, USER_ROLE } from '@constants';
 
 import { mqDown } from '@utils';
 
@@ -13,18 +11,7 @@ import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
 
 const StudyRoomPage: React.FC = () => {
-  const { tabs, activeTabId, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
-  const { data, isError, isSuccess } = userRoleQueryResult;
-
-  if (isSuccess && data.role === USER_ROLE.NON_MEMBER) {
-    alert('잘못된 접근입니다.');
-    return <Navigate to={PATH.MAIN} replace={true} />;
-  }
-
-  if (isError) {
-    alert('오류가 발생했습니다.');
-    return <Navigate to={PATH.MAIN} replace={true} />;
-  }
+  const { tabs, activeTabId, handleTabButtonClick } = useStudyRoomPage();
 
   return (
     <Wrapper>
