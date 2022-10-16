@@ -2,13 +2,30 @@ import { useContext, useEffect } from 'react';
 
 import { USER_ROLE } from '@constants';
 
-import { type ApiUserRole, useGetUserRole } from '@api/member';
+import { StudyId } from '@custom-types';
+
+import { useGetUserRole } from '@api/member';
+
+import { useAuth } from '@hooks/useAuth';
 
 import { UserRoleContext } from '@context/userRole/UserRoleProvider';
 
-export const useUserRole = ({ studyId, options }: ApiUserRole['get']['variables']) => {
+export const useUserRole = ({ studyId }: { studyId: StudyId }) => {
   const { userRole, setUserRole } = useContext(UserRoleContext);
-  const { data, refetch: fetchUserRole, isError, isSuccess } = useGetUserRole({ studyId, options });
+
+  const { isLoggedIn } = useAuth();
+
+  const {
+    data,
+    refetch: fetchUserRole,
+    isError,
+    isSuccess,
+  } = useGetUserRole({
+    studyId,
+    options: {
+      enabled: isLoggedIn,
+    },
+  });
 
   useEffect(() => {
     if (!data || isError || !isSuccess) return;
