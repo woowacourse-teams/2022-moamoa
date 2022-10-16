@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { changeDateSeperator } from '@utils';
 
-import { type CommunityArticle } from '@custom-types';
+import type { CommunityArticle } from '@custom-types';
 
 import { applyHoverTransitionStyle } from '@styles/theme';
 

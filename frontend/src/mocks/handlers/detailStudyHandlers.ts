@@ -5,9 +5,9 @@ import studiesJSON from '@mocks/studies.json';
 
 import { RECRUITMENT_STATUS } from '@constants';
 
-import { StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
-import type { ApiStudy } from '@api/study';
+import { type ApiStudy } from '@api/study';
 
 const json: {
   studies: Array<StudyDetail>;

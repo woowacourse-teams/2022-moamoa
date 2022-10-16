@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import SiteImage from '@assets/images/moamoa-site-image.png';
 
-import { type Link, type StudyId } from '@custom-types';
+import type { Link, StudyId } from '@custom-types';
 
 import { type ApiLinkPreview } from '@api/link-preview';
 

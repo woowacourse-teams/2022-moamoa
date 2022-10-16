@@ -7,7 +7,7 @@ import { PERIOD } from '@constants';
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
 
-import { type DateYMD, type StudyDetail } from '@custom-types';
+import type { DateYMD, StudyDetail } from '@custom-types';
 
 import { useFormContext } from '@hooks/useForm';
 

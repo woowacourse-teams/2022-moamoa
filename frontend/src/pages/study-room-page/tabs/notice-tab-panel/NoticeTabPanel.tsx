@@ -1,10 +1,10 @@
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 
-import { Theme, useTheme } from '@emotion/react';
+import { type Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import { StudyId } from '@custom-types';
+import type { StudyId } from '@custom-types';
 
 import { useUserRole } from '@hooks/useUserRole';
 

@@ -1,4 +1,4 @@
-import { Member } from '@custom-types';
+import type { Member } from '@custom-types';
 
 import Avatar from '@shared/avatar/Avatar';
 import { IconButton } from '@shared/button';
