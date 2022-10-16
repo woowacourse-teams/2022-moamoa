@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import type { MakeRequired } from '@custom-types';
 
-import { IconButtonProps } from './IconButton';
+import { type IconButtonProps } from '@components/button/icon-button/IconButton';
 
 type StyledIconButtonProps = MakeRequired<
   Pick<IconButtonProps, 'variant' | 'height' | 'width' | 'fontSize'>,

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { WrapperProps } from './Wrapper';
+import { type WrapperProps } from '@components/wrapper/Wrapper';
 
 type StyledWrapperProps = Required<Pick<WrapperProps, 'space'>>;
 
