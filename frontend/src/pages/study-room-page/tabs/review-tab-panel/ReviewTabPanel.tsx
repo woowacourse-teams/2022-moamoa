@@ -21,9 +21,6 @@ const ReviewTabPanel: React.FC = () => {
   const { userInfo, fetchUserInfo } = useUserInfo();
 
   const reviews = data?.reviews;
-  const noReview = !isFetching && isSuccess && reviews && reviews.length === 0;
-  const hasReview = (val: unknown): val is Array<StudyReview> =>
-    !isFetching && isSuccess && !!reviews && reviews.length > 0;
 
   useEffect(() => {
     fetchUserInfo();
