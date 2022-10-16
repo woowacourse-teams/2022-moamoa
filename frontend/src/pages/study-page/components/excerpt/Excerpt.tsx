@@ -4,7 +4,7 @@ import { EXCERPT_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type FieldElement, type UseFormRegister, makeValidationResult, useForm, useFormContext } from '@hooks/useForm';
 
 import Label from '@shared/label/Label';
 import ImportedLetterCounter, {
@@ -23,7 +23,6 @@ const EXCERPT = 'excerpt';
 const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
   const {
     formState: { errors },
-    register,
   } = useFormContext();
 
   const isValid = !errors[EXCERPT]?.hasError;
@@ -45,12 +44,7 @@ const Excerpt = ({ originalExcerpt }: ExcerptProps) => {
             `}
           >
             <LetterCounter count={count} maxCount={maxCount} />
-            <ExceprtTextArea
-              isValid={isValid}
-              defaultValue={originalExcerpt ?? ''}
-              register={register}
-              onChange={handleExcerptChange}
-            />
+            <ExceprtTextArea isValid={isValid} defaultValue={originalExcerpt ?? ''} onChange={handleExcerptChange} />
           </div>
         </MetaBox.Content>
       </MetaBox>
@@ -75,35 +69,32 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
 type ExcerptTextAreaProps = {
   isValid: boolean;
   defaultValue: string;
-  register: UseFormRegister;
   onChange: TextareaProps['onChange'];
 };
-const ExceprtTextArea: React.FC<ExcerptTextAreaProps> = ({
-  isValid,
-  defaultValue,
-  onChange: handleChange,
-  register,
-}) => (
-  <Textarea
-    id={EXCERPT}
-    placeholder="*한줄소개를 입력해주세요"
-    invalid={!isValid}
-    defaultValue={defaultValue}
-    {...register(EXCERPT, {
-      validate: (val: string) => {
-        if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
-          return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);
-        }
-        if (val.length > EXCERPT_LENGTH.MAX.VALUE) return makeValidationResult(true, EXCERPT_LENGTH.MAX.MESSAGE);
-        return makeValidationResult(false);
-      },
-      validationMode: 'change',
-      onChange: handleChange,
-      minLength: EXCERPT_LENGTH.MIN.VALUE,
-      maxLength: EXCERPT_LENGTH.MAX.VALUE,
-      required: true,
-    })}
-  />
-);
+const ExceprtTextArea: React.FC<ExcerptTextAreaProps> = ({ isValid, defaultValue, onChange: handleChange }) => {
+  const { register } = useFormContext();
+  return (
+    <Textarea
+      id={EXCERPT}
+      placeholder="*한줄소개를 입력해주세요"
+      invalid={!isValid}
+      defaultValue={defaultValue}
+      {...register(EXCERPT, {
+        validate: (val: string) => {
+          if (val.length < EXCERPT_LENGTH.MIN.VALUE) {
+            return makeValidationResult(true, EXCERPT_LENGTH.MIN.MESSAGE);
+          }
+          if (val.length > EXCERPT_LENGTH.MAX.VALUE) return makeValidationResult(true, EXCERPT_LENGTH.MAX.MESSAGE);
+          return makeValidationResult(false);
+        },
+        validationMode: 'change',
+        onChange: handleChange,
+        minLength: EXCERPT_LENGTH.MIN.VALUE,
+        maxLength: EXCERPT_LENGTH.MAX.VALUE,
+        required: true,
+      })}
+    />
+  );
+};
 
 export default Excerpt;

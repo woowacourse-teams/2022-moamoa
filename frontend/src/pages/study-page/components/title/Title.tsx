@@ -5,7 +5,7 @@ import { TITLE_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Input from '@shared/input/Input';
 import Label from '@shared/label/Label';
@@ -21,7 +21,7 @@ export type TitleProps = {
 const TITLE = 'title';
 
 const Title: React.FC<TitleProps> = ({ originalTitle }) => {
-  const { register, formState } = useFormContext();
+  const { formState } = useFormContext();
   const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
 
   const { errors } = formState;
@@ -32,12 +32,7 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   return (
     <Self>
       <LetterCounter count={count} maxCount={maxCount} />
-      <StudyNameField
-        isValid={isValid}
-        defaultValue={originalTitle ?? ''}
-        onChange={handleTitleChange}
-        register={register}
-      />
+      <StudyNameField isValid={isValid} defaultValue={originalTitle ?? ''} onChange={handleTitleChange} />
     </Self>
   );
 };
@@ -63,46 +58,48 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
 type StudyNameFieldProps = {
   isValid: boolean;
   defaultValue: string;
-  register: UseFormRegister;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
-const StudyNameField: React.FC<StudyNameFieldProps> = ({ isValid, defaultValue, register, onChange: handleChange }) => (
-  <>
-    <Label htmlFor={TITLE} hidden>
-      스터디 이름
-    </Label>
-    <div
-      css={css`
-        margin-bottom: 20px;
-      `}
-    >
-      <Input
-        id={TITLE}
-        type="text"
-        placeholder="*스터디 이름"
-        invalid={!isValid}
-        fluid
-        defaultValue={defaultValue}
-        fontSize="xl"
-        {...register(TITLE, {
-          validate: (val: string) => {
-            if (val.length < TITLE_LENGTH.MIN.VALUE) {
-              return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
-            }
-            if (val.length > TITLE_LENGTH.MAX.VALUE) {
-              return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
-            }
-            return makeValidationResult(false);
-          },
-          validationMode: 'change',
-          onChange: handleChange,
-          minLength: TITLE_LENGTH.MIN.VALUE,
-          maxLength: TITLE_LENGTH.MAX.VALUE,
-          required: true,
-        })}
-      />
-    </div>
-  </>
-);
+const StudyNameField: React.FC<StudyNameFieldProps> = ({ isValid, defaultValue, onChange: handleChange }) => {
+  const { register } = useFormContext();
+  return (
+    <>
+      <Label htmlFor={TITLE} hidden>
+        스터디 이름
+      </Label>
+      <div
+        css={css`
+          margin-bottom: 20px;
+        `}
+      >
+        <Input
+          id={TITLE}
+          type="text"
+          placeholder="*스터디 이름"
+          invalid={!isValid}
+          fluid
+          defaultValue={defaultValue}
+          fontSize="xl"
+          {...register(TITLE, {
+            validate: (val: string) => {
+              if (val.length < TITLE_LENGTH.MIN.VALUE) {
+                return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
+              }
+              if (val.length > TITLE_LENGTH.MAX.VALUE) {
+                return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
+              }
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: handleChange,
+            minLength: TITLE_LENGTH.MIN.VALUE,
+            maxLength: TITLE_LENGTH.MAX.VALUE,
+            required: true,
+          })}
+        />
+      </div>
+    </>
+  );
+};
 
 export default Title;

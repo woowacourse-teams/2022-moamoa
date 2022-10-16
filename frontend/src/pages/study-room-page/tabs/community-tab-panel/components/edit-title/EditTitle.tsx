@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { TITLE_LENGTH } from '@constants';
 
-import { type FieldElement, type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Input from '@shared/input/Input';
 import Label from '@shared/label/Label';
@@ -20,7 +20,7 @@ export type EditTitleProps = {
 const TITLE = 'title';
 
 const EditTitle: React.FC<EditTitleProps> = ({ title }) => {
-  const { register, formState } = useFormContext();
+  const { formState } = useFormContext();
   const { errors } = formState;
   const [count, setCount] = useState(0);
   const isValid = !errors[TITLE]?.hasError;
@@ -30,7 +30,7 @@ const EditTitle: React.FC<EditTitleProps> = ({ title }) => {
   return (
     <Self>
       <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      <TitleField isValid={isValid} title={title} onChange={handleTitleChange} register={register} />
+      <TitleField isValid={isValid} title={title} onChange={handleTitleChange} />
     </Self>
   );
 };
@@ -56,46 +56,48 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
 type TitleFieldProps = {
   isValid: boolean;
   title: string;
-  register: UseFormRegister;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
-const TitleField: React.FC<TitleFieldProps> = ({ isValid, title, register, onChange: handleChange }) => (
-  <>
-    <Label htmlFor={TITLE} hidden>
-      게시글 제목
-    </Label>
-    <div
-      css={css`
-        margin-bottom: 20px;
-      `}
-    >
-      <Input
-        id={TITLE}
-        type="text"
-        placeholder="제목을 입력해 주세요"
-        invalid={!isValid}
-        fluid
-        fontSize="xl"
-        defaultValue={title}
-        {...register(TITLE, {
-          validate: (val: string) => {
-            if (val.length < TITLE_LENGTH.MIN.VALUE) {
-              return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
-            }
-            if (val.length > TITLE_LENGTH.MAX.VALUE) {
-              return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
-            }
-            return makeValidationResult(false);
-          },
-          validationMode: 'change',
-          onChange: handleChange,
-          minLength: TITLE_LENGTH.MIN.VALUE,
-          maxLength: TITLE_LENGTH.MAX.VALUE,
-          required: true,
-        })}
-      />
-    </div>
-  </>
-);
+const TitleField: React.FC<TitleFieldProps> = ({ isValid, title, onChange: handleChange }) => {
+  const { register } = useFormContext();
+  return (
+    <>
+      <Label htmlFor={TITLE} hidden>
+        게시글 제목
+      </Label>
+      <div
+        css={css`
+          margin-bottom: 20px;
+        `}
+      >
+        <Input
+          id={TITLE}
+          type="text"
+          placeholder="제목을 입력해 주세요"
+          invalid={!isValid}
+          fluid
+          fontSize="xl"
+          defaultValue={title}
+          {...register(TITLE, {
+            validate: (val: string) => {
+              if (val.length < TITLE_LENGTH.MIN.VALUE) {
+                return makeValidationResult(true, TITLE_LENGTH.MIN.MESSAGE);
+              }
+              if (val.length > TITLE_LENGTH.MAX.VALUE) {
+                return makeValidationResult(true, TITLE_LENGTH.MAX.MESSAGE);
+              }
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: handleChange,
+            minLength: TITLE_LENGTH.MIN.VALUE,
+            maxLength: TITLE_LENGTH.MAX.VALUE,
+            required: true,
+          })}
+        />
+      </div>
+    </>
+  );
+};
 
 export default EditTitle;

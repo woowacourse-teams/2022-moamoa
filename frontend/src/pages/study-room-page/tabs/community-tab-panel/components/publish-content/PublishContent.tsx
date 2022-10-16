@@ -25,7 +25,6 @@ const CONTENT = 'content';
 const PublishContent = () => {
   const {
     formState: { errors },
-    register,
     getField,
   } = useFormContext();
 
@@ -64,7 +63,7 @@ const PublishContent = () => {
             height: 50vh;
           `}
         >
-          <WriteTab isOpen={isWriteTab} isValid={isValid} register={register} />
+          <WriteTab isOpen={isWriteTab} isValid={isValid} />
           <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
         </div>
       </MetaBox.Content>
@@ -92,9 +91,9 @@ const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick:
 type WriteTabProps = {
   isOpen: boolean;
   isValid: boolean;
-  register: UseFormRegister;
 };
-const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, register }) => {
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid }) => {
+  const { register } = useFormContext();
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
     height: 100%;
