@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import TrashcanIcon from '@shared/icons/trashcan-icon/TrashcanIcon';
+import { TrashcanIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/TrashcanIcon',

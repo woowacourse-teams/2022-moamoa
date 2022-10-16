@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import BookmarkIcon from '@shared/icons/bookmark-icon/BookmarkIcon';
+import { BookmarkIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/BookmarkIcon',

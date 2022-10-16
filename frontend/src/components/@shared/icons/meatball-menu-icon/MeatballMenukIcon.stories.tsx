@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import MeatballMenuIcon from '@shared/icons/meatball-menu-icon/MeatballMenuIcon';
+import { MeatballMenuIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/MeatballMenuIcon',

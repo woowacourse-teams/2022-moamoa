@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import DownArrowIcon from '@shared/icons/down-arrow-icon/DownArrowIcon';
+import { DownArrowIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/DownArrowIcon',

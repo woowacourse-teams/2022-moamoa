@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import LeftDirectionIcon from '@shared/icons/left-direction-icon/LeftDirectionIcon';
+import { LeftDirectionIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/LeftDirectionIcon',

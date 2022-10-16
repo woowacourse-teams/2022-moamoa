@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import PencilIcon from '@shared/icons/pencil-icon/PencilIcon';
+import { PencilIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/PencilIcon',

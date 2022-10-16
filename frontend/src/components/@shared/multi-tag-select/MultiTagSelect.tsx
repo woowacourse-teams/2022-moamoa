@@ -12,8 +12,7 @@ import Center from '@shared/center/Center';
 import ImportedDropDownBox, {
   type DropDownBoxProps as ImportedDropDownBoxProps,
 } from '@shared/drop-down-box/DropDownBox';
-import DownArrowIcon from '@shared/icons/down-arrow-icon/DownArrowIcon';
-import XMarkIcon from '@shared/icons/x-mark-icon/XMarkIcon';
+import { DownArrowIcon, XMarkIcon } from '@shared/icons';
 
 export type Option = {
   value: string | number;

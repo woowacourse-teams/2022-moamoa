@@ -11,3 +11,5 @@ export { default as RightDirectionIcon } from '@shared/icons/right-direction-ico
 export { default as RightUpArrowIcon } from '@shared/icons/right-up-arrow-icon/RightUpArrowIcon';
 export { default as SearchIcon } from '@shared/icons/search-icon/SearchIcon';
 export { default as TrashcanIcon } from '@shared/icons/trashcan-icon/TrashcanIcon';
+export { default as DownArrowIcon } from '@shared/icons/down-arrow-icon/DownArrowIcon';
+export { default as XMarkIcon } from '@shared/icons/x-mark-icon/XMarkIcon';

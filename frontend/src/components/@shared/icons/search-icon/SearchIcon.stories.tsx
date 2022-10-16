@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import SearchIcon from '@shared/icons/search-icon/SearchIcon';
+import { SearchIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/SearchIcon',

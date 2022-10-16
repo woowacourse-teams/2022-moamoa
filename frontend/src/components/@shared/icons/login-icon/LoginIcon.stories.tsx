@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import LoginIcon from '@shared/icons/login-icon/LoginIcon';
+import { LoginIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/LoginIcon',

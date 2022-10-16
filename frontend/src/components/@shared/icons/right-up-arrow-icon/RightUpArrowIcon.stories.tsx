@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import RightUpArrowIcon from '@shared/icons/right-up-arrow-icon/RightUpArrowIcon';
+import { RightUpArrowIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/RightUpArrowIcon',

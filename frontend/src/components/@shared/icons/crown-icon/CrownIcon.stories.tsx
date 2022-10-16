@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import CrownIcon from '@shared/icons/crown-icon/CrownIcon';
+import { CrownIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/CrownIcon',

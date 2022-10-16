@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import KebabMenuIcon from '@shared/icons/kebab-menu-icon/KebabMenuIcon';
+import { KebabMenuIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/KebabMenuIcon',

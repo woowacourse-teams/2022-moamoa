@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import PlusIcon from '@shared/icons/plus-icon/PlusIcon';
+import { PlusIcon } from '@shared/icons';
 
 export default {
   title: 'Materials/Icons/PlusIcon',
