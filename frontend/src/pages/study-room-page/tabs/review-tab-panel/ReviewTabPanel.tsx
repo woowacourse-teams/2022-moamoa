@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import type { Member, StudyId, StudyReview } from '@custom-types';
@@ -67,8 +67,8 @@ type ReviewListProps = {
 const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) => (
   <ul>
     {reviews.map(review => (
-      <>
-        <li key={review.id}>
+      <React.Fragment key={review.id}>
+        <li>
           <ReviewComment
             id={review.id}
             studyId={studyId}
@@ -79,7 +79,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) =
           />
         </li>
         <Divider space="30px" />
-      </>
+      </React.Fragment>
     ))}
   </ul>
 );
