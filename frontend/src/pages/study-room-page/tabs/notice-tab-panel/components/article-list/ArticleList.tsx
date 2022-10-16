@@ -5,9 +5,9 @@ import { css } from '@emotion/react';
 
 import { PATH } from '@constants';
 
-import type { NoticeArticle, StudyId } from '@custom-types';
+import type { StudyId } from '@custom-types';
 
-import { useGetNoticeArticles } from '@api/notice';
+import { ApiNoticeArticles, useGetNoticeArticles } from '@api/notice';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
@@ -55,7 +55,7 @@ const Error = () => <div>에러가 발생했습니다</div>;
 const NoArticle = () => <div>게시글이 없습니다</div>;
 
 type SelfProps = {
-  articles: Array<NoticeArticle>;
+  articles: ApiNoticeArticles['get']['responseData']['articles'];
 };
 const Self: React.FC<SelfProps> = ({ articles }) => (
   <ul
