@@ -25,20 +25,6 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
-  const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
-
-  const subjects = data?.tags?.filter(({ category }) => category.name === SUBJECT);
-  const etcTag = subjects?.find(tag => tag.name === 'Etc');
-
-  let selectedOptions: Array<Option> = [];
-  if (originalOptions) {
-    selectedOptions = originalOptions;
-  } else if (etcTag) {
-    selectedOptions = [{ value: etcTag.id, label: etcTag.description }];
-  }
-
-  const options = subjects ? subjectsToOptions(subjects) : [];
-
   return (
     <MetaBox>
       <MetaBox.Title>
@@ -48,10 +34,24 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         {(() => {
           if (isLoading) return <Loading />;
           if (isError) return <Error />;
-          const hasTag = isSuccess && data.tags.length > 0;
-          if (!hasTag) return <NoTags />;
-          if (hasTag && !etcTag) return <ETCTagError />;
-          <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+
+          if (isSuccess) {
+            const subjects = data.tags.filter(({ category }) => category.name === SUBJECT);
+            if (data.tags.length === 0) return <NoTags />;
+
+            const etcTag = subjects.find(tag => tag.name === 'Etc');
+            if (!etcTag) return <ETCTagError />;
+
+            const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null;
+            let selectedOptions: Array<Option> = [];
+            if (originalOptions) {
+              selectedOptions = originalOptions;
+            } else if (etcTag) {
+              selectedOptions = [{ value: etcTag.id, label: etcTag.description }];
+            }
+            const options = subjects ? subjectsToOptions(subjects) : [];
+            return <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+          }
         })()}
       </MetaBox.Content>
     </MetaBox>
