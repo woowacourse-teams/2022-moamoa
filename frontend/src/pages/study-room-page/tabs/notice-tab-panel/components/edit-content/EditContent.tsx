@@ -75,6 +75,8 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
   );
 };
 
+export default EditContent;
+
 type WriteTabButtonProps = {
   activeTab: TabIds;
   onClick: () => void;
@@ -145,5 +147,3 @@ const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, descr
     </div>
   );
 };
-
-export default EditContent;

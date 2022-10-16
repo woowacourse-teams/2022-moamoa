@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 
 import { type Theme, css, useTheme } from '@emotion/react';
 
-import { PATH, RECRUITMENT_STATUS, USER_ROLE } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
-import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
+import type { DateYMD, StudyDetail, StudyId } from '@custom-types';
 
 import BoxButton, { type BoxButtonProps } from '@shared/button/box-button/BoxButton';
 import Card from '@shared/card/Card';
@@ -17,13 +17,13 @@ export type StudyWideFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   studyId: number;
-  userRole?: UserRole;
+  isOwnerOrMember: boolean;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   studyId,
-  userRole,
+  isOwnerOrMember,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -31,7 +31,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const theme = useTheme();
-  const isRegistered = userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER;
+  const isRegistered = isOwnerOrMember;
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   return (
@@ -50,7 +50,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
           </Card.Content>
         </div>
-        {userRole === 'MEMBER' || userRole === 'OWNER' ? (
+        {isRegistered ? (
           <StudyRoomLink studyId={studyId} />
         ) : (
           <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />

@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetInfiniteLinks } from '@api/links';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 export const useLinkRoomTabPanel = () => {
-  const { studyId } = useParams<{ studyId: string }>();
-  const { fetchUserInfo, userInfo } = useUserInfo();
-  const infiniteLinksQueryResult = useGetInfiniteLinks({ studyId: Number(studyId) });
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
+  const { userInfo } = useUserInfo();
+  const { isOwnerOrMember } = useUserRole({ studyId });
+
+  const infiniteLinksQueryResult = useGetInfiniteLinks({ studyId });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   const handleLinkAddButtonClick = () => setIsModalOpen(prev => !prev);
   const handleModalClose = () => setIsModalOpen(false);
@@ -31,10 +32,11 @@ export const useLinkRoomTabPanel = () => {
   };
 
   return {
-    studyId: Number(studyId),
+    studyId,
     userInfo,
     infiniteLinksQueryResult,
     isModalOpen,
+    isOwnerOrMember,
     handleLinkAddButtonClick,
     handleModalClose,
     handlePostLinkSuccess,

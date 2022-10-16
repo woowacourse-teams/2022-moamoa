@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 
 import { isFunction, isObject } from '@utils';
 
+import { UseFormRegister } from '@hooks/useForm';
+
 import UnstyledButton from '@shared/button/unstyled-button/UnstyledButton';
 import Center from '@shared/center/Center';
 import ImportedDropDownBox, {
@@ -19,13 +21,13 @@ export type Option = {
 };
 
 export type MultiTagSelectProps = {
-  name: string;
   options: Array<Option>;
   defaultSelectedOptions?: Array<Option>;
-};
+  invalid?: boolean;
+} & Omit<UseFormRegister, 'ref'>;
 
 const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
-  ({ defaultSelectedOptions = [], options, name }, inputRef) => {
+  ({ defaultSelectedOptions = [], options, invalid = false, ...registerReturns }, inputRef) => {
     const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<Array<Option>>(defaultSelectedOptions);
     const innerInputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +39,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 
     const serializedSelectedValues = selectedOptions.map(({ value }) => value).join(',');
 
+    // 아래 방식대로 하면 input ChangeEvent가 발생하지 않음!
     useEffect(() => {
       if (!innerInputRef.current) return;
       if (!inputRef) return;
@@ -78,7 +81,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 
     return (
       <Self>
-        <SelectControl onClick={handleSelectControlClick}>
+        <SelectControl onClick={handleSelectControlClick} invalid={invalid}>
           <SelectedOptionList>
             {selectedOptions.map(option => (
               <SelectedOption key={option.value}>
@@ -109,7 +112,7 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
             </ul>
           </DropDown>
         )}
-        <input hidden name={name} ref={innerInputRef} />
+        <input type="text" hidden ref={innerInputRef} {...registerReturns} />
       </Self>
     );
   },
@@ -121,24 +124,35 @@ const Self = styled.div`
   width: 100%;
 `;
 
-const SelectControl = styled.div`
-  position: relative;
+const SelectControl = styled.div<{ invalid: boolean }>`
+  ${({ theme, invalid }) => css`
+    position: relative;
 
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    align-items: center;
 
-  min-height: 38px;
+    min-height: 38px;
 
-  -webkit-box-align: center;
-  background-color: rgb(255, 255, 255);
-  border-color: rgb(204, 204, 204);
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px;
-  padding-right: 8px;
+    -webkit-box-align: center;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(204, 204, 204);
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    padding-right: 8px;
+
+    ${invalid &&
+    css`
+      border: 1px solid ${theme.colors.red};
+
+      &:focus {
+        border: 1px solid ${theme.colors.red};
+      }
+    `}
+  `}
 `;
 
 const SelectedOptionList = styled.ul`

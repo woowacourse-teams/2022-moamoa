@@ -18,8 +18,14 @@ import StudyReviewSection from '@detail-page/components/study-review-section/Stu
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
+StudyFloatBox;
+
+StudyFloatBox;
+
+MarkdownRender;
+
 const DetailPage: React.FC = () => {
-  const { studyId, detailQueryResult, userRoleQueryResult, handleRegisterButtonClick } = useDetailPage();
+  const { studyId, detailQueryResult, isOwner, isOwnerOrMember, handleRegisterButtonClick } = useDetailPage();
   const { isFetching, isSuccess, isError, data } = detailQueryResult;
 
   if (!studyId) {
@@ -44,7 +50,7 @@ const DetailPage: React.FC = () => {
                 startDate={data.startDate}
                 endDate={data.endDate}
                 tags={data.tags}
-                isOwner={userRoleQueryResult.data?.role === 'OWNER'}
+                isOwner={isOwner}
               />
               <Divider space="20px" />
               <Flex columnGap="40px">
@@ -59,7 +65,7 @@ const DetailPage: React.FC = () => {
                   <FloatButtonContainer>
                     <StudyFloatBox
                       studyId={data.id}
-                      userRole={userRoleQueryResult.data?.role}
+                      isOwnerOrMember={isOwnerOrMember}
                       ownerName={data.owner.username}
                       currentMemberCount={data.currentMemberCount}
                       maxMemberCount={data.maxMemberCount}
@@ -75,7 +81,7 @@ const DetailPage: React.FC = () => {
               <FixedBottomContainer>
                 <StudyWideFloatBox
                   studyId={data.id}
-                  userRole={userRoleQueryResult.data?.role}
+                  isOwnerOrMember={isOwnerOrMember}
                   currentMemberCount={data.currentMemberCount}
                   maxMemberCount={data.maxMemberCount}
                   enrollmentEndDate={data.enrollmentEndDate}
@@ -98,6 +104,8 @@ const Error = () => <div>조회에 실패했습니다</div>;
 
 const Main = styled.div`
   width: 100%;
+
+  overflow: auto;
 `;
 
 const MarkdownRendererContainer = styled.div`

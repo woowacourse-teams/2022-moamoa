@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 
 import { type Theme, css, useTheme } from '@emotion/react';
 
-import { PATH, RECRUITMENT_STATUS, USER_ROLE } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 
-import type { DateYMD, StudyDetail, StudyId, UserRole } from '@custom-types';
+import type { DateYMD, StudyDetail, StudyId } from '@custom-types';
 
 import BoxButton, { type BoxButtonProps } from '@shared/button/box-button/BoxButton';
 import Card from '@shared/card/Card';
@@ -17,14 +17,14 @@ export type StudyFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   studyId: number;
-  userRole?: UserRole;
+  isOwnerOrMember: boolean;
   ownerName: string;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   studyId,
-  userRole,
+  isOwnerOrMember,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -34,7 +34,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 }) => {
   const theme = useTheme();
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
-  const isRegistered = userRole === USER_ROLE.MEMBER || userRole === USER_ROLE.OWNER;
+  const isRegistered = isOwnerOrMember;
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>

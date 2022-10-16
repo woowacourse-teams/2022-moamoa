@@ -4,7 +4,7 @@ import { noop } from '@utils';
 
 import type { Member } from '@custom-types';
 
-type LoginProviderProps = {
+type UserInfoProviderProps = {
   children: ReactNode;
 };
 
@@ -20,7 +20,7 @@ export const UserInfoContext = createContext<ContextType>({
   setUserInfo: noop,
 });
 
-export const UserInfoProvider = ({ children }: LoginProviderProps) => {
+export const UserInfoProvider = ({ children }: UserInfoProviderProps) => {
   const [userInfo, setUserInfo] = useState<Member>(initialValue);
   return <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>{children}</UserInfoContext.Provider>;
 };

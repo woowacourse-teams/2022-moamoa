@@ -8,6 +8,7 @@ import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -17,7 +18,6 @@ import PageTitle from '@shared/page-title/PageTitle';
 
 import EditContent from '@notice-tab/components/edit-content/EditContent';
 import EditTitle from '@notice-tab/components/edit-title/EditTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 export type EditProps = {
   studyId: StudyId;
@@ -32,15 +32,15 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
   const getNoticeArticleQueryResult = useGetNoticeArticle({ studyId, articleId });
   const { mutateAsync } = usePutNoticeArticle();
-  const { isFetching, hasPermission } = usePermission(studyId, 'OWNER');
+  const { isFetching, isOwner } = useUserRole({ studyId });
 
   useEffect(() => {
     if (isFetching) return;
-    if (hasPermission) return;
+    if (isOwner) return;
 
     alert('접근할 수 없습니다!');
     navigate(`../${PATH.NOTICE}`);
-  }, [studyId, navigate, isFetching, hasPermission]);
+  }, [studyId, navigate, isFetching, isOwner]);
 
   const handleSubmit: HandleEditFormSubmit = async (
     _: React.FormEvent<HTMLFormElement>,

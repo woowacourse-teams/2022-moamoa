@@ -47,9 +47,15 @@ type UseFormRegisterOption = Partial<{
 
 type RefCallBack = (element: FieldElement | null) => void;
 
-type UseFormRegisterReturn = {
+export type UseFormRegisterReturn = {
   ref: RefCallBack;
   name: FieldName;
+  onChange: ChangeHandler;
+  maxLength?: UseFormRegisterOption['maxLength'];
+  minLength?: UseFormRegisterOption['minLength'];
+  min?: UseFormRegisterOption['min'];
+  max?: UseFormRegisterOption['max'];
+  required?: UseFormRegisterOption['required'];
 };
 
 export type UseFormRegister = (fieldName: FieldName, options?: UseFormRegisterOption) => UseFormRegisterReturn;
@@ -108,6 +114,9 @@ export const useForm: UseForm = () => {
       if (fieldElement.type === 'checkbox') {
         return fieldElement.checked ? 'checked' : 'unchecked';
       }
+      if (fieldElement.type === 'number') {
+        return fieldElement.valueAsNumber;
+      }
     }
     return fieldElement.value;
   };
@@ -119,7 +128,7 @@ export const useForm: UseForm = () => {
 
       acc[name] = getFieldValue(field);
       return acc;
-    }, {} as Record<string, string>);
+    }, {} as Record<string, string | number>);
     return values;
   };
 
@@ -188,10 +197,11 @@ export const useForm: UseForm = () => {
     field.fieldElement.value = '';
   };
 
-  const handleChange = (e: React.ChangeEvent<FieldElement>) => {
+  const handleChange: React.ChangeEventHandler<FieldElement> = e => {
     const {
       target: { name },
     } = e;
+
     const field = getField(name);
     if (!field) return;
 
@@ -200,7 +210,7 @@ export const useForm: UseForm = () => {
     validateFieldOnChange(field);
   };
 
-  const handleSubmit: UseFormHandleSubmit = onSubmit => (e: any) => {
+  const handleSubmit: UseFormHandleSubmit = onSubmit => e => {
     e.preventDefault();
     if (!fieldsRef.current) return;
 
@@ -214,17 +224,17 @@ export const useForm: UseForm = () => {
 
     const errors = getFieldErrors(fieldsRef.current);
     const isValid = !Object.values(errors).some(error => error.hasError);
-
+    const values = getFieldValues(fieldsRef.current);
     if (!isValid) {
       setFormState({
         ...initialFormState,
         errors,
         isValid: false,
       });
+      onSubmit(e, { isValid, values, errors });
       return;
     }
 
-    const values = getFieldValues(fieldsRef.current);
     const result = onSubmit(e, { isValid, values, errors });
 
     if (result) {

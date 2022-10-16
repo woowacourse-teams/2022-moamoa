@@ -30,9 +30,15 @@ const useEditStudyPage = () => {
   };
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
-    if (!submitResult.values) return;
+    const { values, errors } = submitResult;
+    if (!values || !errors) return;
 
-    const { values } = submitResult;
+    if (Object.values(errors).some(error => error.hasError)) {
+      const error = Object.values(errors).find(error => error.hasError);
+      error && alert(error.errorMessage);
+      return;
+    }
+
     const { feTagId, beTagId } = getAreaTagId();
     const subject = values['subject'].split(COMMA);
     const tagIds = [

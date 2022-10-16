@@ -1,10 +1,12 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 
 import { type Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
+
+import { useUserRole } from '@hooks/useUserRole';
 
 import { TextButton } from '@shared/button';
 import Divider from '@shared/divider/Divider';
@@ -21,9 +23,12 @@ const CommunityTabPanel: React.FC = () => {
   const location = useLocation();
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
-  // @TODO: studyId가 없는 경우는 어떻게 처리할것인가?
 
+  // @TODO: studyId가 없는 경우는 어떻게 처리할것인가?
   const lastPath = location.pathname.split('/').at(-1);
+  const { isNonMember } = useUserRole({ studyId });
+
+  if (isNonMember) return <Navigate to={`../${PATH.COMMUNITY}`} replace />;
 
   return (
     <PageWrapper>
@@ -51,14 +56,20 @@ type ArticleListPageProps = {
   theme: Theme;
   studyId: StudyId;
 };
-const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => (
-  <>
-    <Flex justifyContent="flex-end">
-      <PublishPageLink />
-    </Flex>
-    <Divider color={theme.colors.secondary.dark} space="8px" />
-    <ArticleList studyId={studyId} />
-  </>
-);
+const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => {
+  const { isNonMember } = useUserRole({ studyId });
+
+  return (
+    <>
+      {isNonMember && (
+        <Flex justifyContent="flex-end">
+          <PublishPageLink />
+        </Flex>
+      )}
+      <Divider color={theme.colors.secondary.dark} space="8px" />
+      <ArticleList studyId={studyId} />
+    </>
+  );
+};
 
 export default CommunityTabPanel;

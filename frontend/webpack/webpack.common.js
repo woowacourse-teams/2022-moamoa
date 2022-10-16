@@ -58,8 +58,8 @@ module.exports = {
     alias: {
       '@root': resolve(__dirname, '../'),
       '@src': resolve(__dirname, '../src'),
-      '@components': resolve(__dirname, '../src/components'),
       '@shared': resolve(__dirname, '../src/components/@shared'),
+      '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@custom-types': resolve(__dirname, '../src/custom-types/index.ts'),
       '@pages': resolve(__dirname, '../src/pages'),

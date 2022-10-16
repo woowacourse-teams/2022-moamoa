@@ -1,5 +1,7 @@
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
 
+import { PATH } from '@constants';
+
 import { getRefreshAccessToken } from '@api/auth';
 
 import AccessTokenController from '@auth/accessTokenController';
@@ -18,7 +20,7 @@ const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>)
   if (error.response?.status === 401) {
     AccessTokenController.clear();
     alert('장시간 접속하지 않아 로그아웃되었습니다.');
-    window.location.reload();
+    window.location.replace(PATH.MAIN);
     return Promise.reject(error);
   }
 

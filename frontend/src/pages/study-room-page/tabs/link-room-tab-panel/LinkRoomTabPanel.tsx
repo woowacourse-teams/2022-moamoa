@@ -6,6 +6,7 @@ import type { Link } from '@custom-types';
 import { mqDown } from '@styles/responsive';
 
 import { TextButton } from '@shared/button';
+import Divider from '@shared/divider/Divider';
 import InfiniteScroll, { type InfiniteScrollProps } from '@shared/infinite-scroll/InfiniteScroll';
 import ModalPortal, { ModalProps } from '@shared/modal/Modal';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
@@ -20,6 +21,7 @@ const LinkRoomTabPanel: React.FC = () => {
     userInfo,
     infiniteLinksQueryResult,
     isModalOpen,
+    isOwnerOrMember,
     handleLinkAddButtonClick,
     handleModalClose,
     handlePostLinkError,
@@ -38,7 +40,9 @@ const LinkRoomTabPanel: React.FC = () => {
         if (isError) return <Error />;
         if (links.length === 0) return <NoLinks />;
       })()}
-      <AddLinkButton onClick={handleLinkAddButtonClick} />
+      {/* owner 혹은 member만 링크를 추가할 수 있을것 같은데, 확실하지는 않음 */}
+      {isOwnerOrMember && <AddLinkButton onClick={handleLinkAddButtonClick} />}
+      <Divider space="12px" />
       {isSuccess && links.length > 0 && (
         <InfiniteLinkList links={links} isContentLoading={isFetching} studyId={studyId} onContentLoad={fetchNextPage} />
       )}

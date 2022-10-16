@@ -8,6 +8,7 @@ import type { StudyId } from '@custom-types';
 import { usePostNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -17,7 +18,6 @@ import PageTitle from '@shared/page-title/PageTitle';
 
 import PublishContent from '@notice-tab/components/publish-content/PublishContent';
 import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 export type PublishProps = {
   studyId: StudyId;
@@ -28,15 +28,15 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const navigate = useNavigate();
   const { mutateAsync } = usePostNoticeArticle();
 
-  const { isFetching, isError, hasPermission } = usePermission(studyId, 'OWNER');
+  const { isFetching, isError, isOwner } = useUserRole({ studyId });
 
   useEffect(() => {
     if (isFetching) return;
-    if (hasPermission) return;
+    if (isOwner) return;
 
     alert('접근할 수 없습니다!');
     navigate(`../${PATH.NOTICE}`);
-  }, [studyId, navigate, isFetching, hasPermission]);
+  }, [studyId, navigate, isFetching, isOwner]);
 
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     const { values } = submitResult;
@@ -68,7 +68,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (hasPermission)
+        if (isOwner)
           return (
             <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
               <PublishTitle />

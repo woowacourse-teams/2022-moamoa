@@ -1,6 +1,8 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-import { PATH, USER_ROLE } from '@constants';
+import styled from '@emotion/styled';
+
+import { mqDown } from '@styles/responsive';
 
 import Flex from '@shared/flex/Flex';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
@@ -9,29 +11,29 @@ import SideMenu from '@study-room-page/components/side-menu/SideMenu';
 import useStudyRoomPage from '@study-room-page/hooks/useStudyRoomPage';
 
 const StudyRoomPage: React.FC = () => {
-  const { tabs, activeTabId, userRoleQueryResult, handleTabButtonClick } = useStudyRoomPage();
-  const { data, isError, isSuccess } = userRoleQueryResult;
-
-  if (isSuccess && data.role === USER_ROLE.NON_MEMBER) {
-    alert('잘못된 접근입니다.');
-    return <Navigate to={PATH.MAIN} replace={true} />;
-  }
-
-  if (isError) {
-    alert('오류가 발생했습니다.');
-    return <Navigate to={PATH.MAIN} replace={true} />;
-  }
+  const { tabs, activeTabId, handleTabButtonClick } = useStudyRoomPage();
 
   return (
     <PageWrapper>
-      <Flex alignItems="flex-start">
+      <Flex alignItems="flex-start" columnGap="40px">
         <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
-        <Flex.Item flexGrow={1}>
+        <MainSection>
           <Outlet />
-        </Flex.Item>
+        </MainSection>
       </Flex>
     </PageWrapper>
   );
 };
 
 export default StudyRoomPage;
+
+const sidebarWidth = 180;
+const MainSection = styled.section`
+  flex-grow: 1;
+
+  max-width: calc(100% - ${sidebarWidth}px);
+
+  ${mqDown('lg')} {
+    max-width: 100%;
+  }
+`;

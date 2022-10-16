@@ -1,10 +1,12 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 
 import { Theme, useTheme } from '@emotion/react';
 
 import { PATH } from '@constants';
 
 import { StudyId } from '@custom-types';
+
+import { useUserRole } from '@hooks/useUserRole';
 
 import { TextButton } from '@shared/button';
 import Divider from '@shared/divider/Divider';
@@ -15,7 +17,6 @@ import ArticleList from '@notice-tab/components/article-list/ArticleList';
 import Article from '@notice-tab/components/article/Article';
 import Edit from '@notice-tab/components/edit/Edit';
 import Publish from '@notice-tab/components/publish/Publish';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 const NoticeTabPanel: React.FC = () => {
   const theme = useTheme();
@@ -23,8 +24,11 @@ const NoticeTabPanel: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-  const { hasPermission: isOwner } = usePermission(studyId, 'OWNER');
+  const { isOwner, isNonMember, isMember } = useUserRole({ studyId });
+
   const lastPath = location.pathname.split('/').at(-1);
+
+  if (isNonMember || isMember) return <Navigate to={`../${PATH.NOTICE}`} replace />;
 
   return (
     <PageWrapper>
@@ -42,23 +46,26 @@ const NoticeTabPanel: React.FC = () => {
 
 export default NoticeTabPanel;
 
+type ArticleListPageProps = {
+  theme: Theme;
+  studyId: StudyId;
+  isOwner: boolean;
+};
+const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => {
+  const { isOwner } = useUserRole({ studyId }); // @TODO: 객체로 받을 필요가 있나?
+  return (
+    <>
+      <Flex justifyContent="flex-end">{isOwner && <PublishPageLink />}</Flex>
+      <Divider color={theme.colors.secondary.dark} space="8px" />
+      <ArticleList studyId={studyId} />
+    </>
+  );
+};
+
 const PublishPageLink: React.FC = () => (
   <Link to={PATH.NOTICE_PUBLISH}>
     <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
       글쓰기
     </TextButton>
   </Link>
-);
-
-type ArticleListPageProps = {
-  theme: Theme;
-  studyId: StudyId;
-  isOwner: boolean;
-};
-const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId, isOwner }) => (
-  <>
-    <Flex justifyContent="flex-end">{isOwner && <PublishPageLink />}</Flex>
-    <Divider color={theme.colors.secondary.dark} space="8px" />
-    <ArticleList studyId={studyId} />
-  </>
 );

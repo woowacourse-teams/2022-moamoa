@@ -6,8 +6,9 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
+
+import { useUserInfo } from '@hooks/useUserInfo';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -24,7 +25,7 @@ export type ArticleProps = {
 
 const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetNoticeArticle({ studyId, articleId });
-  const getUserInformationQueryResult = useGetUserInformation();
+  const { userInfo } = useUserInfo();
 
   const { mutateAsync } = useDeleteNoticeArticle();
   const navigate = useNavigate();
@@ -44,19 +45,13 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const showModifierButtons = !!(
-    getUserInformationQueryResult.isSuccess &&
-    !getUserInformationQueryResult.isError &&
-    data?.author &&
-    data.author.username === getUserInformationQueryResult.data.username
-  );
-
   return (
     <div>
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (isSuccess)
+        if (isSuccess) {
+          const isMyArticle = data.author.id === userInfo.id;
           return (
             <article>
               <Flex justifyContent="space-between" columnGap="16px">
@@ -64,7 +59,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
                   <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
                   <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
                 </UserInfoItem>
-                {showModifierButtons && (
+                {isMyArticle && (
                   <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
                     <EditPageLink articleId={articleId} />
                     <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
@@ -78,6 +73,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
               <ListPageLink />
             </article>
           );
+        }
       })()}
     </div>
   );

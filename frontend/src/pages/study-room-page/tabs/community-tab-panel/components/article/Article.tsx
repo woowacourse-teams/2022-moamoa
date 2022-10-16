@@ -8,7 +8,8 @@ import { PATH } from '@constants';
 import { changeDateSeperator } from '@utils';
 
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
-import { useGetUserInformation } from '@api/member';
+
+import { useUserInfo } from '@hooks/useUserInfo';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -25,7 +26,7 @@ export type ArticleProps = {
 
 const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
-  const getUserInformationQueryResult = useGetUserInformation();
+  const { userInfo } = useUserInfo();
 
   const { mutateAsync } = useDeleteCommunityArticle();
   const navigate = useNavigate();
@@ -45,19 +46,13 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const showModifierButtons = !!(
-    getUserInformationQueryResult.isSuccess &&
-    !getUserInformationQueryResult.isError &&
-    data?.author &&
-    data.author.username === getUserInformationQueryResult.data.username
-  );
-
   return (
     <div>
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
         if (isSuccess) {
+          const isMyArticle = data.author.id === userInfo.id;
           // @TODO: react-query 버전 업데이트
           return (
             <article>
@@ -66,7 +61,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
                   <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
                   <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
                 </UserInfoItem>
-                {showModifierButtons && (
+                {isMyArticle && (
                   <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
                     <EditArticleLink articleId={articleId} />
                     <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />

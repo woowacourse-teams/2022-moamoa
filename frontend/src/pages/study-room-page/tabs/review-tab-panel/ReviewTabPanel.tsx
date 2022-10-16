@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import type { Member, StudyId, StudyReview } from '@custom-types';
@@ -6,6 +6,7 @@ import type { Member, StudyId, StudyReview } from '@custom-types';
 import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 import Divider from '@shared/divider/Divider';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
@@ -17,14 +18,11 @@ const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
 
+  const { userInfo } = useUserInfo();
+  const { isOwnerOrMember } = useUserRole({ studyId });
+
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
-  const { userInfo, fetchUserInfo } = useUserInfo();
-
   const reviews = data?.reviews;
-
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   const handlePostSuccess = () => {
     alert('댓글을 추가했습니다');
@@ -37,7 +35,14 @@ const ReviewTabPanel: React.FC = () => {
 
   return (
     <PageWrapper>
-      <ReviewForm author={userInfo} studyId={studyId} onPostSuccess={handlePostSuccess} onPostError={handlePostError} />
+      {isOwnerOrMember && (
+        <ReviewForm
+          author={userInfo}
+          studyId={studyId}
+          onPostSuccess={handlePostSuccess}
+          onPostError={handlePostError}
+        />
+      )}
       <Divider space="30px" />
       {(() => {
         if (isFetching) return <Loading />;

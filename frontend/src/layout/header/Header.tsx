@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -14,13 +14,15 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import { SearchContext } from '@context/search/SearchProvider';
 
 import AvatarButton from '@layout/header/components/avatar-button/AvatarButton';
-import LoginButton from '@layout/header/components/login-button/LoginButton';
 import LogoLink from '@layout/header/components/logo-link/LogoLink';
 import MyStudyPageLink from '@layout/header/components/my-study-page-link/MyStudyPageLink';
+import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 import UserDropDown from '@layout/header/components/user-dropdown/UserDropdown';
 
 import Flex from '@shared/flex/Flex';
+
+import { LoginIcon } from '@components/@shared/icons';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);
@@ -28,6 +30,8 @@ const Header: React.FC = () => {
   const [isOpenDropDownBox, setIsOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { logout, isLoggedIn } = useAuth();
   const { userInfo } = useUserInfo();
 
@@ -40,6 +44,10 @@ const Header: React.FC = () => {
     }
     setKeyword(value);
     navigate(PATH.MAIN);
+  };
+
+  const handleLoginButtonClick = () => {
+    window.sessionStorage.setItem('prevPath', location.pathname);
   };
 
   const handleLogoutButtonClick = () => {
@@ -76,7 +84,7 @@ const Header: React.FC = () => {
           </Flex>
         </nav>
       ) : (
-        <LoginButton />
+        <LoginButton onClick={handleLoginButtonClick} />
       )}
     </Self>
   );
@@ -128,3 +136,15 @@ const SearchBarContainer = styled.div`
     transform: none;
   }
 `;
+
+type LoginButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const LoginButton: React.FC<LoginButtonProps> = ({ onClick: handleClick }) => (
+  <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
+    <NavButton ariaLabel="로그인" onClick={handleClick}>
+      <LoginIcon />
+      <span>Github 로그인</span>
+    </NavButton>
+  </a>
+);
