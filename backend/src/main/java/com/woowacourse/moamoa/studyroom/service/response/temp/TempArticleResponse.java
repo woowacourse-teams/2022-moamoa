@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TempArticleResponse {
 
+    private Long id;
+
     private String title;
 
     private String content;
@@ -19,6 +21,7 @@ public class TempArticleResponse {
     private LocalDate lastModifiedDate;
 
     public TempArticleResponse(final TempArticleData tempArticleData) {
+        this.id = tempArticleData.getId();
         this.title = tempArticleData.getTitle();
         this.content = tempArticleData.getContent();
         this.createdDate = tempArticleData.getCreatedDate();

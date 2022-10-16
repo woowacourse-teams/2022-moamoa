@@ -61,4 +61,38 @@ public class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
+
+    @DisplayName("토큰없이 임시글 목록을 조회할 경우 401을 반환한다.")
+    @Test
+    void unauthorizedGetTempArticlesByEmptyToken() throws Exception {
+        mockMvc.perform(
+                get("/api/studies/{study-id}/notice/draft-articles", 1L)
+        )
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @DisplayName("page 파라미터 형식이 잘못된 경우 400을 반환한다.")
+    @Test
+    void requestByInvalidPageParameter() throws Exception {
+        final String token = tokenProvider.createToken(1L).getAccessToken();
+
+        mockMvc.perform(get("/api/studies/{study-id}/notice/draft-articles", 1L)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .param("page", "one"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("size 파라미터 형식이 잘못된 경우 400을 반환한다.")
+    @Test
+    void requestByInvalidSizeParameter() throws Exception {
+        final String token = tokenProvider.createToken(1L).getAccessToken();
+
+        mockMvc.perform(get("/api/studies/{study-id}/notice/draft-articles", 1L)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .param("size", "one"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 }

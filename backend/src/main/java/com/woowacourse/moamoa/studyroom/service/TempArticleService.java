@@ -14,8 +14,14 @@ import com.woowacourse.moamoa.studyroom.query.data.TempArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,5 +94,17 @@ public class TempArticleService {
         }
 
         tempArticleRepository.delete(tempArticle);
+    }
+
+    public TempArticlesResponse getTempArticles(final Long memberId, final Long studyId, final Pageable pageable) {
+        final Page<TempArticleData> page = tempArticleDao.getAll(memberId, studyId, pageable);
+        final List<TempArticleResponse> content = page.getContent().stream()
+                .map(TempArticleResponse::new)
+                .collect(Collectors.toList());
+
+        if (content.isEmpty()) {
+            return new TempArticlesResponse(Collections.emptyList(), 0, 0, 0);
+        }
+        return new TempArticlesResponse(content, page.getNumber(), page.getTotalPages() - 1, page.getTotalElements());
     }
 }

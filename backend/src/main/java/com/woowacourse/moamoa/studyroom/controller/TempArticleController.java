@@ -3,10 +3,13 @@ package com.woowacourse.moamoa.studyroom.controller;
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
 import java.net.URI;
 import javax.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +51,16 @@ public class TempArticleController {
             @PathVariable("article-id") final Long articleId
     ) {
         TempArticleResponse response = tempArticleService.getTempArticle(memberId, studyId, articleId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<TempArticlesResponse> getTempArticles(
+            @AuthenticatedMemberId final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @PageableDefault final Pageable pageable
+    ) {
+        TempArticlesResponse response = tempArticleService.getTempArticles(memberId, studyId, pageable);
         return ResponseEntity.ok(response);
     }
 

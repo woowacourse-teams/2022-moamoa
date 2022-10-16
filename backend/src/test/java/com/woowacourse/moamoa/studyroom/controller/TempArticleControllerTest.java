@@ -24,6 +24,7 @@ import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -246,6 +248,26 @@ public class TempArticleControllerTest {
         final ArticleRequest request = new ArticleRequest("수정된 제목", "수정된 내용");
         assertThatThrownBy(() -> sut.updateTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, request))
                 .isInstanceOf(UneditableException.class);
+    }
+
+    @DisplayName("작성한 임시글이 없는 경우 빈 목록을 조회한다.")
+    @Test
+    void getEmptyTempArticles() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+
+        // act
+        final ResponseEntity<TempArticlesResponse> responses = sut
+                .getTempArticles(방장.getId(), 자바_스터디.getId(), Pageable.ofSize(5));
+
+        // assert
+        assertThat(responses.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responses.getBody()).isNotNull();
+        assertThat(responses.getBody().getDraftArticles()).isEmpty();
+        assertThat(responses.getBody().getCurrentPage()).isEqualTo(0);
+        assertThat(responses.getBody().getLastPage()).isEqualTo(0);
+        assertThat(responses.getBody().getTotalCount()).isEqualTo(0);
     }
 
     private Member saveMember(final Member member) {

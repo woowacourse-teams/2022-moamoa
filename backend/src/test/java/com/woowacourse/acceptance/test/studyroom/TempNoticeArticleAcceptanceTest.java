@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,6 +65,42 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
         // assert
         final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().조회한다(게시글_ID);
         assertTempArticleResponse(response, "수정된 제목", "수정된 내용");
+    }
+
+    @DisplayName("작성한 임시글 목록을 조회한다.")
+    @Test
+    void getTempArticles() {
+        // arrange
+        final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+
+        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목1", "내용1"));
+        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목2", "내용2"));
+        final long 게시글3_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목3", "내용3"));
+        final long 게시글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목4", "내용4"));
+        final long 게시글5_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목5", "내용5"));
+
+        // act
+        final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().목록_조회한다(0, 3);
+
+        // assert
+        final Iterator<Long> articleIds = List.of(게시글5_ID, 게시글4_ID, 게시글3_ID).iterator();
+        final Iterator<String> titles = List.of("제목5", "제목4", "제목3").iterator();
+        final Iterator<String> contents = List.of("내용5", "내용4", "내용3").iterator();
+
+        for (TempArticleResponse response : responses) {
+            assertTempArticleResponse(response, articleIds.next(), titles.next(), contents.next());
+        }
+
+        assertThat(responses.getCurrentPage()).isEqualTo(0);
+        assertThat(responses.getLastPage()).isEqualTo(1);
+        assertThat(responses.getTotalCount()).isEqualTo(5);
+    }
+
+    private void assertTempArticleResponse(
+            final TempArticleResponse response, final Long id, final String title, final String content
+    ){
+        assertThat(response.getId()).isEqualTo(id);
+        assertTempArticleResponse(response, title, content);
     }
 
     private void assertTempArticleResponse(

@@ -103,6 +103,7 @@ public class AcceptanceTest {
         jdbcTemplate.update("TRUNCATE TABLE study");
         jdbcTemplate.update("TRUNCATE TABLE link");
         jdbcTemplate.update("TRUNCATE TABLE article");
+        jdbcTemplate.update("TRUNCATE TABLE temp_article");
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
     }
 
