@@ -1,6 +1,7 @@
 package com.woowacourse.acceptance.test.studyroom;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
+import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -79,16 +80,25 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
         final long 게시글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목4", "내용4"));
         final long 게시글5_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목5", "내용5"));
 
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+
+        베루스가().로그인하고().스터디에(스터디_ID).참여한다();
+        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+
         // act
         final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().목록_조회한다(0, 3);
 
         // assert
-        final Iterator<Long> articleIds = List.of(게시글5_ID, 게시글4_ID, 게시글3_ID).iterator();
-        final Iterator<String> titles = List.of("제목5", "제목4", "제목3").iterator();
-        final Iterator<String> contents = List.of("내용5", "내용4", "내용3").iterator();
+        final Iterator<Long> expectedArticleIds = List.of(게시글5_ID, 게시글4_ID, 게시글3_ID).iterator();
+        final Iterator<String> expectedTitles = List.of("제목5", "제목4", "제목3").iterator();
+        final Iterator<String> expectedContents = List.of("내용5", "내용4", "내용3").iterator();
 
         for (TempArticleResponse response : responses) {
-            assertTempArticleResponse(response, articleIds.next(), titles.next(), contents.next());
+            assertTempArticleResponse(response, expectedArticleIds.next(), expectedTitles.next(), expectedContents.next());
         }
 
         assertThat(responses.getCurrentPage()).isEqualTo(0);
