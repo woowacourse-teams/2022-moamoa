@@ -41,7 +41,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
 
   return (
     <>
-      {isEditing && (
+      {isEditing ? (
         <ReviewEditForm
           reviewId={id}
           studyId={studyId}
@@ -52,8 +52,7 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
           onEditSuccess={handleEditSuccess}
           onEditError={handleEditError}
         />
-      )}
-      {!isEditing && (
+      ) : (
         <Self
           theme={theme}
           author={author}
