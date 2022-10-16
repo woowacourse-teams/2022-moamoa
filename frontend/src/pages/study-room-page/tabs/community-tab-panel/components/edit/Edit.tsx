@@ -66,8 +66,10 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
       <PageTitle>게시글 수정</PageTitle>
       {(() => {
         if (isFetching) return <Loading />;
-        if (isError || !isSuccess) return <Error />;
-        return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
+        if (isError) return <Error />;
+        if (isSuccess) {
+          return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
+        }
       })()}
     </FormProvider>
   );

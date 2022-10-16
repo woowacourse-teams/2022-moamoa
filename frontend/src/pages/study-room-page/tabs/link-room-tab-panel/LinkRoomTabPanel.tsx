@@ -33,8 +33,9 @@ const LinkRoomTabPanel: React.FC = () => {
   return (
     <PageWrapper>
       {(() => {
+        // @TODO: react-queryv4로 올림
         if (isFetching) return <Loading />;
-        if (isError || !isSuccess) return <Error />;
+        if (isError) return <Error />;
         if (links.length === 0) return <NoLinks />;
       })()}
       <AddLinkButton onClick={handleLinkAddButtonClick} />
