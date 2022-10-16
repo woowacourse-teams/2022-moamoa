@@ -8,7 +8,7 @@ import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
 import com.woowacourse.moamoa.comment.query.data.CommentData;
 import com.woowacourse.moamoa.comment.service.exception.CommentNotFoundException;
-import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
+import com.woowacourse.moamoa.comment.service.exception.UnDeletionCommentException;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
@@ -74,8 +74,8 @@ public class CommentService {
     }
 
     private static void checkDeletePermission(final Long memberId, final Comment comment) {
-        if (!comment.canEditingComment(new Author(memberId))) {
-            throw new UnwrittenCommentException();
+        if (!comment.isAuthor(new Author(memberId))) {
+            throw new UnDeletionCommentException();
         }
     }
 

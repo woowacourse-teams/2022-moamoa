@@ -35,7 +35,7 @@ class CommentTest {
         final Author otherAuthor = new Author(2L);
 
         // then
-        assertDoesNotThrow(() -> comment.canEditingComment(author));
-        assertThat(comment.canEditingComment(otherAuthor)).isFalse();
+        assertDoesNotThrow(() -> comment.isAuthor(author));
+        assertThat(comment.isAuthor(otherAuthor)).isFalse();
     }
 }

@@ -39,13 +39,13 @@ public class Comment extends BaseEntity {
     }
 
     public void updateContent(final Author author, final String content) {
-        if (!canEditingComment(author)) {
+        if (!isAuthor(author)) {
             throw new UnwrittenCommentException();
         }
         this.content = content;
     }
 
-    public boolean canEditingComment(final Author author) {
+    public boolean isAuthor(final Author author) {
         return this.author.equals(author);
     }
 }

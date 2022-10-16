@@ -15,6 +15,7 @@ import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
+import com.woowacourse.moamoa.comment.service.exception.UnDeletionCommentException;
 import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
@@ -207,7 +208,7 @@ class CommentServiceTest {
         final Long 베루스_ID = 베루스.getId();
         assertThatThrownBy(
                 () -> sut.delete(베루스_ID, studyId, commentId)
-        ).isInstanceOf(UnwrittenCommentException.class);
+        ).isInstanceOf(UnDeletionCommentException.class);
     }
 
     @DisplayName("탈퇴한 회원은 본인의 댓글을 수정할 수 없다.")

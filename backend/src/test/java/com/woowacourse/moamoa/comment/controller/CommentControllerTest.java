@@ -175,9 +175,9 @@ class CommentControllerTest {
         Long commentId = Long.valueOf(location.replaceAll("/api/studies/\\d+/community/\\d+/comments/", ""));
 
         // when
-        final ResponseEntity<Void> updatedResponse = sut.deleteComment(디우.getId(), 자바_스터디.getId(), commentId);
+        final ResponseEntity<Void> deletedResopnse = sut.deleteComment(디우.getId(), 자바_스터디.getId(), commentId);
 
         // then
-        assertThat(updatedResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(deletedResopnse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 }
