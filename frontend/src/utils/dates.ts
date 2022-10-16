@@ -1,6 +1,6 @@
 import { isDateYMD } from '@utils';
 
-import { DateYMD } from '@custom-types';
+import type { DateYMD } from '@custom-types';
 
 export const getToday = (): DateYMD => {
   const koKRDate = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
