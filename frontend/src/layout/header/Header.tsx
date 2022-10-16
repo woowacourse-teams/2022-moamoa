@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -27,6 +27,8 @@ const Header: React.FC = () => {
   const [isOpenDropDownBox, setIsOpenDropDownBox] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { logout, isLoggedIn } = useAuth();
   const { userInfo } = useUserInfo();
 
@@ -39,6 +41,10 @@ const Header: React.FC = () => {
     }
     setKeyword(value);
     navigate(PATH.MAIN);
+  };
+
+  const handleLoginButtonClick = () => {
+    window.sessionStorage.setItem('prevPath', location.pathname);
   };
 
   const handleLogoutButtonClick = () => {
@@ -94,7 +100,7 @@ const Header: React.FC = () => {
         </nav>
       ) : (
         <a href={`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`}>
-          <NavButton ariaLabel="로그인">
+          <NavButton ariaLabel="로그인" onClick={handleLoginButtonClick}>
             <LoginIcon />
             <span>Github 로그인</span>
           </NavButton>
