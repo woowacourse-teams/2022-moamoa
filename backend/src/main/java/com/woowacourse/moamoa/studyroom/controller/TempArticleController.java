@@ -8,6 +8,7 @@ import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleRespons
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +48,15 @@ public class TempArticleController {
     ) {
         TempArticleResponse response = tempArticleService.getTempArticle(memberId, studyId, articleId);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{article-id}")
+    public ResponseEntity<Void> deleteTempArticle(
+            @AuthenticatedMemberId final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("article-id") final Long articleId
+    ) {
+        tempArticleService.deleteTempArticle(memberId, studyId, articleId);
+        return ResponseEntity.noContent().build();
     }
 }

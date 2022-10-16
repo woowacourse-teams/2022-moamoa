@@ -42,6 +42,29 @@ public class TempNoticeArticleRelatedStep extends Steps {
                 .when().log().all()
                 .get("/api/studies/{study-id}/notice/draft-articles/{article-id}")
                 .then().log().all()
+                .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticleResponse.class);
+    }
+
+    public void 찾을_수_없다(final long articleId) {
+        spec.given().log().all()
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .pathParam("article-id", articleId)
+                .when().log().all()
+                .get("/api/studies/{study-id}/notice/draft-articles/{article-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    public void 삭제한다(final long articleId) {
+        spec.given().log().all()
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .pathParam("article-id", articleId)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/notice/draft-articles/{article-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

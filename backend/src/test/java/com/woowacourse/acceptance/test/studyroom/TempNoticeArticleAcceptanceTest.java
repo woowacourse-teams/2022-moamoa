@@ -21,8 +21,9 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
         지금 = LocalDate.now();
     }
 
+    @DisplayName("임시글을 작성한다.")
     @Test
-    void writeTempNotice() {
+    void writeTempArticle() {
         // arrange
         final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
@@ -35,5 +36,19 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
         assertThat(response.getContent()).isEqualTo("내용");
         assertThat(response.getCreatedDate()).isNotNull();
         assertThat(response.getLastModifiedDate()).isNotNull();
+    }
+
+    @DisplayName("임시글을 제거한다.")
+    @Test
+    void deleteTempArticle() {
+        // arrange
+        final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목", "내용"));
+
+        // act
+        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().삭제한다(게시글_ID);
+
+        // assert
+        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().찾을_수_없다(게시글_ID);
     }
 }

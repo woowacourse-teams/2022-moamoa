@@ -6,6 +6,7 @@ import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.TempArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.TempArticleDao;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class TempArticleService {
 
     private final StudyRoomRepository studyRoomRepository;
@@ -50,14 +52,26 @@ public class TempArticleService {
     }
 
     public TempArticleResponse getTempArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final TempArticle article = tempArticleRepository.findById(articleId)
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId));
 
-        if (!article.isViewable(new Accessor(memberId, studyId))) {
+        if (tempArticle.isForbiddenAccessor(new Accessor(memberId, studyId))) {
             throw new UnviewableException(articleId, new Accessor(memberId, studyId));
         }
 
         final TempArticleData tempArticleData = tempArticleDao.getById(articleId).orElseThrow();
         return new TempArticleResponse(tempArticleData);
+    }
+
+    @Transactional
+    public void deleteTempArticle(final Long memberId, final Long studyId, final Long articleId) {
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId));
+
+        if (tempArticle.isForbiddenAccessor(new Accessor(memberId, studyId))) {
+            throw UneditableException.forTempArticle(articleId, new Accessor(memberId, studyId));
+        }
+
+        tempArticleRepository.delete(tempArticle);
     }
 }

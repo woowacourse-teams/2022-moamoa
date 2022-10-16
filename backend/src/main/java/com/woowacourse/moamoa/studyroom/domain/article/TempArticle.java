@@ -53,8 +53,8 @@ public class TempArticle extends BaseEntity {
         return new TempArticle(title, content, accessor.getMemberId(), studyRoom.getId());
     }
 
-    public boolean isViewable(final Accessor accessor) {
-        return authorId.equals(accessor.getMemberId()) && studyId.equals(accessor.getStudyId());
+    public boolean isForbiddenAccessor(final Accessor accessor) {
+        return !authorId.equals(accessor.getMemberId()) || !studyId.equals(accessor.getStudyId());
     }
 
     public Long getId() {

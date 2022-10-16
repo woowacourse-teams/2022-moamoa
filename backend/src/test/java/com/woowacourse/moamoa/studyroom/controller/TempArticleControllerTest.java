@@ -17,6 +17,7 @@ import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.TempArticleDao;
@@ -156,6 +157,48 @@ public class TempArticleControllerTest {
         // act & assert
         assertThatThrownBy(() -> sut.getTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID))
                 .isInstanceOf(UnviewableException.class);
+    }
+
+    @DisplayName("작성자는 임시글을 삭제할 수 있다.")
+    @Test
+    void deleteTempArticle() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"));
+
+        // act
+        sut.deleteTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID);
+
+        // assert
+        assertThat(tempArticleRepository.findById(게시글_ID)).isEmpty();
+    }
+
+    @DisplayName("존재하지 않는 임시글을 삭제 시 예외 발생")
+    @Test
+    void deleteNotFoundTempArticle() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 존재하지_않는_게시글_ID = 1L;
+
+        // act & assert
+        assertThatThrownBy(() -> sut.deleteTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID))
+            .isInstanceOf(TempArticleNotFoundException.class);
+    }
+
+    @DisplayName("작성자 외에 임시글을 삭제 시 예외 발생")
+    @Test
+    void deleteTempArticleByInvalidAccount() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Member 비허가_사용자 = saveMember(베루스());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"));
+
+        // act & assert
+        assertThatThrownBy(() -> sut.deleteTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID))
+                .isInstanceOf(UneditableException.class);
     }
 
     private Member saveMember(final Member member) {

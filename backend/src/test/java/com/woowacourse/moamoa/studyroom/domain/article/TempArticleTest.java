@@ -1,7 +1,6 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,6 +19,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class TempArticleTest {
+
     private static final long OWNER_ID = 1L;
     private static final long PARTICIPANT_ID = 2L;
     private static final long STUDY_ID = 1L;
@@ -51,7 +51,7 @@ public class TempArticleTest {
                 .isInstanceOf(UnwritableException.class);
     }
 
-    @DisplayName("작성자만 임시글을 조회할 수 없다.")
+    @DisplayName("작성자만 임시글에 대한 권한을 가질 수 있다.")
     @Test
     void viewableByAuthorAccessor() {
         // arrange
@@ -62,10 +62,10 @@ public class TempArticleTest {
         );
 
         // act && assert
-        assertThat(tempArticle.isViewable(new Accessor(owner.getId(), studyRoom.getId()))).isTrue();
+        assertThat(tempArticle.isForbiddenAccessor(new Accessor(owner.getId(), studyRoom.getId()))).isFalse();
     }
 
-    @DisplayName("작성자외의 사용자는 임시글을 조회할 수 없다.")
+    @DisplayName("작성자외의 사용자는 임시글에 대한 권한을 가질 수 없다.")
     @ParameterizedTest
     @MethodSource("provideForbiddenAccessor")
     void unviewableByOtherAccessor(final Accessor accessor) {
@@ -78,7 +78,7 @@ public class TempArticleTest {
         );
 
         // act && assert
-        assertThat(tempArticle.isViewable(accessor)).isFalse();
+        assertThat(tempArticle.isForbiddenAccessor(accessor)).isTrue();
     }
 
     private static Stream<Arguments> provideForbiddenAccessor() {
