@@ -1,10 +1,12 @@
 import { useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
+
+import type { Member } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
 
@@ -13,16 +15,16 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import { SearchContext } from '@context/search/SearchProvider';
 
-import AvatarButton from '@layout/header/components/avatar-button/AvatarButton';
 import LogoLink from '@layout/header/components/logo-link/LogoLink';
-import MyStudyPageLink from '@layout/header/components/my-study-page-link/MyStudyPageLink';
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
-import UserDropDown from '@layout/header/components/user-dropdown/UserDropdown';
 
 import Flex from '@shared/flex/Flex';
 
-import { LoginIcon } from '@components/@shared/icons';
+import Avatar from '@components/@shared/avatar/Avatar';
+import { IconButton } from '@components/@shared/button';
+import DropDownBox from '@components/@shared/drop-down-box/DropDownBox';
+import { BookmarkIcon, LoginIcon, LogoutIcon } from '@components/@shared/icons';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);
@@ -75,7 +77,7 @@ const Header: React.FC = () => {
               `}
             >
               <AvatarButton userInfo={userInfo} onClick={handleAvatarButtonClick} />
-              <UserDropDown
+              <UserDropdown
                 isOpen={isOpenDropDownBox}
                 onClose={handleDropDownBoxClose}
                 onLogoutButtonClick={handleLogoutButtonClick}
@@ -147,4 +149,46 @@ const LoginButton: React.FC<LoginButtonProps> = ({ onClick: handleClick }) => (
       <span>Github 로그인</span>
     </NavButton>
   </a>
+);
+
+const MyStudyPageLink = () => (
+  <Link to={PATH.MY_STUDY}>
+    <NavButton ariaLabel="내 스터디">
+      <BookmarkIcon />
+      <span>내 스터디</span>
+    </NavButton>
+  </Link>
+);
+
+type UserDropdownProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onLogoutButtonClick: () => void;
+};
+const UserDropdown: React.FC<UserDropdownProps> = ({
+  isOpen,
+  onClose: handleClose,
+  onLogoutButtonClick: handleLogoutButtonClick,
+}) => (
+  <DropDownBox isOpen={isOpen} top="40px" right={0} onClose={handleClose} custom={{ padding: '16px' }}>
+    <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
+      <LogoutIcon />
+      <span>로그아웃</span>
+    </NavButton>
+  </DropDownBox>
+);
+
+type AvatarButtonProps = {
+  userInfo: Member;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const AvatarButton: React.FC<AvatarButtonProps> = ({ userInfo, onClick: handleClick }) => (
+  <IconButton
+    onClick={handleClick}
+    ariaLabel={userInfo.username}
+    variant="secondary"
+    custom={{ width: '38px', height: '38px' }}
+  >
+    <Avatar src={userInfo.imageUrl} name={userInfo.username} />
+  </IconButton>
 );
