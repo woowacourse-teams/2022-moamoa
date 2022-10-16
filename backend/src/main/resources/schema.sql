@@ -101,3 +101,16 @@ CREATE TABLE article
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
 );
+
+CREATE TABLE temp_article
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title              VARCHAR(255) NOT NULL,
+    content            MEDIUMTEXT   NOT NULL,
+    author_id          BIGINT,
+    study_id           BIGINT,
+    created_date       DATETIME     not null,
+    last_modified_date DATETIME     not null,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (study_id) REFERENCES study (id)
+);
