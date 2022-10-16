@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
@@ -33,18 +33,7 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
 
   return (
     <Self>
-      <SectionTitle>
-        후기
-        {
-          <span
-            css={css`
-              font-size: ${theme.fontSize.md};
-            `}
-          >
-            {data?.totalCount ?? '0'}개
-          </span>
-        }
-      </SectionTitle>
+      <ReviewSectionTitle totalCount={data?.totalCount ?? 0} />
       {(() => {
         if (isFetching) return <Loading />;
         if (isError || !isSuccess) return <Error />;
@@ -67,6 +56,27 @@ export default StudyReviewSection;
 const Self = styled.section`
   padding: 16px;
 `;
+
+type ReviewSectionTitleProps = {
+  totalCount: number;
+};
+const ReviewSectionTitle: React.FC<ReviewSectionTitleProps> = ({ totalCount }) => {
+  const theme = useTheme();
+  return (
+    <SectionTitle>
+      후기
+      {
+        <span
+          css={css`
+            font-size: ${theme.fontSize.md};
+          `}
+        >
+          {totalCount}개
+        </span>
+      }
+    </SectionTitle>
+  );
+};
 
 const Loading = () => <div>로딩중...</div>;
 
