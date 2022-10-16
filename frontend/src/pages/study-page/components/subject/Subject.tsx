@@ -27,8 +27,6 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
   const { register } = useFormContext();
   const { data, isLoading, isError, isSuccess } = useGetTags();
 
-  const hasTags = !isError && isSuccess && data.tags.length > 0;
-
   const originalOptions = originalSubjects ? subjectsToOptions(originalSubjects) : null; // null로 해야 아래쪽 삼항 연산자가 작동합니다
 
   const subjects = data?.tags?.filter(({ category }) => category.name === SUBJECT);
@@ -49,13 +47,14 @@ const Subject: React.FC<SubjectProps> = ({ originalSubjects }) => {
         <Label htmlFor={SUBJECT}>주제</Label>
       </MetaBox.Title>
       <MetaBox.Content>
-        {isLoading && <Loading />}
-        {isError && <Error />}
-        {isSuccess && !hasTags && <NoTags />}
-        {isSuccess && hasTags && !etcTag && <ETCTagError />}
-        {isSuccess && hasTags && etcTag && (
-          <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />
-        )}
+        {(() => {
+          if (isLoading) return <Loading />;
+          if (isError) return <Error />;
+          const hasTag = isSuccess && data.tags.length > 0;
+          if (!hasTag) return <NoTags />;
+          if (hasTag && !etcTag) return <ETCTagError />;
+          <MultiTagSelect defaultSelectedOptions={selectedOptions} options={options} {...register(SUBJECT)} />;
+        })()}
       </MetaBox.Content>
     </MetaBox>
   );
