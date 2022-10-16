@@ -51,6 +51,8 @@ const ReviewTabPanel: React.FC = () => {
   );
 };
 
+export default ReviewTabPanel;
+
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
@@ -81,5 +83,3 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) =
     ))}
   </ul>
 );
-
-export default ReviewTabPanel;
