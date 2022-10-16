@@ -1,4 +1,4 @@
-import { css, useTheme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@styles/responsive';
@@ -13,13 +13,12 @@ export type SearchBarProps = {
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }) => {
-  const theme = useTheme();
   return (
     <Self>
       <Inner>
         <Form onSubmit={e => onSubmit(e, inputName)}>
           <Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
-          <SearchButton theme={theme} />
+          <SearchButton />
         </Form>
       </Inner>
     </Self>
