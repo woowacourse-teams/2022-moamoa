@@ -224,8 +224,9 @@ class CommentServiceTest {
         entityManager.clear();
 
         // when & then
+        final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(() ->
-                sut.update(디우_ID, studyId, commentId, new EditingCommentRequest("수정된 댓글 내용"))
+                sut.update(디우_ID, studyId, commentId, editingCommentRequest)
         ).isInstanceOf(UnwrittenCommentException.class);
     }
 
