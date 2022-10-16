@@ -1,4 +1,4 @@
-import { type Theme, css, useTheme } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { mqDown } from '@styles/responsive';

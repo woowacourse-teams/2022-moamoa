@@ -64,7 +64,7 @@ type MaxMemberCountFieldProps = {
   onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
 };
 const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({ defaultValue, onKeyDown: handleKeyDown }) => {
-  const { removeField, register } = useFormContext();
+  const { register } = useFormContext();
 
   return (
     <Flex columnGap="8px" alignItems="center">

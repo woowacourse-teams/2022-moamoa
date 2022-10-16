@@ -29,7 +29,6 @@ const CONTENT = 'content';
 const EditContent: React.FC<EditContentProps> = ({ content }) => {
   const {
     formState: { errors },
-    register,
     getField,
   } = useFormContext();
 

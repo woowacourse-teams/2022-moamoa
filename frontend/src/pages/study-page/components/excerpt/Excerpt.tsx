@@ -4,7 +4,7 @@ import { EXCERPT_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { type FieldElement, type UseFormRegister, makeValidationResult, useForm, useFormContext } from '@hooks/useForm';
+import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import Label from '@shared/label/Label';
 import ImportedLetterCounter, {
