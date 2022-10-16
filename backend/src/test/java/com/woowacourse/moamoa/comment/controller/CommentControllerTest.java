@@ -23,7 +23,6 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
@@ -58,9 +57,6 @@ class CommentControllerTest {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private MyStudyDao myStudyDao;
-
-    @Autowired
     private EntityManager entityManager;
 
     private CommentService commentService;
@@ -78,7 +74,7 @@ class CommentControllerTest {
 
     @BeforeEach
     void setUp() {
-        commentService = new CommentService(commentRepository, articleRepository, commentDao, myStudyDao);
+        commentService = new CommentService(commentRepository, articleRepository, commentDao);
         sut = new CommentController(commentService);
 
         짱구 = memberRepository.save(짱구());
@@ -96,9 +92,9 @@ class CommentControllerTest {
 
         자바_스터디_게시판 = articleRepository.save(article);
 
-        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article.getId(), "댓글 내용1");
-        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article.getId(), "댓글 내용2");
-        final Comment 세번째_댓글 = new Comment(new Author(짱구.getId()), article.getId(), "댓글 내용3");
+        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article, "댓글 내용1");
+        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article, "댓글 내용2");
+        final Comment 세번째_댓글 = new Comment(new Author(짱구.getId()), article, "댓글 내용3");
 
         commentRepository.save(첫번째_댓글);
         commentRepository.save(두번째_댓글);

@@ -25,7 +25,6 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.query.MyStudyDao;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
@@ -59,9 +58,6 @@ class CommentServiceTest {
     private CommentDao commentDao;
 
     @Autowired
-    private MyStudyDao myStudyDao;
-
-    @Autowired
     private EntityManager entityManager;
 
     private StudyParticipantService studyService;
@@ -80,7 +76,7 @@ class CommentServiceTest {
     @BeforeEach
     void setUp() {
         studyService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
-        sut = new CommentService(commentRepository, articleRepository, commentDao, myStudyDao);
+        sut = new CommentService(commentRepository, articleRepository, commentDao);
 
         짱구 = memberRepository.save(짱구());
         그린론 = memberRepository.save(그린론());
@@ -97,9 +93,9 @@ class CommentServiceTest {
 
         자바스크립트_스터디_게시판 = articleRepository.save(article);
 
-        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article.getId(), "댓글 내용1");
-        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article.getId(), "댓글 내용2");
-        final Comment 세번째_댓글 = new Comment(new Author(베루스.getId()), article.getId(), "댓글 내용3");
+        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article, "댓글 내용1");
+        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article, "댓글 내용2");
+        final Comment 세번째_댓글 = new Comment(new Author(베루스.getId()), article, "댓글 내용3");
 
         commentRepository.save(첫번째_댓글);
         commentRepository.save(두번째_댓글);
@@ -215,38 +211,42 @@ class CommentServiceTest {
     @Test
     void updateWhenLeaveStudy() {
         // given
+        final Long 디우_ID = 디우.getId();
         final Long studyId = 자바스크립트_스터디.getId();
-        final Author author = new Author(디우.getId());
+        final Author author = new Author(디우_ID);
         final CommentRequest request = new CommentRequest("댓글 내용");
 
         final Long commentId = sut.writeComment(author.getAuthorId(), studyId, 자바스크립트_스터디_게시판.getId(),
                 COMMUNITY, request);
 
-        studyService.leaveStudy(디우.getId(), 자바스크립트_스터디.getId());
+        studyService.leaveStudy(디우_ID, studyId);
         entityManager.flush();
+        entityManager.clear();
 
         // when & then
         assertThatThrownBy(() ->
-                sut.update(디우.getId(), studyId, commentId, new EditingCommentRequest("수정된 댓글 내용"))
-        ).isInstanceOf(IllegalArgumentException.class);
+                sut.update(디우_ID, studyId, commentId, new EditingCommentRequest("수정된 댓글 내용"))
+        ).isInstanceOf(UnwrittenCommentException.class);
     }
 
     @DisplayName("탈퇴한 회원은 본인의 댓글을 삭제할 수 없다.")
     @Test
     void deleteWhenLeaveStudy() {
         // given
+        final Long 디우_ID = 디우.getId();
         final Long studyId = 자바스크립트_스터디.getId();
-        final Author author = new Author(디우.getId());
+        final Author author = new Author(디우_ID);
         final CommentRequest request = new CommentRequest("댓글 내용");
 
         final Long commentId = sut.writeComment(author.getAuthorId(), studyId, 자바스크립트_스터디_게시판.getId(),
                 COMMUNITY, request);
 
-        studyService.leaveStudy(디우.getId(), 자바스크립트_스터디.getId());
+        studyService.leaveStudy(디우_ID, studyId);
         entityManager.flush();
+        entityManager.clear();
 
         // when & then
-        assertThatThrownBy(() -> sut.delete(디우.getId(), studyId, commentId))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> sut.delete(디우_ID, studyId, commentId))
+                .isInstanceOf(UnDeletionCommentException.class);
     }
 }

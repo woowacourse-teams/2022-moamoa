@@ -86,9 +86,9 @@ class CommentDaoTest {
     @Test
     void findAllByArticleId() {
         // given
-        final Long articleId = 자바스크립트_스터디_게시판.getId();
-        final Comment firstComment = new Comment(new Author(그린론.getId()), articleId, "댓글내용1");
-        final Comment secondComment = new Comment(new Author(디우.getId()), articleId, "댓글내용2");
+        final Article article = 자바스크립트_스터디_게시판;
+        final Comment firstComment = new Comment(new Author(그린론.getId()), article, "댓글내용1");
+        final Comment secondComment = new Comment(new Author(디우.getId()), article, "댓글내용2");
 
         final Comment savedFirstComment = commentRepository.save(firstComment);
         final Comment savedSecondComment = commentRepository.save(secondComment);
@@ -96,7 +96,7 @@ class CommentDaoTest {
         entityManager.flush();
 
         // when
-        final List<CommentData> commentData = commentDao.findAllByArticleId(articleId, Pageable.ofSize(8));
+        final List<CommentData> commentData = commentDao.findAllByArticleId(article.getId(), Pageable.ofSize(8));
 
         // then
         assertThat(commentData).hasSize(2)
