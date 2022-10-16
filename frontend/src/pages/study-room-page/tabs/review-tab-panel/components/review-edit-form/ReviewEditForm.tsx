@@ -10,6 +10,7 @@ import { usePutReview } from '@api/review';
 
 import {
   type FieldElement,
+  FormProvider,
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,
@@ -52,10 +53,11 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 }) => {
   const theme = useTheme();
   const { count, setCount, maxCount } = useLetterCount(REVIEW_LENGTH.MAX.VALUE, originalContent.length);
+  const formMethods = useForm();
   const {
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = formMethods;
   const { mutateAsync } = usePutReview();
 
   const isValid = !errors[REVIEW_EDIT]?.hasError;
@@ -83,23 +85,25 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   const handleReviewChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
-          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-          <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
-        </UserInfoItem>
-        <ReviewField isValid={isValid} defaultValue={originalContent} onChange={handleReviewChange} />
-        <Divider space="4px" />
-        <Flex justifyContent="space-between">
-          <LetterCounter count={count} maxCount={maxCount} />
-          <Flex columnGap="12px">
-            <CancelButton onClick={handleCancelEditButtonClick} />
-            <EditButton />
+    <FormProvider {...formMethods}>
+      <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
+            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+            <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>
+          </UserInfoItem>
+          <ReviewField isValid={isValid} defaultValue={originalContent} onChange={handleReviewChange} />
+          <Divider space="4px" />
+          <Flex justifyContent="space-between">
+            <LetterCounter count={count} maxCount={maxCount} />
+            <Flex columnGap="12px">
+              <CancelButton onClick={handleCancelEditButtonClick} />
+              <EditButton />
+            </Flex>
           </Flex>
-        </Flex>
-      </Form>
-    </Card>
+        </Form>
+      </Card>
+    </FormProvider>
   );
 };
 
