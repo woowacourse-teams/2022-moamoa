@@ -64,12 +64,27 @@ public class TempArticleService {
     }
 
     @Transactional
+    public void updateTempArticle(final Long memberId, final Long studyId, final Long articleId,
+                                  final ArticleRequest request) {
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId));
+
+        final Accessor accessor = new Accessor(memberId, studyId);
+        if (tempArticle.isForbiddenAccessor(accessor)) {
+            throw UneditableException.forTempArticle(articleId, accessor);
+        }
+
+        tempArticle.update(request.getTitle(), request.getContent());
+    }
+
+    @Transactional
     public void deleteTempArticle(final Long memberId, final Long studyId, final Long articleId) {
         final TempArticle tempArticle = tempArticleRepository.findById(articleId)
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId));
 
-        if (tempArticle.isForbiddenAccessor(new Accessor(memberId, studyId))) {
-            throw UneditableException.forTempArticle(articleId, new Accessor(memberId, studyId));
+        final Accessor accessor = new Accessor(memberId, studyId);
+        if (tempArticle.isForbiddenAccessor(accessor)) {
+            throw UneditableException.forTempArticle(articleId, accessor);
         }
 
         tempArticleRepository.delete(tempArticle);

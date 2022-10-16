@@ -32,10 +32,7 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
 
         // assert
         final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().조회한다(게시글_ID);
-        assertThat(response.getTitle()).isEqualTo("제목");
-        assertThat(response.getContent()).isEqualTo("내용");
-        assertThat(response.getCreatedDate()).isNotNull();
-        assertThat(response.getLastModifiedDate()).isNotNull();
+        assertTempArticleResponse(response, "제목", "내용");
     }
 
     @DisplayName("임시글을 제거한다.")
@@ -51,4 +48,29 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
         // assert
         그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().찾을_수_없다(게시글_ID);
     }
+
+    @DisplayName("임시글을 수정한다.")
+    @Test
+    void updateTempArticle() {
+        // arrange
+        final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목", "내용"));
+
+        // act
+        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().수정한다(게시글_ID, new ArticleRequest("수정된 제목", "수정된 내용"));
+
+        // assert
+        final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().조회한다(게시글_ID);
+        assertTempArticleResponse(response, "수정된 제목", "수정된 내용");
+    }
+
+    private void assertTempArticleResponse(
+            final TempArticleResponse response, final String title, final String content
+    ) {
+        assertThat(response.getTitle()).isEqualTo(title);
+        assertThat(response.getContent()).isEqualTo(content);
+        assertThat(response.getCreatedDate()).isNotNull();
+        assertThat(response.getLastModifiedDate()).isNotNull();
+    }
+
 }

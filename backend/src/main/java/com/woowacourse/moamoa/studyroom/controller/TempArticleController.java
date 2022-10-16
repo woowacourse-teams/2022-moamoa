@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +58,17 @@ public class TempArticleController {
             @PathVariable("article-id") final Long articleId
     ) {
         tempArticleService.deleteTempArticle(memberId, studyId, articleId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{article-id}")
+    public ResponseEntity<Void> updateTempArticle(
+            @AuthenticatedMemberId final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("article-id") final Long articleId,
+            @Valid @RequestBody final ArticleRequest request
+    ) {
+        tempArticleService.updateTempArticle(memberId, studyId, articleId, request);
         return ResponseEntity.noContent().build();
     }
 }

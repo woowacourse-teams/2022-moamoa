@@ -3,7 +3,6 @@ package com.woowacourse.moamoa.studyroom.controller;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -201,6 +200,54 @@ public class TempArticleControllerTest {
                 .isInstanceOf(UneditableException.class);
     }
 
+    @DisplayName("작성자는 임시글을 수정할 수 있다.")
+    @Test
+    void updateTempArticle() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"));
+
+        // act
+        sut.updateTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, new ArticleRequest("수정된 제목", "수정된 내용"));
+
+        // assert
+        final TempArticleResponse tempArticle = getTempArticle(방장, 자바_스터디, 게시글_ID);
+        assertThat(tempArticle.getTitle()).isEqualTo("수정된 제목");
+        assertThat(tempArticle.getContent()).isEqualTo("수정된 내용");
+    }
+
+    @DisplayName("존재하지 않는 임시글 수정 시 예외 발생")
+    @Test
+    void updateNotFoundTempArticle() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 존재하지_않는_게시글_ID = 1L;
+
+        // act & assert
+        final ArticleRequest request = new ArticleRequest("수정된 제목", "수정된 내용");
+        assertThatThrownBy(() ->
+            sut.updateTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, request)
+        )
+                .isInstanceOf(TempArticleNotFoundException.class);
+    }
+
+    @DisplayName("작성자 외의 사용자가 임시글 수정 시 예외 발생")
+    @Test
+    void updateByInvalidAccount() {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Member 비허가_사용자 = saveMember(베루스());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"));
+
+        // act & assert
+        final ArticleRequest request = new ArticleRequest("수정된 제목", "수정된 내용");
+        assertThatThrownBy(() -> sut.updateTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, request))
+                .isInstanceOf(UneditableException.class);
+    }
+
     private Member saveMember(final Member member) {
         final Member savedMember = memberRepository.save(member);
         entityManager.flush();
@@ -224,5 +271,13 @@ public class TempArticleControllerTest {
         entityManager.flush();
         entityManager.clear();
         return response.getBody().getDraftArticleId();
+    }
+
+    private TempArticleResponse getTempArticle(
+            final Member author, final Study study, final Long articleId
+    ) {
+        entityManager.flush();
+        entityManager.clear();
+        return sut.getTempArticle(author.getId(), study.getId(), articleId).getBody();
     }
 }

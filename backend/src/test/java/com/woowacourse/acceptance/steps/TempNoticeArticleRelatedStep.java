@@ -67,4 +67,17 @@ public class TempNoticeArticleRelatedStep extends Steps {
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
+
+    public void 수정한다(final long articleId, final ArticleRequest articleRequest) {
+        spec.given().log().all()
+                .header(AUTHORIZATION, token)
+                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("study-id", studyId)
+                .pathParam("article-id", articleId)
+                .body(articleRequest)
+                .when().log().all()
+                .put("/api/studies/{study-id}/notice/draft-articles/{article-id}")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
 }

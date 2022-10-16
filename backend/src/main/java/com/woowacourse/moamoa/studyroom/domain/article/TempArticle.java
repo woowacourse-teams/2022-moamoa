@@ -57,6 +57,11 @@ public class TempArticle extends BaseEntity {
         return !authorId.equals(accessor.getMemberId()) || !studyId.equals(accessor.getStudyId());
     }
 
+    public void update(final String title, final String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
