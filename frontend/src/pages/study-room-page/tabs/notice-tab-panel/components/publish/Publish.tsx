@@ -85,6 +85,8 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   );
 };
 
+export default Publish;
+
 const Loading = () => <div>유저 정보 가져오는 중...</div>;
 
 const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
@@ -102,5 +104,3 @@ const PublishButton: React.FC = () => (
     등록하기
   </BoxButton>
 );
-
-export default Publish;

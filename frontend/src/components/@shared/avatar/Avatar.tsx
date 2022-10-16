@@ -30,6 +30,8 @@ const Avatar: React.FC<OptionalAvatarProps> = ({ size = 'md', src, name }) => {
   );
 };
 
+export default Avatar;
+
 type StyledAvatarProps = {
   size: CssLength;
 };
@@ -51,5 +53,3 @@ type AvatarImageProps = Omit<ImageProps, keyof CSS.Properties | 'shape'> & {
 const AvatarImage: React.FC<AvatarImageProps> = ({ src, alt, size }) => (
   <Image shape="circular" src={src} alt={alt} custom={{ width: AVATAR_SIZE[size], height: AVATAR_SIZE[size] }} />
 );
-
-export default Avatar;

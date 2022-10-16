@@ -91,6 +91,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ studyId, author, onPostSuccess,
   );
 };
 
+export default ReviewForm;
+
 type ReviewFieldProps = {
   isValid: boolean;
   handleChange: React.ChangeEventHandler<FieldElement>;
@@ -136,5 +138,3 @@ const PublishButton: React.FC = () => (
     등록
   </BoxButton>
 );
-
-export default ReviewForm;

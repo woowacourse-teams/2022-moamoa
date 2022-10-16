@@ -10,6 +10,8 @@ const Chip: React.FC<ChipProps> = ({ children, variant = 'primary' }) => {
   return <Self variant={variant}>{children}</Self>;
 };
 
+export default Chip;
+
 type StyledChipProps = Required<Pick<ChipProps, 'variant'>>;
 
 export const Self = styled.span<StyledChipProps>`
@@ -32,5 +34,3 @@ export const Self = styled.span<StyledChipProps>`
     `}
   `}
 `;
-
-export default Chip;

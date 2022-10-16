@@ -75,6 +75,8 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   );
 };
 
+export default Edit;
+
 const GoBackLinkButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
@@ -109,5 +111,3 @@ const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) =
     </ButtonGroup>
   </Form>
 );
-
-export default Edit;

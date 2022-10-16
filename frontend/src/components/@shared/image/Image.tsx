@@ -40,9 +40,11 @@ const Image: React.FC<ImageProps> = ({
   );
 };
 
+export default Image;
+
 type StyledImageProps = Required<Pick<ImageProps, 'shape' | 'objectFit' | 'ratio'>>;
 
-export const Self = styled.img<StyledImageProps>`
+const Self = styled.img<StyledImageProps>`
   ${({ theme, shape, objectFit, ratio }) => css`
     width: 100%;
     height: 100%;
@@ -60,5 +62,3 @@ export const Self = styled.img<StyledImageProps>`
     `}
   `}
 `;
-
-export default Image;

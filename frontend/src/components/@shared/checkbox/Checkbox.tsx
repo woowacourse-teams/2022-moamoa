@@ -34,6 +34,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = 'Checkbox';
+export default Checkbox;
 
 const Self = styled.input`
   margin-right: 4px;
@@ -43,5 +44,3 @@ const Self = styled.input`
     outline: none;
   }
 `;
-
-export default Checkbox;

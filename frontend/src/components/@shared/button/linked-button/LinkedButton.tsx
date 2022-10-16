@@ -19,6 +19,8 @@ const LinkedButton: React.FC<LinkedButtonProps> = ({ children, to }) => {
   return <Self onClick={handleClick}>{children}</Self>;
 };
 
+export default LinkedButton;
+
 const Self = styled.button`
   width: 100%;
   height: fit-content;
@@ -26,5 +28,3 @@ const Self = styled.button`
   border: none;
   text-align: unset;
 `;
-
-export default LinkedButton;

@@ -36,6 +36,8 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   );
 };
 
+export default ToggleButton;
+
 type StyledToggleButtonProps = Required<Pick<ToggleButtonProps, 'checked' | 'fluid' | 'variant'>>;
 
 const applyCheckedStyle = (theme: Theme) => css`
@@ -94,5 +96,3 @@ export const Self = styled.button<StyledToggleButtonProps>`
     }
   }
 `;
-
-export default ToggleButton;

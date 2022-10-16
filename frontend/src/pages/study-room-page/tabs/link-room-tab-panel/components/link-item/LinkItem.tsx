@@ -90,6 +90,8 @@ const LinkItem: React.FC<LinkItemProps> = ({ studyId, id: linkId, linkUrl, autho
   );
 };
 
+export default LinkItem;
+
 const Self = styled.div`
   position: relative;
 `;
@@ -164,5 +166,3 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick: handleClick }) => 
     삭제
   </TextButton>
 );
-
-export default LinkItem;

@@ -29,6 +29,8 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, create
   );
 };
 
+export default ArticleListItem;
+
 const Self = styled.div`
   ${applyHoverTransitionStyle()}
 `;
@@ -46,5 +48,3 @@ const Title: React.FC<TitleProps> = ({ theme, title }) => (
     {title}
   </span>
 );
-
-export default ArticleListItem;

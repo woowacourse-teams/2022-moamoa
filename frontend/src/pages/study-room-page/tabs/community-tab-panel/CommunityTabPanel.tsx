@@ -44,6 +44,8 @@ const CommunityTabPanel: React.FC = () => {
   );
 };
 
+export default CommunityTabPanel;
+
 const PublishPageLink: React.FC = () => (
   <Link to={PATH.COMMUNITY_PUBLISH}>
     <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
@@ -71,5 +73,3 @@ const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => 
     </>
   );
 };
-
-export default CommunityTabPanel;

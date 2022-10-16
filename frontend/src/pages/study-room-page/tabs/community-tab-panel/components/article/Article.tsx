@@ -81,6 +81,8 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
   );
 };
 
+export default Article;
+
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
@@ -124,5 +126,3 @@ const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
     </div>
   );
 };
-
-export default Article;

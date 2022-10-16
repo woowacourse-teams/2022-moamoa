@@ -108,6 +108,8 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
   );
 };
 
+export default LinkEditForm;
+
 const Self = styled.div`
   width: 480px;
   height: 300px;
@@ -210,5 +212,3 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
     </div>
   );
 };
-
-export default LinkEditForm;

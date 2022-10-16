@@ -75,6 +75,8 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
   );
 };
 
+export default Pagination;
+
 type PageButtonProps = {
   num: number;
   page: number;
@@ -89,5 +91,3 @@ const PageButton: React.FC<PageButtonProps> = ({ num, page, onClick: handleClick
     {num}
   </TextButton>
 );
-
-export default Pagination;

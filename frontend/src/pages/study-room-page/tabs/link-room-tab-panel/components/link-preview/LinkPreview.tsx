@@ -34,6 +34,8 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ previewResult, linkUrl }) => 
   );
 };
 
+export default LinkPreview;
+
 const Self = styled.div`
   position: relative;
 
@@ -84,5 +86,3 @@ const PreviewDomain = styled.div`
 
   ${nLineEllipsis(1)}
 `;
-
-export default LinkPreview;

@@ -58,6 +58,8 @@ const LinkRoomTabPanel: React.FC = () => {
   );
 };
 
+export default LinkRoomTabPanel;
+
 type InfiniteLinkListProps = { links: Array<Link>; studyId: number } & Omit<InfiniteScrollProps, 'children'>;
 const InfiniteLinkList: React.FC<InfiniteLinkListProps> = ({ links, studyId, isContentLoading, onContentLoad }) => (
   <InfiniteScroll isContentLoading={isContentLoading} onContentLoad={onContentLoad}>
@@ -126,5 +128,3 @@ const CreateLinkModal: React.FC<CreateLinkModalProps> = ({ author, onModalOutsid
     <LinkForm author={author} onPostSuccess={onSuccess} onPostError={onError} />
   </ModalPortal>
 );
-
-export default LinkRoomTabPanel;

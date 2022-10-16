@@ -25,6 +25,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }
   );
 };
 
+export default SearchBar;
+
 const Self = styled.div`
   position: relative;
 `;
@@ -93,5 +95,3 @@ const SearchButton: React.FC = () => (
     </IconButton>
   </div>
 );
-
-export default SearchBar;

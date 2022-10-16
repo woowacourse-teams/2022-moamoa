@@ -52,6 +52,8 @@ const DropDownBox: React.FC<DropDownBoxProps> = ({ children, isOpen, onClose, cu
   );
 };
 
+export default DropDownBox;
+
 type StyledDropDownBox = Pick<DropDownBoxProps, 'top' | 'bottom' | 'left' | 'right'>;
 
 export const Self = styled.div<StyledDropDownBox>`
@@ -81,5 +83,3 @@ export const Self = styled.div<StyledDropDownBox>`
     }
   `}
 `;
-
-export default DropDownBox;

@@ -12,7 +12,9 @@ const Footer: React.FC<FooterProps> = ({ children = '그린론 디우 베루스 
   return <Self css={custom}>{children}</Self>;
 };
 
-export const Self = styled.footer`
+export default Footer;
+
+const Self = styled.footer`
   ${({ theme }) => css`
     padding: 24px 0;
 
@@ -21,5 +23,3 @@ export const Self = styled.footer`
     border-top: 1px solid ${theme.colors.secondary.dark};
   `}
 `;
-
-export default Footer;

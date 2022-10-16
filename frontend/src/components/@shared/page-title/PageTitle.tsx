@@ -10,6 +10,8 @@ const PageTitle: React.FC<PageTitleProps> = ({ children, align = 'left' }) => {
   return <Self align={align}>{children}</Self>;
 };
 
+export default PageTitle;
+
 type StyledPageTitleProps = Required<Pick<PageTitleProps, 'align'>>;
 
 export const Self = styled.h1<StyledPageTitleProps>`
@@ -21,5 +23,3 @@ export const Self = styled.h1<StyledPageTitleProps>`
     text-align: ${align};
   `}
 `;
-
-export default PageTitle;

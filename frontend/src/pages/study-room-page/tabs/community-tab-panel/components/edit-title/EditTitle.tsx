@@ -35,6 +35,8 @@ const EditTitle: React.FC<EditTitleProps> = ({ title }) => {
   );
 };
 
+export default EditTitle;
+
 const Self = styled.div`
   position: relative;
 `;
@@ -99,5 +101,3 @@ const TitleField: React.FC<TitleFieldProps> = ({ isValid, title, onChange: handl
     </>
   );
 };
-
-export default EditTitle;

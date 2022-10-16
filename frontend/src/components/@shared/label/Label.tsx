@@ -15,6 +15,8 @@ const Label: React.FC<LabelProps> = ({ children, htmlFor, hidden }) => {
   );
 };
 
+export default Label;
+
 type StyledLabelProps = Pick<LabelProps, 'hidden'>;
 
 export const Self = styled.label<StyledLabelProps>`
@@ -30,5 +32,3 @@ export const Self = styled.label<StyledLabelProps>`
     `}
   `}
 `;
-
-export default Label;

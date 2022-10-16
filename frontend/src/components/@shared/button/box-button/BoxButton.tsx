@@ -37,6 +37,8 @@ const BoxButton: React.FC<BoxButtonProps> = ({
   );
 };
 
+export default BoxButton;
+
 type StyledBoxButtonProps = Required<Pick<BoxButtonProps, 'disabled' | 'fluid' | 'variant'>>;
 
 const applyFilledButtonStyle = (theme: Theme) => css`
@@ -100,5 +102,3 @@ export const Self = styled.button<StyledBoxButtonProps>`
     `}
   `}
 `;
-
-export default BoxButton;

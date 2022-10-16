@@ -36,6 +36,8 @@ const IconButton: React.FC<IconButtonProps> = ({
   );
 };
 
+export default IconButton;
+
 type StyledIconButtonProps = MakeRequired<Pick<IconButtonProps, 'variant'>, 'variant'>;
 
 const applyPrimaryStyle = (theme: Theme) => css`
@@ -66,7 +68,7 @@ const applySecondaryStyle = (theme: Theme) => css`
   }
 `;
 
-export const Self = styled.button<StyledIconButtonProps>`
+const Self = styled.button<StyledIconButtonProps>`
   ${({ theme, variant }) => css`
     display: flex;
     justify-content: center;
@@ -81,5 +83,3 @@ export const Self = styled.button<StyledIconButtonProps>`
     ${variant === 'secondary' && applySecondaryStyle(theme)}
   `}
 `;
-
-export default IconButton;

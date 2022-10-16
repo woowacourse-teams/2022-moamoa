@@ -10,6 +10,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({ children, align = 'left' })
   return <Self align={align}>{children}</Self>;
 };
 
+export default SectionTitle;
+
 type StyledSectionTitleProps = Required<Pick<SectionTitleProps, 'align'>>;
 
 export const Self = styled.h2<StyledSectionTitleProps>`
@@ -21,5 +23,3 @@ export const Self = styled.h2<StyledSectionTitleProps>`
     text-align: ${align};
   `}
 `;
-
-export default SectionTitle;

@@ -36,6 +36,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   );
 };
 
+export default ButtonGroup;
+
 type StyledButtonGroupProps = MakeRequired<
   Pick<ButtonGroupProps, 'orientation' | 'gap' | 'justifyContent' | 'alignItems'>,
   'gap' | 'orientation'
@@ -53,5 +55,3 @@ export const Self = styled.div<StyledButtonGroupProps>`
     height: fit-content;
   `}
 `;
-
-export default ButtonGroup;

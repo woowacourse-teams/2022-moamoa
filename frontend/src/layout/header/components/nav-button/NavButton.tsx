@@ -19,6 +19,8 @@ const NavButton: React.FC<NavButtonProps> = ({ children, ariaLabel, onClick: han
   );
 };
 
+export default NavButton;
+
 const Self = styled.button`
   ${({ theme }) => css`
     display: flex;
@@ -51,5 +53,3 @@ const Self = styled.button`
     }
   }
 `;
-
-export default NavButton;

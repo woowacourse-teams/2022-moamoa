@@ -73,6 +73,8 @@ const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }
   );
 };
 
+export default Category;
+
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>Error...</div>;
@@ -155,5 +157,3 @@ const BEAreaCheckbox: React.FC<BEAreaCheckboxProps> = ({ area, originalAreas }) 
     </Checkbox>
   );
 };
-
-export default Category;

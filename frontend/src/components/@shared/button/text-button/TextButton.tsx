@@ -26,6 +26,8 @@ const TextButton: React.FC<TextButtonProps> = ({
   );
 };
 
+export default TextButton;
+
 type StyledTextButtonProps = Required<Pick<TextButtonProps, 'fluid' | 'variant'>>;
 
 export const Self = styled.button<StyledTextButtonProps>`
@@ -51,5 +53,3 @@ export const Self = styled.button<StyledTextButtonProps>`
     }
   `}
 `;
-
-export default TextButton;

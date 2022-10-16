@@ -38,6 +38,8 @@ const Title: React.FC<TitleProps> = ({ originalTitle }) => {
   );
 };
 
+export default Title;
+
 const Self = styled.div`
   position: relative;
 `;
@@ -102,5 +104,3 @@ const StudyNameField: React.FC<StudyNameFieldProps> = ({ isValid, defaultValue, 
     </>
   );
 };
-
-export default Title;

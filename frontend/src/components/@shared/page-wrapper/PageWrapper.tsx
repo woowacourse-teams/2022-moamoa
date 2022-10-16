@@ -12,6 +12,8 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, space = '20px' }) =
   return <Self space={space}>{children}</Self>;
 };
 
+export default PageWrapper;
+
 type StyledPageWrapperProps = Required<Pick<PageWrapperProps, 'space'>>;
 
 const Self = styled.div<StyledPageWrapperProps>`
@@ -22,5 +24,3 @@ const Self = styled.div<StyledPageWrapperProps>`
     padding: 0 ${space};
   `}
 `;
-
-export default PageWrapper;

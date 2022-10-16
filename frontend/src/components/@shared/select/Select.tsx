@@ -23,6 +23,8 @@ const Select: React.FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>
 
 Select.displayName = 'Select';
 
+export default Select;
+
 type StyleSelectProps = Required<Pick<SelectProps, 'fluid'>>;
 
 const Self = styled.select<StyleSelectProps>`
@@ -56,5 +58,3 @@ const Self = styled.select<StyleSelectProps>`
     }
   `}
 `;
-
-export default Select;

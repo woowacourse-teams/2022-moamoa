@@ -118,6 +118,8 @@ const MultiTagSelect = forwardRef<HTMLInputElement, MultiTagSelectProps>(
 );
 MultiTagSelect.displayName = 'MultipleTagSelect';
 
+export default MultiTagSelect;
+
 const Self = styled.div`
   position: relative;
   width: 100%;
@@ -268,5 +270,3 @@ export const AllClearButton: React.FC<AllClearButtonProps> = ({ onClick: handleC
     </Center>
   </UnstyledButton>
 );
-
-export default MultiTagSelect;

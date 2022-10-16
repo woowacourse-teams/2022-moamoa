@@ -22,7 +22,7 @@ const tabMode = {
 
 const CONTENT = 'content';
 
-const PublishContent = () => {
+const PublishContent: React.FC = () => {
   const {
     formState: { errors },
     getField,
@@ -70,6 +70,8 @@ const PublishContent = () => {
     </MetaBox>
   );
 };
+
+export default PublishContent;
 
 type WriteTabButtonProps = {
   activeTab: TabIds;
@@ -138,5 +140,3 @@ const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, descr
     </div>
   );
 };
-
-export default PublishContent;

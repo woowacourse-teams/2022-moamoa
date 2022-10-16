@@ -70,6 +70,8 @@ const ReviewComment: React.FC<ReviewCommentProps> = ({ id, studyId, author, date
   );
 };
 
+export default ReviewComment;
+
 const CommentHead = styled.div`
   position: relative;
 `;
@@ -167,5 +169,3 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ onClick: handleClick }) => 
     <KebabMenuIcon />
   </IconButton>
 );
-
-export default ReviewComment;

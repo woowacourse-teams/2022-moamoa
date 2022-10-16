@@ -17,6 +17,8 @@ const Publish = ({ title = '스터디 개설', buttonText = '개설하기' }: Pu
   );
 };
 
+export default Publish;
+
 type PublishButtonProps = {
   children: string;
 };
@@ -25,5 +27,3 @@ const PublishButton: React.FC<PublishButtonProps> = ({ children }) => (
     {children}
   </BoxButton>
 );
-
-export default Publish;

@@ -58,9 +58,11 @@ const Input: React.FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
+export default Input;
+
 type StyledInputProps = Required<Pick<InputProps, 'fontSize' | 'invalid' | 'fluid'>>;
 
-export const Self = styled.input<StyledInputProps>`
+const Self = styled.input<StyledInputProps>`
   ${({ theme, fontSize, invalid, fluid }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 4px 8px;
@@ -91,5 +93,3 @@ export const Self = styled.input<StyledInputProps>`
     }
   `}
 `;
-
-export default Input;

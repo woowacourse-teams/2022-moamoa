@@ -48,6 +48,8 @@ const MaxMemberCount = ({ originalMaxMemberCount }: MaxMemberCountProps) => {
   );
 };
 
+export default MaxMemberCount;
+
 type ToggleCheckboxProps = {
   isChecked: boolean;
   onClick?: React.ChangeEventHandler<HTMLInputElement>;
@@ -86,5 +88,3 @@ const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({ defaultValue,
     </Flex>
   );
 };
-
-export default MaxMemberCount;

@@ -30,6 +30,8 @@ const UnstyledButton: React.FC<UnstyledButtonProps> = ({ custom, children, type 
   );
 };
 
+export default UnstyledButton;
+
 const Self = styled.button`
   ${({ theme }) => css`
     font-size: ${theme.fontSize.md};
@@ -39,5 +41,3 @@ const Self = styled.button`
     background-color: transparent;
   `}
 `;
-
-export default UnstyledButton;

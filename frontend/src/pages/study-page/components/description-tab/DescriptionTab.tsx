@@ -92,6 +92,8 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
   );
 };
 
+export default DescriptionTab;
+
 const Self = styled.div`
   margin-bottom: 20px;
 `;
@@ -149,5 +151,3 @@ const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, descr
     </div>
   );
 };
-
-export default DescriptionTab;

@@ -56,6 +56,8 @@ const Textarea: React.FC<TextareaProps> = forwardRef<HTMLTextAreaElement, Textar
 
 Textarea.displayName = 'Textarea';
 
+export default Textarea;
+
 type StyledTextareaProps = Required<Pick<TextareaProps, 'fontSize' | 'invalid' | 'fluid' | 'border'>>;
 
 const Self = styled.textarea<StyledTextareaProps>`
@@ -92,5 +94,3 @@ const Self = styled.textarea<StyledTextareaProps>`
     }
   `}
 `;
-
-export default Textarea;

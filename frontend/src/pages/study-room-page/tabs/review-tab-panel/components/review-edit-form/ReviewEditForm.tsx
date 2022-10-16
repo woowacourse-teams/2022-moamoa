@@ -107,6 +107,8 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
   );
 };
 
+export default ReviewEditForm;
+
 type ReviewFieldProps = {
   isValid: boolean;
   defaultValue: string;
@@ -163,5 +165,3 @@ const EditButton: React.FC = () => (
     수정하기
   </BoxButton>
 );
-
-export default ReviewEditForm;

@@ -25,6 +25,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ activeTabId, tabs, onTabButtonClick
   );
 };
 
+export default SideMenu;
+
 type SidebarProps = {
   theme: Theme;
 } & SideMenuProps;
@@ -96,5 +98,3 @@ const BottomBar: React.FC<BottomBarProps> = ({ theme, tabs, activeTabId, onTabBu
     </div>
   );
 };
-
-export default SideMenu;

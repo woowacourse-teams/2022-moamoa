@@ -32,9 +32,9 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
   );
 };
 
+export default MarkdownRender;
+
 const Self = styled.div`
   overflow-y: auto;
   height: 100%;
 `;
-
-export default MarkdownRender;

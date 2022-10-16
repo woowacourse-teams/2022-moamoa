@@ -14,6 +14,8 @@ const LetterCounter: React.FC<LetterCounterProps> = ({ count, maxCount }) => {
   );
 };
 
+export default LetterCounter;
+
 const Self = styled.div`
   ${({ theme }) => css`
     font-size: ${theme.fontSize.sm};
@@ -26,5 +28,3 @@ const Self = styled.div`
     }
   `}
 `;
-
-export default LetterCounter;

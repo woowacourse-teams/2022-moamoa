@@ -31,6 +31,8 @@ const Divider: React.FC<DividerProps> = ({
   );
 };
 
+export default Divider;
+
 type StyledDividerProps = Required<DividerProps>;
 
 const applyVerticalStyle = (space: CssLength, color: ThemeColor) => css`
@@ -55,5 +57,3 @@ const Self = styled.div<StyledDividerProps>`
     ${orientation === 'vertical' ? applyVerticalStyle(space, color) : applyHorizontalStyle(space, color)};
   `}
 `;
-
-export default Divider;
