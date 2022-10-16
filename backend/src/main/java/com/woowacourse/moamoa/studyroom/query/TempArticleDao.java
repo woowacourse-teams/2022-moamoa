@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.query;
 
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.query.data.TempArticleData;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,28 +33,30 @@ public class TempArticleDao {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Optional<TempArticleData> getById(final Long articleId) {
+    public Optional<TempArticleData> getById(final Long articleId, final ArticleType type) {
         final String sql = "SELECT temp.id as article_id, temp.title as article_title, temp.content as article_content, "
                 + "temp.created_date as article_created_date, temp.last_modified_date as article_last_modified_date "
                 + "FROM temp_article as temp "
-                + "WHERE temp.id = :articleId";
+                + "WHERE temp.id = :articleId AND temp.type = :type";
 
-        final Map<String, Object> params = Map.of("articleId", articleId);
+        final Map<String, Object> params = Map.of(
+                "articleId", articleId,
+                "type", type.name()
+        );
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER).stream().findAny();
     }
 
-    public Page<TempArticleData> getAll(final Long authorId, final Long studyId, final Pageable pageable) {
-        final List<TempArticleData> contents = getContents(authorId, studyId, pageable);
-        final long totalCount = getTotalCount(authorId, studyId);
-
+    public Page<TempArticleData> getAll(final Long authorId, final Long studyId, final ArticleType type, final Pageable pageable) {
+        final List<TempArticleData> contents = getContents(authorId, studyId, type, pageable);
+        final long totalCount = getTotalCount(authorId, studyId, type);
         return new PageImpl<>(contents, pageable, totalCount);
     }
 
-    private List<TempArticleData> getContents(final Long authorId, final Long studyId, final Pageable pageable) {
+    private List<TempArticleData> getContents(final Long authorId, final Long studyId, final ArticleType type, final Pageable pageable) {
         final String sql = "SELECT temp.id as article_id, temp.title as article_title, temp.content as article_content, "
                 + "temp.created_date as article_created_date, temp.last_modified_date as article_last_modified_date "
                 + "FROM temp_article as temp "
-                + "WHERE temp.study_id = :studyId AND temp.author_id = :authorId "
+                + "WHERE temp.study_id = :studyId AND temp.author_id = :authorId AND temp.type = :type "
                 + "ORDER BY temp.id desc "
                 + "LIMIT :size OFFSET :offset";
 
@@ -61,17 +64,20 @@ public class TempArticleDao {
                 "studyId", studyId,
                 "authorId", authorId,
                 "size", pageable.getPageSize(),
-                "offset", pageable.getOffset()
+                "offset", pageable.getOffset(),
+                "type", type.name()
         );
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
-    private Long getTotalCount(final Long authorId, final Long studyId) {
+    private Long getTotalCount(final Long authorId, final Long studyId, final ArticleType type) {
         final String sql = "SELECT COUNT(temp_article.id) FROM temp_article "
-                + "WHERE temp_article.study_id = :studyId AND temp_article.author_id = :authorId ";
+                + "WHERE temp_article.study_id = :studyId AND temp_article.author_id = :authorId "
+                + "AND temp_article.type = :type";
         final Map<String, Object> params = Map.of(
                 "studyId", studyId,
-                "authorId", authorId
+                "authorId", authorId,
+                "type", type.name()
         );
         return namedParameterJdbcTemplate.queryForObject(sql, params, (rs, rn) -> rs.getLong(1));
     }

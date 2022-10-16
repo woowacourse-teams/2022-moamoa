@@ -36,6 +36,10 @@ public class StudyRelatedSteps extends Steps {
         return new TempNoticeArticleRelatedStep(token, studyId);
     }
 
+    public TempCommunityArticleRelatedStep 임시_게시글을() {
+        return new TempCommunityArticleRelatedStep(token, studyId);
+    }
+
     public void 참여한다() {
         spec.log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)

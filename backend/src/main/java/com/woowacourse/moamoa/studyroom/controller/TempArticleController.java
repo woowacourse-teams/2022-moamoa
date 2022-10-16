@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.studyroom.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/studies/{study-id}/notice/draft-articles")
+@RequestMapping("/api/studies/{study-id}/{article-type}/draft-articles")
 public class TempArticleController {
 
     private final TempArticleService tempArticleService;
@@ -34,9 +35,11 @@ public class TempArticleController {
     public ResponseEntity<CreatedTempArticleIdResponse> createTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
-            @Valid @RequestBody final ArticleRequest request
+            @Valid @RequestBody final ArticleRequest request,
+            @PathVariable("article-type") final ArticleType articleType
     ) {
-        final CreatedTempArticleIdResponse response = tempArticleService.createTempArticle(memberId, studyId, request);
+        final CreatedTempArticleIdResponse response = tempArticleService
+                .createTempArticle(memberId, studyId, request, articleType);
 
         final String location = String.format(
                 "/api/studies/%d/notice/draft-articles/%d", studyId, response.getDraftArticleId()
@@ -48,9 +51,10 @@ public class TempArticleController {
     public ResponseEntity<TempArticleResponse> getTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
-            @PathVariable("article-id") final Long articleId
+            @PathVariable("article-id") final Long articleId,
+            @PathVariable("article-type") final ArticleType articleType
     ) {
-        TempArticleResponse response = tempArticleService.getTempArticle(memberId, studyId, articleId);
+        TempArticleResponse response = tempArticleService.getTempArticle(memberId, studyId, articleId, articleType);
         return ResponseEntity.ok(response);
     }
 
@@ -58,9 +62,10 @@ public class TempArticleController {
     public ResponseEntity<TempArticlesResponse> getTempArticles(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
-            @PageableDefault final Pageable pageable
+            @PageableDefault final Pageable pageable,
+            @PathVariable("article-type") final ArticleType articleType
     ) {
-        TempArticlesResponse response = tempArticleService.getTempArticles(memberId, studyId, pageable);
+        TempArticlesResponse response = tempArticleService.getTempArticles(memberId, studyId, pageable, articleType);
         return ResponseEntity.ok(response);
     }
 
@@ -68,9 +73,10 @@ public class TempArticleController {
     public ResponseEntity<Void> deleteTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
-            @PathVariable("article-id") final Long articleId
+            @PathVariable("article-id") final Long articleId,
+            @PathVariable("article-type") final ArticleType articleType
     ) {
-        tempArticleService.deleteTempArticle(memberId, studyId, articleId);
+        tempArticleService.deleteTempArticle(memberId, studyId, articleId, articleType);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,9 +85,10 @@ public class TempArticleController {
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("article-id") final Long articleId,
-            @Valid @RequestBody final ArticleRequest request
+            @Valid @RequestBody final ArticleRequest request,
+            @PathVariable("article-type") final ArticleType articleType
     ) {
-        tempArticleService.updateTempArticle(memberId, studyId, articleId, request);
+        tempArticleService.updateTempArticle(memberId, studyId, articleId, request, articleType);
         return ResponseEntity.noContent().build();
     }
 }

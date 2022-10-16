@@ -14,7 +14,7 @@ public class UneditableException extends BadRequestException {
     }
 
     public static UneditableException forTempArticle(final Long articleId, final Accessor accessor) {
-        final String message = String.format("게시글[%d]에 접근자[%s]가 수정/삭제할 수 없습니다.", articleId, accessor);
+        final String message = String.format("임시 게시글[%d]에 접근자[%s]가 수정/삭제할 수 없습니다.", articleId, accessor);
         return new UneditableException(message);
     }
 }

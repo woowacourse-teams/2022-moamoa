@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.studyroom.service;
 
-import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
-
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.TempArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
@@ -44,60 +43,38 @@ public class TempArticleService {
 
     @Transactional
     public CreatedTempArticleIdResponse createTempArticle(
-            final Long memberId, final Long studyId, final ArticleRequest request
+            final Long memberId, final Long studyId, final ArticleRequest request, final ArticleType articleType
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(() -> new StudyNotFoundException(studyId));
 
         final Accessor accessor = new Accessor(memberId, studyId);
         final TempArticle article = TempArticle.create(
-                studyRoom, accessor, request.getTitle(), request.getContent(), NOTICE
+                studyRoom, accessor, request.getTitle(), request.getContent(), articleType
         );
         final Long newArticleId = tempArticleRepository.save(article).getId();
         return new CreatedTempArticleIdResponse(newArticleId);
     }
 
-    public TempArticleResponse getTempArticle(final Long memberId, final Long studyId, final Long articleId) {
+    public TempArticleResponse getTempArticle(
+            final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType
+    ) {
         final TempArticle tempArticle = tempArticleRepository.findById(articleId)
-                .orElseThrow(() -> new TempArticleNotFoundException(articleId));
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
 
         if (tempArticle.isForbiddenAccessor(new Accessor(memberId, studyId))) {
             throw new UnviewableException(articleId, new Accessor(memberId, studyId));
         }
 
-        final TempArticleData tempArticleData = tempArticleDao.getById(articleId).orElseThrow();
+        final TempArticleData tempArticleData = tempArticleDao.getById(articleId, articleType)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
         return new TempArticleResponse(tempArticleData);
     }
 
-    @Transactional
-    public void updateTempArticle(final Long memberId, final Long studyId, final Long articleId,
-                                  final ArticleRequest request) {
-        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
-                .orElseThrow(() -> new TempArticleNotFoundException(articleId));
-
-        final Accessor accessor = new Accessor(memberId, studyId);
-        if (tempArticle.isForbiddenAccessor(accessor)) {
-            throw UneditableException.forTempArticle(articleId, accessor);
-        }
-
-        tempArticle.update(request.getTitle(), request.getContent());
-    }
-
-    @Transactional
-    public void deleteTempArticle(final Long memberId, final Long studyId, final Long articleId) {
-        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
-                .orElseThrow(() -> new TempArticleNotFoundException(articleId));
-
-        final Accessor accessor = new Accessor(memberId, studyId);
-        if (tempArticle.isForbiddenAccessor(accessor)) {
-            throw UneditableException.forTempArticle(articleId, accessor);
-        }
-
-        tempArticleRepository.delete(tempArticle);
-    }
-
-    public TempArticlesResponse getTempArticles(final Long memberId, final Long studyId, final Pageable pageable) {
-        final Page<TempArticleData> page = tempArticleDao.getAll(memberId, studyId, pageable);
+    public TempArticlesResponse getTempArticles(
+            final Long memberId, final Long studyId, final Pageable pageable, final ArticleType articleType
+    ) {
+        final Page<TempArticleData> page = tempArticleDao.getAll(memberId, studyId, articleType, pageable);
         final List<TempArticleResponse> content = page.getContent().stream()
                 .map(TempArticleResponse::new)
                 .collect(Collectors.toList());
@@ -106,5 +83,31 @@ public class TempArticleService {
             return new TempArticlesResponse(Collections.emptyList(), 0, 0, 0);
         }
         return new TempArticlesResponse(content, page.getNumber(), page.getTotalPages() - 1, page.getTotalElements());
+    }
+
+    @Transactional
+    public void updateTempArticle(
+            final Long memberId, final Long studyId, final Long articleId,
+            final ArticleRequest request, final ArticleType articleType
+    ) {
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
+        final Accessor accessor = new Accessor(memberId, studyId);
+        tempArticle.update(accessor, request.getTitle(), request.getContent());
+    }
+
+    @Transactional
+    public void deleteTempArticle(
+            final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType
+    ) {
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
+
+        final Accessor accessor = new Accessor(memberId, studyId);
+        if (tempArticle.isForbiddenAccessor(accessor)) {
+            throw UneditableException.forTempArticle(articleId, accessor);
+        }
+
+        tempArticleRepository.delete(tempArticle);
     }
 }
