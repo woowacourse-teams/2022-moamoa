@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useGetStudyReviews } from '@api/reviews';
@@ -16,14 +15,10 @@ const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
 
-  const { userInfo, fetchUserInfo } = useUserInfo();
+  const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId });
 
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
-
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   const handlePostSuccess = () => {
     alert('댓글을 추가했습니다');

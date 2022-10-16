@@ -15,12 +15,7 @@ const useDetailPage = () => {
   const detailQueryResult = useGetStudy({ studyId });
 
   const { mutate } = usePostMyStudy();
-  const { isOwner, isOwnerOrMember, fetchUserRole } = useUserRole({
-    studyId,
-    options: {
-      enabled: isLoggedIn,
-    },
-  });
+  const { isOwner, isOwnerOrMember, fetchUserRole } = useUserRole({ studyId });
 
   const handleRegisterButtonClick = () => {
     if (!isLoggedIn) {
