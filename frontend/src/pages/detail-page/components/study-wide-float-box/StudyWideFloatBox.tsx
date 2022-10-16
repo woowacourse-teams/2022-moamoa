@@ -62,6 +62,12 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
 
 export default StudyWideFloatBox;
 
+const AlreadyRegistered = () => <span>이미 가입한 스터디입니다</span>;
+
+const Closed = () => <span>모집 마감</span>;
+
+const Open = () => <span>모집중</span>;
+
 type EnrollmentEndDateProps = {
   theme: Theme;
   enrollmentEndDate: DateYMD;
@@ -80,12 +86,6 @@ const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, enrollment
     </>
   );
 };
-
-const AlreadyRegistered = () => <span>이미 가입한 스터디입니다</span>;
-
-const Closed = () => <span>모집 마감</span>;
-
-const Open = () => <span>모집중</span>;
 
 type NumberOfApplicantsProps = {
   currentMemberCount: number;
