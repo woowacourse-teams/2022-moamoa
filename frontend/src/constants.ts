@@ -181,3 +181,8 @@ export const STUDY_STATUS = {
   IN_PROGRESS: 'IN_PROGRESS',
   DONE: 'DONE',
 } as const;
+
+export const PERIOD = {
+  START_DATE: 'start-date',
+  END_DATE: 'end-date',
+};

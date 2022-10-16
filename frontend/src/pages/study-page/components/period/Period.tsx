@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 
 import { css } from '@emotion/react';
 
+import { PERIOD } from '@constants';
+
 import { getNextYear, getToday } from '@utils';
 import { compareDateTime } from '@utils/dates';
 
@@ -17,9 +19,6 @@ type PeriodProps = {
   originalStartDate?: StudyDetail['startDate'];
   originalEndDate?: StudyDetail['endDate'];
 };
-
-const START_DATE = 'start-date';
-const END_DATE = 'end-date';
 
 const Period: React.FC<PeriodProps> = ({ originalStartDate, originalEndDate }) => {
   const today = useMemo(() => getToday(), []);
@@ -53,12 +52,12 @@ const StudyStartDateField: React.FC<StudyStartDateFieldProps> = ({ defaultValue,
   `;
   return (
     <div css={style}>
-      <Label htmlFor={START_DATE}>*스터디 시작 :</Label>
+      <Label htmlFor={PERIOD.START_DATE}>*스터디 시작 :</Label>
       <Input
         type="date"
-        id={START_DATE}
+        id={PERIOD.START_DATE}
         defaultValue={defaultValue}
-        {...register(START_DATE, {
+        {...register(PERIOD.START_DATE, {
           min,
           max,
           required: true,
@@ -77,12 +76,12 @@ const StudyEndDateField: React.FC<StudyEndDateFieldProps> = ({ defaultValue, min
   const { register } = useFormContext();
   return (
     <div>
-      <Label htmlFor={END_DATE}>스터디 종료 :</Label>
+      <Label htmlFor={PERIOD.END_DATE}>스터디 종료 :</Label>
       <Input
         type="date"
-        id={END_DATE}
+        id={PERIOD.END_DATE}
         defaultValue={defaultValue}
-        {...register(END_DATE, {
+        {...register(PERIOD.END_DATE, {
           min,
           max,
         })}

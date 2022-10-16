@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { PERIOD } from '@constants';
+
 import { getNextYear, getToday, isDateYMD } from '@utils';
 import { compareDateTime } from '@utils/dates';
 
@@ -11,8 +13,6 @@ import Flex from '@shared/flex/Flex';
 import Input from '@shared/input/Input';
 import Label from '@shared/label/Label';
 import MetaBox from '@shared/meta-box/MetaBox';
-
-import { END_DATE } from '@create-study-page/components/period/Period';
 
 export type PeriodProps = {
   originalEnrollmentEndDate?: StudyDetail['enrollmentEndDate'];
@@ -48,7 +48,7 @@ const EnrollmentEndDate: React.FC<PeriodProps> = ({ originalEnrollmentEndDate })
             defaultValue={originalEnrollmentEndDate}
             {...register(ENROLLMENT_END_DATE, {
               validate: (value: DateYMD) => {
-                const studyEndDateElement = getField(END_DATE);
+                const studyEndDateElement = getField(PERIOD.END_DATE);
                 if (!studyEndDateElement)
                   return makeValidationResult(true, ' %ERROR% 스터디 종료일 입력 요소가 존재하지 않습니다.');
 
