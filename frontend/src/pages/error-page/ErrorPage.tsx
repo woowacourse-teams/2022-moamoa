@@ -13,7 +13,7 @@ const ErrorPage: React.FC = () => {
     <Flex flexDirection="column" justifyContent="center" alignItems="center" rowGap="4px">
       <ErrorImage />
       <ErrorMessage />
-      <GoToHomeButton />
+      <HomeLink />
     </Flex>
   );
 };
@@ -26,7 +26,7 @@ const ErrorImage = () => (
 
 const ErrorMessage = () => <p>잘못된 접근입니다.</p>;
 
-const GoToHomeButton: React.FC = () => (
+const HomeLink: React.FC = () => (
   <Link to={PATH.MAIN} replace>
     <BoxButton type="button" custom={{ fontSize: 'lg' }} fluid={false}>
       홈으로 이동

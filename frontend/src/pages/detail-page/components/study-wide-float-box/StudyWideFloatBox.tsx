@@ -51,7 +51,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           </Card.Content>
         </div>
         {userRole === 'MEMBER' || userRole === 'OWNER' ? (
-          <GoToStudyRoomLinkButton studyId={studyId} />
+          <StudyRoomLink studyId={studyId} />
         ) : (
           <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />
         )}
@@ -100,10 +100,10 @@ const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCo
   </Flex>
 );
 
-type GoToStudyRoomLinkButtonProps = {
+type StudyRoomLinkProps = {
   studyId: StudyId;
 };
-const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ studyId }) => (
+const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
   <Link to={PATH.STUDY_ROOM(studyId)}>
     <BoxButton type="button" custom={{ fontSize: 'lg' }}>
       스터디 방으로 이동하기

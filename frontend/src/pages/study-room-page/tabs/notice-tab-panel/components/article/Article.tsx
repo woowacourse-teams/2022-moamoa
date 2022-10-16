@@ -68,7 +68,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
                 </UserInfoItem>
                 {showModifierButtons && (
                   <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                    <GoToEditPageLinkButton articleId={articleId} />
+                    <EditPageLink articleId={articleId} />
                     <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
                   </ButtonGroup>
                 )}
@@ -77,7 +77,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
               <PageTitle>{data.title}</PageTitle>
               <MarkdownRender content={data.content} />
               <Divider space="8px" />
-              <GoToListPageLinkButton />
+              <ListPageLink />
             </article>
           );
       })()}
@@ -89,10 +89,10 @@ const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 
-type GoToEditPageLinkButtonProps = {
+type EditPageLinkProps = {
   articleId: number;
 };
-const GoToEditPageLinkButton: React.FC<GoToEditPageLinkButtonProps> = ({ articleId }) => (
+const EditPageLink: React.FC<EditPageLinkProps> = ({ articleId }) => (
   <Link to={PATH.NOTICE_EDIT(articleId)}>
     <BoxButton type="button" custom={{ padding: '4px 8px' }}>
       글수정
@@ -109,7 +109,7 @@ const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: hand
   </BoxButton>
 );
 
-const GoToListPageLinkButton: React.FC = () => (
+const ListPageLink: React.FC = () => (
   <Link to={`../${PATH.NOTICE}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
       목록보기

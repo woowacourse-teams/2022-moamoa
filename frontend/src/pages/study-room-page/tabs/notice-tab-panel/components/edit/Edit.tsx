@@ -96,13 +96,13 @@ const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) =
     <EditContent content={article.content} />
     <Divider space="16px" />
     <ButtonGroup justifyContent="space-between">
-      <GoToListPageButton />
+      <ListPageLink />
       <EditButton />
     </ButtonGroup>
   </Form>
 );
 
-const GoToListPageButton: React.FC = () => (
+const ListPageLink: React.FC = () => (
   <Link to={`../${PATH.NOTICE}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기

@@ -40,7 +40,7 @@ const NoticeTabPanel: React.FC = () => {
   );
 };
 
-const GoToPublishPageLinkButton: React.FC = () => (
+const PublishPageLink: React.FC = () => (
   <Link to={PATH.NOTICE_PUBLISH}>
     <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
       글쓰기
@@ -55,7 +55,7 @@ type ArticleListPageProps = {
 };
 const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId, isOwner }) => (
   <>
-    <Flex justifyContent="flex-end">{isOwner && <GoToPublishPageLinkButton />}</Flex>
+    <Flex justifyContent="flex-end">{isOwner && <PublishPageLink />}</Flex>
     <Divider color={theme.colors.secondary.dark} space="8px" />
     <ArticleList studyId={studyId} />
   </>

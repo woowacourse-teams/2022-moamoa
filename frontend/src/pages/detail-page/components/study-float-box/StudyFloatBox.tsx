@@ -50,7 +50,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
         {isRegistered ? (
-          <GoToStudyRoomLinkButton theme={theme} studyId={studyId} />
+          <StudyRoomLink theme={theme} studyId={studyId} />
         ) : (
           <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
         )}
@@ -86,11 +86,11 @@ const Closed = () => <span>모집 마감</span>;
 
 const Open = () => <span>모집중</span>;
 
-type GoToStudyRoomLinkButtonProps = {
+type StudyRoomLinkProps = {
   theme: Theme;
   studyId: StudyId;
 };
-const GoToStudyRoomLinkButton: React.FC<GoToStudyRoomLinkButtonProps> = ({ theme, studyId }) => (
+const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ theme, studyId }) => (
   <Link to={PATH.STUDY_ROOM(studyId)}>
     <BoxButton type="button" custom={{ fontSize: 'lg' }}>
       스터디 방으로 이동하기

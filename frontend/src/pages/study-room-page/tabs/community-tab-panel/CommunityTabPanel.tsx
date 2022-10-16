@@ -39,7 +39,7 @@ const CommunityTabPanel: React.FC = () => {
   );
 };
 
-const GoToPublishPageLinkButton: React.FC = () => (
+const PublishPageLink: React.FC = () => (
   <Link to={PATH.COMMUNITY_PUBLISH}>
     <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
       글쓰기
@@ -54,7 +54,7 @@ type ArticleListPageProps = {
 const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => (
   <>
     <Flex justifyContent="flex-end">
-      <GoToPublishPageLinkButton />
+      <PublishPageLink />
     </Flex>
     <Divider color={theme.colors.secondary.dark} space="8px" />
     <ArticleList studyId={studyId} />

@@ -75,7 +75,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
               <PublishContent />
               <Divider space="16px" />
               <ButtonGroup justifyContent="space-between">
-                <GoToListPageButton />
+                <ListPageLink />
                 <PublishButton />
               </ButtonGroup>
             </Form>
@@ -89,7 +89,7 @@ const Loading = () => <div>유저 정보 가져오는 중...</div>;
 
 const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
 
-const GoToListPageButton: React.FC = () => (
+const ListPageLink: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
