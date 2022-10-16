@@ -125,7 +125,7 @@ public class TempArticleTest {
         final Member owner = createMember(OWNER_ID);
         final StudyRoom studyRoom = createStudyRoom(owner);
         final TempArticle tempArticle = createTempArticle(
-                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용", type
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), type, new Content("제목", "내용")
         );
 
         // act && assert
@@ -173,11 +173,11 @@ public class TempArticleTest {
         final Member participant = createMember(PARTICIPANT_ID);
         final StudyRoom studyRoom = createStudyRoom(owner, participant);
         final TempArticle tempArticle = createTempArticle(
-                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용", type
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), type, new Content("제목", "내용")
         );
 
         // act
-        tempArticle.update(new Accessor(owner.getId(), studyRoom.getId()), "수정된 제목", "수정된 내용");
+        tempArticle.update(new Accessor(owner.getId(), studyRoom.getId()), new Content("수정된 제목", "수정된 내용"));
 
         // assert
         assertThat(tempArticle.getTitle()).isEqualTo("수정된 제목");
@@ -196,7 +196,7 @@ public class TempArticleTest {
         );
 
         // act && assert
-        assertThatCode(() -> tempArticle.update(accessor, "수정된 제목", "수정된 내용"))
+        assertThatCode(() -> tempArticle.update(accessor, new Content("수정된 제목", "수정된 내용")))
             .isInstanceOf(UneditableException.class);
     }
 
@@ -213,7 +213,7 @@ public class TempArticleTest {
         );
 
         // act && assert
-        assertThatCode(() -> tempArticle.update(accessor, "수정된 제목", "수정된 내용"))
+        assertThatCode(() -> tempArticle.update(accessor, new Content("수정된 제목", "수정된 내용")))
                 .isInstanceOf(UneditableException.class);
     }
 
@@ -243,18 +243,18 @@ public class TempArticleTest {
     private TempArticle createNoticeTempArticle(
             final StudyRoom studyRoom, final Accessor accessor, final String title, final String content
     ) {
-        return createTempArticle(studyRoom, accessor, title, content, NOTICE);
+        return createTempArticle(studyRoom, accessor, NOTICE, new Content(title, content));
     }
 
     private TempArticle createCommunityTempArticle(
             final StudyRoom studyRoom, final Accessor accessor, final String title, final String content
     ){
-        return createTempArticle(studyRoom, accessor, title, content, COMMUNITY);
+        return createTempArticle(studyRoom, accessor, COMMUNITY, new Content(title, content));
     }
 
     private TempArticle createTempArticle(
-            final StudyRoom studyRoom, final Accessor accessor, final String title, final String content, final ArticleType type
+            final StudyRoom studyRoom, final Accessor accessor, final ArticleType type, final Content content
     ) {
-        return TempArticle.create(studyRoom, accessor, title, content, type);
+        return TempArticle.create(content, studyRoom, accessor, type);
     }
 }

@@ -3,6 +3,7 @@ package com.woowacourse.moamoa.studyroom.service;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.article.TempArticle;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
@@ -49,9 +50,9 @@ public class TempArticleService {
                 .orElseThrow(() -> new StudyNotFoundException(studyId));
 
         final Accessor accessor = new Accessor(memberId, studyId);
-        final TempArticle article = TempArticle.create(
-                studyRoom, accessor, request.getTitle(), request.getContent(), articleType
-        );
+        final Content content = new Content(request.getTitle(), request.getContent());
+        final TempArticle article = TempArticle.create(content, studyRoom, accessor, articleType);
+
         final Long newArticleId = tempArticleRepository.save(article).getId();
         return new CreatedTempArticleIdResponse(newArticleId);
     }
@@ -93,7 +94,7 @@ public class TempArticleService {
         final TempArticle tempArticle = tempArticleRepository.findById(articleId)
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
         final Accessor accessor = new Accessor(memberId, studyId);
-        tempArticle.update(accessor, request.getTitle(), request.getContent());
+        tempArticle.update(accessor, new Content(request.getTitle(), request.getContent()));
     }
 
     @Transactional

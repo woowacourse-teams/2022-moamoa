@@ -5,6 +5,7 @@ import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -29,51 +29,50 @@ public class TempArticle extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
     private StudyRoom studyRoom;
-    private String title;
 
-    @Lob
-    private String content;
+    @Embedded
+    private Content content;
 
     private Long authorId;
 
     @Enumerated(EnumType.STRING)
     private ArticleType type;
 
-    private TempArticle(final String title, final String content, final Long authorId, final StudyRoom studyRoom, final ArticleType type) {
-        this(null, title, content, authorId, studyRoom, type);
+    private TempArticle(
+            final Content content, final Long authorId, final StudyRoom studyRoom, final ArticleType type
+    ) {
+        this(null, authorId, content, studyRoom, type);
     }
 
-    private TempArticle(final Long id, final String title, final String content, final Long authorId,
-                       final StudyRoom studyRoom, final ArticleType type) {
+    private TempArticle(
+            final Long id, final Long authorId, final Content content, final StudyRoom studyRoom, final ArticleType type
+    ) {
         this.id = id;
-        this.title = title;
-        this.content = content;
         this.authorId = authorId;
+        this.content = content;
         this.studyRoom = studyRoom;
         this.type = type;
     }
 
     public static TempArticle create(
-            final StudyRoom studyRoom, final Accessor accessor,
-            final String title, final String content, final ArticleType type
+            final Content content, final StudyRoom studyRoom, final Accessor accessor, final ArticleType type
     ) {
         if (type.isUnwritableAccessor(studyRoom, accessor)) {
             throw new UnwritableException(studyRoom.getId(), accessor, "TEMP_" + type.name());
         }
 
-        return new TempArticle(title, content, accessor.getMemberId(), studyRoom, type);
+        return new TempArticle(content, accessor.getMemberId(), studyRoom, type);
     }
 
     public boolean isForbiddenAccessor(final Accessor accessor) {
         return type.isUneditableAccessor(studyRoom, authorId, accessor);
     }
 
-    public void update(final Accessor accessor, final String title, final String content) {
+    public void update(final Accessor accessor, Content content) {
         if (isForbiddenAccessor(accessor)) {
             throw UneditableException.forTempArticle(id, accessor);
         }
 
-        this.title = title;
         this.content = content;
     }
 
@@ -82,10 +81,10 @@ public class TempArticle extends BaseEntity {
     }
 
     public String getTitle() {
-        return title;
+        return content.getTitle();
     }
 
     public String getContent() {
-        return content;
+        return content.getContent();
     }
 }
