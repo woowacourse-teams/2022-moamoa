@@ -40,6 +40,8 @@ const NoticeTabPanel: React.FC = () => {
   );
 };
 
+export default NoticeTabPanel;
+
 const PublishPageLink: React.FC = () => (
   <Link to={PATH.NOTICE_PUBLISH}>
     <TextButton variant="primary" custom={{ fontSize: 'lg' }}>
@@ -60,5 +62,3 @@ const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId, isOwn
     <ArticleList studyId={studyId} />
   </>
 );
-
-export default NoticeTabPanel;
