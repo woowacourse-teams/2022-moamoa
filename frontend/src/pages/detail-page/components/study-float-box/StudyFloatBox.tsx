@@ -50,9 +50,9 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
         {isRegistered ? (
-          <StudyRoomLink theme={theme} studyId={studyId} />
+          <StudyRoomLink studyId={studyId} />
         ) : (
-          <RegisterButton theme={theme} disabled={!isOpen} onClick={handleRegisterButtonClick} />
+          <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />
         )}
       </Card.Content>
     </Card>
@@ -87,10 +87,9 @@ const Closed = () => <span>모집 마감</span>;
 const Open = () => <span>모집중</span>;
 
 type StudyRoomLinkProps = {
-  theme: Theme;
   studyId: StudyId;
 };
-const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ theme, studyId }) => (
+const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
   <Link to={PATH.STUDY_ROOM(studyId)}>
     <BoxButton type="button" custom={{ fontSize: 'lg' }}>
       스터디 방으로 이동하기
@@ -98,7 +97,7 @@ const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ theme, studyId }) => (
   </Link>
 );
 
-type RegisterButtonProps = { theme: Theme } & Pick<BoxButtonProps, 'disabled' | 'onClick'>;
+type RegisterButtonProps = Pick<BoxButtonProps, 'disabled' | 'onClick'>;
 const RegisterButton: React.FC<RegisterButtonProps> = ({ disabled: isOpen, onClick: handleClick }) => (
   <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: 'lg' }}>
     {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}

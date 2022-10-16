@@ -4,7 +4,7 @@ import { MEMBER_COUNT } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { type UseFormRegister, useFormContext } from '@hooks/useForm';
+import { useFormContext } from '@hooks/useForm';
 import usePositiveNumberInput from '@hooks/usePositiveNumberInput';
 
 import Checkbox from '@shared/checkbox/Checkbox';

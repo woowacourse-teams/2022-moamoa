@@ -6,8 +6,6 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { CommunityArticle } from '@custom-types';
-
 import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
 

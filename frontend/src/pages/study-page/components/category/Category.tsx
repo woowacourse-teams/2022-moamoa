@@ -2,7 +2,7 @@ import type { StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
 
-import { type UseFormRegister, useFormContext } from '@hooks/useForm';
+import { useFormContext } from '@hooks/useForm';
 
 import Checkbox from '@shared/checkbox/Checkbox';
 import Flex from '@shared/flex/Flex';
@@ -37,7 +37,7 @@ const checkHasTags = (tags: unknown): tags is Array<Tag> => {
 };
 
 const Category: React.FC<CategoryProps> = ({ originalGeneration, originalAreas }) => {
-  const { data, isLoading, isError, isSuccess } = useGetTags();
+  const { data, isLoading, isError } = useGetTags();
 
   const tags = data?.tags;
   let areaFE: Tag | undefined;

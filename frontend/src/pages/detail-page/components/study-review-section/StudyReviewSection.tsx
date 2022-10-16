@@ -8,7 +8,6 @@ import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 import type { StudyReview } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';
-import { theme } from '@styles/theme';
 
 import { useGetStudyReviews } from '@api/reviews';
 

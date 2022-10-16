@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { type Theme, css, useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 

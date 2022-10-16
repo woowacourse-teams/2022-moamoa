@@ -11,7 +11,6 @@ import { usePutLink } from '@api/link';
 
 import {
   type FieldElement,
-  type UseFormRegister,
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,

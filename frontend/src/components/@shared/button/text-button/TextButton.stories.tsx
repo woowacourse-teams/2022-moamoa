@@ -1,7 +1,5 @@
 import { type Story } from '@storybook/react';
 
-import { theme } from '@styles/theme';
-
 import TextButton, { type TextButtonProps } from '@shared/button/text-button/TextButton';
 
 export default {

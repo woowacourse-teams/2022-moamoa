@@ -10,7 +10,6 @@ import { usePutReview } from '@api/review';
 
 import {
   type FieldElement,
-  type UseFormRegister,
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,

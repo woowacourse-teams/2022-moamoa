@@ -77,10 +77,7 @@ const Input = styled.input`
   `}
 `;
 
-type SearchButtonProps = {
-  theme: Theme;
-};
-const SearchButton: React.FC<SearchButtonProps> = ({ theme }) => (
+const SearchButton: React.FC = () => (
   <div
     css={css`
       position: absolute;

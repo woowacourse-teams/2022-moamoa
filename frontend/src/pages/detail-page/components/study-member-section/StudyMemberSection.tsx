@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 
 import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
-import { changeDateSeperator } from '@utils';
-
 import type { StudyDetail } from '@custom-types';
 
 import { mqDown } from '@styles/responsive';

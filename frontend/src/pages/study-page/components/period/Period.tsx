@@ -7,7 +7,7 @@ import { compareDateTime } from '@utils/dates';
 
 import { type DateYMD, type StudyDetail } from '@custom-types';
 
-import { type UseFormRegister, useFormContext } from '@hooks/useForm';
+import { useFormContext } from '@hooks/useForm';
 
 import Input from '@shared/input/Input';
 import Label from '@shared/label/Label';

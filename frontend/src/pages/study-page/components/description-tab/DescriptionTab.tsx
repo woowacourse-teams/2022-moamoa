@@ -7,7 +7,7 @@ import { DESCRIPTION_LENGTH } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
-import { type UseFormRegister, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import { ToggleButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';

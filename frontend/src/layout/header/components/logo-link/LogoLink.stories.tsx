@@ -7,7 +7,7 @@ export default {
   component: LogoLink,
 };
 
-const Template: Story = props => <LogoLink />;
+const Template: Story = () => <LogoLink />;
 
 export const Default = Template.bind({});
 Default.args = {};
