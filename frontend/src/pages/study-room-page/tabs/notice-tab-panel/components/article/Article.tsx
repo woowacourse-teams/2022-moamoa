@@ -5,8 +5,9 @@ import { PATH } from '@constants';
 import { changeDateSeperator } from '@utils';
 import tw from '@utils/tw';
 
-import { useGetUserInformation } from '@api/member';
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
+
+import { useUserInfo } from '@hooks/useUserInfo';
 
 import { BoxButton } from '@components/button';
 import ButtonGroup from '@components/button-group/ButtonGroup';
@@ -23,7 +24,7 @@ export type ArticleProps = {
 
 const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetNoticeArticle({ studyId, articleId });
-  const getUserInformationQueryResult = useGetUserInformation();
+  const { userInfo } = useUserInfo();
 
   const { mutateAsync } = useDeleteNoticeArticle();
   const navigate = useNavigate();
@@ -43,31 +44,6 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const renderModifierButtons = () => {
-    if (!getUserInformationQueryResult.isSuccess || getUserInformationQueryResult.isError) return;
-    if (!data?.author.username) return;
-    if (data.author.username !== getUserInformationQueryResult.data.username) return;
-
-    return (
-      <ButtonGroup gap="8px" width="fit-content">
-        <Link to="edit" relative="path">
-          <BoxButton type="button" padding="4px 8px" fluid={false}>
-            글수정
-          </BoxButton>
-        </Link>
-        <BoxButton
-          type="button"
-          padding="4px 8px"
-          fluid={false}
-          variant="secondary"
-          onClick={handleDeleteArticleButtonClick}
-        >
-          글삭제
-        </BoxButton>
-      </ButtonGroup>
-    );
-  };
-
   const render = () => {
     if (isFetching) {
       return <div>Loading...</div>;
@@ -78,6 +54,8 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
 
     if (isSuccess) {
       const { title, author, content, createdDate } = data;
+      const isMyArticle = author.id === userInfo.id;
+
       return (
         <article>
           <Flex justifyContent="space-between" gap="16px">
@@ -85,7 +63,24 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
               <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
               <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
             </UserInfoItem>
-            {renderModifierButtons()}
+            {isMyArticle && (
+              <ButtonGroup gap="8px" width="fit-content">
+                <Link to="edit" relative="path">
+                  <BoxButton type="button" padding="4px 8px" fluid={false}>
+                    글수정
+                  </BoxButton>
+                </Link>
+                <BoxButton
+                  type="button"
+                  padding="4px 8px"
+                  fluid={false}
+                  variant="secondary"
+                  onClick={handleDeleteArticleButtonClick}
+                >
+                  글삭제
+                </BoxButton>
+              </ButtonGroup>
+            )}
           </Flex>
           <Divider />
           <PageTitle>{title}</PageTitle>

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import type { MakeRequired } from '@custom-types';
 
-import { ButtonGroupProps } from './ButtonGroup';
+import { type ButtonGroupProps } from '@components/button-group/ButtonGroup';
 
 type StyledButtonGroupProps = MakeRequired<
   Pick<ButtonGroupProps, 'orientation' | 'gap' | 'height' | 'width' | 'justifyContent' | 'alignItems'>,

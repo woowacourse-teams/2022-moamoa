@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { FlexProps } from './Flex';
+import { type FlexProps } from '@components/flex/Flex';
 
 type StyledFlexProps = Omit<FlexProps, 'children'>;
 
