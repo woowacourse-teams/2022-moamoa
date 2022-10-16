@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -36,8 +37,8 @@ public class TempArticleTest {
                 .doesNotThrowAnyException();
     }
 
-    @ParameterizedTest
     @DisplayName("방장 외에는 공지글을 작성할 수 없다.")
+    @ParameterizedTest
     @MethodSource("provideForbiddenAccessor")
     void cantWriteNoticeArticleByNonOwner(final Accessor accessor) {
         // arrange
@@ -48,6 +49,36 @@ public class TempArticleTest {
         // act && assert
         assertThatThrownBy(() -> TempArticle.create(studyRoom, accessor, "제목", "내용", NOTICE))
                 .isInstanceOf(UnwritableException.class);
+    }
+
+    @DisplayName("작성자만 임시글을 조회할 수 없다.")
+    @Test
+    void viewableByAuthorAccessor() {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final TempArticle tempArticle = TempArticle.create(
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용", NOTICE
+        );
+
+        // act && assert
+        assertThat(tempArticle.isViewable(new Accessor(owner.getId(), studyRoom.getId()))).isTrue();
+    }
+
+    @DisplayName("작성자외의 사용자는 임시글을 조회할 수 없다.")
+    @ParameterizedTest
+    @MethodSource("provideForbiddenAccessor")
+    void unviewableByOtherAccessor(final Accessor accessor) {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
+        final TempArticle tempArticle = TempArticle.create(
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용", NOTICE
+        );
+
+        // act && assert
+        assertThat(tempArticle.isViewable(accessor)).isFalse();
     }
 
     private static Stream<Arguments> provideForbiddenAccessor() {

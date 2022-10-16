@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.webmvc;
+package com.woowacourse.moamoa.studyroom.webmvc.article;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class TempArticleControllerWebMvcTest extends WebMVCTest {
+class CreatingNoticeArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("잘못된 토큰으로 커뮤니티 글을 생성할 경우 401을 반환한다.")
     @ParameterizedTest
     @ValueSource(strings = {"", "Bearer InvalidToken", "Invalid"})
     void unauthorizedByInvalidToken(String token) throws Exception {
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", 1L)
+                post("/api/studies/{study-id}/community/articles", 1L)
                         .header(HttpHeaders.AUTHORIZATION, token)
         )
                 .andExpect(status().isUnauthorized())
@@ -34,7 +34,7 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "one")
+                post("/api/studies/{study-id}/community/articles", "one")
                         .header(HttpHeaders.AUTHORIZATION, token)
         )
                 .andExpect(status().isBadRequest())
@@ -48,10 +48,10 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
+                post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
         )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -64,7 +64,7 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
+                post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
@@ -80,7 +80,7 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
+                post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest(title, "content")))
@@ -96,7 +96,7 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
+                post("/api/studies/{study-id}/community/articles", "1")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new ArticleRequest("title", content)))
@@ -111,11 +111,11 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
-        )
+                        post("/api/studies/{study-id}/community/articles", "1")
+                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(31), "cotent")))
+                )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
@@ -126,11 +126,11 @@ public class TempArticleControllerWebMvcTest extends WebMVCTest {
         final String token = "Bearer" + tokenProvider.createToken(1L).getAccessToken();
 
         mockMvc.perform(
-                post("/api/studies/{study-id}/notice/draft-articles", "1")
-                        .header(HttpHeaders.AUTHORIZATION, token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
-        )
+                        post("/api/studies/{study-id}/community/articles", "1")
+                                .header(HttpHeaders.AUTHORIZATION, token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new ArticleRequest("a".repeat(5001), "cotent")))
+                )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }

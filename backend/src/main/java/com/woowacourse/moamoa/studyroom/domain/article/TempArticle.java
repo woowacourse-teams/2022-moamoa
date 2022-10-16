@@ -29,11 +29,11 @@ public class TempArticle extends BaseEntity {
 
     private Long studyId;
 
-    public TempArticle(final String title, final String content, final Long authorId, final Long studyId) {
+    private TempArticle(final String title, final String content, final Long authorId, final Long studyId) {
         this(null, title, content, authorId, studyId);
     }
 
-    public TempArticle(final Long id, final String title, final String content, final Long authorId,
+    private TempArticle(final Long id, final String title, final String content, final Long authorId,
                        final Long studyId) {
         this.id = id;
         this.title = title;
@@ -51,6 +51,10 @@ public class TempArticle extends BaseEntity {
         }
 
         return new TempArticle(title, content, accessor.getMemberId(), studyRoom.getId());
+    }
+
+    public boolean isViewable(final Accessor accessor) {
+        return authorId.equals(accessor.getMemberId()) && studyId.equals(accessor.getStudyId());
     }
 
     public Long getId() {

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.webmvc;
+package com.woowacourse.moamoa.studyroom.webmvc.link;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-class ReferenceRoomWebMvcTest extends WebMVCTest {
+class LinkArticleWebMvcTest extends WebMVCTest {
 
     @DisplayName("필수 데이터인 링크 URL이 null인 경우 400을 반환한다.")
     @Test

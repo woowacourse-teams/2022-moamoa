@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.webmvc;
+package com.woowacourse.moamoa.studyroom.webmvc.article;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

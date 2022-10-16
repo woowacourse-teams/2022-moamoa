@@ -11,7 +11,6 @@ import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,9 +42,6 @@ public abstract class WebMVCTest {
 
     @MockBean
     private MemberRepository memberRepository;
-
-    @MockBean
-    private TempArticleRepository tempArticleRepository;
 
     @MockBean
     protected HttpServletRequest httpServletRequest;

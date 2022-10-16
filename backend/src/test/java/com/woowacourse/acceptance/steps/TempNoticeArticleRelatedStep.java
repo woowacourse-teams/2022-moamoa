@@ -40,7 +40,7 @@ public class TempNoticeArticleRelatedStep extends Steps {
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/draft-articles/{article-id}")
+                .get("/api/studies/{study-id}/notice/draft-articles/{article-id}")
                 .then().log().all()
                 .extract().as(TempArticleResponse.class);
     }

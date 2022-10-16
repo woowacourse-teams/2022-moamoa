@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.webmvc;
+package com.woowacourse.moamoa.studyroom.webmvc.article;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
