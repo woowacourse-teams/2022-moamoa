@@ -1,3 +1,5 @@
+import { CATEGORY_NAME } from '@constants';
+
 import type { StudyDetail, Tag } from '@custom-types';
 
 import { useGetTags } from '@api/tags';
@@ -15,9 +17,9 @@ export type CategoryProps = {
   originalAreas?: StudyDetail['tags'];
 };
 
-const GENERATION = 'generation';
-const AREA_FE = 'area-fe';
-const AREA_BE = 'area-be';
+const GENERATION = CATEGORY_NAME.GENERATION;
+const AREA_FE = CATEGORY_NAME.AREA_FE;
+const AREA_BE = CATEGORY_NAME.AREA_BE;
 
 const getClassifiedTags = (tags: Array<Tag>) => {
   const generations = tags.filter(({ category }) => category.name === GENERATION); // TODO: 기수 정렬하기. 서버에서 order를 줘도 되겠다

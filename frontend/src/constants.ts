@@ -174,6 +174,8 @@ export const CATEGORY_NAME = {
   GENERATION: 'generation',
   AREA: 'area',
   SUBJECT: 'subject',
+  AREA_FE: 'area-fe',
+  AREA_BE: 'area-be',
 } as const;
 
 export const STUDY_STATUS = {
