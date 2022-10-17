@@ -15,7 +15,7 @@ const StudyRoomPage: React.FC = () => {
 
   return (
     <PageWrapper>
-      <Flex alignItems="flex-start" columnGap="40px">
+      <Flex alignItems="flex-start" columnGap={`${gap}px`}>
         <SideMenu activeTabId={activeTabId} tabs={tabs} onTabButtonClick={handleTabButtonClick} />
         <MainSection>
           <Outlet />
@@ -28,10 +28,11 @@ const StudyRoomPage: React.FC = () => {
 export default StudyRoomPage;
 
 const sidebarWidth = 180;
+const gap = 40;
 const MainSection = styled.section`
   flex-grow: 1;
 
-  max-width: calc(100% - ${sidebarWidth}px);
+  max-width: calc(100% - ${sidebarWidth + gap}px);
 
   ${mqDown('lg')} {
     max-width: 100%;
