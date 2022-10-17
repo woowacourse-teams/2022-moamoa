@@ -37,7 +37,7 @@ const useCreateStudyPage = () => {
     }
 
     const { feTagId, beTagId } = getAreaTagId();
-    const subject = values['subject'].split(COMMA); // @TODO: 태그가 없으면 기본 '기타'태그를 넣어준다
+    const subject = values['subject'].split(COMMA);
     const tagIds = [
       values['area-fe'] === 'checked' ? feTagId : null,
       values['area-be'] === 'checked' ? beTagId : null,
