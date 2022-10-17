@@ -31,7 +31,6 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
   const theme = useTheme();
-  const isRegistered = isOwnerOrMember;
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   return (
@@ -40,7 +39,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
         <div>
           <Card.Heading custom={{ fontSize: 'xl' }}>
             {(() => {
-              if (isRegistered) return <AlreadyRegistered />;
+              if (isOwnerOrMember) return <AlreadyRegistered />;
               if (!isOpen) return <Closed />;
               if (!enrollmentEndDate) return <Open />;
               return <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />;
@@ -50,7 +49,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
           </Card.Content>
         </div>
-        {isRegistered ? (
+        {isOwnerOrMember ? (
           <StudyRoomLink studyId={studyId} />
         ) : (
           <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />

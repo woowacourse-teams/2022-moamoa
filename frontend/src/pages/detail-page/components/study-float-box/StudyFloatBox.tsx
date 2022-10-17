@@ -34,13 +34,12 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
 }) => {
   const theme = useTheme();
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
-  const isRegistered = isOwnerOrMember;
 
   return (
     <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
       <Card.Heading custom={{ fontSize: 'xl', marginBottom: '10px' }}>
         {(() => {
-          if (isRegistered) return <AlreadyRegistered />;
+          if (isOwnerOrMember) return <AlreadyRegistered />;
           if (!isOpen) return <Closed />;
           if (!enrollmentEndDate) return <Open />;
           return <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />;
@@ -49,7 +48,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
       <Card.Content custom={{ fontSize: 'lg' }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
-        {isRegistered ? (
+        {isOwnerOrMember ? (
           <StudyRoomLink studyId={studyId} />
         ) : (
           <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />
