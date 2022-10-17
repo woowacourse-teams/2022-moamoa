@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 import communityArticlesJSON from '@mocks/community-articles.json';
-import { user } from '@mocks/memberHandlers';
+import { user } from '@mocks/handlers/memberHandlers';
 
 import { ApiCommunityArticle } from '@api/community';
 
@@ -18,7 +18,7 @@ export const communityHandlers = [
     const { articles } = communityArticlesJSON;
     const totalCount = articles.length;
 
-    const currentPage = page;
+    const currentPage = Number(page);
     const lastPage = Math.floor((totalCount - 1) / sizeNum);
 
     return res(

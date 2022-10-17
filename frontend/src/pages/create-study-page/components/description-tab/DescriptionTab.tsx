@@ -82,7 +82,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
             })}
           ></Textarea>
         </div>
-        <div css={isWriteTab && tw`hidden`}>
+        <div css={isWriteTab ? tw`hidden` : tw`h-full`}>
           <MarkdownRender markdownContent={description} />
         </div>
       </>

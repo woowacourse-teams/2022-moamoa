@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 import tw from '@utils/tw';
 
-import type { StudyDetail, UserRole } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
@@ -18,14 +18,14 @@ export type StudyFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   studyId: number;
-  userRole?: UserRole;
+  isOwnerOrMember: boolean;
   ownerName: string;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   studyId,
-  userRole,
+  isOwnerOrMember,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
@@ -33,10 +33,10 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   const renderEnrollmentEndDateContent = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (isOwnerOrMember) {
       return <span>이미 가입한 스터디입니다</span>;
     }
 
@@ -57,7 +57,7 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   };
 
   const renderButton = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (isOwnerOrMember || !isOpen) {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
           <BoxButton type="button" fontSize="lg">
@@ -68,8 +68,8 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
     }
 
     return (
-      <BoxButton type="submit" fontSize="lg" disabled={!isOpen} onClick={handleRegisterButtonClick}>
-        {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+      <BoxButton type="submit" fontSize="lg" onClick={handleRegisterButtonClick}>
+        스터디 가입하기
       </BoxButton>
     );
   };

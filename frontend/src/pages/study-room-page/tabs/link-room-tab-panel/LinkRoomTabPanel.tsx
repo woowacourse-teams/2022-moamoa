@@ -3,6 +3,7 @@ import tw from '@utils/tw';
 import type { Link } from '@custom-types';
 
 import { TextButton } from '@components/button';
+import Divider from '@components/divider/Divider';
 import InfiniteScroll from '@components/infinite-scroll/InfiniteScroll';
 import ModalPortal from '@components/modal/Modal';
 import Wrapper from '@components/wrapper/Wrapper';
@@ -18,6 +19,7 @@ const LinkRoomTabPanel: React.FC = () => {
     userInfo,
     infiniteLinksQueryResult,
     isModalOpen,
+    isOwnerOrMember,
     handleLinkAddButtonClick,
     handleModalClose,
     handlePostLinkError,
@@ -57,11 +59,14 @@ const LinkRoomTabPanel: React.FC = () => {
 
   return (
     <Wrapper>
-      <div css={tw`py-4 mb-16 text-right`}>
-        <TextButton variant="primary" fontSize="lg" onClick={handleLinkAddButtonClick}>
-          링크 추가하기
-        </TextButton>
+      <div css={tw`text-right`}>
+        {isOwnerOrMember && (
+          <TextButton variant="primary" fontSize="lg" onClick={handleLinkAddButtonClick}>
+            링크 추가하기
+          </TextButton>
+        )}
       </div>
+      <Divider space="12px" />
       {renderLinkList()}
       {isModalOpen && (
         <ModalPortal onModalOutsideClick={handleModalClose}>

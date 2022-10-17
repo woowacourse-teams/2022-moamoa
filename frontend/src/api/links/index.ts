@@ -6,6 +6,7 @@ import { DEFAULT_LINK_QUERY_PARAM } from '@constants';
 import type { Link, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkLinks } from '@api/links/typeChecker';
 
 export type ApiLinks = {
   get: {
@@ -41,7 +42,7 @@ export const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variabl
   const response = await axiosInstance.get<ApiLinks['get']['responseData']>(
     `/api/studies/${studyId}/reference-room/links?page=${page}&size=${size}`,
   );
-  return response.data;
+  return checkLinks(response.data);
 };
 
 const getLinksWithPage =

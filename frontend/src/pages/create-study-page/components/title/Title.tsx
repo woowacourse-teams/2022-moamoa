@@ -18,10 +18,12 @@ export type TitleProps = {
 const TITLE = 'title';
 
 const Title: React.FC<TitleProps> = ({ originalTitle }) => {
-  const { register, formState } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const { count, setCount, maxCount } = useLetterCount(TITLE_LENGTH.MAX.VALUE, originalTitle?.length ?? 0);
 
-  const { errors } = formState;
   const isValid = !errors[TITLE]?.hasError;
 
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);

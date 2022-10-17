@@ -4,6 +4,7 @@ import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
 import type { Member, StudyId, UserRole } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkUserInformation, checkUserRole } from '@api/member/typeChecker';
 
 export type ApiUserRole = {
   get: {
@@ -25,6 +26,17 @@ export type ApiUserRole = {
 export type ApiUserInformation = {
   get: {
     responseData: Member;
+    variables: {
+      options?: Omit<
+        UseQueryOptions<
+          ApiUserInformation['get']['responseData'],
+          AxiosError,
+          ApiUserInformation['get']['responseData'],
+          QueryKey
+        >,
+        'queryKey' | 'queryFn'
+      >;
+    };
   };
 };
 
@@ -32,7 +44,7 @@ export const getUserRole = async ({ studyId }: ApiUserRole['get']['variables']) 
   const response = await axiosInstance.get<ApiUserRole['get']['responseData']>(
     `/api/members/me/role?study-id=${studyId}`,
   );
-  return response.data;
+  return checkUserRole(response.data);
 };
 
 export const useGetUserRole = ({ studyId, options }: ApiUserRole['get']['variables']) =>
@@ -44,10 +56,8 @@ export const useGetUserRole = ({ studyId, options }: ApiUserRole['get']['variabl
 
 export const getUserInformation = async () => {
   const response = await axiosInstance.get<ApiUserInformation['get']['responseData']>(`/api/members/me`);
-  return response.data;
+  return checkUserInformation(response.data);
 };
 
-export const useGetUserInformation = () =>
-  useQuery<ApiUserInformation['get']['responseData'], AxiosError>('user-info', getUserInformation, {
-    enabled: false,
-  });
+export const useGetUserInformation = ({ options }: ApiUserInformation['get']['variables']) =>
+  useQuery<ApiUserInformation['get']['responseData'], AxiosError>('user-info', getUserInformation, options);

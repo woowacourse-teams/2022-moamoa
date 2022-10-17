@@ -1,15 +1,15 @@
 import { rest } from 'msw';
 
-import { communityHandlers } from '@mocks/communityHandler';
-import detailStudyHandlers from '@mocks/detailStudyHandlers';
-import { linkHandlers } from '@mocks/linkHandlers';
-import { memberHandlers } from '@mocks/memberHandlers';
-import { myHandlers } from '@mocks/myHandlers';
-import { noticeHandlers } from '@mocks/noticeHandler';
-import { reviewHandlers } from '@mocks/reviewHandler';
+import { communityHandlers } from '@mocks/handlers/communityHandler';
+import detailStudyHandlers from '@mocks/handlers/detailStudyHandlers';
+import { linkHandlers } from '@mocks/handlers/linkHandlers';
+import { memberHandlers } from '@mocks/handlers/memberHandlers';
+import { myHandlers } from '@mocks/handlers/myHandlers';
+import { noticeHandlers } from '@mocks/handlers/noticeHandler';
+import { reviewHandlers } from '@mocks/handlers/reviewHandler';
+import { tagHandlers } from '@mocks/handlers/tagHandlers';
+import { tokenHandlers } from '@mocks/handlers/tokenHandlers';
 import studyJSON from '@mocks/studies.json';
-import { tagHandlers } from '@mocks/tagHandlers';
-import { tokenHandlers } from '@mocks/tokenHandlers';
 
 export const handlers = [
   rest.get('/api/studies/search', (req, res, ctx) => {

@@ -1,5 +1,6 @@
-import axios from 'axios';
-import type { AxiosError } from 'axios';
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
+
+import { PATH } from '@constants';
 
 import { getRefreshAccessToken } from '@api/auth';
 
@@ -19,7 +20,7 @@ const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>)
   if (error.response?.status === 401) {
     AccessTokenController.clear();
     alert('장시간 접속하지 않아 로그아웃되었습니다.');
-    window.location.reload();
+    window.location.replace(PATH.MAIN);
     return Promise.reject(error);
   }
 
@@ -35,8 +36,16 @@ const handleAxiosError = (error: AxiosError<{ message: string; code?: number }>)
   return Promise.reject(error);
 };
 
-axiosInstance.interceptors.response.use(response => response, handleAxiosError);
-refreshAxiosInstance.interceptors.response.use(response => response, handleAxiosError);
+const handleAxiosResponse = (response: AxiosResponse) => {
+  // 서버에서 아무 응답 데이터도 오지 않으면 빈 스트링 ''이 오므로 명시적으로 null로 지정
+  if (response.data !== '') return response;
+
+  response.data = null;
+  return response;
+};
+
+axiosInstance.interceptors.response.use(handleAxiosResponse, handleAxiosError);
+refreshAxiosInstance.interceptors.response.use(handleAxiosResponse, handleAxiosError);
 
 axiosInstance.interceptors.request.use(
   async config => {

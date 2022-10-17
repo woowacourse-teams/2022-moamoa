@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
 import tw from '@utils/tw';
 
-import type { StudyDetail, UserRole } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
 import { theme } from '@styles/theme';
 
@@ -18,23 +18,23 @@ export type StudyWideFloatBoxProps = Pick<
   'enrollmentEndDate' | 'currentMemberCount' | 'maxMemberCount' | 'recruitmentStatus'
 > & {
   studyId: number;
-  userRole?: UserRole;
+  isOwnerOrMember: boolean;
   onRegisterButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   studyId,
-  userRole,
+  isOwnerOrMember,
   enrollmentEndDate,
   currentMemberCount,
   maxMemberCount,
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
-  const isOpen = recruitmentStatus === 'RECRUITMENT_START';
+  const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
   const renderEnrollmentEndDateContent = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (isOwnerOrMember) {
       return <span>이미 가입한 스터디입니다</span>;
     }
 
@@ -54,7 +54,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
   };
 
   const renderButton = () => {
-    if (userRole === 'MEMBER' || userRole === 'OWNER') {
+    if (isOwnerOrMember || !isOpen) {
       return (
         <Link to={PATH.STUDY_ROOM(studyId)}>
           <BoxButton type="button" fontSize="lg" fluid>
@@ -65,8 +65,8 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
     }
 
     return (
-      <BoxButton type="submit" fontSize="lg" fluid disabled={!isOpen} onClick={handleRegisterButtonClick}>
-        {isOpen ? '가입하기' : '모집 마감'}
+      <BoxButton type="submit" fontSize="lg" fluid onClick={handleRegisterButtonClick}>
+        가입하기
       </BoxButton>
     );
   };
