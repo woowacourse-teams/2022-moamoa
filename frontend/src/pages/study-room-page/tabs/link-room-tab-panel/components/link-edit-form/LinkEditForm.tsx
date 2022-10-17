@@ -11,6 +11,7 @@ import { usePutLink } from '@api/link';
 
 import {
   type FieldElement,
+  FormProvider,
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,
@@ -51,10 +52,11 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
     LINK_DESCRIPTION_LENGTH.MAX.VALUE,
     originalContent.description.length,
   );
+  const formMethods = useForm();
   const {
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = formMethods;
 
   const isLinkValid = !errors[LINK_URL]?.hasError;
   const isDescValid = !errors[LINK_DESCRIPTION]?.hasError;
@@ -86,26 +88,28 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
 
   return (
     <Self>
-      <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
-        <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
-          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-        </UserInfoItem>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex flexDirection="column" rowGap="12px">
-            <LinkField isValid={isLinkValid} linkUrl={originalContent.linkUrl} />
-            <DescriptionField
-              isValid={isDescValid}
-              description={originalContent.description}
-              count={count}
-              maxCount={maxCount}
-              onChange={handleLinkDescriptionChange}
-            />
-            <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
-              링크 수정
-            </BoxButton>
-          </Flex>
-        </Form>
-      </Card>
+      <FormProvider {...formMethods}>
+        <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
+          <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
+            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+          </UserInfoItem>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Flex flexDirection="column" rowGap="12px">
+              <LinkField isValid={isLinkValid} linkUrl={originalContent.linkUrl} />
+              <DescriptionField
+                isValid={isDescValid}
+                description={originalContent.description}
+                count={count}
+                maxCount={maxCount}
+                onChange={handleLinkDescriptionChange}
+              />
+              <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
+                링크 수정
+              </BoxButton>
+            </Flex>
+          </Form>
+        </Card>
+      </FormProvider>
     </Self>
   );
 };

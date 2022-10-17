@@ -11,6 +11,7 @@ import { usePostLink } from '@api/link';
 
 import {
   type FieldElement,
+  FormProvider,
   type UseFormSubmitResult,
   makeValidationResult,
   useForm,
@@ -46,10 +47,11 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
 
   const { mutateAsync } = usePostLink();
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
+  const formMethods = useForm();
   const {
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = formMethods;
 
   const isLinkValid = !errors[LINK_URL]?.hasError;
   const isDescValid = !errors[LINK_DESCRIPTION]?.hasError;
@@ -80,23 +82,25 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
 
   return (
     <Self>
-      <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
-        <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
-          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-        </UserInfoItem>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex flexDirection="column" rowGap="12px">
-            <LinkField isValid={isLinkValid} />
-            <DescriptionField
-              isValid={isDescValid}
-              count={count}
-              maxCount={maxCount}
-              onChange={handleLinkDescriptionChange}
-            />
-            <AddLinkButton />
-          </Flex>
-        </Form>
-      </Card>
+      <FormProvider {...formMethods}>
+        <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
+          <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
+            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+          </UserInfoItem>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Flex flexDirection="column" rowGap="12px">
+              <LinkField isValid={isLinkValid} />
+              <DescriptionField
+                isValid={isDescValid}
+                count={count}
+                maxCount={maxCount}
+                onChange={handleLinkDescriptionChange}
+              />
+              <AddLinkButton />
+            </Flex>
+          </Form>
+        </Card>
+      </FormProvider>
     </Self>
   );
 };
@@ -149,7 +153,7 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({ isValid, count, max
   const { register } = useFormContext();
   return (
     <>
-      <Label htmlFor={LINK_DESCRIPTION}>설명*</Label>
+      <Label htmlFor={LINK_DESCRIPTION}>설명</Label>
       <div
         css={css`
           position: relative;
