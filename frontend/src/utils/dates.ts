@@ -40,6 +40,6 @@ export const compareDateTime = (date1: DateYMD, date2: DateYMD, returnCondition:
   const date1ToNum = Number(date1.replaceAll('-', ''));
   const date2ToNum = Number(date2.replaceAll('-', ''));
 
-  if (returnCondition === 'min') return date1ToNum < date2ToNum ? date1 : date2;
-  return date1ToNum < date2ToNum ? date2 : date1;
+  if (returnCondition === 'min') return date1ToNum <= date2ToNum ? date1 : date2;
+  return date1ToNum <= date2ToNum ? date2 : date1;
 };
