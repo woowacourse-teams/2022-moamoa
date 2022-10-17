@@ -7,7 +7,7 @@ import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
 
-import { ApiCommunityArticles, useGetCommunityArticles } from '@api/community';
+import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';

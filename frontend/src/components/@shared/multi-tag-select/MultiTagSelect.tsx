@@ -127,23 +127,18 @@ const Self = styled.div`
 
 const SelectControl = styled.div<{ invalid: boolean }>`
   ${({ theme, invalid }) => css`
-    position: relative;
-
     display: flex;
     flex-wrap: wrap;
-    -webkit-box-pack: justify;
     justify-content: space-between;
     align-items: center;
 
+    position: relative;
+    padding-right: 8px;
     min-height: 38px;
 
-    -webkit-box-align: center;
-    background-color: rgb(255, 255, 255);
-    border-color: rgb(204, 204, 204);
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px;
-    padding-right: 8px;
+    border: 1px solid ${theme.colors.secondary.base};
+    background-color: ${theme.colors.secondary.light};
+    border-radius: ${theme.radius.sm};
 
     ${invalid &&
     css`
