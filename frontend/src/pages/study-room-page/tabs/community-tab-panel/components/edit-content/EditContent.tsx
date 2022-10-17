@@ -13,8 +13,6 @@ import MarkdownRender from '@shared/markdown-render/MarkdownRender';
 import MetaBox from '@shared/meta-box/MetaBox';
 import Textarea from '@shared/textarea/Textarea';
 
-MarkdownRender;
-
 type TabIds = typeof tabMode[keyof typeof tabMode];
 
 export type EditContentProps = {

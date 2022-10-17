@@ -18,12 +18,6 @@ import StudyReviewSection from '@detail-page/components/study-review-section/Stu
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
-StudyFloatBox;
-
-StudyFloatBox;
-
-MarkdownRender;
-
 const DetailPage: React.FC = () => {
   const { studyId, detailQueryResult, isOwner, isOwnerOrMember, handleRegisterButtonClick } = useDetailPage();
   const { isFetching, isSuccess, isError, data } = detailQueryResult;
