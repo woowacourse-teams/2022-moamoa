@@ -3,7 +3,6 @@ import { marked } from 'marked';
 import { useEffect, useRef } from 'react';
 
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 
 import markdown from '@styles/markdown';
 
@@ -21,20 +20,14 @@ const MarkdownRender = ({ markdownContent }: MarkdownRenderProps) => {
   }, [contentRef, markdownContent]);
 
   return (
-    <Self>
-      <div
-        css={css`
-          ${markdown}
-        `}
-        ref={contentRef}
-      ></div>
-    </Self>
+    <div
+      css={css`
+        ${markdown};
+        height: 100%;
+      `}
+      ref={contentRef}
+    ></div>
   );
 };
 
 export default MarkdownRender;
-
-const Self = styled.div`
-  overflow-y: auto;
-  height: 100%;
-`;

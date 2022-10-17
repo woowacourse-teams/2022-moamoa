@@ -81,6 +81,7 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ originalDescription }) 
           <div
             css={css`
               height: 400px;
+              overflow: auto;
             `}
           >
             <WriteTab isOpen={isWriteTab} isValid={isValid} originalDescription={originalDescription ?? ''} />
@@ -144,6 +145,8 @@ type MarkdownRendererTabProps = {
 const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, description }) => {
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+    overflow: auto;
   `;
   return (
     <div css={style}>

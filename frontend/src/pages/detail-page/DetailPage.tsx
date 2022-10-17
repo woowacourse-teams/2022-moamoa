@@ -97,9 +97,7 @@ const Loading = () => <div>Loading...</div>;
 const Error = () => <div>조회에 실패했습니다</div>;
 
 const Main = styled.div`
-  width: 100%;
-
-  overflow: auto;
+  overflow-x: auto;
 `;
 
 const MarkdownRendererContainer = styled.div`

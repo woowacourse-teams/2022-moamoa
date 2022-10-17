@@ -133,6 +133,8 @@ type MarkdownRendererTabProps = {
 const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, description }) => {
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+    overflow: auto;
   `;
   return (
     <div css={style}>

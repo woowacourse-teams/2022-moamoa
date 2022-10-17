@@ -115,8 +115,9 @@ const ListPageLink: React.FC = () => (
 
 const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
   const style = css`
-    min-height: 400px;
     padding-bottom: 20px;
+    height: 100%;
+    overflow: auto;
   `;
   return (
     <div css={style}>
