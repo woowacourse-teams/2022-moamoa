@@ -28,14 +28,14 @@ const LinkRoomTabPanel: React.FC = () => {
     handlePostLinkSuccess,
   } = useLinkRoomTabPanel();
 
-  const { data, isError, isSuccess, isFetching, fetchNextPage } = infiniteLinksQueryResult;
+  const { data, isError, isFetching, fetchNextPage } = infiniteLinksQueryResult;
 
   const links = data ? data.pages.reduce<Array<Link>>((acc, cur) => [...acc, ...cur.links], []) : [];
 
   return (
     <PageWrapper>
       {isOwnerOrMember && <AddLinkButton onClick={handleLinkAddButtonClick} />}
-      <Divider space="12px" />
+      <Divider space="8px" />
       {(() => {
         // @TODO: react-queryv4로 올림
         if (isFetching) return <Loading />;

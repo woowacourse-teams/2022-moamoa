@@ -28,7 +28,7 @@ const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => 
           <PublishPageLink />
         </Flex>
       )}
-      <Divider color={theme.colors.secondary.dark} space="8px" />
+      <Divider space="8px" />
       <ArticleList studyId={studyId} />
     </>
   );

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { CssLength } from '@custom-types';
@@ -15,15 +15,16 @@ export type DividerProps = {
 
 const Divider: React.FC<DividerProps> = ({
   orientation = 'horizontal',
-  color = '#cfd8dc',
+  color,
   space = '4px',
   horizontalLength = '100%',
   verticalLength = 'auto',
 }) => {
+  const theme = useTheme();
   return (
     <Self
       orientation={orientation}
-      color={color}
+      color={color ?? theme.colors.secondary.base}
       space={space}
       horizontalLength={horizontalLength}
       verticalLength={verticalLength}
