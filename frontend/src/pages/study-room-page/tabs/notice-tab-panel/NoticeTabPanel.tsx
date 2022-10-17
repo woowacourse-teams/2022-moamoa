@@ -20,20 +20,21 @@ const NoticeTabPanel: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-  const { isNonMember, isMember } = useUserRole({ studyId });
+  const { isOwner } = useUserRole({ studyId });
 
+  // @TODO: Router를 활용해서 내부 페이지를 분리하자
   const lastPath = location.pathname.split('/').at(-1);
-
-  if (isNonMember || isMember) return <Navigate to={`../${PATH.NOTICE}`} replace />;
+  const isPublishPage = lastPath === 'publish';
+  const isEditPage = lastPath === 'edit';
+  const isDetailPage = !!(articleId && !isPublishPage && !isEditPage);
 
   return (
     <PageWrapper>
       {(() => {
-        if (lastPath === 'publish') return <Publish studyId={studyId} />;
-        if (articleId) {
-          if (lastPath === 'edit') return <Edit studyId={studyId} articleId={articleId} />;
-          return <Article studyId={studyId} articleId={articleId} />;
-        }
+        if ((isPublishPage || isEditPage) && !isOwner) return <Navigate to={`../${PATH.NOTICE}`} replace />;
+        if (isPublishPage && isOwner) return <Publish studyId={studyId} />;
+        if (isEditPage && isOwner) return <Edit studyId={studyId} articleId={articleId} />;
+        if (isDetailPage) return <Article studyId={studyId} articleId={articleId} />;
         return <ArticleListPage theme={theme} studyId={studyId} />;
       })()}
     </PageWrapper>

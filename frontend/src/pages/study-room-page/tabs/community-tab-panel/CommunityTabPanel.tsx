@@ -25,19 +25,20 @@ const CommunityTabPanel: React.FC = () => {
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
   // @TODO: studyId가 없는 경우는 어떻게 처리할것인가?
+  // @TODO: Router를 활용해서 내부 페이지를 분리하자
   const lastPath = location.pathname.split('/').at(-1);
-  const { isNonMember } = useUserRole({ studyId });
-
-  if (isNonMember) return <Navigate to={`../${PATH.COMMUNITY}`} replace />;
+  const isPublishPage = lastPath === 'publish';
+  const isEditPage = lastPath === 'edit';
+  const isDetailPage = !!(articleId && !isPublishPage && !isEditPage);
+  const { isNonMember, isOwnerOrMember } = useUserRole({ studyId });
 
   return (
     <PageWrapper>
       {(() => {
-        if (lastPath === 'publish') return <Publish studyId={studyId} />;
-        if (articleId) {
-          if (lastPath === 'edit') return <Edit studyId={studyId} articleId={articleId} />;
-          return <Article studyId={studyId} articleId={articleId} />;
-        }
+        if ((isPublishPage || isEditPage) && isNonMember) return <Navigate to={`../${PATH.COMMUNITY}`} replace />;
+        if (isPublishPage && isOwnerOrMember) return <Publish studyId={studyId} />;
+        if (isEditPage && isOwnerOrMember) return <Edit studyId={studyId} articleId={articleId} />;
+        if (isDetailPage) return <Article studyId={studyId} articleId={articleId} />;
         return <ArticleListPage theme={theme} studyId={studyId} />;
       })()}
     </PageWrapper>
