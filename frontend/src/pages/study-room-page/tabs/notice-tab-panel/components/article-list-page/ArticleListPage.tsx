@@ -18,12 +18,16 @@ type ArticleListPageProps = {
   theme: Theme;
   studyId: StudyId;
 };
-
+// @TODO: 공지사항임이 드러나는 이름으로 변경하기 || 공통 컴포넌트로 분리
 const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => {
   const { isOwner } = useUserRole({ studyId }); // @TODO: 객체로 받을 필요가 있나?
   return (
     <>
-      <Flex justifyContent="flex-end">{isOwner && <PublishPageLink />}</Flex>
+      {isOwner && (
+        <Flex justifyContent="flex-end">
+          <PublishPageLink />
+        </Flex>
+      )}
       <Divider color={theme.colors.secondary.dark} space="8px" />
       <ArticleList studyId={studyId} />
     </>
