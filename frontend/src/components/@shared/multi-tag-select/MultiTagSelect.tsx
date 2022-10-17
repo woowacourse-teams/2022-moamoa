@@ -226,7 +226,7 @@ const DropDown = ({ children, isOpen, onClose }: DropDownProps) => (
     right={0}
     isOpen={isOpen}
     onClose={onClose}
-    custom={{ maxHeight: '180px', backgroundColor: 'white', boxShadow: '0 0 4px 0', borderRadius: '4px' }}
+    custom={{ maxHeight: '180px' }}
   >
     {children}
   </ImportedDropDownBox>
@@ -236,8 +236,7 @@ const UnselectedOption = styled.li`
   ${({ theme }) => css`
     font-size: 20px;
     &:hover {
-      background-color: ${theme.colors.secondary.light}; // TODO: 색 세분화 필요
-      color: white;
+      background-color: ${theme.colors.white}; // TODO: 색 세분화 필요
     }
   `}
 `;
