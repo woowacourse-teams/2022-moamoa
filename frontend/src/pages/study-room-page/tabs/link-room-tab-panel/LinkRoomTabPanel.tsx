@@ -34,17 +34,22 @@ const LinkRoomTabPanel: React.FC = () => {
 
   return (
     <PageWrapper>
+      {isOwnerOrMember && <AddLinkButton onClick={handleLinkAddButtonClick} />}
+      <Divider space="12px" />
       {(() => {
         // @TODO: react-queryv4로 올림
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
         if (links.length === 0) return <NoLinks />;
+        return (
+          <InfiniteLinkList
+            links={links}
+            isContentLoading={isFetching}
+            studyId={studyId}
+            onContentLoad={fetchNextPage}
+          />
+        );
       })()}
-      {isOwnerOrMember && <AddLinkButton onClick={handleLinkAddButtonClick} />}
-      <Divider space="12px" />
-      {isSuccess && links.length > 0 && (
-        <InfiniteLinkList links={links} isContentLoading={isFetching} studyId={studyId} onContentLoad={fetchNextPage} />
-      )}
       {isModalOpen && (
         <CreateLinkModal
           author={userInfo}
