@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
@@ -90,5 +91,20 @@ public class TempArticleController {
     ) {
         tempArticleService.updateTempArticle(memberId, studyId, articleId, request, articleType);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{article-id}/publish")
+    public ResponseEntity<CreatedArticleIdResponse> publishTempArticle(
+            @AuthenticatedMemberId final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("article-id") final Long articleId,
+            @PathVariable("article-type") final ArticleType articleType
+    ) {
+        CreatedArticleIdResponse response = tempArticleService.publishTempArticle(memberId, studyId, articleId, articleType);
+
+        final String location = String.format(
+                "/api/studies/%d/notice/articles/%d", studyId, response.getArticleId()
+        );
+        return ResponseEntity.created(URI.create(location)).body(response);
     }
 }

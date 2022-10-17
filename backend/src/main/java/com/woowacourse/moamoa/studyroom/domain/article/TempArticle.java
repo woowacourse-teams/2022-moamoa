@@ -76,15 +76,19 @@ public class TempArticle extends BaseEntity {
         this.content = content;
     }
 
+    public Article publish(final Accessor accessor) {
+        return Article.create(studyRoom, accessor, content, type);
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return content.getTitle();
+    public StudyRoom getStudyRoom() {
+        return studyRoom;
     }
 
-    public String getContent() {
-        return content.getContent();
+    public Content getContent() {
+        return content;
     }
 }

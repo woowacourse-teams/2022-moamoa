@@ -5,7 +5,9 @@ import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
 import java.time.LocalDate;
@@ -103,6 +105,26 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         assertThat(responses.getCurrentPage()).isEqualTo(0);
         assertThat(responses.getLastPage()).isEqualTo(1);
         assertThat(responses.getTotalCount()).isEqualTo(5);
+    }
+
+    @DisplayName("임시글을 공개한다.")
+    @Test
+    void publishTempArticle() {
+        // arrange
+        final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final long 임시_게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+
+        // act
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().공개한다(임시_게시글_ID);
+
+        // assert
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().찾을_수_없다(게시글_ID);
+
+        final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
+        final ArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).게시글을().조회한다(게시글_ID);
+        assertThat(response.getTitle()).isEqualTo("제목");
+        assertThat(response.getContent()).isEqualTo("내용");
+        assertThat(response.getAuthor().getId()).isEqualTo(그린론_정보.getId());
     }
 
     private void assertTempArticleResponse(

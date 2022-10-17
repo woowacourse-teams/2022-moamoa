@@ -4,6 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
@@ -93,5 +94,18 @@ public class TempCommunityArticleRelatedStep extends Steps{
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticlesResponse.class);
+    }
+
+    public long 공개한다(final long articleId) {
+        final CreatedArticleIdResponse response = spec.given().log().all()
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .pathParam("article-id", articleId)
+                .when().log().all()
+                .post("/api/studies/{study-id}/notice/draft-articles/{article-id}/publish")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract().as(CreatedArticleIdResponse.class);
+        return response.getArticleId();
     }
 }

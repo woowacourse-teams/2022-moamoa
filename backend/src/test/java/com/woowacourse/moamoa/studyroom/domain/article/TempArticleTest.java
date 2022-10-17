@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -180,9 +181,9 @@ public class TempArticleTest {
         tempArticle.update(new Accessor(owner.getId(), studyRoom.getId()), new Content("수정된 제목", "수정된 내용"));
 
         // assert
-        assertThat(tempArticle.getTitle()).isEqualTo("수정된 제목");
-        assertThat(tempArticle.getContent()).isEqualTo("수정된 내용");
+        assertThat(tempArticle.getContent()).isEqualTo(new Content("수정된 제목", "수정된 내용"));
     }
+
     @DisplayName("작성자 외의 사용자는 임시 공지글을 수정할 수 없다.")
     @ParameterizedTest
     @MethodSource("provideForbiddenAccessorForEdit")
@@ -215,6 +216,72 @@ public class TempArticleTest {
         // act && assert
         assertThatCode(() -> tempArticle.update(accessor, new Content("수정된 제목", "수정된 내용")))
                 .isInstanceOf(UneditableException.class);
+    }
+
+    @DisplayName("방장은 공지 임시글을 공개할 수 있다.")
+    @Test
+    void publishNoticeArticle() {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final TempArticle tempArticle = createNoticeTempArticle(
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용");
+
+        // act
+        Article article = tempArticle.publish(new Accessor(owner.getId(), studyRoom.getId()));
+
+        // assert
+        assertThat(article.getType()).isEqualTo(NOTICE);
+        assertThat(article.getContent()).isEqualTo(new Content("제목", "내용"));
+    }
+
+    @DisplayName("방장 외의 사용자는 임시 공지글을 공개할 수 없다.")
+    @ParameterizedTest
+    @MethodSource("provideForbiddenAccessorForNotice")
+    void publishNoticeArticleByForbiddenAccessor(final Accessor accessor) {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
+        final TempArticle tempArticle = createNoticeTempArticle(
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용");
+
+        // act & assert
+        assertThatCode(() -> tempArticle.publish(accessor))
+                .isInstanceOf(UnwritableException.class);
+    }
+
+    @DisplayName("작성자는 임시 게시글을 공개할 수 있다.")
+    @Test
+    void publishCommunityArticle() {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner);
+        final TempArticle tempArticle = createCommunityTempArticle(
+                studyRoom, new Accessor(owner.getId(), studyRoom.getId()), "제목", "내용");
+
+        // act
+        Article article = tempArticle.publish(new Accessor(owner.getId(), studyRoom.getId()));
+
+        // assert
+        assertThat(article.getType()).isEqualTo(COMMUNITY);
+        assertThat(article.getContent()).isEqualTo(new Content("제목", "내용"));
+    }
+
+    @DisplayName("작성자 외에는 임시 게시글을 공개할 수 없다.")
+    @ParameterizedTest
+    @MethodSource("provideForbiddenAccessorForEdit")
+    void publishCommunityArticleByForbiddenAccessor(final Accessor accessor) {
+        // arrange
+        final Member owner = createMember(OWNER_ID);
+        final Member participant = createMember(PARTICIPANT_ID);
+        final StudyRoom studyRoom = createStudyRoom(owner, participant);
+        final TempArticle tempArticle = createCommunityTempArticle(
+                studyRoom, new Accessor(participant.getId(), studyRoom.getId()), "제목", "내용");
+
+        // act & assert
+        assertThatCode(() -> tempArticle.publish(accessor))
+                .isInstanceOf(UnwritableException.class);
     }
 
     private static Stream<Arguments> provideForbiddenAccessorForEdit() {

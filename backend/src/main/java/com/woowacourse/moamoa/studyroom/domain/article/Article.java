@@ -91,6 +91,10 @@ public class Article extends BaseEntity {
         return content;
     }
 
+    public ArticleType getType() {
+        return type;
+    }
+
     boolean isDeleted() {
         return deleted;
     }

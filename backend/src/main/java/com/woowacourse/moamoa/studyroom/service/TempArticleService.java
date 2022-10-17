@@ -2,9 +2,11 @@ package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import com.woowacourse.moamoa.studyroom.domain.article.TempArticle;
+import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
@@ -14,6 +16,7 @@ import com.woowacourse.moamoa.studyroom.query.data.TempArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
@@ -30,15 +33,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class TempArticleService {
 
     private final StudyRoomRepository studyRoomRepository;
+    private final ArticleRepository articleRepository;
     private final TempArticleRepository tempArticleRepository;
     private final TempArticleDao tempArticleDao;
 
     public TempArticleService(
             final StudyRoomRepository studyRoomRepository,
-            final TempArticleRepository articleRepository,
+            final ArticleRepository articleRepository,
+            final TempArticleRepository tempArticleRepository,
             final TempArticleDao tempArticleDao) {
         this.studyRoomRepository = studyRoomRepository;
-        this.tempArticleRepository = articleRepository;
+        this.articleRepository = articleRepository;
+        this.tempArticleRepository = tempArticleRepository;
         this.tempArticleDao = tempArticleDao;
     }
 
@@ -110,5 +116,19 @@ public class TempArticleService {
         }
 
         tempArticleRepository.delete(tempArticle);
+    }
+
+    @Transactional
+    public CreatedArticleIdResponse publishTempArticle(
+            final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType
+    ) {
+        final TempArticle tempArticle = tempArticleRepository.findById(articleId)
+                .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
+
+        final Article publishedArticle = tempArticle.publish(new Accessor(memberId, studyId));
+
+        tempArticleRepository.delete(tempArticle);
+        final Article newArticle = articleRepository.save(publishedArticle);
+        return new CreatedArticleIdResponse(newArticle.getId());
     }
 }

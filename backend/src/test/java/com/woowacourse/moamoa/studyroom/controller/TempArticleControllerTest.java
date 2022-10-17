@@ -3,7 +3,9 @@ package com.woowacourse.moamoa.studyroom.controller;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.베루스;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디_신청서;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -15,7 +17,10 @@ import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
+import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
+import com.woowacourse.moamoa.studyroom.domain.article.Content;
+import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.TempArticleRepository;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
@@ -25,6 +30,7 @@ import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.CreatedTempArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleResponse;
@@ -32,6 +38,7 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +59,8 @@ public class TempArticleControllerTest {
     private StudyRoomRepository studyRoomRepository;
 
     @Autowired
+    private ArticleRepository articleRepository;
+    @Autowired
     private TempArticleRepository tempArticleRepository;
 
     @Autowired
@@ -64,7 +73,9 @@ public class TempArticleControllerTest {
 
     @BeforeEach
     void setUp() {
-        sut = new TempArticleController(new TempArticleService(studyRoomRepository, tempArticleRepository, tempArticleDao));
+        sut = new TempArticleController(
+                new TempArticleService(studyRoomRepository, articleRepository, tempArticleRepository, tempArticleDao)
+        );
     }
 
     @DisplayName("정상적인 임시글 작성")
@@ -112,7 +123,7 @@ public class TempArticleControllerTest {
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
 
         // act & assert
-        assertThatThrownBy(() -> createDraftArticle(비허가_사용자, 자바_스터디, new ArticleRequest("제목", "내용"), type))
+        assertThatThrownBy(() -> createTempArticle(비허가_사용자, 자바_스터디, new ArticleRequest("제목", "내용"), type))
                 .isInstanceOf(UnwritableException.class);
     }
 
@@ -123,7 +134,7 @@ public class TempArticleControllerTest {
         // arrange
         Member 방장 = saveMember(짱구());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act
         ResponseEntity<TempArticleResponse> response = sut.getTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID,
@@ -147,12 +158,12 @@ public class TempArticleControllerTest {
         // arrange
         Member 방장 = saveMember(짱구());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
         Long 존재하지_않는_게시글_ID = 게시글_ID + 1;
 
         // act & assert
         assertThatThrownBy(() -> sut.getTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, type))
-            .isInstanceOf(TempArticleNotFoundException.class);
+                .isInstanceOf(TempArticleNotFoundException.class);
     }
 
     @DisplayName("작성자 외에 사용자가 임시글 조회 시 예외 발생")
@@ -163,7 +174,7 @@ public class TempArticleControllerTest {
         Member 방장 = saveMember(짱구());
         Member 비허가_사용자 = saveMember(베루스());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act & assert
         assertThatThrownBy(() -> sut.getTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type))
@@ -177,7 +188,7 @@ public class TempArticleControllerTest {
         // arrange
         Member 방장 = saveMember(짱구());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act
         sut.deleteTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, type);
@@ -197,7 +208,7 @@ public class TempArticleControllerTest {
 
         // act & assert
         assertThatThrownBy(() -> sut.deleteTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, type))
-            .isInstanceOf(TempArticleNotFoundException.class);
+                .isInstanceOf(TempArticleNotFoundException.class);
     }
 
     @DisplayName("작성자 외에 임시글을 삭제 시 예외 발생")
@@ -208,7 +219,7 @@ public class TempArticleControllerTest {
         Member 방장 = saveMember(짱구());
         Member 비허가_사용자 = saveMember(베루스());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act & assert
         assertThatThrownBy(() -> sut.deleteTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type))
@@ -222,7 +233,7 @@ public class TempArticleControllerTest {
         // arrange
         Member 방장 = saveMember(짱구());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act
         sut.updateTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, new ArticleRequest("수정된 제목", "수정된 내용"),
@@ -246,7 +257,7 @@ public class TempArticleControllerTest {
         // act & assert
         final ArticleRequest request = new ArticleRequest("수정된 제목", "수정된 내용");
         assertThatThrownBy(() ->
-            sut.updateTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, request, type)
+                sut.updateTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, request, type)
         )
                 .isInstanceOf(TempArticleNotFoundException.class);
     }
@@ -259,7 +270,7 @@ public class TempArticleControllerTest {
         Member 방장 = saveMember(짱구());
         Member 비허가_사용자 = saveMember(베루스());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createDraftArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
 
         // act & assert
         final ArticleRequest request = new ArticleRequest("수정된 제목", "수정된 내용");
@@ -289,6 +300,59 @@ public class TempArticleControllerTest {
         assertThat(responses.getBody().getTotalCount()).isEqualTo(0);
     }
 
+    @DisplayName("작성한 임시글을 공개한다.")
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void publishTempArticle(final ArticleType type) {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+
+        // act
+        final ResponseEntity<CreatedArticleIdResponse> response = sut
+                .publishTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, type);
+
+        // arrange
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isNotNull();
+
+        assertThat(tempArticleRepository.findById(게시글_ID)).isEmpty();
+        final Long articleId = response.getBody().getArticleId();
+        final Article article = articleRepository.findById(articleId).get();
+        assertThat(article.getContent()).isEqualTo(new Content("제목", "내용"));
+    }
+
+    @DisplayName("존재하지 않는 임시글을 공개 시 예외 발생")
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void publishNotFoundTempArticle(final ArticleType type) {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 존재하지_않는_게시글_ID = 1L;
+
+        // act & assert
+        assertThatCode(() -> sut.publishTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, type))
+                .isInstanceOf(TempArticleNotFoundException.class);
+    }
+
+    @DisplayName("권한이 없는 사용자가 공개 시 예외 발생")
+    @ParameterizedTest
+    @EnumSource(ArticleType.class)
+    void publishTempArticleByForbiddenAccessor(final ArticleType type) {
+        // arrange
+        Member 방장 = saveMember(짱구());
+        Member 비허가_사용자 = saveMember(베루스());
+        Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+
+        // act & assert
+        assertThatCode(() -> sut.publishTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type))
+                .isInstanceOf(UnwritableException.class);
+        assertThat(tempArticleRepository.findById(게시글_ID)).isPresent();
+    }
+
     private Member saveMember(final Member member) {
         final Member savedMember = memberRepository.save(member);
         entityManager.flush();
@@ -304,7 +368,7 @@ public class TempArticleControllerTest {
         return study;
     }
 
-    private Long createDraftArticle(
+    private Long createTempArticle(
             final Member author, final Study study, final ArticleRequest request, final ArticleType type
     ) {
         ResponseEntity<CreatedTempArticleIdResponse> response = sut
