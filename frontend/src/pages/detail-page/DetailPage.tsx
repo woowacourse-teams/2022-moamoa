@@ -96,19 +96,18 @@ const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>조회에 실패했습니다</div>;
 
-const Main = styled.div`
+const Main = styled.section`
+  width: 100%;
   overflow-x: auto;
 `;
 
-const MarkdownRendererContainer = styled.div`
+const MarkdownRendererContainer = styled.section`
   padding: 16px;
   border-radius: 15px;
 `;
 
 const Sidebar = styled.div`
   min-width: 30%;
-  position: sticky;
-  top: 150px;
 
   ${mqDown('lg')} {
     display: none;
@@ -117,6 +116,8 @@ const Sidebar = styled.div`
 
 const FloatButtonContainer = styled.div`
   padding-bottom: 20px;
+  position: sticky;
+  top: 150px;
 `;
 
 const FixedBottomContainer = styled.div`
