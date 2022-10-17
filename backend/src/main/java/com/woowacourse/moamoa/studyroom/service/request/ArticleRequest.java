@@ -15,7 +15,7 @@ public class ArticleRequest {
     private String title;
 
     @NotBlank(message = "내용을 입력해 주세요.")
-    @Length(max = 5000)
+    @Length(max = 50_000)
     private String content;
 
     public ArticleRequest(final String title, final String content) {
