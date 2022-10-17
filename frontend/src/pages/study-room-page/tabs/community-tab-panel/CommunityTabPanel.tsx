@@ -60,11 +60,11 @@ type ArticleListPageProps = {
   studyId: StudyId;
 };
 const ArticleListPage: React.FC<ArticleListPageProps> = ({ theme, studyId }) => {
-  const { isNonMember } = useUserRole({ studyId });
+  const { isOwnerOrMember } = useUserRole({ studyId });
 
   return (
     <>
-      {isNonMember && (
+      {isOwnerOrMember && (
         <Flex justifyContent="flex-end">
           <PublishPageLink />
         </Flex>

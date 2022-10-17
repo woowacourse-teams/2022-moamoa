@@ -49,10 +49,10 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
           </Card.Content>
         </div>
-        {isOwnerOrMember ? (
+        {isOwnerOrMember || isOpen ? (
           <StudyRoomLink studyId={studyId} />
         ) : (
-          <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />
+          <RegisterButton onClick={handleRegisterButtonClick} />
         )}
       </Flex>
     </Card>
@@ -110,9 +110,9 @@ const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
   </Link>
 );
 
-type RegisterButtonProps = Pick<BoxButtonProps, 'disabled' | 'onClick'>;
-const RegisterButton: React.FC<RegisterButtonProps> = ({ disabled: isOpen, onClick: handleClick }) => (
-  <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: 'lg' }}>
-    {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+type RegisterButtonProps = Pick<BoxButtonProps, 'onClick'>;
+const RegisterButton: React.FC<RegisterButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="submit" onClick={handleClick} custom={{ fontSize: 'lg' }}>
+    스터디 가입하기
   </BoxButton>
 );

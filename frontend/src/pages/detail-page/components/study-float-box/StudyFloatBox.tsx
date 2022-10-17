@@ -48,10 +48,10 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
       <Card.Content custom={{ fontSize: 'lg' }}>
         <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
         <StudyOwner ownerName={ownerName} />
-        {isOwnerOrMember ? (
+        {isOwnerOrMember || !isOpen ? ( // @TODO: 가입하기 버튼을 분리한다(가입안한 사람이 구경할 수 있도록 하기 위함)
           <StudyRoomLink studyId={studyId} />
         ) : (
-          <RegisterButton disabled={!isOpen} onClick={handleRegisterButtonClick} />
+          <RegisterButton onClick={handleRegisterButtonClick} />
         )}
       </Card.Content>
     </Card>
@@ -96,10 +96,10 @@ const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
   </Link>
 );
 
-type RegisterButtonProps = Pick<BoxButtonProps, 'disabled' | 'onClick'>;
-const RegisterButton: React.FC<RegisterButtonProps> = ({ disabled: isOpen, onClick: handleClick }) => (
-  <BoxButton type="submit" disabled={!isOpen} onClick={handleClick} custom={{ fontSize: 'lg' }}>
-    {isOpen ? '스터디 가입하기' : '모집이 마감되었습니다'}
+type RegisterButtonProps = Pick<BoxButtonProps, 'onClick'>;
+const RegisterButton: React.FC<RegisterButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="submit" onClick={handleClick} custom={{ fontSize: 'lg' }}>
+    스터디 가입하기
   </BoxButton>
 );
 
