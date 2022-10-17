@@ -21,7 +21,7 @@ public class StudyParticipantService {
     private final StudyRepository studyRepository;
     private final DateTimeSystem dateTimeSystem;
 
-    public synchronized void participateStudy(final Long memberId, final Long studyId) {
+    public void participateStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findById(studyId)
