@@ -40,7 +40,6 @@ const LinkRoomTabPanel: React.FC = () => {
         if (isError) return <Error />;
         if (links.length === 0) return <NoLinks />;
       })()}
-      {/* owner 혹은 member만 링크를 추가할 수 있을것 같은데, 확실하지는 않음 */}
       {isOwnerOrMember && <AddLinkButton onClick={handleLinkAddButtonClick} />}
       <Divider space="12px" />
       {isSuccess && links.length > 0 && (
