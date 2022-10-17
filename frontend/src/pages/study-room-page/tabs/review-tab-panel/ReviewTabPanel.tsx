@@ -36,14 +36,16 @@ const ReviewTabPanel: React.FC = () => {
   return (
     <PageWrapper>
       {isOwnerOrMember && (
-        <ReviewForm
-          author={userInfo}
-          studyId={studyId}
-          onPostSuccess={handlePostSuccess}
-          onPostError={handlePostError}
-        />
+        <>
+          <ReviewForm
+            author={userInfo}
+            studyId={studyId}
+            onPostSuccess={handlePostSuccess}
+            onPostError={handlePostError}
+          />
+        </>
       )}
-      <Divider space="30px" />
+      <Divider space={isOwnerOrMember ? '30px' : '8px'} />
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
@@ -62,7 +64,7 @@ const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 
-const NoReview = () => <div>첫 리뷰를 남겨주세요!</div>;
+const NoReview = () => <div>리뷰가 없습니다</div>;
 
 type ReviewListProps = {
   reviews: Array<StudyReview>;
