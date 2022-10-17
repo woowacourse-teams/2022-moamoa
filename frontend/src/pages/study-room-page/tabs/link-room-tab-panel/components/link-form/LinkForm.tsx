@@ -41,7 +41,9 @@ const LINK_DESCRIPTION = 'link-description';
 
 const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError }) => {
   const theme = useTheme();
-  const { studyId } = useParams<{ studyId: string }>();
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { mutateAsync } = usePostLink();
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
   const {
@@ -58,7 +60,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
     }
 
     const postData = {
-      studyId: Number(studyId),
+      studyId,
       linkUrl: submitResult.values[LINK_URL],
       description: submitResult.values[LINK_DESCRIPTION] || author.username,
     };

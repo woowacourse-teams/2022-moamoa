@@ -43,7 +43,9 @@ const LINK_DESCRIPTION = 'link-description';
 
 const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
   const theme = useTheme();
-  const { studyId } = useParams<{ studyId: string }>();
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { mutateAsync } = usePutLink();
   const { count, maxCount, setCount } = useLetterCount(
     LINK_DESCRIPTION_LENGTH.MAX.VALUE,
@@ -63,7 +65,7 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
     }
 
     const putData = {
-      studyId: Number(studyId),
+      studyId,
       linkId,
       linkUrl: submitResult.values[LINK_URL],
       description: submitResult.values[LINK_DESCRIPTION] || author.username,
