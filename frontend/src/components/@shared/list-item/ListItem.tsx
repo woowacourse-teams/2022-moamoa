@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
+import { type CustomCSS, resolveCustomCSS } from '@styles/custom-css';
+
 import Flex from '@shared/flex/Flex';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
@@ -13,11 +15,12 @@ export type ListItemProps = {
     username: string;
   };
   subInfo: string;
+  custom?: CustomCSS<'padding'>;
 };
 
-const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo }) => {
+const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo, custom }) => {
   return (
-    <Self>
+    <Self css={resolveCustomCSS(custom)}>
       <Flex alignItems="center">
         <Flex.Item flexGrow={1}>
           <Title>{title}</Title>

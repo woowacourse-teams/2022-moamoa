@@ -20,6 +20,7 @@ const LoginRedirectPage = lazy(
 );
 const MainPage = lazy(() => import(/* webpackChunkName: "main-page" */ '@main-page/MainPage'));
 const MyStudyPage = lazy(() => import(/* webpackChunkName: "my-study-page" */ '@my-study-page/MyStudyPage'));
+const DraftPage = lazy(() => import(/* webpackChunkName: "draft-page" */ '@draft-page/DraftPage'));
 const StudyRoomPage = lazy(() => import(/* webpackChunkName: "study-room-page" */ '@study-room-page/StudyRoomPage'));
 const NoticeTabPanel = lazy(() => import(/* webpackChunkName: "notice-tab-panel" */ '@notice-tab/NoticeTabPanel'));
 const CommunityTabPanel = lazy(
@@ -46,6 +47,7 @@ const App = () => {
               <Route path={PATH.CREATE_STUDY} element={<CreateStudyPage />} />
               <Route path={PATH.EDIT_STUDY()} element={<EditStudyPage />} />
               <Route path={PATH.MY_STUDY} element={<MyStudyPage />} />
+              <Route path={PATH.DRAFT} element={<DraftPage />} />
             </Route>
             <Route path={PATH.STUDY_ROOM()} element={<StudyRoomPage />}>
               {/* TODO: 인덱스 페이지(HOME)를 따로 두면 좋을 것 같다. */}

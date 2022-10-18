@@ -1,0 +1,39 @@
+import { Fragment } from 'react';
+
+import styled from '@emotion/styled';
+
+import { DraftArtcle } from '@custom-types';
+
+import Divider from '@shared/divider/Divider';
+
+import DraftListItem from '@draft-page/components/draft-list-item/DraftListItem';
+
+export type DraftListProps = {
+  articles: Array<Omit<DraftArtcle, 'content'>>;
+};
+
+const DraftList: React.FC<DraftListProps> = ({ articles }) => {
+  const handleDeleteDraftItemClick = () => {
+    console.log('hihi');
+  };
+
+  return (
+    <Self>
+      {articles.map(article => (
+        <Fragment key={article.id}>
+          <DraftListItem
+            id={article.id}
+            title={article.title}
+            createdDate={article.createdDate}
+            onDeleteDraftItemClick={handleDeleteDraftItemClick}
+          />
+          <Divider />
+        </Fragment>
+      ))}
+    </Self>
+  );
+};
+
+export default DraftList;
+
+const Self = styled.ul``;
