@@ -34,11 +34,11 @@ public class ImageService {
         String ext = originalFilename.substring(index + 1);
 
         String storeFileName = UUID.randomUUID() + "." + ext;
-        String key = "test/" + storeFileName;
+        String key = "thumbnail/" + storeFileName;
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
             amazonS3.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicReadWrite));
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
         }
 
         String storeFileUrl = amazonS3.getUrl(bucket, key).toString();
