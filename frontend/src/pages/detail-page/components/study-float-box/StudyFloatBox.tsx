@@ -108,7 +108,7 @@ type NumberOfApplicantsProps = {
   maxMemberCount?: number;
 };
 const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCount, maxMemberCount }) => (
-  <Flex justifyContent="space-between" custom={{ marginBottom: '30px' }}>
+  <Flex justifyContent="space-between" custom={{ marginBottom: '8px' }}>
     <span>모집인원</span>
     <span>
       {currentMemberCount} / {maxMemberCount ?? '∞'}
@@ -120,7 +120,7 @@ type StudyOwnerProps = {
   ownerName: string;
 };
 const StudyOwner: React.FC<StudyOwnerProps> = ({ ownerName }) => (
-  <Flex justifyContent="space-between" custom={{ marginBottom: '20px' }}>
+  <Flex justifyContent="space-between" custom={{ marginBottom: '16px' }}>
     <span>스터디장</span>
     <span>{ownerName}</span>
   </Flex>
