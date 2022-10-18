@@ -9,6 +9,13 @@ DROP TABLE IF EXISTS study;
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS token;
 
+CREATE TABLE thumbnail_image
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    fileName VARCHAR(50),
+    fileUrl VARCHAR(50)
+);
+
 CREATE TABLE member
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,

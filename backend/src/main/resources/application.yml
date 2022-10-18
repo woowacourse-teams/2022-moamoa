@@ -1,17 +1,32 @@
 spring:
   sql:
     init:
-      mode: never
+      mode: always
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+        format_sql: true
   datasource:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL
+    url: jdbc:h2:mem:~/moamoa;MODE=MYSQL
   profiles:
     include: security
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    s3:
+      bucket: 2022-moamoa-thumbnail
