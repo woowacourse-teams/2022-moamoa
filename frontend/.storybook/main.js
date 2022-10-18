@@ -30,6 +30,7 @@ module.exports = {
       '@create-study-page': resolve(__dirname, '../src/pages/study-page/create-study-page'),
       '@edit-study-page': resolve(__dirname, '../src/pages/study-page/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
+      '@draft-page': resolve(__dirname, '../src/pages/draft-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
       '@notice-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/notice-tab-panel'),
       '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
