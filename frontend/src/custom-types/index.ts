@@ -23,6 +23,8 @@ export type RecruitmentStatus = typeof RECRUITMENT_STATUS[keyof typeof RECRUITME
 export type StudyId = number;
 export type TagId = number;
 export type ReviewId = number;
+export type CommunityCommentId = number;
+export type NoticeCommentId = number;
 export type MemberId = number;
 export type CategoryId = number;
 export type LinkId = number;
@@ -76,6 +78,14 @@ export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' |
 
 export type StudyReview = {
   id: ReviewId;
+  member: Member;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+  content: string;
+};
+
+export type CommunityComment = {
+  id: CommunityCommentId;
   member: Member;
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;

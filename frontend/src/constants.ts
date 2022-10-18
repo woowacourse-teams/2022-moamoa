@@ -101,6 +101,36 @@ export const MEMBER_COUNT = {
   },
 };
 
+export const NOTICE_COMMENT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const COMMUNITY_COMMENT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
 export const REVIEW_LENGTH = {
   MIN: {
     VALUE: 1,
