@@ -23,7 +23,19 @@ public class StudyRelatedSteps extends Steps {
         this.token = token;
     }
 
-    public void 참여한다() {
+    public HttpStatus 참여를_시도한다() {
+        final int code = RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .post("/api/studies/{study-id}/members")
+                .then().log().all()
+                .extract().statusCode();
+        return HttpStatus.valueOf(code);
+    }
+
+    public void 참여에_성공한다() {
         RestAssured.given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
@@ -105,5 +117,17 @@ public class StudyRelatedSteps extends Steps {
             Assertions.fail("게시글 작성 실패");
             return null;
         }
+    }
+
+    public HttpStatus 탈퇴를_시도한다() {
+        final int code = RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/members")
+                .then().log().all()
+                .extract().statusCode();
+        return HttpStatus.valueOf(code);
     }
 }

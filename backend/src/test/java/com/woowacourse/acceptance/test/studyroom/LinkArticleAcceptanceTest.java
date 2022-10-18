@@ -78,9 +78,9 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
         final LocalDate 지금 = LocalDate.now();
         final Long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
-        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다();
-        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다();
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+        그린론이().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
 
         final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");
         final LinkArticleRequest request2 = new LinkArticleRequest("https://github.com/jaejae-yoo", "그린론 링크.");
