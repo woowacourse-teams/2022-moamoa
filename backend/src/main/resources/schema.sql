@@ -1,3 +1,10 @@
+CREATE TABLE IF NOT EXISTS thumbnail_image
+(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    file_name VARCHAR(50) NOT NULL,
+    file_url VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS member
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -66,7 +73,7 @@ CREATE TABLE IF NOT EXISTS tag
     description VARCHAR(255) NOT NULL,
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES category (id)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS study_tag
 (

@@ -15,3 +15,16 @@ spring:
     url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL
   profiles:
     include: security
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    s3:
+      bucket: 2022-moamoa-thumbnail
