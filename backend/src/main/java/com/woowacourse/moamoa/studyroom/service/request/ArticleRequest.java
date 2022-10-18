@@ -11,11 +11,11 @@ import org.hibernate.validator.constraints.Length;
 public class ArticleRequest {
 
     @NotBlank(message = "내용을 입력해 주세요.")
-    @Length(max = 30, message = "제목이 너무 깁니다.")
+    @Length(max = 30)
     private String title;
 
     @NotBlank(message = "내용을 입력해 주세요.")
-    @Length(max = 50_000, message = "사이즈가 너무 큽니다.")
+    @Length(max = 5000)
     private String content;
 
     public ArticleRequest(final String title, final String content) {
