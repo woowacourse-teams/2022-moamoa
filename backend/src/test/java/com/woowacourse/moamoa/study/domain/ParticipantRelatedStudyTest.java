@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.study.domain.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.service.exception.FailureKickOutException;
+import com.woowacourse.moamoa.study.service.exception.OwnerCanNotLeaveException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -23,14 +24,13 @@ public class ParticipantRelatedStudyTest {
         final long participantId = 2L;
 
         final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime createdAt = now;
         final LocalDate enrollmentEndDate = now.toLocalDate().plusDays(1);
         final LocalDate startDate = now.toLocalDate().plusDays(1);
         final LocalDate endDate = null;
 
         final Content content = new Content("title", "excerpt", "thumbnail", "description");
         final Participants participants = new Participants(ownerId, Set.of(participantId));
-        final Study sut = new Study(content, participants, AttachedTags.empty(), createdAt, 2,
+        final Study sut = new Study(content, participants, AttachedTags.empty(), now, 2,
                 enrollmentEndDate, startDate, endDate);
 
         sut.kickOut(ownerId, new Participant(participantId), LocalDate.now());
@@ -64,6 +64,36 @@ public class ParticipantRelatedStudyTest {
                 () -> assertThat(sut.isParticipant(participantId)).isFalse(),
                 () -> assertThat(sut.getRecruitPlanner().getRecruitStatus()).isEqualTo(RECRUITMENT_END)
         );
+    }
+
+    @DisplayName("방장은 정상적으로 스터디원을 강퇴시킬 수 있다.")
+    @Test
+    void kickOutStudyParticipant() {
+        final long ownerId = 1L;
+        final long participantId = 2L;
+
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = new Participants(ownerId, Set.of(participantId));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), LocalDateTime.now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
+
+        sut.kickOut(ownerId, new Participant(participantId), LocalDate.now());
+
+        assertThat(sut.isParticipant(participantId)).isFalse();
+    }
+
+    @DisplayName("방장은 자기 자신을 강퇴시킬 수 없다.")
+    @Test
+    void canNotKickOutStudyOwner() {
+        final long ownerId = 1L;
+
+        final Content content = new Content("title", "excerpt", "thumbnail", "description");
+        final Participants participants = new Participants(ownerId, Set.of(2L));
+        final Study sut = new Study(content, participants, AttachedTags.empty(), LocalDateTime.now(), 2,
+                LocalDate.now(), LocalDate.now(), LocalDate.now());
+
+        assertThatThrownBy(() -> sut.kickOut(ownerId, new Participant(ownerId), LocalDate.now()))
+                .isInstanceOf(OwnerCanNotLeaveException.class);
     }
 
     @DisplayName("스터디원은 다른 스터디원을 강퇴시킬 수 없다.")
