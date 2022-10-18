@@ -22,7 +22,10 @@ export type EditProps = {
   articleId: ArticleId;
 };
 
-type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
+type HandleEditFormSubmit = (
+  _: React.FormEvent<HTMLFormElement>,
+  submitResult: UseFormSubmitResult,
+) => Promise<null | undefined>;
 
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const formMethods = useForm();
@@ -42,7 +45,8 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
     const numStudyId = Number(studyId);
     const numArticleId = Number(articleId);
-    mutateAsync(
+
+    return mutateAsync(
       {
         studyId: numStudyId,
         articleId: numArticleId,

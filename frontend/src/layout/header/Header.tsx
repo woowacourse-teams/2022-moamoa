@@ -39,6 +39,8 @@ const Header: React.FC = () => {
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
     e.preventDefault();
+
+    // TODO: 이건 어찌할 방법이 없을까?
     const value = (e.target as any)[inputName].value;
     if (value.length === 0) {
       alert('검색어를 입력해주세요');

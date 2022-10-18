@@ -27,6 +27,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetNoticeArticle({ studyId, articleId });
   const { userInfo } = useUserInfo();
 
+  // TODO: 왜 mutateAsync지??
   const { mutateAsync } = useDeleteNoticeArticle();
   const navigate = useNavigate();
 
@@ -115,9 +116,9 @@ const ListPageLink: React.FC = () => (
 
 const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
   const style = css`
-    padding-bottom: 20px;
-    height: 100%;
+    min-height: 400px;
     overflow: auto;
+    padding-bottom: 20px;
   `;
   return (
     <div css={style}>

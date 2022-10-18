@@ -3,11 +3,12 @@ import { createContext, useContext, useRef, useState } from 'react';
 import type { DateYMD } from '@custom-types';
 
 type FieldName = string;
-type FieldValues = Record<FieldName, any>;
+type FieldValue = any;
+type FieldValues = Record<FieldName, FieldValue>;
 type FieldErrors = Record<FieldName, FieldValidationResult>;
 
 type FieldValidationResult = { hasError: boolean; errorMessage?: string };
-type ValidateHandler = (val: any) => FieldValidationResult;
+type ValidateHandler = (val: FieldValue) => FieldValidationResult;
 type ChangeHandler = React.ChangeEventHandler<FieldElement>;
 export type FieldElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 type ValidationMode = 'change' | 'submit';

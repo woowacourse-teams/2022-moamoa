@@ -18,7 +18,7 @@ export const communityHandlers = [
     const { articles } = communityArticlesJSON;
     const totalCount = articles.length;
 
-    const currentPage = Number(page);
+    const currentPage = pageNum;
     const lastPage = Math.floor((totalCount - 1) / sizeNum);
 
     return res(

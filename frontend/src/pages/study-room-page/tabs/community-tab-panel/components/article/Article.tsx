@@ -31,6 +31,7 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
   const { mutateAsync } = useDeleteCommunityArticle();
   const navigate = useNavigate();
 
+  // TODO: 왜 mutateAsync지??
   const handleDeleteArticleButtonClick = () => {
     mutateAsync(
       { studyId, articleId },
@@ -117,7 +118,7 @@ const ListPageLink: React.FC = () => (
 
 const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
   const style = css`
-    height: 400px;
+    min-height: 400px;
     overflow: auto;
     padding-bottom: 20px;
   `;
