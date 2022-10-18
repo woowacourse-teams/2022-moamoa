@@ -1,5 +1,4 @@
 import type * as CSS from 'csstype';
-import React from 'react';
 
 import { css, useTheme } from '@emotion/react';
 
