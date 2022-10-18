@@ -50,7 +50,7 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
           </Card.Content>
         </div>
         <div>
-          {isOwnerOrMember || isOpen ? (
+          {isOwnerOrMember || !isOpen ? (
             <StudyRoomLink studyId={studyId} />
           ) : (
             <RegisterButton onClick={handleRegisterButtonClick} />
