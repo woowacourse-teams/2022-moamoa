@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.studyroom;
 
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_저장_문서;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +35,10 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
         // act
-        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID)
+                .임시_게시글을()
+                .API_문서화를_하고(임시글_저장_문서(spec))
+                .작성한다(new ArticleRequest("제목", "내용"));
 
         // assert
         final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().조회한다(게시글_ID);

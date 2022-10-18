@@ -3,6 +3,7 @@ package com.woowacourse.acceptance.steps;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
+import com.woowacourse.acceptance.document.TempArticleDocument;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
@@ -11,7 +12,7 @@ import com.woowacourse.moamoa.studyroom.service.response.temp.TempArticleRespons
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class TempCommunityArticleRelatedStep extends Steps{
+public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleRelatedStep, TempArticleDocument> {
 
     private final String token;
 
@@ -28,8 +29,9 @@ public class TempCommunityArticleRelatedStep extends Steps{
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .pathParam("study-id", studyId)
+                .pathParam("article-type", "community")
                 .when().log().all()
-                .post("/api/studies/{study-id}/community/draft-articles")
+                .post("/api/studies/{study-id}/{article-type}/draft-articles")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().as(CreatedTempArticleIdResponse.class)
