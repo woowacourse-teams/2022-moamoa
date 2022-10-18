@@ -15,8 +15,10 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, create
     <Self>
       <ListItem
         title={title}
-        src={author.imageUrl}
-        username={author.username}
+        userInfo={{
+          src: author.imageUrl,
+          username: author.username,
+        }}
         subInfo={changeDateSeperator(createdDate)}
       />
     </Self>

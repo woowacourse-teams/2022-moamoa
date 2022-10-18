@@ -8,22 +8,28 @@ import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ListItemProps = {
   title: string;
-  src: string;
-  username: string;
+  userInfo?: {
+    src: string;
+    username: string;
+  };
   subInfo: string;
 };
 
-const ListItem: React.FC<ListItemProps> = ({ title, src, username, subInfo }) => {
+const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo }) => {
   return (
     <Self>
       <Flex alignItems="center">
         <Flex.Item flexGrow={1}>
           <Title>{title}</Title>
         </Flex.Item>
-        <UserInfoItem size="md" src={src} name={username}>
-          <UserInfoItem.Heading>{username}</UserInfoItem.Heading>
-          <UserInfoItem.Content>{subInfo}</UserInfoItem.Content>
-        </UserInfoItem>
+        {userInfo ? (
+          <UserInfoItem size="md" src={userInfo.src} name={userInfo.username}>
+            <UserInfoItem.Heading>{userInfo.username}</UserInfoItem.Heading>
+            <UserInfoItem.Content>{subInfo}</UserInfoItem.Content>
+          </UserInfoItem>
+        ) : (
+          <SubInfo>{subInfo}</SubInfo>
+        )}
       </Flex>
     </Self>
   );
@@ -49,5 +55,25 @@ const Title: React.FC<TitleProps> = ({ children }) => {
     >
       {children}
     </span>
+  );
+};
+
+type SubInfoProps = {
+  children: string;
+};
+const SubInfo: React.FC<SubInfoProps> = ({ children }) => {
+  const theme = useTheme();
+
+  return (
+    <p
+      css={css`
+        min-width: fit-content;
+
+        color: ${theme.colors.secondary.dark};
+        font-size: ${theme.fontSize.sm};
+      `}
+    >
+      {children}
+    </p>
   );
 };
