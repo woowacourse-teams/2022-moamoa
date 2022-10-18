@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useState } from 'react';
 
 import { css } from '@emotion/react';
-
-import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
 
@@ -62,12 +59,15 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     `}
   >
     {articles.map(article => (
-      <li key={article.id}>
-        <Link to={PATH.COMMUNITY_ARTICLE(article.id)}>
-          <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
-        </Link>
+      <Fragment key={article.id}>
+        <ArticleListItem
+          id={article.id}
+          title={article.title}
+          author={article.author}
+          createdDate={article.createdDate}
+        />
         <Divider />
-      </li>
+      </Fragment>
     ))}
   </ul>
 );
