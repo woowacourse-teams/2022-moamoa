@@ -1,9 +1,10 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 import type { Size, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkStudyReviews } from '@api/reviews/typeChecker';
 
 export const QK_STUDY_REVIEWS = 'study-reviews';
 
@@ -21,10 +22,10 @@ export type ApiReviews = {
   };
 };
 
-export const getStudyReviews = async ({ studyId, size = 8 }: ApiReviews['get']['variables']) => {
+export const getStudyReviews = async ({ studyId, size }: ApiReviews['get']['variables']) => {
   const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
   const response = await axiosInstance.get<ApiReviews['get']['responseData']>(url);
-  return response.data;
+  return checkStudyReviews(response.data);
 };
 
 export const useGetStudyReviews = ({ studyId, size }: ApiReviews['get']['variables']) => {

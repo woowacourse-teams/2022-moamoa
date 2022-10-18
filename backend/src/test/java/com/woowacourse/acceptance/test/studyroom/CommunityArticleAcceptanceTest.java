@@ -80,7 +80,8 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
     void getStudyCommunityArticles() {
         // arrange
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다();
+
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
 
         그린론이().로그인하고().스터디에(자바_스터디_ID).게시글을().작성한다("자바 게시글 제목1", "자바 게시글 내용1");
         long 자바_게시글2_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을().작성한다("자바 게시글 제목2", "자바 게시글 내용2");

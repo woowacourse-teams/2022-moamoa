@@ -89,7 +89,7 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("공지1", "공지내용"));
         그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("공지2", "공지내용"));
 
-        베루스가().로그인하고().스터디에(스터디_ID).참여한다();
+        베루스가().로그인하고().스터디에(스터디_ID).참여에_성공한다();
         베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
         베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
         베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));

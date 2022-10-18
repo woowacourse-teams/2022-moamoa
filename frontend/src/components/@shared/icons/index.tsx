@@ -1,0 +1,15 @@
+export { default as BookmarkIcon } from '@shared/icons/bookmark-icon/BookmarkIcon';
+export { default as CrownIcon } from '@shared/icons/crown-icon/CrownIcon';
+export { default as KebabMenuIcon } from '@shared/icons/kebab-menu-icon/KebabMenuIcon';
+export { default as LeftDirectionIcon } from '@shared/icons/left-direction-icon/LeftDirectionIcon';
+export { default as LoginIcon } from '@shared/icons/login-icon/LoginIcon';
+export { default as LogoutIcon } from '@shared/icons/logout-icon/LogoutIcon';
+export { default as MeatballMenuIcon } from '@shared/icons/meatball-menu-icon/MeatballMenuIcon';
+export { default as PencilIcon } from '@shared/icons/pencil-icon/PencilIcon';
+export { default as PlusIcon } from '@shared/icons/plus-icon/PlusIcon';
+export { default as RightDirectionIcon } from '@shared/icons/right-direction-icon/RightDirectionIcon';
+export { default as RightUpArrowIcon } from '@shared/icons/right-up-arrow-icon/RightUpArrowIcon';
+export { default as SearchIcon } from '@shared/icons/search-icon/SearchIcon';
+export { default as TrashcanIcon } from '@shared/icons/trashcan-icon/TrashcanIcon';
+export { default as DownArrowIcon } from '@shared/icons/down-arrow-icon/DownArrowIcon';
+export { default as XMarkIcon } from '@shared/icons/x-mark-icon/XMarkIcon';
