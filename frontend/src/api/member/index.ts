@@ -1,5 +1,5 @@
-import type { AxiosError } from 'axios';
-import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { type AxiosError } from 'axios';
+import { type QueryKey, UseQueryOptions, useQuery } from 'react-query';
 
 import type { Member, StudyId, UserRole } from '@custom-types';
 

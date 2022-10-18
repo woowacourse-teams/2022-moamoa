@@ -1,4 +1,4 @@
-import { ToggleButton } from '@components/button';
+import { ToggleButton } from '@shared/button';
 
 export type TabButtonProps = {
   children: string;
@@ -8,7 +8,7 @@ export type TabButtonProps = {
 
 const TabButton: React.FC<TabButtonProps> = ({ children, isSelected, onClick: handleClick }) => {
   return (
-    <ToggleButton checked={isSelected} onClick={handleClick} variant="secondary" fluid fontSize="lg">
+    <ToggleButton checked={isSelected} onClick={handleClick} variant="secondary" fluid custom={{ fontSize: 'lg' }}>
       {children}
     </ToggleButton>
   );

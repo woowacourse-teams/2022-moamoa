@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_LINK_QUERY_PARAM } from '@constants';

@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 import type { MyStudy } from '@custom-types';

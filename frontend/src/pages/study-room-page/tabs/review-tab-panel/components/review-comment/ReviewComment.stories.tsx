@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
-import type { ReviewCommentProps } from '@review-tab/components/review-comment/ReviewComment';
+import ReviewComment, { type ReviewCommentProps } from '@review-tab/components/review-comment/ReviewComment';
 
 export default {
   title: 'Pages/StudyRoomPage/ReviewComment',

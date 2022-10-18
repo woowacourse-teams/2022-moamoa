@@ -1,21 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
 
+import { css } from '@emotion/react';
+
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
 import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import PageTitle from '@components/page-title/PageTitle';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
+import PageTitle from '@shared/page-title/PageTitle';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ArticleProps = {
   studyId: number;
@@ -44,61 +45,83 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const render = () => {
-    if (isFetching) {
-      return <div>Loading...</div>;
-    }
-    if (isError) {
-      return <div>에러가 발생했습니다</div>;
-    }
-
-    if (isSuccess) {
-      const { title, author, content, createdDate } = data;
-      const isMyArticle = author.id === userInfo.id;
-
-      return (
-        <article>
-          <Flex justifyContent="space-between" gap="16px">
-            <UserInfoItem src={author.imageUrl} name={author.username} size="md">
-              <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-              <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
-            </UserInfoItem>
-            {isMyArticle && (
-              <ButtonGroup gap="8px" width="fit-content">
-                <Link to="edit" relative="path">
-                  <BoxButton type="button" padding="4px 8px" fluid={false}>
-                    글수정
-                  </BoxButton>
-                </Link>
-                <BoxButton
-                  type="button"
-                  padding="4px 8px"
-                  fluid={false}
-                  variant="secondary"
-                  onClick={handleDeleteArticleButtonClick}
-                >
-                  글삭제
-                </BoxButton>
-              </ButtonGroup>
-            )}
-          </Flex>
-          <Divider />
-          <PageTitle>{title}</PageTitle>
-          <div css={tw`min-h-400 pb-20`}>
-            <MarkdownRender markdownContent={content} />
-          </div>
-          <Divider space="8px" />
-          <Link to={`../${PATH.NOTICE}`}>
-            <BoxButton type="button" padding="8px" variant="secondary">
-              목록보기
-            </BoxButton>
-          </Link>
-        </article>
-      );
-    }
-  };
-
-  return <div>{render()}</div>;
+  return (
+    <div>
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess) {
+          const isMyArticle = data.author.id === userInfo.id;
+          return (
+            <article>
+              <Flex justifyContent="space-between" columnGap="16px">
+                <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+                  <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+                  <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+                </UserInfoItem>
+                {isMyArticle && (
+                  <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                    <EditPageLink articleId={articleId} />
+                    <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+                  </ButtonGroup>
+                )}
+              </Flex>
+              <Divider />
+              <PageTitle>{data.title}</PageTitle>
+              <MarkdownRender content={data.content} />
+              <Divider space="8px" />
+              <ListPageLink />
+            </article>
+          );
+        }
+      })()}
+    </div>
+  );
 };
 
 export default Article;
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>에러가 발생했습니다</div>;
+
+type EditPageLinkProps = {
+  articleId: number;
+};
+const EditPageLink: React.FC<EditPageLinkProps> = ({ articleId }) => (
+  <Link to={PATH.NOTICE_EDIT(articleId)}>
+    <BoxButton type="button" custom={{ padding: '4px 8px' }}>
+      글수정
+    </BoxButton>
+  </Link>
+);
+
+type DeleteArticleButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
+    글 삭제
+  </BoxButton>
+);
+
+const ListPageLink: React.FC = () => (
+  <Link to={`../${PATH.NOTICE}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
+      목록보기
+    </BoxButton>
+  </Link>
+);
+
+const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
+  const style = css`
+    padding-bottom: 20px;
+    height: 100%;
+    overflow: auto;
+  `;
+  return (
+    <div css={style}>
+      <ImportedMarkdownRender markdownContent={content} />
+    </div>
+  );
+};
