@@ -7,7 +7,7 @@ import { isFunction, isObject } from '@utils';
 
 import { UseFormRegister } from '@hooks/useForm';
 
-import UnstyledButton from '@shared/button/unstyled-button/UnstyledButton';
+import { UnstyledButton } from '@shared/button';
 import Center from '@shared/center/Center';
 import ImportedDropDownBox, {
   type DropDownBoxProps as ImportedDropDownBoxProps,

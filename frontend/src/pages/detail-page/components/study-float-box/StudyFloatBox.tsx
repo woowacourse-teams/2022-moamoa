@@ -8,7 +8,7 @@ import { yyyymmddTommdd } from '@utils';
 
 import type { DateYMD, StudyDetail, StudyId } from '@custom-types';
 
-import BoxButton, { type BoxButtonProps } from '@shared/button/box-button/BoxButton';
+import { BoxButton, type BoxButtonProps } from '@shared/button';
 import Card from '@shared/card/Card';
 import Flex from '@shared/flex/Flex';
 

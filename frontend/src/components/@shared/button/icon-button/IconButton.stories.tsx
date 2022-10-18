@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import IconButton, { type IconButtonProps } from '@shared/button/icon-button/IconButton';
+import { IconButton, type IconButtonProps } from '@shared/button';
 import { PlusIcon } from '@shared/icons';
 
 export default {
