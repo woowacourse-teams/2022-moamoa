@@ -1,5 +1,5 @@
-import type { AxiosError } from 'axios';
-import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { type AxiosError } from 'axios';
+import { type QueryKey, UseQueryOptions, useQuery } from 'react-query';
 
 import type { Member, StudyId, UserRole } from '@custom-types';
 
@@ -26,6 +26,17 @@ export type ApiUserRole = {
 export type ApiUserInformation = {
   get: {
     responseData: Member;
+    variables: {
+      options?: Omit<
+        UseQueryOptions<
+          ApiUserInformation['get']['responseData'],
+          AxiosError,
+          ApiUserInformation['get']['responseData'],
+          QueryKey
+        >,
+        'queryKey' | 'queryFn'
+      >;
+    };
   };
 };
 
@@ -48,7 +59,5 @@ export const getUserInformation = async () => {
   return checkUserInformation(response.data);
 };
 
-export const useGetUserInformation = () =>
-  useQuery<ApiUserInformation['get']['responseData'], AxiosError>('user-info', getUserInformation, {
-    enabled: false,
-  });
+export const useGetUserInformation = ({ options }: ApiUserInformation['get']['variables']) =>
+  useQuery<ApiUserInformation['get']['responseData'], AxiosError>('user-info', getUserInformation, options);

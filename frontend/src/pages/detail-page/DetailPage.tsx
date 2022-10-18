@@ -1,17 +1,16 @@
 import { Navigate } from 'react-router-dom';
 
+import styled from '@emotion/styled';
+
 import { PATH } from '@constants';
 
-import tw from '@utils/tw';
+import { mqDown } from '@styles/responsive';
 
-import { theme } from '@styles/theme';
+import Divider from '@shared/divider/Divider';
+import Flex from '@shared/flex/Flex';
+import MarkdownRender from '@shared/markdown-render/MarkdownRender';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
-import Divider from '@components/divider/Divider';
-import Flex from '@components/flex/Flex';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import Wrapper from '@components/wrapper/Wrapper';
-
-import * as S from '@detail-page/DetailPage.style';
 import Head from '@detail-page/components/head/Head';
 import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
 import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
@@ -28,80 +27,109 @@ const DetailPage: React.FC = () => {
     return <Navigate to={PATH.MAIN} replace={true} />;
   }
 
-  if (isFetching) return <div>Loading...</div>;
-
-  if (!isSuccess || isError) return <div>조회에 실패했습니다</div>;
-
-  const {
-    id,
-    title,
-    excerpt,
-    thumbnail,
-    recruitmentStatus,
-    description,
-    currentMemberCount,
-    maxMemberCount,
-    enrollmentEndDate,
-    startDate,
-    endDate,
-    owner,
-    members,
-    tags,
-  } = data;
-
   // TODO: background에 thumbnail 이미지 사용
   return (
-    <Wrapper>
-      <Head
-        id={id}
-        title={title}
-        recruitmentStatus={recruitmentStatus}
-        excerpt={excerpt}
-        startDate={startDate}
-        endDate={endDate}
-        tags={tags}
-        isOwner={isOwner}
-      />
-      <Divider space="20px" />
-      <Flex gap="40px">
-        {/* TODO: UI 버그 수정 -> overflow-auto 적용! 수정시 이 주석은 지워주세요. */}
-        <section css={tw`w-full overflow-auto`}>
-          <section css={tw`p-16 rounded-[${theme.radius.md}]`}>
-            <MarkdownRender markdownContent={description} />
-          </section>
-          <Divider space="20px" />
-          <StudyMemberSection owner={owner} members={members} />
-        </section>
-        <S.FloatButtonContainer>
-          <div css={tw`sticky top-150 pb-20`}>
-            <StudyFloatBox
-              studyId={id}
-              isOwnerOrMember={isOwnerOrMember}
-              ownerName={owner.username}
-              currentMemberCount={currentMemberCount}
-              maxMemberCount={maxMemberCount}
-              enrollmentEndDate={enrollmentEndDate}
-              recruitmentStatus={recruitmentStatus}
-              onRegisterButtonClick={handleRegisterButtonClick}
-            />
-          </div>
-        </S.FloatButtonContainer>
-      </Flex>
-      <Divider space="20px" />
-      <StudyReviewSection studyId={id} />
-      <S.FixedBottomContainer>
-        <StudyWideFloatBox
-          studyId={id}
-          isOwnerOrMember={isOwnerOrMember}
-          currentMemberCount={currentMemberCount}
-          maxMemberCount={maxMemberCount}
-          enrollmentEndDate={enrollmentEndDate}
-          recruitmentStatus={recruitmentStatus}
-          onRegisterButtonClick={handleRegisterButtonClick}
-        />
-      </S.FixedBottomContainer>
-    </Wrapper>
+    <PageWrapper>
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess)
+          return (
+            <>
+              <Head
+                id={data.id}
+                title={data.title}
+                recruitmentStatus={data.recruitmentStatus}
+                excerpt={data.excerpt}
+                startDate={data.startDate}
+                endDate={data.endDate}
+                tags={data.tags}
+                isOwner={isOwner}
+              />
+              <Divider space="20px" />
+              <Flex columnGap="40px">
+                <Main>
+                  <MarkdownRendererContainer>
+                    <MarkdownRender markdownContent={data.description} />
+                  </MarkdownRendererContainer>
+                  <Divider space="20px" />
+                  <StudyMemberSection owner={data.owner} members={data.members} />
+                </Main>
+                <Sidebar>
+                  <FloatButtonContainer>
+                    <StudyFloatBox
+                      studyId={data.id}
+                      isOwnerOrMember={isOwnerOrMember}
+                      ownerName={data.owner.username}
+                      currentMemberCount={data.currentMemberCount}
+                      maxMemberCount={data.maxMemberCount}
+                      enrollmentEndDate={data.enrollmentEndDate}
+                      recruitmentStatus={data.recruitmentStatus}
+                      onRegisterButtonClick={handleRegisterButtonClick}
+                    />
+                  </FloatButtonContainer>
+                </Sidebar>
+              </Flex>
+              <Divider space="20px" />
+              <StudyReviewSection studyId={data.id} />
+              <FixedBottomContainer>
+                <StudyWideFloatBox
+                  studyId={data.id}
+                  isOwnerOrMember={isOwnerOrMember}
+                  currentMemberCount={data.currentMemberCount}
+                  maxMemberCount={data.maxMemberCount}
+                  enrollmentEndDate={data.enrollmentEndDate}
+                  recruitmentStatus={data.recruitmentStatus}
+                  onRegisterButtonClick={handleRegisterButtonClick}
+                />
+              </FixedBottomContainer>
+            </>
+          );
+      })()}
+    </PageWrapper>
   );
 };
 
 export default DetailPage;
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>조회에 실패했습니다</div>;
+
+const Main = styled.section`
+  width: 100%;
+  overflow-x: auto;
+`;
+
+const MarkdownRendererContainer = styled.section`
+  padding: 16px;
+  border-radius: 15px;
+`;
+
+const Sidebar = styled.div`
+  min-width: 30%;
+
+  ${mqDown('lg')} {
+    display: none;
+  }
+`;
+
+const FloatButtonContainer = styled.div`
+  padding-bottom: 20px;
+  position: sticky;
+  top: 150px;
+`;
+
+const FixedBottomContainer = styled.div`
+  display: none;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+
+  ${mqDown('lg')} {
+    display: block;
+  }
+`;

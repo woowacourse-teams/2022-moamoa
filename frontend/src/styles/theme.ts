@@ -1,5 +1,7 @@
 import { type Theme, css } from '@emotion/react';
 
+import { dimensions } from '@styles/responsive';
+
 export type ThemeColor = typeof COLORS[keyof typeof COLORS];
 export type ThemeFontSize = keyof Theme['fontSize'];
 
@@ -35,14 +37,7 @@ export const theme = {
     black: COLORS.BLACK,
     red: COLORS.RED,
   },
-  screens: {
-    xs: 0,
-    sm: '576px',
-    md: '768px',
-    lg: '992px',
-    xl: '1280px',
-    xxl: '1400px',
-  },
+  screens: { ...dimensions },
   fontSize: {
     xs: '12px',
     sm: '14px',

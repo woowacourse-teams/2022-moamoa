@@ -174,6 +174,8 @@ export const CATEGORY_NAME = {
   GENERATION: 'generation',
   AREA: 'area',
   SUBJECT: 'subject',
+  AREA_FE: 'area-fe',
+  AREA_BE: 'area-be',
 } as const;
 
 export const STUDY_STATUS = {
@@ -181,3 +183,8 @@ export const STUDY_STATUS = {
   IN_PROGRESS: 'IN_PROGRESS',
   DONE: 'DONE',
 } as const;
+
+export const PERIOD = {
+  START_DATE: 'start-date',
+  END_DATE: 'end-date',
+};

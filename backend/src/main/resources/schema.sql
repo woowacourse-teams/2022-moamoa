@@ -1,22 +1,11 @@
-DROP TABLE IF EXISTS community;
-DROP TABLE IF EXISTS notice;
-DROP TABLE IF EXISTS study_tag;
-DROP TABLE IF EXISTS study_member;
-DROP TABLE IF EXISTS tag;
-DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS review;
-DROP TABLE IF EXISTS study;
-DROP TABLE IF EXISTS member;
-DROP TABLE IF EXISTS token;
-
-CREATE TABLE thumbnail_image
+CREATE TABLE IF NOT EXISTS thumbnail_image
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    fileName VARCHAR(50),
-    fileUrl VARCHAR(50)
+    file_name VARCHAR(50) NOT NULL,
+    file_url VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE member
+CREATE TABLE IF NOT EXISTS member
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     github_id   BIGINT       NOT NULL UNIQUE,
@@ -25,7 +14,7 @@ CREATE TABLE member
     profile_url VARCHAR(255)
 );
 
-CREATE TABLE study
+CREATE TABLE IF NOT EXISTS study
 (
     id                   BIGINT PRIMARY KEY AUTO_INCREMENT,
     title                VARCHAR(30)  NOT NULL,
@@ -44,7 +33,7 @@ CREATE TABLE study
     FOREIGN KEY (owner_id) REFERENCES member (id)
 );
 
-CREATE TABLE review
+CREATE TABLE IF NOT EXISTS review
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id           BIGINT  NOT NULL,
@@ -57,7 +46,7 @@ CREATE TABLE review
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
 
-CREATE TABLE link
+CREATE TABLE IF NOT EXISTS link
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id           BIGINT     NOT NULL,
@@ -71,22 +60,22 @@ CREATE TABLE link
     FOREIGN KEY (author_id) REFERENCES member (id)
 );
 
-CREATE TABLE category
+CREATE TABLE IF NOT EXISTS category
 (
     id   BIGINT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE tag
+CREATE TABLE IF NOT EXISTS tag
 (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id          BIGINT PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES category (id)
-);
+    );
 
-CREATE TABLE study_tag
+CREATE TABLE IF NOT EXISTS study_tag
 (
     id       BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id BIGINT,
@@ -95,7 +84,7 @@ CREATE TABLE study_tag
     FOREIGN KEY (tag_id) REFERENCES tag (id)
 );
 
-CREATE TABLE study_member
+CREATE TABLE IF NOT EXISTS study_member
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     study_id           BIGINT,
@@ -105,7 +94,7 @@ CREATE TABLE study_member
     FOREIGN KEY (member_id) REFERENCES member (id)
 );
 
-CREATE TABLE article
+CREATE TABLE IF NOT EXISTS article
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     title              VARCHAR(255) NOT NULL,
