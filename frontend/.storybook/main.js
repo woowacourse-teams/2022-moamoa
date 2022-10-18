@@ -13,7 +13,7 @@ module.exports = {
       ...config.resolve.alias,
       '@root': resolve(__dirname, '../'),
       '@src': resolve(__dirname, '../src/'),
-      '@shared': resolve(__dirname, '../src/components/shared'),
+      '@shared': resolve(__dirname, '../src/components/@shared'),
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@types': resolve(__dirname, '../src/types'),
@@ -45,12 +45,11 @@ module.exports = {
     config.module.rules = [
       ...config.module.rules,
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
         loader: 'esbuild-loader',
         options: {
           loader: 'tsx',
-          target: 'es2022',
+          target: 'esnext',
         },
       },
       {
@@ -61,7 +60,7 @@ module.exports = {
 
     config.optimization.minimizer = [
       new ESBuildMinifyPlugin({
-        target: 'es2020',
+        target: 'esnext',
       }),
     ];
 
