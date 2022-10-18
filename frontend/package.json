@@ -47,7 +47,7 @@
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "cypress": "^10.4.0",
+    "cypress": "^10.10.0",
     "dotenv": "^16.0.1",
     "esbuild": "^0.14.54",
     "esbuild-loader": "^2.20.0",
