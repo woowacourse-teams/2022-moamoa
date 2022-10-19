@@ -130,4 +130,21 @@ public class TempArticleDocument extends Document {
         );
         return new TempArticleDocument(documentSpec);
     }
+
+    public static TempArticleDocument 임시글_공개_문서(final RequestSpecification spec) {
+        final RequestSpecification documentSpec = RestAssured.given(spec).filter(
+                document("temp-article/publish",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별 ID"),
+                                parameterWithName("article-id").description("공지사항 식별 ID"),
+                                parameterWithName("article-type").description("게시글 유형 ex) notice, community")
+                        )
+                )
+        );
+
+        return new TempArticleDocument(documentSpec);
+    }
 }
