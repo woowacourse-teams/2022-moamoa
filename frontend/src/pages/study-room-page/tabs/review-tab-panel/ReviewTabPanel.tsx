@@ -23,12 +23,12 @@ const ReviewTabPanel: React.FC = () => {
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
 
   const handlePostSuccess = () => {
-    alert('댓글을 추가했습니다');
+    alert('리뷰를 추가했습니다');
     refetch();
   };
 
   const handlePostError = () => {
-    alert('댓글 입력에 오류가 발생했습니다');
+    alert('리뷰 입력에 오류가 발생했습니다');
   };
 
   return (
