@@ -13,29 +13,24 @@ import ImportedLetterCounter, {
   type LetterCounterProps as ImportedLetterCounterProps,
 } from '@shared/letter-counter/LetterCounter';
 
-export type EditTitleProps = {
-  title: string;
+export type ArticleTitleInputProps = {
+  originalTitle?: string;
 };
 
-const TITLE = 'title';
-
-const EditTitle: React.FC<EditTitleProps> = ({ title }) => {
-  const { formState } = useFormContext();
-  const { errors } = formState;
-  const [count, setCount] = useState(0);
-  const isValid = !errors[TITLE]?.hasError;
+const ArticleTitleInput: React.FC<ArticleTitleInputProps> = ({ originalTitle }) => {
+  const [count, setCount] = useState(originalTitle ? originalTitle.length : 0);
 
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
     <Self>
       <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      <TitleField isValid={isValid} title={title} onChange={handleTitleChange} />
+      <TitleField title={originalTitle ?? ''} onChange={handleTitleChange} />
     </Self>
   );
 };
 
-export default EditTitle;
+export default ArticleTitleInput;
 
 const Self = styled.div`
   position: relative;
@@ -56,12 +51,20 @@ const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
 };
 
 type TitleFieldProps = {
-  isValid: boolean;
   title: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
-const TitleField: React.FC<TitleFieldProps> = ({ isValid, title, onChange: handleChange }) => {
-  const { register } = useFormContext();
+
+const TITLE = 'title';
+
+const TitleField: React.FC<TitleFieldProps> = ({ title, onChange: handleChange }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const isValid = !errors[TITLE]?.hasError;
+
   return (
     <>
       <Label htmlFor={TITLE} hidden>

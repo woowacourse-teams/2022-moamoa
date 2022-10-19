@@ -14,8 +14,8 @@ import Divider from '@shared/divider/Divider';
 import Form from '@shared/form/Form';
 import PageTitle from '@shared/page-title/PageTitle';
 
-import EditContent from '@community-tab/components/edit-content/EditContent';
-import EditTitle from '@community-tab/components/edit-title/EditTitle';
+import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
+import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
 export type EditProps = {
   studyId: StudyId;
@@ -34,22 +34,16 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
   const { mutateAsync } = usePutCommunityArticle();
 
-  const handleSubmit: HandleEditFormSubmit = async (
-    _: React.FormEvent<HTMLFormElement>,
-    submitResult: UseFormSubmitResult,
-  ) => {
+  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
 
-    const numStudyId = Number(studyId);
-    const numArticleId = Number(articleId);
-
     return mutateAsync(
       {
-        studyId: numStudyId,
-        articleId: numArticleId,
+        studyId,
+        articleId,
         title,
         content,
       },
@@ -81,6 +75,27 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
 export default Edit;
 
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error...</div>;
+
+type EditFormProps = {
+  article: CommunityArticle;
+  formMethods: UseFormReturn;
+  onSubmit: HandleEditFormSubmit;
+};
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <ArticleTitleInput originalTitle={article.title} />
+    <ArticleContentInput originalContent={article.content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <GoBackLinkButton />
+      <EditButton />
+    </ButtonGroup>
+  </Form>
+);
+
 const GoBackLinkButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
@@ -93,25 +108,4 @@ const EditButton: React.FC = () => (
   <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     수정하기
   </BoxButton>
-);
-
-const Loading = () => <div>Loading...</div>;
-
-const Error = () => <div>Error...</div>;
-
-type EditFormProps = {
-  article: CommunityArticle;
-  formMethods: UseFormReturn;
-  onSubmit: HandleEditFormSubmit;
-};
-const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
-  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-    <EditTitle title={article.title} />
-    <EditContent content={article.content} />
-    <Divider space="16px" />
-    <ButtonGroup justifyContent="space-between">
-      <GoBackLinkButton />
-      <EditButton />
-    </ButtonGroup>
-  </Form>
 );

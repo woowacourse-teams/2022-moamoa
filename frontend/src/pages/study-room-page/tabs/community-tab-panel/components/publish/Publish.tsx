@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -6,7 +7,8 @@ import type { StudyId } from '@custom-types';
 
 import { usePostCommunityArticle } from '@api/community';
 
-import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -14,25 +16,40 @@ import Divider from '@shared/divider/Divider';
 import Form from '@shared/form/Form';
 import PageTitle from '@shared/page-title/PageTitle';
 
-import PublishContent from '@community-tab/components/publish-content/PublishContent';
-import PublishTitle from '@community-tab/components/publish-title/PublishTitle';
+import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
+import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
 export type PublishProps = {
   studyId: StudyId;
 };
+
+type HandlePublishFormSubmit = (
+  _: React.FormEvent<HTMLFormElement>,
+  submitResult: UseFormSubmitResult,
+) => Promise<null | undefined>;
 
 const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostCommunityArticle();
 
-  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const { isFetching, isError, isOwnerOrMember } = useUserRole({ studyId });
+
+  useEffect(() => {
+    if (isFetching) return;
+    if (isOwnerOrMember) return;
+
+    alert('접근할 수 없습니다!');
+    navigate(`../${PATH.COMMUNITY}`);
+  }, [isFetching, isOwnerOrMember]);
+
+  const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
 
-    mutateAsync(
+    return mutateAsync(
       {
         studyId,
         title,
@@ -53,18 +70,37 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>게시글 작성</PageTitle>
-      <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <PublishTitle />
-        <PublishContent />
-        <Divider space="16px" />
-        <ButtonGroup justifyContent="space-between">
-          <GoBackLinkButton />
-          <RegisterButton />
-        </ButtonGroup>
-      </Form>
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isOwnerOrMember) return <PublishForm formMethods={formMethods} onSubmit={handleSubmit} />;
+      })()}
     </FormProvider>
   );
 };
+
+export default Publish;
+
+const Loading = () => <div>유저 정보 가져오는 중...</div>;
+
+const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
+
+type PublishFormProps = {
+  formMethods: UseFormReturn;
+  onSubmit: HandlePublishFormSubmit;
+};
+
+const PublishForm: React.FC<PublishFormProps> = ({ formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <ArticleTitleInput />
+    <ArticleContentInput />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <GoBackLinkButton />
+      <RegisterButton />
+    </ButtonGroup>
+  </Form>
+);
 
 const GoBackLinkButton: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
@@ -79,5 +115,3 @@ const RegisterButton: React.FC = () => (
     등록하기
   </BoxButton>
 );
-
-export default Publish;

@@ -16,8 +16,8 @@ import Divider from '@shared/divider/Divider';
 import Form from '@shared/form/Form';
 import PageTitle from '@shared/page-title/PageTitle';
 
-import EditContent from '@notice-tab/components/edit-content/EditContent';
-import EditTitle from '@notice-tab/components/edit-title/EditTitle';
+import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
+import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
 export type EditProps = {
   studyId: StudyId;
@@ -45,22 +45,16 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     navigate(`../${PATH.NOTICE}`);
   }, [studyId, navigate, isFetching, isOwner]);
 
-  const handleSubmit: HandleEditFormSubmit = async (
-    _: React.FormEvent<HTMLFormElement>,
-    submitResult: UseFormSubmitResult,
-  ) => {
+  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
 
-    const numStudyId = Number(studyId);
-    const numArticleId = Number(articleId);
-
     return mutateAsync(
       {
-        studyId: numStudyId,
-        articleId: numArticleId,
+        studyId,
+        articleId,
         title,
         content,
       },
@@ -89,6 +83,8 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   );
 };
 
+export default Edit;
+
 type EditFormProps = {
   article: NoticeArticle;
   formMethods: UseFormReturn;
@@ -96,8 +92,8 @@ type EditFormProps = {
 };
 const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
   <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-    <EditTitle title={article.title} />
-    <EditContent content={article.content} />
+    <ArticleTitleInput originalTitle={article.title} />
+    <ArticleContentInput originalContent={article.content} />
     <Divider space="16px" />
     <ButtonGroup justifyContent="space-between">
       <ListPageLink />
@@ -123,5 +119,3 @@ const EditButton: React.FC = () => (
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>Error...</div>;
-
-export default Edit;
