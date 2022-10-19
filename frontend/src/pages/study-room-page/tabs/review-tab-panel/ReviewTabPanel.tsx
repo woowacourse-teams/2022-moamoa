@@ -11,8 +11,9 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@shared/divider/Divider';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
+import ReviewEditableComment from '@study-room-page/tabs/review-tab-panel/components/review-editable-comment/ReviewEditableComment';
+
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
-import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
 
 const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
@@ -76,7 +77,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) =
     {reviews.map(review => (
       <React.Fragment key={review.id}>
         <li>
-          <ReviewComment
+          <ReviewEditableComment
             id={review.id}
             studyId={studyId}
             author={review.member}
