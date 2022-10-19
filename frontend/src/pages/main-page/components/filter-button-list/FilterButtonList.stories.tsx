@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
 import type { CategoryName, Tag, TagInfo } from '@custom-types';

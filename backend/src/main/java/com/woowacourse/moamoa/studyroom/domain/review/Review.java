@@ -60,14 +60,14 @@ public class Review extends BaseEntity {
 
     public void updateContent(final Accessor accessor, final String content) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableException(associatedStudy.getStudyId(), accessor, TYPE_NAME);
+            throw UneditableException.forArticle(associatedStudy.getStudyId(), accessor, TYPE_NAME);
         }
         this.content = content;
     }
 
     public void delete(final Accessor accessor) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableException(associatedStudy.getStudyId(), accessor, TYPE_NAME);
+            throw UneditableException.forArticle(associatedStudy.getStudyId(), accessor, TYPE_NAME);
         }
         deleted = true;
     }

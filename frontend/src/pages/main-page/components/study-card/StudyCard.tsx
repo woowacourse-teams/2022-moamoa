@@ -1,13 +1,16 @@
 import { memo } from 'react';
 
-import tw from '@utils/tw';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Study } from '@custom-types';
 
-import * as S from '@pages/main-page/components/study-card/StudyCard.style';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
-import Card from '@components/card/Card';
-import Image from '@components/image/Image';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
+import Image, { type ImageProps } from '@shared/image/Image';
+
 import StudyChip from '@components/study-chip/StudyChip';
 
 export type StudyCardProps = {
@@ -21,31 +24,69 @@ export type StudyCardProps = {
 
 const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, tags, isOpen }) => {
   return (
-    <S.StudyCardContainer>
-      <Card>
-        <div css={tw`mb-16 flex-grow overflow-hidden`}>
-          <Image shape="rectangular" alt={thumbnailAlt} src={thumbnailUrl} />
-        </div>
+    <Self>
+      <Card custom={{ width: '280px' }}>
+        <CardImage alt={thumbnailAlt} src={thumbnailUrl} />
         <div>
-          <Card.Heading>{title}</Card.Heading>
-          <div css={tw`mb-8`}>
-            <Card.Content>{excerpt}</Card.Content>
-          </div>
-          <Card.Content align="right" maxLine={1}>
-            {tags &&
-              tags.map(tag => (
-                <span key={tag.id} css={tw`mr-8`}>
-                  #{tag.name}
-                </span>
-              ))}
+          <Card.Heading custom={{ marginBottom: '8px' }}>{title}</Card.Heading>
+          <Card.Content>
+            <Exceprt content={excerpt} />
+            <TagList tags={tags ?? []} />
           </Card.Content>
         </div>
-        <div css={tw`absolute top-8 right-8`}>
+        <StudyChipContainer>
           <StudyChip isOpen={isOpen} />
-        </div>
+        </StudyChipContainer>
       </Card>
-    </S.StudyCardContainer>
+    </Self>
   );
 };
 
 export default memo(StudyCard);
+
+const Self = styled.div`
+  position: relative;
+  height: 280px;
+
+  ${applyHoverTransitionStyle()}
+`;
+
+type ExceprtProps = {
+  content: string;
+};
+const Exceprt: React.FC<ExceprtProps> = ({ content }) => (
+  <p
+    css={css`
+      margin-bottom: 20px;
+    `}
+  >
+    {content}
+  </p>
+);
+
+type TagListProps = {
+  tags: StudyCardProps['tags'];
+};
+const TagList: React.FC<TagListProps> = ({ tags }) => (
+  <Flex flexWrap="wrap" columnGap="6px" justifyContent="flex-end">
+    {tags.map(tag => (
+      <Tag key={tag.id}>#{tag.name}</Tag>
+    ))}
+  </Flex>
+);
+
+type CardImageProps = Pick<ImageProps, 'alt' | 'src'>;
+
+const CardImage = ({ alt, src }: CardImageProps) => (
+  <Image custom={{ marginBottom: '16px' }} shape="rectangular" alt={alt} src={src} />
+);
+
+const Tag = styled.span`
+  margin-bottom: 4px;
+`;
+
+const StudyChipContainer = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+`;

@@ -96,7 +96,7 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
         final long studyId = 짱구가().로그인하고().자바_스터디를()
                 .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID)
                 .생성한다();
-        디우가().로그인하고().스터디에(studyId).참여한다();
+        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
         final String accessToken = 짱구가().로그인한다();
 
         final StudyRequest request = new StudyRequestBuilder().title("변경된 제목")

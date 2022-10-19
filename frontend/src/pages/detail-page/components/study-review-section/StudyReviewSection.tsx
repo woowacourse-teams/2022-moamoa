@@ -1,18 +1,20 @@
 import { useState } from 'react';
 
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { DEFAULT_LOAD_STUDY_REVIEW_COUNT } from '@constants';
 
-import tw from '@utils/tw';
+import type { StudyReview } from '@custom-types';
 
-import { theme } from '@styles/theme';
+import { mqDown } from '@styles/responsive';
 
 import { useGetStudyReviews } from '@api/reviews';
 
-import SectionTitle from '@components/section-title/SectionTitle';
+import SectionTitle from '@shared/section-title/SectionTitle';
 
-import MoreButton from '@detail-page/components/more-button/MoreButton';
+import MoreButton, { type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
 import StudyReviewCard from '@detail-page/components/study-review-card/StudyReviewCard';
-import * as S from '@detail-page/components/study-review-section/StudyReviewSection.style';
 
 export type StudyReviewSectionProps = {
   studyId: number;
@@ -28,44 +30,109 @@ const StudyReviewSection: React.FC<StudyReviewSectionProps> = ({ studyId }) => {
     setIsMoreButtonVisible(prev => !prev);
   };
 
-  const renderReviews = () => {
-    if (isFetching) return <div>로딩중...</div>;
-    if (!isSuccess || isError) return <div>후기 불러오기를 실패했습니다</div>;
-    if (data.reviews.length === 0) return <div>아직 작성된 후기가 없습니다</div>;
-    return (
-      <>
-        <S.ReviewList>
-          {data.reviews.map(review => (
-            <S.ReviewListItem key={review.id}>
-              <StudyReviewCard
-                imageUrl={review.member.imageUrl}
-                username={review.member.username}
-                reviewDate={review.createdDate}
-                review={review.content}
-              />
-            </S.ReviewListItem>
-          ))}
-        </S.ReviewList>
-        {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
-          <div css={tw`p-16 text-right`}>
-            <MoreButton
-              status={showAll ? 'unfold' : 'fold'}
-              onClick={handleMoreButtonClick}
-              foldText="- 접기"
-              unfoldText="+ 더보기"
-            />
-          </div>
-        )}
-      </>
-    );
-  };
-
   return (
-    <section css={tw`p-16`}>
-      <SectionTitle>후기 {<span css={tw`text-[${theme.fontSize.md}]`}>{data?.totalCount ?? '0'}개</span>}</SectionTitle>
-      {renderReviews()}
-    </section>
+    <Self>
+      <ReviewSectionTitle totalCount={data?.totalCount ?? 0} />
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError || !isSuccess) return <Error />;
+        if (data.reviews && data.reviews.length === 0) return <NoReview />;
+        return (
+          <>
+            <ReviewList reviews={data.reviews} />
+            {data.reviews.length >= DEFAULT_LOAD_STUDY_REVIEW_COUNT && (
+              <LoadMoreReviewButton status={showAll ? 'unfold' : 'fold'} onClick={handleMoreButtonClick} />
+            )}
+          </>
+        );
+      })()}
+    </Self>
   );
 };
 
 export default StudyReviewSection;
+
+const Self = styled.section`
+  padding: 16px;
+`;
+
+type ReviewSectionTitleProps = {
+  totalCount: number;
+};
+const ReviewSectionTitle: React.FC<ReviewSectionTitleProps> = ({ totalCount }) => {
+  const theme = useTheme();
+  return (
+    <SectionTitle>
+      후기
+      {
+        <span
+          css={css`
+            font-size: ${theme.fontSize.md};
+          `}
+        >
+          {totalCount}개
+        </span>
+      }
+    </SectionTitle>
+  );
+};
+
+const Loading = () => <div>로딩중...</div>;
+
+const Error = () => <div>후기 불러오기를 실패했습니다</div>;
+
+const NoReview = () => <div>아직 작성된 후기가 없습니다</div>;
+
+type ReviewListProps = {
+  reviews: Array<StudyReview>;
+};
+const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+  const style = css`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 60px;
+
+    ${mqDown('md')} {
+      flex-direction: column;
+      row-gap: 30px;
+    }
+  `;
+
+  const itemStyle = css`
+    width: calc(50% - 30px);
+
+    ${mqDown('md')} {
+      width: 100%;
+    }
+  `;
+
+  return (
+    <div css={style}>
+      {reviews.map(review => (
+        <li key={review.id} css={itemStyle}>
+          <StudyReviewCard
+            imageUrl={review.member.imageUrl}
+            username={review.member.username}
+            reviewDate={review.createdDate}
+            review={review.content}
+          />
+        </li>
+      ))}
+    </div>
+  );
+};
+
+type LoadMoreReviewButtonProps = {
+  status: MoreButtonProps['status'];
+  onClick: MoreButtonProps['onClick'];
+};
+const LoadMoreReviewButton: React.FC<LoadMoreReviewButtonProps> = ({ status, onClick }) => (
+  <div
+    css={css`
+      padding: 16px;
+      text-align: right;
+    `}
+  >
+    <MoreButton status={status} onClick={onClick} foldText="- 접기" unfoldText="+ 더보기" />
+  </div>
+);

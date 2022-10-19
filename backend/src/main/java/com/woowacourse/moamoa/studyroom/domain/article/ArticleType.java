@@ -50,4 +50,8 @@ public enum ArticleType {
     abstract boolean isUnwritableAccessor(final StudyRoom studyRoom, final Accessor accessor);
 
     abstract boolean isUneditableAccessor(final StudyRoom studyRoom, final Long authorId, final Accessor accessor);
+
+    public String lowerCaseName() {
+        return name().toLowerCase();
+    }
 }

@@ -1,8 +1,7 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
-import FilterButton from '@main-page/components/filter-button/FilterButton';
-import type { FilterButtonProps } from '@main-page/components/filter-button/FilterButton';
+import FilterButton, { type FilterButtonProps } from '@main-page/components/filter-button/FilterButton';
 
 export default {
   title: 'Pages/MainPage/FilterButton',

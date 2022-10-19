@@ -1,7 +1,7 @@
-import tw from '@utils/tw';
+import styled from '@emotion/styled';
 
-import { IconButton } from '@components/button';
-import { PencilIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import { PencilIcon } from '@shared/icons';
 
 export type CreateNewStudyButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -9,12 +9,19 @@ export type CreateNewStudyButtonProps = {
 
 const CreateNewStudyButton = ({ onClick: handleClick }: CreateNewStudyButtonProps) => {
   return (
-    <div css={tw`fixed right-60 bottom-50 z-3`}>
-      <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" width="70px" height="70px">
+    <Self>
+      <IconButton onClick={handleClick} ariaLabel="스터디 개설 페이지 이동" custom={{ width: '70px', height: '70px' }}>
         <PencilIcon />
       </IconButton>
-    </div>
+    </Self>
   );
 };
 
 export default CreateNewStudyButton;
+
+const Self = styled.div`
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+  z-index: 3;
+`;

@@ -1,9 +1,8 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import { noop } from '@utils';
 
-import StudyFloatBox from '@detail-page/components/study-float-box/StudyFloatBox';
-import type { StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';
+import StudyFloatBox, { type StudyFloatBoxProps } from '@detail-page/components/study-float-box/StudyFloatBox';
 
 export default {
   title: 'Pages/DetailPage/StudyFloatBox',

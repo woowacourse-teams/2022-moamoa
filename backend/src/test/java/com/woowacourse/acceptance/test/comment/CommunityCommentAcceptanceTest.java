@@ -41,7 +41,7 @@ class CommunityCommentAcceptanceTest extends AcceptanceTest {
         // given
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디 = 디우가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        베루스가().로그인하고().스터디에(자바_스터디).참여한다();
+        베루스가().로그인하고().스터디에(자바_스터디).참여에_성공한다();
         long 자바_게시글 = 베루스가().로그인하고().스터디에(자바_스터디).게시글을_작성한다("자바 게시글", "자바 게시글 내용");
         final String token = 베루스가().로그인한다();
         final MemberResponse 베루스 = 베루스가().로그인하고().정보를_가져온다();

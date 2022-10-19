@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import tw from '@utils/tw';
+import { css } from '@emotion/react';
 
-import { TextButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import { MeatballMenuIcon } from '@components/icons';
+import { TextButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import { MeatballMenuIcon } from '@shared/icons';
 
 type PaginationProps = {
   count: number; // 전체 페이지 개수
@@ -50,17 +50,16 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
       <>
         {list.map((num, i) => {
           return (
-            <div key={i} css={tw`p-8`}>
+            <div
+              key={i}
+              css={css`
+                padding: 8px;
+              `}
+            >
               {num === '...' ? (
                 <MeatballMenuIcon />
               ) : (
-                <TextButton
-                  variant={num === page ? 'primary' : 'secondary'}
-                  fontSize={num === page ? 'xl' : 'md'}
-                  onClick={handleNumButtonClick(num)}
-                >
-                  {num}
-                </TextButton>
+                <PageButton num={num} page={page} onClick={handleNumButtonClick} />
               )}
             </div>
           );
@@ -77,3 +76,18 @@ const Pagination: React.FC<PaginationProps> = ({ count, defaultPage, onNumberBut
 };
 
 export default Pagination;
+
+type PageButtonProps = {
+  num: number;
+  page: number;
+  onClick: (num: number) => () => void;
+};
+const PageButton: React.FC<PageButtonProps> = ({ num, page, onClick: handleClick }) => (
+  <TextButton
+    variant={num === page ? 'primary' : 'secondary'}
+    onClick={handleClick(num)}
+    custom={{ fontSize: num === page ? 'xl' : 'md' }}
+  >
+    {num}
+  </TextButton>
+);

@@ -1,28 +1,35 @@
 import { useParams } from 'react-router-dom';
 
-import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import tw from '@utils/tw';
+import { LINK_DESCRIPTION_LENGTH, LINK_URL_LENGTH } from '@constants';
 
 import type { Member, Noop } from '@custom-types';
 
-import { theme } from '@styles/theme';
-
 import { usePostLink } from '@api/link';
 
-import { UseFormSubmitResult, makeValidationResult, useForm } from '@hooks/useForm';
-import type { FieldElement } from '@hooks/useForm';
+import {
+  type FieldElement,
+  FormProvider,
+  type UseFormSubmitResult,
+  makeValidationResult,
+  useForm,
+  useFormContext,
+} from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
-import Form from '@components/form/Form';
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import LetterCounter from '@components/letter-counter/LetterCounter';
-import useLetterCount from '@components/letter-counter/useLetterCount';
-import Textarea from '@components/textarea/Textarea';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
+import { BoxButton } from '@shared/button';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
+import Form from '@shared/form/Form';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
+import ImportedLetterCounter, {
+  type LetterCounterProps as ImportedLetterCounterProps,
+} from '@shared/letter-counter/LetterCounter';
+import useLetterCount from '@shared/letter-counter/useLetterCount';
+import Textarea from '@shared/textarea/Textarea';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type LinkFormProps = {
   author: Member;
@@ -34,14 +41,17 @@ const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
 const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError }) => {
-  const { studyId } = useParams<{ studyId: string }>();
+  const theme = useTheme();
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { mutateAsync } = usePostLink();
   const { count, maxCount, setCount } = useLetterCount(LINK_DESCRIPTION_LENGTH.MAX.VALUE);
+  const formMethods = useForm();
   const {
-    register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = formMethods;
 
   const isLinkValid = !errors[LINK_URL]?.hasError;
   const isDescValid = !errors[LINK_DESCRIPTION]?.hasError;
@@ -52,7 +62,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
     }
 
     const postData = {
-      studyId: Number(studyId),
+      studyId,
       linkUrl: submitResult.values[LINK_URL],
       description: submitResult.values[LINK_DESCRIPTION] || author.username,
     };
@@ -71,67 +81,125 @@ const LinkForm: React.FC<LinkFormProps> = ({ author, onPostSuccess, onPostError 
     setCount(value.length);
 
   return (
-    <div css={tw`w-480 h-300`}>
-      <Card backgroundColor={theme.colors.white} padding="16px" gap="12px">
-        <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
-          <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
-        </UserInfoItem>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Flex direction="column" rowGap="12px">
-            <Label htmlFor={LINK_URL}>링크*</Label>
-            <Input
-              type="url"
-              id={LINK_URL}
-              placeholder="https://moamoa.space"
-              invalid={!isLinkValid}
-              fluid
-              {...register(LINK_URL, {
-                validate: (val: string) => {
-                  if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
-                    return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
-                  }
-                  if (val.length > LINK_URL_LENGTH.MAX.VALUE)
-                    return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
-                  if (!LINK_URL_LENGTH.FORMAT.TEST(val))
-                    return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
-                  return makeValidationResult(false);
-                },
-                validationMode: 'change',
-                maxLength: LINK_URL_LENGTH.MAX.VALUE,
-                minLength: LINK_URL_LENGTH.MIN.VALUE,
-                required: true,
-              })}
-            />
-            <Label htmlFor={LINK_DESCRIPTION}>설명*</Label>
-            <div css={tw`relative`}>
-              <Textarea
-                id={LINK_DESCRIPTION}
-                placeholder="링크에 관한 간단한 설명"
-                invalid={!isDescValid}
-                fluid
-                {...register(LINK_DESCRIPTION, {
-                  validate: (val: string) => {
-                    if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
-                      return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
-                    return makeValidationResult(false);
-                  },
-                  validationMode: 'change',
-                  onChange: handleLinkDescriptionChange,
-                  maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
-                })}
+    <Self>
+      <FormProvider {...formMethods}>
+        <Card backgroundColor={theme.colors.white} custom={{ padding: '16px', gap: '12px' }}>
+          <UserInfoItem size="sm" src={author.imageUrl} name={author.username}>
+            <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
+          </UserInfoItem>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Flex flexDirection="column" rowGap="12px">
+              <LinkField isValid={isLinkValid} />
+              <DescriptionField
+                isValid={isDescValid}
+                count={count}
+                maxCount={maxCount}
+                onChange={handleLinkDescriptionChange}
               />
-              <div css={tw`absolute bottom-8 right-6`}>
-                <LetterCounter count={count} maxCount={maxCount} />
-              </div>
-            </div>
-            <BoxButton type="submit" padding="8px" fontSize="lg">
-              링크 등록
-            </BoxButton>
-          </Flex>
-        </Form>
-      </Card>
+              <AddLinkButton />
+            </Flex>
+          </Form>
+        </Card>
+      </FormProvider>
+    </Self>
+  );
+};
+
+const Self = styled.div`
+  width: 480px;
+  height: 300px;
+`;
+
+type LinkFieldProps = {
+  isValid: boolean;
+};
+const LinkField: React.FC<LinkFieldProps> = ({ isValid }) => {
+  const { register } = useFormContext();
+  return (
+    <>
+      <Label htmlFor={LINK_URL}>링크*</Label>
+      <Input
+        type="url"
+        id={LINK_URL}
+        placeholder="https://moamoa.space"
+        invalid={!isValid}
+        fluid
+        {...register(LINK_URL, {
+          validate: (val: string) => {
+            if (val.length < LINK_URL_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, LINK_URL_LENGTH.MIN.MESSAGE);
+            }
+            if (val.length > LINK_URL_LENGTH.MAX.VALUE) return makeValidationResult(true, LINK_URL_LENGTH.MAX.MESSAGE);
+            if (!LINK_URL_LENGTH.FORMAT.TEST(val)) return makeValidationResult(true, LINK_URL_LENGTH.FORMAT.MESSAGE);
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          maxLength: LINK_URL_LENGTH.MAX.VALUE,
+          minLength: LINK_URL_LENGTH.MIN.VALUE,
+          required: true,
+        })}
+      />
+    </>
+  );
+};
+
+type DescriptionFieldProps = {
+  isValid: boolean;
+  count: number;
+  maxCount: number;
+  onChange: React.ChangeEventHandler<FieldElement>;
+};
+const DescriptionField: React.FC<DescriptionFieldProps> = ({ isValid, count, maxCount, onChange: handleChange }) => {
+  const { register } = useFormContext();
+  return (
+    <>
+      <Label htmlFor={LINK_DESCRIPTION}>설명</Label>
+      <div
+        css={css`
+          position: relative;
+          width: 100%;
+        `}
+      >
+        <Textarea
+          id={LINK_DESCRIPTION}
+          placeholder="링크에 관한 간단한 설명"
+          invalid={!isValid}
+          fluid
+          {...register(LINK_DESCRIPTION, {
+            validate: (val: string) => {
+              if (val.length > LINK_DESCRIPTION_LENGTH.MAX.VALUE)
+                return makeValidationResult(true, LINK_DESCRIPTION_LENGTH.MAX.MESSAGE);
+              return makeValidationResult(false);
+            },
+            validationMode: 'change',
+            onChange: handleChange,
+            maxLength: LINK_DESCRIPTION_LENGTH.MAX.VALUE,
+          })}
+        />
+        <LetterCounter count={count} maxCount={maxCount} />
+      </div>
+    </>
+  );
+};
+
+type LetterCouterProps = ImportedLetterCounterProps;
+const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
+  const style = css`
+    position: absolute;
+    right: 6px;
+    bottom: 8px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedLetterCounter {...props} />
     </div>
   );
 };
+
+const AddLinkButton: React.FC = () => (
+  <BoxButton type="submit" custom={{ padding: '8px', fontSize: 'lg' }}>
+    링크등록
+  </BoxButton>
+);
 
 export default LinkForm;

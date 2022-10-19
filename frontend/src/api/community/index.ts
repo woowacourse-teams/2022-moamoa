@@ -1,14 +1,17 @@
-import { type AxiosError, type AxiosResponse } from 'axios';
+import { AxiosError, type AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
+
+import { checkType, isNull } from '@utils';
 
 import type { ArticleId, CommunityArticle, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkCommunityArticle, checkCommunityArticles } from '@api/community/typeChecker';
 
 export type ApiCommunityArticles = {
   get: {
     responseData: {
-      articles: Array<CommunityArticle>;
+      articles: Array<Omit<CommunityArticle, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;
@@ -60,16 +63,8 @@ const getCommunityArticles = async ({ studyId, page = 1, size = 8 }: ApiCommunit
   const response = await axiosInstance.get<ApiCommunityArticles['get']['responseData']>(
     `/api/studies/${studyId}/community/articles?page=${page - 1}&size=${size}`,
   );
-  const { totalCount, currentPage, lastPage } = response.data;
 
-  response.data = {
-    ...response.data,
-    totalCount: Number(totalCount),
-    currentPage: Number(currentPage) + 1, // page를 하나 늘려준다 서버에서 0으로 오기 때문이다
-    lastPage: Number(lastPage),
-  };
-
-  return response.data;
+  return checkCommunityArticles(response.data);
 };
 
 // articles
@@ -86,7 +81,8 @@ const getCommunityArticle = async ({ studyId, articleId }: ApiCommunityArticle['
   const response = await axiosInstance.get<ApiCommunityArticle['get']['responseData']>(
     `/api/studies/${studyId}/community/articles/${articleId}`,
   );
-  return response.data;
+
+  return checkCommunityArticle(response.data);
 };
 
 export const useGetCommunityArticle = ({ studyId, articleId }: ApiCommunityArticle['get']['variables']) => {
@@ -106,7 +102,7 @@ const postCommunityArticle = async ({ studyId, title, content }: ApiCommunityArt
     },
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePostCommunityArticle = () => {
@@ -123,7 +119,7 @@ const putCommunityArticle = async ({ studyId, title, content, articleId }: ApiCo
     },
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const usePutCommunityArticle = () => {
@@ -136,7 +132,7 @@ const deleteCommunityArticle = async ({ studyId, articleId }: ApiCommunityArticl
     `/api/studies/${studyId}/community/articles/${articleId}`,
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const useDeleteCommunityArticle = () => {

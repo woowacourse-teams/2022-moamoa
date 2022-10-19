@@ -1,9 +1,10 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import { noop } from '@utils';
 
-import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
-import type { StudyWideFloatBoxProps } from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
+import StudyWideFloatBox, {
+  type StudyWideFloatBoxProps,
+} from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 
 export default {
   title: 'Pages/DetailPage/StudyWideFloatBox',

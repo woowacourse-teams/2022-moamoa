@@ -69,7 +69,7 @@ public class Article extends BaseEntity {
 
     public void update(final Accessor accessor, final Content content) {
         if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, type.name());
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, type.name());
         }
 
         this.content = content;
@@ -77,7 +77,7 @@ public class Article extends BaseEntity {
 
     public final void delete(final Accessor accessor) {
         if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, type.name());
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, type.name());
         }
 
         deleted = true;
@@ -89,6 +89,10 @@ public class Article extends BaseEntity {
 
     public Content getContent() {
         return content;
+    }
+
+    public ArticleType getType() {
+        return type;
     }
 
     boolean isDeleted() {

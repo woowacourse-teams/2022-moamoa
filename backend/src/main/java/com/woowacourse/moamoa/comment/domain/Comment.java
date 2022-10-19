@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
+    @Lob
     private String content;
 
     private Comment(final Author author, final Article article, final String content) {

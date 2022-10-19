@@ -1,14 +1,17 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
+
+import { checkType, isNull } from '@utils';
 
 import type { ArticleId, NoticeArticle, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
+import { checkNoticeArticle, checkNoticeArticles } from '@api/notice/typeChecker';
 
 export type ApiNoticeArticles = {
   get: {
     responseData: {
-      articles: Array<NoticeArticle>;
+      articles: Array<Omit<NoticeArticle, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;
@@ -69,7 +72,7 @@ const getNoticeArticles = async ({ studyId, page = 1, size = 8 }: ApiNoticeArtic
     lastPage: Number(lastPage),
   };
 
-  return response.data;
+  return checkNoticeArticles(response.data);
 };
 
 const getNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
@@ -77,7 +80,7 @@ const getNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['get'][
   const response = await axiosInstance.get<ApiNoticeArticle['get']['responseData']>(
     `/api/studies/${studyId}/notice/articles/${articleId}`,
   );
-  return response.data;
+  return checkNoticeArticle(response.data);
 };
 
 const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['post']['variables']) => {
@@ -89,7 +92,7 @@ const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['
     },
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNoticeArticle['put']['variables']) => {
@@ -101,7 +104,7 @@ const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNotic
     },
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['delete']['variables']) => {
@@ -109,7 +112,7 @@ const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['del
     `/api/studies/${studyId}/notice/articles/${articleId}`,
   );
 
-  return response.data;
+  return checkType(response.data, isNull);
 };
 
 export const useGetNoticeArticles = ({ studyId, page }: ApiNoticeArticles['get']['variables']) => {

@@ -1,4 +1,4 @@
-import Chip from '@components/chip/Chip';
+import Chip from '@shared/chip/Chip';
 
 export type StudyChipProps = {
   isOpen: boolean;
