@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class AuthorResponse {
 
-    private Long memberId;
+    private Long id;
     private String username;
     private String imageUrl;
     private String profileUrl;
