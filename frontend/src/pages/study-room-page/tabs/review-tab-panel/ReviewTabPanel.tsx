@@ -1,8 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import type { Member, StudyId, StudyReview } from '@custom-types';
-
 import { useGetStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
@@ -11,7 +9,7 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@shared/divider/Divider';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
-import ReviewEditableComment from '@study-room-page/tabs/review-tab-panel/components/review-editable-comment/ReviewEditableComment';
+import ReviewList from '@study-room-page/tabs/review-tab-panel/components/review-list/ReviewCommentList';
 
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
 
@@ -66,28 +64,3 @@ const Loading = () => <div>Loading...</div>;
 const Error = () => <div>에러가 발생했습니다</div>;
 
 const NoReview = () => <div>리뷰가 없습니다</div>;
-
-type ReviewListProps = {
-  reviews: Array<StudyReview>;
-  studyId: StudyId;
-  userInfo: Member;
-};
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) => (
-  <ul>
-    {reviews.map(review => (
-      <React.Fragment key={review.id}>
-        <li>
-          <ReviewEditableComment
-            id={review.id}
-            studyId={studyId}
-            author={review.member}
-            date={review.createdDate}
-            content={review.content}
-            isMyComment={userInfo.id === review.member.id}
-          />
-        </li>
-        <Divider space="30px" />
-      </React.Fragment>
-    ))}
-  </ul>
-);
