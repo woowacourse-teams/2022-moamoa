@@ -19,6 +19,8 @@ import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
+import CommentSection from '@study-room-page/tabs/community-tab-panel/components/comment-section/CommentSection';
+
 export type ArticleProps = {
   studyId: number;
   articleId: number;
@@ -55,25 +57,29 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
           const isMyArticle = data.author.id === userInfo.id;
           // @TODO: react-query 버전 업데이트
           return (
-            <article>
-              <Flex justifyContent="space-between" columnGap="16px">
-                <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
-                  <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
-                  <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
-                </UserInfoItem>
-                {isMyArticle && (
-                  <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                    <EditArticleLink articleId={articleId} />
-                    <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
-                  </ButtonGroup>
-                )}
-              </Flex>
+            <>
+              <article>
+                <Flex justifyContent="space-between" columnGap="16px">
+                  <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+                    <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+                    <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+                  </UserInfoItem>
+                  {isMyArticle && (
+                    <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                      <EditArticleLink articleId={articleId} />
+                      <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+                    </ButtonGroup>
+                  )}
+                </Flex>
+                <Divider />
+                <PageTitle>{data.title}</PageTitle>
+                <MarkdownRender content={data.content} />
+                <Divider space="8px" />
+                <ListPageLink />
+              </article>
               <Divider />
-              <PageTitle>{data.title}</PageTitle>
-              <MarkdownRender content={data.content} />
-              <Divider space="8px" />
-              <ListPageLink />
-            </article>
+              <CommentSection studyId={studyId} articleId={articleId} />
+            </>
           );
         }
       })()}
