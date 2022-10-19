@@ -121,7 +121,7 @@ class NoticeArticleTest {
     }
 
     private Member createMember(final long id) {
-        return new Member(id, id, "username" + id, "image", "profile");
+        return new Member(id, id, "username" + id, "moa@moamoa.space", "image", "profile");
     }
 
     private StudyRoom createStudyRoom(Member owner, Member... participant) {

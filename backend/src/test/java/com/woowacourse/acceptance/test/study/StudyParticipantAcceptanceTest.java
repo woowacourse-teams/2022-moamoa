@@ -5,9 +5,6 @@ import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -26,22 +23,13 @@ import org.springframework.http.HttpStatus;
 
 class StudyParticipantAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("아직 스터디에 가입되지 않은 회원은 스터디에 참여가 가능하다.")
+    @DisplayName("스터디에 참여한다.")
     @Test
     void participateStudy() {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).모집인원은(10).생성한다();
-        String token = 디우가().로그인한다();
 
-        RestAssured.given(spec).log().all()
-                .filter(document("studies/participant"))
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
-                .pathParam("study-id", 자바_스터디_ID)
-                .when().log().all()
-                .post("/api/studies/{study-id}/members")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공하고_방장에게_알림을_보낸다("green");
     }
 
     @DisplayName("스터디를 탈퇴한다.")
@@ -49,8 +37,8 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
     void leaveStudy() {
         final LocalDate 지금 = LocalDate.now();
         final Long studyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
 
+        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
         final String token = 디우가().로그인한다();
 
         RestAssured.given(spec).log().all()

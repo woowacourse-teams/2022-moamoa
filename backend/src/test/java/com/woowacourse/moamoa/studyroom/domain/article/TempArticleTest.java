@@ -296,8 +296,8 @@ public class TempArticleTest {
         );
     }
 
-    private Member createMember(final long id) {
-        return new Member(id, id, "username" + id, "image", "profile");
+    private Member createMember(final Long id) {
+        return new Member(id, id, "username" + id, "moa@moamoa.space", "image", "profile");
     }
 
     private StudyRoom createStudyRoom(Member owner, Member... participant) {

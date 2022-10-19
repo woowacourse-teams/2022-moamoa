@@ -8,6 +8,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.acceptance.SlackAlarmMockServer;
 import com.woowacourse.acceptance.document.Document;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
@@ -27,6 +28,7 @@ public abstract class Steps<S extends Steps<S, D>, D extends Document> {
 
     public static String clientId;
     public static MockRestServiceServer mockServer;
+    public static SlackAlarmMockServer slackAlarmMockServer;
     public static String clientSecret;
     public static ObjectMapper objectMapper;
 
@@ -44,11 +46,13 @@ public abstract class Steps<S extends Steps<S, D>, D extends Document> {
 
     protected static void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
+            mockServer.reset();
             mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
                     "token_type", "bearer",
                     "scope", ""));
             mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
         } catch (Exception e) {
+            e.printStackTrace();
             Assertions.fail(e.getMessage());
         }
     }

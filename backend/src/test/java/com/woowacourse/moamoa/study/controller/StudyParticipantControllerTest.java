@@ -1,14 +1,21 @@
 package com.woowacourse.moamoa.study.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.AsyncService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -19,9 +26,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class StudyParticipantControllerTest {
 
     @Autowired
@@ -33,13 +43,25 @@ class StudyParticipantControllerTest {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private AsyncService asyncService;
+
+    private SlackUsersClient slackUsersClient;
+    private SlackAlarmSender slackAlarmSender;
+
     private Member jjanggu;
     private Member dwoo;
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        slackUsersClient = mock(SlackUsersClient.class);
+        when(slackUsersClient.getUserChannelByEmail("dwoo@moamoa.space")).thenReturn("dwoo-channel");
+
+        slackAlarmSender = mock(SlackAlarmSender.class);
+        doNothing().when(slackAlarmSender).requestSlackMessage("dwoo-channel");
+
+        jjanggu = memberRepository.save(MemberFixtures.짱구());
+        dwoo = memberRepository.save(MemberFixtures.디우());
     }
 
     @DisplayName("회원은 스터디에 참여할 수 있다.")
@@ -67,7 +89,8 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()));
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
+                        slackUsersClient, slackAlarmSender, asyncService);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -104,14 +127,15 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
         Study study = studyRepository.findById(studyId).orElseThrow();
 
-        final Member green = memberRepository.save(new Member(3L, "lawn", "https://image", "github.com"));
+        final Member green = memberRepository.save(MemberFixtures.그린론());
         study.participate(green.getId());
 
         entityManager.flush();
         entityManager.clear();
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()));
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
+                slackUsersClient, slackAlarmSender, asyncService);
         sut.leaveStudy(green.getId(), studyId);
 
         // then
