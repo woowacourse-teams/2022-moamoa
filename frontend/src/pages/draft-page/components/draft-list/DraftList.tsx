@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import styled from '@emotion/styled';
 
-import { DraftArtcle } from '@custom-types';
+import type { ArticleId, DraftArtcle, StudyId } from '@custom-types';
 
 import Divider from '@shared/divider/Divider';
 
@@ -13,8 +13,8 @@ export type DraftListProps = {
 };
 
 const DraftList: React.FC<DraftListProps> = ({ articles }) => {
-  const handleDeleteDraftItemClick = () => {
-    console.log('hihi');
+  const handleDeleteDraftItemClick = (studyId: StudyId, articleId: ArticleId) => () => {
+    console.log(studyId, articleId);
   };
 
   return (
@@ -25,7 +25,7 @@ const DraftList: React.FC<DraftListProps> = ({ articles }) => {
             id={article.id}
             title={article.title}
             createdDate={article.createdDate}
-            onDeleteDraftItemClick={handleDeleteDraftItemClick}
+            onDeleteDraftItemClick={handleDeleteDraftItemClick(0, article.id)}
           />
           <Divider />
         </Fragment>

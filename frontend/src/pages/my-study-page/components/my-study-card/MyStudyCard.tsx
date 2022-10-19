@@ -4,7 +4,7 @@ import { nLineEllipsis } from '@utils/nLineEllipsis';
 
 import type { DateYMD, Tag } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTranslateTransitionStyle } from '@styles/theme';
 
 import { IconButton } from '@shared/button';
 import Card from '@shared/card/Card';
@@ -69,7 +69,7 @@ const Self: React.FC<SelfProps> = ({ children, done }) => {
 
         ${done && doneStyle(theme)}
 
-        ${applyHoverTransitionStyle()}
+        ${applyHoverTranslateTransitionStyle()}
       `}
     >
       {children}

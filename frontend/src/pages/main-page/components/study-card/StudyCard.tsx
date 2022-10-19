@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import type { Study } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTranslateTransitionStyle } from '@styles/theme';
 
 import Card from '@shared/card/Card';
 import Flex from '@shared/flex/Flex';
@@ -48,7 +48,7 @@ const Self = styled.div`
   position: relative;
   height: 280px;
 
-  ${applyHoverTransitionStyle()}
+  ${applyHoverTranslateTransitionStyle()}
 `;
 
 type ExceprtProps = {

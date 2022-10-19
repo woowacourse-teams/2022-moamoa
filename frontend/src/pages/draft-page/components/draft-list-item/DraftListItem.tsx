@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { PATH } from '@constants';
@@ -9,7 +8,7 @@ import { changeDateSeperator } from '@utils';
 
 import type { DraftArtcle } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverBgTransitionStyle } from '@styles/theme';
 
 import { IconButton } from '@shared/button';
 import Flex from '@shared/flex/Flex';
@@ -45,10 +44,5 @@ const DraftListItem: React.FC<DraftListItemProps> = ({
 export default DraftListItem;
 
 const Self = styled.li`
-  ${({ theme }) => css`
-    &:hover,
-    &:active {
-      background-color: ${theme.colors.white};
-    }
-  `}
+  ${({ theme }) => applyHoverBgTransitionStyle(theme)}
 `;

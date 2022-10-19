@@ -8,7 +8,7 @@ import { changeDateSeperator } from '@utils';
 
 import type { CommunityArticle } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverBgTransitionStyle } from '@styles/theme';
 
 import ListItem from '@shared/list-item/ListItem';
 
@@ -34,5 +34,5 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ id, title, author, cr
 export default ArticleListItem;
 
 const Self = styled.li`
-  ${applyHoverTransitionStyle()}
+  ${({ theme }) => applyHoverBgTransitionStyle(theme)}
 `;
