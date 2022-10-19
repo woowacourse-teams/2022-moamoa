@@ -1,10 +1,9 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
 import { PATH } from '@constants';
 
-import SideMenu from '@study-room-page/components/side-menu/SideMenu';
-import type { SideMenuProps } from '@study-room-page/components/side-menu/SideMenu';
+import SideMenu, { type SideMenuProps } from '@study-room-page/components/side-menu/SideMenu';
 import { type TabId, type Tabs } from '@study-room-page/hooks/useStudyRoomPage';
 
 export default {

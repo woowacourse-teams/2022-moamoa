@@ -8,11 +8,11 @@ import { usePostCommunityArticle } from '@api/community';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
 
 import PublishContent from '@community-tab/components/publish-content/PublishContent';
 import PublishTitle from '@community-tab/components/publish-title/PublishTitle';
@@ -58,18 +58,26 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
         <PublishContent />
         <Divider space="16px" />
         <ButtonGroup justifyContent="space-between">
-          <Link to={`../${PATH.COMMUNITY}`}>
-            <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
-              돌아가기
-            </BoxButton>
-          </Link>
-          <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-            등록하기
-          </BoxButton>
+          <GoBackLinkButton />
+          <RegisterButton />
         </ButtonGroup>
       </Form>
     </FormProvider>
   );
 };
+
+const GoBackLinkButton: React.FC = () => (
+  <Link to={`../${PATH.COMMUNITY}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+const RegisterButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+    등록하기
+  </BoxButton>
+);
 
 export default Publish;

@@ -1,8 +1,7 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
-import TabButton from '@study-room-page/components/tab-button/TabButton';
-import type { TabButtonProps } from '@study-room-page/components/tab-button/TabButton';
+import TabButton, { type TabButtonProps } from '@study-room-page/components/tab-button/TabButton';
 
 export default {
   title: 'Pages/StudyRoomPage/TabButton',

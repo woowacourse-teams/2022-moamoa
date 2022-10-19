@@ -29,6 +29,7 @@
     "^@layout/(.*)$",
     "^@pages",
     "^@pages/(.*)$",
+    "^@shared/(.*)$",
     "^@components/(.*)$",
     "^@main-page/(.*)$",
     "^@detail-page/(.*)$",

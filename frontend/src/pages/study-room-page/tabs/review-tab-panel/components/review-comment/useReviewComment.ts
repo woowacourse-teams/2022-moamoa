@@ -19,11 +19,11 @@ const useReviewComment = (id: ReviewId, studyId: StudyId) => {
     setIsOpen(prev => !prev);
   };
 
-  const handleDropDownBoxClose = () => {
+  const handleDropboxCloseButtonClick = () => {
     setIsOpen(false);
   };
 
-  const handleDeleteReviewBtnClick = () => {
+  const handleDeleteReviewButtonClick = () => {
     mutateAsync({ reviewId: id, studyId })
       .then(() => {
         alert('성공적으로 삭제되었습니다');
@@ -34,11 +34,11 @@ const useReviewComment = (id: ReviewId, studyId: StudyId) => {
       });
   };
 
-  const handleEditReviewBtnClick = () => {
+  const handleEditReviewButtonClick = () => {
     setIsEditing(true);
   };
 
-  const handleCancelEditBtnClick = () => {
+  const handleCancelEditButtonClick = () => {
     setIsEditing(false);
   };
 
@@ -56,10 +56,10 @@ const useReviewComment = (id: ReviewId, studyId: StudyId) => {
     isEditing,
     setIsEditing,
     handleKebabMenuClick,
-    handleDropDownBoxClose,
-    handleDeleteReviewBtnClick,
-    handleEditReviewBtnClick,
-    handleCancelEditBtnClick,
+    handleDropboxCloseButtonClick,
+    handleDeleteReviewButtonClick,
+    handleEditReviewButtonClick,
+    handleCancelEditButtonClick,
     handleEditSuccess,
     handleEditError,
   };

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { DESCRIPTION_LENGTH } from '@constants';
+import { css } from '@emotion/react';
 
-import tw from '@utils/tw';
+import { DESCRIPTION_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import { ToggleButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Label from '@components/label/Label';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import MetaBox from '@components/meta-box/MetaBox';
-import Textarea from '@components/textarea/Textarea';
+import { ToggleButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Label from '@shared/label/Label';
+import MarkdownRender from '@shared/markdown-render/MarkdownRender';
+import MetaBox from '@shared/meta-box/MetaBox';
+import Textarea from '@shared/textarea/Textarea';
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
 
@@ -29,7 +29,6 @@ const CONTENT = 'content';
 const EditContent: React.FC<EditContentProps> = ({ content }) => {
   const {
     formState: { errors },
-    register,
     getField,
   } = useFormContext();
 
@@ -39,7 +38,7 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
 
   const isValid = !errors[CONTENT]?.hasError;
 
-  const handleNavItemClick = (tabId: string) => () => {
+  const handleTabButtonClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
@@ -52,65 +51,103 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
     setDescription(description);
   }, [activeTab]);
 
-  const renderTabContent = () => {
-    const isWriteTab = activeTab === tabMode.write;
-
-    return (
-      <>
-        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
-          <Label htmlFor={CONTENT} hidden>
-            소개글
-          </Label>
-          <Textarea
-            id={CONTENT}
-            placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-            invalid={!isValid}
-            defaultValue={content}
-            {...register(CONTENT, {
-              validate: (val: string) => {
-                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                }
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-              required: true,
-            })}
-          ></Textarea>
-        </div>
-        <div css={isWriteTab && tw`hidden`}>
-          <MarkdownRender markdownContent={description} />
-        </div>
-      </>
-    );
-  };
+  const isWriteTab = activeTab === tabMode.write;
 
   return (
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.write}
-            onClick={handleNavItemClick(tabMode.write)}
-          >
-            Write
-          </ToggleButton>
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.preview}
-            onClick={handleNavItemClick(tabMode.preview)}
-          >
-            Preview
-          </ToggleButton>
+          <WriteTabButton activeTab={activeTab} onClick={handleTabButtonClick(tabMode.write)} />
+          <PreviewTabButton activeTab={activeTab} onClick={handleTabButtonClick(tabMode.preview)} />
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>
-        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+        <div
+          css={css`
+            height: 50vh;
+          `}
+        >
+          <WriteTab isOpen={isWriteTab} isValid={isValid} defaultValue={content} />
+          <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
+        </div>
       </MetaBox.Content>
     </MetaBox>
+  );
+};
+
+type WriteTabButtonProps = {
+  activeTab: TabIds;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={onClick}>
+    Write
+  </ToggleButton>
+);
+
+type PreviewTabButtonProps = {
+  activeTab: TabIds;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={onClick}>
+    Preview
+  </ToggleButton>
+);
+
+type WriteTabProps = {
+  isOpen: boolean;
+  isValid: boolean;
+  defaultValue: string;
+};
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, defaultValue }) => {
+  const { register } = useFormContext();
+
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+  `;
+  return (
+    <div css={style}>
+      <Label htmlFor={CONTENT} hidden>
+        소개글
+      </Label>
+      <Textarea
+        id={CONTENT}
+        placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+        invalid={!isValid}
+        defaultValue={defaultValue}
+        {...register(CONTENT, {
+          validate: (val: string) => {
+            if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+            }
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+          maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+          required: true,
+        })}
+      ></Textarea>
+    </div>
+  );
+};
+
+type MarkdownRendererTabProps = {
+  isOpen: boolean;
+  description: string;
+};
+const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, description }) => {
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+    overflow: auto;
+  `;
+  return (
+    <div css={style}>
+      <MarkdownRender markdownContent={description} />
+    </div>
   );
 };
 

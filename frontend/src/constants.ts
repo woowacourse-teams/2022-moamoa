@@ -148,6 +148,15 @@ export const LINK_DESCRIPTION_LENGTH = {
   },
 };
 
+export const SUBJECT_TAG_COUNT = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `주제를 최소 ${this.VALUE}개 선택해야 합니다.`;
+    },
+  },
+};
+
 export const COMMA = ',';
 
 export const RECRUITMENT_STATUS = {
@@ -165,6 +174,8 @@ export const CATEGORY_NAME = {
   GENERATION: 'generation',
   AREA: 'area',
   SUBJECT: 'subject',
+  AREA_FE: 'area-fe',
+  AREA_BE: 'area-be',
 } as const;
 
 export const STUDY_STATUS = {
@@ -172,3 +183,8 @@ export const STUDY_STATUS = {
   IN_PROGRESS: 'IN_PROGRESS',
   DONE: 'DONE',
 } as const;
+
+export const PERIOD = {
+  START_DATE: 'start-date',
+  END_DATE: 'end-date',
+};

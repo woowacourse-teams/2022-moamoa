@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import MyStudyCard from '@my-study-page/components/my-study-card/MyStudyCard';
-import type { MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
+import MyStudyCard, { type MyStudyCardProps } from '@my-study-page/components/my-study-card/MyStudyCard';
 
 export default {
   title: 'Pages/MyStudyPage/MyStudyCard',
@@ -28,7 +27,7 @@ Default.args = {
       name: 'FE',
     },
   ],
-  startDate: '2022.08.13',
-  endDate: '2022.08.20',
+  startDate: '2022-08-13',
+  endDate: '2022-08-20',
   done: false,
 };

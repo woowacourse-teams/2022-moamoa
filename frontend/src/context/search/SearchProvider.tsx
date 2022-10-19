@@ -1,8 +1,8 @@
-import { ReactNode, createContext, useState } from 'react';
+import { type ReactNode, createContext, useState } from 'react';
 
 import { noop } from '@utils';
 
-type Props = {
+type SearchProviderProps = {
   children: ReactNode;
 };
 
@@ -18,7 +18,7 @@ export const SearchContext = createContext<ContextType>({
   setKeyword: noop,
 });
 
-export const SearchProvider = ({ children }: Props) => {
+export const SearchProvider = ({ children }: SearchProviderProps) => {
   const [keyword, setKeyword] = useState<KeywordType>('');
   return <SearchContext.Provider value={{ keyword, setKeyword }}>{children}</SearchContext.Provider>;
 };

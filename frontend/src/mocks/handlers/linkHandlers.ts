@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { user } from '@mocks/handlers/memberHandlers';
 import linkJson from '@mocks/links.json';
 
-import { ApiLink } from '@api/link';
+import { type ApiLink } from '@api/link';
 
 export const linkHandlers = [
   rest.get('/api/studies/:studyId/reference-room/links', (req, res, ctx) => {

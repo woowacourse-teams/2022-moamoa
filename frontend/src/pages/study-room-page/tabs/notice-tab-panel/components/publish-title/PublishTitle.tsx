@@ -1,20 +1,22 @@
 import { useState } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { TITLE_LENGTH } from '@constants';
 
-import tw from '@utils/tw';
+import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import { makeValidationResult, useFormContext } from '@hooks/useForm';
-import type { FieldElement } from '@hooks/useForm';
-
-import Input from '@components/input/Input';
-import Label from '@components/label/Label';
-import LetterCounter from '@components/letter-counter/LetterCounter';
+import Input from '@shared/input/Input';
+import Label from '@shared/label/Label';
+import ImportedLetterCounter, {
+  type LetterCounterProps as ImportedLetterCounterProps,
+} from '@shared/letter-counter/LetterCounter';
 
 const TITLE = 'title';
 
 const PublishTitle: React.FC = () => {
-  const { register, formState } = useFormContext();
+  const { formState } = useFormContext();
   const { errors } = formState;
   const [count, setCount] = useState(0);
   const isValid = !errors[TITLE]?.hasError;
@@ -22,14 +24,47 @@ const PublishTitle: React.FC = () => {
   const handleTitleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
 
   return (
-    <div css={tw`relative`}>
-      <div css={tw`absolute right-4 bottom-2`}>
-        <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
-      </div>
+    <Self>
+      <LetterCounter count={count} maxCount={TITLE_LENGTH.MAX.VALUE} />
+      <TitleField isValid={isValid} onChange={handleTitleChange} />
+    </Self>
+  );
+};
+
+const Self = styled.div`
+  position: relative;
+`;
+
+type LetterCouterProps = ImportedLetterCounterProps;
+const LetterCounter: React.FC<LetterCouterProps> = ({ ...props }) => {
+  const style = css`
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedLetterCounter {...props} />
+    </div>
+  );
+};
+
+type TitleFieldProps = {
+  isValid: boolean;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
+const TitleField: React.FC<TitleFieldProps> = ({ isValid, onChange: handleChange }) => {
+  const { register } = useFormContext();
+  return (
+    <>
       <Label htmlFor={TITLE} hidden>
         게시글 제목
       </Label>
-      <div css={tw`mb-20`}>
+      <div
+        css={css`
+          margin-bottom: 20px;
+        `}
+      >
         <Input
           id={TITLE}
           type="text"
@@ -48,14 +83,14 @@ const PublishTitle: React.FC = () => {
               return makeValidationResult(false);
             },
             validationMode: 'change',
-            onChange: handleTitleChange,
+            onChange: handleChange,
             minLength: TITLE_LENGTH.MIN.VALUE,
             maxLength: TITLE_LENGTH.MAX.VALUE,
             required: true,
           })}
         />
       </div>
-    </div>
+    </>
   );
 };
 

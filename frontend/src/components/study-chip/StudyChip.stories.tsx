@@ -1,4 +1,4 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import StudyChip, { type StudyChipProps } from '@components/study-chip/StudyChip';
 

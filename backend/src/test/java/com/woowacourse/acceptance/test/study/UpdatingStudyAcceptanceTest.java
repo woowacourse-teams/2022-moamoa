@@ -117,7 +117,6 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .maxMemberCount(1)
                 .tagIds(List.of(자바_태그_ID, 우테코4기_태그_ID))
                 .build();
-
         RestAssured.given(spec).log().all()
                 .filter(document("studies/update",
                         requestHeaders(headerWithName("Authorization").description("Bearer Token"))))

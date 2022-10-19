@@ -22,6 +22,6 @@ export const checkLink = (data: unknown): Link => {
     linkUrl: checkType(data.linkUrl, isString),
     description: checkType(data.description, isString),
     createdDate: checkType(data.createdDate, isDateYMD),
-    lastModifiedDate: checkType(data.createdDate, isDateYMD),
+    lastModifiedDate: checkType(data.lastModifiedDate, isDateYMD),
   };
 };
