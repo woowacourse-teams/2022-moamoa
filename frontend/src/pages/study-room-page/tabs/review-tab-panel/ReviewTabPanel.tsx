@@ -23,7 +23,6 @@ const ReviewTabPanel: React.FC = () => {
   const { isOwnerOrMember } = useUserRole({ studyId });
 
   const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
-  const reviews = data?.reviews;
 
   const handlePostSuccess = () => {
     alert('댓글을 추가했습니다');
@@ -50,7 +49,8 @@ const ReviewTabPanel: React.FC = () => {
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (isSuccess && reviews) {
+        if (isSuccess) {
+          const { reviews } = data;
           if (reviews.length === 0) return <NoReview />;
           return <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />;
         }
