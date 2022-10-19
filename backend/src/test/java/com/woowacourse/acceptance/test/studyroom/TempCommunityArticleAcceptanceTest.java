@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.studyroom;
 
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_공개_문서;
 import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_목록_조회_문서;
 import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_삭제_문서;
 import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_수정_문서;
@@ -129,7 +130,7 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         final long 임시_게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
         // act
-        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().공개한다(임시_게시글_ID);
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().API_문서화를_하고(임시글_공개_문서(spec)).공개한다(임시_게시글_ID);
 
         // assert
         그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().찾을_수_없다(게시글_ID);

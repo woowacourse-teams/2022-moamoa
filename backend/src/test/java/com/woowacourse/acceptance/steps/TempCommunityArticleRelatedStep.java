@@ -106,8 +106,9 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .pathParam("article-type", "notice")
                 .when().log().all()
-                .post("/api/studies/{study-id}/notice/draft-articles/{article-id}/publish")
+                .post("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}/publish")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().as(CreatedArticleIdResponse.class);

@@ -108,6 +108,9 @@ operation::temp-article/update[snippets='curl-request,http-request,http-response
 === 임시글 삭제
 operation::temp-article/delete[snippets='curl-request,http-request,http-response,path-parameters']
 
+=== 임시글 공개
+operation::temp-article/publish[snippets='curl-request,http-request,http-response,path-parameters,response-body']
+
 [[Reference-Room]]
 == 링크 공유
 
