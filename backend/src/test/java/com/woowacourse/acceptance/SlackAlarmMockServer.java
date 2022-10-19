@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.slack.api.model.Attachment;
 import com.woowacourse.moamoa.alarm.SlackUserProfile;
 import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
@@ -29,24 +31,48 @@ import java.util.List;
 @Import({AuthConfig.class, MockServiceServerResetter.class})
 public class SlackAlarmMockServer {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+
+    private final MockRestServiceServer mockServer;
+
+    private final String slackUsersUri;
+
+    private final String slackSendMessageUri;
+
+    private final String slackAuthorization;
 
     @Autowired
-    protected ObjectMapper objectMapper= new ObjectMapper();
+    public SlackAlarmMockServer(final ObjectMapper objectMapper,
+                                final MockRestServiceServer mockServer,
+                                @Value("${slack.users}") final String slackUsersUri,
+                                @Value("${slack.send.message}") final String slackSendMessageUri,
+                                @Value("${slack.authorization}") final String slackAuthorization
+    ) {
+        this.objectMapper = objectMapper;
+        this.mockServer = mockServer;
+        this.slackUsersUri = slackUsersUri;
+        this.slackSendMessageUri = slackSendMessageUri;
+        this.slackAuthorization = slackAuthorization;
+    }
 
-    @Value("${slack.users}")
-    protected String slackUsersUri;
+    public void sendAlarm() {
+        final SlackUsersResponse slackUsersResponse = new SlackUsersResponse(List.of(
+                new SlackUserResponse("user", new SlackUserProfile("user@moamoa.space"))
+        ));
 
-    @Value("${slack.send.message}")
-    protected String slackSendMessageUri;
+        try {
+            mockServer.expect(requestTo(slackUsersUri))
+                    .andExpect(method(HttpMethod.GET))
+                    .andExpect(header("Authorization", slackAuthorization))
+                    .andRespond(withStatus(HttpStatus.OK)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(objectMapper.writeValueAsString(slackUsersResponse)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    @Value("${slack.authorization}")
-    protected String slackAuthorization;
-
-    public MockRestServiceServer mockServer;
-
-    public void sendAlarm(SlackMessageRequest slackMessageRequest) {
+    public void sendAlarmWithExpect(SlackMessageRequest slackMessageRequest) {
         final SlackUsersResponse slackUsersResponse = new SlackUsersResponse(List.of(
                 new SlackUserResponse("green", new SlackUserProfile("greenlawn@moamoa.space")),
                 new SlackUserResponse("jjanggu", new SlackUserProfile("jjanggu@moamoa.space")),
@@ -74,6 +100,6 @@ public class SlackAlarmMockServer {
     }
 
     public void resetMockServer() {
-        mockServer = MockRestServiceServer.createServer(restTemplate);
+        mockServer.reset();
     }
 }

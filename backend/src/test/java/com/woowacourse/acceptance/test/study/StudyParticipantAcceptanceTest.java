@@ -2,7 +2,6 @@ package com.woowacourse.acceptance.test.study;
 
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
-import static com.woowacourse.acceptance.steps.LoginSteps.사용자가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -33,24 +32,8 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
     void participateStudy() {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).모집인원은(10).생성한다();
-        String token = 디우가().로그인한다();
 
-        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("green",
-                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
-                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
-                        .color("#36288f").build()));
-
-        slackAlarmMockServer.sendAlarm(slackMessageRequest);
-
-        RestAssured.given(spec).log().all()
-                .filter(document("studies/participant"))
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, token)
-                .pathParam("study-id", 자바_스터디_ID)
-                .when().log().all()
-                .post("/api/studies/{study-id}/members")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공하고_방장에게_알림을_보낸다("green");
     }
 
     @DisplayName("스터디를 탈퇴한다.")
@@ -58,15 +41,9 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
     void leaveStudy() {
         final LocalDate 지금 = LocalDate.now();
         final Long studyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("jjanggu",
-                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
-                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
-                        .color("#36288f").build()));
 
-        디우가().로그인하고().스터디에(studyId).참여를_시도한다(slackAlarmMockServer, slackMessageRequest);
+        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
         final String token = 디우가().로그인한다();
-
-        디우가().로그인하고().스터디에(studyId).참여를_시도한다(slackAlarmMockServer, slackMessageRequest);
 
         RestAssured.given(spec).log().all()
                 .filter(document("studies/leave",

@@ -8,6 +8,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.acceptance.SlackAlarmMockServer;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public abstract class Steps {
 
     public static String clientId;
     public static MockRestServiceServer mockServer;
+    public static SlackAlarmMockServer slackAlarmMockServer;
     public static String clientSecret;
     public static ObjectMapper objectMapper;
 

@@ -31,7 +31,6 @@ public class SlackAlarmSender {
         this.restTemplate = restTemplate;
     }
 
-    @Async
     public void requestSlackMessage(final String channel) {
         final SlackMessageRequest slackMessageRequest = setSlackMessage(channel);
 

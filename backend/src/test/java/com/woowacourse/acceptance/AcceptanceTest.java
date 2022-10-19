@@ -38,7 +38,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(
         webEnvironment = WebEnvironment.RANDOM_PORT,
-        classes = {MoamoaApplication.class, SlackAlarmMockServer.class}
+        classes = {MoamoaApplication.class, SlackAlarmMockServer.class, TestConfig.class}
 )
 public class AcceptanceTest {
 
@@ -70,6 +70,7 @@ public class AcceptanceTest {
     @Value("${oauth2.github.client-secret}")
     private String clientSecret;
 
+    @Autowired
     protected MockRestServiceServer mockServer;
 
     @BeforeEach
@@ -90,8 +91,8 @@ public class AcceptanceTest {
 
     @BeforeEach
     void mockingGithubServer() {
-        mockServer = MockRestServiceServer.createServer(restTemplate);
         Steps.mockServer = mockServer;
+        Steps.slackAlarmMockServer = slackAlarmMockServer;
         Steps.clientId = clientId;
         Steps.clientSecret = clientSecret;
         Steps.objectMapper = objectMapper;

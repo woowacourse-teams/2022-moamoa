@@ -15,6 +15,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.AsyncService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -25,9 +26,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class StudyParticipantControllerTest {
 
     @Autowired
@@ -38,6 +42,9 @@ class StudyParticipantControllerTest {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private AsyncService asyncService;
 
     private SlackUsersClient slackUsersClient;
     private SlackAlarmSender slackAlarmSender;
@@ -83,7 +90,7 @@ class StudyParticipantControllerTest {
 
         final StudyParticipantController sut = new StudyParticipantController(
                 new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
-                        slackUsersClient, slackAlarmSender);
+                        slackUsersClient, slackAlarmSender, asyncService);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -128,7 +135,7 @@ class StudyParticipantControllerTest {
 
         final StudyParticipantController sut = new StudyParticipantController(
                 new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
-                slackUsersClient, slackAlarmSender);
+                slackUsersClient, slackAlarmSender, asyncService);
         sut.leaveStudy(green.getId(), studyId);
 
         // then
