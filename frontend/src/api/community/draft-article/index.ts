@@ -42,6 +42,17 @@ export type ApiCommunityDraftArticle = {
   };
 };
 
+export type ApiCommunityDraftArticleToArticle = {
+  post: {
+    params: {
+      studyId: StudyId;
+      articleId: ArticleId;
+    };
+    body: Pick<DraftArtcle, 'title' | 'content'>;
+    variables: ApiCommunityDraftArticleToArticle['post']['params'] & ApiCommunityDraftArticleToArticle['post']['body'];
+  };
+};
+
 // get
 const getCommunityDraftArticle = async ({ studyId, articleId }: ApiCommunityDraftArticle['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
@@ -85,25 +96,50 @@ export const usePostDraftArticle = () => {
   >(postCommunityDraftArticle);
 };
 
+const postCommunityDraftArticleToArticle = async ({
+  studyId,
+  articleId,
+  title,
+  content,
+}: ApiCommunityDraftArticleToArticle['post']['variables']) => {
+  const response = await axiosInstance.post<
+    null,
+    AxiosResponse<null>,
+    ApiCommunityDraftArticleToArticle['post']['body']
+  >(`/api/studies/${studyId}/community/draft-articles/${articleId}/publish`, {
+    title,
+    content,
+  });
+
+  return checkType(response.data, isNull);
+};
+
+export const usePostDraftArticleToArticle = () => {
+  return useMutation<null, AxiosError, ApiCommunityDraftArticleToArticle['post']['variables']>(
+    postCommunityDraftArticleToArticle,
+  );
+};
+
 // put
 const putCommunityDraftArticle = async ({
   studyId,
   articleId,
   title,
   content,
-}: ApiCommunityDraftArticle['put']['variables']) => {
-  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiCommunityDraftArticle['put']['body']>(
-    `/api/studies/${studyId}/community/draft-articles/${articleId}`,
-    {
-      title,
-      content,
-    },
-  );
+}: ApiCommunityDraftArticleToArticle['post']['variables']) => {
+  const response = await axiosInstance.put<
+    null,
+    AxiosResponse<null>,
+    ApiCommunityDraftArticleToArticle['post']['body']
+  >(`/api/studies/${studyId}/community/draft-articles/${articleId}`, {
+    title,
+    content,
+  });
 
   return checkType(response.data, isNull);
 };
 
-export const usePutCommunityArticle = () => {
+export const usePutCommunityDraftArticle = () => {
   return useMutation<null, AxiosError, ApiCommunityDraftArticle['put']['variables']>(putCommunityDraftArticle);
 };
 
@@ -116,6 +152,6 @@ const deleteCommunityDraftArticle = async ({ studyId, articleId }: ApiCommunityD
   return checkType(response.data, isNull);
 };
 
-export const useDeleteCommunityArticle = () => {
+export const useDeleteCommunityDraftArticle = () => {
   return useMutation<null, AxiosError, ApiCommunityDraftArticle['delete']['variables']>(deleteCommunityDraftArticle);
 };

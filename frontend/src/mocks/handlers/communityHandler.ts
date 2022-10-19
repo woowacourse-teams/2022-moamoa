@@ -144,26 +144,49 @@ export const communityHandlers = [
 
     return res(ctx.status(200), ctx.json(article));
   }),
-  rest.post<ApiCommunityDraftArticle['post']['body']>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
-    const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+  rest.post<ApiCommunityDraftArticle['post']['body']>(
+    '/api/studies/:studyId/community/draft-articles',
+    (req, res, ctx) => {
+      const studyId = req.params.studyId;
+      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
-    const { title, content } = req.body;
-    const newArticle = {
-      id: Math.floor(Math.random() * 1000),
-      title,
-      content,
-      createdDate: '2022-08-18',
-      lastModifiedDate: '2022-08-18',
-      study: {
-        id: 79384333,
-        title: '2022-daily-planner',
-      },
-    };
-    communityDraftArticlesJSON.articles = [newArticle, ...communityDraftArticlesJSON.articles];
+      const { title, content } = req.body;
+      const newArticle = {
+        id: Math.floor(Math.random() * 1000),
+        title,
+        content,
+        createdDate: '2022-08-18',
+        lastModifiedDate: '2022-08-18',
+        study: {
+          id: 79384333,
+          title: '2022-daily-planner',
+        },
+      };
+      communityDraftArticlesJSON.articles = [newArticle, ...communityDraftArticlesJSON.articles];
 
-    return res(ctx.status(201));
-  }),
+      return res(ctx.status(201));
+    },
+  ),
+  rest.post<ApiCommunityDraftArticle['post']['body']>(
+    '/api/studies/:studyId/community/draft-articles/:articleId/publish',
+    (req, res, ctx) => {
+      const { studyId, articleId } = req.params;
+      if (!studyId || !articleId) return res(ctx.status(400), ctx.json({ errorMessage: '아이디가 없음' }));
+
+      const { title, content } = req.body;
+      const newArticle = {
+        id: Math.floor(Math.random() * 1000),
+        author: user,
+        title,
+        content,
+        createdDate: '2022-08-18',
+        lastModifiedDate: '2022-08-18',
+      };
+      communityArticlesJSON.articles = [newArticle, ...communityArticlesJSON.articles];
+
+      return res(ctx.status(201));
+    },
+  ),
   rest.delete('/api/studies/:studyId/community/draft-articles/:articleId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));

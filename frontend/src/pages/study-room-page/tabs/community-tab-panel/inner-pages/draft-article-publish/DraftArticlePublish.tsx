@@ -4,11 +4,7 @@ import { PATH } from '@constants';
 
 import { DraftArtcle } from '@custom-types';
 
-import {
-  ApiCommunityDraftArticle,
-  useGetCommunityDraftArticle,
-  usePostDraftArticle,
-} from '@api/community/draft-article';
+import { useGetCommunityDraftArticle, usePostDraftArticleToArticle } from '@api/community/draft-article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -25,7 +21,7 @@ import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput
 type HandleDraftArticlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
-) => Promise<ApiCommunityDraftArticle['post']['responseData'] | undefined>;
+) => Promise<null | undefined>;
 
 const DraftArticlePublish: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
@@ -36,27 +32,27 @@ const DraftArticlePublish: React.FC = () => {
 
   const { isFetching, isError, isSuccess, isOwnerOrMember } = useUserRole({ studyId });
   const draftArticleResponseData = useGetCommunityDraftArticle({ studyId, articleId });
-  const { mutateAsync } = usePostDraftArticle();
+  const { mutateAsync } = usePostDraftArticleToArticle();
 
   const handleSubmit: HandleDraftArticlePublishFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
-
     return mutateAsync(
       {
         studyId,
+        articleId,
         title,
         content,
       },
       {
-        onSuccess: () => {
-          alert('글을 작성했습니다. :D');
-          navigate(`../${PATH.NOTICE}`); // TODO: 생성한 게시글 상세 페이지로 이동
-        },
         onError: () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
+        },
+        onSuccess: () => {
+          alert('글을 작성했습니다. :D');
+          navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
         },
       },
     );
@@ -107,7 +103,7 @@ const PublishForm: React.FC<PublishFormProps> = ({ title, content, formMethods, 
 );
 
 const ListPageLink: React.FC = () => (
-  <Link to={`../${PATH.COMMUNITY}`}>
+  <Link to={`../../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
