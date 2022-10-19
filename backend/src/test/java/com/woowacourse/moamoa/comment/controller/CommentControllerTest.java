@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.springframework.http.HttpStatus.CREATED;
 
-import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
@@ -92,9 +91,9 @@ class CommentControllerTest {
 
         자바_스터디_게시판 = articleRepository.save(article);
 
-        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article, "댓글 내용1");
-        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article, "댓글 내용2");
-        final Comment 세번째_댓글 = new Comment(new Author(짱구.getId()), article, "댓글 내용3");
+        final Comment 첫번째_댓글 = Comment.write(new Accessor(그린론.getId(), 자바_스터디.getId()), article, "댓글 내용1");
+        final Comment 두번째_댓글 = Comment.write(new Accessor(디우.getId(), 자바_스터디.getId()), article, "댓글 내용2");
+        final Comment 세번째_댓글 = Comment.write(new Accessor(짱구.getId(), 자바_스터디.getId()), article, "댓글 내용3");
 
         commentRepository.save(첫번째_댓글);
         commentRepository.save(두번째_댓글);
@@ -133,7 +132,7 @@ class CommentControllerTest {
         assertThat(response.getBody().getComments())
                 .hasSize(2)
                 .filteredOn(it -> it.getId() != null)
-                .extracting("author.memberId", "content")
+                .extracting("author.id", "content")
                 .containsExactlyInAnyOrder(
                         tuple(디우.getId(), "댓글 내용2"),
                         tuple(짱구.getId(), "댓글 내용3")

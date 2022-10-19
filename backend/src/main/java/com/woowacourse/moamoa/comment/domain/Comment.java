@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.comment.service.exception.UnEditingCommentException;
+import com.woowacourse.moamoa.comment.service.exception.UnWrittenCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = PROTECTED)
 public class Comment extends BaseEntity {
 
     @Id
@@ -37,10 +38,17 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    public Comment(final Author author, final Article article, final String content) {
+    private Comment(final Author author, final Article article, final String content) {
         this.author = author;
         this.article = article;
         this.content = content;
+    }
+
+    public static Comment write(final Accessor accessor, final Article article, final String content) {
+        if (article.isSigningUp(accessor)) {
+            return new Comment(new Author(accessor.getMemberId()), article, content);
+        }
+        throw new UnWrittenCommentException();
     }
 
     public void updateContent(final Accessor accessor, final String content) {

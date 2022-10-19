@@ -1,8 +1,5 @@
 package com.woowacourse.moamoa.studyroom.domain.article;
 
-import com.woowacourse.moamoa.comment.domain.Author;
-import com.woowacourse.moamoa.comment.domain.Comment;
-import com.woowacourse.moamoa.comment.service.exception.UnWrittenCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
@@ -96,13 +93,6 @@ public class Article extends BaseEntity {
 
     boolean isDeleted() {
         return deleted;
-    }
-
-    public Comment writeComment(final Accessor accessor, final String content) {
-        if (studyRoom.isPermittedAccessor(accessor)) {
-            return new Comment(new Author(accessor.getMemberId()), this, content);
-        }
-        throw new UnWrittenCommentException();
     }
 
     public boolean isSigningUp(final Accessor accessor) {

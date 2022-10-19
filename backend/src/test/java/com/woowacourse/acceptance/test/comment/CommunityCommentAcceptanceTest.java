@@ -89,7 +89,7 @@ class CommunityCommentAcceptanceTest extends AcceptanceTest {
 
         final List<CommentResponse> comments = response.getComments();
         assertThat(comments).hasSize(1)
-                .extracting("id", "author.memberId", "content")
+                .extracting("id", "author.id", "content")
                 .contains(tuple(commentId, 베루스.getId(), "댓글 내용"));
     }
 
@@ -131,7 +131,7 @@ class CommunityCommentAcceptanceTest extends AcceptanceTest {
         // then
         final List<CommentResponse> comments = response.getComments();
         assertThat(comments).hasSize(2)
-                .extracting("id", "author.memberId", "content")
+                .extracting("id", "author.id", "content")
                 .containsExactly(
                         tuple(댓글_내용3_ID, 디우.getId(), "댓글 내용3"),
                         tuple(댓글_내용2_ID, 디우.getId(), "댓글 내용2")
@@ -194,7 +194,7 @@ class CommunityCommentAcceptanceTest extends AcceptanceTest {
 
         final List<CommentResponse> comments = response.getComments();
         assertThat(comments).hasSize(1)
-                .extracting("id", "author.memberId", "content")
+                .extracting("id", "author.id", "content")
                 .contains(tuple(댓글_ID, 디우.getId(), "수정된 댓글 내용"));
     }
 

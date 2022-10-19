@@ -93,9 +93,13 @@ class CommentServiceTest {
 
         자바스크립트_스터디_게시판 = articleRepository.save(article);
 
-        final Comment 첫번째_댓글 = new Comment(new Author(그린론.getId()), article, "댓글 내용1");
-        final Comment 두번째_댓글 = new Comment(new Author(디우.getId()), article, "댓글 내용2");
-        final Comment 세번째_댓글 = new Comment(new Author(베루스.getId()), article, "댓글 내용3");
+        final Accessor 그린론_자바스크립트_접근자 = new Accessor(그린론.getId(), 자바스크립트_스터디.getId());
+        final Accessor 디우_자바스크립트_접근자 = new Accessor(디우.getId(), 자바스크립트_스터디.getId());
+        final Accessor 베루스_자바스크립트_접근자 = new Accessor(베루스.getId(), 자바스크립트_스터디.getId());
+
+        final Comment 첫번째_댓글 = Comment.write(그린론_자바스크립트_접근자, article, "댓글 내용1");
+        final Comment 두번째_댓글 = Comment.write(디우_자바스크립트_접근자, article, "댓글 내용2");
+        final Comment 세번째_댓글 = Comment.write(베루스_자바스크립트_접근자, article, "댓글 내용3");
 
         commentRepository.save(첫번째_댓글);
         commentRepository.save(두번째_댓글);

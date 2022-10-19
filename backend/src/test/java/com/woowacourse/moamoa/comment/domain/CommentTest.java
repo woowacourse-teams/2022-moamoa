@@ -25,8 +25,8 @@ class CommentTest {
     void updateContent() {
         // given
         final Author author = new Author(1L);
-        final Comment comment = new Comment(author, ARTICLE, "댓글 내용");
         final Accessor accessor = new Accessor(author.getAuthorId(), 1L);
+        final Comment comment = Comment.write(accessor, ARTICLE, "댓글 내용");
 
         // when
         comment.updateContent(accessor, "수정된 댓글 내용");
@@ -40,8 +40,8 @@ class CommentTest {
     void deleteContent() {
         // given
         final Author author = new Author(1L);
-        final Comment comment = new Comment(author, ARTICLE, "댓글 내용");
         final Accessor accessor = new Accessor(author.getAuthorId(), 1L);
+        final Comment comment = Comment.write(accessor, ARTICLE, "댓글 내용");
 
         // when & then
         assertDoesNotThrow(() -> comment.isUneditableAccessor(accessor));

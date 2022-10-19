@@ -9,7 +9,6 @@ import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUN
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.data.CommentData;
@@ -87,8 +86,10 @@ class CommentDaoTest {
     void findAllByArticleId() {
         // given
         final Article article = 자바스크립트_스터디_게시판;
-        final Comment firstComment = new Comment(new Author(그린론.getId()), article, "댓글내용1");
-        final Comment secondComment = new Comment(new Author(디우.getId()), article, "댓글내용2");
+        final Accessor 그린론_자바스크립트_접근자 = new Accessor(그린론.getId(), 자바스크립트_스터디.getId());
+        final Accessor 디우_자바스크립트_접근자 = new Accessor(디우.getId(), 자바스크립트_스터디.getId());
+        final Comment firstComment = Comment.write(그린론_자바스크립트_접근자, article, "댓글내용1");
+        final Comment secondComment = Comment.write(디우_자바스크립트_접근자, article, "댓글내용2");
 
         final Comment savedFirstComment = commentRepository.save(firstComment);
         final Comment savedSecondComment = commentRepository.save(secondComment);

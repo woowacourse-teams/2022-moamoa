@@ -34,7 +34,8 @@ public class CommentService {
         final Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException(articleId, type.name()));
 
-        final Comment comment = article.writeComment(new Accessor(memberId, studyId), request.getContent());
+        final Accessor accessor = new Accessor(memberId, studyId);
+        final Comment comment = Comment.write(accessor, article, request.getContent());
 
         final Comment savedComment = commentRepository.save(comment);
         return savedComment.getId();
