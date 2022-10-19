@@ -45,6 +45,7 @@
     ],
     "react/prop-types": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   }
 }

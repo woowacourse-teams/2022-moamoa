@@ -1,8 +1,7 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 import { useState } from 'react';
 
-import type { MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
-import MoreButton from '@detail-page/components/more-button/MoreButton';
+import MoreButton, { type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
 
 export default {
   title: 'Pages/DetailPage/MoreButton',

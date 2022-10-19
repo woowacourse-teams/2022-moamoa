@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import LinkPreview from '@link-tab/components/link-preview/LinkPreview';
-import type { LinkPreviewProps } from '@link-tab/components/link-preview/LinkPreview';
+import LinkPreview, { type LinkPreviewProps } from '@link-tab/components/link-preview/LinkPreview';
 
 export default {
   title: 'Pages/StudyRoomPage/LinkPreview',

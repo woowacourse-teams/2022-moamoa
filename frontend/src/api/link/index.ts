@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
 
 import { checkType, isNull } from '@utils';

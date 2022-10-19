@@ -173,7 +173,8 @@ class CommunityArticleAcceptanceTest extends AcceptanceTest {
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다(slackAlarmMockServer, slackMessageRequest);
+
         long 자바_게시글2_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
         long 자바_게시글3_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
         long 자바_게시글4_ID = 베루스가().로그인하고().스터디에(자바_스터디_ID).게시글을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");

@@ -89,9 +89,9 @@ class LinkArticleAcceptanceTest extends AcceptanceTest {
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        그린론이().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
-        디우가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
-        베루스가().로그인하고().스터디에(자바_스터디_ID).참여한다(slackAlarmMockServer, slackMessageRequest);
+        그린론이().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다(slackAlarmMockServer, slackMessageRequest);
+        디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다(slackAlarmMockServer, slackMessageRequest);
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다(slackAlarmMockServer, slackMessageRequest);
 
         final LinkArticleRequest request1 = new LinkArticleRequest("https://github.com/sc0116", "짱구 링크.");
         final LinkArticleRequest request2 = new LinkArticleRequest("https://github.com/jaejae-yoo", "그린론 링크.");

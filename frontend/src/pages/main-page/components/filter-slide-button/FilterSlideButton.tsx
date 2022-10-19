@@ -1,5 +1,5 @@
-import { IconButton } from '@components/button';
-import { LeftDirectionIcon, RightDirectionIcon } from '@components/icons';
+import { IconButton } from '@shared/button';
+import { LeftDirectionIcon, RightDirectionIcon } from '@shared/icons';
 
 export type FilterSlideButtonProps = {
   direction: 'right' | 'left';
@@ -9,7 +9,18 @@ export type FilterSlideButtonProps = {
 
 const FilterSlideButton: React.FC<FilterSlideButtonProps> = ({ direction, ariaLabel, onClick: handleClick }) => {
   return (
-    <IconButton ariaLabel={ariaLabel} onClick={handleClick} width="25px" height="25px" variant="secondary">
+    <IconButton
+      ariaLabel={ariaLabel}
+      onClick={handleClick}
+      variant="secondary"
+      custom={{
+        width: '25px',
+        height: '25px',
+        borderRadius: '50%',
+        transition: 'background-color 0.2s ease',
+        backgroundColor: 'rgb(255, 255, 255)',
+      }}
+    >
       {direction === 'right' ? <RightDirectionIcon /> : <LeftDirectionIcon />}
     </IconButton>
   );

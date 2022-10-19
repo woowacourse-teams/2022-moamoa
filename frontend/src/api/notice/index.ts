@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { checkType, isNull } from '@utils';
@@ -11,7 +11,7 @@ import { checkNoticeArticle, checkNoticeArticles } from '@api/notice/typeChecker
 export type ApiNoticeArticles = {
   get: {
     responseData: {
-      articles: Array<NoticeArticle>;
+      articles: Array<Omit<NoticeArticle, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;

@@ -22,10 +22,11 @@ public class StudyParticipantService {
     private final StudyRepository studyRepository;
     private final DateTimeSystem dateTimeSystem;
 
-    public synchronized Member participateStudy(final Long memberId, final Long studyId) {
+
+    public Member participateStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId)
+        final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         study.participate(memberId);
@@ -38,7 +39,7 @@ public class StudyParticipantService {
     public void leaveStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId)
+        final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         final LocalDate now = dateTimeSystem.now().toLocalDate();

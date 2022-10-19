@@ -1,6 +1,6 @@
 import { isDateYMD } from '@utils';
 
-import { DateYMD } from '@custom-types';
+import type { DateYMD } from '@custom-types';
 
 export const getToday = (): DateYMD => {
   const koKRDate = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -32,7 +32,7 @@ export const yyyymmddTommdd = (date: DateYMD, seperator = '-') => {
   return `${m}월 ${d}일`;
 };
 
-export const changeDateSeperator = (date: string, fromSeperator = '-', toSeperator = '.') => {
+export const changeDateSeperator = (date: DateYMD, fromSeperator = '-', toSeperator = '.') => {
   return date.replaceAll(fromSeperator, toSeperator);
 };
 
@@ -40,6 +40,6 @@ export const compareDateTime = (date1: DateYMD, date2: DateYMD, returnCondition:
   const date1ToNum = Number(date1.replaceAll('-', ''));
   const date2ToNum = Number(date2.replaceAll('-', ''));
 
-  if (returnCondition === 'min') return date1ToNum < date2ToNum ? date1 : date2;
-  return date1ToNum < date2ToNum ? date2 : date1;
+  if (returnCondition === 'min') return date1ToNum <= date2ToNum ? date1 : date2;
+  return date1ToNum <= date2ToNum ? date2 : date1;
 };

@@ -11,8 +11,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 
 import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
@@ -58,14 +56,15 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
     void leaveStudy() {
         final LocalDate 지금 = LocalDate.now();
         final Long studyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final String token = 디우가().로그인한다();
-
         final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("jjanggu",
                 List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
                         .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
                         .color("#36288f").build()));
 
-        디우가().로그인하고().스터디에(studyId).참여한다(slackAlarmMockServer, slackMessageRequest);
+        디우가().로그인하고().스터디에(studyId).참여를_시도한다(slackAlarmMockServer, slackMessageRequest);
+        final String token = 디우가().로그인한다();
+
+        디우가().로그인하고().스터디에(studyId).참여를_시도한다(slackAlarmMockServer, slackMessageRequest);
 
         RestAssured.given(spec).log().all()
                 .filter(document("studies/leave",
