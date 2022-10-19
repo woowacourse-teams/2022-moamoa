@@ -167,7 +167,7 @@ class CommentServiceTest {
         final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(
                 () -> sut.update(베루스_ID, studyId, commentId, editingCommentRequest)
-        ).isInstanceOf(UnWrittenCommentException.class);
+        ).isInstanceOf(UnEditingCommentException.class);
     }
 
     @DisplayName("본인이 작성한 댓글은 삭제할 수 있다.")
@@ -227,7 +227,7 @@ class CommentServiceTest {
         final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(() ->
                 sut.update(디우_ID, studyId, commentId, editingCommentRequest)
-        ).isInstanceOf(UnWrittenCommentException.class);
+        ).isInstanceOf(UnEditingCommentException.class);
     }
 
     @DisplayName("탈퇴한 회원은 본인의 댓글을 삭제할 수 없다.")
