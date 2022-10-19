@@ -15,8 +15,8 @@ import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
-import com.woowacourse.moamoa.comment.service.exception.UnDeletionCommentException;
-import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
+import com.woowacourse.moamoa.comment.service.exception.UnEditingCommentException;
+import com.woowacourse.moamoa.comment.service.exception.UnWrittenCommentException;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -129,7 +129,7 @@ class CommentServiceTest {
         final Long articleId = 자바스크립트_스터디_게시판.getId();
         assertThatThrownBy(
                 () -> sut.writeComment(authorId, studyId, articleId, COMMUNITY, request)
-        ).isInstanceOf(UnwrittenCommentException.class);
+        ).isInstanceOf(UnWrittenCommentException.class);
     }
 
     @DisplayName("내가 작성한 댓글은 수정할 수 있다.")
@@ -167,7 +167,7 @@ class CommentServiceTest {
         final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(
                 () -> sut.update(베루스_ID, studyId, commentId, editingCommentRequest)
-        ).isInstanceOf(UnwrittenCommentException.class);
+        ).isInstanceOf(UnWrittenCommentException.class);
     }
 
     @DisplayName("본인이 작성한 댓글은 삭제할 수 있다.")
@@ -204,7 +204,7 @@ class CommentServiceTest {
         final Long 베루스_ID = 베루스.getId();
         assertThatThrownBy(
                 () -> sut.delete(베루스_ID, studyId, commentId)
-        ).isInstanceOf(UnDeletionCommentException.class);
+        ).isInstanceOf(UnEditingCommentException.class);
     }
 
     @DisplayName("탈퇴한 회원은 본인의 댓글을 수정할 수 없다.")
@@ -227,7 +227,7 @@ class CommentServiceTest {
         final EditingCommentRequest editingCommentRequest = new EditingCommentRequest("수정된 댓글 내용");
         assertThatThrownBy(() ->
                 sut.update(디우_ID, studyId, commentId, editingCommentRequest)
-        ).isInstanceOf(UnwrittenCommentException.class);
+        ).isInstanceOf(UnWrittenCommentException.class);
     }
 
     @DisplayName("탈퇴한 회원은 본인의 댓글을 삭제할 수 없다.")
@@ -248,6 +248,6 @@ class CommentServiceTest {
 
         // when & then
         assertThatThrownBy(() -> sut.delete(디우_ID, studyId, commentId))
-                .isInstanceOf(UnDeletionCommentException.class);
+                .isInstanceOf(UnEditingCommentException.class);
     }
 }

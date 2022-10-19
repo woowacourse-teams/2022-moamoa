@@ -26,9 +26,10 @@ class CommentTest {
         // given
         final Author author = new Author(1L);
         final Comment comment = new Comment(author, ARTICLE, "댓글 내용");
+        final Accessor accessor = new Accessor(author.getAuthorId(), 1L);
 
         // when
-        comment.updateContent(1L, author, "수정된 댓글 내용");
+        comment.updateContent(accessor, "수정된 댓글 내용");
 
         // then
         assertThat(comment.getContent()).isEqualTo("수정된 댓글 내용");
@@ -40,8 +41,9 @@ class CommentTest {
         // given
         final Author author = new Author(1L);
         final Comment comment = new Comment(author, ARTICLE, "댓글 내용");
+        final Accessor accessor = new Accessor(author.getAuthorId(), 1L);
 
         // when & then
-        assertDoesNotThrow(() -> comment.checkDeletePermission(1L, author));
+        assertDoesNotThrow(() -> comment.isUneditableAccessor(accessor));
     }
 }

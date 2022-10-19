@@ -1,11 +1,11 @@
 package com.woowacourse.moamoa.comment.service;
 
-import com.woowacourse.moamoa.comment.domain.Author;
 import com.woowacourse.moamoa.comment.domain.Comment;
 import com.woowacourse.moamoa.comment.domain.repository.CommentRepository;
 import com.woowacourse.moamoa.comment.query.CommentDao;
 import com.woowacourse.moamoa.comment.query.data.CommentData;
 import com.woowacourse.moamoa.comment.service.exception.CommentNotFoundException;
+import com.woowacourse.moamoa.comment.service.exception.UnEditingCommentException;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
 import com.woowacourse.moamoa.comment.service.request.EditingCommentRequest;
 import com.woowacourse.moamoa.comment.service.response.CommentsResponse;
@@ -52,14 +52,16 @@ public class CommentService {
         final Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
 
-        comment.updateContent(studyId, new Author(memberId), editingCommentRequest.getContent());
+        comment.updateContent(new Accessor(memberId, studyId), editingCommentRequest.getContent());
     }
 
     public void delete(final Long memberId, final Long studyId, final Long commentId) {
         final Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
 
-        comment.checkDeletePermission(studyId, new Author(memberId));
+        if (comment.isUneditableAccessor(new Accessor(memberId, studyId))) {
+            throw new UnEditingCommentException();
+        }
         commentRepository.deleteById(comment.getId());
     }
 }

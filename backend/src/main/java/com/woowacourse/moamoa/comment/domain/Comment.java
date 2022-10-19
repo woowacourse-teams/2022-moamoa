@@ -4,8 +4,7 @@ import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.woowacourse.moamoa.comment.service.exception.UnDeletionCommentException;
-import com.woowacourse.moamoa.comment.service.exception.UnwrittenCommentException;
+import com.woowacourse.moamoa.comment.service.exception.UnEditingCommentException;
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
@@ -44,24 +43,14 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    public void updateContent(final Long studyId, final Author author, final String content) {
-        if (!isAuthor(author) || !isSigningUp(studyId, author)) {
-            throw new UnwrittenCommentException();
+    public void updateContent(final Accessor accessor, final String content) {
+        if (isUneditableAccessor(accessor)) {
+            throw new UnEditingCommentException();
         }
         this.content = content;
     }
 
-    public void checkDeletePermission(final Long studyId, final Author author) {
-        if (!isAuthor(author) || !isSigningUp(studyId, author)) {
-            throw new UnDeletionCommentException();
-        }
-    }
-
-    private boolean isSigningUp(final Long studyId, final Author author) {
-        return article.isSigningUp(new Accessor(author.getAuthorId(), studyId));
-    }
-
-    private boolean isAuthor(final Author author) {
-        return this.author.equals(author);
+    public boolean isUneditableAccessor(final Accessor accessor) {
+        return !author.getAuthorId().equals(accessor.getMemberId()) || !article.isSigningUp(accessor);
     }
 }
