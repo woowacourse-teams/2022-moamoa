@@ -6,12 +6,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.slack.api.model.Attachment;
 import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
-import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
+import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import io.restassured.RestAssured;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -92,6 +93,21 @@ public class StudyRelatedSteps extends Steps {
                 .post("/api/studies/{study-id}/members")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    public StudyDetailResponse 정보를_가져온다() {
+        try {
+            return spec.log().all()
+                    .pathParam("study-id", studyId)
+                    .when().log().all()
+                    .get("/api/studies/{study-id}")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .extract().as(StudyDetailResponse.class);
+        } catch (Exception e) {
+            Assertions.fail("스터디 상세정보 조회 실패");
+            return null;
+        }
     }
 
     public Long 리뷰를_작성한다(String content) {

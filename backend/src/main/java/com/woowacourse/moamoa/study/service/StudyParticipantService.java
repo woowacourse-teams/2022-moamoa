@@ -32,12 +32,18 @@ public class StudyParticipantService {
     }
 
     public void leaveStudy(final Long memberId, final Long studyId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         final LocalDate now = dateTimeSystem.now().toLocalDate();
         study.leave(new Participant(memberId), now);
+    }
+
+    public void kickOutMember(final Long ownerId, final Long studyId, final Long participantId) {
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        final LocalDate now = dateTimeSystem.now().toLocalDate();
+        study.kickOut(ownerId, new Participant(participantId), now);
     }
 }
