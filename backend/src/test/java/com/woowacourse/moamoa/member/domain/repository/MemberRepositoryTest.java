@@ -4,7 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class MemberRepositoryTest {
 
     @Autowired
@@ -21,10 +27,10 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+        memberRepository.save(MemberFixtures.짱구());
+        memberRepository.save(MemberFixtures.그린론());
+        memberRepository.save(MemberFixtures.디우());
+        memberRepository.save(MemberFixtures.베루스());
     }
 
     @DisplayName("신규 사용자일 경우 사용자 정보를 저장한다.")
@@ -36,8 +42,8 @@ class MemberRepositoryTest {
                 () -> assertThat(member.getId()).isNotNull(),
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),
                 () -> assertThat(member.getUsername()).isEqualTo("jjanggu"),
-                () -> assertThat(member.getImageUrl()).isEqualTo("https://image"),
-                () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")
+                () -> assertThat(member.getImageUrl()).isEqualTo("https://jjanggu.png"),
+                () -> assertThat(member.getProfileUrl()).isEqualTo("https://jjanggu.com")
         );
     }
 
@@ -45,13 +51,14 @@ class MemberRepositoryTest {
     @Test
     void updateMember() {
         final Member member = memberRepository.findByGithubId(1L).get();
-        member.update("jjanggu", "jjanggu.image", "github.com");
+        member.update("jjanggu", "jjanggu@moamoa.space", "jjanggu.image", "github.com");
         memberRepository.save(member);
 
         assertAll(
                 () -> assertThat(member.getId()).isNotNull(),
                 () -> assertThat(member.getGithubId()).isEqualTo(1L),
                 () -> assertThat(member.getUsername()).isEqualTo("jjanggu"),
+                () -> assertThat(member.getEmail()).isEqualTo("jjanggu@moamoa.space"),
                 () -> assertThat(member.getImageUrl()).isEqualTo("jjanggu.image"),
                 () -> assertThat(member.getProfileUrl()).isEqualTo("github.com")
         );
@@ -87,8 +94,8 @@ class MemberRepositoryTest {
                 .filteredOn(member -> member.getId() != null)
                 .extracting("githubId", "username", "imageUrl", "profileUrl")
                 .containsExactly(
-                        tuple(1L, "jjanggu", "https://image", "github.com"),
-                        tuple(2L, "greenlawn", "https://image", "github.com")
+                        tuple(1L, "jjanggu", "https://jjanggu.png", "https://jjanggu.com"),
+                        tuple(2L, "greenlawn", "https://greenlawn.png", "https://greenlawn.com")
                 );
     }
 }

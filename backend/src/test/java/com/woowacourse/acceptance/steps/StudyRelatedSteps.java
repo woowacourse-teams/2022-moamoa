@@ -4,10 +4,14 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.slack.api.model.Attachment;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
-import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
-import org.assertj.core.api.Assertions;
+import io.restassured.RestAssured;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,6 +51,8 @@ public class StudyRelatedSteps extends Steps {
     }
 
     public HttpStatus 참여를_시도한다() {
+        slackAlarmMockServer.sendAlarm();
+
         final int code = spec.log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
@@ -59,7 +65,26 @@ public class StudyRelatedSteps extends Steps {
     }
 
     public void 참여에_성공한다() {
-        spec.log().all()
+        slackAlarmMockServer.sendAlarm();
+
+        RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .post("/api/studies/{study-id}/members")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    public void 참여에_성공하고_방장에게_알림을_보낸다(final String ownerChannel) {
+        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest(ownerChannel,
+                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
+                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
+                        .color("#36288f").build()));
+        slackAlarmMockServer.sendAlarmWithExpect(slackMessageRequest);
+
+        RestAssured.given().log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)

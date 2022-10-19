@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.Participant;

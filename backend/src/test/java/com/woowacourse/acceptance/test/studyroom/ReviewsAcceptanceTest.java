@@ -22,7 +22,9 @@ import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
+import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ReviewResponse;
@@ -72,6 +74,14 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
 
         long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 리액트_스터디_ID = 짱구가().로그인하고().리액트_스터디를().시작일자는(지금).생성한다();
+        그린론이().로그인한다();
+        디우가().로그인한다();
+        베루스가().로그인한다();
+
+        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("jjanggu",
+                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
+                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
+                        .color("#36288f").build()));
 
         그린론이().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
         디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
@@ -112,9 +122,11 @@ class ReviewsAcceptanceTest extends AcceptanceTest {
     void getReviewsBySize() {
         // arrange
         final LocalDate 지금 = LocalDate.now();
-
         long 자바_스터디_ID = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
         long 리액트_스터디_ID = 짱구가().로그인하고().리액트_스터디를().시작일자는(지금).생성한다();
+        그린론이().로그인한다();
+        디우가().로그인한다();
+        베루스가().로그인한다();
 
         그린론이().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
         디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();

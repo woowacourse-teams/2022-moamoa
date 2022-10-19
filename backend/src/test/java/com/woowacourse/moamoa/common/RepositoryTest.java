@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.common;
 
 import com.woowacourse.moamoa.common.config.JpaAuditingConfig;
+import com.woowacourse.moamoa.study.service.AsyncService;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,6 +16,6 @@ import org.springframework.test.context.jdbc.Sql;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @DataJpaTest(includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Repository.class))
-@Import({JpaAuditingConfig.class, CategoryAndTagsSaver.class})
+@Import({JpaAuditingConfig.class, CategoryAndTagsSaver.class, AsyncService.class})
 public @interface RepositoryTest {
 }

@@ -6,8 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.http.HttpStatus.CREATED;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -27,9 +30,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class StudyControllerTest {
 
     @Autowired
@@ -43,8 +49,8 @@ class StudyControllerTest {
 
     @BeforeEach
     void initDataBase() {
-        짱구 = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        디우 = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        짱구 = memberRepository.save(MemberFixtures.짱구());
+        디우 = memberRepository.save(MemberFixtures.디우());
     }
 
     @DisplayName("스터디를 생성하여 저장한다.")
