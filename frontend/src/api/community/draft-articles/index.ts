@@ -1,7 +1,9 @@
 import { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
-import type { DraftArtcle, StudyDetail, StudyId } from '@custom-types';
+import { DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM } from '@constants';
+
+import type { DraftArtcle, Page, Size, StudyDetail, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 import { checkCommunityDraftArticles } from '@api/community/draft-articles/typeChecker';
@@ -21,21 +23,57 @@ export type ApiCommunityDraftArticles = {
       lastPage: number;
       totalCount: number;
     };
+    params: {
+      page?: Page;
+      size?: Size;
+    };
+    variables: ApiCommunityDraftArticles['get']['params'];
   };
 };
 
-const getCommunityDraftArticles = async () => {
+const getCommunityDraftArticles = async ({ page, size }: ApiCommunityDraftArticles['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
   const response = await axiosInstance.get<ApiCommunityDraftArticles['get']['responseData']>(
-    `/api/draft/community/articles`,
+    `/api/draft/community/articles?page=${page}&size=${size}`,
   );
 
   return checkCommunityDraftArticles(response.data);
 };
 
-export const useGetCommunityArticles = () => {
-  return useQuery<ApiCommunityDraftArticles['get']['responseData'], AxiosError>(
+type PageParam = { page: Page };
+type NextPageParam = PageParam | undefined;
+
+export type ApiInfiniteCommunityDraftArticles = {
+  get: {
+    params: { studyId: StudyId };
+    responseData: ApiCommunityDraftArticles['get']['responseData'] & PageParam;
+    variables: ApiInfiniteCommunityDraftArticles['get']['params'];
+  };
+};
+
+const defaultParam: PageParam = {
+  page: DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM.PAGE,
+};
+
+const getCommunityDraftArticlesWithPage = async ({
+  pageParam = defaultParam,
+}): Promise<ApiInfiniteCommunityDraftArticles['get']['responseData']> => {
+  const data = await getCommunityDraftArticles({
+    ...pageParam,
+    size: DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM.SIZE,
+  });
+  return { ...data, page: pageParam.page + 1 };
+};
+
+export const useGetInfiniteCommunityDraftArticles = () => {
+  return useInfiniteQuery<ApiInfiniteCommunityDraftArticles['get']['responseData'], AxiosError>(
     ['get-community-draft-articles'],
-    getCommunityDraftArticles,
+    getCommunityDraftArticlesWithPage,
+    {
+      getNextPageParam: (lastPage): NextPageParam => {
+        if (lastPage.currentPage >= lastPage.totalCount) return;
+        return { page: lastPage.page };
+      },
+    },
   );
 };

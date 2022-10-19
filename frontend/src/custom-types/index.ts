@@ -129,8 +129,4 @@ export type DraftArtcle = {
   content: string;
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
-  study: {
-    id: StudyId;
-    title: StudyDetail['title'];
-  };
 };
