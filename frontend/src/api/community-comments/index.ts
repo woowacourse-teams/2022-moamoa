@@ -28,7 +28,7 @@ export const getCommunityComments = async ({ studyId, articleId, size }: ApiComm
     ? `/api/studies/${studyId}/community/${articleId}/comments?size=${size}`
     : `/api/studies/${studyId}/community/${articleId}/comments`;
   const response = await axiosInstance.get<ApiCommunityComments['get']['responseData']>(url);
-  return checkCommunityComments(response);
+  return checkCommunityComments(response.data);
 };
 
 export const useGetCommunityComments = ({ studyId, articleId, size }: ApiCommunityComments['get']['variables']) => {
