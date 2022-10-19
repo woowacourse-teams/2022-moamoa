@@ -46,11 +46,13 @@ public abstract class Steps<S extends Steps<S, D>, D extends Document> {
 
     protected static void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
+            mockServer.reset();
             mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
                     "token_type", "bearer",
                     "scope", ""));
             mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
         } catch (Exception e) {
+            e.printStackTrace();
             Assertions.fail(e.getMessage());
         }
     }
