@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { DESCRIPTION_LENGTH } from '@constants';
+import { css } from '@emotion/react';
 
-import tw from '@utils/tw';
+import { DESCRIPTION_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
-import { ToggleButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Label from '@components/label/Label';
-import MarkdownRender from '@components/markdown-render/MarkdownRender';
-import MetaBox from '@components/meta-box/MetaBox';
-import Textarea from '@components/textarea/Textarea';
+import { ToggleButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Label from '@shared/label/Label';
+import MarkdownRender from '@shared/markdown-render/MarkdownRender';
+import MetaBox from '@shared/meta-box/MetaBox';
+import Textarea from '@shared/textarea/Textarea';
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
 
@@ -22,10 +22,9 @@ const tabMode = {
 
 const CONTENT = 'content';
 
-const PublishContent = () => {
+const PublishContent: React.FC = () => {
   const {
     formState: { errors },
-    register,
     getField,
   } = useFormContext();
 
@@ -34,6 +33,8 @@ const PublishContent = () => {
   const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
 
   const isValid = !errors[CONTENT]?.hasError;
+
+  const isWriteTab = activeTab === tabMode.write;
 
   const handleNavItemClick = (tabId: string) => () => {
     setActiveTab(tabId);
@@ -48,65 +49,96 @@ const PublishContent = () => {
     setDescription(description);
   }, [activeTab]);
 
-  const renderTabContent = () => {
-    const isWriteTab = activeTab === tabMode.write;
-
-    return (
-      <>
-        <div css={isWriteTab ? tw`h-full` : tw`hidden`}>
-          <Label htmlFor={CONTENT} hidden>
-            소개글
-          </Label>
-          <Textarea
-            id={CONTENT}
-            placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
-            invalid={!isValid}
-            {...register(CONTENT, {
-              validate: (val: string) => {
-                if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
-                  return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
-                }
-                return makeValidationResult(false);
-              },
-              validationMode: 'change',
-              minLength: DESCRIPTION_LENGTH.MIN.VALUE,
-              maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
-              required: true,
-            })}
-          ></Textarea>
-        </div>
-        <div css={isWriteTab && tw`hidden`}>
-          <MarkdownRender markdownContent={description} />
-        </div>
-      </>
-    );
-  };
-
   return (
     <MetaBox>
       <MetaBox.Title>
         <ButtonGroup gap="8px">
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.write}
-            onClick={handleNavItemClick(tabMode.write)}
-          >
-            Write
-          </ToggleButton>
-          <ToggleButton
-            variant="secondary"
-            checked={activeTab === tabMode.preview}
-            onClick={handleNavItemClick(tabMode.preview)}
-          >
-            Preview
-          </ToggleButton>
+          <WriteTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.write)} />
+          <PreviewTabButton activeTab={activeTab} onClick={handleNavItemClick(tabMode.preview)} />
         </ButtonGroup>
       </MetaBox.Title>
       <MetaBox.Content>
-        <div css={tw`h-[50vh]`}>{renderTabContent()}</div>
+        <div
+          css={css`
+            height: 50vh;
+          `}
+        >
+          <WriteTab isOpen={isWriteTab} isValid={isValid} />
+          <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
+        </div>
       </MetaBox.Content>
     </MetaBox>
   );
 };
 
 export default PublishContent;
+
+type WriteTabButtonProps = {
+  activeTab: TabIds;
+  onClick: () => void;
+};
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
+    Write
+  </ToggleButton>
+);
+
+type PreviewTabButtonProps = WriteTabButtonProps;
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
+    Preview
+  </ToggleButton>
+);
+
+type WriteTabProps = {
+  isOpen: boolean;
+  isValid: boolean;
+};
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid }) => {
+  const { register } = useFormContext();
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+  `;
+  return (
+    <div css={style}>
+      <Label htmlFor={CONTENT} hidden>
+        소개글
+      </Label>
+      <Textarea
+        id={CONTENT}
+        placeholder={`게시글 내용 (${DESCRIPTION_LENGTH.MAX.VALUE}자 제한)`}
+        invalid={!isValid}
+        {...register(CONTENT, {
+          validate: (val: string) => {
+            if (val.length < DESCRIPTION_LENGTH.MIN.VALUE) {
+              return makeValidationResult(true, DESCRIPTION_LENGTH.MIN.MESSAGE);
+            }
+            return makeValidationResult(false);
+          },
+          validationMode: 'change',
+          minLength: DESCRIPTION_LENGTH.MIN.VALUE,
+          maxLength: DESCRIPTION_LENGTH.MAX.VALUE,
+          required: true,
+        })}
+      ></Textarea>
+    </div>
+  );
+};
+
+type MarkdownRendererTabProps = {
+  isOpen: boolean;
+  description: string;
+};
+const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, description }) => {
+  const style = css`
+    display: ${isOpen ? 'block' : 'none'};
+    height: 100%;
+    overflow: auto;
+  `;
+  return (
+    <div css={style}>
+      <MarkdownRender markdownContent={description} />
+    </div>
+  );
+};

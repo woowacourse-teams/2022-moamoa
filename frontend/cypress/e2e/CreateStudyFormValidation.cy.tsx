@@ -1,5 +1,7 @@
 import { DESCRIPTION_LENGTH, EXCERPT_LENGTH, PATH, TITLE_LENGTH } from '@constants';
 
+import AccessTokenController from '@auth/accessTokenController';
+
 const studyTitle = 'studyTitle';
 const description = 'description';
 const excerpt = 'excerpt';
@@ -8,10 +10,15 @@ const startDate = 'startDate';
 
 describe('스터디 개설 페이지 폼 유효성 테스트', () => {
   before(() => {
-    cy.visit(`${PATH.LOGIN}?code=hihihih`).then(() => {
+    AccessTokenController.save('asdfasdf', 30 * 1000);
+    cy.visit(PATH.MAIN).then(() => {
       cy.wait(1000);
       cy.visit(PATH.CREATE_STUDY);
     });
+  });
+
+  after(() => {
+    AccessTokenController.removeAccessToken();
   });
 
   beforeEach(() => {

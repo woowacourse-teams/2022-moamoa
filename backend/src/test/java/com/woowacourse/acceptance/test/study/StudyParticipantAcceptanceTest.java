@@ -49,7 +49,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
     void leaveStudy() {
         final LocalDate 지금 = LocalDate.now();
         final Long studyId = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        디우가().로그인하고().스터디에(studyId).참여한다();
+        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
 
         final String token = 디우가().로그인한다();
 
@@ -85,7 +85,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
         final LocalDate 지금 = LocalDate.now();
         final Long 스터디_아이디 = 짱구가().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
 
-        디우가().로그인하고().스터디에(스터디_아이디).참여한다();
+        디우가().로그인하고().스터디에(스터디_아이디).참여에_성공한다();
         final Long 디우_아이디 = 디우가().로그인하고().정보를_가져온다().getId();
 
         final String 짱구_토큰 = 짱구가().로그인한다();

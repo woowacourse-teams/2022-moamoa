@@ -1,6 +1,6 @@
 import type { CategoryName, Tag, TagId, TagInfo } from '@custom-types';
 
-import ButtonGroup from '@components/button-group/ButtonGroup';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
 
 import FilterButton from '@main-page/components/filter-button/FilterButton';
 
@@ -23,6 +23,7 @@ const FilterButtonList: React.FC<FilterButtonListProps> = ({
       {filters.map(({ id, name, description, category }) => (
         <FilterButton
           key={id}
+          custom={{ marginBottom: '8px' }}
           name={name}
           description={description}
           isChecked={isSelected(id, category.name, selectedFilters)}

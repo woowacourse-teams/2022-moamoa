@@ -1,7 +1,6 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import LinkItem from '@link-tab/components/link-item/LinkItem';
-import type { LinkItemProps } from '@link-tab/components/link-item/LinkItem';
+import LinkItem, { type LinkItemProps } from '@link-tab/components/link-item/LinkItem';
 
 export default {
   title: 'Pages/StudyRoomPage/LinkItem',

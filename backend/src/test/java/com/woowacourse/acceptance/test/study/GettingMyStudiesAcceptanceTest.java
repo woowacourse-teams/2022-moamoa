@@ -53,7 +53,7 @@ class GettingMyStudiesAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).태그는(자바_태그_ID, BE_태그_ID).생성한다();
         long 리액트_스터디_ID = 디우가().로그인하고().리액트_스터디를().시작일자는(지금.plusDays(10)).생성한다();
-        그린론이().로그인하고().스터디에(리액트_스터디_ID).참여한다();
+        그린론이().로그인하고().스터디에(리액트_스터디_ID).참여에_성공한다();
         final String token = 그린론이().로그인한다();
 
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();

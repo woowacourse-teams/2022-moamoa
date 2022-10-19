@@ -78,7 +78,7 @@ export const checkStudy = (data: unknown): ApiStudy['get']['responseData'] => {
     thumbnail: checkType(data.thumbnail, isString),
     recruitmentStatus: checkType(data.recruitmentStatus, isRecruitmentStatus),
     description: checkType(data.description, isString),
-    currentMemberCount: checkType(data.id, isNumber),
+    currentMemberCount: checkType(data.currentMemberCount, isNumber),
     maxMemberCount: checkType(data.maxMemberCount, isNumber, true),
     createdDate: checkType(data.createdDate, isDateYMD),
     enrollmentEndDate: checkType(data.enrollmentEndDate, isDateYMD, true),

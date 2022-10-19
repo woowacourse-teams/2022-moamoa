@@ -39,7 +39,7 @@ export const reviewHandlers = [
       member: user,
       content,
       createdDate: '2022-07-12',
-      lastModifiedDate: '',
+      lastModifiedDate: '2022-07-12',
     };
     const reviews = [review, ...reviewJSON.reviews];
     reviewJSON.reviews = reviews;

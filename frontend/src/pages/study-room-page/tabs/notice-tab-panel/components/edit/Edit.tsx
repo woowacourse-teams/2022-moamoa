@@ -3,26 +3,28 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, StudyId } from '@custom-types';
+import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 
 import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
 
-import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
 
 import EditContent from '@notice-tab/components/edit-content/EditContent';
 import EditTitle from '@notice-tab/components/edit-title/EditTitle';
-import usePermission from '@notice-tab/hooks/usePermission';
 
 export type EditProps = {
   studyId: StudyId;
   articleId: ArticleId;
 };
+
+type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
 
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const formMethods = useForm();
@@ -30,18 +32,20 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
   const getNoticeArticleQueryResult = useGetNoticeArticle({ studyId, articleId });
   const { mutateAsync } = usePutNoticeArticle();
-
-  const { isFetching, hasPermission } = usePermission(studyId, 'OWNER');
+  const { isFetching, isOwner } = useUserRole({ studyId });
 
   useEffect(() => {
     if (isFetching) return;
-    if (hasPermission) return;
+    if (isOwner) return;
 
     alert('접근할 수 없습니다!');
     navigate(`../${PATH.NOTICE}`);
-  }, [studyId, navigate, isFetching, hasPermission]);
+  }, [studyId, navigate, isFetching, isOwner]);
 
-  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const handleSubmit: HandleEditFormSubmit = async (
+    _: React.FormEvent<HTMLFormElement>,
+    submitResult: UseFormSubmitResult,
+  ) => {
     const { values } = submitResult;
     if (!values) return;
 
@@ -62,48 +66,58 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
           navigate(`../${PATH.NOTICE}`);
         },
         onError: () => {
-          alert('글 수정 실패!');
+          alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');
         },
       },
     );
   };
 
-  const render = () => {
-    if (getNoticeArticleQueryResult.isFetching) {
-      return <div>Loading...</div>;
-    }
-
-    if (getNoticeArticleQueryResult.isError) {
-      return <div>Error...</div>;
-    }
-
-    if (getNoticeArticleQueryResult.isSuccess) {
-      return (
-        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <EditTitle title={getNoticeArticleQueryResult.data.title} />
-          <EditContent content={getNoticeArticleQueryResult.data.content} />
-          <Divider space="16px" />
-          <ButtonGroup justifyContent="space-between">
-            <Link to={`../${PATH.NOTICE}`}>
-              <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
-                돌아가기
-              </BoxButton>
-            </Link>
-            <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-              수정하기
-            </BoxButton>
-          </ButtonGroup>
-        </Form>
-      );
-    }
-  };
-
   return (
     <FormProvider {...formMethods}>
       <PageTitle>공지사항 수정</PageTitle>
-      {render()}
+      {(() => {
+        const { isFetching, isError, isSuccess, data } = getNoticeArticleQueryResult;
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess) return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
+      })()}
     </FormProvider>
   );
 };
+
+type EditFormProps = {
+  article: NoticeArticle;
+  formMethods: UseFormReturn;
+  onSubmit: HandleEditFormSubmit;
+};
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <EditTitle title={article.title} />
+    <EditContent content={article.content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <ListPageLink />
+      <EditButton />
+    </ButtonGroup>
+  </Form>
+);
+
+const ListPageLink: React.FC = () => (
+  <Link to={`../${PATH.NOTICE}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+const EditButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+    수정하기
+  </BoxButton>
+);
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error...</div>;
 
 export default Edit;

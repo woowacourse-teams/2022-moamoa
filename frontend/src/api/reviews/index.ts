@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
 import type { Size, StudyId, StudyReview } from '@custom-types';
@@ -22,7 +22,7 @@ export type ApiReviews = {
   };
 };
 
-export const getStudyReviews = async ({ studyId, size = 8 }: ApiReviews['get']['variables']) => {
+export const getStudyReviews = async ({ studyId, size }: ApiReviews['get']['variables']) => {
   const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
   const response = await axiosInstance.get<ApiReviews['get']['responseData']>(url);
   return checkStudyReviews(response.data);

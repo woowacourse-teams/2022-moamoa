@@ -10,6 +10,7 @@ import { theme } from '@styles/theme';
 import { LoginProvider } from '@context/login/LoginProvider';
 import { SearchProvider } from '@context/search/SearchProvider';
 import { UserInfoProvider } from '@context/userInfo/UserInfoProvider';
+import { UserRoleProvider } from '@context/userRole/UserRoleProvider';
 
 import App from './App';
 
@@ -36,10 +37,12 @@ if ($root) {
         <UserInfoProvider>
           <LoginProvider>
             <SearchProvider>
-              <GlobalStyles />
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
+              <UserRoleProvider>
+                <GlobalStyles />
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </UserRoleProvider>
             </SearchProvider>
           </LoginProvider>
         </UserInfoProvider>

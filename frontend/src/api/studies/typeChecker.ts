@@ -46,8 +46,8 @@ const checkStudy = (data: unknown): Study => {
   return {
     id: checkType(data.id, isNumber),
     title: checkType(data.title, isString),
-    excerpt: checkType(data.title, isString),
-    thumbnail: checkType(data.title, isString),
+    excerpt: checkType(data.excerpt, isString),
+    thumbnail: checkType(data.thumbnail, isString),
     tags: checkType(data.tags, isArray).map(tag => checkMainStudyTag(tag)),
     recruitmentStatus: checkType(data.recruitmentStatus, isRecruitmentStatus),
   };
