@@ -14,7 +14,7 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.TempArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.TempArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
+import com.woowacourse.moamoa.studyroom.service.exception.UnViewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
@@ -69,7 +69,7 @@ public class TempArticleService {
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
 
         if (tempArticle.isForbiddenAccessor(new Accessor(memberId, studyId))) {
-            throw new UnviewableException(articleId, new Accessor(memberId, studyId));
+            throw new UnViewableException(articleId, new Accessor(memberId, studyId));
         }
 
         final TempArticleData tempArticleData = tempArticleDao.getById(articleId, articleType)

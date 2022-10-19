@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS review
 CREATE TABLE IF NOT EXISTS link
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
-    study_id           BIGINT     NOT NULL,
-    author_id          BIGINT     NOT NULL,
+    study_id           BIGINT   NOT NULL,
+    author_id          BIGINT   NOT NULL,
     link_url           MEDIUMTEXT NOT NULL,
     description        MEDIUMTEXT,
-    created_date       DATETIME   NOT NULL,
-    last_modified_date DATETIME   NOT NULL,
-    deleted            boolean    NOT NULL,
+    created_date       DATETIME NOT NULL,
+    last_modified_date DATETIME NOT NULL,
+    deleted            boolean  NOT NULL,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (author_id) REFERENCES member (id)
 );
@@ -92,15 +92,27 @@ CREATE TABLE IF NOT EXISTS article
 (
     id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
     title              VARCHAR(255) NOT NULL,
-    content            MEDIUMTEXT   NOT NULL,
+    content            MEDIUMTEXT     NOT NULL,
     author_id          BIGINT,
     study_id           BIGINT,
-    created_date       DATETIME     not null,
-    last_modified_date DATETIME     not null,
+    created_date       DATETIME     NOT NULL,
+    last_modified_date DATETIME     NOT NULL,
     type               VARCHAR(255) NOT NULL,
     deleted            boolean      NOT NULL,
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
+);
+
+CREATE TABLE IF NOT EXISTS comment
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    author_id          BIGINT,
+    article_id         BIGINT,
+    content            MEDIUMTEXT NOT NULL,
+    created_date       DATETIME NOT NULL,
+    last_modified_date DATETIME NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (article_id) REFERENCES article (id)
 );
 
 CREATE TABLE IF NOT EXISTS temp_article

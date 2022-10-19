@@ -29,7 +29,7 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.TempArticleDao;
 import com.woowacourse.moamoa.studyroom.service.TempArticleService;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.UnviewableException;
+import com.woowacourse.moamoa.studyroom.service.exception.UnViewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.CreatedArticleIdResponse;
 import com.woowacourse.moamoa.studyroom.service.response.TempArticlesResponse;
@@ -182,7 +182,7 @@ public class TempArticleControllerTest {
 
         // act & assert
         assertThatThrownBy(() -> sut.getTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type))
-                .isInstanceOf(UnviewableException.class);
+                .isInstanceOf(UnViewableException.class);
     }
 
     @DisplayName("작성자는 임시글을 삭제할 수 있다.")

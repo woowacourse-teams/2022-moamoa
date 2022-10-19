@@ -2,9 +2,9 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import com.woowacourse.moamoa.common.entity.BaseEntity;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
+import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.exception.UnwritableException;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -69,7 +69,7 @@ public class Article extends BaseEntity {
 
     public void update(final Accessor accessor, final Content content) {
         if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, type.name());
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, type.name());
         }
 
         this.content = content;
@@ -77,7 +77,7 @@ public class Article extends BaseEntity {
 
     public final void delete(final Accessor accessor) {
         if (type.isUneditableAccessor(studyRoom, authorId, accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, type.name());
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, type.name());
         }
 
         deleted = true;
@@ -97,5 +97,9 @@ public class Article extends BaseEntity {
 
     boolean isDeleted() {
         return deleted;
+    }
+
+    public boolean isSigningUp(final Accessor accessor) {
+        return studyRoom.isPermittedAccessor(accessor);
     }
 }

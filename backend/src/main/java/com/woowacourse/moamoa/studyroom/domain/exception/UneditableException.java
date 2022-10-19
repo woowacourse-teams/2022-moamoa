@@ -9,8 +9,9 @@ public class UneditableException extends BadRequestException {
         super(message);
     }
 
-    public UneditableException(final Long studyId, final Accessor accessor, final String typeName) {
-        this(String.format("스터디[%d]에 접근자[%s]가 %s의 게시글을 수정/삭제할 수 없습니다.", studyId, accessor, typeName));
+    public static UneditableException forArticle(final Long studyId, final Accessor accessor, final String typeName) {
+        final String message = String.format("스터디[%d]에 접근자[%s]가 %s의 게시글을 수정/삭제할 수 없습니다.", studyId, accessor, typeName);
+        return new UneditableException(message);
     }
 
     public static UneditableException forTempArticle(final Long articleId, final Accessor accessor) {

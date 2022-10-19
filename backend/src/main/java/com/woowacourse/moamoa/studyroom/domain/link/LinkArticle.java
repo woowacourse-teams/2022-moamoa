@@ -65,7 +65,7 @@ public class LinkArticle extends BaseEntity {
 
     public final void delete(final Accessor accessor) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, TYPE_NAME);
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, TYPE_NAME);
         }
 
         deleted = true;
@@ -73,7 +73,7 @@ public class LinkArticle extends BaseEntity {
 
     public void update(final Accessor accessor, final LinkContent content) {
         if (isUneditableAccessor(accessor)) {
-            throw new UneditableException(studyRoom.getId(), accessor, TYPE_NAME);
+            throw UneditableException.forArticle(studyRoom.getId(), accessor, TYPE_NAME);
         }
 
         this.content = content;
