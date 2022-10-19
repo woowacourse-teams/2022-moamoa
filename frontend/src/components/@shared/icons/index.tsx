@@ -13,3 +13,4 @@ export { default as SearchIcon } from '@shared/icons/search-icon/SearchIcon';
 export { default as TrashcanIcon } from '@shared/icons/trashcan-icon/TrashcanIcon';
 export { default as DownArrowIcon } from '@shared/icons/down-arrow-icon/DownArrowIcon';
 export { default as XMarkIcon } from '@shared/icons/x-mark-icon/XMarkIcon';
+export { default as FolderIcon } from '@shared/icons/folder-icon/FolderIcon';

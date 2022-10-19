@@ -6,7 +6,7 @@ export const PATH = {
   CREATE_STUDY: '/study/create',
   EDIT_STUDY: (studyId: ':studyId' | StudyId = ':studyId') => `/study/edit/${studyId}`,
   MY_STUDY: '/my/study',
-  DRAFT: 'draft',
+  DRAFT: '/draft',
   LOGIN: '/login',
 
   STUDY_ROOM: (studyId: ':studyId' | StudyId = ':studyId') => `/studyroom/${studyId}`,
