@@ -8,9 +8,9 @@ import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/communi
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
+import Pagination from '@shared/pagination/Pagination';
 
 import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
-import Pagination from '@community-tab/components/pagination/Pagination';
 
 export type ArticleListProps = {
   studyId: StudyId;
@@ -30,7 +30,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
           <>
             <Self articles={data.articles} />
             <Pagination
-              count={data.lastPage - 1}
+              count={data.lastPage}
               defaultPage={data.currentPage}
               onNumberButtonClick={num => {
                 setPage(num);
@@ -42,6 +42,8 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
     </Flex>
   );
 };
+
+export default ArticleList;
 
 const Loading = () => <div>Loading...</div>;
 
@@ -71,5 +73,3 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     ))}
   </ul>
 );
-
-export default ArticleList;

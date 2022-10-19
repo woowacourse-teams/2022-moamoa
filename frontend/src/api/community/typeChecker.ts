@@ -60,7 +60,7 @@ export const checkCommunityArticles = (data: unknown): ApiCommunityArticles['get
   return {
     articles: checkType(data.articles, isArray).map(article => checkArticle(article)),
     currentPage: checkType(data.currentPage, isNumber) + 1,
-    lastPage: checkType(data.lastPage, isNumber),
+    lastPage: checkType(data.lastPage, isNumber) + 1,
     totalCount: checkType(data.totalCount, isNumber),
   };
 };

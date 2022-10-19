@@ -8,9 +8,9 @@ import { ApiNoticeArticles, useGetNoticeArticles } from '@api/notice';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
+import Pagination from '@shared/pagination/Pagination';
 
 import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
-import Pagination from '@notice-tab/components/pagination/Pagination';
 
 export type ArticleListProps = {
   studyId: StudyId;
@@ -24,26 +24,26 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
     <Flex flexDirection="column" rowGap="20px">
       {(() => {
         if (isFetching) return <Loading />;
-        if (isError) return <Error />;
-        if (isSuccess) {
-          if (data.articles.length === 0) return <NoArticle />;
-          return (
-            <>
-              <Self articles={data.articles} />
-              <Pagination
-                count={data.lastPage - 1}
-                defaultPage={data.currentPage}
-                onNumberButtonClick={num => {
-                  setPage(num);
-                }}
-              />
-            </>
-          );
-        }
+        if (isError || !isSuccess) return <Error />;
+        if (data.articles.length === 0) return <NoArticle />;
+        return (
+          <>
+            <Self articles={data.articles} />
+            <Pagination
+              count={data.lastPage}
+              defaultPage={data.currentPage}
+              onNumberButtonClick={num => {
+                setPage(num);
+              }}
+            />
+          </>
+        );
       })()}
     </Flex>
   );
 };
+
+export default ArticleList;
 
 const Loading = () => <div>Loading...</div>;
 
@@ -73,5 +73,3 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     ))}
   </ul>
 );
-
-export default ArticleList;
