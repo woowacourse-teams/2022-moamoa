@@ -48,4 +48,14 @@ public class StudyParticipantController {
         studyParticipantService.leaveStudy(memberId, studyId);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{member-id}")
+    public ResponseEntity<Void> kickOutMember(
+            @AuthenticatedMemberId final Long memberId,
+            @PathVariable("study-id") final Long studyId,
+            @PathVariable("member-id") final Long participantId
+    ) {
+        studyParticipantService.kickOutMember(memberId, studyId, participantId);
+        return ResponseEntity.noContent().build();
+    }
 }
