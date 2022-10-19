@@ -18,15 +18,17 @@ export type DraftListProps = {
       };
     }
   >;
+  onDeleteDraftItemClick: (studyId: StudyId, articleId: ArticleId) => React.MouseEventHandler<HTMLButtonElement>;
 } & Omit<InfiniteScrollProps, 'children'>;
 
-const DraftList: React.FC<DraftListProps> = ({ articles, isContentLoading, onContentLoad }) => {
-  const handleDeleteDraftItemClick = (studyId: StudyId, articleId: ArticleId) => () => {
-    console.log(studyId, articleId);
-  };
-
+const DraftList: React.FC<DraftListProps> = ({
+  articles,
+  isContentLoading,
+  onContentLoad: handleContentLoad,
+  onDeleteDraftItemClick: handleDeleteDraftItemClick,
+}) => {
   return (
-    <InfiniteScroll isContentLoading={isContentLoading} onContentLoad={onContentLoad}>
+    <InfiniteScroll isContentLoading={isContentLoading} onContentLoad={handleContentLoad}>
       <Self>
         {articles.map(article => (
           <Fragment key={article.id}>

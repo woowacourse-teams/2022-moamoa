@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { DraftArtcle } from '@custom-types';
+import type { DraftArtcle, StudyDetail, StudyId } from '@custom-types';
 
 import { applyHoverBgTransitionStyle } from '@styles/theme';
 
@@ -17,7 +17,11 @@ import ListItem from '@shared/list-item/ListItem';
 
 import Chip from '@components/@shared/chip/Chip';
 
-export type DraftListItemProps = Pick<DraftArtcle, 'id' | 'title' | 'createdDate' | 'study'> & {
+export type DraftListItemProps = Pick<DraftArtcle, 'id' | 'title' | 'createdDate'> & {
+  study: {
+    id: StudyId;
+    title: StudyDetail['title'];
+  };
   onDeleteDraftItemClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
