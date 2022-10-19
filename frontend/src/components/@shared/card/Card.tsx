@@ -81,6 +81,7 @@ export const CardHeadingSelf = styled.div<StyledCardHeadingProps>`
     width: 100%;
     margin-bottom: 8px;
 
+    font-size: ${theme.fontSize.lg};
     font-weight: ${theme.fontWeight.bold};
 
     ${nLineEllipsis(maxLine)};
