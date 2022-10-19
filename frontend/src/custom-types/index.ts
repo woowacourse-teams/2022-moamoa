@@ -78,7 +78,7 @@ export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' |
 
 export type StudyReview = {
   id: ReviewId;
-  member: Member;
+  member: Member; // @TODO: member -> author로 변경한다
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
   content: string;
@@ -86,7 +86,7 @@ export type StudyReview = {
 
 export type CommunityComment = {
   id: CommunityCommentId;
-  member: Member;
+  author: Member;
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
   content: string;
