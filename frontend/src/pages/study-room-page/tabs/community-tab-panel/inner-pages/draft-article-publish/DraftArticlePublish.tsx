@@ -1,12 +1,17 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { StudyId } from '@custom-types';
+import { DraftArtcle } from '@custom-types';
 
-import { usePostCommunityArticle } from '@api/community';
+import {
+  ApiCommunityDraftArticle,
+  useGetCommunityDraftArticle,
+  usePostDraftArticle,
+} from '@api/community/draft-article';
 
-import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -14,25 +19,32 @@ import Divider from '@shared/divider/Divider';
 import Form from '@shared/form/Form';
 import PageTitle from '@shared/page-title/PageTitle';
 
-import PublishContent from '@community-tab/components/publish-content/PublishContent';
-import PublishTitle from '@community-tab/components/publish-title/PublishTitle';
+import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
+import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-export type DraftArticlePublishProps = {
-  studyId: StudyId;
-};
+type HandleDraftArticlePublishFormSubmit = (
+  _: React.FormEvent<HTMLFormElement>,
+  submitResult: UseFormSubmitResult,
+) => Promise<ApiCommunityDraftArticle['post']['responseData'] | undefined>;
 
-const DraftArticlePublish: React.FC<DraftArticlePublishProps> = ({ studyId }) => {
+const DraftArticlePublish: React.FC = () => {
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
+
   const formMethods = useForm();
   const navigate = useNavigate();
-  const { mutateAsync } = usePostCommunityArticle();
 
-  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const { isFetching, isError, isSuccess, isOwnerOrMember } = useUserRole({ studyId });
+  const draftArticleResponseData = useGetCommunityDraftArticle({ studyId, articleId });
+  const { mutateAsync } = usePostDraftArticle();
+
+  const handleSubmit: HandleDraftArticlePublishFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
 
-    mutateAsync(
+    return mutateAsync(
       {
         studyId,
         title,
@@ -41,7 +53,7 @@ const DraftArticlePublish: React.FC<DraftArticlePublishProps> = ({ studyId }) =>
       {
         onSuccess: () => {
           alert('글을 작성했습니다. :D');
-          navigate(`../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          navigate(`../${PATH.NOTICE}`); // TODO: 생성한 게시글 상세 페이지로 이동
         },
         onError: () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
@@ -52,23 +64,49 @@ const DraftArticlePublish: React.FC<DraftArticlePublishProps> = ({ studyId }) =>
 
   return (
     <FormProvider {...formMethods}>
-      <PageTitle>게시글 작성</PageTitle>
-      <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <PublishTitle />
-        <PublishContent />
-        <Divider space="16px" />
-        <ButtonGroup justifyContent="space-between">
-          <GoBackLinkButton />
-          <RegisterButton />
-        </ButtonGroup>
-      </Form>
+      <PageTitle>공지사항 작성</PageTitle>
+      {(() => {
+        if (isFetching || draftArticleResponseData.isFetching) return <Loading />;
+        if (isError || draftArticleResponseData.isError) return <Error />;
+        if (isSuccess) {
+          if (!isOwnerOrMember) {
+            alert('접근할 수 없습니다!');
+            return <Navigate to={`../../${PATH.COMMUNITY}`} replace />;
+          }
+          if (draftArticleResponseData.isSuccess) {
+            const { title, content } = draftArticleResponseData.data;
+            return <PublishForm title={title} content={content} formMethods={formMethods} onSubmit={handleSubmit} />;
+          }
+        }
+      })()}
     </FormProvider>
   );
 };
 
 export default DraftArticlePublish;
 
-const GoBackLinkButton: React.FC = () => (
+const Loading = () => <div>유저 정보 가져오는 중...</div>;
+
+const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
+
+type PublishFormProps = {
+  formMethods: UseFormReturn;
+  onSubmit: HandleDraftArticlePublishFormSubmit;
+} & Pick<DraftArtcle, 'title' | 'content'>;
+
+const PublishForm: React.FC<PublishFormProps> = ({ title, content, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <ArticleTitleInput originalTitle={title} />
+    <ArticleContentInput originalContent={content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <ListPageLink />
+      <PublishButton />
+    </ButtonGroup>
+  </Form>
+);
+
+const ListPageLink: React.FC = () => (
   <Link to={`../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
@@ -76,7 +114,7 @@ const GoBackLinkButton: React.FC = () => (
   </Link>
 );
 
-const RegisterButton: React.FC = () => (
+const PublishButton: React.FC = () => (
   <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
     등록하기
   </BoxButton>
