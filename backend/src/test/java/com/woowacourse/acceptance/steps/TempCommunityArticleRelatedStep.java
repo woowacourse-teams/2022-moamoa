@@ -43,8 +43,9 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .pathParam("article-type", "community")
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/draft-articles/{article-id}")
+                .get("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticleResponse.class);
@@ -66,8 +67,9 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .pathParam("article-type", "community")
                 .when().log().all()
-                .delete("/api/studies/{study-id}/community/draft-articles/{article-id}")
+                .delete("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
@@ -78,9 +80,10 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .pathParam("article-type", "community")
                 .body(articleRequest)
                 .when().log().all()
-                .put("/api/studies/{study-id}/community/draft-articles/{article-id}")
+                .put("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
@@ -90,8 +93,9 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(AUTHORIZATION, token)
                 .param("page", page)
                 .param("size", size)
+                .pathParam("article-type", "community")
                 .when().log().all()
-                .get("/api/draft/community/articles")
+                .get("/api/draft/{article-type}/articles")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticlesResponse.class);

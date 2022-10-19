@@ -1,6 +1,10 @@
 package com.woowacourse.acceptance.test.studyroom;
 
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_목록_조회_문서;
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_삭제_문서;
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_수정_문서;
 import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_저장_문서;
+import static com.woowacourse.acceptance.document.TempArticleDocument.임시글_조회_문서;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +45,8 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
                 .작성한다(new ArticleRequest("제목", "내용"));
 
         // assert
-        final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().조회한다(게시글_ID);
+        final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID)
+                .임시_게시글을().API_문서화를_하고(임시글_조회_문서(spec)).조회한다(게시글_ID);
         assertTempArticleResponse(response, "제목", "내용");
     }
 
@@ -53,7 +58,7 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
         // act
-        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().삭제한다(게시글_ID);
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().API_문서화를_하고(임시글_삭제_문서(spec)).삭제한다(게시글_ID);
 
         // assert
         그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().찾을_수_없다(게시글_ID);
@@ -67,7 +72,7 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
         // act
-        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().수정한다(게시글_ID, new ArticleRequest("수정된 제목", "수정된 내용"));
+        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().API_문서화를_하고(임시글_수정_문서(spec)).수정한다(게시글_ID, new ArticleRequest("수정된 제목", "수정된 내용"));
 
         // assert
         final TempArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().조회한다(게시글_ID);
@@ -97,7 +102,8 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
         베루스가().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
         // act
-        final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().목록_조회한다(0, 3);
+        final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(자바_스터디_ID)
+                .임시_게시글을().API_문서화를_하고(임시글_목록_조회_문서(spec)).목록_조회한다(0, 3);
 
         // assert
         final Iterator<Long> expectedArticleIds = List.of(게시글6_ID, 게시글5_ID, 게시글4_ID).iterator();
