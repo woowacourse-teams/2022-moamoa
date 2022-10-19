@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS member
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     github_id   BIGINT       NOT NULL UNIQUE,
     username    VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) UNIQUE,
     image_url   VARCHAR(255),
     profile_url VARCHAR(255)
 );

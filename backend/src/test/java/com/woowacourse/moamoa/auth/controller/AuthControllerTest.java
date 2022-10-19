@@ -26,7 +26,8 @@ class AuthControllerTest extends WebMVCTest {
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
     void getJwtToken() throws Exception {
-        final GithubProfileResponse dwoo = new GithubProfileResponse(1L, "dwoo", "http://imageUrl",
+        final GithubProfileResponse dwoo = new GithubProfileResponse(1L, "dwoo", "dwoo@moamoa.space",
+                "http://imageUrl",
                 "http://profileUrl");
 
         given(oAuthClient.getProfile("Authorization code"))

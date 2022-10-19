@@ -9,8 +9,12 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.acceptance.TestConfig;
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.query.MemberDao;
@@ -35,11 +39,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class SearchingStudyControllerTest {
 
     private SearchingStudyController sut;
@@ -71,6 +78,7 @@ class SearchingStudyControllerTest {
     private Long httpStudyId;
     private Long algorithmStudyId;
     private Long linuxStudyId;
+
     private Member jjanggu;
     private Member greenlawn;
     private Member dwoo;
@@ -78,10 +86,10 @@ class SearchingStudyControllerTest {
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+        jjanggu = memberRepository.save(MemberFixtures.짱구());
+        greenlawn = memberRepository.save(MemberFixtures.그린론());
+        dwoo = memberRepository.save(MemberFixtures.디우());
+        verus = memberRepository.save(MemberFixtures.베루스());
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
 
@@ -245,14 +253,15 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("그린론의 우당탕탕 자바 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(3).maxMemberCount(10)
-                .owner(new OwnerData(jjanggu.getId(), "jjanggu", "https://image", "github.com", LocalDate.now(), 5))
+                .owner(new OwnerData(jjanggu.getId(), "jjanggu", "https://jjanggu.png",
+                        "https://jjanggu.com", LocalDate.now(), 5))
                 // Study Period
                 .startDate(LocalDate.now())
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(dwoo.getId(), "dwoo", "https://image", "github.com"),
-                tuple(verus.getId(), "verus", "https://image", "github.com")
+                tuple(dwoo.getId(), "dwoo", "https://dwoo.png", "https://dwoo.com"),
+                tuple(verus.getId(), "verus", "https://verus.png", "https://verus.com")
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -280,7 +289,8 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("디우의 뤼액트 스터디입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
-                .owner(new OwnerData(dwoo.getId(), "dwoo", "https://image", "github.com", LocalDate.now(),3))
+                .owner(new OwnerData(dwoo.getId(), "dwoo", "https://dwoo.png",
+                        "https://dwoo.com", LocalDate.now(),3))
                 // Study Period
                 .enrollmentEndDate(LocalDate.now())
                 .startDate(LocalDate.now())
@@ -288,9 +298,9 @@ class SearchingStudyControllerTest {
                 .build();
 
         final List<Tuple> expectParticipants = List.of(
-                tuple(jjanggu.getId(), "jjanggu", "https://image", "github.com"),
-                tuple(greenlawn.getId(), "greenlawn", "https://image", "github.com"),
-                tuple(verus.getId(), "verus", "https://image", "github.com")
+                tuple(jjanggu.getId(), "jjanggu", "https://jjanggu.png", "https://jjanggu.com"),
+                tuple(greenlawn.getId(), "greenlawn", "https://greenlawn.png", "https://greenlawn.com"),
+                tuple(verus.getId(), "verus", "https://verus.png", "https://verus.com")
         );
 
         final List<Tuple> expectAttachedTags = List.of(
@@ -318,7 +328,8 @@ class SearchingStudyControllerTest {
                 .status("RECRUITMENT_START").description("Linux를 공부하자의 베루스입니다.").createdDate(LocalDate.now())
                 // Study Participant
                 .currentMemberCount(1)
-                .owner(new OwnerData(verus.getId(), "verus", "https://image", "github.com", LocalDate.now(), 4))
+                .owner(new OwnerData(verus.getId(), "verus", "https://verus.png",
+                        "https://verus.com", LocalDate.now(), 4))
                 // Study Period
                 .startDate(LocalDate.now())
                 .enrollmentEndDate(LocalDate.now())

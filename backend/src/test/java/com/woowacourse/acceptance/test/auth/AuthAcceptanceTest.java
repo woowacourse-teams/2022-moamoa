@@ -29,7 +29,8 @@ class AuthAcceptanceTest extends AcceptanceTest {
                 "token_type", "bearer",
                 "scope", ""));
         mockingGithubServerForGetProfile(accessToken, HttpStatus.OK,
-                new GithubProfileResponse(1L, "sc0116", "https://image", "github.com"));
+                new GithubProfileResponse(1L, "sc0116", "sc0116@moamoa.space",
+                        "https://image", "github.com"));
 
         RestAssured.given(spec).log().all()
                 .filter(document("auth/login",

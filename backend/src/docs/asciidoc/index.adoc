@@ -96,7 +96,7 @@ operation::temp-article/create[snippets='curl-request,http-request,http-response
 operation::temp-article/get[snippets='curl-request,http-request,http-response,path-parameters,response-fields']
 
 === 임시글 전체 조회
-operation::temp-articles/create[snippets='curl-request,http-request,http-response,path-parameters,response-fields']
+operation::temp-articles/get[snippets='curl-request,http-request,http-response,path-parameters,response-fields']
 
 === 임시글 수정
 operation::temp-article/update[snippets='curl-request,http-request,http-response,path-parameters,request-fields,request-headers']

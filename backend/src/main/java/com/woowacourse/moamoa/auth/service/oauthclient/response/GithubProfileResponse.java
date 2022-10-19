@@ -17,6 +17,9 @@ public class GithubProfileResponse {
     @JsonProperty("login")
     private String username;
 
+    @JsonProperty("email")
+    private String email;
+
     @JsonProperty("avatar_url")
     private String imageUrl;
 
@@ -24,6 +27,6 @@ public class GithubProfileResponse {
     private String profileUrl;
 
     public Member toMember() {
-        return new Member(githubId, username, imageUrl, profileUrl);
+        return new Member(githubId, username, email, imageUrl, profileUrl);
     }
 }
