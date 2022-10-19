@@ -26,6 +26,15 @@ public class PathMatcherInterceptor implements HandlerInterceptor {
         return this.handlerInterceptor.preHandle(request, response, handler);
     }
 
+    public PathMatcherInterceptor includePathPattern(final String pathPattern) {
+        pathMatcherContainer.includePathPattern(pathPattern, HttpMethod.POST);
+        pathMatcherContainer.includePathPattern(pathPattern, HttpMethod.DELETE);
+        pathMatcherContainer.includePathPattern(pathPattern, HttpMethod.GET);
+        pathMatcherContainer.includePathPattern(pathPattern, HttpMethod.PUT);
+        pathMatcherContainer.includePathPattern(pathPattern, HttpMethod.PATCH);
+        return this;
+    }
+
     public PathMatcherInterceptor includePathPattern(final String pathPattern, final HttpMethod method) {
         this.pathMatcherContainer.includePathPattern(pathPattern, method);
         return this;

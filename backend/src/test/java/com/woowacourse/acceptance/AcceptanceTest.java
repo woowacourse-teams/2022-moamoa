@@ -103,9 +103,8 @@ public class AcceptanceTest {
         jdbcTemplate.update("TRUNCATE TABLE study");
         jdbcTemplate.update("TRUNCATE TABLE link");
         jdbcTemplate.update("TRUNCATE TABLE article");
+        jdbcTemplate.update("TRUNCATE TABLE temp_article");
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
-        jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
-        jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
     }
 
     protected void mockingGithubServerForGetAccessToken(final String authorizationCode,

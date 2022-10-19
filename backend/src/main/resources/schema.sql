@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS review
     study_id           BIGINT  NOT NULL,
     member_id          BIGINT  NOT NULL,
     content            MEDIUMTEXT,
-    created_date       DATE    not null,
-    last_modified_date DATE    not null,
+    created_date       DATETIME    not null,
+    last_modified_date DATETIME    not null,
     deleted            boolean not null,
     FOREIGN KEY (study_id) REFERENCES study (id),
     FOREIGN KEY (member_id) REFERENCES member (id)
@@ -98,6 +98,20 @@ CREATE TABLE IF NOT EXISTS article
     last_modified_date DATETIME     not null,
     type               VARCHAR(255) NOT NULL,
     deleted            boolean      NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES member (id),
+    FOREIGN KEY (study_id) REFERENCES study (id)
+);
+
+CREATE TABLE IF NOT EXISTS temp_article
+(
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title              VARCHAR(255) NOT NULL,
+    content            MEDIUMTEXT   NOT NULL,
+    author_id          BIGINT,
+    study_id           BIGINT,
+    created_date       DATETIME     not null,
+    last_modified_date DATETIME     not null,
+    type               VARCHAR(255) NOT NULL,
     FOREIGN KEY (author_id) REFERENCES member (id),
     FOREIGN KEY (study_id) REFERENCES study (id)
 );
