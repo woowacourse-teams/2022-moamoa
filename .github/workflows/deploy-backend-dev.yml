@@ -40,7 +40,7 @@ jobs:
           client-secret: ${{ secrets.CLIENT_SECRET }}
           jwt-secret-key: ${{ secrets.JWT_SECRET_KEY }}
           jwt-expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
-          SLACK_USERS : ${(secrets.SLACK_USERS}}
+          SLACK_USERS : ${{secrets.SLACK_USERS}}
           SLACK_SAND_MESSAGE : ${{secrets.SLACK_SAND_MESSAGE}}
           SLACK_AUTHORIZATION : ${{secrets.SLACK_AUTHORIZATION}}
         run: ./gradlew test -Dmoamoa.allow-origins='*' -Doauth2.github.client-id=${{ env.client-id }} -Doauth2.github.client-secret=${{ env.client-secret }} -Dsecurity.jwt.token.secret-key=${{ env.jwt-secret-key }} -Dsecurity.jwt.token.expire-length=${{ env.jwt-expire-length }} -Dslack.authorization=${{ env.SLACK_AUTHORIZATION }} -Dslack.users=${{ env.SLACK_USERS }} -Dslack.send.message=${{ env.SLACK_SAND_MESSAGE }}
