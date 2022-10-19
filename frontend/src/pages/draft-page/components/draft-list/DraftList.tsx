@@ -23,9 +23,10 @@ const DraftList: React.FC<DraftListProps> = ({ articles }) => {
         <Fragment key={article.id}>
           <DraftListItem
             id={article.id}
+            study={article.study}
             title={article.title}
             createdDate={article.createdDate}
-            onDeleteDraftItemClick={handleDeleteDraftItemClick(0, article.id)}
+            onDeleteDraftItemClick={handleDeleteDraftItemClick(article.study.id, article.id)}
           />
           <Divider />
         </Fragment>
