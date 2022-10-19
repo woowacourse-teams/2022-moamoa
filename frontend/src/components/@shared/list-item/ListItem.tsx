@@ -22,7 +22,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo, custom })
   return (
     <Self css={resolveCustomCSS(custom)}>
       <Flex alignItems="center">
-        <Flex.Item flexGrow={1}>
+        <Flex.Item>
           <Title>{title}</Title>
         </Flex.Item>
         {userInfo ? (

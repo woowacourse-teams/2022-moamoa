@@ -73,12 +73,12 @@ const Flex: React.FC<FlexBoxProps> = ({
 };
 
 export type FlexItemStyle = {
-  flexGrow: CSS.Properties['flexGrow'];
+  flexGrow?: CSS.Properties['flexGrow'];
 };
 
 export type FlexItemProps = Partial<{ children: React.ReactNode } & FlexItemStyle>;
 
-const FlexItem: React.FC<FlexItemProps> = ({ children, flexGrow }) => {
+const FlexItem: React.FC<FlexItemProps> = ({ children, flexGrow = 1 }) => {
   const theme = useTheme();
   return <div css={resolveCustomCSS({ flexGrow }, theme)}>{children}</div>;
 };

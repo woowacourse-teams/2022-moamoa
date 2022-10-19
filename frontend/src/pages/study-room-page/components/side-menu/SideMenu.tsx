@@ -86,7 +86,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ theme, tabs, activeTabId, onTabBu
     <div css={style}>
       <Flex alignItems="center" justifyContent="center">
         {tabs.map(({ id, name }) => (
-          <Flex.Item key={id} flexGrow={1}>
+          <Flex.Item key={id}>
             <Link to={id}>
               <TabButton onClick={handleTabButtonClick(id)} isSelected={activeTabId === id}>
                 {name}
