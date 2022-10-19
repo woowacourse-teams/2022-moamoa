@@ -1,9 +1,12 @@
 import { rest } from 'msw';
 
 import communityArticlesJSON from '@mocks/community-articles.json';
+import communityCommentJSON from '@mocks/community-comment.json';
 import { user } from '@mocks/handlers/memberHandlers';
 
 import { type ApiCommunityArticle } from '@api/community';
+import { ApiCommunityComment } from '@api/community-comment';
+import { ApiCommunityComments } from '@api/community-comments';
 
 export const communityHandlers = [
   rest.get('/api/studies/:studyId/community/articles', (req, res, ctx) => {
@@ -99,6 +102,106 @@ export const communityHandlers = [
       });
 
       return res(ctx.status(204));
+    },
+  ),
+
+  // Comments
+  rest.get<ApiCommunityComments['get']['responseData']>(
+    '/api/studies/:studyId/community/:articleId/comments',
+    (req, res, ctx) => {
+      const _size = req.url.searchParams.get('size');
+      const _page = req.url.searchParams.get('page');
+      const size = _size ? Number(_size) : null;
+      const page = _page ? Number(_page) : 0;
+
+      // size가 null인 경우에는 전체를 돌려준다
+      if (size === null) {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            comments: communityCommentJSON.comments,
+            totalCount: communityCommentJSON.comments.length,
+          }),
+        );
+      }
+
+      return res(
+        ctx.status(200),
+        ctx.json({
+          comments: communityCommentJSON.comments.slice(page, size),
+          totalCount: communityCommentJSON.comments.length,
+        }),
+      );
+    },
+  ),
+  rest.post<ApiCommunityComment['post']['body']>(
+    '/api/studies/:studyId/community/:articleId/comments',
+    (req, res, ctx) => {
+      const studyId = req.params.studyId;
+      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+
+      const articleId = req.params.articleId;
+      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
+
+      const content = req.body['content'];
+      if (!content) return res(ctx.status(400), ctx.json({ errorMessage: '댓글내용이 없습니다' }));
+
+      const comment = {
+        id: 1,
+        author: user,
+        content,
+        createdDate: '2022-07-12',
+        lastModifiedDate: '2022-07-13',
+      };
+      const comments = [comment, ...communityCommentJSON.comments];
+      communityCommentJSON.comments = comments;
+
+      return res(ctx.status(200));
+    },
+  ),
+
+  rest.delete('/api/studies/:studyId/community/:articleId/comments/:commentId', (req, res, ctx) => {
+    const studyId = req.params.studyId;
+    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+
+    const articleId = req.params.articleId;
+    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
+
+    const _commentId = req.params.commentId;
+    if (!_commentId) return res(ctx.status(400), ctx.json({ errorMessage: '댓글 아이디 아이디가 없음' }));
+
+    const commentId = Number(_commentId);
+
+    communityCommentJSON.comments = communityCommentJSON.comments.filter(({ id }) => commentId !== id);
+
+    return res(ctx.status(200));
+  }),
+
+  rest.put<ApiCommunityComment['put']['body']>(
+    '/api/studies/:studyId/community/:articleId/comments/:commentId',
+    (req, res, ctx) => {
+      const studyId = req.params.studyId;
+      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+
+      const articleId = req.params.articleId;
+      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: '게시글 아이디가 없음' }));
+
+      const _commentId = req.params.commentId;
+      if (!_commentId) return res(ctx.status(400), ctx.json({ errorMessage: '댓글 아이디 아이디가 없음' }));
+
+      const content = req.body['content'];
+      if (!content) return res(ctx.status(400), ctx.json({ errorMessage: '댓글내용이 없습니다' }));
+
+      const commentId = Number(_commentId);
+
+      communityCommentJSON.comments = communityCommentJSON.comments.map(comment => {
+        if (comment.id === commentId) {
+          comment.content = content;
+        }
+        return comment;
+      });
+
+      return res(ctx.status(200));
     },
   ),
 ];

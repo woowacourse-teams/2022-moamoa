@@ -1,8 +1,12 @@
+import React from 'react';
+
 import styled from '@emotion/styled';
 
 import { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+
+import Divider from '@components/@shared/divider/Divider';
 
 import EditableComment from '@study-room-page/tabs/community-tab-panel/components/editable-comment/EditableComment';
 
@@ -18,18 +22,21 @@ const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments 
   return (
     <Self>
       <ul>
-        {comments.map(({ id, member, lastModifiedDate, content }) => (
-          <li key={id}>
-            <EditableComment
-              id={id}
-              articleId={articleId}
-              studyId={studyId}
-              author={member}
-              date={lastModifiedDate}
-              content={content}
-              isMyComment={userInfo.id === member.id}
-            />
-          </li>
+        {comments.map(({ id, author, lastModifiedDate, content }) => (
+          <React.Fragment key={id}>
+            <li>
+              <EditableComment
+                id={id}
+                articleId={articleId}
+                studyId={studyId}
+                author={author}
+                date={lastModifiedDate}
+                content={content}
+                isMyComment={userInfo.id === author.id}
+              />
+            </li>
+            <Divider space="30px" />
+          </React.Fragment>
         ))}
       </ul>
     </Self>
@@ -38,6 +45,4 @@ const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments 
 
 export default CommentList;
 
-const Self = styled.div`
-  background-color: green;
-`;
+const Self = styled.div``;
