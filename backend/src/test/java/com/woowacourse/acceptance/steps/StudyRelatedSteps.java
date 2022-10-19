@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.woowacourse.acceptance.SlackAlarmMockServer;
 import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.response.SlackUsersResponse;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
@@ -25,7 +26,33 @@ public class StudyRelatedSteps extends Steps {
         this.token = token;
     }
 
-    public void 참여한다(final SlackAlarmMockServer slackAlarmMockServer, final SlackMessageRequest slackMessageRequest) {
+    public HttpStatus 참여를_시도한다() {
+        final int code = RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .post("/api/studies/{study-id}/members")
+                .then().log().all()
+                .extract().statusCode();
+        return HttpStatus.valueOf(code);
+    }
+
+    public HttpStatus 참여를_시도한다(final SlackAlarmMockServer slackAlarmMockServer, final SlackMessageRequest slackMessageRequest) {
+        slackAlarmMockServer.sendAlarm(slackMessageRequest);
+
+        final int code = RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .post("/api/studies/{study-id}/members")
+                .then().log().all()
+                .extract().statusCode();
+        return HttpStatus.valueOf(code);
+    }
+
+    public void 참여에_성공한다(final SlackAlarmMockServer slackAlarmMockServer, final SlackMessageRequest slackMessageRequest) {
         slackAlarmMockServer.sendAlarm(slackMessageRequest);
 
         RestAssured.given().log().all()
@@ -109,5 +136,17 @@ public class StudyRelatedSteps extends Steps {
             Assertions.fail("게시글 작성 실패");
             return null;
         }
+    }
+
+    public HttpStatus 탈퇴를_시도한다() {
+        final int code = RestAssured.given().log().all()
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, token)
+                .pathParam("study-id", studyId)
+                .when().log().all()
+                .delete("/api/studies/{study-id}/members")
+                .then().log().all()
+                .extract().statusCode();
+        return HttpStatus.valueOf(code);
     }
 }
