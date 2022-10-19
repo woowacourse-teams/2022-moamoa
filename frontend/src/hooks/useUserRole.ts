@@ -28,16 +28,18 @@ export const useUserRole = ({ studyId }: { studyId: StudyId }) => {
     },
   });
 
+  // TODO: 이 훅을 사용하는 페이지에서 새로고침했을 때 setUserRole이 반영되지 않아서 이전 userRole 값을 사용하게 됨
   useEffect(() => {
-    if (!data || isError || !isSuccess) return;
+    if (isFetching || isError || !isSuccess) return;
     setUserRole(data.role);
-  }, [data, isError, isSuccess]);
+  }, [isFetching]);
 
   return {
     fetchUserRole,
     userRole,
     isFetching,
     isError,
+    isSuccess,
     isOwner: userRole === USER_ROLE.OWNER,
     isMember: userRole === USER_ROLE.MEMBER,
     isNonMember: userRole === USER_ROLE.NON_MEMBER,
