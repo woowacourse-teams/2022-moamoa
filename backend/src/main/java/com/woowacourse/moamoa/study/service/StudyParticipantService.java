@@ -22,17 +22,13 @@ public class StudyParticipantService {
     private final StudyRepository studyRepository;
     private final DateTimeSystem dateTimeSystem;
 
-    public Member participateStudy(final Long memberId, final Long studyId) {
+    public void participateStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         study.participate(memberId);
-
-        return memberRepository.findById(study.getParticipants()
-                        .getOwnerId())
-                .orElseThrow(MemberNotFoundException::new);
     }
 
     public void leaveStudy(final Long memberId, final Long studyId) {

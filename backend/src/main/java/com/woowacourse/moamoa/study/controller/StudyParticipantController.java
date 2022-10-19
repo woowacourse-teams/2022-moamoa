@@ -36,8 +36,8 @@ public class StudyParticipantController {
     public ResponseEntity<Void> participateStudy(
             @AuthenticatedMemberId final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
-        final Member owner = studyParticipantService.participateStudy(memberId, studyId);
-        asyncService.send(owner);
+        studyParticipantService.participateStudy(memberId, studyId);
+        asyncService.send(studyId);
         return ResponseEntity.noContent().build();
     }
 
