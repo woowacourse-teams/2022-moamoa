@@ -228,7 +228,7 @@ class CommunityCommentAcceptanceTest extends AcceptanceTest {
                         )
                 ))
                 .when().log().all()
-                .delete("/api/studies/{study-id}/{article-type}}/{article-id}/comments/{comment-id}")
+                .delete("/api/studies/{study-id}/{article-type}/{article-id}/comments/{comment-id}")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
