@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
@@ -32,14 +31,6 @@ const Publish: React.FC = () => {
 
   const { isFetching, isError, isOwnerOrMember } = useUserRole({ studyId });
 
-  useEffect(() => {
-    if (isFetching) return;
-    if (isOwnerOrMember) return;
-
-    alert('접근할 수 없습니다!');
-    navigate(`../${PATH.COMMUNITY}`);
-  }, [isFetching, isOwnerOrMember]);
-
   const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
@@ -70,7 +61,11 @@ const Publish: React.FC = () => {
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (isOwnerOrMember) return <PublishForm formMethods={formMethods} onSubmit={handleSubmit} />;
+        if (!isOwnerOrMember) {
+          alert('접근할 수 없습니다!');
+          return <Navigate to={`../../${PATH.COMMUNITY}`} replace />;
+        }
+        return <PublishForm formMethods={formMethods} onSubmit={handleSubmit} />;
       })()}
     </FormProvider>
   );
