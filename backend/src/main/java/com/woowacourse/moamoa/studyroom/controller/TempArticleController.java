@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/studies/{study-id}/{article-type}/draft-articles")
 public class TempArticleController {
 
     private final TempArticleService tempArticleService;
@@ -32,7 +30,7 @@ public class TempArticleController {
         this.tempArticleService = tempArticleService;
     }
 
-    @PostMapping
+    @PostMapping("/api/studies/{study-id}/{article-type}/draft-articles")
     public ResponseEntity<CreatedTempArticleIdResponse> createTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -48,7 +46,7 @@ public class TempArticleController {
         return ResponseEntity.created(URI.create(location)).body(response);
     }
 
-    @GetMapping("/{article-id}")
+    @GetMapping("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
     public ResponseEntity<TempArticleResponse> getTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -59,18 +57,17 @@ public class TempArticleController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/api/draft/{article-type}/articles")
     public ResponseEntity<TempArticlesResponse> getTempArticles(
             @AuthenticatedMemberId final Long memberId,
-            @PathVariable("study-id") final Long studyId,
             @PageableDefault final Pageable pageable,
             @PathVariable("article-type") final ArticleType articleType
     ) {
-        TempArticlesResponse response = tempArticleService.getTempArticles(memberId, studyId, pageable, articleType);
+        TempArticlesResponse response = tempArticleService.getTempArticles(memberId, pageable, articleType);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{article-id}")
+    @DeleteMapping("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
     public ResponseEntity<Void> deleteTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -81,7 +78,7 @@ public class TempArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{article-id}")
+    @PutMapping("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}")
     public ResponseEntity<Void> updateTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
@@ -93,7 +90,7 @@ public class TempArticleController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{article-id}/publish")
+    @PostMapping("/api/studies/{study-id}/{article-type}/draft-articles/{article-id}/publish")
     public ResponseEntity<CreatedArticleIdResponse> publishTempArticle(
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,

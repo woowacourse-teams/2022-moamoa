@@ -88,11 +88,10 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
     public TempArticlesResponse 목록_조회한다(final int page, final int size) {
         return spec.given().log().all()
                 .header(AUTHORIZATION, token)
-                .pathParam("study-id", studyId)
                 .param("page", page)
                 .param("size", size)
                 .when().log().all()
-                .get("/api/studies/{study-id}/community/draft-articles")
+                .get("/api/draft/community/articles")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticlesResponse.class);

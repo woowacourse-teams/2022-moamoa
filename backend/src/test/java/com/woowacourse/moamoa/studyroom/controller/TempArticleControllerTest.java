@@ -288,7 +288,7 @@ public class TempArticleControllerTest {
 
         // act
         final ResponseEntity<TempArticlesResponse> responses = sut
-                .getTempArticles(방장.getId(), 자바_스터디.getId(), Pageable.ofSize(5), type);
+                .getTempArticles(방장.getId(), Pageable.ofSize(5), type);
 
         // assert
         assertThat(responses.getStatusCode()).isEqualTo(HttpStatus.OK);

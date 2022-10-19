@@ -86,11 +86,10 @@ public class TempNoticeArticleRelatedStep extends Steps {
     public TempArticlesResponse 목록_조회한다(final int page, final int size) {
         return spec.given().log().all()
                 .header(AUTHORIZATION, token)
-                .pathParam("study-id", studyId)
                 .param("page", page)
                 .param("size", size)
                 .when().log().all()
-                .get("/api/studies/{study-id}/notice/draft-articles")
+                .get("/api/draft/notice/articles")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().as(TempArticlesResponse.class);

@@ -26,7 +26,6 @@ public class CommunityArticleRelatedSteps extends Steps<CommunityArticleRelatedS
     CommunityArticleRelatedSteps(final String token, final Long studyId) {
         this.token = token;
         this.studyId = studyId;
-        this.spec = RestAssured.given();
     }
 
     public Long 작성한다(final String title, final String content) {

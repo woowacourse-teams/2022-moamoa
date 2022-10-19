@@ -66,7 +66,7 @@ public class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
     @Test
     void unauthorizedGetTempArticlesByEmptyToken() throws Exception {
         mockMvc.perform(
-                get("/api/studies/{study-id}/notice/draft-articles", 1L)
+                get("/api/draft/notice/articles", 1L)
         )
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -77,7 +77,7 @@ public class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
     void requestByInvalidPageParameter() throws Exception {
         final String token = tokenProvider.createToken(1L).getAccessToken();
 
-        mockMvc.perform(get("/api/studies/{study-id}/notice/draft-articles", 1L)
+        mockMvc.perform(get("/api/draft/notice/articles", 1L)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .param("page", "one"))
                 .andDo(print())
@@ -89,7 +89,7 @@ public class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
     void requestByInvalidSizeParameter() throws Exception {
         final String token = tokenProvider.createToken(1L).getAccessToken();
 
-        mockMvc.perform(get("/api/studies/{study-id}/notice/draft-articles", 1L)
+        mockMvc.perform(get("/api/draft/notice/articles", 1L)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .param("size", "one"))
                 .andDo(print())

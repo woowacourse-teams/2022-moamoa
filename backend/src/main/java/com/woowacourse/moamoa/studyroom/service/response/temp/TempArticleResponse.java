@@ -20,11 +20,14 @@ public class TempArticleResponse {
 
     private LocalDate lastModifiedDate;
 
+    private StudyResponse study;
+
     public TempArticleResponse(final TempArticleData tempArticleData) {
         this.id = tempArticleData.getId();
         this.title = tempArticleData.getTitle();
         this.content = tempArticleData.getContent();
         this.createdDate = tempArticleData.getCreatedDate();
         this.lastModifiedDate = tempArticleData.getLastModifiedDate();
+        this.study = new StudyResponse(tempArticleData.getStudyData());
     }
 }

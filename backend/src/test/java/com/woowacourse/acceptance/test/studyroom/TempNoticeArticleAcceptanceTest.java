@@ -75,38 +75,43 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
     @Test
     void getTempArticles() {
         // arrange
-        final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
+        final long 리액트_스터디_ID = 그린론이().로그인하고().리액트_스터디를().시작일자는(지금).생성한다();
 
-        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목1", "내용1"));
-        그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목2", "내용2"));
-        final long 게시글3_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목3", "내용3"));
-        final long 게시글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목4", "내용4"));
-        final long 게시글5_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목5", "내용5"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목1", "내용1"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목2", "내용2"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목3", "내용3"));
+        final long 게시글4_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목4", "내용4"));
+        final long 게시글5_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목5", "내용5"));
+        final long 게시글6_ID = 그린론이().로그인하고().스터디에(리액트_스터디_ID).임시_공지사항을().작성한다(new ArticleRequest("제목6", "내용6"));
 
-        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
-        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
-        그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        그린론이().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
-        베루스가().로그인하고().스터디에(스터디_ID).참여에_성공한다();
-        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
-        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
-        베루스가().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        베루스가().로그인하고().스터디에(자바_스터디_ID).참여에_성공한다();
+        베루스가().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        베루스가().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        베루스가().로그인하고().스터디에(자바_스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
 
         // act
-        final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(스터디_ID).임시_공지사항을().목록_조회한다(0, 3);
+        final TempArticlesResponse responses = 그린론이().로그인하고().스터디에(자바_스터디_ID).임시_공지사항을().목록_조회한다(0, 3);
 
         // assert
-        final Iterator<Long> expectedArticleIds = List.of(게시글5_ID, 게시글4_ID, 게시글3_ID).iterator();
-        final Iterator<String> expectedTitles = List.of("제목5", "제목4", "제목3").iterator();
-        final Iterator<String> expectedContents = List.of("내용5", "내용4", "내용3").iterator();
+        final Iterator<Long> expectedArticleIds = List.of(게시글6_ID, 게시글5_ID, 게시글4_ID).iterator();
+        final Iterator<String> expectedTitles = List.of("제목6", "제목5", "제목4").iterator();
+        final Iterator<String> expectedContents = List.of("내용6", "내용5", "내용4").iterator();
+        final Iterator<Long> expectedStudyId = List.of(리액트_스터디_ID, 자바_스터디_ID, 자바_스터디_ID).iterator();
 
         for (TempArticleResponse response : responses) {
-            assertTempArticleResponse(response, expectedArticleIds.next(), expectedTitles.next(), expectedContents.next());
+            assertTempArticleResponse(response,
+                    expectedArticleIds.next(), expectedTitles.next(), expectedContents.next(), expectedStudyId.next()
+            );
         }
 
         assertThat(responses.getCurrentPage()).isEqualTo(0);
         assertThat(responses.getLastPage()).isEqualTo(1);
-        assertThat(responses.getTotalCount()).isEqualTo(5);
+        assertThat(responses.getTotalCount()).isEqualTo(6);
     }
 
     @DisplayName("임시글을 공개한다.")
@@ -130,9 +135,10 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
     }
 
     private void assertTempArticleResponse(
-            final TempArticleResponse response, final Long id, final String title, final String content
+            final TempArticleResponse response, final Long id, final String title, final String content, final Long studyId
     ){
         assertThat(response.getId()).isEqualTo(id);
+        assertThat(response.getStudy().getId()).isEqualTo(studyId);
         assertTempArticleResponse(response, title, content);
     }
 

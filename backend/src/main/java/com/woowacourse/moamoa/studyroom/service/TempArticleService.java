@@ -54,7 +54,6 @@ public class TempArticleService {
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
                 .orElseThrow(() -> new StudyNotFoundException(studyId));
-
         final Accessor accessor = new Accessor(memberId, studyId);
         final Content content = new Content(request.getTitle(), request.getContent());
         final TempArticle article = TempArticle.create(content, studyRoom, accessor, articleType);
@@ -79,9 +78,9 @@ public class TempArticleService {
     }
 
     public TempArticlesResponse getTempArticles(
-            final Long memberId, final Long studyId, final Pageable pageable, final ArticleType articleType
+            final Long memberId, final Pageable pageable, final ArticleType articleType
     ) {
-        final Page<TempArticleData> page = tempArticleDao.getAll(memberId, studyId, articleType, pageable);
+        final Page<TempArticleData> page = tempArticleDao.getAll(memberId, articleType, pageable);
         final List<TempArticleResponse> content = page.getContent().stream()
                 .map(TempArticleResponse::new)
                 .collect(Collectors.toList());
