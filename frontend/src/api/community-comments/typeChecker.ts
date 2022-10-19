@@ -15,7 +15,7 @@ export const checkCommunityComments = (data: unknown): ApiCommunityComments['get
   if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityComments does not have some properties');
 
   return {
-    comments: checkType(data.comments, isArray).map(review => checkCommunityComment(review)),
+    comments: checkType(data.comments, isArray).map(comment => checkCommunityComment(comment)),
     totalCount: checkType(data.totalCount, isNumber),
   };
 };
