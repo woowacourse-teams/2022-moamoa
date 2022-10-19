@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 import type { StudyId } from '@custom-types';
 
-import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community';
+import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community/articles';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';

@@ -174,17 +174,17 @@ const UserDropdown: React.FC<UserDropdownProps> = ({
   onLogoutButtonClick: handleLogoutButtonClick,
 }) => (
   <DropDownBox isOpen={isOpen} top="40px" right={0} onClose={handleClose} custom={{ padding: '16px' }}>
-    <ButtonGroup orientation="vertical">
-      <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-        <LogoutIcon />
-        <span>로그아웃</span>
-      </NavButton>
+    <ButtonGroup orientation="vertical" gap="8px">
       <Link to={PATH.DRAFT}>
         <NavButton ariaLabel="임시 저장 목록 페이지 이동">
           <FolderIcon />
           <span>임시 저장 목록</span>
         </NavButton>
       </Link>
+      <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
+        <LogoutIcon />
+        <span>로그아웃</span>
+      </NavButton>
     </ButtonGroup>
   </DropDownBox>
 );

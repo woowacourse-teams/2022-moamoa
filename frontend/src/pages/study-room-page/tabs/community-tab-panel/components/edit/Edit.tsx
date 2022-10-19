@@ -1,10 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
+import type { CommunityArticle } from '@custom-types';
 
-import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community';
+import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community/article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
@@ -17,17 +17,15 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-export type EditProps = {
-  studyId: StudyId;
-  articleId: ArticleId;
-};
-
 type HandleEditFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
 ) => Promise<null | undefined>;
 
-const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
+const Edit: React.FC = () => {
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
+
   const formMethods = useForm();
   const navigate = useNavigate();
 
@@ -50,7 +48,7 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
       {
         onSuccess: () => {
           alert('글을 수정했습니다 :D');
-          navigate(`../${PATH.COMMUNITY}`);
+          navigate(`../../${PATH.COMMUNITY}`);
         },
         onError: () => {
           alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');
@@ -97,7 +95,7 @@ const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) =
 );
 
 const GoBackLinkButton: React.FC = () => (
-  <Link to={`../${PATH.COMMUNITY}`}>
+  <Link to={`../../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>

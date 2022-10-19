@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
-
-import type { StudyId } from '@custom-types';
 
 import { useUserRole } from '@hooks/useUserRole';
 
@@ -13,11 +11,11 @@ import Flex from '@shared/flex/Flex';
 import ArticleList from '@community-tab/components/article-list/ArticleList';
 
 // @TODO: 공지사항임이 드러나는 이름으로 변경하기 || 공통 컴포넌트로 분리
-type ArticleListPageProps = {
-  studyId: StudyId;
-};
 
-const ArticleListPage: React.FC<ArticleListPageProps> = ({ studyId }) => {
+const ArticleListPage: React.FC = () => {
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const { isOwnerOrMember } = useUserRole({ studyId });
 
   return (

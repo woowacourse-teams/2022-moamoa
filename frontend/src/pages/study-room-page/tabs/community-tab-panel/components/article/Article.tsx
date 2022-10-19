@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
@@ -7,7 +6,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community';
+import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community/article';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -19,26 +18,24 @@ import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
-export type ArticleProps = {
-  studyId: number;
-  articleId: number;
-};
+const Article: React.FC = () => {
+  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
+  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
-const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
   const { userInfo } = useUserInfo();
 
-  const { mutateAsync } = useDeleteCommunityArticle();
+  const { mutate } = useDeleteCommunityArticle();
   const navigate = useNavigate();
 
   // TODO: 왜 mutateAsync지??
   const handleDeleteArticleButtonClick = () => {
-    mutateAsync(
+    mutate(
       { studyId, articleId },
       {
         onSuccess: () => {
           alert('성공적으로 삭제했습니다');
-          navigate(`../${PATH.COMMUNITY}`);
+          navigate(`../../${PATH.COMMUNITY}`);
         },
         onError: () => {
           alert('알 수 없는 에러가 발생했습니다');
@@ -92,7 +89,7 @@ type EditArticleLinkProps = {
   articleId: number;
 };
 const EditArticleLink: React.FC<EditArticleLinkProps> = ({ articleId }) => (
-  <Link to={PATH.COMMUNITY_EDIT(articleId)}>
+  <Link to={`../${PATH.COMMUNITY_EDIT(articleId)}`}>
     <BoxButton type="button" custom={{ padding: '4px 8px' }}>
       글 수정
     </BoxButton>
@@ -109,7 +106,7 @@ const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: hand
 );
 
 const ListPageLink: React.FC = () => (
-  <Link to={`../${PATH.COMMUNITY}`}>
+  <Link to={`../../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
       목록보기
     </BoxButton>

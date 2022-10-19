@@ -21,7 +21,7 @@ export const PATH = {
 
   COMMUNITY: 'community',
   COMMUNITY_PUBLISH: 'article/publish',
-  DRAFT_COMMUNITY_PUBLISH: (articleId: ':articleId' | ArticleId) => `draft-article/${articleId}/publish`,
+  DRAFT_COMMUNITY_PUBLISH: (articleId: ':articleId' | ArticleId = ':articleId') => `draft-article/${articleId}/publish`,
   COMMUNITY_ARTICLE: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}`,
   COMMUNITY_EDIT: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}/edit`,
 } as const;

@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { StudyId } from '@custom-types';
-
-import { usePostCommunityArticle } from '@api/community';
+import { usePostCommunityArticle } from '@api/community/article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -19,16 +17,15 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-export type PublishProps = {
-  studyId: StudyId;
-};
-
 type HandlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
 ) => Promise<null | undefined>;
 
-const Publish: React.FC<PublishProps> = ({ studyId }) => {
+const Publish: React.FC = () => {
+  const { studyId: _studyId } = useParams<{ studyId: string }>();
+  const studyId = Number(_studyId);
+
   const formMethods = useForm();
   const navigate = useNavigate();
   const { mutateAsync } = usePostCommunityArticle();
@@ -58,7 +55,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
       {
         onSuccess: () => {
           alert('글을 작성했습니다. :D');
-          navigate(`../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
         },
         onError: () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
@@ -103,7 +100,7 @@ const PublishForm: React.FC<PublishFormProps> = ({ formMethods, onSubmit }) => (
 );
 
 const GoBackLinkButton: React.FC = () => (
-  <Link to={`../${PATH.COMMUNITY}`}>
+  <Link to={`../../${PATH.COMMUNITY}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
