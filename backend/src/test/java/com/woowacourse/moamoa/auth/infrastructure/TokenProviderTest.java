@@ -2,7 +2,7 @@ package com.woowacourse.moamoa.auth.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.WebMVCTest;
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

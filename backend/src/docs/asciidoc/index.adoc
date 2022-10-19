@@ -86,6 +86,24 @@ operation::update/notice[snippets='http-request,request-headers,http-response']
 === 공지 삭제
 operation::delete/notice[snippets='http-request,request-headers,http-response']
 
+[[Temp-Article]]
+== 임시글
+
+=== 임시글 생성
+operation::temp-article/create[snippets='curl-request,http-request,http-response,path-parameters,request-fields,request-headers']
+
+=== 임시글 단건 조회
+operation::temp-article/get[snippets='curl-request,http-request,http-response,path-parameters,response-fields']
+
+=== 임시글 전체 조회
+operation::temp-articles/get[snippets='curl-request,http-request,http-response,path-parameters,response-fields']
+
+=== 임시글 수정
+operation::temp-article/update[snippets='curl-request,http-request,http-response,path-parameters,request-fields,request-headers']
+
+=== 임시글 삭제
+operation::temp-article/delete[snippets='curl-request,http-request,http-response,path-parameters']
+
 [[Reference-Room]]
 == 링크 공유
 

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa;
+package com.woowacourse.moamoa.common;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -11,7 +11,6 @@ import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor
 import com.woowacourse.moamoa.auth.infrastructure.GithubOAuthClient;
 import com.woowacourse.moamoa.auth.infrastructure.JwtTokenProvider;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
-import com.woowacourse.moamoa.common.MockedServiceObjectsBeanRegister;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import java.util.Optional;

@@ -1,10 +1,10 @@
-package com.woowacourse.moamoa.studyroom.webmvc;
+package com.woowacourse.moamoa.studyroom.webmvc.article;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.WebMVCTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

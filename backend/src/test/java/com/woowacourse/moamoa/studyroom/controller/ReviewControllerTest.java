@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.studyroom.controller.review;
+package com.woowacourse.moamoa.studyroom.controller;
 
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.그린론;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
