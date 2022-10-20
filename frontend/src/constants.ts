@@ -201,4 +201,7 @@ export const TITLE = 'title';
 
 export const CONTENT = 'content';
 
-export const FIVE_MINUTES = 5 * 60 * 1000;
+export const DRAFT_SAVE_TIME = {
+  FIVE_MINUTES: 5 * 60 * 1000,
+  THIRTY_SECONDS: 3 * 1000,
+};

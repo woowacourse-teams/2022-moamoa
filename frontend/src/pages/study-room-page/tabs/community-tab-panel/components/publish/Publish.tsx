@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
-import { CONTENT, FIVE_MINUTES, PATH, TITLE } from '@constants';
+import { CONTENT, DRAFT_SAVE_TIME, PATH, TITLE } from '@constants';
 
 import { usePostCommunityArticle } from '@api/community/article';
 import {
+  ApiCommunityDraftArticleToArticle,
   usePostCommunityDraftArticle,
   usePostDraftArticleToArticle,
   usePutCommunityDraftArticle,
@@ -22,12 +23,12 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-import DraftSaveButton from '../draft-save-button/DraftSaveButton';
+import DraftSaveButton from '@community-tab/components/draft-save-button/DraftSaveButton';
 
 type HandlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
-) => Promise<null | undefined>;
+) => Promise<ApiCommunityDraftArticleToArticle['post']['responseData'] | null | undefined>;
 
 const Publish: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
@@ -39,6 +40,7 @@ const Publish: React.FC = () => {
   const { isFetching, isError, isOwnerOrMember } = useUserRole({ studyId });
 
   const draftTimeIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
+  const initDraftTimeIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -66,8 +68,9 @@ const Publish: React.FC = () => {
   useEffect(() => {
     if (isSaving) return;
 
-    setTimeout(() => {
+    initDraftTimeIntervalIdRef.current = setInterval(() => {
       const { title, content } = getElementValues();
+      if (!title || !content) return;
 
       changeSaveState();
 
@@ -77,10 +80,14 @@ const Publish: React.FC = () => {
           onError: () => {
             // TODO: 메세지 알려주기
             console.error('임시저장 오류');
+            initDraftTimeIntervalIdRef.current && clearInterval(initDraftTimeIntervalIdRef.current);
+          },
+          onSuccess: () => {
+            initDraftTimeIntervalIdRef.current && clearInterval(initDraftTimeIntervalIdRef.current);
           },
         },
       );
-    }, FIVE_MINUTES);
+    }, DRAFT_SAVE_TIME.THIRTY_SECONDS);
   }, []);
 
   useEffect(() => {
@@ -88,7 +95,7 @@ const Publish: React.FC = () => {
 
     draftTimeIntervalIdRef.current = setInterval(() => {
       const { title, content } = getElementValues();
-      if (!title && !content) return;
+      if (!title || !content) return;
 
       changeSaveState();
 
@@ -100,7 +107,7 @@ const Publish: React.FC = () => {
           },
         },
       );
-    }, FIVE_MINUTES);
+    }, DRAFT_SAVE_TIME.FIVE_MINUTES);
 
     return () => {
       draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
@@ -111,11 +118,13 @@ const Publish: React.FC = () => {
     if (isSaving) return;
 
     const { title, content } = getElementValues();
-    if (!title && !content) return;
-
-    changeSaveState();
+    if (!title || !content) {
+      alert('게시글 제목과 내용이 있어야 임시저장이 가능합니다.');
+      return;
+    }
 
     if (!draftArticleId) return;
+    changeSaveState();
 
     putDraftArticle.mutate(
       { studyId, articleId: draftArticleId, title, content },
@@ -128,11 +137,10 @@ const Publish: React.FC = () => {
     );
   };
 
-  const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
-    const { values } = submitResult;
+  const handleSubmit: HandlePublishFormSubmit = async (_, { values }) => {
     if (!values) return;
-
     const { title, content } = values;
+    if (!title || !content) return;
 
     if (draftArticleId) {
       return postDraftArticleToArticle.mutateAsync(
@@ -141,7 +149,7 @@ const Publish: React.FC = () => {
           onSuccess: () => {
             draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
             alert('글을 작성했습니다. :D');
-            navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+            navigate(`../../${PATH.COMMUNITY}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
           },
           onError: () => {
             alert('글을 등록하지 못했습니다. 다시 시도해주세요. :(');
@@ -160,7 +168,7 @@ const Publish: React.FC = () => {
         onSuccess: () => {
           draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
           alert('글을 작성했습니다. :D');
-          navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          navigate(`../../${PATH.COMMUNITY}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
         },
         onError: () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
