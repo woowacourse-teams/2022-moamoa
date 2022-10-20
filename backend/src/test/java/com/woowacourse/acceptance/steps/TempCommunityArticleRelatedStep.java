@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.steps;
 
+import static io.restassured.http.ContentType.JSON;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
@@ -106,6 +107,7 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .contentType(JSON)
                 .body(request)
                 .pathParam("article-type", "notice")
                 .when().log().all()
