@@ -6,6 +6,8 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>
 
 export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<Pick<T, K>>;
 
+export type Merge<T, U> = Omit<T, keyof U> & U;
+
 export type Noop = () => void;
 
 export type CssLengthUnits = 'px' | 'rem' | '%';

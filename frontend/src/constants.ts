@@ -37,6 +37,10 @@ export const DEFAULT_LINK_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 9,
 };
+export const DEFAULT_STUDY_REVIEW_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 8,
+};
 
 export const DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT = 6;
 export const DEFAULT_LOAD_STUDY_REVIEW_COUNT = 6;

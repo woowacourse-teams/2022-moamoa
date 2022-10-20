@@ -8,7 +8,7 @@ export type TextButtonProps = {
   fluid?: boolean;
   variant: 'primary' | 'secondary';
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  custom?: CustomCSS<'fontSize'>;
+  custom?: CustomCSS<'fontSize' | 'backgroundColor'>;
 };
 
 const TextButton: React.FC<TextButtonProps> = ({
