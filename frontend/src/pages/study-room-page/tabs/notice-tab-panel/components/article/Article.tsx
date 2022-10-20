@@ -76,9 +76,6 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
                 <Divider space="8px" />
                 <ListPageLink />
               </article>
-              <Divider space="16px" />
-              <CommentSection studyId={studyId} articleId={articleId} />
-              <Divider space="16px" />
             </>
           );
         }
