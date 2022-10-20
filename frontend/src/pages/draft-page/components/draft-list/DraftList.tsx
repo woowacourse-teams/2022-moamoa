@@ -7,7 +7,7 @@ import Divider from '@shared/divider/Divider';
 import DraftListItem from '@draft-page/components/draft-list-item/DraftListItem';
 
 export type DraftListProps = {
-  articles: Array<
+  draftArticles: Array<
     Omit<DraftArtcle, 'content'> & {
       study: {
         id: StudyId;
@@ -18,10 +18,10 @@ export type DraftListProps = {
   onDeleteDraftItemClick: (studyId: StudyId, articleId: ArticleId) => React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const DraftList: React.FC<DraftListProps> = ({ articles, onDeleteDraftItemClick: handleDeleteDraftItemClick }) => {
+const DraftList: React.FC<DraftListProps> = ({ draftArticles, onDeleteDraftItemClick: handleDeleteDraftItemClick }) => {
   return (
     <ul>
-      {articles.map(article => (
+      {draftArticles.map(article => (
         <Fragment key={article.id}>
           <DraftListItem
             id={article.id}

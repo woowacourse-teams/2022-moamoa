@@ -48,11 +48,11 @@ const arrayOfAllCommunityArticlesKeys = arrayOfAll<CommunityDraftArticlesKeys>()
 export const checkCommunityDraftArticles = (data: unknown): ApiCommunityDraftArticles['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`CommunityDraftArticles does not have correct type: object`);
 
-  const keys = arrayOfAllCommunityArticlesKeys(['articles', 'currentPage', 'lastPage', 'totalCount']);
+  const keys = arrayOfAllCommunityArticlesKeys(['draftArticles', 'currentPage', 'lastPage', 'totalCount']);
   if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityDraftArticles does not have some properties');
 
   return {
-    articles: checkType(data.articles, isArray).map(article => checkArticle(article)),
+    draftArticles: checkType(data.draftArticles, isArray).map(article => checkArticle(article)),
     currentPage: checkType(data.currentPage, isNumber) + 1,
     lastPage: checkType(data.lastPage, isNumber) + 1,
     totalCount: checkType(data.totalCount, isNumber),

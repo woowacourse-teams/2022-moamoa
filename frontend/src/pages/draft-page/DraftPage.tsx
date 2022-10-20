@@ -15,8 +15,8 @@ const DraftPage: React.FC = () => {
   const { data, isFetching, isError, fetchNextPage, refetch } = useGetInfiniteCommunityDraftArticles();
   const { mutate } = useDeleteCommunityDraftArticle();
 
-  const articles = data?.pages.reduce<ApiCommunityDraftArticles['get']['responseData']['articles']>(
-    (acc, cur) => [...acc, ...cur.articles],
+  const draftArticles = data?.pages.reduce<ApiCommunityDraftArticles['get']['responseData']['draftArticles']>(
+    (acc, cur) => [...acc, ...cur.draftArticles],
     [],
   );
 
@@ -42,10 +42,10 @@ const DraftPage: React.FC = () => {
       <SectionTitle>커뮤니티 게시글</SectionTitle>
       {(() => {
         if (isError) return <ErrorMessage />;
-        if (!articles || (articles && articles.length === 0)) return <NoResult />;
+        if (!draftArticles || (draftArticles && draftArticles.length === 0)) return <NoResult />;
         return (
           <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
-            <DraftList articles={articles} onDeleteDraftItemClick={handleDeleteDraftItemClick} />
+            <DraftList draftArticles={draftArticles} onDeleteDraftItemClick={handleDeleteDraftItemClick} />
           </InfiniteScroll>
         );
       })()}

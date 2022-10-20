@@ -11,7 +11,7 @@ import { checkCommunityDraftArticles } from '@api/community/draft-articles/typeC
 export type ApiCommunityDraftArticles = {
   get: {
     responseData: {
-      articles: Array<
+      draftArticles: Array<
         Omit<DraftArtcle, 'content'> & {
           study: {
             id: StudyId;
