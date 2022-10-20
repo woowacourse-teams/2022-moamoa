@@ -4,10 +4,12 @@ import com.woowacourse.moamoa.studyroom.domain.article.Content;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class ArticleRequest {
 
     @NotBlank(message = "내용을 입력해 주세요.")

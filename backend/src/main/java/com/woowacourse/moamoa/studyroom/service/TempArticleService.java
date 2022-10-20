@@ -122,11 +122,13 @@ public class TempArticleService {
             final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType,
             final ArticleRequest request
     ) {
+        System.out.println("request toString = " + request.toString());
         final Accessor accessor = new Accessor(memberId, studyId);
         final TempArticle tempArticle = tempArticleRepository.findById(articleId)
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
 
         tempArticle.update(accessor, request.createContent());
+
         final Article publishedArticle = tempArticle.publish(accessor);
 
         tempArticleRepository.delete(tempArticle);
