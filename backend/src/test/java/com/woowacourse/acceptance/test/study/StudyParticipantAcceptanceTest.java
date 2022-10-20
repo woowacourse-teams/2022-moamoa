@@ -1,5 +1,6 @@
 package com.woowacourse.acceptance.test.study;
 
+import static com.woowacourse.acceptance.document.StudyDocument.스터디_참가_문서;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.디우가;
 import static com.woowacourse.acceptance.steps.LoginSteps.짱구가;
@@ -29,7 +30,7 @@ class StudyParticipantAcceptanceTest extends AcceptanceTest {
         LocalDate 지금 = LocalDate.now();
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).모집인원은(10).생성한다();
 
-        디우가().로그인하고().스터디에(자바_스터디_ID).참여에_성공하고_방장에게_알림을_보낸다("green");
+        디우가().로그인하고().스터디에(자바_스터디_ID).API_문서화를_하고(스터디_참가_문서(spec)).참여에_성공하고_방장에게_알림을_보낸다("green");
     }
 
     @DisplayName("스터디를 탈퇴한다.")
