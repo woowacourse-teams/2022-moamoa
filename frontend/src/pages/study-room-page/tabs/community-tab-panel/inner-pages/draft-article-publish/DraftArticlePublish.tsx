@@ -4,7 +4,11 @@ import { PATH } from '@constants';
 
 import { DraftArtcle } from '@custom-types';
 
-import { useGetCommunityDraftArticle, usePostDraftArticleToArticle } from '@api/community/draft-article';
+import {
+  ApiCommunityDraftArticleToArticle,
+  useGetCommunityDraftArticle,
+  usePostDraftArticleToArticle,
+} from '@api/community/draft-article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -21,7 +25,7 @@ import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput
 type HandleDraftArticlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
-) => Promise<null | undefined>;
+) => Promise<ApiCommunityDraftArticleToArticle['post']['responseData'] | undefined>;
 
 const DraftArticlePublish: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
@@ -52,7 +56,7 @@ const DraftArticlePublish: React.FC = () => {
         },
         onSuccess: () => {
           alert('글을 작성했습니다. :D');
-          navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          navigate(`../../${PATH.COMMUNITY}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
         },
       },
     );
@@ -60,7 +64,7 @@ const DraftArticlePublish: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <PageTitle>공지사항 작성</PageTitle>
+      <PageTitle>게시글 작성</PageTitle>
       {(() => {
         if (isFetching || draftArticleResponseData.isFetching) return <Loading />;
         if (isError || draftArticleResponseData.isError) return <Error />;
