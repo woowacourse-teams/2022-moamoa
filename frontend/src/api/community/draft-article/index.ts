@@ -6,7 +6,11 @@ import { checkType, isNull } from '@utils';
 import type { ArticleId, DraftArtcle, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
-import { checkCommunityDraftArticle, checkDraftArticleId } from '@api/community/draft-article/typeChecker';
+import {
+  checkArticleId,
+  checkCommunityDraftArticle,
+  checkDraftArticleId,
+} from '@api/community/draft-article/typeChecker';
 
 export type ApiCommunityDraftArticle = {
   get: {
@@ -44,6 +48,7 @@ export type ApiCommunityDraftArticle = {
 
 export type ApiCommunityDraftArticleToArticle = {
   post: {
+    responseData: { articleId: ArticleId };
     params: {
       studyId: StudyId;
       articleId: ArticleId;
@@ -103,21 +108,23 @@ const postCommunityDraftArticleToArticle = async ({
   content,
 }: ApiCommunityDraftArticleToArticle['post']['variables']) => {
   const response = await axiosInstance.post<
-    null,
-    AxiosResponse<null>,
+    ApiCommunityDraftArticleToArticle['post']['responseData'],
+    AxiosResponse<ApiCommunityDraftArticleToArticle['post']['responseData']>,
     ApiCommunityDraftArticleToArticle['post']['body']
   >(`/api/studies/${studyId}/community/draft-articles/${articleId}/publish`, {
     title,
     content,
   });
 
-  return checkType(response.data, isNull);
+  return checkArticleId(response.data);
 };
 
 export const usePostDraftArticleToArticle = () => {
-  return useMutation<null, AxiosError, ApiCommunityDraftArticleToArticle['post']['variables']>(
-    postCommunityDraftArticleToArticle,
-  );
+  return useMutation<
+    ApiCommunityDraftArticleToArticle['post']['responseData'],
+    AxiosError,
+    ApiCommunityDraftArticleToArticle['post']['variables']
+  >(postCommunityDraftArticleToArticle);
 };
 
 // put
@@ -126,15 +133,14 @@ const putCommunityDraftArticle = async ({
   articleId,
   title,
   content,
-}: ApiCommunityDraftArticleToArticle['post']['variables']) => {
-  const response = await axiosInstance.put<
-    null,
-    AxiosResponse<null>,
-    ApiCommunityDraftArticleToArticle['post']['body']
-  >(`/api/studies/${studyId}/community/draft-articles/${articleId}`, {
-    title,
-    content,
-  });
+}: ApiCommunityDraftArticle['put']['variables']) => {
+  const response = await axiosInstance.put<null, AxiosResponse<null>, ApiCommunityDraftArticle['put']['body']>(
+    `/api/studies/${studyId}/community/draft-articles/${articleId}`,
+    {
+      title,
+      content,
+    },
+  );
 
   return checkType(response.data, isNull);
 };

@@ -11,7 +11,7 @@ import {
   isString,
 } from '@utils';
 
-import { type ApiCommunityDraftArticle } from '@api/community/draft-article';
+import { type ApiCommunityDraftArticle, ApiCommunityDraftArticleToArticle } from '@api/community/draft-article';
 
 type CommunityDraftArticleKeys = keyof ApiCommunityDraftArticle['get']['responseData'];
 
@@ -39,5 +39,15 @@ export const checkDraftArticleId = (data: unknown): ApiCommunityDraftArticle['po
 
   return {
     draftArticleId: checkType(data.draftArticleId, isNumber),
+  };
+};
+
+export const checkArticleId = (data: unknown): ApiCommunityDraftArticleToArticle['post']['responseData'] => {
+  if (!isObject(data)) throw new AxiosError(`ArticleId does not have correct type: object`);
+
+  if (!hasOwnProperty(data, 'articleId')) throw new AxiosError('ArticleId does not have some properties');
+
+  return {
+    articleId: checkType(data.articleId, isNumber),
   };
 };

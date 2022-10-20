@@ -48,7 +48,7 @@ const Edit: React.FC = () => {
       {
         onSuccess: () => {
           alert('글을 수정했습니다 :D');
-          navigate(`../../${PATH.COMMUNITY}`);
+          navigate(`../../${PATH.COMMUNITY}`, { replace: true });
         },
         onError: () => {
           alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');

@@ -42,7 +42,7 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     if (isOwner) return;
 
     alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`);
+    navigate(`../${PATH.NOTICE}`, { replace: true });
   }, [studyId, navigate, isFetching, isOwner]);
 
   const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
@@ -61,7 +61,7 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
       {
         onSuccess: () => {
           alert('글을 수정했습니다 :D');
-          navigate(`../${PATH.NOTICE}`);
+          navigate(`../${PATH.NOTICE}`, { replace: true });
         },
         onError: () => {
           alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');

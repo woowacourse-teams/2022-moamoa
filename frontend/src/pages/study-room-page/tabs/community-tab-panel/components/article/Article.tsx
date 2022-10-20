@@ -35,7 +35,7 @@ const Article: React.FC = () => {
       {
         onSuccess: () => {
           alert('성공적으로 삭제했습니다');
-          navigate(`../../${PATH.COMMUNITY}`);
+          navigate(`../../${PATH.COMMUNITY}`, { replace: true });
         },
         onError: () => {
           alert('알 수 없는 에러가 발생했습니다');

@@ -40,7 +40,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
     if (isOwner) return;
 
     alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`);
+    navigate(`../${PATH.NOTICE}`, { replace: true });
   }, [isFetching, isOwner]);
 
   const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
@@ -58,7 +58,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
       {
         onSuccess: () => {
           alert('글을 작성했습니다. :D');
-          navigate(`../${PATH.NOTICE}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          navigate(`../${PATH.NOTICE}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
         },
         onError: () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
