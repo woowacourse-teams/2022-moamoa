@@ -61,13 +61,13 @@ type StyledCardHeadingProps = Required<Pick<CardHeadingProps, 'maxLine'>>;
 
 type StyledCardContentProps = Required<Pick<CardContentProps, 'maxLine' | 'align'>>;
 
-export const CardSelf = styled.div<StyledCardProps>`
+const CardSelf = styled.div<StyledCardProps>`
   ${({ theme, backgroundColor, shadow }) => css`
     display: flex;
-    width: 100%;
-    height: fit-content;
     flex-direction: column;
 
+    width: 100%;
+    height: fit-content;
     overflow: hidden;
 
     background-color: ${backgroundColor};
@@ -76,24 +76,23 @@ export const CardSelf = styled.div<StyledCardProps>`
   `}
 `;
 
-export const CardHeadingSelf = styled.h1<StyledCardHeadingProps>`
+const CardHeadingSelf = styled.div<StyledCardHeadingProps>`
   ${({ theme, maxLine }) => css`
     width: 100%;
+    margin-bottom: 8px;
 
     font-size: ${theme.fontSize.lg};
     font-weight: ${theme.fontWeight.bold};
-    line-height: ${theme.fontSize.lg};
 
     ${nLineEllipsis(maxLine)};
   `}
 `;
 
-export const CardContentSelf = styled.div<StyledCardContentProps>`
+const CardContentSelf = styled.div<StyledCardContentProps>`
   ${({ theme, maxLine, align }) => css`
     width: 100%;
 
     font-size: ${theme.fontSize.sm};
-    line-height: ${theme.fontSize.sm};
     text-align: ${align};
 
     ${nLineEllipsis(maxLine)};

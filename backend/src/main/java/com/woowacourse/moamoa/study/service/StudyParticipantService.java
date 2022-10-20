@@ -1,6 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
 import com.woowacourse.moamoa.study.domain.Participant;
@@ -21,22 +22,28 @@ public class StudyParticipantService {
     private final StudyRepository studyRepository;
     private final DateTimeSystem dateTimeSystem;
 
-    public synchronized void participateStudy(final Long memberId, final Long studyId) {
+    public void participateStudy(final Long memberId, final Long studyId) {
         memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId)
+        final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         study.participate(memberId);
     }
 
     public void leaveStudy(final Long memberId, final Long studyId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-        final Study study = studyRepository.findById(studyId)
+        final Study study = studyRepository.findByIdUpdateFor(studyId)
                 .orElseThrow(StudyNotFoundException::new);
 
         final LocalDate now = dateTimeSystem.now().toLocalDate();
         study.leave(new Participant(memberId), now);
+    }
+
+    public void kickOutMember(final Long ownerId, final Long studyId, final Long participantId) {
+        final Study study = studyRepository.findById(studyId)
+                .orElseThrow(StudyNotFoundException::new);
+
+        final LocalDate now = dateTimeSystem.now().toLocalDate();
+        study.kickOut(ownerId, new Participant(participantId), now);
     }
 }

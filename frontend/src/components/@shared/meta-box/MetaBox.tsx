@@ -15,6 +15,11 @@ const MetaBoxContent = ({ children }: { children: ReactNode }) => {
   return <MetaBoxContentSelf>{children}</MetaBoxContentSelf>;
 };
 
+export default Object.assign(MetaBox, {
+  Title: MetaBoxTitle,
+  Content: MetaBoxContent,
+});
+
 const MetaBoxSelf = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.white};
@@ -38,8 +43,3 @@ const MetaBoxTitleSelf = styled.h2`
 const MetaBoxContentSelf = styled.div`
   padding: 8px 12px;
 `;
-
-export default Object.assign(MetaBox, {
-  Title: MetaBoxTitle,
-  Content: MetaBoxContent,
-});

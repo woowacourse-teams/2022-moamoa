@@ -1,19 +1,16 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useState } from 'react';
 
 import { css } from '@emotion/react';
 
-import { PATH } from '@constants';
-
 import type { StudyId } from '@custom-types';
 
-import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community';
+import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community/articles';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
+import Pagination from '@shared/pagination/Pagination';
 
 import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
-import Pagination from '@community-tab/components/pagination/Pagination';
 
 export type ArticleListProps = {
   studyId: StudyId;
@@ -33,7 +30,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
           <>
             <Self articles={data.articles} />
             <Pagination
-              count={data.lastPage - 1}
+              count={data.lastPage}
               defaultPage={data.currentPage}
               onNumberButtonClick={num => {
                 setPage(num);
@@ -46,11 +43,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
   );
 };
 
-const Loading = () => <div>Loading...</div>;
-
-const Error = () => <div>에러가 발생했습니다</div>;
-
-const NoArticle = () => <div>게시글이 없습니다</div>;
+export default ArticleList;
 
 type SelfProps = {
   articles: ApiCommunityArticles['get']['responseData']['articles'];
@@ -62,14 +55,21 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     `}
   >
     {articles.map(article => (
-      <li key={article.id}>
-        <Link to={PATH.COMMUNITY_ARTICLE(article.id)}>
-          <ArticleListItem title={article.title} author={article.author} createdDate={article.createdDate} />
-        </Link>
+      <Fragment key={article.id}>
+        <ArticleListItem
+          id={article.id}
+          title={article.title}
+          author={article.author}
+          createdDate={article.createdDate}
+        />
         <Divider />
-      </li>
+      </Fragment>
     ))}
   </ul>
 );
 
-export default ArticleList;
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>에러가 발생했습니다</div>;
+
+const NoArticle = () => <div>게시글이 없습니다</div>;

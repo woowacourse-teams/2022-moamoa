@@ -93,7 +93,7 @@ const GenerationSelect: React.FC<GenerationSelectProps> = ({ generations, origin
   return (
     <Flex columnGap="8px" alignItems="center">
       <Label htmlFor={GENERATION}>기수 :</Label>
-      <Flex.Item flexGrow={1}>
+      <Flex.Item>
         <Select id={GENERATION} defaultValue={originalGeneration?.id} fluid {...register(GENERATION)}>
           <option>선택 안함</option>
           {generations.map(({ id, name }) => (

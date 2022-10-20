@@ -20,7 +20,7 @@ export const noticeHandlers = [
     const { articles } = noticeArticlesJSON;
     const totalCount = articles.length;
 
-    const currentPage = page;
+    const currentPage = pageNum;
     const lastPage = Math.floor((totalCount - 1) / sizeNum);
 
     return res(

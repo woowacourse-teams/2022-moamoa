@@ -4,12 +4,13 @@ spring:
       mode: always
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
+
   datasource:
     driver-class-name: org.h2.Driver
     username: sa
@@ -17,3 +18,11 @@ spring:
     url: jdbc:h2:mem:~/moamoa;MODE=MYSQL
   profiles:
     include: security
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

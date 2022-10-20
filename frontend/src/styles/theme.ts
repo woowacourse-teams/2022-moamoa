@@ -64,11 +64,19 @@ export const theme = {
   },
 };
 
-export const applyHoverTransitionStyle = () => css`
+export const applyHoverTranslateTransitionStyle = () => css`
   transition: transform 0.2s ease;
 
-  :hover {
-    opacity: 0.9;
+  &:hover {
     transform: translate3d(0, -5px, 0);
+  }
+`;
+
+export const applyHoverBgTransitionStyle = (theme: Theme) => css`
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:active {
+    background-color: ${theme.colors.white};
   }
 `;

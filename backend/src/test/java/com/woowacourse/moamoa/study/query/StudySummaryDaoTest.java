@@ -4,7 +4,10 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.AttachedTag;
@@ -28,11 +31,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class StudySummaryDaoTest {
 
     @Autowired
@@ -54,10 +60,10 @@ class StudySummaryDaoTest {
 
     @BeforeEach
     void initDataBase() {
-        jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        greenlawn = memberRepository.save(new Member(2L, "greenlawn", "https://image", "github.com"));
-        dwoo = memberRepository.save(new Member(3L, "dwoo", "https://image", "github.com"));
-        verus = memberRepository.save(new Member(4L, "verus", "https://image", "github.com"));
+        jjanggu = memberRepository.save(MemberFixtures.짱구());
+        greenlawn = memberRepository.save(MemberFixtures.그린론());
+        dwoo = memberRepository.save(MemberFixtures.디우());
+        verus = memberRepository.save(MemberFixtures.베루스());
 
         studyRepository.save(
                 new Study(

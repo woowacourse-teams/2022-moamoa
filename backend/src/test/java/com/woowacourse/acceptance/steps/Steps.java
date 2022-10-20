@@ -8,8 +8,12 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.acceptance.SlackAlarmMockServer;
+import com.woowacourse.acceptance.document.Document;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -18,22 +22,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-public abstract class Steps {
+public abstract class Steps<S extends Steps<S, D>, D extends Document> {
 
     protected final static Map<Long, String> tokenCache = new HashMap<>();
 
     public static String clientId;
     public static MockRestServiceServer mockServer;
+    public static SlackAlarmMockServer slackAlarmMockServer;
     public static String clientSecret;
     public static ObjectMapper objectMapper;
 
+    protected RequestSpecification spec;
+
+    protected Steps() {
+        spec = RestAssured.given();
+    }
+
+    @SuppressWarnings("unchecked")
+    public S API_문서화를_하고(D document) {
+        spec = document.spec();
+        return (S) this;
+    }
+
     protected static void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
+            mockServer.reset();
             mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
                     "token_type", "bearer",
                     "scope", ""));
             mockingGithubServerForGetProfile("access-token", HttpStatus.OK, response);
         } catch (Exception e) {
+            e.printStackTrace();
             Assertions.fail(e.getMessage());
         }
     }

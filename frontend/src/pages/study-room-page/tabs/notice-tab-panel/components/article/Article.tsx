@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
+import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice/article';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -29,6 +29,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
   const { isFetching, isSuccess, isError, data } = useGetNoticeArticle({ studyId, articleId });
   const { userInfo } = useUserInfo();
 
+  // TODO: 왜 mutateAsync지??
   const { mutateAsync } = useDeleteNoticeArticle();
   const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
       {
         onSuccess: () => {
           alert('성공적으로 삭제했습니다');
-          navigate(`../${PATH.NOTICE}`);
+          navigate(`../${PATH.NOTICE}`, { replace: true });
         },
         onError: () => {
           alert('알 수 없는 에러가 발생했습니다');
@@ -122,9 +123,9 @@ const ListPageLink: React.FC = () => (
 
 const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
   const style = css`
-    padding-bottom: 20px;
-    height: 400px;
+    min-height: 400px;
     overflow: auto;
+    padding-bottom: 20px;
   `;
   return (
     <div css={style}>

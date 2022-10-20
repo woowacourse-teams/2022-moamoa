@@ -51,7 +51,7 @@ const applyCheckedStyle = (theme: Theme) => css`
   }
 `;
 
-export const Self = styled.button<StyledToggleButtonProps>`
+const Self = styled.button<StyledToggleButtonProps>`
   ${({ theme, checked, fluid, variant }) => css`
     display: flex;
     justify-content: center;

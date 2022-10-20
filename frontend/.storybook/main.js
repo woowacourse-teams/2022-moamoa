@@ -13,7 +13,7 @@ module.exports = {
       ...config.resolve.alias,
       '@root': resolve(__dirname, '../'),
       '@src': resolve(__dirname, '../src/'),
-      '@shared': resolve(__dirname, '../src/components/shared'),
+      '@shared': resolve(__dirname, '../src/components/@shared'),
       '@components': resolve(__dirname, '../src/components'),
       '@styles': resolve(__dirname, '../src/styles'),
       '@types': resolve(__dirname, '../src/types'),
@@ -30,6 +30,7 @@ module.exports = {
       '@create-study-page': resolve(__dirname, '../src/pages/study-page/create-study-page'),
       '@edit-study-page': resolve(__dirname, '../src/pages/study-page/edit-study-page'),
       '@my-study-page': resolve(__dirname, '../src/pages/my-study-page'),
+      '@draft-page': resolve(__dirname, '../src/pages/draft-page'),
       '@study-room-page': resolve(__dirname, '../src/pages/study-room-page'),
       '@notice-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/notice-tab-panel'),
       '@community-tab': resolve(__dirname, '../src/pages/study-room-page/tabs/community-tab-panel'),
@@ -45,12 +46,11 @@ module.exports = {
     config.module.rules = [
       ...config.module.rules,
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
         loader: 'esbuild-loader',
         options: {
           loader: 'tsx',
-          target: 'es2022',
+          target: 'esnext',
         },
       },
       {
@@ -61,7 +61,7 @@ module.exports = {
 
     config.optimization.minimizer = [
       new ESBuildMinifyPlugin({
-        target: 'es2020',
+        target: 'esnext',
       }),
     ];
 

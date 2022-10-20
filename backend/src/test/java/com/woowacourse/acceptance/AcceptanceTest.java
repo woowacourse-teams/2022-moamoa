@@ -14,6 +14,7 @@ import com.woowacourse.acceptance.steps.Steps;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
+
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -37,7 +38,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(
         webEnvironment = WebEnvironment.RANDOM_PORT,
-        classes = {MoamoaApplication.class}
+        classes = {MoamoaApplication.class, SlackAlarmMockServer.class, TestConfig.class}
 )
 public class AcceptanceTest {
 
@@ -58,6 +59,9 @@ public class AcceptanceTest {
     private RestTemplate restTemplate;
 
     @Autowired
+    public SlackAlarmMockServer slackAlarmMockServer;
+
+    @Autowired
     protected ObjectMapper objectMapper;
 
     @Value("${oauth2.github.client-id}")
@@ -66,10 +70,12 @@ public class AcceptanceTest {
     @Value("${oauth2.github.client-secret}")
     private String clientSecret;
 
+    @Autowired
     protected MockRestServiceServer mockServer;
 
     @BeforeEach
-    protected void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
+    protected void setRestDocumentation(RestDocumentationContextProvider restDocumentation
+    ) {
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation)
                         .operationPreprocessors()
@@ -85,8 +91,8 @@ public class AcceptanceTest {
 
     @BeforeEach
     void mockingGithubServer() {
-        mockServer = MockRestServiceServer.createServer(restTemplate);
         Steps.mockServer = mockServer;
+        Steps.slackAlarmMockServer = slackAlarmMockServer;
         Steps.clientId = clientId;
         Steps.clientSecret = clientSecret;
         Steps.objectMapper = objectMapper;
@@ -103,9 +109,9 @@ public class AcceptanceTest {
         jdbcTemplate.update("TRUNCATE TABLE study");
         jdbcTemplate.update("TRUNCATE TABLE link");
         jdbcTemplate.update("TRUNCATE TABLE article");
+        jdbcTemplate.update("TRUNCATE TABLE comment");
+        jdbcTemplate.update("TRUNCATE TABLE temp_article");
         jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
-        jdbcTemplate.update("ALTER TABLE member AUTO_INCREMENT = 1");
-        jdbcTemplate.update("ALTER TABLE study AUTO_INCREMENT = 1");
     }
 
     protected void mockingGithubServerForGetAccessToken(final String authorizationCode,

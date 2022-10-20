@@ -113,7 +113,7 @@ export type MyStudy = Pick<StudyDetail, 'id' | 'title' | 'startDate' | 'endDate'
 export type UserRole = typeof USER_ROLE[keyof typeof USER_ROLE];
 
 export type Link = {
-  id: number;
+  id: LinkId;
   author: Member;
   linkUrl: string;
   description: string;
@@ -122,7 +122,7 @@ export type Link = {
 };
 
 export type CommunityArticle = {
-  id: number;
+  id: ArticleId;
   author: Member;
   title: string;
   content: string;
@@ -133,7 +133,7 @@ export type CommunityArticle = {
 export type CommunityArticleMode = 'publish' | 'edit';
 
 export type NoticeArticle = {
-  id: number;
+  id: ArticleId;
   author: Member;
   title: string;
   content: string;
@@ -143,23 +143,10 @@ export type NoticeArticle = {
 
 export type NoticeArticleMode = 'publish' | 'edit';
 
-// api
-export type GetMethod<Params, ResponseData> = {
-  variables: Params;
-  responseData: ResponseData;
-};
-
-export type PostMethod<Params, Body, ResponseData> = {
-  variables: Params & Body;
-  responseData: ResponseData;
-};
-
-export type PutMethod<Params, Body> = {
-  variables: Params & Body;
-  responseData: null;
-};
-
-export type DeleteMethod<Params> = {
-  variables: Params;
-  responseData: null;
+export type DraftArtcle = {
+  id: ArticleId;
+  title: string;
+  content: string;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
 };

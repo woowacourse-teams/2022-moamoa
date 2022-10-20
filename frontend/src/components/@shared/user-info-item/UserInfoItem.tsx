@@ -26,7 +26,7 @@ const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }
     <ItemSelf>
       <Flex columnGap="8px">
         <Avatar src={src} name={name} size={size} />
-        <Flex.Item flexGrow={1}>
+        <Flex.Item>
           <Flex flexDirection="column" columnGap="2px">
             {children}
           </Flex>
@@ -44,8 +44,9 @@ const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) =
   return <ItemContentSelf>{children}</ItemContentSelf>;
 };
 
-export const ItemSelf = styled.div`
+const ItemSelf = styled.div`
   ${({ theme }) => css`
+    width: fit-content;
     padding: 8px;
 
     background: transparent;
@@ -53,7 +54,7 @@ export const ItemSelf = styled.div`
   `}
 `;
 
-export const ItemHeadingSelf = styled.p`
+const ItemHeadingSelf = styled.p`
   ${({ theme }) => css`
     font-weight: ${theme.fontWeight.bold};
   `}
@@ -61,13 +62,13 @@ export const ItemHeadingSelf = styled.p`
   ${nLineEllipsis(1)};
 `;
 
-export const ItemContentSelf = styled.p`
+const ItemContentSelf = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.secondary.dark};
     font-size: ${theme.fontSize.sm};
   `}
 
-  ${nLineEllipsis(2)};
+  ${nLineEllipsis(1)};
 `;
 
 export default Object.assign(UserInfoItem, {

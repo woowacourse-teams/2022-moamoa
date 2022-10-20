@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTranslateTransitionStyle } from '@styles/theme';
 
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
@@ -34,7 +34,7 @@ const Self = styled.div`
   max-height: 150px;
   padding: 8px;
 
-  ${applyHoverTransitionStyle()}
+  ${applyHoverTranslateTransitionStyle()}
 `;
 
 export const Review = styled.p`

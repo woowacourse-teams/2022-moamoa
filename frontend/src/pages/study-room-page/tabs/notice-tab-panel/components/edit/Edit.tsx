@@ -5,7 +5,7 @@ import { PATH } from '@constants';
 
 import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 
-import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
+import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice/article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -16,15 +16,18 @@ import Divider from '@shared/divider/Divider';
 import Form from '@shared/form/Form';
 import PageTitle from '@shared/page-title/PageTitle';
 
-import EditContent from '@notice-tab/components/edit-content/EditContent';
-import EditTitle from '@notice-tab/components/edit-title/EditTitle';
+import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
+import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
 export type EditProps = {
   studyId: StudyId;
   articleId: ArticleId;
 };
 
-type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
+type HandleEditFormSubmit = (
+  _: React.FormEvent<HTMLFormElement>,
+  submitResult: UseFormSubmitResult,
+) => Promise<null | undefined>;
 
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const formMethods = useForm();
@@ -51,19 +54,17 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
 
     const { title, content } = values;
 
-    const numStudyId = Number(studyId);
-    const numArticleId = Number(articleId);
-    mutateAsync(
+    return mutateAsync(
       {
-        studyId: numStudyId,
-        articleId: numArticleId,
+        studyId,
+        articleId,
         title,
         content,
       },
       {
         onSuccess: () => {
           alert('글을 수정했습니다 :D');
-          navigate(`../${PATH.NOTICE}`);
+          navigate(`../${PATH.NOTICE}`, { replace: true });
         },
         onError: () => {
           alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');
@@ -85,6 +86,8 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   );
 };
 
+export default Edit;
+
 type EditFormProps = {
   article: NoticeArticle;
   formMethods: UseFormReturn;
@@ -92,8 +95,8 @@ type EditFormProps = {
 };
 const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
   <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-    <EditTitle title={article.title} />
-    <EditContent content={article.content} />
+    <ArticleTitleInput originalTitle={article.title} />
+    <ArticleContentInput originalContent={article.content} />
     <Divider space="16px" />
     <ButtonGroup justifyContent="space-between">
       <ListPageLink />
@@ -119,5 +122,3 @@ const EditButton: React.FC = () => (
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>Error...</div>;
-
-export default Edit;

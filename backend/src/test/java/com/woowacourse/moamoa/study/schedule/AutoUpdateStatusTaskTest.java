@@ -6,8 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
+import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
@@ -26,11 +29,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.config.TriggerTask;
 import org.springframework.scheduling.support.SimpleTriggerContext;
+import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
+@Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class AutoUpdateStatusTaskTest {
 
     private long javaStudyId;
@@ -58,8 +64,8 @@ class AutoUpdateStatusTaskTest {
         dateTimeSystem = mock(DateTimeSystem.class);
         given(dateTimeSystem.now()).willReturn(now.minusDays(5));
 
-        final Member jjanggu = memberRepository.save(new Member(1L, "jjanggu", "https://image", "github.com"));
-        final Member dwoo = memberRepository.save(new Member(2L, "dwoo", "https://image", "github.com"));
+        final Member jjanggu = memberRepository.save(MemberFixtures.짱구());
+        final Member dwoo = memberRepository.save(MemberFixtures.디우());
 
         StudyService studyService = new StudyService(studyRepository, memberRepository, dateTimeSystem);
 

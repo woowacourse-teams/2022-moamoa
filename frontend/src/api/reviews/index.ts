@@ -41,8 +41,8 @@ const defaultParam: PageParam = {
   page: PAGE,
 };
 
-export const getStudyReviews = async ({ size, studyId }: ApiStudyReviews['get']['variables']) => {
-  // size와 page가 없는 경우에는 전체를 불러온다
+// size와 page가 없는 경우에는 전체를 불러온다
+export const getStudyReviews = async ({ studyId, size }: ApiStudyReviews['get']['variables']) => {
   const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
   const response = await axiosInstance.get<ApiStudyReviews['get']['responseData']>(url);
   return checkStudyReviews(response.data);

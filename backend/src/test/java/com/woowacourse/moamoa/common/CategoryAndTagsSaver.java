@@ -17,6 +17,11 @@ public class CategoryAndTagsSaver implements ApplicationRunner {
 
     @Override
     public void run(final ApplicationArguments args) {
+        jdbcTemplate.update("SET REFERENTIAL_INTEGRITY FALSE");
+        jdbcTemplate.update("TRUNCATE TABLE category");
+        jdbcTemplate.update("TRUNCATE TABLE tag");
+        jdbcTemplate.update("SET REFERENTIAL_INTEGRITY TRUE");
+
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (1, 'generation')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (2, 'area')");
         jdbcTemplate.update("INSERT INTO category(id, name) VALUES (3, 'subject')");
