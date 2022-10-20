@@ -152,7 +152,7 @@ const Publish: React.FC = () => {
             navigate(`../../${PATH.COMMUNITY}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
           },
           onError: () => {
-            alert('글을 등록하지 못했습니다. 다시 시도해주세요. :(');
+            alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
           },
         },
       );

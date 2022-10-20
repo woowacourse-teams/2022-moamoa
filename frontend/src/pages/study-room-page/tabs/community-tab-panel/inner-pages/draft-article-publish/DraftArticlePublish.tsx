@@ -1,6 +1,7 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { CONTENT, DRAFT_SAVE_TIME, PATH, TITLE } from '@constants';
 
 import { DraftArtcle } from '@custom-types';
 
@@ -8,6 +9,7 @@ import {
   ApiCommunityDraftArticleToArticle,
   useGetCommunityDraftArticle,
   usePostDraftArticleToArticle,
+  usePutCommunityDraftArticle,
 } from '@api/community/draft-article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
@@ -21,6 +23,8 @@ import PageTitle from '@shared/page-title/PageTitle';
 
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
+
+import DraftSaveButton from '@community-tab/components/draft-save-button/DraftSaveButton';
 
 type HandleDraftArticlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
@@ -36,13 +40,77 @@ const DraftArticlePublish: React.FC = () => {
 
   const { isFetching, isError, isSuccess, isOwnerOrMember } = useUserRole({ studyId });
   const draftArticleResponseData = useGetCommunityDraftArticle({ studyId, articleId });
+
+  const draftTimeIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const putDraftArticle = usePutCommunityDraftArticle();
   const { mutateAsync } = usePostDraftArticleToArticle();
 
-  const handleSubmit: HandleDraftArticlePublishFormSubmit = async (_, submitResult) => {
-    const { values } = submitResult;
-    if (!values) return;
+  const changeSaveState = () => {
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+    }, 1800);
+  };
 
+  const getElementValues = () => {
+    const [titleElement, contentElement] = [formMethods.getField(TITLE), formMethods.getField(CONTENT)];
+    if (!titleElement || !contentElement) return { title: '', content: '' };
+    const [title, content] = [titleElement.fieldElement.value, contentElement.fieldElement.value];
+    return { title, content };
+  };
+
+  useEffect(() => {
+    draftTimeIntervalIdRef.current = setInterval(() => {
+      const { title, content } = getElementValues();
+      if (!title || !content) return;
+
+      changeSaveState();
+
+      putDraftArticle.mutate(
+        { studyId, articleId, title, content },
+        {
+          onError: () => {
+            console.error('오류');
+          },
+        },
+      );
+    }, DRAFT_SAVE_TIME.FIVE_MINUTES);
+
+    return () => {
+      draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
+    };
+  }, []);
+
+  const handleDraftSaveButtonClick = () => {
+    if (isSaving) return;
+
+    const { title, content } = getElementValues();
+    if (!title || !content) {
+      alert('게시글 제목과 내용이 있어야 임시저장이 가능합니다.');
+      return;
+    }
+
+    changeSaveState();
+
+    putDraftArticle.mutate(
+      { studyId, articleId, title, content },
+      {
+        onError: () => {
+          // TODO: 메세지 알려주기
+          console.error('오류');
+        },
+      },
+    );
+  };
+
+  const handleSubmit: HandleDraftArticlePublishFormSubmit = async (_, { values }) => {
+    if (!values) return;
     const { title, content } = values;
+    if (!title || !content) return;
+
     return mutateAsync(
       {
         studyId,
@@ -55,6 +123,7 @@ const DraftArticlePublish: React.FC = () => {
           alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
         },
         onSuccess: () => {
+          draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
           alert('글을 작성했습니다. :D');
           navigate(`../../${PATH.COMMUNITY}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
         },
@@ -65,6 +134,10 @@ const DraftArticlePublish: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>게시글 작성</PageTitle>
+      <DraftSaveButton isSaving={isSaving} onClick={handleDraftSaveButtonClick}>
+        임시 저장
+      </DraftSaveButton>
+      <Divider space="16px" />
       {(() => {
         if (isFetching || draftArticleResponseData.isFetching) return <Loading />;
         if (isError || draftArticleResponseData.isError) return <Error />;
