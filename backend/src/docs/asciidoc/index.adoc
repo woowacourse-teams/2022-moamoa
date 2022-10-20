@@ -62,10 +62,10 @@ operation::studies/kick-out[snippets='http-request,request-headers,http-response
 operation::article/create[snippets='http-request,request-headers,request-fields,http-response']
 
 === 커뮤니티 단건 조회
-operation::article/get[snippets='http-request,request-headers,http-response,response-fields']
+operation::article/get[snippets='http-request,http-response,response-fields']
 
 === 커뮤니티 전체 조회
-operation::article/list[snippets='http-request,request-headers,http-response,response-fields']
+operation::article/list[snippets='http-request,http-response,response-fields']
 
 === 커뮤니티 수정
 operation::article/update[snippets='http-request,request-headers,http-response']
@@ -79,10 +79,10 @@ operation::article/delete[snippets='http-request,request-headers,http-response']
 operation::write/notice[snippets='http-request,request-headers,request-fields,http-response']
 
 === 공지 단건 조회
-operation::get/notice[snippets='http-request,request-headers,http-response,response-fields']
+operation::get/notice[snippets='http-request,http-response,response-fields']
 
 === 공지 전체 조회
-operation::get/notices[snippets='http-request,request-headers,http-response,response-fields']
+operation::get/notices[snippets='http-request,http-response,response-fields']
 
 === 공지 수정
 operation::update/notice[snippets='http-request,request-headers,http-response']
@@ -118,7 +118,7 @@ operation::temp-article/publish[snippets='curl-request,http-request,http-respons
 operation::reference-room/create[snippets='http-request,request-headers,request-fields,http-response']
 
 === 링크 공유글 전체 조회
-operation::reference-room/list[snippets='http-request,request-headers,http-response,response-fields']
+operation::reference-room/list[snippets='http-request,http-response,response-fields']
 
 === 링크 공유글 수정
 operation::reference-room/update[snippets='http-request,request-headers,http-response']
@@ -157,13 +157,13 @@ operation::reviews/delete[snippets='http-request,http-response']
 == 게시글 댓글
 
 === 댓글 작성
-operation::comments/create[snippets='http-request,http-response']
+operation::comments/community/create[snippets='http-request,http-response']
 
 === 댓글 전체 조회
-operation::comments/list[snippets='http-request,http-response']
+operation::comments/community/list[snippets='http-request,http-response']
 
 === 댓글 수정
-operation::comments/update[snippets='http-request,http-response']
+operation::comments/community/update[snippets='http-request,http-response']
 
 === 댓글 삭제
-operation::comments/delete[snippets='http-request,http-response']
+operation::comments/community/delete[snippets='http-request,http-response']

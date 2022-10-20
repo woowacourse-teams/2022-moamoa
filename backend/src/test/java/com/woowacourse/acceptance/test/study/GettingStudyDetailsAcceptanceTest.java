@@ -34,12 +34,9 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -56,11 +53,6 @@ class GettingStudyDetailsAcceptanceTest extends AcceptanceTest {
         그린론이().로그인한다();
         짱구가().로그인한다();
         베루스가().로그인한다();
-
-        final SlackMessageRequest slackMessageRequest = new SlackMessageRequest("dwoo",
-                List.of(Attachment.builder().title("📚 스터디에 새로운 크루가 참여했습니다.")
-                        .text("<https://moamoa.space/my/study/|모아모아 바로가기>")
-                        .color("#36288f").build()));
 
         짱구가().로그인하고().스터디에(리액트_스터디).참여에_성공한다();
         그린론이().로그인하고().스터디에(리액트_스터디).참여에_성공한다();

@@ -18,6 +18,14 @@ public class ReviewDocument extends Document {
         return new ReviewDocument(documentSpec);
     }
 
+    public static ReviewDocument 리뷰_전체_조회_문서(RequestSpecification spec) {
+        final RequestSpecification documentSpec = RestAssured.given(spec).filter(
+                document("reviews/list")
+        );
+
+        return new ReviewDocument(documentSpec);
+    }
+
     public static ReviewDocument 리뷰_목록_조회_문서(RequestSpecification spec) {
         final RequestSpecification documentSpec = RestAssured.given(spec).filter(
                 document("reviews/list-certain-number")
