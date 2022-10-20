@@ -4,6 +4,7 @@ import { useDeleteCommunityDraftArticle } from '@api/community/draft-article';
 import { type ApiCommunityDraftArticles, useGetInfiniteCommunityDraftArticles } from '@api/community/draft-articles';
 
 import Divider from '@shared/divider/Divider';
+import InfiniteScroll from '@shared/infinite-scroll/InfiniteScroll';
 import PageTitle from '@shared/page-title/PageTitle';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 import SectionTitle from '@shared/section-title/SectionTitle';
@@ -43,12 +44,9 @@ const DraftPage: React.FC = () => {
         if (isError) return <ErrorMessage />;
         if (!articles || (articles && articles.length === 0)) return <NoResult />;
         return (
-          <DraftList
-            articles={articles}
-            isContentLoading={isFetching}
-            onContentLoad={fetchNextPage}
-            onDeleteDraftItemClick={handleDeleteDraftItemClick}
-          />
+          <InfiniteScroll isContentLoading={isFetching} onContentLoad={fetchNextPage}>
+            <DraftList articles={articles} onDeleteDraftItemClick={handleDeleteDraftItemClick} />
+          </InfiniteScroll>
         );
       })()}
     </PageWrapper>
