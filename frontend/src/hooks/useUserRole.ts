@@ -18,6 +18,7 @@ export const useUserRole = ({ studyId }: { studyId: StudyId }) => {
   const {
     data,
     refetch: fetchUserRole,
+    isFetching,
     isError,
     isSuccess,
   } = useGetUserRole({
@@ -35,6 +36,8 @@ export const useUserRole = ({ studyId }: { studyId: StudyId }) => {
   return {
     fetchUserRole,
     userRole,
+    isFetching,
+    isError,
     isOwner: userRole === USER_ROLE.OWNER,
     isMember: userRole === USER_ROLE.MEMBER,
     isNonMember: userRole === USER_ROLE.NON_MEMBER,

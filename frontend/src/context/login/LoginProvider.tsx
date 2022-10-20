@@ -1,11 +1,11 @@
-import { ReactNode, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 import { noop } from '@utils';
 
 import AccessTokenController from '@auth/accessTokenController';
 
 type LoginProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 type ContextType = {

@@ -1,5 +1,10 @@
 package com.woowacourse.acceptance.test.studyroom;
 
+import static com.woowacourse.acceptance.document.NoticeArticleDocument.공지사항_목록_조회_문서;
+import static com.woowacourse.acceptance.document.NoticeArticleDocument.공지사항_삭제_문서;
+import static com.woowacourse.acceptance.document.NoticeArticleDocument.공지사항_생성_문서;
+import static com.woowacourse.acceptance.document.NoticeArticleDocument.공지사항_수정_문서;
+import static com.woowacourse.acceptance.document.NoticeArticleDocument.공지사항_조회_문서;
 import static com.woowacourse.acceptance.steps.LoginSteps.그린론이;
 import static com.woowacourse.acceptance.steps.LoginSteps.베루스가;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,72 +44,18 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
     void writeNotice() throws Exception {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        String 토큰 = 그린론이().로그인한다();
-        ArticleRequest request = new ArticleRequest("공지사항 제목", "공지사항 내용");
 
         // act
-        final String location = RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(objectMapper.writeValueAsString(request))
-                .pathParam("study-id", 스터디_ID)
-                .when().log().all()
-                .filter(document("write/notice",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 식별 ID")
-                        ),
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용")
-                        ),
-                        responseHeaders(
-                                headerWithName(HttpHeaders.LOCATION).description("생성된 공지사항 url"),
-                                headerWithName("Access-Control-Allow-Headers").description("접근 가능한 헤더")
-                        ))
-                )
-                .post("/api/studies/{study-id}/notice/articles")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .header(HttpHeaders.LOCATION);
+        Long articleId = 그린론이().로그인하고()
+                .스터디에(스터디_ID)
+                .공지사항을().API_문서화를_하고(공지사항_생성_문서(spec))
+                .작성한다("공지사항 제목", "공지사항 내용");
 
         // assert
-        Long articleId = Long.valueOf(location.split("/")[6]);
-
-        final ArticleResponse actualResponse = RestAssured
-                .given(spec).log().all()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("study-id", 스터디_ID)
-                .pathParam("article-id", articleId)
-                .filter(document("get/notice",
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 식별 ID"),
-                                parameterWithName("article-id").description("공지사항 식별 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("공지사항 식별 ID"),
-                                fieldWithPath("author").type(JsonFieldType.OBJECT).description("작성자"),
-                                fieldWithPath("author.id").type(JsonFieldType.NUMBER).description("작성자 github ID"),
-                                fieldWithPath("author.username").type(JsonFieldType.STRING)
-                                        .description("작성자 github 사용자 이름"),
-                                fieldWithPath("author.imageUrl").type(JsonFieldType.STRING)
-                                        .description("작성자 github 이미지 URL"),
-                                fieldWithPath("author.profileUrl").type(JsonFieldType.STRING)
-                                        .description("작성자 github 프로필 URL"),
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
-                                fieldWithPath("createdDate").type(JsonFieldType.STRING).description("공지사항 작성일"),
-                                fieldWithPath("lastModifiedDate").type(JsonFieldType.STRING).description("공지사항 수정일")
-                        )
-                ))
-                .when().log().all()
-                .get("/api/studies/{study-id}/notice/articles/{article-id}")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract().as(ArticleResponse.class);
+        final ArticleResponse actualResponse = 그린론이().로그인하고()
+                .스터디에(스터디_ID)
+                .공지사항을().API_문서화를_하고(공지사항_조회_문서(spec))
+                .조회한다(articleId);
 
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
         final ArticleResponse expectedResponse = ArticleResponse.builder()
@@ -124,37 +75,14 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
     void deleteCommunityArticle() {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        long 공지사항_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("게시글 제목", "게시글 내용");
+        long 공지사항_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("게시글 제목", "게시글 내용");
         String 토큰 = 그린론이().로그인한다();
 
         // act
-        RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
-                .pathParam("study-id", 스터디_ID)
-                .pathParam("article-id", 공지사항_ID)
-                .filter(document("delete/notice",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 식별 번호"),
-                                parameterWithName("article-id").description("게시글 식별 번호")
-                        )
-                ))
-                .when().log().all()
-                .delete("/api/studies/{study-id}/notice/articles/{article-id}")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+        그린론이().로그인하고().스터디에(스터디_ID).공지사항을().API_문서화를_하고(공지사항_삭제_문서(spec)).삭제한다(공지사항_ID);
 
         // assert
-        RestAssured
-                .given(spec).log().all()
-                .pathParam("study-id", 스터디_ID)
-                .pathParam("article-id", 공지사항_ID)
-                .when().log().all()
-                .get("/api/studies/{study-id}/notice/articles/{article-id}")
-                .then().log().all()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+        그린론이().로그인하고().스터디에(스터디_ID).공지사항을().찾을_수_없다(공지사항_ID);
     }
 
     @DisplayName("스터디 공지사항 전체 게시글을 조회한다.")
@@ -162,56 +90,18 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
     void getStudyCommunityArticles() {
         // arrange
         long 자바_스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
-        long 자바_공지글2_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
-        long 자바_공지글3_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
-        long 자바_공지글4_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
+
+        그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을().작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+        long 자바_공지글2_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을().작성한다("자바 게시글 제목2", "자바 게시글 내용2");
+        long 자바_공지글3_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을().작성한다("자바 게시글 제목3", "자바 게시글 내용3");
+        long 자바_공지글4_ID = 그린론이().로그인하고().스터디에(자바_스터디_ID).공지사항을().작성한다("자바 게시글 제목4", "자바 게시글 내용4");
 
         long 리액트_스터디_ID = 베루스가().로그인하고().리액트_스터디를().시작일자는(LocalDate.now()).생성한다();
-        베루스가().로그인하고().스터디에(리액트_스터디_ID).공지사항을_작성한다("리액트 게시글 제목", "리액트 게시글 내용");
-
-        String 토큰 = 그린론이().로그인한다();
+        베루스가().로그인하고().스터디에(리액트_스터디_ID).공지사항을().작성한다("리액트 게시글 제목", "리액트 게시글 내용");
 
         // act
-        final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .pathParam("study-id", 자바_스터디_ID)
-                .queryParam("page", 0)
-                .queryParam("size", 3)
-                .filter(document("get/notices",
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 ID")
-                        ),
-                        requestParameters(
-                                parameterWithName("page").description("페이지"),
-                                parameterWithName("size").description("사이즈")
-                        ),
-                        responseFields(
-                                fieldWithPath("articles").type(JsonFieldType.ARRAY).description("게시물 목록"),
-                                fieldWithPath("articles[].id").type(JsonFieldType.NUMBER).description("게시글 식별 ID"),
-                                fieldWithPath("articles[].author").type(JsonFieldType.OBJECT).description("작성자"),
-                                fieldWithPath("articles[].author.id").type(JsonFieldType.NUMBER)
-                                        .description("작성자 github ID"),
-                                fieldWithPath("articles[].author.username").type(JsonFieldType.STRING)
-                                        .description("작성자 github 사용자 이름"),
-                                fieldWithPath("articles[].author.imageUrl").type(JsonFieldType.STRING)
-                                        .description("작성자 github 이미지 URL"),
-                                fieldWithPath("articles[].author.profileUrl").type(JsonFieldType.STRING)
-                                        .description("작성자 github 프로필 URL"),
-                                fieldWithPath("articles[].title").type(JsonFieldType.STRING).description("게시글 제목"),
-                                fieldWithPath("articles[].createdDate").type(JsonFieldType.STRING)
-                                        .description("게시글 작성일"),
-                                fieldWithPath("articles[].lastModifiedDate").type(JsonFieldType.STRING)
-                                        .description("게시글 수정일"),
-                                fieldWithPath("currentPage").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
-                                fieldWithPath("lastPage").type(JsonFieldType.NUMBER).description("마지막 페이지 번호"),
-                                fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("게시글 전체 갯수")
-                        )
-                ))
-                .when().log().all()
-                .get("/api/studies/{study-id}/notice/articles")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract().as(ArticleSummariesResponse.class);
+        final ArticleSummariesResponse response = 그린론이().로그인하고().스터디에(자바_스터디_ID)
+                .공지사항을().API_문서화를_하고(공지사항_목록_조회_문서(spec)).목록_조회한다(0, 3);
 
         // assert
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
@@ -231,21 +121,14 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
     void getStudyCommunityArticlesByDefaultPageable() {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        long 공지글1_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("자바 게시글 제목1", "자바 게시글 내용1");
-        long 공지글2_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("자바 게시글 제목2", "자바 게시글 내용2");
-        long 공지글3_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("자바 게시글 제목3", "자바 게시글 내용3");
-        long 공지글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("자바 게시글 제목4", "자바 게시글 내용4");
-
-        String 토큰 = 그린론이().로그인한다();
+        long 공지글1_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("자바 게시글 제목1", "자바 게시글 내용1");
+        long 공지글2_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("자바 게시글 제목2", "자바 게시글 내용2");
+        long 공지글3_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("자바 게시글 제목3", "자바 게시글 내용3");
+        long 공지글4_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("자바 게시글 제목4", "자바 게시글 내용4");
 
         // act
-        final ArticleSummariesResponse response = RestAssured.given(spec).log().all()
-                .pathParam("study-id", 스터디_ID)
-                .when().log().all()
-                .get("/api/studies/{study-id}/notice/articles")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract().as(ArticleSummariesResponse.class);
+        final ArticleSummariesResponse response = 그린론이().로그인하고().스터디에(스터디_ID)
+                .공지사항을().목록_조회한다();
 
         // assert
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
@@ -261,57 +144,24 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
         assertThat(response).isEqualTo(new ArticleSummariesResponse(articles, 0, 0, 4));
     }
 
-    @DisplayName("커뮤니티 글을 수정한다.")
+    @DisplayName("공지사항을 수정한다.")
     @Test
     void updateArticleToCommunity() throws JsonProcessingException {
         // arrange
         long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(LocalDate.now()).생성한다();
-        long 공지글_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을_작성한다("게시글 제목", "게시글 내용");
-        String 토큰 = 그린론이().로그인한다();
-
-        final ArticleRequest request = new ArticleRequest("게시글 제목 수정", "게시글 내용 수정");
+        long 공지글_ID = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().작성한다("게시글 제목", "게시글 내용");
 
         // act
-        RestAssured.given(spec).log().all()
-                .header(HttpHeaders.AUTHORIZATION, 토큰)
-                .pathParam("study-id", 스터디_ID)
-                .pathParam("article-id", 공지글_ID)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(objectMapper.writeValueAsString(request))
-                .filter(document("update/notice",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
-                        ),
-                        pathParameters(
-                                parameterWithName("study-id").description("스터디 식별 번호"),
-                                parameterWithName("article-id").description("게시글 식별 번호")
-                        ),
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 수정 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용 수정")
-                        )
-                ))
-                .when().log().all()
-                .put("/api/studies/{study-id}/notice/articles/{article-id}")
-                .then().log().all()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+        final ArticleRequest request = new ArticleRequest("게시글 제목 수정", "게시글 내용 수정");
+        그린론이().로그인하고().스터디에(스터디_ID).공지사항을().API_문서화를_하고(공지사항_수정_문서(spec)).수정한다(공지글_ID, request);
 
         // assert
-        final ArticleResponse response = RestAssured
-                .given().log().all()
-                .pathParam("study-id", 스터디_ID)
-                .pathParam("article-id", 공지글_ID)
-                .when().log().all()
-                .get("/api/studies/{study-id}/notice/articles/{article-id}")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .as(ArticleResponse.class);
+        final ArticleResponse response = 그린론이().로그인하고().스터디에(스터디_ID).공지사항을().조회한다(공지글_ID);
 
         final MemberResponse 그린론_정보 = 그린론이().로그인하고().정보를_가져온다();
         final AuthorResponse authorResponse = new AuthorResponse(그린론_정보.getId(), 그린론_정보.getUsername(), 그린론_정보.getImageUrl(), 그린론_정보.getProfileUrl());
 
-        assertThat(response).isEqualTo(new ArticleResponse(스터디_ID, authorResponse, "게시글 제목 수정",
+        assertThat(response).isEqualTo(new ArticleResponse(공지글_ID, authorResponse, "게시글 제목 수정",
                 "게시글 내용 수정", LocalDate.now(), LocalDate.now()));
     }
 }

@@ -3,7 +3,7 @@ package com.woowacourse.acceptance.steps;
 import com.woowacourse.moamoa.study.service.request.StudyRequestBuilder;
 import java.time.LocalDate;
 
-public class SetRequiredDataToCreatingStudySteps extends Steps {
+public class SetRequiredDataToCreatingStudySteps {
 
     private final String token;
     private final StudyRequestBuilder builder;

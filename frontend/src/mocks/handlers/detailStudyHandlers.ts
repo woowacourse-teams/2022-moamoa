@@ -5,7 +5,13 @@ import studiesJSON from '@mocks/studies.json';
 
 import { RECRUITMENT_STATUS } from '@constants';
 
-import type { ApiStudy } from '@api/study';
+import type { StudyDetail } from '@custom-types';
+
+import { type ApiStudy } from '@api/study';
+
+const json: {
+  studies: Array<StudyDetail>;
+} = studiesJSON as { studies: Array<StudyDetail> };
 
 const detailStudyHandlers = [
   rest.get('/api/studies/:studyId', (req, res, ctx) => {
@@ -22,10 +28,8 @@ const detailStudyHandlers = [
   rest.post<ApiStudy['post']['body']>('/api/studies', (req, res, ctx) => {
     const { thumbnail, title, description, excerpt, enrollmentEndDate, endDate, startDate, maxMemberCount } = req.body;
 
-    const { studies } = studiesJSON;
-
     // TODO: json 파일의 타입을 지정할 순 없을까?
-    studiesJSON.studies = [
+    json.studies = [
       {
         id: 1000001,
         thumbnail,
@@ -71,8 +75,8 @@ const detailStudyHandlers = [
           },
         ],
       },
-      ...studies,
-    ];
+      ...json.studies,
+    ] as Array<StudyDetail>;
 
     return res(ctx.status(200));
   }),
@@ -82,12 +86,10 @@ const detailStudyHandlers = [
 
     if (!studyId) return res(ctx.status(400), ctx.json({ message: '스터디 아이디가 없음' }));
 
-    const { studies } = studiesJSON;
-
-    const isExist = studies.some(study => study.id === Number(studyId));
+    const isExist = json.studies.some(study => study.id === Number(studyId));
     if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 스터디 없음' }));
 
-    studiesJSON.studies = studies.map(study => {
+    json.studies = json.studies.map(study => {
       if (study.id === Number(studyId)) {
         return { ...study, ...editedStudy };
       }

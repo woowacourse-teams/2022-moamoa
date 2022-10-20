@@ -46,8 +46,7 @@ public class AuthConfig implements WebMvcConfigurer {
                 .includePathPattern("/api/members/me/**", HttpMethod.GET)
                 .includePathPattern("/api/auth/refresh", HttpMethod.GET)
                 .includePathPattern("/api/my/studies", HttpMethod.GET)
-                .includePathPattern("/api/studies/\\w+/community/articles/**", HttpMethod.GET)
-                .includePathPattern("/api/studies/\\d+/reference-room/links", HttpMethod.GET);
+                .includePathPattern("/api/studies/**/draft-articles/**");
     }
 
     @Bean

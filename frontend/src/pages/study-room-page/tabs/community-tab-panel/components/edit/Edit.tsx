@@ -2,17 +2,17 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { ArticleId, StudyId } from '@custom-types';
+import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
 
 import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community';
 
-import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
 
 import EditContent from '@community-tab/components/edit-content/EditContent';
 import EditTitle from '@community-tab/components/edit-title/EditTitle';
@@ -22,14 +22,19 @@ export type EditProps = {
   articleId: ArticleId;
 };
 
+type HandleEditFormSubmit = (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => Promise<any>;
+
 const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
 
-  const getCommunityArticleQueryResult = useGetCommunityArticle({ studyId, articleId });
+  const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
   const { mutateAsync } = usePutCommunityArticle();
 
-  const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
+  const handleSubmit: HandleEditFormSubmit = async (
+    _: React.FormEvent<HTMLFormElement>,
+    submitResult: UseFormSubmitResult,
+  ) => {
     const { values } = submitResult;
     if (!values) return;
 
@@ -56,42 +61,53 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     );
   };
 
-  const render = () => {
-    if (getCommunityArticleQueryResult.isFetching) {
-      return <div>Loading...</div>;
-    }
-
-    if (getCommunityArticleQueryResult.isError) {
-      return <div>Error...</div>;
-    }
-
-    if (getCommunityArticleQueryResult.isSuccess) {
-      return (
-        <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <EditTitle title={getCommunityArticleQueryResult.data.title} />
-          <EditContent content={getCommunityArticleQueryResult.data.content} />
-          <Divider space="16px" />
-          <ButtonGroup justifyContent="space-between">
-            <Link to={`../${PATH.COMMUNITY}`}>
-              <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
-                돌아가기
-              </BoxButton>
-            </Link>
-            <BoxButton type="submit" padding="4px 8px" fontSize="lg" fluid={false}>
-              수정하기
-            </BoxButton>
-          </ButtonGroup>
-        </Form>
-      );
-    }
-  };
-
   return (
     <FormProvider {...formMethods}>
       <PageTitle>게시글 수정</PageTitle>
-      {render()}
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isSuccess) {
+          return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
+        }
+      })()}
     </FormProvider>
   );
 };
 
 export default Edit;
+
+const GoBackLinkButton: React.FC = () => (
+  <Link to={`../${PATH.COMMUNITY}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+const EditButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+    수정하기
+  </BoxButton>
+);
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error...</div>;
+
+type EditFormProps = {
+  article: CommunityArticle;
+  formMethods: UseFormReturn;
+  onSubmit: HandleEditFormSubmit;
+};
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
+  <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+    <EditTitle title={article.title} />
+    <EditContent content={article.content} />
+    <Divider space="16px" />
+    <ButtonGroup justifyContent="space-between">
+      <GoBackLinkButton />
+      <EditButton />
+    </ButtonGroup>
+  </Form>
+);

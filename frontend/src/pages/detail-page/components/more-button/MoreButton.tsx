@@ -1,4 +1,4 @@
-import { TextButton } from '@components/button';
+import { TextButton } from '@shared/button';
 
 export type MoreButtonProps = {
   status: 'fold' | 'unfold';

@@ -1,8 +1,8 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
 import { ErrorPage } from '@pages';
 
-import Wrapper from '@components/wrapper/Wrapper';
+import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 export default {
   title: 'Pages/ErrorPage',
@@ -10,9 +10,9 @@ export default {
 };
 
 const Template: Story = () => (
-  <Wrapper>
+  <PageWrapper>
     <ErrorPage />
-  </Wrapper>
+  </PageWrapper>
 );
 
 export const Default = Template.bind({});

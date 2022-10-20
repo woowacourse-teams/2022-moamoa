@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.moamoa.WebMVCTest;
+import com.woowacourse.moamoa.common.WebMVCTest;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.AuthService;
@@ -26,7 +26,8 @@ class AuthControllerTest extends WebMVCTest {
     @DisplayName("Authorization 요청과 응답 형식을 확인한다.")
     @Test
     void getJwtToken() throws Exception {
-        final GithubProfileResponse dwoo = new GithubProfileResponse(1L, "dwoo", "http://imageUrl",
+        final GithubProfileResponse dwoo = new GithubProfileResponse(1L, "dwoo", "dwoo@moamoa.space",
+                "http://imageUrl",
                 "http://profileUrl");
 
         given(oAuthClient.getProfile("Authorization code"))

@@ -34,20 +34,18 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<Void> createArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
-                                              @PathVariable("type") final String typeName,
+                                              @PathVariable("type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         final Long articleId = articleService.createArticle(id, studyId, request.createContent(), type);
-        final URI location = URI.create("/api/studies/" + studyId + "/" + typeName + "/articles/" + articleId);
+        final URI location = URI.create("/api/studies/" + studyId + "/" + type.lowerCaseName() + "/articles/" + articleId);
         return ResponseEntity.created(location).header("Access-Control-Allow-Headers", HttpHeaders.LOCATION).build();
     }
 
     @GetMapping("/{article-id}")
     public ResponseEntity<ArticleResponse> getArticle(@PathVariable("article-id") final Long articleId,
-                                                      @PathVariable("type") final String typeName
+                                                      @PathVariable("type") final ArticleType type
     ) {
-        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         ArticleResponse response = articleService.getArticle(articleId, type);
         return ResponseEntity.ok().body(response);
     }
@@ -56,9 +54,8 @@ public class ArticleController {
     public ResponseEntity<Void> deleteArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("type") final String typeName
+                                              @PathVariable("type") final ArticleType type
     ) {
-        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         articleService.deleteArticle(id, studyId, articleId, type);
         return ResponseEntity.noContent().build();
     }
@@ -66,10 +63,9 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<ArticleSummariesResponse> getArticles(
             @PathVariable("study-id") final Long studyId,
-            @PathVariable("type") final String typeName,
+            @PathVariable("type") final ArticleType type,
             @PageableDefault final Pageable pageable
     ) {
-        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         ArticleSummariesResponse response = articleService.getArticles(studyId, pageable, type);
         return ResponseEntity.ok().body(response);
     }
@@ -78,10 +74,9 @@ public class ArticleController {
     public ResponseEntity<Void> updateArticle(@AuthenticatedMemberId final Long id,
                                               @PathVariable("study-id") final Long studyId,
                                               @PathVariable("article-id") final Long articleId,
-                                              @PathVariable("type") final String typeName,
+                                              @PathVariable("type") final ArticleType type,
                                               @Valid @RequestBody final ArticleRequest request
     ) {
-        final ArticleType type = ArticleType.valueOf(typeName.toUpperCase());
         articleService.updateArticle(id, studyId, articleId, request.createContent(), type);
         return ResponseEntity.noContent().build();
     }

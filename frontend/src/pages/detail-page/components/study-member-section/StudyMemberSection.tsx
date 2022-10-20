@@ -1,20 +1,20 @@
 import { useState } from 'react';
 
-import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
+import { DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT } from '@constants';
 
 import type { StudyDetail } from '@custom-types';
 
+import { mqDown } from '@styles/responsive';
 import { theme } from '@styles/theme';
 
-import { CrownIcon } from '@components/icons';
-import SectionTitle from '@components/section-title/SectionTitle';
+import { CrownIcon } from '@shared/icons';
+import SectionTitle from '@shared/section-title/SectionTitle';
 
-import MoreButton from '@detail-page/components/more-button/MoreButton';
-import StudyMemberCard from '@detail-page/components/study-member-card/StudyMemberCard';
-import * as S from '@detail-page/components/study-member-section/StudyMemberSection.style';
+import { default as ImportedMoreButton, type MoreButtonProps } from '@detail-page/components/more-button/MoreButton';
+import StudyMemberCard, { type StudyMemberCardProps } from '@detail-page/components/study-member-card/StudyMemberCard';
 
 export type StudyMemberSectionProps = {
   owner: StudyDetail['owner'];
@@ -26,98 +26,148 @@ const StudyMemberSection: React.FC<StudyMemberSectionProps> = ({ owner, members 
 
   const totalMembers = [owner, ...members];
 
+  const hasStudyMembers = !(totalMembers.length === 0);
+
+  const isOverDefaultMemberCount = totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT;
+
   const handleShowMoreButtonClick = () => {
     setShowAll(prev => !prev);
   };
 
-  const renderMembers = () => {
-    if (totalMembers.length === 0) {
-      return <li>스터디원이 없습니다</li>;
-    }
-
-    if (showAll) {
-      return (
-        <>
-          <li key={owner.id} css={tw`relative`}>
-            <a href={owner.profileUrl}>
-              <div css={tw`absolute top-0 left-20 z-5`}>
-                <CrownIcon />
-              </div>
-              <StudyMemberCard
-                username={owner.username}
-                imageUrl={owner.imageUrl}
-                startDate={changeDateSeperator(owner.participationDate)}
-                studyCount={owner.numberOfStudy}
-              />
-            </a>
-          </li>
-          {members.map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
-            <li key={id}>
-              <a href={profileUrl}>
-                <StudyMemberCard
-                  username={username}
-                  imageUrl={imageUrl}
-                  startDate={changeDateSeperator(participationDate)}
-                  studyCount={numberOfStudy}
-                />
-              </a>
-            </li>
-          ))}
-        </>
-      );
-    }
-
-    return (
-      <>
-        <li key={owner.id} css={tw`relative`}>
-          <a href={owner.profileUrl}>
-            <div css={tw`absolute top-0 left-20 z-5`}>
-              <CrownIcon />
-            </div>
-            <StudyMemberCard
-              username={owner.username}
-              imageUrl={owner.imageUrl}
-              startDate={changeDateSeperator(owner.participationDate)}
-              studyCount={owner.numberOfStudy}
-            />
-          </a>
-        </li>
-        {members
-          .slice(0, DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT - 1)
-          .map(({ id, username, imageUrl, profileUrl, participationDate, numberOfStudy }) => (
-            <li key={id}>
-              <a href={profileUrl}>
-                <StudyMemberCard
-                  username={username}
-                  imageUrl={imageUrl}
-                  startDate={changeDateSeperator(participationDate)}
-                  studyCount={numberOfStudy}
-                />
-              </a>
-            </li>
-          ))}
-      </>
-    );
-  };
-
   return (
-    <section css={tw`p-16`}>
+    <Self>
       <SectionTitle>
-        스터디원 <span css={tw`text-[${theme.fontSize.md}]`}>{totalMembers.length}명</span>
+        <StudyMemberCount count={totalMembers.length} />
       </SectionTitle>
-      <S.MemberList>{renderMembers()}</S.MemberList>
-      {totalMembers.length > DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT && (
-        <div css={tw`text-right pt-15 pb-15`}>
-          <MoreButton
-            status={showAll ? 'unfold' : 'fold'}
-            onClick={handleShowMoreButtonClick}
-            foldText="- 접기"
-            unfoldText="+ 더보기"
+      <StudyMemberList>
+        {!hasStudyMembers ? (
+          <NoStudyMember />
+        ) : (
+          <StudyMemberListItems
+            size={showAll ? members.length : DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT}
+            owner={owner}
+            members={members}
           />
-        </div>
+        )}
+      </StudyMemberList>
+      {isOverDefaultMemberCount && (
+        <MoreButton
+          status={showAll ? 'unfold' : 'fold'}
+          onClick={handleShowMoreButtonClick}
+          foldText="- 접기"
+          unfoldText="+ 더보기"
+        />
       )}
-    </section>
+    </Self>
   );
 };
 
 export default StudyMemberSection;
+
+const Self = styled.div`
+  padding: 16px;
+`;
+
+type StudyMemberCountProps = {
+  count: number;
+};
+const StudyMemberCount: React.FC<StudyMemberCountProps> = ({ count }) => (
+  <>
+    스터디원
+    <span
+      css={css`
+        font-size: ${theme.fontSize.md};
+      `}
+    >
+      {count}명
+    </span>
+  </>
+);
+
+const StudyMemberList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(auto, 1fr));
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
+
+  ${mqDown('md')} {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+`;
+
+const NoStudyMember = () => <li>스터디원이 없습니다</li>;
+
+type StudyMemberListItemsProps = { size: number } & StudyMemberSectionProps;
+const StudyMemberListItems: React.FC<StudyMemberListItemsProps> = ({ size, owner, members }) => (
+  <>
+    <li
+      key={owner.id}
+      css={css`
+        position: relative;
+      `}
+    >
+      <StudyOwnerCardLink
+        profileUrl={owner.profileUrl}
+        username={owner.username}
+        imageUrl={owner.imageUrl}
+        startDate={owner.participationDate}
+        studyCount={owner.numberOfStudy}
+      />
+    </li>
+    {members
+      .slice(0, size)
+      .map(({ id, username, imageUrl, profileUrl, participationDate: startDate, numberOfStudy }) => (
+        <li key={id}>
+          <StudyMemberCardLink
+            profileUrl={profileUrl}
+            username={username}
+            imageUrl={imageUrl}
+            startDate={startDate}
+            studyCount={numberOfStudy}
+          />
+        </li>
+      ))}
+  </>
+);
+
+type StudyOwnerCardLinkProps = { profileUrl: string } & StudyMemberCardProps;
+const StudyOwnerCardLink: React.FC<StudyOwnerCardLinkProps> = ({
+  profileUrl,
+  username,
+  imageUrl,
+  startDate,
+  studyCount,
+}) => (
+  <a href={profileUrl}>
+    <CrownIcon custom={{ position: 'absolute', top: 0, left: '20px', zIndex: 5 }} />
+    <StudyMemberCard username={username} imageUrl={imageUrl} startDate={startDate} studyCount={studyCount} />
+  </a>
+);
+
+type StudyMemberCardLinkProps = { profileUrl: string } & StudyMemberCardProps;
+const StudyMemberCardLink: React.FC<StudyMemberCardLinkProps> = ({
+  profileUrl,
+  username,
+  imageUrl,
+  startDate,
+  studyCount,
+}) => (
+  <a href={profileUrl}>
+    <StudyMemberCard username={username} imageUrl={imageUrl} startDate={startDate} studyCount={studyCount} />
+  </a>
+);
+
+const MoreButton: React.FC<MoreButtonProps> = ({ ...props }) => {
+  const style = css`
+    text-align: right;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedMoreButton {...props} />
+    </div>
+  );
+};

@@ -77,8 +77,6 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/update",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .header(AUTHORIZATION, accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -94,9 +92,10 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
     void updateStudyWithLessThanCurrentMember() {
         final LocalDate 지금 = LocalDate.now();
         final long studyId = 짱구가().로그인하고().자바_스터디를()
-                .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID)
-                .생성한다();
-        디우가().로그인하고().스터디에(studyId).참여한다();
+                .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID).생성한다();
+        디우가().로그인한다();
+
+        디우가().로그인하고().스터디에(studyId).참여에_성공한다();
         final String accessToken = 짱구가().로그인한다();
 
         final StudyRequest request = new StudyRequestBuilder().title("변경된 제목")
@@ -111,8 +110,6 @@ class UpdatingStudyAcceptanceTest extends AcceptanceTest {
                 .build();
 
         RestAssured.given(spec).log().all()
-                .filter(document("studies/update",
-                        requestHeaders(headerWithName("Authorization").description("Bearer Token"))))
                 .header(AUTHORIZATION, accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(ACCEPT, MediaType.APPLICATION_JSON_VALUE)

@@ -1,9 +1,10 @@
-import type { Story } from '@storybook/react';
+import { type Story } from '@storybook/react';
 
-import { StudyDetail } from '@custom-types';
+import type { StudyDetail } from '@custom-types';
 
-import StudyMemberSection from '@detail-page/components/study-member-section/StudyMemberSection';
-import type { StudyMemberSectionProps } from '@detail-page/components/study-member-section/StudyMemberSection';
+import StudyMemberSection, {
+  type StudyMemberSectionProps,
+} from '@detail-page/components/study-member-section/StudyMemberSection';
 
 export default {
   title: 'Pages/DetailPage/StudyMemberSection',

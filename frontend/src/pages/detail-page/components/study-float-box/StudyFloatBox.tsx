@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
 
+import { type Theme, css, useTheme } from '@emotion/react';
+
 import { PATH, RECRUITMENT_STATUS } from '@constants';
 
 import { yyyymmddTommdd } from '@utils';
-import tw from '@utils/tw';
 
-import type { StudyDetail } from '@custom-types';
+import type { DateYMD, StudyDetail, StudyId } from '@custom-types';
 
-import { theme } from '@styles/theme';
-
-import { BoxButton } from '@components/button';
-import Card from '@components/card/Card';
-import Flex from '@components/flex/Flex';
+import BoxButton, { type BoxButtonProps } from '@shared/button/box-button/BoxButton';
+import Card from '@shared/card/Card';
+import Flex from '@shared/flex/Flex';
 
 export type StudyFloatBoxProps = Pick<
   StudyDetail,
@@ -33,67 +32,96 @@ const StudyFloatBox: React.FC<StudyFloatBoxProps> = ({
   recruitmentStatus,
   onRegisterButtonClick: handleRegisterButtonClick,
 }) => {
+  const theme = useTheme();
   const isOpen = recruitmentStatus === RECRUITMENT_STATUS.START;
 
-  const renderEnrollmentEndDateContent = () => {
-    if (isOwnerOrMember) {
-      return <span>이미 가입한 스터디입니다</span>;
-    }
-
-    if (!isOpen) {
-      return <span>모집 마감</span>;
-    }
-
-    if (!enrollmentEndDate) {
-      return <span>모집중</span>;
-    }
-
-    return (
-      <>
-        <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
-        <span css={tw`text-[${theme.fontSize.lg}]`}>까지 가입 가능</span>
-      </>
-    );
-  };
-
-  const renderButton = () => {
-    if (isOwnerOrMember || !isOpen) {
-      return (
-        <Link to={PATH.STUDY_ROOM(studyId)}>
-          <BoxButton type="button" fontSize="lg">
-            스터디 방으로 이동하기
-          </BoxButton>
-        </Link>
-      );
-    }
-
-    return (
-      <BoxButton type="submit" fontSize="lg" onClick={handleRegisterButtonClick}>
-        스터디 가입하기
-      </BoxButton>
-    );
-  };
-
   return (
-    <Card backgroundColor={theme.colors.white} gap="8px" padding="40px" shadow>
-      <Card.Heading fontSize="xl">{renderEnrollmentEndDateContent()}</Card.Heading>
-      <Card.Content fontSize="lg">
-        <Flex justifyContent="space-between">
-          <span>모집인원</span>
-          <span>
-            {currentMemberCount} / {maxMemberCount ?? '∞'}
-          </span>
-        </Flex>
+    <Card backgroundColor={theme.colors.white} shadow custom={{ padding: '40px', gap: '8px' }}>
+      <Card.Heading custom={{ fontSize: 'xl', marginBottom: '10px' }}>
+        {(() => {
+          if (isOwnerOrMember) return <AlreadyRegistered />;
+          if (!isOpen) return <Closed />;
+          if (!enrollmentEndDate) return <Open />;
+          return <EnrollmentEndDate theme={theme} enrollmentEndDate={enrollmentEndDate} />;
+        })()}
+      </Card.Heading>
+      <Card.Content custom={{ fontSize: 'lg' }}>
+        <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
+        <StudyOwner ownerName={ownerName} />
+        {isOwnerOrMember || !isOpen ? ( // @TODO: 가입하기 버튼을 분리한다(가입안한 사람이 구경할 수 있도록 하기 위함)
+          <StudyRoomLink studyId={studyId} />
+        ) : (
+          <RegisterButton onClick={handleRegisterButtonClick} />
+        )}
       </Card.Content>
-      <Card.Content fontSize="lg">
-        <Flex justifyContent="space-between">
-          <span>스터디장</span>
-          <span>{ownerName}</span>
-        </Flex>
-      </Card.Content>
-      {renderButton()}
     </Card>
   );
 };
 
 export default StudyFloatBox;
+
+type EnrollmentEndDateProps = {
+  theme: Theme;
+  enrollmentEndDate: DateYMD;
+};
+const EnrollmentEndDate: React.FC<EnrollmentEndDateProps> = ({ theme, enrollmentEndDate }) => {
+  return (
+    <>
+      <span>{yyyymmddTommdd(enrollmentEndDate)}</span>
+      <span
+        css={css`
+          font-size: ${theme.fontSize.lg};
+        `}
+      >
+        까지 가입 가능
+      </span>
+    </>
+  );
+};
+
+const AlreadyRegistered = () => <span>이미 가입한 스터디입니다</span>;
+
+const Closed = () => <span>모집 마감</span>;
+
+const Open = () => <span>모집중</span>;
+
+type StudyRoomLinkProps = {
+  studyId: StudyId;
+};
+const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
+  <Link to={PATH.STUDY_ROOM(studyId)}>
+    <BoxButton type="button" custom={{ fontSize: 'lg' }}>
+      스터디 방으로 이동하기
+    </BoxButton>
+  </Link>
+);
+
+type RegisterButtonProps = Pick<BoxButtonProps, 'onClick'>;
+const RegisterButton: React.FC<RegisterButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="submit" onClick={handleClick} custom={{ fontSize: 'lg' }}>
+    스터디 가입하기
+  </BoxButton>
+);
+
+type NumberOfApplicantsProps = {
+  currentMemberCount: number;
+  maxMemberCount?: number;
+};
+const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCount, maxMemberCount }) => (
+  <Flex justifyContent="space-between" custom={{ marginBottom: '30px' }}>
+    <span>모집인원</span>
+    <span>
+      {currentMemberCount} / {maxMemberCount ?? '∞'}
+    </span>
+  </Flex>
+);
+
+type StudyOwnerProps = {
+  ownerName: string;
+};
+const StudyOwner: React.FC<StudyOwnerProps> = ({ ownerName }) => (
+  <Flex justifyContent="space-between" custom={{ marginBottom: '20px' }}>
+    <span>스터디장</span>
+    <span>{ownerName}</span>
+  </Flex>
+);

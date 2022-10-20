@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -7,12 +8,13 @@ import type { StudyId } from '@custom-types';
 import { usePostNoticeArticle } from '@api/notice';
 
 import { FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { useUserRole } from '@hooks/useUserRole';
 
-import { BoxButton } from '@components/button';
-import ButtonGroup from '@components/button-group/ButtonGroup';
-import Divider from '@components/divider/Divider';
-import Form from '@components/form/Form';
-import PageTitle from '@components/page-title/PageTitle';
+import { BoxButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
+import Divider from '@shared/divider/Divider';
+import Form from '@shared/form/Form';
+import PageTitle from '@shared/page-title/PageTitle';
 
 import PublishContent from '@notice-tab/components/publish-content/PublishContent';
 import PublishTitle from '@notice-tab/components/publish-title/PublishTitle';
@@ -26,12 +28,21 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   const navigate = useNavigate();
   const { mutateAsync } = usePostNoticeArticle();
 
+  const { isFetching, isError, isOwner } = useUserRole({ studyId });
+
+  useEffect(() => {
+    if (isFetching) return;
+    if (isOwner) return;
+
+    alert('접근할 수 없습니다!');
+    navigate(`../${PATH.NOTICE}`);
+  }, [studyId, navigate, isFetching, isOwner]);
+
   const onSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult: UseFormSubmitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
-
     const numStudyId = Number(studyId);
     mutateAsync(
       {
@@ -54,23 +65,42 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>공지사항 작성</PageTitle>
-      <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <PublishTitle />
-        <PublishContent />
-        <Divider space="16px" />
-        <ButtonGroup justifyContent="space-between">
-          <Link to={`../${PATH.NOTICE}`}>
-            <BoxButton type="button" variant="secondary" padding="4px 8px" fluid={false} fontSize="lg">
-              돌아가기
-            </BoxButton>
-          </Link>
-          <BoxButton type="submit" padding="4px 8px" fluid={false} fontSize="lg">
-            등록하기
-          </BoxButton>
-        </ButtonGroup>
-      </Form>
+      {(() => {
+        if (isFetching) return <Loading />;
+        if (isError) return <Error />;
+        if (isOwner)
+          return (
+            <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
+              <PublishTitle />
+              <PublishContent />
+              <Divider space="16px" />
+              <ButtonGroup justifyContent="space-between">
+                <ListPageLink />
+                <PublishButton />
+              </ButtonGroup>
+            </Form>
+          );
+      })()}
     </FormProvider>
   );
 };
 
 export default Publish;
+
+const Loading = () => <div>유저 정보 가져오는 중...</div>;
+
+const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
+
+const ListPageLink: React.FC = () => (
+  <Link to={`../${PATH.COMMUNITY}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+      돌아가기
+    </BoxButton>
+  </Link>
+);
+
+const PublishButton: React.FC = () => (
+  <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
+    등록하기
+  </BoxButton>
+);

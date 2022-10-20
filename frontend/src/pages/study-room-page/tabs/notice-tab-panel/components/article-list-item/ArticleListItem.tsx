@@ -1,31 +1,50 @@
+import { type Theme, css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { changeDateSeperator } from '@utils';
-import tw from '@utils/tw';
 
-import { CommunityArticle } from '@custom-types';
+import type { CommunityArticle } from '@custom-types';
 
-import { theme } from '@styles/theme';
+import { applyHoverTransitionStyle } from '@styles/theme';
 
-import Flex from '@components/flex/Flex';
-import UserInfoItem from '@components/user-info-item/UserInfoItem';
-
-import * as S from '@notice-tab/components/article-list-item/ArticleListItem.style';
+import Flex from '@shared/flex/Flex';
+import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
 export type ArticleListItemProps = Pick<CommunityArticle, 'title' | 'author' | 'createdDate'>;
 
 const ArticleListItem: React.FC<ArticleListItemProps> = ({ title, author, createdDate }) => {
+  const theme = useTheme();
   return (
-    <S.ArticleListItem>
+    <Self>
       <Flex alignItems="center">
-        <div css={tw`flex-grow text-[${theme.fontSize.lg}]`}>
-          <span>{title}</span>
-        </div>
+        <Flex.Item flexGrow={1}>
+          <Title theme={theme} title={title} />
+        </Flex.Item>
         <UserInfoItem size="md" src={author.imageUrl} name={author.username}>
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
           <UserInfoItem.Content>{changeDateSeperator(createdDate)}</UserInfoItem.Content>
         </UserInfoItem>
       </Flex>
-    </S.ArticleListItem>
+    </Self>
   );
 };
 
 export default ArticleListItem;
+
+const Self = styled.div`
+  ${applyHoverTransitionStyle()}
+`;
+
+type TitleProps = {
+  theme: Theme;
+  title: string;
+};
+const Title: React.FC<TitleProps> = ({ theme, title }) => (
+  <span
+    css={css`
+      font-size: ${theme.fontSize.lg};
+    `}
+  >
+    {title}
+  </span>
+);

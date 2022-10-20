@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
