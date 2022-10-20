@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { TITLE_LENGTH } from '@constants';
+import { TITLE, TITLE_LENGTH } from '@constants';
 
 import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
@@ -54,8 +54,6 @@ type TitleFieldProps = {
   title: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
-
-const TITLE = 'title';
 
 const TitleField: React.FC<TitleFieldProps> = ({ title, onChange: handleChange }) => {
   const {

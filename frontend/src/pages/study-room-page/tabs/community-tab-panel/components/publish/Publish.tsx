@@ -1,8 +1,14 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
-import { PATH } from '@constants';
+import { CONTENT, FIVE_MINUTES, PATH, TITLE } from '@constants';
 
 import { usePostCommunityArticle } from '@api/community/article';
+import {
+  usePostCommunityDraftArticle,
+  usePostDraftArticleToArticle,
+  usePutCommunityDraftArticle,
+} from '@api/community/draft-article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -16,6 +22,8 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
+import DraftSaveButton from '../draft-save-button/DraftSaveButton';
+
 type HandlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
@@ -27,15 +35,120 @@ const Publish: React.FC = () => {
 
   const formMethods = useForm();
   const navigate = useNavigate();
-  const { mutateAsync } = usePostCommunityArticle();
 
   const { isFetching, isError, isOwnerOrMember } = useUserRole({ studyId });
+
+  const draftTimeIntervalIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const { mutateAsync } = usePostCommunityArticle();
+  const postDraftArticle = usePostCommunityDraftArticle();
+  const putDraftArticle = usePutCommunityDraftArticle();
+  const postDraftArticleToArticle = usePostDraftArticleToArticle();
+
+  const draftArticleId = postDraftArticle.data?.draftArticleId;
+
+  const changeSaveState = () => {
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+    }, 1800);
+  };
+
+  const getElementValues = () => {
+    const [titleElement, contentElement] = [formMethods.getField(TITLE), formMethods.getField(CONTENT)];
+    if (!titleElement || !contentElement) return { title: '', content: '' };
+    const [title, content] = [titleElement.fieldElement.value, contentElement.fieldElement.value];
+    return { title, content };
+  };
+
+  useEffect(() => {
+    if (isSaving) return;
+
+    setTimeout(() => {
+      const { title, content } = getElementValues();
+
+      changeSaveState();
+
+      postDraftArticle.mutate(
+        { studyId, title, content },
+        {
+          onError: () => {
+            // TODO: 메세지 알려주기
+            console.error('임시저장 오류');
+          },
+        },
+      );
+    }, FIVE_MINUTES);
+  }, []);
+
+  useEffect(() => {
+    if (!draftArticleId) return;
+
+    draftTimeIntervalIdRef.current = setInterval(() => {
+      const { title, content } = getElementValues();
+      if (!title && !content) return;
+
+      changeSaveState();
+
+      putDraftArticle.mutate(
+        { studyId, articleId: draftArticleId, title, content },
+        {
+          onError: () => {
+            console.error('오류');
+          },
+        },
+      );
+    }, FIVE_MINUTES);
+
+    return () => {
+      draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
+    };
+  }, [postDraftArticle.data]);
+
+  const handleDraftSaveButtonClick = () => {
+    if (isSaving) return;
+
+    const { title, content } = getElementValues();
+    if (!title && !content) return;
+
+    changeSaveState();
+
+    if (!draftArticleId) return;
+
+    putDraftArticle.mutate(
+      { studyId, articleId: draftArticleId, title, content },
+      {
+        onError: () => {
+          // TODO: 메세지 알려주기
+          console.error('오류');
+        },
+      },
+    );
+  };
 
   const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
     const { title, content } = values;
+
+    if (draftArticleId) {
+      return postDraftArticleToArticle.mutateAsync(
+        { studyId, articleId: draftArticleId, title, content },
+        {
+          onSuccess: () => {
+            draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
+            alert('글을 작성했습니다. :D');
+            navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
+          },
+          onError: () => {
+            alert('글을 등록하지 못했습니다. 다시 시도해주세요. :(');
+          },
+        },
+      );
+    }
 
     return mutateAsync(
       {
@@ -45,6 +158,7 @@ const Publish: React.FC = () => {
       },
       {
         onSuccess: () => {
+          draftTimeIntervalIdRef.current && clearInterval(draftTimeIntervalIdRef.current);
           alert('글을 작성했습니다. :D');
           navigate(`../../${PATH.COMMUNITY}`); // TODO: 생성한 게시글 상세 페이지로 이동
         },
@@ -58,6 +172,10 @@ const Publish: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>게시글 작성</PageTitle>
+      <DraftSaveButton isSaving={isSaving} onClick={handleDraftSaveButtonClick}>
+        임시 저장
+      </DraftSaveButton>
+      <Divider space="16px" />
       {(() => {
         if (isFetching) return <Loading />;
         if (isError) return <Error />;

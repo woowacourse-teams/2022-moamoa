@@ -88,7 +88,7 @@ const postCommunityDraftArticle = async ({
   return checkDraftArticleId(response.data);
 };
 
-export const usePostDraftArticle = () => {
+export const usePostCommunityDraftArticle = () => {
   return useMutation<
     ApiCommunityDraftArticle['post']['responseData'],
     AxiosError,

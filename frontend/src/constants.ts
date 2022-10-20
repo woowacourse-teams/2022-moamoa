@@ -196,3 +196,9 @@ export const PERIOD = {
   START_DATE: 'start-date',
   END_DATE: 'end-date',
 };
+
+export const TITLE = 'title';
+
+export const CONTENT = 'content';
+
+export const FIVE_MINUTES = 5 * 60 * 1000;

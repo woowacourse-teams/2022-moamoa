@@ -5,7 +5,7 @@ import communityDraftArticlesJSON from '@mocks/community-draft-articles.json';
 import { user } from '@mocks/handlers/memberHandlers';
 
 import { type ApiCommunityArticle } from '@api/community/article';
-import { ApiCommunityDraftArticle } from '@api/community/draft-article';
+import { type ApiCommunityDraftArticle, type ApiCommunityDraftArticleToArticle } from '@api/community/draft-article';
 
 export const communityHandlers = [
   rest.get('/api/studies/:studyId/community/articles', (req, res, ctx) => {
@@ -164,10 +164,10 @@ export const communityHandlers = [
       };
       communityDraftArticlesJSON.articles = [newArticle, ...communityDraftArticlesJSON.articles];
 
-      return res(ctx.status(201));
+      return res(ctx.status(201), ctx.json({ draftArticleId: newArticle.id }));
     },
   ),
-  rest.post<ApiCommunityDraftArticle['post']['body']>(
+  rest.post<ApiCommunityDraftArticleToArticle['post']['body']>(
     '/api/studies/:studyId/community/draft-articles/:articleId/publish',
     (req, res, ctx) => {
       const { studyId, articleId } = req.params;
@@ -201,7 +201,7 @@ export const communityHandlers = [
     return res(ctx.status(204));
   }),
   rest.put<ApiCommunityDraftArticle['put']['body']>(
-    '/api/studies/:studyId/community/articles/:articleId',
+    '/api/studies/:studyId/community/draft-articles/:articleId',
     (req, res, ctx) => {
       const studyId = req.params.studyId;
       if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));

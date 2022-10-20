@@ -35,8 +35,7 @@ export const checkCommunityDraftArticle = (data: unknown): ApiCommunityDraftArti
 export const checkDraftArticleId = (data: unknown): ApiCommunityDraftArticle['post']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`DraftArticleId does not have correct type: object`);
 
-  if (!hasOwnProperty(data, 'draftArticleId'))
-    throw new AxiosError('CommunityDraftArticle does not have some properties');
+  if (!hasOwnProperty(data, 'draftArticleId')) throw new AxiosError('DraftArticleId does not have some properties');
 
   return {
     draftArticleId: checkType(data.draftArticleId, isNumber),

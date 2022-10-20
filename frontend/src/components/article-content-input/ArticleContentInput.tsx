@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { css } from '@emotion/react';
 
-import { DESCRIPTION_LENGTH } from '@constants';
+import { CONTENT, DESCRIPTION_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
@@ -23,8 +23,6 @@ const tabMode = {
   write: 'write',
   preview: 'preview',
 };
-
-const CONTENT = 'content';
 
 const ArticleContentInput: React.FC<ArticleContentInputProps> = ({ originalContent }) => {
   const { getField } = useFormContext();
