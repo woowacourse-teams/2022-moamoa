@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 
 import { checkType, isNull } from '@utils';
 
-import type { ArticleId, CommunityCommentId, StudyId, StudyReview } from '@custom-types';
+import type { ArticleId, CommunityComment, CommunityCommentId, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 
@@ -13,7 +13,7 @@ export type ApiCommunityComment = {
       studyId: StudyId;
       articleId: ArticleId;
     };
-    body: Pick<StudyReview, 'content'>;
+    body: Pick<CommunityComment, 'content'>;
     variables: ApiCommunityComment['post']['params'] & ApiCommunityComment['post']['body'];
   };
   put: {

@@ -94,6 +94,14 @@ export type CommunityComment = {
   content: string;
 };
 
+export type NoticeComment = {
+  id: NoticeCommentId;
+  author: Member;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+  content: string;
+};
+
 export type StudyStatus = typeof STUDY_STATUS[keyof typeof STUDY_STATUS];
 
 export type MyStudy = Pick<StudyDetail, 'id' | 'title' | 'startDate' | 'endDate'> & {

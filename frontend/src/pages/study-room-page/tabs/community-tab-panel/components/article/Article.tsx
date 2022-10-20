@@ -77,8 +77,9 @@ const Article: FC<ArticleProps> = ({ studyId, articleId }) => {
                 <Divider space="8px" />
                 <ListPageLink />
               </article>
-              <Divider />
+              <Divider space="16px" />
               <CommentSection studyId={studyId} articleId={articleId} />
+              <Divider space="16px" />
             </>
           );
         }

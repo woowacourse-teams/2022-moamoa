@@ -106,34 +106,44 @@ export const communityHandlers = [
   ),
 
   // Comments
-  rest.get<ApiCommunityComments['get']['responseData']>(
-    '/api/studies/:studyId/community/:articleId/comments',
-    (req, res, ctx) => {
-      const _size = req.url.searchParams.get('size');
-      const _page = req.url.searchParams.get('page');
-      const size = _size ? Number(_size) : null;
-      const page = _page ? Number(_page) : 0;
+  rest.get('/api/studies/:studyId/community/:articleId/comments', (req, res, ctx) => {
+    const _size = req.url.searchParams.get('size');
+    const _page = req.url.searchParams.get('page');
 
-      // size가 null인 경우에는 전체를 돌려준다
-      if (size === null) {
-        return res(
-          ctx.status(200),
-          ctx.json({
-            comments: communityCommentJSON.comments,
-            totalCount: communityCommentJSON.comments.length,
-          }),
-        );
-      }
+    if (_size && _page) {
+      const size = Number(_size);
+      const page = _page ? Number(_page) : 0;
+      const startIndex = page * size;
+      const endIndexExclusive = startIndex + size;
 
       return res(
         ctx.status(200),
         ctx.json({
-          comments: communityCommentJSON.comments.slice(page, size),
+          comments: communityCommentJSON.comments.slice(startIndex, endIndexExclusive),
+          totalCount: communityCommentJSON.comments.length,
+          hasNext: communityCommentJSON.comments.length > size * page,
+        }),
+      );
+    }
+
+    if (_size) {
+      const size = Number(_size);
+      return res(
+        ctx.status(200),
+        ctx.json({
+          comments: communityCommentJSON.comments.slice(0, size),
           totalCount: communityCommentJSON.comments.length,
         }),
       );
-    },
-  ),
+    }
+    return res(
+      ctx.status(200),
+      ctx.json({
+        comments: communityCommentJSON.comments,
+        totalCount: communityCommentJSON.comments.length,
+      }),
+    );
+  }),
   rest.post<ApiCommunityComment['post']['body']>(
     '/api/studies/:studyId/community/:articleId/comments',
     (req, res, ctx) => {
@@ -159,7 +169,6 @@ export const communityHandlers = [
       return res(ctx.status(200));
     },
   ),
-
   rest.delete('/api/studies/:studyId/community/:articleId/comments/:commentId', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
@@ -176,7 +185,6 @@ export const communityHandlers = [
 
     return res(ctx.status(200));
   }),
-
   rest.put<ApiCommunityComment['put']['body']>(
     '/api/studies/:studyId/community/:articleId/comments/:commentId',
     (req, res, ctx) => {

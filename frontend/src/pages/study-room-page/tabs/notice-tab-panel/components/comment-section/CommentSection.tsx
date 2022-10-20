@@ -10,8 +10,8 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@components/@shared/divider/Divider';
 import InfiniteScroll from '@components/@shared/infinite-scroll/InfiniteScroll';
 
-import CommentForm from '@study-room-page/tabs/community-tab-panel/components/comment-form/CommentForm';
-import CommentList from '@study-room-page/tabs/community-tab-panel/components/comment-list/CommentList';
+import CommentForm from '@study-room-page/tabs/notice-tab-panel/components/comment-form/CommentForm';
+import CommentList from '@study-room-page/tabs/notice-tab-panel/components/comment-list/CommentList';
 
 type CommentSectionProps = {
   studyId: StudyId;
