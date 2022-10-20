@@ -6,7 +6,7 @@ import { DEFAULT_COMMUNITY_COMMENT_QUERY_PARAM } from '@constants';
 import type { ArticleId, CommunityComment, Merge, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
-import { checkCommunityComments, checkInfiniteCommunityComments } from '@api/community-comments/typeChecker';
+import { checkCommunityComments, checkInfiniteCommunityComments } from '@api/community/comments/typeChecker';
 
 export const QK_COMMUNITY_COMMENTS = 'community-comments';
 export const QK_COMMUNITY_COMMENTS_INFINITE_SCROLL = 'infinite-scroll-community-comments';

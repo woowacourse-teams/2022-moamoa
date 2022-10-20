@@ -2,8 +2,8 @@ import { AxiosError } from 'axios';
 
 import { arrayOfAll, checkType, hasOwnProperties, isArray, isBoolean, isNumber, isObject } from '@utils';
 
-import { checkCommunityComment } from '@api/community-comment/typeChecker';
-import { type ApiCommunityComments, ApiInfiniteCommunityComments } from '@api/community-comments';
+import { checkCommunityComment } from '@api/community/comment/typeChecker';
+import { type ApiCommunityComments, ApiInfiniteCommunityComments } from '@api/community/comments';
 
 type CommunityCommentsKeys = keyof ApiCommunityComments['get']['responseData'];
 type InfiniteCommunityCommentKeys = keyof ApiInfiniteCommunityComments['get']['responseData'];

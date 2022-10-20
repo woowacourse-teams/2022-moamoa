@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import { REVIEW_LENGTH } from '@constants';
 
 import type { Member, Noop, StudyId } from '@custom-types';

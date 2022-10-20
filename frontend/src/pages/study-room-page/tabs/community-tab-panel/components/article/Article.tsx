@@ -2,8 +2,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
-import { css } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
@@ -20,9 +18,7 @@ import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
-import CommentSection from '@study-room-page/tabs/community-tab-panel/components/comment-section/CommentSection';
-
-import CommentSection from '@study-room-page/tabs/community-tab-panel/components/comment-section/CommentSection';
+import CommentSection from '@community-tab/components/comment-section/CommentSection';
 
 const Article: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();

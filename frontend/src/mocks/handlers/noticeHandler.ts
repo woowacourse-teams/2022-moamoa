@@ -4,8 +4,8 @@ import { user } from '@mocks/handlers/memberHandlers';
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 import noticeCommentJSON from '@mocks/notice-comment.json';
 
-import { type ApiNoticeArticle } from '@api/notice';
-import { type ApiNoticeComment } from '@api/notice-comment';
+import { type ApiNoticeArticle } from '@api/notice/article';
+import { type ApiNoticeComment } from '@api/notice/comment';
 
 export const noticeHandlers = [
   rest.get('/api/studies/:studyId/notice/articles', (req, res, ctx) => {

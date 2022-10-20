@@ -2,7 +2,7 @@ import { COMMUNITY_COMMENT_LENGTH } from '@constants';
 
 import type { ArticleId, CommunityCommentId, DateYMD, Member, Noop, StudyId } from '@custom-types';
 
-import { usePutCommunityComment } from '@api/community-comment';
+import { usePutCommunityComment } from '@api/community/comment';
 
 import { type FieldElement, FormProvider, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 

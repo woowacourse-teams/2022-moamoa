@@ -14,7 +14,6 @@ import Edit from '@notice-tab/components/edit/Edit';
 import Publish from '@notice-tab/components/publish/Publish';
 
 const NoticeTabPanel: React.FC = () => {
-  const theme = useTheme();
   const location = useLocation();
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];

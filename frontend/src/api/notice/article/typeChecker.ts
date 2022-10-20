@@ -5,7 +5,7 @@ import { arrayOfAll, checkType, hasOwnProperties, isArray, isDateYMD, isNumber, 
 import type { NoticeArticle } from '@custom-types';
 
 import { checkMember } from '@api/member/typeChecker';
-import { type ApiNoticeArticle, type ApiNoticeArticles } from '@api/notice';
+import { type ApiNoticeArticle, ApiNoticeArticles } from '@api/notice/article';
 
 type NoticeArticleKeys = keyof ApiNoticeArticle['get']['responseData'];
 
@@ -32,7 +32,7 @@ type ArticleKeys = keyof Article;
 
 const arrayOfAllArticleKeys = arrayOfAll<ArticleKeys>();
 
-const checkArticle = (data: unknown): Article => {
+export const checkArticle = (data: unknown): Article => {
   if (!isObject(data)) throw new AxiosError(`NoticeArticles-Article does not have correct type: object`);
 
   const keys = arrayOfAllArticleKeys(['id', 'author', 'title', 'createdDate', 'lastModifiedDate']);
@@ -47,6 +47,7 @@ const checkArticle = (data: unknown): Article => {
   };
 };
 
+// articles
 type NoticeArticlesKeys = keyof ApiNoticeArticles['get']['responseData'];
 
 const arrayOfAllNoticeArticlesKeys = arrayOfAll<NoticeArticlesKeys>();

@@ -2,7 +2,7 @@ import { NOTICE_COMMENT_LENGTH } from '@constants';
 
 import type { ArticleId, DateYMD, Member, Noop, NoticeCommentId, StudyId } from '@custom-types';
 
-import { usePutNoticeComment } from '@api/notice-comment';
+import { usePutNoticeComment } from '@api/notice/comment';
 
 import { type FieldElement, FormProvider, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
