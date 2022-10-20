@@ -1,6 +1,6 @@
 import { type Story } from '@storybook/react';
 
-import TextButton, { type TextButtonProps } from '@shared/button/text-button/TextButton';
+import { TextButton, type TextButtonProps } from '@shared/button';
 
 export default {
   title: 'Components/TextButton',

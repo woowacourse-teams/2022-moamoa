@@ -11,9 +11,9 @@ import InfiniteScroll, { type InfiniteScrollProps } from '@shared/infinite-scrol
 import ModalPortal, { ModalProps } from '@shared/modal/Modal';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
-import LinkForm, { LinkFormProps } from '@study-room-page/tabs/link-room-tab-panel/components/link-form/LinkForm';
-import LinkItem from '@study-room-page/tabs/link-room-tab-panel/components/link-item/LinkItem';
-import { useLinkRoomTabPanel } from '@study-room-page/tabs/link-room-tab-panel/hooks/useLinkRoomTabPanel';
+import LinkForm, { LinkFormProps } from '@link-tab/components/link-form/LinkForm';
+import LinkItem from '@link-tab/components/link-item/LinkItem';
+import { useLinkRoomTabPanel } from '@link-tab/hooks/useLinkRoomTabPanel';
 
 const LinkRoomTabPanel: React.FC = () => {
   const {

@@ -4,7 +4,7 @@ import { changeDateSeperator } from '@utils';
 
 import type { DateYMD } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTranslateTransitionStyle } from '@styles/theme';
 
 import Flex from '@shared/flex/Flex';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
@@ -33,5 +33,5 @@ const StudyMemberCard: React.FC<StudyMemberCardProps> = ({ username, imageUrl, s
 export default StudyMemberCard;
 
 const Self = styled.div`
-  ${applyHoverTransitionStyle()}
+  ${applyHoverTranslateTransitionStyle()}
 `;

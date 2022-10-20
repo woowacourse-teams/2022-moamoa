@@ -14,6 +14,7 @@ export const useUserInfo = () => {
   const {
     data,
     refetch: fetchUserInfo,
+    isFetching,
     isError,
     isSuccess,
   } = useGetUserInformation({
@@ -22,10 +23,11 @@ export const useUserInfo = () => {
     },
   });
 
+  // TODO: 이 훅을 사용하는 페이지에서 새로고침했을 때 setUserInfo가 반영되지 않아서 이전 userRole 값을 사용하게 됨
   useEffect(() => {
-    if (!data || isError || !isSuccess) return;
+    if (isFetching || isError || !isSuccess) return;
     setUserInfo(data);
-  }, [data, isError, isSuccess]);
+  }, [isFetching]);
 
   return {
     fetchUserInfo,

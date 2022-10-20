@@ -65,7 +65,7 @@ const useCreateStudyPage = () => {
     return mutateAsync(postData, {
       onSuccess: () => {
         alert('스터디를 생성했습니다');
-        navigate(PATH.MAIN);
+        navigate(PATH.MAIN, { replace: true });
       },
       onError: () => {
         alert('스터디 생성 에러가 발생했습니다');

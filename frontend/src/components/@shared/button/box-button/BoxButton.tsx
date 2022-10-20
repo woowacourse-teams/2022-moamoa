@@ -78,7 +78,7 @@ const applyOutlineButtonStyle = (theme: Theme) => css`
   }
 `;
 
-export const Self = styled.button<StyledBoxButtonProps>`
+const Self = styled.button<StyledBoxButtonProps>`
   ${({ theme, fluid, disabled, variant }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 20px 10px;

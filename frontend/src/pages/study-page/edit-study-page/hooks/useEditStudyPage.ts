@@ -70,7 +70,7 @@ const useEditStudyPage = () => {
       {
         onSuccess: () => {
           alert('스터디를 수정했습니다');
-          navigate(PATH.MAIN);
+          navigate(PATH.MAIN, { replace: true });
         },
         onError: () => {
           alert('스터디 생성 에러가 발생했습니다');
