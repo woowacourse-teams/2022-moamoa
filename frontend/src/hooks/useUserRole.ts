@@ -1,5 +1,3 @@
-import { useContext, useEffect } from 'react';
-
 import { USER_ROLE } from '@constants';
 
 import { StudyId } from '@custom-types';
