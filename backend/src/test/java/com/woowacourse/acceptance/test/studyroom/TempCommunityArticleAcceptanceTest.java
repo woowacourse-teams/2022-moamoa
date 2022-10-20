@@ -125,11 +125,12 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
     @Test
     void publishTempArticle() {
         // arrange
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
         final long 스터디_ID = 그린론이().로그인하고().자바_스터디를().시작일자는(지금).생성한다();
-        final long 임시_게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(new ArticleRequest("제목", "내용"));
+        final long 임시_게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().작성한다(articleRequest);
 
         // act
-        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().공개한다(임시_게시글_ID);
+        final long 게시글_ID = 그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().공개한다(임시_게시글_ID, articleRequest);
 
         // assert
         그린론이().로그인하고().스터디에(스터디_ID).임시_게시글을().찾을_수_없다(게시글_ID);

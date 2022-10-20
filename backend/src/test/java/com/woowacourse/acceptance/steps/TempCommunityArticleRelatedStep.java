@@ -101,11 +101,12 @@ public class TempCommunityArticleRelatedStep extends Steps<TempCommunityArticleR
                 .extract().as(TempArticlesResponse.class);
     }
 
-    public long 공개한다(final long articleId) {
+    public long 공개한다(final long articleId, final ArticleRequest request) {
         final CreatedArticleIdResponse response = spec.given().log().all()
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
                 .pathParam("article-id", articleId)
+                .body(request)
                 .when().log().all()
                 .post("/api/studies/{study-id}/notice/draft-articles/{article-id}/publish")
                 .then().log().all()

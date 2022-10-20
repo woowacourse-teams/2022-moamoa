@@ -119,12 +119,15 @@ public class TempArticleService {
 
     @Transactional
     public CreatedArticleIdResponse publishTempArticle(
-            final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType
+            final Long memberId, final Long studyId, final Long articleId, final ArticleType articleType,
+            final ArticleRequest request
     ) {
+        final Accessor accessor = new Accessor(memberId, studyId);
         final TempArticle tempArticle = tempArticleRepository.findById(articleId)
                 .orElseThrow(() -> new TempArticleNotFoundException(articleId, articleType));
 
-        final Article publishedArticle = tempArticle.publish(new Accessor(memberId, studyId));
+        tempArticle.update(accessor, request.createContent());
+        final Article publishedArticle = tempArticle.publish(accessor);
 
         tempArticleRepository.delete(tempArticle);
         final Article newArticle = articleRepository.save(publishedArticle);
