@@ -5,18 +5,19 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.slack.api.model.Attachment;
+import com.woowacourse.acceptance.document.StudyDocument;
 import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
 import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
-import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
-public class StudyRelatedSteps extends Steps {
+public class StudyRelatedSteps extends Steps<StudyRelatedSteps, StudyDocument> {
 
     private final Long studyId;
     private final String token;
@@ -84,7 +85,7 @@ public class StudyRelatedSteps extends Steps {
                         .color("#36288f").build()));
         slackAlarmMockServer.sendAlarmWithExpect(slackMessageRequest);
 
-        RestAssured.given().log().all()
+        spec.log().all()
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, token)
                 .pathParam("study-id", studyId)
@@ -92,25 +93,6 @@ public class StudyRelatedSteps extends Steps {
                 .post("/api/studies/{study-id}/members")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
-    }
-
-    public Long 공지사항을_작성한다(final String title, final String content) {
-        try {
-            final String location = RestAssured.given().log().all()
-                    .header(AUTHORIZATION, token)
-                    .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                    .body(objectMapper.writeValueAsString(new ArticleRequest(title, content)))
-                    .pathParam("study-id", studyId)
-                    .when().log().all()
-                    .post("/api/studies/{study-id}/notice/articles")
-                    .then().log().all()
-                    .statusCode(HttpStatus.CREATED.value())
-                    .extract().header(HttpHeaders.LOCATION);
-            return Long.parseLong(location.replaceAll("/api/studies/" + studyId + "/notice/articles/", ""));
-        } catch (Exception e) {
-            Assertions.fail("공지사항 작성 실패");
-            return null;
-        }
     }
 
     public StudyDetailResponse 정보를_가져온다() {
