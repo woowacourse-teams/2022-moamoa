@@ -17,13 +17,14 @@ import lombok.ToString;
 @ToString
 public class CommentsResponse {
 
-    List<CommentResponse> comments;
+    private List<CommentResponse> comments;
+    private boolean hasNext;
 
-    public static CommentsResponse from(List<CommentData> comments) {
+    public static CommentsResponse from(List<CommentData> comments, final boolean hasNext) {
         final List<CommentResponse> commentResponses = comments.stream()
                 .map(CommentResponse::new)
                 .collect(toList());
 
-        return new CommentsResponse(commentResponses);
+        return new CommentsResponse(commentResponses, hasNext);
     }
 }
