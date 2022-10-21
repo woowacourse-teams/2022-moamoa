@@ -3,12 +3,11 @@ import { useQueryClient } from 'react-query';
 
 import { ArticleId, ReviewId, StudyId } from '@custom-types';
 
-import { useDeleteCommunityComment } from '@api/community/comment';
-import { QK_NOTICE_COMMENTS_INFINITE_SCROLL } from '@api/notice/comment';
+import { QK_NOTICE_COMMENTS_INFINITE_SCROLL, useDeleteNoticeComment } from '@api/notice/comment';
 
 import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
 
-import CommentEditForm from '@community-tab/components/comment-edit-form/CommentEditForm';
+import CommentEditForm from '@notice-tab/components/comment-edit-form/CommentEditForm';
 
 type EditableCommentProps = { id: ReviewId; articleId: ArticleId; studyId: StudyId } & Omit<
   CommentProps,
@@ -24,10 +23,10 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   isMyComment,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { mutateAsync: deleteComment } = useDeleteCommunityComment();
+  const { mutateAsync: deleteComment } = useDeleteNoticeComment();
   const queryClient = useQueryClient();
   const refetchComments = () => {
-    queryClient.refetchQueries([QK_NOTICE_COMMENTS_INFINITE_SCROLL, studyId]);
+    queryClient.refetchQueries([QK_NOTICE_COMMENTS_INFINITE_SCROLL, studyId, articleId]);
   };
 
   // EditForm Handlers
@@ -48,7 +47,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
     setIsEditing(true);
   };
   const handleDeleteCommentButtonClick = () => {
-    deleteComment({ communityCommentId: id, articleId, studyId })
+    deleteComment({ noticeCommentId: id, articleId, studyId })
       .then(() => {
         alert('성공적으로 삭제되었습니다');
         refetchComments();
@@ -62,7 +61,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
     <>
       {isEditing ? (
         <CommentEditForm
-          communityCommentId={id}
+          noticeCommentId={id}
           studyId={studyId}
           articleId={articleId}
           originalContent={content}

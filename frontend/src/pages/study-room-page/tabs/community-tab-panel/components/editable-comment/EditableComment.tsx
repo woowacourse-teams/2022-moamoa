@@ -26,7 +26,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   const { mutateAsync: deleteComment } = useDeleteCommunityComment();
   const queryClient = useQueryClient();
   const refetchComments = () => {
-    queryClient.refetchQueries([QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, studyId]);
+    queryClient.refetchQueries([QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, studyId, articleId]);
   };
 
   // EditForm Handlers

@@ -54,6 +54,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
           />
         </>
       )}
+      <Divider space={isOwnerOrMember ? '30px' : '8px'} />
       {(() => {
         if (isError) return <Error />;
         if (isSuccess) {
@@ -61,7 +62,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
           if (comments.length === 0) return <NoComments />;
           return (
             <>
-              <Divider space={isOwnerOrMember ? '30px' : '8px'} />
               <InfiniteScroll isContentLoading={isFetching} onContentLoad={handleContentLoaded}>
                 <CommentList studyId={studyId} articleId={articleId} comments={comments} />
               </InfiniteScroll>
