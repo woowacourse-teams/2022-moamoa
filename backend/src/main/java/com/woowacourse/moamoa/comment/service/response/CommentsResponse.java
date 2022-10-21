@@ -21,7 +21,7 @@ public class CommentsResponse {
     private long totalCount;
     private boolean hasNext;
 
-    public static CommentsResponse from(List<CommentData> comments, final boolean hasNext, final long totalCount) {
+    public static CommentsResponse from(final List<CommentData> comments, final boolean hasNext, final long totalCount) {
         final List<CommentResponse> commentResponses = comments.stream()
                 .map(CommentResponse::new)
                 .collect(toList());
