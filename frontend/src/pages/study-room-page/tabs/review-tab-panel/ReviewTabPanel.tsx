@@ -24,7 +24,10 @@ const ReviewTabPanel: React.FC = () => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId });
 
-  const { data, isFetching, refetch, isError, isSuccess, fetchNextPage } = useGetInfiniteStudyReviews({ studyId });
+  const { data, isFetching, refetch, isError, isSuccess, fetchNextPage } = useGetInfiniteStudyReviews({
+    studyId,
+    size: 9999, // @TODO: backend쪽에 pagination이 구현이 안되었기 때문에 우선 많이 불러온다
+  });
 
   const handlePostSuccess = () => {
     alert('리뷰를 추가했습니다');
