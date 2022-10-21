@@ -20,6 +20,7 @@ type CommentSectionProps = {
 const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId }); // @TODO: 꼭 객체로 받아야 하는가?
+
   const { isFetching, isError, isSuccess, data, refetch, fetchNextPage } = useGetInfiniteCommunityComments({
     studyId,
     articleId,
@@ -42,6 +43,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
     <Self>
       {isOwnerOrMember && (
         <>
+          {/* {@TODO: Divider를 밖으로 빼내는 방법을 생각해 보자} */}
+          <Divider space="16px" />
           <CommentForm
             author={userInfo}
             studyId={studyId}
@@ -51,16 +54,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
           />
         </>
       )}
-      <Divider space={isOwnerOrMember ? '30px' : '8px'} />
       {(() => {
         if (isError) return <Error />;
         if (isSuccess) {
           const comments = data?.pages.reduce<Array<CommunityComment>>((acc, cur) => [...acc, ...cur.comments], []);
           if (comments.length === 0) return <NoComments />;
           return (
-            <InfiniteScroll isContentLoading={isFetching} onContentLoad={handleContentLoaded}>
-              <CommentList studyId={studyId} articleId={articleId} comments={comments} />
-            </InfiniteScroll>
+            <>
+              <Divider space={isOwnerOrMember ? '30px' : '8px'} />
+              <InfiniteScroll isContentLoading={isFetching} onContentLoad={handleContentLoaded}>
+                <CommentList studyId={studyId} articleId={articleId} comments={comments} />
+              </InfiniteScroll>
+            </>
           );
         }
       })()}

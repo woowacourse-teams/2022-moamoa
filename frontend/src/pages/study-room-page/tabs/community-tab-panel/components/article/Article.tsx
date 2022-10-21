@@ -9,6 +9,7 @@ import { changeDateSeperator } from '@utils';
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community/article';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -75,9 +76,7 @@ const Article: React.FC = () => {
                 <Divider space="8px" />
                 <ListPageLink />
               </article>
-              <Divider space="16px" />
               <CommentSection studyId={studyId} articleId={articleId} />
-              <Divider space="16px" />
             </>
           );
         }
