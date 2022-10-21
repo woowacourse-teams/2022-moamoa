@@ -33,6 +33,14 @@ public class CommentDao {
         return new SliceImpl<>(getCurrentPageComments(comments, pageable), pageable, hasNext(comments, pageable));
     }
 
+    public long getCommentTotalCount(final Long articleId) {
+        final String countSql = "SELECT count(*) as total_count FROM comment "
+                + "WHERE comment.article_id = :articleId";
+
+        return namedParameterJdbcTemplate.queryForObject(countSql, Map.of("articleId", articleId),
+                (rs, rn) -> rs.getLong("total_count"));
+    }
+
     private List<CommentData> getCurrentPageComments(final List<CommentData> comments, final Pageable pageable) {
         if (hasNext(comments, pageable)) {
             return comments.subList(0, comments.size() - 1);

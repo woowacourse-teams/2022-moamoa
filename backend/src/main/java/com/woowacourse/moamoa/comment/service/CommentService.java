@@ -44,8 +44,9 @@ public class CommentService {
     @Transactional(readOnly = true)
     public CommentsResponse getComments(final Long articleId, final Pageable pageable) {
         final Slice<CommentData> comments = commentDao.findAllByArticleId(articleId, pageable);
+        final long commentTotalCount = commentDao.getCommentTotalCount(articleId);
 
-        return CommentsResponse.from(comments.getContent(), comments.hasNext());
+        return CommentsResponse.from(comments.getContent(), comments.hasNext(), commentTotalCount);
     }
 
     public void update(final Long memberId, final Long studyId, final Long commentId,
