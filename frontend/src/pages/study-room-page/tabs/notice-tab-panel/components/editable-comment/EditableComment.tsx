@@ -3,8 +3,7 @@ import { useQueryClient } from 'react-query';
 
 import { ArticleId, ReviewId, StudyId } from '@custom-types';
 
-import { useDeleteCommunityComment } from '@api/community/comment';
-import { QK_COMMUNITY_COMMENTS } from '@api/community/comments';
+import { QK_COMMUNITY_COMMENTS, useDeleteCommunityComment } from '@api/community/comment';
 
 import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
 import CommentEditForm from '@study-room-page/tabs/community-tab-panel/components/comment-edit-form/CommentEditForm';
