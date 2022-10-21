@@ -3,10 +3,11 @@ import { useQueryClient } from 'react-query';
 
 import { ArticleId, ReviewId, StudyId } from '@custom-types';
 
-import { QK_COMMUNITY_COMMENTS, useDeleteCommunityComment } from '@api/community/comment';
+import { QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, useDeleteCommunityComment } from '@api/community/comment';
 
 import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
-import CommentEditForm from '@study-room-page/tabs/community-tab-panel/components/comment-edit-form/CommentEditForm';
+
+import CommentEditForm from '@community-tab/components/comment-edit-form/CommentEditForm';
 
 type EditableCommentProps = { id: ReviewId; articleId: ArticleId; studyId: StudyId } & Omit<
   CommentProps,
@@ -25,7 +26,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   const { mutateAsync: deleteComment } = useDeleteCommunityComment();
   const queryClient = useQueryClient();
   const refetchComments = () => {
-    queryClient.refetchQueries([QK_COMMUNITY_COMMENTS, studyId]);
+    queryClient.refetchQueries([QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, studyId]);
   };
 
   // EditForm Handlers
