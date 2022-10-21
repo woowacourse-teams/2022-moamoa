@@ -1,0 +1,158 @@
+{
+  "articles": [
+    {
+      "id": 36772405,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 85990196,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 29625962,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 1804526,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 16731983,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 62511737,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 5659801,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 17803223,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 1699843,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 74809726,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 71052827,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 21312204,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 10483022,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    },
+    {
+      "id": 63269288,
+      "title": "커뮤니티 글 제목",
+      "content": "커뮤니티 글 내용",
+      "createdDate": "2022-08-09",
+      "lastModifiedDate": "2022-08-09",
+      "study": {
+        "id": 85990196,
+        "title": "어떤 스터디"
+      }
+    }
+  ]
+}

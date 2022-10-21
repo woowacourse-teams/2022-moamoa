@@ -26,7 +26,7 @@ const EditStudyPage: React.FC = () => {
   useEffect(() => {
     if (!studyId) {
       alert('잘못된 접근입니다.');
-      navigate(PATH.MAIN);
+      navigate(PATH.MAIN, { replace: true });
     }
   }, []);
 

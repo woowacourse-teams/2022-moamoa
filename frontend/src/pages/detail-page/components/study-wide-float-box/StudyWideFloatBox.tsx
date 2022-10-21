@@ -8,7 +8,7 @@ import { yyyymmddTommdd } from '@utils';
 
 import type { DateYMD, StudyDetail, StudyId } from '@custom-types';
 
-import BoxButton, { type BoxButtonProps } from '@shared/button/box-button/BoxButton';
+import { BoxButton, type BoxButtonProps } from '@shared/button';
 import Card from '@shared/card/Card';
 import Flex from '@shared/flex/Flex';
 
@@ -49,11 +49,13 @@ const StudyWideFloatBox: React.FC<StudyWideFloatBoxProps> = ({
             <NumberOfApplicants currentMemberCount={currentMemberCount} maxMemberCount={maxMemberCount} />
           </Card.Content>
         </div>
-        {isOwnerOrMember || isOpen ? (
-          <StudyRoomLink studyId={studyId} />
-        ) : (
-          <RegisterButton onClick={handleRegisterButtonClick} />
-        )}
+        <div>
+          {isOwnerOrMember || !isOpen ? (
+            <StudyRoomLink studyId={studyId} />
+          ) : (
+            <RegisterButton onClick={handleRegisterButtonClick} />
+          )}
+        </div>
       </Flex>
     </Card>
   );
@@ -91,12 +93,18 @@ type NumberOfApplicantsProps = {
   maxMemberCount?: number;
 };
 const NumberOfApplicants: React.FC<NumberOfApplicantsProps> = ({ currentMemberCount, maxMemberCount }) => (
-  <Flex justifyContent="space-between">
-    <span>모집인원</span>
+  <>
+    <span
+      css={css`
+        margin-right: 16px;
+      `}
+    >
+      모집인원
+    </span>
     <span>
       {currentMemberCount} / {maxMemberCount ?? '∞'}
     </span>
-  </Flex>
+  </>
 );
 
 type StudyRoomLinkProps = {
@@ -105,7 +113,7 @@ type StudyRoomLinkProps = {
 const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
   <Link to={PATH.STUDY_ROOM(studyId)}>
     <BoxButton type="button" custom={{ fontSize: 'lg' }}>
-      스터디 방으로 이동하기
+      이동하기
     </BoxButton>
   </Link>
 );
@@ -113,6 +121,6 @@ const StudyRoomLink: React.FC<StudyRoomLinkProps> = ({ studyId }) => (
 type RegisterButtonProps = Pick<BoxButtonProps, 'onClick'>;
 const RegisterButton: React.FC<RegisterButtonProps> = ({ onClick: handleClick }) => (
   <BoxButton type="submit" onClick={handleClick} custom={{ fontSize: 'lg' }}>
-    스터디 가입하기
+    가입하기
   </BoxButton>
 );

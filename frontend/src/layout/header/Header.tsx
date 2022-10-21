@@ -19,12 +19,13 @@ import LogoLink from '@layout/header/components/logo-link/LogoLink';
 import NavButton from '@layout/header/components/nav-button/NavButton';
 import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
+import Avatar from '@shared/avatar/Avatar';
+import { IconButton } from '@shared/button';
+import DropDownBox from '@shared/drop-down-box/DropDownBox';
 import Flex from '@shared/flex/Flex';
+import { BookmarkIcon, FolderIcon, LoginIcon, LogoutIcon } from '@shared/icons';
 
-import Avatar from '@components/@shared/avatar/Avatar';
-import { IconButton } from '@components/@shared/button';
-import DropDownBox from '@components/@shared/drop-down-box/DropDownBox';
-import { BookmarkIcon, LoginIcon, LogoutIcon } from '@components/@shared/icons';
+import ButtonGroup from '@components/@shared/button-group/ButtonGroup';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);
@@ -39,6 +40,8 @@ const Header: React.FC = () => {
 
   const handleKeywordSubmit = (e: React.FormEvent<HTMLFormElement>, inputName: string) => {
     e.preventDefault();
+
+    // TODO: 이건 어찌할 방법이 없을까?
     const value = (e.target as any)[inputName].value;
     if (value.length === 0) {
       alert('검색어를 입력해주세요');
@@ -153,7 +156,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ onClick: handleClick }) => (
 
 const MyStudyPageLink = () => (
   <Link to={PATH.MY_STUDY}>
-    <NavButton ariaLabel="내 스터디">
+    <NavButton ariaLabel="내 스터디 페이지 이동">
       <BookmarkIcon />
       <span>내 스터디</span>
     </NavButton>
@@ -171,10 +174,18 @@ const UserDropdown: React.FC<UserDropdownProps> = ({
   onLogoutButtonClick: handleLogoutButtonClick,
 }) => (
   <DropDownBox isOpen={isOpen} top="40px" right={0} onClose={handleClose} custom={{ padding: '16px' }}>
-    <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
-      <LogoutIcon />
-      <span>로그아웃</span>
-    </NavButton>
+    <ButtonGroup orientation="vertical" gap="8px">
+      <Link to={PATH.DRAFT}>
+        <NavButton ariaLabel="임시 저장 목록 페이지 이동">
+          <FolderIcon />
+          <span>임시 저장 목록</span>
+        </NavButton>
+      </Link>
+      <NavButton onClick={handleLogoutButtonClick} ariaLabel="로그아웃">
+        <LogoutIcon />
+        <span>로그아웃</span>
+      </NavButton>
+    </ButtonGroup>
   </DropDownBox>
 );
 

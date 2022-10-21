@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,7 @@ public class CommentDao {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<CommentData> findAllByArticleId(final Long articleId, final Pageable pageable) {
+    public Slice<CommentData> findAllByArticleId(final Long articleId, final Pageable pageable) {
         final long offset = pageable.getOffset();
         final int pageSize = pageable.getPageSize();
         String sql = "SELECT comment.id, comment.content, comment.created_date, comment.last_modified_date, "
@@ -26,8 +28,28 @@ public class CommentDao {
                 + "WHERE comment.article_id = :articleId "
                 + "ORDER BY comment.created_date DESC, comment.id DESC LIMIT :limit OFFSET :offset";
 
-        return namedParameterJdbcTemplate.query(sql,
-                Map.of("articleId", articleId, "limit", pageSize, "offset", offset), rowMapper());
+        final List<CommentData> comments = namedParameterJdbcTemplate.query(sql,
+                Map.of("articleId", articleId, "limit", pageSize + 1, "offset", offset), rowMapper());
+        return new SliceImpl<>(getCurrentPageComments(comments, pageable), pageable, hasNext(comments, pageable));
+    }
+
+    public long getCommentTotalCount(final Long articleId) {
+        final String countSql = "SELECT count(*) as total_count FROM comment "
+                + "WHERE comment.article_id = :articleId";
+
+        return namedParameterJdbcTemplate.queryForObject(countSql, Map.of("articleId", articleId),
+                (rs, rn) -> rs.getLong("total_count"));
+    }
+
+    private List<CommentData> getCurrentPageComments(final List<CommentData> comments, final Pageable pageable) {
+        if (hasNext(comments, pageable)) {
+            return comments.subList(0, comments.size() - 1);
+        }
+        return comments;
+    }
+
+    private boolean hasNext(final List<CommentData> comments, final Pageable pageable) {
+        return comments.size() > pageable.getPageSize();
     }
 
     private RowMapper<CommentData> rowMapper() {

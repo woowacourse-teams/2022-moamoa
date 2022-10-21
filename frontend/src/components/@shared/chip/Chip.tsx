@@ -19,7 +19,11 @@ export const Self = styled.span<StyledChipProps>`
     display: inline-block;
 
     min-width: 80px;
+    max-width: 100px;
     padding: 8px 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     font-size: ${theme.fontSize.sm};
     text-align: center;

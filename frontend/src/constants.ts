@@ -1,25 +1,29 @@
+import { ArticleId, StudyId } from '@custom-types';
+
 export const PATH = {
   MAIN: '/',
-  STUDY_DETAIL: (studyId: ':studyId' | number = ':studyId') => `/study/${studyId}`,
+  STUDY_DETAIL: (studyId: ':studyId' | StudyId = ':studyId') => `/study/${studyId}`,
   CREATE_STUDY: '/study/create',
-  EDIT_STUDY: (studyId: ':studyId' | number = ':studyId') => `/study/edit/${studyId}`,
+  EDIT_STUDY: (studyId: ':studyId' | StudyId = ':studyId') => `/study/edit/${studyId}`,
   MY_STUDY: '/my/study',
+  DRAFT: '/draft',
   LOGIN: '/login',
 
-  STUDY_ROOM: (studyId: ':studyId' | number = ':studyId') => `/studyroom/${studyId}`,
+  STUDY_ROOM: (studyId: ':studyId' | StudyId = ':studyId') => `/studyroom/${studyId}`,
 
   REVIEW: 'reviews',
   LINK: 'links',
 
   NOTICE: 'notice',
   NOTICE_PUBLISH: 'article/publish',
-  NOTICE_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
-  NOTICE_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+  NOTICE_ARTICLE: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}`,
+  NOTICE_EDIT: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}/edit`,
 
   COMMUNITY: 'community',
   COMMUNITY_PUBLISH: 'article/publish',
-  COMMUNITY_ARTICLE: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}`,
-  COMMUNITY_EDIT: (articleId: ':articleId' | number = ':articleId') => `article/${articleId}/edit`,
+  DRAFT_COMMUNITY_PUBLISH: (articleId: ':articleId' | ArticleId = ':articleId') => `draft-article/${articleId}/publish`,
+  COMMUNITY_ARTICLE: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}`,
+  COMMUNITY_EDIT: (articleId: ':articleId' | ArticleId = ':articleId') => `article/${articleId}/edit`,
 } as const;
 
 export const API_ERROR = {
@@ -36,6 +40,10 @@ export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
 export const DEFAULT_LINK_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 9,
+};
+export const DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 6,
 };
 
 export const DEFAULT_VISIBLE_STUDY_MEMBER_CARD_COUNT = 6;
@@ -187,4 +195,13 @@ export const STUDY_STATUS = {
 export const PERIOD = {
   START_DATE: 'start-date',
   END_DATE: 'end-date',
+};
+
+export const TITLE = 'title';
+
+export const CONTENT = 'content';
+
+export const DRAFT_SAVE_TIME = {
+  FIVE_MINUTES: 5 * 60 * 1000,
+  THIRTY_SECONDS: 3 * 1000,
 };

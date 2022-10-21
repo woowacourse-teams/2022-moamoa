@@ -26,7 +26,7 @@ const UserInfoItem: React.FC<UserInfoItemProps> = ({ children, src, name, size }
     <ItemSelf>
       <Flex columnGap="8px">
         <Avatar src={src} name={name} size={size} />
-        <Flex.Item flexGrow={1}>
+        <Flex.Item>
           <Flex flexDirection="column" columnGap="2px">
             {children}
           </Flex>
@@ -46,6 +46,7 @@ const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) =
 
 export const ItemSelf = styled.div`
   ${({ theme }) => css`
+    width: fit-content;
     padding: 8px;
 
     background: transparent;
@@ -67,7 +68,7 @@ export const ItemContentSelf = styled.p`
     font-size: ${theme.fontSize.sm};
   `}
 
-  ${nLineEllipsis(2)};
+  ${nLineEllipsis(1)};
 `;
 
 export default Object.assign(UserInfoItem, {

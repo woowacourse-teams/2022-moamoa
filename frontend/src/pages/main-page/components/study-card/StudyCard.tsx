@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import type { Study } from '@custom-types';
 
-import { applyHoverTransitionStyle } from '@styles/theme';
+import { applyHoverTranslateTransitionStyle } from '@styles/theme';
 
 import Card from '@shared/card/Card';
 import Flex from '@shared/flex/Flex';
@@ -25,7 +25,7 @@ export type StudyCardProps = {
 const StudyCard: React.FC<StudyCardProps> = ({ thumbnailUrl, thumbnailAlt, title, excerpt, tags, isOpen }) => {
   return (
     <Self>
-      <Card custom={{ width: '280px' }}>
+      <Card>
         <CardImage alt={thumbnailAlt} src={thumbnailUrl} />
         <div>
           <Card.Heading custom={{ marginBottom: '8px' }}>{title}</Card.Heading>
@@ -48,7 +48,7 @@ const Self = styled.div`
   position: relative;
   height: 280px;
 
-  ${applyHoverTransitionStyle()}
+  ${applyHoverTranslateTransitionStyle()}
 `;
 
 type ExceprtProps = {
