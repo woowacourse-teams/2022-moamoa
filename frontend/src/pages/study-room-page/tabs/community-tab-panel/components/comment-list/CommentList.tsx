@@ -8,7 +8,7 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/@shared/divider/Divider';
 
-import EditableComment from '@study-room-page/tabs/community-tab-panel/components/editable-comment/EditableComment';
+import EditableComment from '@community-tab/components/editable-comment/EditableComment';
 
 // 여기서 api호출을 하지 않는 이유는, 위쪽에서 comment를 작성하고 refetch를 해줘야 하기 때문이다
 // 그냥 useGetCommunityComments를 두번 호출하는건 별로인가?

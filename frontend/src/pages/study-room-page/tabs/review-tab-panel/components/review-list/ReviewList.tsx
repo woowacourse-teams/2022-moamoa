@@ -4,7 +4,7 @@ import { Member, StudyId, StudyReview } from '@custom-types';
 
 import Divider from '@components/@shared/divider/Divider';
 
-import ReviewEditableComment from '@study-room-page/tabs/review-tab-panel/components/review-editable-comment/ReviewEditableComment';
+import ReviewEditableComment from '@review-tab/components/review-editable-comment/ReviewEditableComment';
 
 type ReviewListProps = {
   reviews: Array<StudyReview>;

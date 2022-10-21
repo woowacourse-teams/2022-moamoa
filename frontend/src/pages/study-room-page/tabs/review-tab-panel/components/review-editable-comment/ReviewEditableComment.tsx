@@ -7,7 +7,8 @@ import { useDeleteReview } from '@api/review';
 import { QK_STUDY_REVIEWS } from '@api/reviews';
 
 import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
-import ReviewEditForm from '@study-room-page/tabs/review-tab-panel/components/review-edit-form/ReviewEditForm';
+
+import ReviewEditForm from '@review-tab/components/review-edit-form/ReviewEditForm';
 
 type ReviewEditableCommentProps = { id: ReviewId; studyId: StudyId } & Omit<
   CommentProps,

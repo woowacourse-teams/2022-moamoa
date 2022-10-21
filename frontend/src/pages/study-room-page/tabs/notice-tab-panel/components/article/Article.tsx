@@ -18,7 +18,7 @@ import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
-import CommentSection from '@study-room-page/tabs/notice-tab-panel/components/comment-section/CommentSection';
+import CommentSection from '@notice-tab/components/comment-section/CommentSection';
 
 export type ArticleProps = {
   studyId: number;
@@ -76,6 +76,7 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
                 <Divider space="8px" />
                 <ListPageLink />
               </article>
+              <CommentSection studyId={studyId} articleId={articleId} />
             </>
           );
         }

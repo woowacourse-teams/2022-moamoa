@@ -13,9 +13,8 @@ import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
 import InfiniteScroll from '@components/@shared/infinite-scroll/InfiniteScroll';
 
-import ReviewList from '@study-room-page/tabs/review-tab-panel/components/review-list/ReviewList';
-
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
+import ReviewList from '@review-tab/components/review-list/ReviewList';
 
 const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
