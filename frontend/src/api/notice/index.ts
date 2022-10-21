@@ -63,14 +63,6 @@ const getNoticeArticles = async ({ studyId, page = 1, size = 8 }: ApiNoticeArtic
   const response = await axiosInstance.get<ApiNoticeArticles['get']['responseData']>(
     `/api/studies/${studyId}/notice/articles?page=${page - 1}&size=${size}`,
   );
-  const { totalCount, currentPage, lastPage } = response.data;
-
-  response.data = {
-    ...response.data,
-    totalCount: Number(totalCount),
-    currentPage: Number(currentPage) + 1, // page를 하나 늘려준다 서버에서 0으로 오기 때문이다
-    lastPage: Number(lastPage),
-  };
 
   return checkNoticeArticles(response.data);
 };
@@ -116,7 +108,9 @@ const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['del
 };
 
 export const useGetNoticeArticles = ({ studyId, page }: ApiNoticeArticles['get']['variables']) => {
-  return useQuery(['get-notice-articles', studyId, page], () => getNoticeArticles({ studyId, page }));
+  return useQuery<ApiNoticeArticles['get']['responseData'], AxiosError>(['get-notice-articles', studyId, page], () =>
+    getNoticeArticles({ studyId, page }),
+  );
 };
 
 export const useGetNoticeArticle = ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {

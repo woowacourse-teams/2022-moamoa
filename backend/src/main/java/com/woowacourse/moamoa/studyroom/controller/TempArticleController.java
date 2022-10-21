@@ -95,9 +95,11 @@ public class TempArticleController {
             @AuthenticatedMemberId final Long memberId,
             @PathVariable("study-id") final Long studyId,
             @PathVariable("article-id") final Long articleId,
-            @PathVariable("article-type") final ArticleType articleType
+            @PathVariable("article-type") final ArticleType articleType,
+            @Valid @RequestBody final ArticleRequest request
     ) {
-        CreatedArticleIdResponse response = tempArticleService.publishTempArticle(memberId, studyId, articleId, articleType);
+        CreatedArticleIdResponse response = tempArticleService.publishTempArticle(memberId, studyId, articleId,
+                articleType, request);
 
         final String location = String.format(
                 "/api/studies/%d/notice/articles/%d", studyId, response.getArticleId()

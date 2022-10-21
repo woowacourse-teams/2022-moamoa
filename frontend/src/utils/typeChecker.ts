@@ -12,6 +12,7 @@ export const isString = (value: unknown): value is string => typeof value === 's
 
 export const isNumber = (value: unknown): value is number => typeof value === 'number';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isFunction = (val: unknown): val is (...args: any) => any => typeof val === 'function';
 
 export const isObject = <T extends object>(value: unknown): value is T =>

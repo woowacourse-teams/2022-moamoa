@@ -89,8 +89,7 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
-                        slackUsersClient, slackAlarmSender, asyncService);
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), asyncService);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -134,8 +133,7 @@ class StudyParticipantControllerTest {
         entityManager.clear();
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()),
-                slackUsersClient, slackAlarmSender, asyncService);
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), asyncService);
         sut.leaveStudy(green.getId(), studyId);
 
         // then
@@ -146,6 +144,7 @@ class StudyParticipantControllerTest {
         assertThat(leaveStudy.getContent().getThumbnail()).isEqualTo("java image");
         assertThat(leaveStudy.getContent().getDescription()).isEqualTo("자바 스터디 상세설명 입니다.");
         assertThat(leaveStudy.getRecruitPlanner().getMaxMemberCount()).isEqualTo(2);
-        assertThat(leaveStudy.getRecruitPlanner().getRecruitStatus()).isNotEqualTo(study.getRecruitPlanner().getRecruitStatus());
+        assertThat(leaveStudy.getRecruitPlanner().getRecruitStatus()).isNotEqualTo(
+                study.getRecruitPlanner().getRecruitStatus());
     }
 }

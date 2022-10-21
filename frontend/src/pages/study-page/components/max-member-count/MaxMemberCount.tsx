@@ -71,7 +71,7 @@ const MaxMemberCountField: React.FC<MaxMemberCountFieldProps> = ({ defaultValue,
   return (
     <Flex columnGap="8px" alignItems="center">
       <Label htmlFor={MAX_MEMBER_COUNT}>최대 인원 :</Label>
-      <Flex.Item flexGrow={1}>
+      <Flex.Item>
         <Input
           id={MAX_MEMBER_COUNT}
           type="number"

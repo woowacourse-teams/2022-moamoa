@@ -309,13 +309,14 @@ public class TempArticleControllerTest {
     @EnumSource(ArticleType.class)
     void publishTempArticle(final ArticleType type) {
         // arrange
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
         Member 방장 = saveMember(짱구());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, articleRequest, type);
 
         // act
         final ResponseEntity<CreatedArticleIdResponse> response = sut
-                .publishTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, type);
+                .publishTempArticle(방장.getId(), 자바_스터디.getId(), 게시글_ID, type, articleRequest);
 
         // arrange
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -336,8 +337,10 @@ public class TempArticleControllerTest {
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
         Long 존재하지_않는_게시글_ID = 1L;
 
+        final ArticleRequest invalidArticleRequest = new ArticleRequest("잘못된 임시글", "잘못된 내용");
+
         // act & assert
-        assertThatCode(() -> sut.publishTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, type))
+        assertThatCode(() -> sut.publishTempArticle(방장.getId(), 자바_스터디.getId(), 존재하지_않는_게시글_ID, type, invalidArticleRequest))
                 .isInstanceOf(TempArticleNotFoundException.class);
     }
 
@@ -346,14 +349,15 @@ public class TempArticleControllerTest {
     @EnumSource(ArticleType.class)
     void publishTempArticleByForbiddenAccessor(final ArticleType type) {
         // arrange
+        final ArticleRequest articleRequest = new ArticleRequest("제목", "내용");
         Member 방장 = saveMember(짱구());
         Member 비허가_사용자 = saveMember(베루스());
         Study 자바_스터디 = createStudy(방장, 자바_스터디_신청서(LocalDate.now()));
-        Long 게시글_ID = createTempArticle(방장, 자바_스터디, new ArticleRequest("제목", "내용"), type);
+        Long 게시글_ID = createTempArticle(방장, 자바_스터디, articleRequest, type);
 
         // act & assert
-        assertThatCode(() -> sut.publishTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type))
-                .isInstanceOf(UnwritableException.class);
+        assertThatCode(() -> sut.publishTempArticle(비허가_사용자.getId(), 자바_스터디.getId(), 게시글_ID, type, articleRequest))
+                .isInstanceOf(UneditableException.class);
         assertThat(tempArticleRepository.findById(게시글_ID)).isPresent();
     }
 

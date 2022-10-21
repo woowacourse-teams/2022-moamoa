@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { css } from '@emotion/react';
 
-import { DESCRIPTION_LENGTH } from '@constants';
+import { CONTENT, DESCRIPTION_LENGTH } from '@constants';
 
 import { makeValidationResult, useFormContext } from '@hooks/useForm';
 
@@ -15,8 +15,8 @@ import Textarea from '@shared/textarea/Textarea';
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
 
-export type EditContentProps = {
-  content: string;
+export type ArticleContentInputProps = {
+  originalContent?: string;
 };
 
 const tabMode = {
@@ -24,31 +24,23 @@ const tabMode = {
   preview: 'preview',
 };
 
-const CONTENT = 'content';
+const ArticleContentInput: React.FC<ArticleContentInputProps> = ({ originalContent }) => {
+  const { getField } = useFormContext();
 
-const EditContent: React.FC<EditContentProps> = ({ content }) => {
-  const {
-    formState: { errors },
-    getField,
-  } = useFormContext();
-
-  const [description, setDescription] = useState<string>('');
-
+  const [description, setDescription] = useState<string>(originalContent ?? '');
   const [activeTab, setActiveTab] = useState<TabIds>(tabMode.write);
-
-  const isValid = !errors[CONTENT]?.hasError;
 
   const handleTabButtonClick = (tabId: string) => () => {
     setActiveTab(tabId);
   };
 
   useEffect(() => {
-    const field = getField(CONTENT);
-    if (!field) return;
     if (activeTab !== tabMode.preview) return;
 
-    const description = field.fieldElement.value;
-    setDescription(description);
+    const contentField = getField(CONTENT);
+    if (!contentField) return;
+
+    setDescription(contentField.fieldElement.value);
   }, [activeTab]);
 
   const isWriteTab = activeTab === tabMode.write;
@@ -67,7 +59,7 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
             height: 50vh;
           `}
         >
-          <WriteTab isOpen={isWriteTab} isValid={isValid} defaultValue={content} />
+          <WriteTab isOpen={isWriteTab} defaultValue={originalContent ?? ''} />
           <MarkdownRendererTab isOpen={!isWriteTab} description={description} />
         </div>
       </MetaBox.Content>
@@ -75,33 +67,36 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
   );
 };
 
+export default ArticleContentInput;
+
 type WriteTabButtonProps = {
   activeTab: TabIds;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick: () => void;
 };
-const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick }) => (
-  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={onClick}>
+const WriteTabButton: React.FC<WriteTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.write} onClick={handleClick}>
     Write
   </ToggleButton>
 );
 
-type PreviewTabButtonProps = {
-  activeTab: TabIds;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick }) => (
-  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={onClick}>
+type PreviewTabButtonProps = WriteTabButtonProps;
+const PreviewTabButton: React.FC<PreviewTabButtonProps> = ({ activeTab, onClick: handleClick }) => (
+  <ToggleButton variant="secondary" checked={activeTab === tabMode.preview} onClick={handleClick}>
     Preview
   </ToggleButton>
 );
 
 type WriteTabProps = {
   isOpen: boolean;
-  isValid: boolean;
   defaultValue: string;
 };
-const WriteTab: React.FC<WriteTabProps> = ({ isOpen, isValid, defaultValue }) => {
-  const { register } = useFormContext();
+const WriteTab: React.FC<WriteTabProps> = ({ isOpen, defaultValue }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const isValid = !errors[CONTENT]?.hasError;
 
   const style = css`
     display: ${isOpen ? 'block' : 'none'};
@@ -150,5 +145,3 @@ const MarkdownRendererTab: React.FC<MarkdownRendererTabProps> = ({ isOpen, descr
     </div>
   );
 };
-
-export default EditContent;

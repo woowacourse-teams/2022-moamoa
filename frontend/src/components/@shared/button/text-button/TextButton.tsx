@@ -30,7 +30,7 @@ export default TextButton;
 
 type StyledTextButtonProps = Required<Pick<TextButtonProps, 'fluid' | 'variant'>>;
 
-export const Self = styled.button<StyledTextButtonProps>`
+const Self = styled.button<StyledTextButtonProps>`
   ${({ theme, fluid, variant }) => css`
     width: ${fluid ? '100%' : 'auto'};
     padding: 8px 4px;

@@ -36,6 +36,7 @@
     "^@create-study-page/(.*)$",
     "^@edit-study-page/(.*)$",
     "^@my-study-page/(.*)$",
+    "^@draft-page/(.*)$",
     "^@study-room-page/(.*)$",
     "^@notice-tab/(.*)$",
     "^@community-tab/(.*)$",
