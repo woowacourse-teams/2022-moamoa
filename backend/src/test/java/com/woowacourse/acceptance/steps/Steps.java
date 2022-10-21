@@ -46,7 +46,6 @@ public abstract class Steps<S extends Steps<S, D>, D extends Document> {
 
     protected static void mockingGithubServer(String authorizationCode, GithubProfileResponse response) {
         try {
-            mockServer.reset();
             mockingGithubServerForGetAccessToken(authorizationCode, Map.of("access_token", "access-token",
                     "token_type", "bearer",
                     "scope", ""));

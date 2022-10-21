@@ -54,6 +54,8 @@ public class LoginSteps extends Steps {
 
     private String requestBearerToken() {
         final String authorizationCode = "Authorization Code" + githubProfile.getGithubId();
+
+        mockServer.reset();
         mockingGithubServer(authorizationCode, githubProfile);
 
         final String token = RestAssured.given().log().all()
