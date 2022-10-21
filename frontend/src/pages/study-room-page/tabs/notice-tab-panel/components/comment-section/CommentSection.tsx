@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
-import { useGetInfiniteCommunityComments } from '@api/community/comment';
+import { useGetInfiniteNoticeComments } from '@api/notice/comment';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';
@@ -20,7 +20,7 @@ type CommentSectionProps = {
 const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId }); // @TODO: 꼭 객체로 받아야 하는가?
-  const { isFetching, isError, isSuccess, data, refetch, fetchNextPage } = useGetInfiniteCommunityComments({
+  const { isFetching, isError, isSuccess, data, refetch, fetchNextPage } = useGetInfiniteNoticeComments({
     studyId,
     articleId,
   });
