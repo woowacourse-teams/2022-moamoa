@@ -8,7 +8,7 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@components/@shared/divider/Divider';
 
-import EditableComment from '@study-room-page/tabs/notice-tab-panel/components/editable-comment/EditableComment';
+import EditableComment from '@notice-tab/components/editable-comment/EditableComment';
 
 type CommentListProps = {
   articleId: ArticleId;
