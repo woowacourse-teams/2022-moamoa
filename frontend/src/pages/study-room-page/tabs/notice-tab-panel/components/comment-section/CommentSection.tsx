@@ -23,7 +23,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
   const { isFetching, isError, isSuccess, data, refetch, fetchNextPage } = useGetInfiniteCommunityComments({
     studyId,
     articleId,
-    size: 9999, // @TODO: backend쪽에 pagination이 구현이 안되었기 때문에 우선 많이 불러온다
   });
 
   const handlePostSuccess = () => {
@@ -43,6 +42,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
     <Self>
       {isOwnerOrMember && (
         <>
+          {/* {@TODO: Divider를 밖으로 빼내는 방법을 생각해 보자} */}
+          <Divider space="16px" />
           <CommentForm
             author={userInfo}
             studyId={studyId}
