@@ -46,8 +46,9 @@
 
 ## ⚙️ 인프라 구조
 <p align="left">
-  <img src="https://user-images.githubusercontent.com/61091307/195333113-76b5549a-ad10-456c-9746-34886f13137f.png" />
+  <img src="https://user-images.githubusercontent.com/61091307/197088025-c741e8ad-5349-49e3-bfc8-5fb4d6786c7e.png" />
 </p>
+
 
 ## 🛠 CI/CD
 <p align="left">
