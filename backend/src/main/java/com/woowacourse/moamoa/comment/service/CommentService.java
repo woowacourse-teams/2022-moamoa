@@ -14,9 +14,9 @@ import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.domain.article.repository.ArticleRepository;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,9 +43,10 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public CommentsResponse getComments(final Long articleId, final Pageable pageable) {
-        final List<CommentData> comments = commentDao.findAllByArticleId(articleId, pageable);
+        final Slice<CommentData> comments = commentDao.findAllByArticleId(articleId, pageable);
+        final long commentTotalCount = commentDao.getCommentTotalCount(articleId);
 
-        return CommentsResponse.from(comments);
+        return CommentsResponse.from(comments.getContent(), comments.hasNext(), commentTotalCount);
     }
 
     public void update(final Long memberId, final Long studyId, final Long commentId,

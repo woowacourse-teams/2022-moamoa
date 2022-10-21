@@ -97,7 +97,8 @@ class CommentDaoTest {
         entityManager.flush();
 
         // when
-        final List<CommentData> commentData = commentDao.findAllByArticleId(article.getId(), Pageable.ofSize(8));
+        final List<CommentData> commentData = commentDao.findAllByArticleId(article.getId(), Pageable.ofSize(8))
+                .getContent();
 
         // then
         assertThat(commentData).hasSize(2)
