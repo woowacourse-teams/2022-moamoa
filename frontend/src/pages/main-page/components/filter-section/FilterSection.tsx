@@ -43,10 +43,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
     const slider = sliderRef.current;
     if (slider.scrollLeft === 0) {
-      sliderRef.current.scrollLeft = slider.scrollWidth - slider.clientWidth;
+      sliderRef.current.scrollTo(slider.scrollWidth, 0);
       return;
     }
-    sliderRef.current.scrollLeft -= SCROLL_DIST;
+    sliderRef.current.scrollBy(-SCROLL_DIST, 0);
   };
 
   const handleRightSlideButtonClick = () => {
@@ -54,16 +54,19 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
     const slider = sliderRef.current;
     if (slider.scrollLeft === slider.scrollWidth - slider.clientWidth) {
-      sliderRef.current.scrollLeft = 0;
+      sliderRef.current.scrollTo(0, 0);
       return;
     }
-    sliderRef.current.scrollLeft += SCROLL_DIST;
+    sliderRef.current.scrollBy(SCROLL_DIST, 0);
   };
 
   return (
     <Self>
       <FilterSlideButtonContainer direction="left">
         <FilterSlideButton direction="left" ariaLabel="왼쪽으로 스크롤" onClick={handleLeftSlideButtonClick} />
+      </FilterSlideButtonContainer>
+      <FilterSlideButtonContainer direction="right">
+        <FilterSlideButton direction="right" ariaLabel="오른쪽으로 스크롤" onClick={handleRightSlideButtonClick} />
       </FilterSlideButtonContainer>
       <FilterListContainer ref={sliderRef}>
         {(() => {
@@ -92,9 +95,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           );
         })()}
       </FilterListContainer>
-      <FilterSlideButtonContainer direction="right">
-        <FilterSlideButton direction="right" ariaLabel="오른쪽으로 스크롤" onClick={handleRightSlideButtonClick} />
-      </FilterSlideButtonContainer>
     </Self>
   );
 };
