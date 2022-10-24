@@ -23,8 +23,8 @@ const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, 
       <Flex alignItems="center" custom={{ height: '70px' }}>
         <ToggleButton checked={isChecked} onClick={handleClick}>
           <Flex flexDirection="column" alignItems="center" custom={{ width: '80px' }}>
-            <Name>{name}</Name>
-            <Description>{description}</Description>
+            <Name aria-hidden>{name}</Name>
+            <Description aria-label={`${description} 태그`}>{description}</Description>
           </Flex>
         </ToggleButton>
       </Flex>
