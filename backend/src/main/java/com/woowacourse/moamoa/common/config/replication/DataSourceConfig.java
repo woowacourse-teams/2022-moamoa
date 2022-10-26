@@ -1,9 +1,7 @@
 package com.woowacourse.moamoa.common.config.replication;
 
-import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.KeyName.REPLICA_1_NAME;
 import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.KeyName.REPLICA_2_NAME;
 import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.KeyName.SOURCE_NAME;
-import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.REPLICA_1;
 import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.REPLICA_2;
 import static com.woowacourse.moamoa.common.config.replication.DataSourceKey.SOURCE;
 
@@ -23,8 +21,7 @@ public class DataSourceConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
-        DataSource determinedDataSource = routingDataSource(sourceDataSource(), replica1DataSource(),
-                replica2DataSource());
+        DataSource determinedDataSource = routingDataSource(sourceDataSource(), replica2DataSource());
         return new LazyConnectionDataSourceProxy(determinedDataSource);
     }
 
@@ -35,14 +32,14 @@ public class DataSourceConfig {
         return DataSourceBuilder.create()
                 .build();
     }
-
-    @Bean
-    @Qualifier(REPLICA_1_NAME)
-    @ConfigurationProperties(prefix = "spring.datasource.replica1")
-    public DataSource replica1DataSource() {
-        return DataSourceBuilder.create()
-                .build();
-    }
+//
+//    @Bean
+//    @Qualifier(REPLICA_1_NAME)
+//    @ConfigurationProperties(prefix = "spring.datasource.replica1")
+//    public DataSource replica1DataSource() {
+//        return DataSourceBuilder.create()
+//                .build();
+//    }
 
     @Bean
     @Qualifier(REPLICA_2_NAME)
@@ -55,11 +52,11 @@ public class DataSourceConfig {
     @Bean
     public DataSource routingDataSource(
             @Qualifier(SOURCE_NAME) DataSource sourceDataSource,
-            @Qualifier(REPLICA_1_NAME) DataSource replica1DataSource,
+//            @Qualifier(REPLICA_1_NAME) DataSource replica1DataSource,
             @Qualifier(REPLICA_2_NAME) DataSource replica2DataSource
     ) {
         Map<Object, Object> dataSources = Map.of(
-                SOURCE, sourceDataSource, REPLICA_1, replica1DataSource, REPLICA_2, replica2DataSource
+                SOURCE, sourceDataSource, REPLICA_2, replica2DataSource
         );
 
         RoutingDataSource routingDataSource = new RoutingDataSource();
