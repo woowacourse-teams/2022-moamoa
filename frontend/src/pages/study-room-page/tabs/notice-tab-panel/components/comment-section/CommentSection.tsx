@@ -39,7 +39,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
   };
 
   return (
-    <Self>
+    <div>
       {isOwnerOrMember && (
         <>
           {/* {@TODO: Divider를 밖으로 빼내는 방법을 생각해 보자} */}
@@ -66,13 +66,11 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
           );
         }
       })()}
-    </Self>
+    </div>
   );
 };
 
 export default CommentSection;
-
-const Self = styled.div``;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 

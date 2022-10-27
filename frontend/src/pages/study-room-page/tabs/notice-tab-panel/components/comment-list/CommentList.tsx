@@ -18,7 +18,7 @@ type CommentListProps = {
 const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments }) => {
   const { userInfo } = useUserInfo();
   return (
-    <Self>
+    <div>
       <ul>
         {comments.map(({ id, author, lastModifiedDate, content }) => (
           <React.Fragment key={id}>
@@ -37,10 +37,8 @@ const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments 
           </React.Fragment>
         ))}
       </ul>
-    </Self>
+    </div>
   );
 };
 
 export default CommentList;
-
-const Self = styled.div``;

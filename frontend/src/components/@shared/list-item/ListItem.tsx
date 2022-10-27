@@ -20,7 +20,7 @@ export type ListItemProps = {
 
 const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo, custom }) => {
   return (
-    <Self css={resolveCustomCSS(custom)}>
+    <div css={resolveCustomCSS(custom)}>
       <Flex alignItems="center">
         <Flex.Item>
           <Title>{title}</Title>
@@ -34,14 +34,13 @@ const ListItem: React.FC<ListItemProps> = ({ title, userInfo, subInfo, custom })
           <SubInfo>{subInfo}</SubInfo>
         )}
       </Flex>
-    </Self>
+    </div>
   );
 };
 
 export default ListItem;
 
 // 외부 커스텀을 위해 li 대신 div 사용: orbit 및 react-spectrum 참고
-const Self = styled.div``;
 
 type TitleProps = {
   children: string;
