@@ -2,7 +2,7 @@ import { css, useTheme } from '@emotion/react';
 
 import { changeDateSeperator } from '@utils';
 
-import { DateYMD, Member, Noop } from '@custom-types';
+import { DateYMD, Member } from '@custom-types';
 
 import { FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
@@ -23,7 +23,7 @@ type CommentEditFormProps = {
   date: DateYMD;
   renderField: (setCount: (count: number) => void) => React.ReactNode;
   onSubmit: (_: React.FormEvent<HTMLFormElement>) => void;
-  onCancelEditButtonClick: Noop;
+  onCancelEditButtonClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 const CommentEditForm: React.FC<CommentEditFormProps> = ({
   renderField,
