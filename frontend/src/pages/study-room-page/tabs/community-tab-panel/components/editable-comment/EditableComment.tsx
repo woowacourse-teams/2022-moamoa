@@ -6,7 +6,7 @@ import type { ArticleId, ReviewId, StudyId } from '@custom-types';
 import { useDeleteCommunityComment } from '@api/community/comment';
 import { QK_COMMUNITY_COMMENTS_INFINITE_SCROLL } from '@api/community/comments';
 
-import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
+import Comment, { type CommentProps } from '@study-room-page/components/comment/Comment';
 
 import CommentEditForm from '@community-tab/components/comment-edit-form/CommentEditForm';
 

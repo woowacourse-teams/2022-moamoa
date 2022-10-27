@@ -6,7 +6,7 @@ import type { ReviewId, StudyId } from '@custom-types';
 import { useDeleteReview } from '@api/review';
 import { QK_STUDY_REVIEWS } from '@api/reviews';
 
-import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
+import Comment, { type CommentProps } from '@study-room-page/components/comment/Comment';
 
 import ReviewEditForm from '@review-tab/components/review-edit-form/ReviewEditForm';
 

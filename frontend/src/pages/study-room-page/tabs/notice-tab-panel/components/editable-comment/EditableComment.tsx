@@ -6,7 +6,7 @@ import type { ArticleId, ReviewId, StudyId } from '@custom-types';
 import { useDeleteNoticeComment } from '@api/notice/comment';
 import { QK_NOTICE_COMMENTS_INFINITE_SCROLL } from '@api/notice/comments';
 
-import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
+import Comment, { type CommentProps } from '@study-room-page/components/comment/Comment';
 
 import CommentEditForm from '@notice-tab/components/comment-edit-form/CommentEditForm';
 
