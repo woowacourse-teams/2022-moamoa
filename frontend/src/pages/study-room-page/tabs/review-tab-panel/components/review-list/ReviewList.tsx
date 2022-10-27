@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Member, StudyId, StudyReview } from '@custom-types';
 
-import Divider from '@components/@shared/divider/Divider';
+import Divider from '@shared/divider/Divider';
 
 import ReviewEditableComment from '@review-tab/components/review-editable-comment/ReviewEditableComment';
 

@@ -9,9 +9,8 @@ import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';
 
 import Divider from '@shared/divider/Divider';
+import InfiniteScroll from '@shared/infinite-scroll/InfiniteScroll';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
-
-import InfiniteScroll from '@components/@shared/infinite-scroll/InfiniteScroll';
 
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
 import ReviewList from '@review-tab/components/review-list/ReviewList';

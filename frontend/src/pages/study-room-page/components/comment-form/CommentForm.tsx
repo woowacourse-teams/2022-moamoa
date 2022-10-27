@@ -10,11 +10,10 @@ import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
 import Form from '@shared/form/Form';
 import Label from '@shared/label/Label';
+import LetterCounter from '@shared/letter-counter/LetterCounter';
 import useLetterCount from '@shared/letter-counter/useLetterCount';
 import Textarea from '@shared/textarea/Textarea';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
-
-import LetterCounter from '@components/@shared/letter-counter/LetterCounter';
 
 type CommentFormProps = {
   author: Member;

@@ -7,8 +7,8 @@ import { useGetInfiniteNoticeComments } from '@api/notice/comment';
 import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';
 
-import Divider from '@components/@shared/divider/Divider';
-import InfiniteScroll from '@components/@shared/infinite-scroll/InfiniteScroll';
+import Divider from '@shared/divider/Divider';
+import InfiniteScroll from '@shared/infinite-scroll/InfiniteScroll';
 
 import CommentForm from '@notice-tab/components/comment-form/CommentForm';
 import CommentList from '@notice-tab/components/comment-list/CommentList';

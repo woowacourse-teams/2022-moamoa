@@ -45,9 +45,6 @@ export const getNoticeComments = async ({ studyId, articleId, size, page }: ApiN
   const response = await axiosInstance.get<ApiNoticeComments['get']['responseData']>(url);
   return checkNoticeComments(response.data);
 };
-export const useGetNoticeComments = ({ studyId, articleId, size }: ApiNoticeComments['get']['variables']) => {
-  return useQuery([QK_NOTICE_COMMENTS, size, studyId], () => getNoticeComments({ studyId, articleId, size }));
-};
 
 export const getNoticeCommentsWithPage =
   ({ studyId, articleId, size = SIZE }: ApiNoticeComments['get']['variables']) =>

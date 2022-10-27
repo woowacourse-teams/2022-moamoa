@@ -6,7 +6,7 @@ import { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
-import Divider from '@components/@shared/divider/Divider';
+import Divider from '@shared/divider/Divider';
 
 import EditableComment from '@notice-tab/components/editable-comment/EditableComment';
 

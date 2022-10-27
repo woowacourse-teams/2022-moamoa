@@ -32,7 +32,7 @@ type ArticleKeys = keyof Article;
 
 const arrayOfAllArticleKeys = arrayOfAll<ArticleKeys>();
 
-export const checkArticle = (data: unknown): Article => {
+const checkArticle = (data: unknown): Article => {
   if (!isObject(data)) throw new AxiosError(`NoticeArticles-Article does not have correct type: object`);
 
   const keys = arrayOfAllArticleKeys(['id', 'author', 'title', 'createdDate', 'lastModifiedDate']);
