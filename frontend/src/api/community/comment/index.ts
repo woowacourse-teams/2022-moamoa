@@ -8,7 +8,7 @@ import { checkType, isNull } from '@utils';
 import type { ArticleId, CommunityComment, CommunityCommentId, Merge, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
-import { checkCommunityComments, checkInfiniteCommunityComments } from '@api/community/comment/typeChecker';
+import { checkCommunityComments } from '@api/community/comment/typeChecker';
 
 export type ApiCommunityComment = {
   post: {
@@ -96,20 +96,14 @@ export type ApiCommunityComments = {
       studyId: StudyId;
       articleId: ArticleId;
       size?: Size;
+      page?: Page;
     };
     responseData: {
       comments: Array<CommunityComment>;
       totalCount: number;
+      hasNext: boolean;
     };
     variables: ApiCommunityComments['get']['params'];
-  };
-};
-
-export type ApiInfiniteCommunityComments = {
-  get: {
-    params: Merge<ApiCommunityComments['get']['params'], { size?: Size }>;
-    responseData: Merge<ApiCommunityComments['get']['responseData'], { hasNext: boolean; totalCount: number }>;
-    variables: ApiInfiniteCommunityComments['get']['params'];
   };
 };
 
@@ -121,10 +115,17 @@ const defaultParam: PageParam = {
   page: PAGE,
 };
 
-export const getCommunityComments = async ({ studyId, articleId, size }: ApiCommunityComments['get']['variables']) => {
-  const url = size
-    ? `/api/studies/${studyId}/community/${articleId}/comments?size=${size}`
-    : `/api/studies/${studyId}/community/${articleId}/comments`;
+export const getCommunityComments = async ({
+  studyId,
+  articleId,
+  size,
+  page,
+}: ApiCommunityComments['get']['variables']) => {
+  let url = `/api/studies/${studyId}/community/${articleId}/comments`;
+  if (size) {
+    url = `${url}?size=${size}`;
+    if (page) url = `${url}?page=${page}`;
+  }
   const response = await axiosInstance.get<ApiCommunityComments['get']['responseData']>(url);
   return checkCommunityComments(response.data);
 };
@@ -133,21 +134,20 @@ export const useGetCommunityComments = ({ studyId, articleId, size }: ApiCommuni
 };
 
 export const getCommunityCommentsWithPage =
-  ({ studyId, articleId, size = SIZE }: ApiInfiniteCommunityComments['get']['variables']) =>
+  ({ studyId, articleId, size = SIZE }: ApiCommunityComments['get']['variables']) =>
   async ({
     pageParam = defaultParam,
-  }): Promise<Merge<ApiInfiniteCommunityComments['get']['responseData'], { page: Page }>> => {
-    const url = `/api/studies/${studyId}/community/${articleId}/comments?size=${size}&page=${pageParam.page}`;
-    const response = await axiosInstance.get<ApiInfiniteCommunityComments['get']['responseData']>(url);
-    return { ...checkInfiniteCommunityComments(response.data), page: pageParam.page };
+  }): Promise<Merge<ApiCommunityComments['get']['responseData'], { page: number }>> => {
+    const data = await getCommunityComments({ studyId, articleId, size, ...pageParam });
+    return { ...data, page: pageParam.page + 1 };
   };
 
 export const useGetInfiniteCommunityComments = ({
   studyId,
   articleId,
   size,
-}: ApiInfiniteCommunityComments['get']['variables']) => {
-  return useInfiniteQuery<Merge<ApiInfiniteCommunityComments['get']['responseData'], { page: Page }>, AxiosError>(
+}: ApiCommunityComments['get']['variables']) => {
+  return useInfiniteQuery<Merge<ApiCommunityComments['get']['responseData'], { page: Page }>, AxiosError>(
     [QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, studyId, articleId],
     getCommunityCommentsWithPage({ studyId, articleId, size }),
     {
