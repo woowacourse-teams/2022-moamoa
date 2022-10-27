@@ -1,4 +1,4 @@
-import { ArticleId, StudyId } from '@custom-types';
+import type { ArticleId, StudyId } from '@custom-types';
 
 export const PATH = {
   MAIN: '/',

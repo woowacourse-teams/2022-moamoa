@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-import { ArticleId, CommunityComment, StudyId } from '@custom-types';
+import type { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
-import { useGetInfiniteCommunityComments } from '@api/community/comment';
+import { useGetInfiniteCommunityComments } from '@api/community/comments';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';

@@ -1,6 +1,6 @@
 import { USER_ROLE } from '@constants';
 
-import { StudyId } from '@custom-types';
+import type { StudyId } from '@custom-types';
 
 import { useGetUserRole } from '@api/member';
 

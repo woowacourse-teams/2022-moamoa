@@ -3,10 +3,10 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { CONTENT, DRAFT_SAVE_TIME, PATH, TITLE } from '@constants';
 
-import { DraftArtcle } from '@custom-types';
+import type { DraftArtcle } from '@custom-types';
 
 import {
-  ApiCommunityDraftArticleToArticle,
+  type ApiCommunityDraftArticleToArticle,
   useGetCommunityDraftArticle,
   usePostDraftArticleToArticle,
   usePutCommunityDraftArticle,

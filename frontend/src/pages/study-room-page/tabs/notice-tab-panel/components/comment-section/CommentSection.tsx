@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { ArticleId, CommunityComment, StudyId } from '@custom-types';
+import type { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
 import { useGetInfiniteNoticeComments } from '@api/notice/comment';
 

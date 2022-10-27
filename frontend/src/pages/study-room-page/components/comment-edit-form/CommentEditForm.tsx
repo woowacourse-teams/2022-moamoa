@@ -2,9 +2,9 @@ import { css, useTheme } from '@emotion/react';
 
 import { changeDateSeperator } from '@utils';
 
-import { DateYMD, Member } from '@custom-types';
+import type { DateYMD, Member } from '@custom-types';
 
-import { FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
+import { type FieldElement, makeValidationResult, useFormContext } from '@hooks/useForm';
 
 import { BoxButton } from '@shared/button';
 import Card from '@shared/card/Card';

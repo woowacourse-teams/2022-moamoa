@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import { StudyReview } from '@custom-types';
+import type { StudyReview } from '@custom-types';
 
 import { useGetInfiniteStudyReviews } from '@api/reviews';
 

@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 import type { StudyId } from '@custom-types';
 
-import { ApiNoticeArticles, useGetNoticeArticles } from '@api/notice/article';
+import { type ApiNoticeArticles, useGetNoticeArticles } from '@api/notice/article';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';

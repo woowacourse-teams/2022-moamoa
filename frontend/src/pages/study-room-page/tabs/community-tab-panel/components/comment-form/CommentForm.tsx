@@ -1,10 +1,10 @@
 import { COMMUNITY_COMMENT_LENGTH } from '@constants';
 
-import { ArticleId, Member, Noop, StudyId } from '@custom-types';
+import type { ArticleId, Member, Noop, StudyId } from '@custom-types';
 
 import { usePostCommunityComment } from '@api/community/comment';
 
-import { FieldElement, FormProvider, UseFormSubmitResult, useForm } from '@hooks/useForm';
+import { type FieldElement, FormProvider, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 import ImportedCommentForm from '@study-room-page/components/comment-form/CommentForm';
 

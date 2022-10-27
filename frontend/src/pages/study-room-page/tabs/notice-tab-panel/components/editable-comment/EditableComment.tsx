@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { ArticleId, ReviewId, StudyId } from '@custom-types';
+import type { ArticleId, ReviewId, StudyId } from '@custom-types';
 
-import { QK_NOTICE_COMMENTS_INFINITE_SCROLL, useDeleteNoticeComment } from '@api/notice/comment';
+import { useDeleteNoticeComment } from '@api/notice/comment';
+import { QK_NOTICE_COMMENTS_INFINITE_SCROLL } from '@api/notice/comments';
 
 import Comment, { CommentProps } from '@study-room-page/components/comment/Comment';
 
