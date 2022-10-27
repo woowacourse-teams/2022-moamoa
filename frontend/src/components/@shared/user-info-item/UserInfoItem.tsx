@@ -44,6 +44,11 @@ const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) =
   return <ItemContentSelf>{children}</ItemContentSelf>;
 };
 
+export default Object.assign(UserInfoItem, {
+  Heading: UserInfoItemHeading,
+  Content: UserInfoItemContent,
+});
+
 const ItemSelf = styled.div`
   ${({ theme }) => css`
     width: fit-content;
@@ -70,8 +75,3 @@ const ItemContentSelf = styled.p`
 
   ${nLineEllipsis(1)};
 `;
-
-export default Object.assign(UserInfoItem, {
-  Heading: UserInfoItemHeading,
-  Content: UserInfoItemContent,
-});

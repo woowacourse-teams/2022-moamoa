@@ -99,10 +99,10 @@ const CommentField: React.FC<CommentFieldProps> = ({
   );
 };
 
+export default Object.assign(CommentForm, { CommentField });
+
 const PublishButton: React.FC = () => (
   <BoxButton type="submit" fluid={false} custom={{ padding: '4px 10px', fontSize: 'sm' }}>
     등록
   </BoxButton>
 );
-
-export default Object.assign(CommentForm, { CommentField });

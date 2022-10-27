@@ -117,6 +117,8 @@ const CommentEditField: React.FC<CommentEditFieldProps> = ({
   );
 };
 
+export default Object.assign(CommentEditForm, { CommentEditField });
+
 type CancelButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
@@ -131,5 +133,3 @@ const EditButton: React.FC = () => (
     수정하기
   </BoxButton>
 );
-
-export default Object.assign(CommentEditForm, { CommentEditField });
