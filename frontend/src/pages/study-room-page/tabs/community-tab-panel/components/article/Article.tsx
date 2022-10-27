@@ -9,6 +9,7 @@ import { changeDateSeperator } from '@utils';
 import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community/article';
 
 import { useUserInfo } from '@hooks/useUserInfo';
+import { useUserRole } from '@hooks/useUserRole';
 
 import { BoxButton } from '@shared/button';
 import ButtonGroup from '@shared/button-group/ButtonGroup';
@@ -17,6 +18,8 @@ import Flex from '@shared/flex/Flex';
 import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
+
+import CommentSection from '@community-tab/components/comment-section/CommentSection';
 
 const Article: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
@@ -53,25 +56,28 @@ const Article: React.FC = () => {
           const isMyArticle = data.author.id === userInfo.id;
           // @TODO: react-query 버전 업데이트
           return (
-            <article>
-              <Flex justifyContent="space-between" columnGap="16px">
-                <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
-                  <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
-                  <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
-                </UserInfoItem>
-                {isMyArticle && (
-                  <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                    <EditArticleLink articleId={articleId} />
-                    <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
-                  </ButtonGroup>
-                )}
-              </Flex>
-              <Divider />
-              <PageTitle>{data.title}</PageTitle>
-              <MarkdownRender content={data.content} />
-              <Divider space="8px" />
-              <ListPageLink />
-            </article>
+            <>
+              <article>
+                <Flex justifyContent="space-between" columnGap="16px">
+                  <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+                    <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+                    <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+                  </UserInfoItem>
+                  {isMyArticle && (
+                    <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                      <EditArticleLink articleId={articleId} />
+                      <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+                    </ButtonGroup>
+                  )}
+                </Flex>
+                <Divider />
+                <PageTitle>{data.title}</PageTitle>
+                <MarkdownRender content={data.content} />
+                <Divider space="8px" />
+                <ListPageLink />
+              </article>
+              <CommentSection studyId={studyId} articleId={articleId} />
+            </>
           );
         }
       })()}
@@ -96,6 +102,19 @@ const EditArticleLink: React.FC<EditArticleLinkProps> = ({ articleId }) => (
   </Link>
 );
 
+const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
+  const style = css`
+    min-height: 400px;
+    overflow: auto;
+    padding-bottom: 20px;
+  `;
+  return (
+    <div css={style}>
+      <ImportedMarkdownRender markdownContent={content} />
+    </div>
+  );
+};
+
 type DeleteArticleButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
@@ -112,16 +131,3 @@ const ListPageLink: React.FC = () => (
     </BoxButton>
   </Link>
 );
-
-const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
-  const style = css`
-    min-height: 400px;
-    overflow: auto;
-    padding-bottom: 20px;
-  `;
-  return (
-    <div css={style}>
-      <ImportedMarkdownRender markdownContent={content} />
-    </div>
-  );
-};

@@ -45,12 +45,6 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
 
 export default ArticleList;
 
-const Loading = () => <div>Loading...</div>;
-
-const Error = () => <div>에러가 발생했습니다</div>;
-
-const NoArticle = () => <div>게시글이 없습니다</div>;
-
 type SelfProps = {
   articles: ApiCommunityArticles['get']['responseData']['articles'];
 };
@@ -73,3 +67,9 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     ))}
   </ul>
 );
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>에러가 발생했습니다</div>;
+
+const NoArticle = () => <div>게시글이 없습니다</div>;

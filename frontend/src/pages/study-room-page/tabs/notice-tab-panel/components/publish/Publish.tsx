@@ -5,7 +5,7 @@ import { PATH } from '@constants';
 
 import type { StudyId } from '@custom-types';
 
-import { usePostNoticeArticle } from '@api/notice';
+import { usePostNoticeArticle } from '@api/notice/article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -43,7 +43,7 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
     navigate(`../${PATH.NOTICE}`, { replace: true });
   }, [isFetching, isOwner]);
 
-  const handleSubmit: HandlePublishFormSubmit = async (_, submitResult) => {
+  const handleSubmit: HandlePublishFormSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 

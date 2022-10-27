@@ -6,6 +6,8 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>
 
 export type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & Required<Pick<T, K>>;
 
+export type Merge<T, U> = Omit<T, keyof U> & U;
+
 export type Noop = () => void;
 
 export type CssLengthUnits = 'px' | 'rem' | '%';
@@ -23,6 +25,8 @@ export type RecruitmentStatus = typeof RECRUITMENT_STATUS[keyof typeof RECRUITME
 export type StudyId = number;
 export type TagId = number;
 export type ReviewId = number;
+export type CommunityCommentId = number;
+export type NoticeCommentId = number;
 export type MemberId = number;
 export type CategoryId = number;
 export type LinkId = number;
@@ -76,7 +80,23 @@ export type Study = Pick<StudyDetail, 'id' | 'title' | 'excerpt' | 'thumbnail' |
 
 export type StudyReview = {
   id: ReviewId;
-  member: Member;
+  member: Member; // @TODO: member -> author로 변경한다
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+  content: string;
+};
+
+export type CommunityComment = {
+  id: CommunityCommentId;
+  author: Member;
+  createdDate: DateYMD;
+  lastModifiedDate: DateYMD;
+  content: string;
+};
+
+export type NoticeComment = {
+  id: NoticeCommentId;
+  author: Member;
   createdDate: DateYMD;
   lastModifiedDate: DateYMD;
   content: string;

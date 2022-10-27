@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice';
+import { useDeleteNoticeArticle, useGetNoticeArticle } from '@api/notice/article';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -17,6 +17,8 @@ import Flex from '@shared/flex/Flex';
 import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
+
+import CommentSection from '@notice-tab/components/comment-section/CommentSection';
 
 export type ArticleProps = {
   studyId: number;
@@ -54,25 +56,28 @@ const Article: React.FC<ArticleProps> = ({ studyId, articleId }) => {
         if (isSuccess) {
           const isMyArticle = data.author.id === userInfo.id;
           return (
-            <article>
-              <Flex justifyContent="space-between" columnGap="16px">
-                <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
-                  <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
-                  <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
-                </UserInfoItem>
-                {isMyArticle && (
-                  <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                    <EditPageLink articleId={articleId} />
-                    <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
-                  </ButtonGroup>
-                )}
-              </Flex>
-              <Divider />
-              <PageTitle>{data.title}</PageTitle>
-              <MarkdownRender content={data.content} />
-              <Divider space="8px" />
-              <ListPageLink />
-            </article>
+            <>
+              <article>
+                <Flex justifyContent="space-between" columnGap="16px">
+                  <UserInfoItem src={data.author.imageUrl} name={data.author.username} size="md">
+                    <UserInfoItem.Heading>{data.author.username}</UserInfoItem.Heading>
+                    <UserInfoItem.Content>{changeDateSeperator(data.createdDate)}</UserInfoItem.Content>
+                  </UserInfoItem>
+                  {isMyArticle && (
+                    <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
+                      <EditPageLink articleId={articleId} />
+                      <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
+                    </ButtonGroup>
+                  )}
+                </Flex>
+                <Divider />
+                <PageTitle>{data.title}</PageTitle>
+                <MarkdownRender content={data.content} />
+                <Divider space="8px" />
+                <ListPageLink />
+              </article>
+              <CommentSection studyId={studyId} articleId={articleId} />
+            </>
           );
         }
       })()}

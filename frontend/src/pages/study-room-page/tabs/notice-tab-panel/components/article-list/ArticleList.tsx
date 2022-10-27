@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 import type { StudyId } from '@custom-types';
 
-import { ApiNoticeArticles, useGetNoticeArticles } from '@api/notice';
+import { ApiNoticeArticles, useGetNoticeArticles } from '@api/notice/article';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
@@ -43,14 +43,6 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
   );
 };
 
-export default ArticleList;
-
-const Loading = () => <div>Loading...</div>;
-
-const Error = () => <div>에러가 발생했습니다</div>;
-
-const NoArticle = () => <div>게시글이 없습니다</div>;
-
 type SelfProps = {
   articles: ApiNoticeArticles['get']['responseData']['articles'];
 };
@@ -73,3 +65,11 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
     ))}
   </ul>
 );
+
+export default ArticleList;
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>에러가 발생했습니다</div>;
+
+const NoArticle = () => <div>게시글이 없습니다</div>;

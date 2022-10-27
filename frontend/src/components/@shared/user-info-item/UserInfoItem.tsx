@@ -44,7 +44,7 @@ const UserInfoItemContent: React.FC<UserInfoItemContentProps> = ({ children }) =
   return <ItemContentSelf>{children}</ItemContentSelf>;
 };
 
-export const ItemSelf = styled.div`
+const ItemSelf = styled.div`
   ${({ theme }) => css`
     width: fit-content;
     padding: 8px;
@@ -54,7 +54,7 @@ export const ItemSelf = styled.div`
   `}
 `;
 
-export const ItemHeadingSelf = styled.p`
+const ItemHeadingSelf = styled.p`
   ${({ theme }) => css`
     font-weight: ${theme.fontWeight.bold};
   `}
@@ -62,7 +62,7 @@ export const ItemHeadingSelf = styled.p`
   ${nLineEllipsis(1)};
 `;
 
-export const ItemContentSelf = styled.p`
+const ItemContentSelf = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.secondary.dark};
     font-size: ${theme.fontSize.sm};

@@ -16,7 +16,7 @@ import RouteWithCondition from '@shared/route-with-condition/RouteWithCondition'
 const CreateStudyPage = lazy(
   () => import(/* webpackChunkName: "create-study-page" */ '@create-study-page/CreateStudyPage'),
 );
-const EditStudyPage = lazy(() => import(/* webpackChunkName: "create-study-page" */ '@edit-study-page/EditStudyPage'));
+const EditStudyPage = lazy(() => import(/* webpackChunkName: "edit-study-page" */ '@edit-study-page/EditStudyPage'));
 const DetailPage = lazy(() => import(/* webpackChunkName: "detail-page" */ '@detail-page/DetailPage'));
 const ErrorPage = lazy(() => import(/* webpackChunkName: "error-page" */ '@error-page/ErrorPage'));
 const LoginRedirectPage = lazy(

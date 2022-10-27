@@ -5,7 +5,7 @@ import { PATH } from '@constants';
 
 import type { ArticleId, NoticeArticle, StudyId } from '@custom-types';
 
-import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice';
+import { useGetNoticeArticle, usePutNoticeArticle } from '@api/notice/article';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -42,10 +42,13 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     if (isOwner) return;
 
     alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`, { replace: true });
+    navigate(`../${PATH.NOTICE}`);
   }, [studyId, navigate, isFetching, isOwner]);
 
-  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
+  const handleSubmit: HandleEditFormSubmit = async (
+    _: React.FormEvent<HTMLFormElement>,
+    submitResult: UseFormSubmitResult,
+  ) => {
     const { values } = submitResult;
     if (!values) return;
 

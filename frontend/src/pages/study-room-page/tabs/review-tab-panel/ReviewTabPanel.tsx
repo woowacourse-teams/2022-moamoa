@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import type { Member, StudyId, StudyReview } from '@custom-types';
+import { StudyReview } from '@custom-types';
 
-import { useGetStudyReviews } from '@api/reviews';
+import { useGetInfiniteStudyReviews } from '@api/reviews';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';
@@ -11,8 +11,10 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@shared/divider/Divider';
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
+import InfiniteScroll from '@components/@shared/infinite-scroll/InfiniteScroll';
+
 import ReviewForm from '@review-tab/components/reivew-form/ReviewForm';
-import ReviewComment from '@review-tab/components/review-comment/ReviewComment';
+import ReviewList from '@review-tab/components/review-list/ReviewList';
 
 const ReviewTabPanel: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
@@ -21,16 +23,22 @@ const ReviewTabPanel: React.FC = () => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId });
 
-  const { data, isFetching, refetch, isError, isSuccess } = useGetStudyReviews({ studyId });
-  const reviews = data?.reviews;
+  const { data, isFetching, refetch, isError, isSuccess, fetchNextPage } = useGetInfiniteStudyReviews({
+    studyId,
+    size: 9999, // @TODO: backend쪽에 pagination이 구현이 안되었기 때문에 우선 많이 불러온다
+  });
 
   const handlePostSuccess = () => {
-    alert('댓글을 추가했습니다');
+    alert('리뷰를 추가했습니다');
     refetch();
   };
 
   const handlePostError = () => {
-    alert('댓글 입력에 오류가 발생했습니다');
+    alert('리뷰 입력에 오류가 발생했습니다');
+  };
+
+  const handleContentLoaded = () => {
+    fetchNextPage();
   };
 
   return (
@@ -47,11 +55,15 @@ const ReviewTabPanel: React.FC = () => {
       )}
       <Divider space={isOwnerOrMember ? '30px' : '8px'} />
       {(() => {
-        if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (isSuccess && reviews) {
+        if (isSuccess) {
+          const reviews = data?.pages.reduce<Array<StudyReview>>((acc, cur) => [...acc, ...cur.reviews], []);
           if (reviews.length === 0) return <NoReview />;
-          return <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />;
+          return (
+            <InfiniteScroll isContentLoading={isFetching} onContentLoad={handleContentLoaded}>
+              <ReviewList reviews={reviews} studyId={studyId} userInfo={userInfo} />
+            </InfiniteScroll>
+          );
         }
       })()}
     </PageWrapper>
@@ -60,33 +72,6 @@ const ReviewTabPanel: React.FC = () => {
 
 export default ReviewTabPanel;
 
-const Loading = () => <div>Loading...</div>;
-
 const Error = () => <div>에러가 발생했습니다</div>;
 
 const NoReview = () => <div>리뷰가 없습니다</div>;
-
-type ReviewListProps = {
-  reviews: Array<StudyReview>;
-  studyId: StudyId;
-  userInfo: Member;
-};
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, studyId, userInfo }) => (
-  <ul>
-    {reviews.map(review => (
-      <React.Fragment key={review.id}>
-        <li>
-          <ReviewComment
-            id={review.id}
-            studyId={studyId}
-            author={review.member}
-            date={review.createdDate}
-            content={review.content}
-            isMyComment={userInfo.id === review.member.id}
-          />
-        </li>
-        <Divider space="30px" />
-      </React.Fragment>
-    ))}
-  </ul>
-);
