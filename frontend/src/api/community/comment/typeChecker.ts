@@ -21,7 +21,7 @@ type CommunityCommentKeys = keyof CommunityComment;
 
 const arrayOfAllCommunityCommentKeys = arrayOfAll<CommunityCommentKeys>();
 
-export const checkCommunityComment = (data: unknown): CommunityComment => {
+const checkCommunityComment = (data: unknown): CommunityComment => {
   if (!isObject(data)) throw new AxiosError(`CommunityComment does not have correct type: object`);
 
   const keys = arrayOfAllCommunityCommentKeys(['id', 'author', 'createdDate', 'lastModifiedDate', 'content']);
