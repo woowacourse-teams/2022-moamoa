@@ -52,7 +52,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ studyId, articleId, author, o
     <FormProvider {...formMethods}>
       <ImportedCommentForm
         author={author}
-        maxLength={200}
+        maxLength={COMMUNITY_COMMENT_LENGTH.MAX.VALUE}
         onSubmit={handleSubmit(onSubmit)}
         renderField={setCount => {
           const handleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
