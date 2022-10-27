@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import type { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
-import { useGetInfiniteNoticeComments } from '@api/notice/comment';
+import { useGetInfiniteNoticeComments } from '@api/notice/comments';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 import { useUserRole } from '@hooks/useUserRole';
