@@ -31,7 +31,7 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
   author,
   date,
   maxLength,
-  onSubmit,
+  onSubmit: handleSubmit,
   onCancelEditButtonClick: handleCancelEditButtonClick,
 }) => {
   const theme = useTheme();
@@ -39,7 +39,7 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
 
   return (
     <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
           <UserInfoItem.Content>{changeDateSeperator(date)}</UserInfoItem.Content>

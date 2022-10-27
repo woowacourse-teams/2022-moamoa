@@ -29,8 +29,8 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
   originalContent,
   date,
   author,
-  onEditSuccess,
-  onEditError,
+  onEditSuccess: handleEditSuccess,
+  onEditError: handleEditError,
   onCancelEditBtnClick: handleCancelEditButtonClick,
 }) => {
   const formMethods = useForm();
@@ -53,10 +53,10 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
       { studyId, articleId, noticeCommentId, content },
       {
         onSuccess: () => {
-          onEditSuccess();
+          handleEditSuccess();
         },
         onError: error => {
-          onEditError(error);
+          handleEditError(error);
         },
       },
     );
