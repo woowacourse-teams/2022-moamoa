@@ -32,10 +32,7 @@ const Edit: React.FC = () => {
   const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
   const { mutateAsync } = usePutCommunityArticle();
 
-  const handleSubmit: HandleEditFormSubmit = async (
-    _: React.FormEvent<HTMLFormElement>,
-    submitResult: UseFormSubmitResult,
-  ) => {
+  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 

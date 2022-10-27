@@ -45,10 +45,7 @@ const Edit: React.FC<EditProps> = ({ studyId, articleId }) => {
     navigate(`../${PATH.NOTICE}`);
   }, [studyId, navigate, isFetching, isOwner]);
 
-  const handleSubmit: HandleEditFormSubmit = async (
-    _: React.FormEvent<HTMLFormElement>,
-    submitResult: UseFormSubmitResult,
-  ) => {
+  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
