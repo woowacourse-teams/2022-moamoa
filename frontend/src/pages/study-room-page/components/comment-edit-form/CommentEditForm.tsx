@@ -30,11 +30,15 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
   author,
   date,
   maxLength,
-  onSubmit: handleSubmit,
+  onSubmit,
   onCancelEditButtonClick: handleCancelEditButtonClick,
 }) => {
   const theme = useTheme();
   const { count, setCount, maxCount } = useLetterCount(maxLength);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    onSubmit(e);
+    setCount(0);
+  };
 
   return (
     <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>

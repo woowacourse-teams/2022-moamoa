@@ -24,10 +24,14 @@ type CommentFormProps = {
 const CommentForm: React.FC<CommentFormProps> = ({ renderField, author, maxLength, onSubmit }) => {
   const theme = useTheme();
   const { count, setCount, maxCount } = useLetterCount(maxLength);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    onSubmit(e);
+    setCount(0);
+  };
 
   return (
     <Card shadow backgroundColor={theme.colors.white} custom={{ padding: '8px' }}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <UserInfoItem src={author.imageUrl} name={author.username} size="sm">
           <UserInfoItem.Heading>{author.username}</UserInfoItem.Heading>
         </UserInfoItem>
