@@ -1,27 +1,16 @@
 import { AxiosError } from 'axios';
 
-import {
-  arrayOfAll,
-  checkType,
-  hasOwnProperties,
-  isArray,
-  isBoolean,
-  isDateYMD,
-  isNumber,
-  isObject,
-  isString,
-} from '@utils';
+import { arrayOfAll, checkType, hasOwnProperties, isDateYMD, isNumber, isObject, isString } from '@utils';
 
 import type { CommunityComment } from '@custom-types';
 
-import { ApiCommunityComments } from '@api/community/comment';
 import { checkMember } from '@api/member/typeChecker';
 
 type CommunityCommentKeys = keyof CommunityComment;
 
 const arrayOfAllCommunityCommentKeys = arrayOfAll<CommunityCommentKeys>();
 
-const checkCommunityComment = (data: unknown): CommunityComment => {
+export const checkCommunityComment = (data: unknown): CommunityComment => {
   if (!isObject(data)) throw new AxiosError(`CommunityComment does not have correct type: object`);
 
   const keys = arrayOfAllCommunityCommentKeys(['id', 'author', 'createdDate', 'lastModifiedDate', 'content']);
@@ -33,21 +22,5 @@ const checkCommunityComment = (data: unknown): CommunityComment => {
     content: checkType(data.content, isString),
     createdDate: checkType(data.createdDate, isDateYMD),
     lastModifiedDate: checkType(data.lastModifiedDate, isDateYMD),
-  };
-};
-
-type CommunityCommentsKeys = keyof ApiCommunityComments['get']['responseData'];
-
-const arrayOfAllCommunityCommentsKeys = arrayOfAll<CommunityCommentsKeys>();
-export const checkCommunityComments = (data: unknown): ApiCommunityComments['get']['responseData'] => {
-  if (!isObject(data)) throw new AxiosError(`CommunityComments does not have correct type: object`);
-
-  const keys = arrayOfAllCommunityCommentsKeys(['comments', 'totalCount', 'hasNext']);
-  if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityComments does not have some properties');
-
-  return {
-    comments: checkType(data.comments, isArray).map(comment => checkCommunityComment(comment)),
-    totalCount: checkType(data.totalCount, isNumber),
-    hasNext: checkType(data.hasNext, isBoolean),
   };
 };
