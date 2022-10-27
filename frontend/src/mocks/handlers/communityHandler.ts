@@ -5,9 +5,9 @@ import communityCommentJSON from '@mocks/community-comment.json';
 import communityDraftArticlesJSON from '@mocks/community-draft-articles.json';
 import { user } from '@mocks/handlers/memberHandlers';
 
-import { ApiCommunityArticle } from '@api/community/article';
-import { ApiCommunityComment } from '@api/community/comment';
-import { ApiCommunityDraftArticle, ApiCommunityDraftArticleToArticle } from '@api/community/draft-article';
+import { type ApiCommunityArticle } from '@api/community/article';
+import { type ApiCommunityComment } from '@api/community/comment';
+import { type ApiCommunityDraftArticle, type ApiCommunityDraftArticleToArticle } from '@api/community/draft-article';
 
 export const communityHandlers = [
   rest.get('/api/studies/:studyId/community/articles', (req, res, ctx) => {
