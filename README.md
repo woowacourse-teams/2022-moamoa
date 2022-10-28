@@ -29,11 +29,10 @@
 </p>
 
 ---
-
 ## 🚀 기술 스택
 |프론트엔드 기술 스택|백엔드 기술 스택|
 |--|--|
-|<img src="https://user-images.githubusercontent.com/68623798/198697350-3dd8d0af-b5e7-4ac8-a448-6934836294ef.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" />|
+|<img src="https://user-images.githubusercontent.com/68623798/198697857-e6bf9b3b-69a2-4c08-9c9b-acecfeeb5279.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" />|
 
 ### 인프라 기술 스택
 
