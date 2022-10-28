@@ -36,26 +36,18 @@ const defaultParam: PageParam = {
   page: PAGE,
 };
 
-export const getNoticeComments = async ({ studyId, articleId, size, page }: ApiNoticeComments['get']['variables']) => {
-  let url = `/api/studies/${studyId}/notice/${articleId}/comments`;
-  if (size) {
-    url = `${url}?size=${size}`;
-    if (page) url = `${url}?page=${page}`;
-  }
-  const response = await axiosInstance.get<ApiNoticeComments['get']['responseData']>(url);
-  return checkNoticeComments(response.data);
-};
-
-export const getNoticeCommentsWithPage =
+export const getNoticeComments =
   ({ studyId, articleId, size = SIZE }: ApiNoticeComments['get']['variables']) =>
   async ({ pageParam = defaultParam }): Promise<Merge<ApiNoticeComments['get']['responseData'], { page: Page }>> => {
-    const data = await getNoticeComments({ studyId, articleId, size, ...pageParam });
+    const url = `/api/studies/${studyId}/notice/${articleId}/comments?page=${pageParam.page}&size=${size}`;
+    const response = await axiosInstance.get<ApiNoticeComments['get']['responseData']>(url);
+    const data = checkNoticeComments(response.data);
     return { ...data, page: pageParam.page + 1 };
   };
 export const useGetInfiniteNoticeComments = ({ studyId, articleId, size }: ApiNoticeComments['get']['variables']) => {
   return useInfiniteQuery<Merge<ApiNoticeComments['get']['responseData'], { page: Page }>, AxiosError>(
     [QK_NOTICE_COMMENTS_INFINITE_SCROLL, studyId, articleId],
-    getNoticeCommentsWithPage({ studyId, articleId, size }),
+    getNoticeComments({ studyId, articleId, size }),
     {
       getNextPageParam: (lastPage): NextPageParam => {
         if (!lastPage.hasNext) return;
