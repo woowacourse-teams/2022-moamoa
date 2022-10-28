@@ -121,7 +121,7 @@ export type Link = {
   lastModifiedDate: DateYMD;
 };
 
-export type CommunityArticle = {
+export type CommunityArticleDetail = {
   id: ArticleId;
   author: Member;
   title: string;
@@ -132,7 +132,7 @@ export type CommunityArticle = {
 
 export type CommunityArticleMode = 'publish' | 'edit';
 
-export type NoticeArticle = {
+export type NoticeArticleDetail = {
   id: ArticleId;
   author: Member;
   title: string;

@@ -2,12 +2,12 @@ import { AxiosError } from 'axios';
 
 import { arrayOfAll, checkType, hasOwnProperties, isArray, isDateYMD, isNumber, isObject, isString } from '@utils';
 
-import type { CommunityArticle } from '@custom-types';
+import type { CommunityArticleDetail } from '@custom-types';
 
 import { type ApiCommunityArticleListItems } from '@api/community/article-list-items';
 import { checkMember } from '@api/member/typeChecker';
 
-type CommunityArticleListItem = Omit<CommunityArticle, 'content'>;
+type CommunityArticleListItem = Omit<CommunityArticleDetail, 'content'>;
 type CommunityArticleListItemKeys = keyof CommunityArticleListItem;
 
 const arrayOfAllCommunityArticleListItemKeys = arrayOfAll<CommunityArticleListItemKeys>();
@@ -29,6 +29,7 @@ const checkCommunityArticleListItem = (data: unknown): CommunityArticleListItem 
 
 type CommunityArticeListItemsKeys = keyof ApiCommunityArticleListItems['get']['responseData'];
 
+// @TODO: CommunityArticleListItemsKeys로 변경
 const arrayOfAllCommunityArticlesKeys = arrayOfAll<CommunityArticeListItemsKeys>();
 
 export const checkCommunityArticleListItems = (data: unknown): ApiCommunityArticleListItems['get']['responseData'] => {

@@ -3,14 +3,14 @@ import { useMutation, useQuery } from 'react-query';
 
 import { checkType, isNull } from '@utils';
 
-import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
+import type { ArticleId, CommunityArticleDetail, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 import { checkCommunityArticleDetail } from '@api/community/article-detail/typeChecker';
 
 export type ApiCommunityArticleDetail = {
   get: {
-    responseData: CommunityArticle;
+    responseData: CommunityArticleDetail;
     params: {
       studyId: StudyId;
       articleId: ArticleId;
@@ -21,7 +21,7 @@ export type ApiCommunityArticleDetail = {
     params: {
       studyId: StudyId;
     };
-    body: Pick<CommunityArticle, 'title' | 'content'>;
+    body: Pick<CommunityArticleDetail, 'title' | 'content'>;
     variables: ApiCommunityArticleDetail['post']['params'] & ApiCommunityArticleDetail['post']['body'];
   };
   put: {

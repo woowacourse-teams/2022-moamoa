@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import type { CommunityArticle, Page, Size, StudyId } from '@custom-types';
+import type { CommunityArticleDetail, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
 import { checkCommunityArticleListItems } from '@api/community/article-list-items/typeChecker';
@@ -9,7 +9,7 @@ import { checkCommunityArticleListItems } from '@api/community/article-list-item
 export type ApiCommunityArticleListItems = {
   get: {
     responseData: {
-      articles: Array<Omit<CommunityArticle, 'content'>>;
+      articles: Array<Omit<CommunityArticleDetail, 'content'>>;
       currentPage: number;
       lastPage: number;
       totalCount: number;

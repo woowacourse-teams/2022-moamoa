@@ -10,7 +10,7 @@ type CommunityArticleDetailKeys = keyof ApiCommunityArticleDetail['get']['respon
 const arrayOfAllCommunityArticleDetailKeys = arrayOfAll<CommunityArticleDetailKeys>();
 
 export const checkCommunityArticleDetail = (data: unknown): ApiCommunityArticleDetail['get']['responseData'] => {
-  if (!isObject(data)) throw new AxiosError(`CommunityArticle does not have correct type: object`);
+  if (!isObject(data)) throw new AxiosError(`CommunityArticleDetail does not have correct type: object`);
 
   const keys = arrayOfAllCommunityArticleDetailKeys([
     'id',
@@ -20,7 +20,7 @@ export const checkCommunityArticleDetail = (data: unknown): ApiCommunityArticleD
     'createdDate',
     'lastModifiedDate',
   ]);
-  if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityArticle does not have some properties');
+  if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityArticleDetail does not have some properties');
 
   return {
     id: checkType(data.id, isNumber),

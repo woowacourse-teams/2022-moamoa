@@ -41,7 +41,6 @@ const postReview = async ({ studyId, content }: ApiReview['post']['variables']) 
   );
   return checkType(response.data, isNull);
 };
-
 export const usePostReview = () => useMutation<null, AxiosError, ApiReview['post']['variables']>(postReview);
 
 const putReview = async ({ studyId, reviewId, content }: ApiReview['put']['variables']) => {
@@ -53,7 +52,6 @@ const putReview = async ({ studyId, reviewId, content }: ApiReview['put']['varia
   );
   return checkType(response.data, isNull);
 };
-
 export const usePutReview = () => useMutation<null, AxiosError, ApiReview['put']['variables']>(putReview);
 
 const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['variables']) => {
@@ -62,5 +60,4 @@ const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['variable
   );
   return checkType(response.data, isNull);
 };
-
 export const useDeleteReview = () => useMutation<null, AxiosError, ApiReview['delete']['variables']>(deleteReview);
