@@ -2,6 +2,8 @@ import { useQuery } from 'react-query';
 
 import { DEFAULT_STUDY_REVIEW_QUERY_PARAM } from '@constants';
 
+import buildURLQuery from '@utils/buildURLQuery';
+
 import type { Size, StudyId, StudyReview } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -30,10 +32,9 @@ const { SIZE } = DEFAULT_STUDY_REVIEW_QUERY_PARAM;
 // reviews는 pagination이 아닌 전체를 불러와서 사용하는 경우도 있기 때문에
 // getStudyReviews와 getStudyReviewsWithPage를 구분해 줘야 합니다.
 const getStudyReviews = async ({ studyId, size }: ApiStudyReviews['get']['variables']) => {
-  let url = `/api/studies/${studyId}/reviews`;
-  if (size) {
-    url = `/api/studies/${studyId}/reviews?size=${size}`;
-  }
+  const url = buildURLQuery(`/api/studies/${studyId}/reviews`, {
+    size,
+  });
   const response = await axiosInstance.get<ApiStudyReviews['get']['responseData']>(url);
   return checkStudyReviews(response.data);
 };

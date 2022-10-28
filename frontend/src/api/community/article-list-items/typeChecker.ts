@@ -4,7 +4,7 @@ import { arrayOfAll, checkType, hasOwnProperties, isArray, isDateYMD, isNumber, 
 
 import type { CommunityArticleDetail } from '@custom-types';
 
-import { type ApiCommunityArticleListItems } from '@api/community/article-list-items';
+import { type ApiCommunityArticleList } from '@api/community/article-list-items';
 import { checkMember } from '@api/member/typeChecker';
 
 type CommunityArticleListItem = Omit<CommunityArticleDetail, 'content'>;
@@ -27,12 +27,12 @@ const checkCommunityArticleListItem = (data: unknown): CommunityArticleListItem 
   };
 };
 
-type CommunityArticeListItemsKeys = keyof ApiCommunityArticleListItems['get']['responseData'];
+type CommunityArticeListItemsKeys = keyof ApiCommunityArticleList['get']['responseData'];
 
 // @TODO: CommunityArticleListItemsKeys로 변경
 const arrayOfAllCommunityArticlesKeys = arrayOfAll<CommunityArticeListItemsKeys>();
 
-export const checkCommunityArticleListItems = (data: unknown): ApiCommunityArticleListItems['get']['responseData'] => {
+export const checkCommunityArticleListItems = (data: unknown): ApiCommunityArticleList['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`CommunityArticles does not have correct type: object`);
 
   const keys = arrayOfAllCommunityArticlesKeys(['articles', 'currentPage', 'lastPage', 'totalCount']);

@@ -3,6 +3,8 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_LINK_QUERY_PARAM } from '@constants';
 
+import buildURLQuery from '@utils/buildURLQuery';
+
 import type { Link, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -40,7 +42,7 @@ const defaultParam: PageParam = {
 
 const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variables']) => {
   const response = await axiosInstance.get<ApiLinks['get']['responseData']>(
-    `/api/studies/${studyId}/reference-room/links?page=${page}&size=${size}`,
+    buildURLQuery(`/api/studies/${studyId}/reference-room/links`, { page, size }),
   );
   return checkLinks(response.data);
 };

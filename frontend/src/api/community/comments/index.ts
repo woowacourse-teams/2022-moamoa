@@ -3,6 +3,8 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_COMMUNITY_COMMENT_QUERY_PARAM } from '@constants';
 
+import buildURLQuery from '@utils/buildURLQuery';
+
 import type { ArticleId, CommunityComment, Merge, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -41,7 +43,10 @@ const getCommunityComments =
   async ({
     pageParam = defaultParam,
   }): Promise<Merge<ApiCommunityComments['get']['responseData'], { page: number }>> => {
-    const url = `/api/studies/${studyId}/community/${articleId}/comments?page=${pageParam.page}&size=${size}`;
+    const url = buildURLQuery(`/api/studies/${studyId}/community/${articleId}/comments`, {
+      page: pageParam.page,
+      size,
+    });
     const response = await axiosInstance.get<ApiCommunityComments['get']['responseData']>(url);
     const data = checkCommunityComments(response.data);
     return { ...data, page: pageParam.page + 1 };

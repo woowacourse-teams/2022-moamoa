@@ -3,6 +3,8 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_NOTICE_COMMENT_QUERY_PARAM } from '@constants';
 
+import buildURLQuery from '@utils/buildURLQuery';
+
 import type { ArticleId, Merge, NoticeComment, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -39,7 +41,10 @@ const defaultParam: PageParam = {
 const getNoticeComments =
   ({ studyId, articleId, size = SIZE }: ApiNoticeComments['get']['variables']) =>
   async ({ pageParam = defaultParam }): Promise<Merge<ApiNoticeComments['get']['responseData'], { page: Page }>> => {
-    const url = `/api/studies/${studyId}/notice/${articleId}/comments?page=${pageParam.page}&size=${size}`;
+    const url = buildURLQuery(`/api/studies/${studyId}/notice/${articleId}/comments`, {
+      page: pageParam.page,
+      size,
+    });
     const response = await axiosInstance.get<ApiNoticeComments['get']['responseData']>(url);
     const data = checkNoticeComments(response.data);
     return { ...data, page: pageParam.page + 1 };

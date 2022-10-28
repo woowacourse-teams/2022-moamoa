@@ -1,6 +1,8 @@
 import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
+import buildURLQuery from '@utils/buildURLQuery';
+
 import type { NoticeArticleDetail, Page, Size, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -30,7 +32,7 @@ const getNoticeArticleListItems = async ({
 }: ApiNoticeArticleListItems['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
   const response = await axiosInstance.get<ApiNoticeArticleListItems['get']['responseData']>(
-    `/api/studies/${studyId}/notice/articles?page=${page - 1}&size=${size}`,
+    buildURLQuery(`/api/studies/${studyId}/notice/articles`, { page: page - 1, size }),
   );
 
   return checkNoticeArticleListItems(response.data);
