@@ -48,6 +48,9 @@ const getNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['get'][
   );
   return checkNoticeArticle(response.data);
 };
+export const useGetNoticeArticle = ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
+  return useQuery(['get-notice-article', studyId, articleId], () => getNoticeArticle({ studyId, articleId }));
+};
 
 const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiNoticeArticle['post']['body']>(
@@ -59,6 +62,9 @@ const postNoticeArticle = async ({ studyId, title, content }: ApiNoticeArticle['
   );
 
   return checkType(response.data, isNull);
+};
+export const usePostNoticeArticle = () => {
+  return useMutation<null, AxiosError, ApiNoticeArticle['post']['variables']>(postNoticeArticle);
 };
 
 const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNoticeArticle['put']['variables']) => {
@@ -72,6 +78,9 @@ const putNoticeArticle = async ({ studyId, title, content, articleId }: ApiNotic
 
   return checkType(response.data, isNull);
 };
+export const usePutNoticeArticle = () => {
+  return useMutation<null, AxiosError, ApiNoticeArticle['put']['variables']>(putNoticeArticle);
+};
 
 const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>>(
@@ -80,20 +89,6 @@ const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['del
 
   return checkType(response.data, isNull);
 };
-
-// @TODO: 함수 위치 변경
-export const useGetNoticeArticle = ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
-  return useQuery(['get-notice-article', studyId, articleId], () => getNoticeArticle({ studyId, articleId }));
-};
-
-export const usePostNoticeArticle = () => {
-  return useMutation<null, AxiosError, ApiNoticeArticle['post']['variables']>(postNoticeArticle);
-};
-
-export const usePutNoticeArticle = () => {
-  return useMutation<null, AxiosError, ApiNoticeArticle['put']['variables']>(putNoticeArticle);
-};
-
 export const useDeleteNoticeArticle = () => {
   return useMutation<null, AxiosError, ApiNoticeArticle['delete']['variables']>(deleteNoticeArticle);
 };
