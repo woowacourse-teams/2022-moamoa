@@ -12,7 +12,7 @@ type ArticleKeys = keyof Article;
 
 const arrayOfAllArticleKeys = arrayOfAll<ArticleKeys>();
 
-const checkArticle = (data: unknown): Article => {
+const checkArticleListItem = (data: unknown): Article => {
   if (!isObject(data)) throw new AxiosError(`CommunityArticles-Article does not have correct type: object`);
 
   const keys = arrayOfAllArticleKeys(['id', 'author', 'title', 'createdDate', 'lastModifiedDate']);
@@ -38,7 +38,7 @@ export const checkCommunityArticles = (data: unknown): ApiCommunityArticles['get
   if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityArticles does not have some properties');
 
   return {
-    articles: checkType(data.articles, isArray).map(article => checkArticle(article)),
+    articles: checkType(data.articles, isArray).map(article => checkArticleListItem(article)),
     currentPage: checkType(data.currentPage, isNumber) + 1,
     lastPage: checkType(data.lastPage, isNumber) + 1,
     totalCount: checkType(data.totalCount, isNumber),
