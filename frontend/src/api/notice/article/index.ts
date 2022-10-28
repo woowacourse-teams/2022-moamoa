@@ -81,6 +81,7 @@ const deleteNoticeArticle = async ({ studyId, articleId }: ApiNoticeArticle['del
   return checkType(response.data, isNull);
 };
 
+// @TODO: 함수 위치 변경
 export const useGetNoticeArticle = ({ studyId, articleId }: ApiNoticeArticle['get']['variables']) => {
   return useQuery(['get-notice-article', studyId, articleId], () => getNoticeArticle({ studyId, articleId }));
 };

@@ -32,7 +32,7 @@ export type ApiReview = {
   };
 };
 
-export const postReview = async ({ studyId, content }: ApiReview['post']['variables']) => {
+const postReview = async ({ studyId, content }: ApiReview['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiReview['post']['body']>(
     `/api/studies/${studyId}/reviews`,
     {
@@ -44,7 +44,7 @@ export const postReview = async ({ studyId, content }: ApiReview['post']['variab
 
 export const usePostReview = () => useMutation<null, AxiosError, ApiReview['post']['variables']>(postReview);
 
-export const putReview = async ({ studyId, reviewId, content }: ApiReview['put']['variables']) => {
+const putReview = async ({ studyId, reviewId, content }: ApiReview['put']['variables']) => {
   const response = await axiosInstance.put<null, AxiosResponse<null>, ApiReview['put']['body']>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
     {
@@ -56,7 +56,7 @@ export const putReview = async ({ studyId, reviewId, content }: ApiReview['put']
 
 export const usePutReview = () => useMutation<null, AxiosError, ApiReview['put']['variables']>(putReview);
 
-export const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['variables']) => {
+const deleteReview = async ({ studyId, reviewId }: ApiReview['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>, ApiReview['delete']['variables']>(
     `/api/studies/${studyId}/reviews/${reviewId}`,
   );

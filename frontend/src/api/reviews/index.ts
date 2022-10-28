@@ -39,7 +39,7 @@ const defaultParam: PageParam = {
 };
 
 // size와 page가 없는 경우에는 전체를 불러온다
-export const getStudyReviews = async ({ studyId, size, page }: ApiStudyReviews['get']['variables']) => {
+const getStudyReviews = async ({ studyId, size, page }: ApiStudyReviews['get']['variables']) => {
   let url = `/api/studies/${studyId}/reviews`;
   if (size) {
     url = `/api/studies/${studyId}/reviews?size=${size}`;
@@ -52,7 +52,7 @@ export const useGetStudyReviews = ({ size, studyId, page }: ApiStudyReviews['get
   return useQuery([QK_STUDY_REVIEWS, size, studyId], () => getStudyReviews({ size, studyId, page }));
 };
 
-export const getStudyReviewsWithPage =
+const getStudyReviewsWithPage =
   ({ size = SIZE, studyId, page }: ApiStudyReviews['get']['variables']) =>
   async ({ pageParam = defaultParam }): Promise<Merge<ApiStudyReviews['get']['responseData'], { page: Page }>> => {
     const data = await getStudyReviews({ studyId, size, page });

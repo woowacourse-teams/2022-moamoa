@@ -35,7 +35,7 @@ export type ApiNoticeComment = {
   };
 };
 
-export const postNoticeComment = async ({ studyId, articleId, content }: ApiNoticeComment['post']['variables']) => {
+const postNoticeComment = async ({ studyId, articleId, content }: ApiNoticeComment['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiNoticeComment['post']['body']>(
     `/api/studies/${studyId}/community/${articleId}/comments`,
     {
@@ -47,7 +47,7 @@ export const postNoticeComment = async ({ studyId, articleId, content }: ApiNoti
 export const usePostNoticeComment = () =>
   useMutation<null, AxiosError, ApiNoticeComment['post']['variables']>(postNoticeComment);
 
-export const putNoticeComment = async ({
+const putNoticeComment = async ({
   studyId,
   articleId,
   noticeCommentId,
@@ -64,7 +64,7 @@ export const putNoticeComment = async ({
 export const usePutNoticeComment = () =>
   useMutation<null, AxiosError, ApiNoticeComment['put']['variables']>(putNoticeComment);
 
-export const deleteNoticeComment = async ({
+const deleteNoticeComment = async ({
   studyId,
   articleId,
   noticeCommentId,

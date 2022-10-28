@@ -35,11 +35,7 @@ export type ApiCommunityComment = {
   };
 };
 
-export const postCommunityComment = async ({
-  studyId,
-  articleId,
-  content,
-}: ApiCommunityComment['post']['variables']) => {
+const postCommunityComment = async ({ studyId, articleId, content }: ApiCommunityComment['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiCommunityComment['post']['body']>(
     `/api/studies/${studyId}/community/${articleId}/comments`,
     {
@@ -51,7 +47,7 @@ export const postCommunityComment = async ({
 export const usePostCommunityComment = () =>
   useMutation<null, AxiosError, ApiCommunityComment['post']['variables']>(postCommunityComment);
 
-export const putCommunityComment = async ({
+const putCommunityComment = async ({
   studyId,
   articleId,
   communityCommentId,
@@ -68,7 +64,7 @@ export const putCommunityComment = async ({
 export const usePutCommunityComment = () =>
   useMutation<null, AxiosError, ApiCommunityComment['put']['variables']>(putCommunityComment);
 
-export const deleteCommunityComment = async ({
+const deleteCommunityComment = async ({
   studyId,
   articleId,
   communityCommentId,
@@ -78,6 +74,5 @@ export const deleteCommunityComment = async ({
   );
   return checkType(response.data, isNull);
 };
-
 export const useDeleteCommunityComment = () =>
   useMutation<null, AxiosError, ApiCommunityComment['delete']['variables']>(deleteCommunityComment);

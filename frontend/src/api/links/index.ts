@@ -38,7 +38,7 @@ const defaultParam: PageParam = {
   page: DEFAULT_LINK_QUERY_PARAM.PAGE,
 };
 
-export const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variables']) => {
+const getLinks = async ({ studyId, page, size }: ApiLinks['get']['variables']) => {
   const response = await axiosInstance.get<ApiLinks['get']['responseData']>(
     `/api/studies/${studyId}/reference-room/links?page=${page}&size=${size}`,
   );

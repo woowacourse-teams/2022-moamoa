@@ -21,7 +21,7 @@ export type ApiMyStudy = {
 };
 
 // TODO: postMyStudy -> postSignUpMyStudy
-export const postMyStudy = async ({ studyId }: ApiMyStudy['post']['variables']) => {
+const postMyStudy = async ({ studyId }: ApiMyStudy['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiMyStudy['post']['variables']>(
     `/api/studies/${studyId}/members`,
   );
@@ -30,7 +30,7 @@ export const postMyStudy = async ({ studyId }: ApiMyStudy['post']['variables']) 
 
 export const usePostMyStudy = () => useMutation<null, AxiosError, ApiMyStudy['post']['variables']>(postMyStudy);
 
-export const deleteMyStudy = async ({ studyId }: ApiMyStudy['delete']['variables']) => {
+const deleteMyStudy = async ({ studyId }: ApiMyStudy['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>, ApiMyStudy['delete']['variables']>(
     `/api/studies/${studyId}/members`,
   );

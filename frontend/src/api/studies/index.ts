@@ -41,12 +41,7 @@ const defaultParam: PageParam = {
   page: DEFAULT_STUDY_CARD_QUERY_PARAM.PAGE,
 };
 
-export const getStudies = async ({
-  page = PAGE,
-  size = SIZE,
-  title,
-  selectedFilters,
-}: ApiStudies['get']['variables']) => {
+const getStudies = async ({ page = PAGE, size = SIZE, title, selectedFilters }: ApiStudies['get']['variables']) => {
   const tagParams = selectedFilters.map(({ id, categoryName }) => `&${categoryName}=${id}`).join('');
   const titleParams = title && `&title=${title}`;
 

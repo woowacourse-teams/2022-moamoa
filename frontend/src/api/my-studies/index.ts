@@ -16,7 +16,7 @@ export type ApiMyStudies = {
   };
 };
 
-export const getMyStudies = async () => {
+const getMyStudies = async () => {
   const response = await axiosInstance.get<ApiMyStudies['get']['responseData']>(`/api/my/studies`);
   return checkMyStudies(response.data);
 };
