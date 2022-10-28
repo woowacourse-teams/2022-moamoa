@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { StudyId } from '@custom-types';
+import type { ArticleId, NoticeArticleDetail, StudyId } from '@custom-types';
 
-import { usePostNoticeArticle } from '@api/notice/article';
+import { useGetNoticeArticleDetail, usePutNoticeArticleDetail } from '@api/notice/article-detail';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 import { useUserRole } from '@hooks/useUserRole';
@@ -19,31 +19,33 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-export type PublishProps = {
+export type NoticeArticleDetailEditProps = {
   studyId: StudyId;
+  articleId: ArticleId;
 };
 
-type HandlePublishFormSubmit = (
+type HandleEditFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
 ) => Promise<null | undefined>;
 
-const Publish: React.FC<PublishProps> = ({ studyId }) => {
+const NoticeArticleDetailEdit: React.FC<NoticeArticleDetailEditProps> = ({ studyId, articleId }) => {
   const formMethods = useForm();
   const navigate = useNavigate();
-  const { mutateAsync } = usePostNoticeArticle();
 
-  const { isFetching, isError, isOwner } = useUserRole({ studyId });
+  const getNoticeArticleQueryResult = useGetNoticeArticleDetail({ studyId, articleId });
+  const { mutateAsync } = usePutNoticeArticleDetail();
+  const { isFetching, isOwner } = useUserRole({ studyId });
 
   useEffect(() => {
     if (isFetching) return;
     if (isOwner) return;
 
     alert('접근할 수 없습니다!');
-    navigate(`../${PATH.NOTICE}`, { replace: true });
-  }, [isFetching, isOwner]);
+    navigate(`../${PATH.NOTICE}`);
+  }, [studyId, navigate, isFetching, isOwner]);
 
-  const handleSubmit: HandlePublishFormSubmit = async (_: React.FormEvent<HTMLFormElement>, submitResult) => {
+  const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
     if (!values) return;
 
@@ -52,16 +54,17 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
     return mutateAsync(
       {
         studyId,
+        articleId,
         title,
         content,
       },
       {
         onSuccess: () => {
-          alert('글을 작성했습니다. :D');
-          navigate(`../${PATH.NOTICE}`, { replace: true }); // TODO: 생성한 게시글 상세 페이지로 이동
+          alert('글을 수정했습니다 :D');
+          navigate(`../${PATH.NOTICE}`, { replace: true });
         },
         onError: () => {
-          alert('글을 작성하지 못했습니다. 다시 시도해주세요. :(');
+          alert('글을 수정하지 못했습니다. 다시 시도해주세요 :(');
         },
       },
     );
@@ -69,49 +72,50 @@ const Publish: React.FC<PublishProps> = ({ studyId }) => {
 
   return (
     <FormProvider {...formMethods}>
-      <PageTitle>공지사항 작성</PageTitle>
+      <PageTitle>공지사항 수정</PageTitle>
       {(() => {
+        const { isFetching, isError, isSuccess, data } = getNoticeArticleQueryResult;
         if (isFetching) return <Loading />;
         if (isError) return <Error />;
-        if (isOwner) return <PublishForm formMethods={formMethods} onSubmit={handleSubmit} />;
+        if (isSuccess) return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
       })()}
     </FormProvider>
   );
 };
 
-export default Publish;
+export default NoticeArticleDetailEdit;
 
-const Loading = () => <div>유저 정보 가져오는 중...</div>;
-
-const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생했습니다.</div>;
-
-type PublishFormProps = {
+type EditFormProps = {
+  article: NoticeArticleDetail;
   formMethods: UseFormReturn;
-  onSubmit: HandlePublishFormSubmit;
+  onSubmit: HandleEditFormSubmit;
 };
-
-const PublishForm: React.FC<PublishFormProps> = ({ formMethods, onSubmit }) => (
+const EditForm: React.FC<EditFormProps> = ({ article, formMethods, onSubmit }) => (
   <Form onSubmit={formMethods.handleSubmit(onSubmit)}>
-    <ArticleTitleInput />
-    <ArticleContentInput />
+    <ArticleTitleInput originalTitle={article.title} />
+    <ArticleContentInput originalContent={article.content} />
     <Divider space="16px" />
     <ButtonGroup justifyContent="space-between">
       <ListPageLink />
-      <PublishButton />
+      <EditButton />
     </ButtonGroup>
   </Form>
 );
 
 const ListPageLink: React.FC = () => (
-  <Link to={`../${PATH.COMMUNITY}`}>
+  <Link to={`../${PATH.NOTICE}`}>
     <BoxButton type="button" variant="secondary" custom={{ padding: '4px 8px', fontSize: 'lg' }}>
       돌아가기
     </BoxButton>
   </Link>
 );
 
-const PublishButton: React.FC = () => (
+const EditButton: React.FC = () => (
   <BoxButton type="submit" fluid={false} custom={{ padding: '4px 8px', fontSize: 'lg' }}>
-    등록하기
+    수정하기
   </BoxButton>
 );
+
+const Loading = () => <div>Loading...</div>;
+
+const Error = () => <div>Error...</div>;

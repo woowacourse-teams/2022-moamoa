@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { CONTENT, DRAFT_SAVE_TIME, PATH, TITLE } from '@constants';
 
-import { usePostCommunityArticle } from '@api/community/article';
+import { usePostCommunityArticleDetail } from '@api/community/article-detail';
 import {
   ApiCommunityDraftArticleToArticle,
   usePostCommunityDraftArticle,
@@ -23,14 +23,14 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-import DraftSaveButton from '@community-tab/components/draft-save-button/DraftSaveButton';
+import DraftSaveButton from '@community-tab/components/draft-save-button/CommunityDraftArticleSaveButton';
 
 type HandlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
 ) => Promise<ApiCommunityDraftArticleToArticle['post']['responseData'] | null | undefined>;
 
-const Publish: React.FC = () => {
+const CommunityArticlePublish: React.FC = () => {
   const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
 
@@ -44,7 +44,7 @@ const Publish: React.FC = () => {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const { mutateAsync } = usePostCommunityArticle();
+  const { mutateAsync } = usePostCommunityArticleDetail();
   const postDraftArticle = usePostCommunityDraftArticle();
   const putDraftArticle = usePutCommunityDraftArticle();
   const postDraftArticleToArticle = usePostDraftArticleToArticle();
@@ -197,7 +197,7 @@ const Publish: React.FC = () => {
   );
 };
 
-export default Publish;
+export default CommunityArticlePublish;
 
 const Loading = () => <div>유저 정보 가져오는 중...</div>;
 

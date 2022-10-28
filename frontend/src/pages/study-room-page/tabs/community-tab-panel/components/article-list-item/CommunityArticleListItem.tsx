@@ -6,18 +6,18 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import type { CommunityArticle } from '@custom-types';
+import type { CommunityArticleDetail } from '@custom-types';
 
 import { applyHoverBgTransitionStyle } from '@styles/theme';
 
 import ListItem from '@shared/list-item/ListItem';
 
-export type ArticleListItemProps = Pick<CommunityArticle, 'id' | 'title' | 'author' | 'createdDate'>;
+export type CommunityArticleListItemProps = Pick<CommunityArticleDetail, 'id' | 'title' | 'author' | 'createdDate'>;
 
-const ArticleListItem: React.FC<ArticleListItemProps> = ({ id, title, author, createdDate }) => {
+const CommunityArticleListItem: React.FC<CommunityArticleListItemProps> = ({ id, title, author, createdDate }) => {
   return (
     <Self>
-      <Link to={PATH.NOTICE_ARTICLE(id)}>
+      <Link to={PATH.COMMUNITY_ARTICLE(id)}>
         <ListItem
           title={title}
           userInfo={{
@@ -31,7 +31,7 @@ const ArticleListItem: React.FC<ArticleListItemProps> = ({ id, title, author, cr
   );
 };
 
-export default ArticleListItem;
+export default CommunityArticleListItem;
 
 const Self = styled.li`
   ${({ theme }) => applyHoverBgTransitionStyle(theme)}

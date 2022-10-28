@@ -6,14 +6,16 @@ import { useUserInfo } from '@hooks/useUserInfo';
 
 import Divider from '@shared/divider/Divider';
 
-import EditableComment from '@notice-tab/components/editable-comment/EditableComment';
+import EditableComment from '@community-tab/components/editable-comment/CommunityEditableComment';
 
-type CommentListProps = {
+// 여기서 api호출을 하지 않는 이유는, 위쪽에서 comment를 작성하고 refetch를 해줘야 하기 때문이다
+// 그냥 useGetCommunityComments를 두번 호출하는건 별로인가?
+type CommunityCommentListProps = {
   articleId: ArticleId;
   studyId: StudyId;
   comments: Array<CommunityComment>;
 };
-const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments }) => {
+const CommunityCommentList: React.FC<CommunityCommentListProps> = ({ studyId, articleId, comments }) => {
   const { userInfo } = useUserInfo();
   return (
     <div>
@@ -39,4 +41,4 @@ const CommentList: React.FC<CommentListProps> = ({ studyId, articleId, comments 
   );
 };
 
-export default CommentList;
+export default CommunityCommentList;

@@ -3,13 +3,17 @@ import { css, useTheme } from '@emotion/react';
 import { BoxButton } from '@shared/button';
 import Flex from '@shared/flex/Flex';
 
-export type DraftSaveButtonProps = {
+export type CommunityDraftArticleSaveButtonProps = {
   children: string;
   isSaving: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const DraftSaveButton: React.FC<DraftSaveButtonProps> = ({ children, isSaving, onClick: handleClick }) => {
+const CommunityDraftArticleSaveButton: React.FC<CommunityDraftArticleSaveButtonProps> = ({
+  children,
+  isSaving,
+  onClick: handleClick,
+}) => {
   return (
     <Flex alignItems="center" columnGap="4px" justifyContent="flex-end">
       <LoadingSpinner isSaving={isSaving} />
@@ -26,9 +30,9 @@ const DraftSaveButton: React.FC<DraftSaveButtonProps> = ({ children, isSaving, o
   );
 };
 
-export default DraftSaveButton;
+export default CommunityDraftArticleSaveButton;
 
-type LoadingSpinnerProps = Pick<DraftSaveButtonProps, 'isSaving'>;
+type LoadingSpinnerProps = Pick<CommunityDraftArticleSaveButtonProps, 'isSaving'>;
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ isSaving }) => {
   const theme = useTheme();
 

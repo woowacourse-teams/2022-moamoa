@@ -1,17 +1,17 @@
-import { COMMUNITY_COMMENT_LENGTH } from '@constants';
+import { NOTICE_COMMENT_LENGTH } from '@constants';
 
-import type { ArticleId, CommunityCommentId, DateYMD, Member, Noop, StudyId } from '@custom-types';
+import type { ArticleId, DateYMD, Member, Noop, NoticeCommentId, StudyId } from '@custom-types';
 
-import { usePutCommunityComment } from '@api/community/comment';
+import { usePutNoticeComment } from '@api/notice/comment';
 
 import { type FieldElement, FormProvider, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
 import ImportedCommentEditForm from '@study-room-page/components/comment-edit-form/CommentEditForm';
 
-export type CommentEditFormProps = {
+export type NoticeCommentEditFormProps = {
   studyId: StudyId;
   articleId: ArticleId;
-  communityCommentId: CommunityCommentId;
+  noticeCommentId: NoticeCommentId;
   originalContent: string;
   date: DateYMD;
   author: Member;
@@ -22,15 +22,15 @@ export type CommentEditFormProps = {
 
 const COMMENT_EDIT = 'comment-edit';
 
-const CommentEditForm: React.FC<CommentEditFormProps> = ({
+const NoticeCommentEditForm: React.FC<NoticeCommentEditFormProps> = ({
   studyId,
   articleId,
-  communityCommentId,
+  noticeCommentId,
   originalContent,
   date,
   author,
-  onEditSuccess,
-  onEditError,
+  onEditSuccess: handleEditSuccess,
+  onEditError: handleEditError,
   onCancelEditBtnClick: handleCancelEditButtonClick,
 }) => {
   const formMethods = useForm();
@@ -38,7 +38,7 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
     handleSubmit,
     formState: { errors },
   } = formMethods;
-  const { mutateAsync } = usePutCommunityComment();
+  const { mutateAsync } = usePutNoticeComment();
 
   const isValid = !errors[COMMENT_EDIT]?.hasError;
 
@@ -50,13 +50,13 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
     const content = submitResult.values[COMMENT_EDIT];
 
     return mutateAsync(
-      { studyId, articleId, communityCommentId, content },
+      { studyId, articleId, noticeCommentId, content },
       {
         onSuccess: () => {
-          onEditSuccess();
+          handleEditSuccess();
         },
         onError: error => {
-          onEditError(error);
+          handleEditError(error);
         },
       },
     );
@@ -67,7 +67,7 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
       <ImportedCommentEditForm
         author={author}
         date={date}
-        maxLength={COMMUNITY_COMMENT_LENGTH.MAX.VALUE}
+        maxLength={NOTICE_COMMENT_LENGTH.MAX.VALUE}
         renderField={setCount => {
           const handleChange = ({ target: { value } }: React.ChangeEvent<FieldElement>) => setCount(value.length);
           return (
@@ -77,10 +77,10 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
               label="댓글 수정"
               placeholder="수정할 댓글을 입력해 주세요"
               defaultValue={originalContent}
-              minLength={COMMUNITY_COMMENT_LENGTH.MIN.VALUE}
-              minLengthErrorMessage={COMMUNITY_COMMENT_LENGTH.MIN.MESSAGE}
-              maxLength={COMMUNITY_COMMENT_LENGTH.MAX.VALUE}
-              maxLengthErrorMessage={COMMUNITY_COMMENT_LENGTH.MAX.MESSAGE}
+              minLength={NOTICE_COMMENT_LENGTH.MIN.VALUE}
+              minLengthErrorMessage={NOTICE_COMMENT_LENGTH.MIN.MESSAGE}
+              maxLength={NOTICE_COMMENT_LENGTH.MAX.VALUE}
+              maxLengthErrorMessage={NOTICE_COMMENT_LENGTH.MAX.MESSAGE}
               onChange={handleChange}
             />
           );
@@ -92,4 +92,4 @@ const CommentEditForm: React.FC<CommentEditFormProps> = ({
   );
 };
 
-export default CommentEditForm;
+export default NoticeCommentEditForm;

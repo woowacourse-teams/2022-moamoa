@@ -24,14 +24,14 @@ import PageTitle from '@shared/page-title/PageTitle';
 import ArticleContentInput from '@components/article-content-input/ArticleContentInput';
 import ArticleTitleInput from '@components/article-title-input/ArticleTitleInput';
 
-import DraftSaveButton from '@community-tab/components/draft-save-button/DraftSaveButton';
+import DraftSaveButton from '@community-tab/components/draft-save-button/CommunityDraftArticleSaveButton';
 
-type HandleDraftArticlePublishFormSubmit = (
+type HandleCommunityDraftArticlePublishFormSubmit = (
   _: React.FormEvent<HTMLFormElement>,
   submitResult: UseFormSubmitResult,
 ) => Promise<ApiCommunityDraftArticleToArticle['post']['responseData'] | undefined>;
 
-const DraftArticlePublish: React.FC = () => {
+const CommunityDraftArticlePublish: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
@@ -106,7 +106,7 @@ const DraftArticlePublish: React.FC = () => {
     );
   };
 
-  const handleSubmit: HandleDraftArticlePublishFormSubmit = async (_, { values }) => {
+  const handleSubmit: HandleCommunityDraftArticlePublishFormSubmit = async (_, { values }) => {
     if (!values) return;
     const { title, content } = values;
     if (!title || !content) return;
@@ -156,7 +156,7 @@ const DraftArticlePublish: React.FC = () => {
   );
 };
 
-export default DraftArticlePublish;
+export default CommunityDraftArticlePublish;
 
 const Loading = () => <div>유저 정보 가져오는 중...</div>;
 
@@ -164,7 +164,7 @@ const Error = () => <div>유저 정보를 가져오는 도중 에러가 발생�
 
 type PublishFormProps = {
   formMethods: UseFormReturn;
-  onSubmit: HandleDraftArticlePublishFormSubmit;
+  onSubmit: HandleCommunityDraftArticlePublishFormSubmit;
 } & Pick<DraftArtcle, 'title' | 'content'>;
 
 const PublishForm: React.FC<PublishFormProps> = ({ title, content, formMethods, onSubmit }) => (

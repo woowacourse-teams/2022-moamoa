@@ -4,21 +4,21 @@ import { css } from '@emotion/react';
 
 import type { StudyId } from '@custom-types';
 
-import { type ApiNoticeArticles, useGetNoticeArticles } from '@api/notice/article';
+import { type ApiNoticeArticleListItems, useGetNoticeArticleListItems } from '@api/notice/article-list-items';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
 import Pagination from '@shared/pagination/Pagination';
 
-import ArticleListItem from '@notice-tab/components/article-list-item/ArticleListItem';
+import ArticleListItem from '@notice-tab/components/article-list-item/NoticeArticleListItem';
 
-export type ArticleListProps = {
+export type NoticeArticleListProps = {
   studyId: StudyId;
 };
 
-const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
+const NoticeArticleList: React.FC<NoticeArticleListProps> = ({ studyId }) => {
   const [page, setPage] = useState<number>(1);
-  const { isFetching, isSuccess, isError, data } = useGetNoticeArticles({ studyId, page });
+  const { isFetching, isSuccess, isError, data } = useGetNoticeArticleListItems({ studyId, page });
 
   return (
     <Flex flexDirection="column" rowGap="20px">
@@ -44,7 +44,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
 };
 
 type SelfProps = {
-  articles: ApiNoticeArticles['get']['responseData']['articles'];
+  articles: ApiNoticeArticleListItems['get']['responseData']['articles'];
 };
 const Self: React.FC<SelfProps> = ({ articles }) => (
   <ul
@@ -66,7 +66,7 @@ const Self: React.FC<SelfProps> = ({ articles }) => (
   </ul>
 );
 
-export default ArticleList;
+export default NoticeArticleList;
 
 const Loading = () => <div>Loading...</div>;
 

@@ -4,21 +4,21 @@ import { css } from '@emotion/react';
 
 import type { StudyId } from '@custom-types';
 
-import { type ApiCommunityArticles, useGetCommunityArticles } from '@api/community/articles';
+import { type ApiCommunityArticleList, useGetCommunityArticleListItems } from '@api/community/article-list-items';
 
 import Divider from '@shared/divider/Divider';
 import Flex from '@shared/flex/Flex';
 import Pagination from '@shared/pagination/Pagination';
 
-import ArticleListItem from '@community-tab/components/article-list-item/ArticleListItem';
+import ArticleListItem from '@community-tab/components/article-list-item/CommunityArticleListItem';
 
-export type ArticleListProps = {
+export type CommunityArticleListProps = {
   studyId: StudyId;
 };
 
-const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
+const CommunityArticleList: React.FC<CommunityArticleListProps> = ({ studyId }) => {
   const [page, setPage] = useState<number>(1);
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticles({ studyId, page });
+  const { isFetching, isSuccess, isError, data } = useGetCommunityArticleListItems({ studyId, page });
 
   return (
     <Flex flexDirection="column" rowGap="20px">
@@ -43,10 +43,10 @@ const ArticleList: React.FC<ArticleListProps> = ({ studyId }) => {
   );
 };
 
-export default ArticleList;
+export default CommunityArticleList;
 
 type SelfProps = {
-  articles: ApiCommunityArticles['get']['responseData']['articles'];
+  articles: ApiCommunityArticleList['get']['responseData']['articles'];
 };
 const Self: React.FC<SelfProps> = ({ articles }) => (
   <ul

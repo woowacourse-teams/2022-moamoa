@@ -14,11 +14,6 @@ import MetaBox from '@shared/meta-box/MetaBox';
 import Textarea from '@shared/textarea/Textarea';
 
 type TabIds = typeof tabMode[keyof typeof tabMode];
-
-export type EditContentProps = {
-  content: string;
-};
-
 const tabMode = {
   write: 'write',
   preview: 'preview',
@@ -26,7 +21,11 @@ const tabMode = {
 
 const CONTENT = 'content';
 
-const EditContent: React.FC<EditContentProps> = ({ content }) => {
+export type CommunityArticleDetailEditContentProps = {
+  content: string;
+};
+
+const CommunityArticleDetailEditContent: React.FC<CommunityArticleDetailEditContentProps> = ({ content }) => {
   const {
     formState: { errors },
     getField,
@@ -75,7 +74,7 @@ const EditContent: React.FC<EditContentProps> = ({ content }) => {
   );
 };
 
-export default EditContent;
+export default CommunityArticleDetailEditContent;
 
 type WriteTabButtonProps = {
   activeTab: TabIds;

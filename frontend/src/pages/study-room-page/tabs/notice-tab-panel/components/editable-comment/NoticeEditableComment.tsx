@@ -3,18 +3,18 @@ import { useQueryClient } from 'react-query';
 
 import type { ArticleId, ReviewId, StudyId } from '@custom-types';
 
-import { useDeleteCommunityComment } from '@api/community/comment';
-import { QK_COMMUNITY_COMMENTS_INFINITE_SCROLL } from '@api/community/comments';
+import { useDeleteNoticeComment } from '@api/notice/comment';
+import { QK_NOTICE_COMMENTS_INFINITE_SCROLL } from '@api/notice/comments';
 
 import Comment, { type CommentProps } from '@study-room-page/components/comment/Comment';
 
-import CommentEditForm from '@community-tab/components/comment-edit-form/CommentEditForm';
+import CommentEditForm from '@notice-tab/components/comment-edit-form/NoticeCommentEditForm';
 
-type EditableCommentProps = { id: ReviewId; articleId: ArticleId; studyId: StudyId } & Omit<
+type NoticeEditableCommentProps = { id: ReviewId; articleId: ArticleId; studyId: StudyId } & Omit<
   CommentProps,
   'onEditCommentButtonClick' | 'onDeleteCommentButtonClick'
 >;
-const EditableComment: React.FC<EditableCommentProps> = ({
+const NoticeEditableComment: React.FC<NoticeEditableCommentProps> = ({
   id,
   studyId,
   articleId,
@@ -24,10 +24,10 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   isMyComment,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { mutateAsync: deleteComment } = useDeleteCommunityComment();
+  const { mutateAsync: deleteComment } = useDeleteNoticeComment();
   const queryClient = useQueryClient();
   const refetchComments = () => {
-    queryClient.refetchQueries([QK_COMMUNITY_COMMENTS_INFINITE_SCROLL, studyId, articleId]);
+    queryClient.refetchQueries([QK_NOTICE_COMMENTS_INFINITE_SCROLL, studyId, articleId]);
   };
 
   // EditForm Handlers
@@ -48,7 +48,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
     setIsEditing(true);
   };
   const handleDeleteCommentButtonClick = () => {
-    deleteComment({ communityCommentId: id, articleId, studyId })
+    deleteComment({ noticeCommentId: id, articleId, studyId })
       .then(() => {
         alert('성공적으로 삭제되었습니다');
         refetchComments();
@@ -62,7 +62,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
     <>
       {isEditing ? (
         <CommentEditForm
-          communityCommentId={id}
+          noticeCommentId={id}
           studyId={studyId}
           articleId={articleId}
           originalContent={content}
@@ -86,4 +86,4 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   );
 };
 
-export default EditableComment;
+export default NoticeEditableComment;

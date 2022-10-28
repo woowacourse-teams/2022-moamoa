@@ -10,14 +10,20 @@ import ImportedCommentForm from '@study-room-page/components/comment-form/Commen
 
 const NOTICE_COMMENT = 'notice-comment';
 
-type CommentFormProps = {
+type NoticeCommentFormProps = {
   studyId: StudyId;
   articleId: ArticleId;
   author: Member;
   onPostSuccess: Noop;
   onPostError: (e: Error) => void;
 };
-const CommentForm: React.FC<CommentFormProps> = ({ studyId, articleId, author, onPostSuccess, onPostError }) => {
+const NoticeCommentForm: React.FC<NoticeCommentFormProps> = ({
+  studyId,
+  articleId,
+  author,
+  onPostSuccess,
+  onPostError,
+}) => {
   const formMethods = useForm();
   const {
     handleSubmit,
@@ -75,4 +81,4 @@ const CommentForm: React.FC<CommentFormProps> = ({ studyId, articleId, author, o
   );
 };
 
-export default CommentForm;
+export default NoticeCommentForm;

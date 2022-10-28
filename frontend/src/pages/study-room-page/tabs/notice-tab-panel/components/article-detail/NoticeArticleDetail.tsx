@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 
@@ -6,7 +6,7 @@ import { PATH } from '@constants';
 
 import { changeDateSeperator } from '@utils';
 
-import { useDeleteCommunityArticle, useGetCommunityArticle } from '@api/community/article';
+import { useDeleteNoticeArticleDetail, useGetNoticeArticleDetail } from '@api/notice/article-detail';
 
 import { useUserInfo } from '@hooks/useUserInfo';
 
@@ -18,26 +18,28 @@ import ImportedMarkdownRender from '@shared/markdown-render/MarkdownRender';
 import PageTitle from '@shared/page-title/PageTitle';
 import UserInfoItem from '@shared/user-info-item/UserInfoItem';
 
-import CommentSection from '@community-tab/components/comment-section/CommentSection';
+import CommentSection from '@notice-tab/components/comment-section/NoticeCommentSection';
 
-const Article: React.FC = () => {
-  const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
-  const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
+export type NoticeArticleDetailProps = {
+  studyId: number;
+  articleId: number;
+};
 
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
+const NoticeArticleDetail: React.FC<NoticeArticleDetailProps> = ({ studyId, articleId }) => {
+  const { isFetching, isSuccess, isError, data } = useGetNoticeArticleDetail({ studyId, articleId });
   const { userInfo } = useUserInfo();
 
-  const { mutate } = useDeleteCommunityArticle();
+  // TODO: 왜 mutateAsync지??
+  const { mutateAsync } = useDeleteNoticeArticleDetail();
   const navigate = useNavigate();
 
-  // TODO: 왜 mutateAsync지??
   const handleDeleteArticleButtonClick = () => {
-    mutate(
+    mutateAsync(
       { studyId, articleId },
       {
         onSuccess: () => {
           alert('성공적으로 삭제했습니다');
-          navigate(`../../${PATH.COMMUNITY}`, { replace: true });
+          navigate(`../${PATH.NOTICE}`, { replace: true });
         },
         onError: () => {
           alert('알 수 없는 에러가 발생했습니다');
@@ -53,7 +55,6 @@ const Article: React.FC = () => {
         if (isError) return <Error />;
         if (isSuccess) {
           const isMyArticle = data.author.id === userInfo.id;
-          // @TODO: react-query 버전 업데이트
           return (
             <>
               <article>
@@ -64,7 +65,7 @@ const Article: React.FC = () => {
                   </UserInfoItem>
                   {isMyArticle && (
                     <ButtonGroup gap="8px" custom={{ width: 'fit-content' }}>
-                      <EditArticleLink articleId={articleId} />
+                      <EditPageLink articleId={articleId} />
                       <DeleteArticleButton onClick={handleDeleteArticleButtonClick} />
                     </ButtonGroup>
                   )}
@@ -84,19 +85,36 @@ const Article: React.FC = () => {
   );
 };
 
-export default Article;
+export default NoticeArticleDetail;
 
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 
-type EditArticleLinkProps = {
+type EditPageLinkProps = {
   articleId: number;
 };
-const EditArticleLink: React.FC<EditArticleLinkProps> = ({ articleId }) => (
-  <Link to={`../${PATH.COMMUNITY_EDIT(articleId)}`}>
+const EditPageLink: React.FC<EditPageLinkProps> = ({ articleId }) => (
+  <Link to={PATH.NOTICE_EDIT(articleId)}>
     <BoxButton type="button" custom={{ padding: '4px 8px' }}>
-      글 수정
+      글수정
+    </BoxButton>
+  </Link>
+);
+
+type DeleteArticleButtonProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: handleClick }) => (
+  <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
+    글 삭제
+  </BoxButton>
+);
+
+const ListPageLink: React.FC = () => (
+  <Link to={`../${PATH.NOTICE}`}>
+    <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
+      목록보기
     </BoxButton>
   </Link>
 );
@@ -113,20 +131,3 @@ const MarkdownRender: React.FC<{ content: string }> = ({ content }) => {
     </div>
   );
 };
-
-type DeleteArticleButtonProps = {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-const DeleteArticleButton: React.FC<DeleteArticleButtonProps> = ({ onClick: handleClick }) => (
-  <BoxButton type="button" variant="secondary" onClick={handleClick} custom={{ padding: '4px 8px' }}>
-    글 삭제
-  </BoxButton>
-);
-
-const ListPageLink: React.FC = () => (
-  <Link to={`../../${PATH.COMMUNITY}`}>
-    <BoxButton type="button" variant="secondary" custom={{ padding: '8px' }}>
-      목록보기
-    </BoxButton>
-  </Link>
-);

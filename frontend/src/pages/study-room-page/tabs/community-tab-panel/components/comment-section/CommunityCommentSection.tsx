@@ -8,14 +8,14 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@shared/divider/Divider';
 import InfiniteScroll from '@shared/infinite-scroll/InfiniteScroll';
 
-import CommentForm from '@community-tab/components/comment-form/CommentForm';
-import CommentList from '@community-tab/components/comment-list/CommentList';
+import CommentForm from '@community-tab/components/comment-form/CommunityCommentForm';
+import CommentList from '@community-tab/components/comment-list/CommunityCommentList';
 
-type CommentSectionProps = {
+type CommunityCommentSectionProps = {
   studyId: StudyId;
   articleId: ArticleId;
 };
-const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) => {
+const CommunityCommentSection: React.FC<CommunityCommentSectionProps> = ({ studyId, articleId }) => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId }); // @TODO: 꼭 객체로 받아야 하는가?
 
@@ -71,7 +71,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
   );
 };
 
-export default CommentSection;
+export default CommunityCommentSection;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 

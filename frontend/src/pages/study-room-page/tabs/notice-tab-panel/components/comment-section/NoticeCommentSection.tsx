@@ -8,14 +8,14 @@ import { useUserRole } from '@hooks/useUserRole';
 import Divider from '@shared/divider/Divider';
 import InfiniteScroll from '@shared/infinite-scroll/InfiniteScroll';
 
-import CommentForm from '@notice-tab/components/comment-form/CommentForm';
-import CommentList from '@notice-tab/components/comment-list/CommentList';
+import CommentForm from '@notice-tab/components/comment-form/NoticeCommentForm';
+import CommentList from '@notice-tab/components/comment-list/NoticeCommentList';
 
-type CommentSectionProps = {
+type NoticeCommentSectionProps = {
   studyId: StudyId;
   articleId: ArticleId;
 };
-const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) => {
+const NoticeCommentSection: React.FC<NoticeCommentSectionProps> = ({ studyId, articleId }) => {
   const { userInfo } = useUserInfo();
   const { isOwnerOrMember } = useUserRole({ studyId }); // @TODO: 꼭 객체로 받아야 하는가?
   const { isFetching, isError, isSuccess, data, refetch, fetchNextPage } = useGetInfiniteNoticeComments({
@@ -68,7 +68,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ studyId, articleId }) =
   );
 };
 
-export default CommentSection;
+export default NoticeCommentSection;
 
 const Error = () => <div>에러가 발생했습니다</div>;
 

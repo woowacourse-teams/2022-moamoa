@@ -2,9 +2,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
 
-import type { CommunityArticle } from '@custom-types';
+import type { CommunityArticleDetail } from '@custom-types';
 
-import { useGetCommunityArticle, usePutCommunityArticle } from '@api/community/article';
+import { useGetCommunityArticleDetail, usePutCommunityArticleDetail } from '@api/community/article-detail';
 
 import { FormProvider, type UseFormReturn, type UseFormSubmitResult, useForm } from '@hooks/useForm';
 
@@ -22,15 +22,15 @@ type HandleEditFormSubmit = (
   submitResult: UseFormSubmitResult,
 ) => Promise<null | undefined>;
 
-const Edit: React.FC = () => {
+const CommunityArticleDetailEdit: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
   const formMethods = useForm();
   const navigate = useNavigate();
 
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
-  const { mutateAsync } = usePutCommunityArticle();
+  const { isFetching, isSuccess, isError, data } = useGetCommunityArticleDetail({ studyId, articleId });
+  const { mutateAsync } = usePutCommunityArticleDetail();
 
   const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
     const { values } = submitResult;
@@ -71,14 +71,14 @@ const Edit: React.FC = () => {
   );
 };
 
-export default Edit;
+export default CommunityArticleDetailEdit;
 
 const Loading = () => <div>Loading...</div>;
 
 const Error = () => <div>Error...</div>;
 
 type EditFormProps = {
-  article: CommunityArticle;
+  article: CommunityArticleDetail;
   formMethods: UseFormReturn;
   onSubmit: HandleEditFormSubmit;
 };
