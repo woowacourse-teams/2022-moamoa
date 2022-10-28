@@ -36,7 +36,7 @@ const defaultParam: PageParam = {
   page: PAGE,
 };
 
-export const getCommunityComments =
+const getCommunityComments =
   ({ studyId, articleId, size = SIZE }: ApiCommunityComments['get']['variables']) =>
   async ({
     pageParam = defaultParam,

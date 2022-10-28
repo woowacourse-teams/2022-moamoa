@@ -36,7 +36,7 @@ const defaultParam: PageParam = {
   page: PAGE,
 };
 
-export const getNoticeComments =
+const getNoticeComments =
   ({ studyId, articleId, size = SIZE }: ApiNoticeComments['get']['variables']) =>
   async ({ pageParam = defaultParam }): Promise<Merge<ApiNoticeComments['get']['responseData'], { page: Page }>> => {
     const url = `/api/studies/${studyId}/notice/${articleId}/comments?page=${pageParam.page}&size=${size}`;
