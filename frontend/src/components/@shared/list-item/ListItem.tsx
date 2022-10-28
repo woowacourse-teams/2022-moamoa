@@ -1,5 +1,4 @@
 import { css, useTheme } from '@emotion/react';
-import styled from '@emotion/styled';
 
 import { nLineEllipsis } from '@utils/nLineEllipsis';
 

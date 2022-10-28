@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_NOTICE_COMMENT_QUERY_PARAM } from '@constants';
 

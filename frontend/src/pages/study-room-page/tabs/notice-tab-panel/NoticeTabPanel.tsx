@@ -1,7 +1,5 @@
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 
-import { useTheme } from '@emotion/react';
-
 import { PATH } from '@constants';
 
 import { useUserRole } from '@hooks/useUserRole';

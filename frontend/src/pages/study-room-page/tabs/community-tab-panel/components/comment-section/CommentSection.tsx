@@ -1,5 +1,3 @@
-import styled from '@emotion/styled';
-
 import type { ArticleId, CommunityComment, StudyId } from '@custom-types';
 
 import { useGetInfiniteCommunityComments } from '@api/community/comments';
