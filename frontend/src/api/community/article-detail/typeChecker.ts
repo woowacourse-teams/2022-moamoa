@@ -2,17 +2,24 @@ import { AxiosError } from 'axios';
 
 import { arrayOfAll, checkType, hasOwnProperties, isDateYMD, isNumber, isObject, isString } from '@utils';
 
-import { type ApiCommunityArticle } from '@api/community/article';
+import { type ApiCommunityArticleDetail } from '@api/community/article-detail';
 import { checkMember } from '@api/member/typeChecker';
 
-type CommunityArticleKeys = keyof ApiCommunityArticle['get']['responseData'];
+type CommunityArticleDetailKeys = keyof ApiCommunityArticleDetail['get']['responseData'];
 
-const arrayOfAllCommunityArticleKeys = arrayOfAll<CommunityArticleKeys>();
+const arrayOfAllCommunityArticleDetailKeys = arrayOfAll<CommunityArticleDetailKeys>();
 
-export const checkCommunityArticle = (data: unknown): ApiCommunityArticle['get']['responseData'] => {
+export const checkCommunityArticleDetail = (data: unknown): ApiCommunityArticleDetail['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`CommunityArticle does not have correct type: object`);
 
-  const keys = arrayOfAllCommunityArticleKeys(['id', 'author', 'title', 'content', 'createdDate', 'lastModifiedDate']);
+  const keys = arrayOfAllCommunityArticleDetailKeys([
+    'id',
+    'author',
+    'title',
+    'content',
+    'createdDate',
+    'lastModifiedDate',
+  ]);
   if (!hasOwnProperties(data, keys)) throw new AxiosError('CommunityArticle does not have some properties');
 
   return {
