@@ -19,17 +19,17 @@ import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.AsynchronousParticipantService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
-import com.woowacourse.moamoa.studyroom.controller.SearchingReviewController;
 import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.ReviewDao;
 import com.woowacourse.moamoa.studyroom.service.ReviewService;
 import com.woowacourse.moamoa.studyroom.service.SearchingReviewService;
-import com.woowacourse.moamoa.studyroom.service.request.SizeRequest;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
+import com.woowacourse.moamoa.studyroom.service.request.SizeRequest;
 import com.woowacourse.moamoa.studyroom.service.response.ReviewResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ReviewsResponse;
 import com.woowacourse.moamoa.studyroom.service.response.WriterResponse;
@@ -93,10 +93,15 @@ class SearchingReviewControllerTest {
         javaStudy = studyService.createStudy(짱구_아이디, javaStudyRequest);
         final Study reactStudy = studyService.createStudy(짱구_아이디, reactStudyRequest);
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
+        final AsynchronousParticipantService asynchronousParticipantService = new AsynchronousParticipantService(
+                memberRepository, studyRepository, new DateTimeSystem());
+        final StudyParticipantService participantService = new StudyParticipantService(
+                asynchronousParticipantService);
+
         participantService.participateStudy(그린론_아이디, javaStudy.getId());
         participantService.participateStudy(디우_아이디, javaStudy.getId());
         participantService.participateStudy(베루스_아이디, javaStudy.getId());
+
         // 리뷰 추가
         ReviewService reviewService = new ReviewService(reviewRepository, studyRoomRepository);
 

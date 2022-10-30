@@ -25,6 +25,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.AsynchronousParticipantService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
@@ -75,7 +76,9 @@ class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
-        studyService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
+        final AsynchronousParticipantService asynchronousParticipantService = new AsynchronousParticipantService(
+                memberRepository, studyRepository, new DateTimeSystem());
+        studyService = new StudyParticipantService(asynchronousParticipantService);
         sut = new CommentService(commentRepository, articleRepository, commentDao);
 
         짱구 = memberRepository.save(짱구());

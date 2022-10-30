@@ -12,10 +12,10 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
+import com.woowacourse.moamoa.study.service.AsynchronousParticipantService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
-import com.woowacourse.moamoa.studyroom.controller.ReviewController;
 import com.woowacourse.moamoa.studyroom.domain.exception.UneditableException;
 import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
@@ -75,7 +75,11 @@ class ReviewControllerTest {
                 .build();
 
         Study javaStudy = studyService.createStudy(짱구.getId(), javaStudyRequest);
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
+        final AsynchronousParticipantService asynchronousParticipantService = new AsynchronousParticipantService(
+                memberRepository, studyRepository, new DateTimeSystem());
+        final StudyParticipantService participantService = new StudyParticipantService(
+                asynchronousParticipantService);
+
         자바_스터디_아이디 = javaStudy.getId();
 
         participantService.participateStudy(그린론.getId(), javaStudy.getId());

@@ -9,7 +9,6 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.acceptance.TestConfig;
 import com.woowacourse.moamoa.alarm.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -24,6 +23,7 @@ import com.woowacourse.moamoa.study.query.StudyDetailsDao;
 import com.woowacourse.moamoa.study.query.StudySummaryDao;
 import com.woowacourse.moamoa.study.query.data.StudyDetailsData;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
+import com.woowacourse.moamoa.study.service.AsynchronousParticipantService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -115,8 +115,11 @@ class SearchingStudyControllerTest {
                 .build();
         linuxStudyId = studyService.createStudy(verus.getId(), linuxStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
-        
+        final AsynchronousParticipantService asynchronousParticipantService = new AsynchronousParticipantService(
+                memberRepository, studyRepository, new DateTimeSystem());
+        final StudyParticipantService participantService = new StudyParticipantService(
+                asynchronousParticipantService);
+
         participantService.participateStudy(dwoo.getId(), javaStudyId);
         participantService.participateStudy(verus.getId(), javaStudyId);
 

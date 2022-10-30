@@ -16,9 +16,9 @@ import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.AsyncService;
-import com.woowacourse.moamoa.study.service.StudyParticipantService;
+import com.woowacourse.moamoa.study.service.AsynchronousParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
-import com.woowacourse.moamoa.study.service.SynchronizedParticipantService;
+import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,8 +47,8 @@ class StudyParticipantControllerTest {
     @Autowired
     private AsyncService asyncService;
 
+    private AsynchronousParticipantService asynchronousParticipantService;
     private StudyParticipantService studyParticipantService;
-    private SynchronizedParticipantService synchronizedParticipantService;
 
     private SlackUsersClient slackUsersClient;
     private SlackAlarmSender slackAlarmSender;
@@ -58,8 +58,8 @@ class StudyParticipantControllerTest {
 
     @BeforeEach
     void initDataBase() {
-        studyParticipantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
-        synchronizedParticipantService = new SynchronizedParticipantService(studyParticipantService);
+        asynchronousParticipantService = new AsynchronousParticipantService(memberRepository, studyRepository, new DateTimeSystem());
+        studyParticipantService = new StudyParticipantService(asynchronousParticipantService);
 
         slackUsersClient = mock(SlackUsersClient.class);
         when(slackUsersClient.getUserChannelByEmail("dwoo@moamoa.space")).thenReturn("dwoo-channel");
@@ -95,7 +95,7 @@ class StudyParticipantControllerTest {
         final String location = createdResponse.getHeaders().getLocation().getPath();
         final long studyId = getStudyIdBy(location);
 
-        final StudyParticipantController sut = new StudyParticipantController(synchronizedParticipantService, asyncService);
+        final StudyParticipantController sut = new StudyParticipantController(studyParticipantService, asyncService);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -138,7 +138,7 @@ class StudyParticipantControllerTest {
         entityManager.flush();
         entityManager.clear();
 
-        final StudyParticipantController sut = new StudyParticipantController(synchronizedParticipantService, asyncService);
+        final StudyParticipantController sut = new StudyParticipantController(studyParticipantService, asyncService);
         sut.leaveStudy(green.getId(), studyId);
 
         // then
