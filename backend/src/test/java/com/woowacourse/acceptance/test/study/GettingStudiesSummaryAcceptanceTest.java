@@ -20,7 +20,6 @@ import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -112,11 +111,18 @@ class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
     @DisplayName("마지막 페이지의 스터디 목록을 조회 한다.")
     @Test
     void getLastPageOfStudies() {
+        final StudiesResponse firstStudiesResponse = RestAssured.given(spec).log().all()
+                .queryParam("size", 3)
+                .when().log().all()
+                .get("/api/studies/search")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(StudiesResponse.class);
+
         final StudiesResponse studiesResponse = RestAssured.given(spec).log().all()
                 .filter(document("studies/summary"))
-                .queryParam("id", httpStudyId)
-                .queryParam("createdAt",
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .queryParam("id", firstStudiesResponse.getId())
+                .queryParam("createdDate", firstStudiesResponse.getCreatedDate())
                 .queryParam("size", 3)
                 .when().log().all()
                 .get("/api/studies/search")
@@ -143,12 +149,12 @@ class GettingStudiesSummaryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("잘못된 페이징 정보로 목록을 조회시 400에러를 응답한다.")
     @ParameterizedTest
-    @CsvSource({"-1, 3", "1, 0", "one, 1", "1, one"})
+    @CsvSource({"one, 1", "1, one"})
     void response400WhenRequestByInvalidPagingInfo(String id, String size) {
         RestAssured.given(spec).log().all()
                 .filter(document("studies/summary"))
                 .queryParam("id", id)
-                .queryParam("createdAt", LocalDate.now())
+                .queryParam("createdDate", LocalDate.now())
                 .queryParam("size", size)
                 .when().log().all()
                 .get("/api/studies")

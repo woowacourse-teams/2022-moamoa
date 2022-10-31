@@ -27,8 +27,9 @@ public class StudySummaryDao {
         final String excerpt = resultSet.getString("excerpt");
         final String thumbnail = resultSet.getString("thumbnail");
         final String status = resultSet.getString("recruitment_status");
+        final LocalDateTime createdDate = resultSet.getObject("created_at", LocalDateTime.class);
 
-        return new StudySummaryData(id, title, excerpt, thumbnail, status);
+        return new StudySummaryData(id, title, excerpt, thumbnail, status, createdDate);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

@@ -4,10 +4,8 @@ import com.woowacourse.moamoa.study.query.SearchingTags;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +23,11 @@ public class SearchingStudyController {
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
             @RequestParam(required = false) final Long id,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @RequestParam(required = false) final LocalDateTime createdAt,
+            @RequestParam(required = false, defaultValue = "") final String createdDate,
             @RequestParam(required = false, defaultValue = "5") final int size
     ) {
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id, createdAt, size);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id,
+                createdDate, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 
@@ -39,11 +38,12 @@ public class SearchingStudyController {
             @RequestParam(required = false, name = "area", defaultValue = "") final List<Long> areas,
             @RequestParam(required = false, name = "subject", defaultValue = "") final List<Long> tags,
             @RequestParam(required = false) final Long id,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @RequestParam(required = false) final LocalDateTime createdAt,
+            @RequestParam(required = false, defaultValue = "") final String createdDate,
             @RequestParam(required = false, defaultValue = "5") final int size
     ) {
         final SearchingTags searchingTags = new SearchingTags(generations, areas, tags);
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id, createdAt, size);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id,
+                createdDate, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 

@@ -31,7 +31,6 @@ import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.assertj.core.groups.Tuple;
@@ -49,7 +48,7 @@ import org.springframework.web.client.RestTemplate;
 class SearchingStudyControllerTest {
 
     private static final Long EMPTY_CURSOR_ID = null;
-    private static final LocalDateTime EMPTY_CURSOR_CREATED_AT = null;
+    private static final String EMPTY_CURSOR_CREATED_AT = "";
 
     private SearchingStudyController sut;
 

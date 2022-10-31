@@ -1,5 +1,7 @@
 package com.woowacourse.moamoa.study.service;
 
+import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
+
 import com.woowacourse.moamoa.member.query.MemberDao;
 import com.woowacourse.moamoa.member.query.data.ParticipatingMemberData;
 import com.woowacourse.moamoa.study.query.SearchingTags;
@@ -43,16 +45,17 @@ public class SearchingStudyService {
     }
 
     public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Long id,
-                                      final LocalDateTime createdAt, final int size) {
-        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, id, createdAt,
-                size);
+                                      final String createdDate, final int size) {
+        final LocalDateTime lastCreatedDate = getCreatedDate(createdDate);
+        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(
+                title.trim(), searchingTags, id, lastCreatedDate, size);
 
         final List<Long> studyIds = studyData.getContent().stream()
                 .map(StudySummaryData::getId)
                 .collect(Collectors.toList());
         final Map<Long, List<TagSummaryData>> studyTags = tagDao.findTagsByStudyIds(studyIds);
 
-        return new StudiesResponse(studyData.getContent(), studyTags, studyData.hasNext());
+        return StudiesResponse.of(studyData.getContent(), studyTags, studyData.hasNext());
     }
 
     public StudyDetailResponse getStudyDetails(final Long studyId) {
@@ -62,5 +65,12 @@ public class SearchingStudyService {
 
         final List<TagData> attachedTags = tagDao.findTagsByStudyId(studyId);
         return new StudyDetailResponse(content, participants, attachedTags);
+    }
+
+    private LocalDateTime getCreatedDate(final String createdDate) {
+        if (createdDate.isBlank()) {
+            return null;
+        }
+        return LocalDateTime.parse(createdDate, ISO_DATE_TIME);
     }
 }
