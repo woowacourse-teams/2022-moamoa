@@ -4,7 +4,7 @@ import { user } from '@mocks/handlers/memberHandlers';
 import noticeArticlesJSON from '@mocks/notice-articles.json';
 import noticeCommentJSON from '@mocks/notice-comment.json';
 
-import { type ApiNoticeArticle } from '@api/notice/article';
+import { type ApiNoticeArticleDetail } from '@api/notice/article-detail';
 import { type ApiNoticeComment } from '@api/notice/comment';
 
 export const noticeHandlers = [
@@ -45,7 +45,7 @@ export const noticeHandlers = [
 
     return res(ctx.status(200), ctx.json(article[0]));
   }),
-  rest.post<ApiNoticeArticle['post']['body']>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
+  rest.post<ApiNoticeArticleDetail['post']['body']>('/api/studies/:studyId/notice/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
@@ -75,29 +75,32 @@ export const noticeHandlers = [
 
     return res(ctx.status(201));
   }),
-  rest.put<ApiNoticeArticle['put']['body']>('/api/studies/:studyId/notice/articles/:articleId', (req, res, ctx) => {
-    const studyId = req.params.studyId;
-    if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
+  rest.put<ApiNoticeArticleDetail['put']['body']>(
+    '/api/studies/:studyId/notice/articles/:articleId',
+    (req, res, ctx) => {
+      const studyId = req.params.studyId;
+      if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
-    const articleId = req.params.articleId;
-    if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
+      const articleId = req.params.articleId;
+      if (!articleId) return res(ctx.status(400), ctx.json({ errorMessage: 'article 아이디가 없음' }));
 
-    const articles = noticeArticlesJSON.articles;
+      const articles = noticeArticlesJSON.articles;
 
-    const isExist = articles.some(article => article.id === Number(articleId));
-    if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 게시글 없음' }));
+      const isExist = articles.some(article => article.id === Number(articleId));
+      if (!isExist) return res(ctx.status(404), ctx.json({ message: '해당하는 게시글 없음' }));
 
-    const editedArticle = req.body;
+      const editedArticle = req.body;
 
-    noticeArticlesJSON.articles = articles.map(article => {
-      if (article.id === Number(articleId)) {
-        return { ...article, ...editedArticle };
-      }
-      return article;
-    });
+      noticeArticlesJSON.articles = articles.map(article => {
+        if (article.id === Number(articleId)) {
+          return { ...article, ...editedArticle };
+        }
+        return article;
+      });
 
-    return res(ctx.status(204));
-  }),
+      return res(ctx.status(204));
+    },
+  ),
 
   // comments
   rest.get('/api/studies/:studyId/notice/:articleId/comments', (req, res, ctx) => {

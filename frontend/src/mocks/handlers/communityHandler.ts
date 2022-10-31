@@ -5,7 +5,7 @@ import communityCommentJSON from '@mocks/community-comment.json';
 import communityDraftArticlesJSON from '@mocks/community-draft-articles.json';
 import { user } from '@mocks/handlers/memberHandlers';
 
-import { type ApiCommunityArticle } from '@api/community/article';
+import { type ApiCommunityArticleDetail } from '@api/community/article-detail';
 import { type ApiCommunityComment } from '@api/community/comment';
 import { type ApiCommunityDraftArticle, type ApiCommunityDraftArticleToArticle } from '@api/community/draft-article';
 
@@ -49,7 +49,7 @@ export const communityHandlers = [
 
     return res(ctx.status(200), ctx.json(article));
   }),
-  rest.post<ApiCommunityArticle['post']['body']>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
+  rest.post<ApiCommunityArticleDetail['post']['body']>('/api/studies/:studyId/community/articles', (req, res, ctx) => {
     const studyId = req.params.studyId;
     if (!studyId) return res(ctx.status(400), ctx.json({ errorMessage: '스터디 아이디가 없음' }));
 
@@ -79,7 +79,7 @@ export const communityHandlers = [
 
     return res(ctx.status(204));
   }),
-  rest.put<ApiCommunityArticle['put']['body']>(
+  rest.put<ApiCommunityArticleDetail['put']['body']>(
     '/api/studies/:studyId/community/articles/:articleId',
     (req, res, ctx) => {
       const studyId = req.params.studyId;
