@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +42,10 @@ public class SearchingStudyService {
         this.tagDao = tagDao;
     }
 
-    public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Long id, final
-                                      LocalDateTime createdAt, final Pageable pageable) {
-        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, id, createdAt, pageable);
+    public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Long id,
+                                      final LocalDateTime createdAt, final int size) {
+        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, id, createdAt,
+                size);
 
         final List<Long> studyIds = studyData.getContent().stream()
                 .map(StudySummaryData::getId)

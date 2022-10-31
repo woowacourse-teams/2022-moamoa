@@ -34,11 +34,11 @@ public class StudySummaryDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Long id,
-                                            final LocalDateTime createdAt, final Pageable pageable) {
+                                            final LocalDateTime createdAt, final int size) {
         final List<StudySummaryData> data = jdbcTemplate
-                .query(sql(title, searchingTags, id, createdAt), params(title, searchingTags, id, createdAt, pageable),
+                .query(sql(title, searchingTags, id, createdAt), params(title, searchingTags, id, createdAt, size),
                         STUDY_ROW_MAPPER);
-        return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
+        return new SliceImpl<>(getCurrentPageStudies(data, size), Pageable.ofSize(size), hasNext(data, size));
     }
 
     private String sql(final String title, final SearchingTags searchingTags, final Long id,
@@ -130,7 +130,7 @@ public class StudySummaryDao {
 
     private Map<String, Object> params(final String title, final SearchingTags searchingTags, final Long id,
                                        final LocalDateTime createdAt,
-                                       final Pageable pageable) {
+                                       final int size) {
         final Map<String, Object> tagIds = Stream.of(CategoryName.values())
                 .collect(Collectors.toMap(name -> name.name().toLowerCase(), searchingTags::getTagIdsBy));
 
@@ -138,20 +138,20 @@ public class StudySummaryDao {
         param.put("title", "%" + title + "%");
         param.put("id", id);
         param.put("createdAt", createdAt);
-        param.put("limit", pageable.getPageSize() + 1);
+        param.put("limit", size + 1);
         param.putAll(tagIds);
         return param;
     }
 
     private List<StudySummaryData> getCurrentPageStudies(final List<StudySummaryData> studies,
-                                                         final Pageable pageable) {
-        if (hasNext(studies, pageable)) {
+                                                         final int size) {
+        if (hasNext(studies, size)) {
             return studies.subList(0, studies.size() - 1);
         }
         return studies;
     }
 
-    private boolean hasNext(final List<StudySummaryData> studies, final Pageable pageable) {
-        return studies.size() > pageable.getPageSize();
+    private boolean hasNext(final List<StudySummaryData> studies, final int size) {
+        return studies.size() > size;
     }
 }

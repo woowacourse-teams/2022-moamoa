@@ -40,7 +40,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -89,6 +88,7 @@ class SearchingStudyControllerTest {
 
     @BeforeEach
     void initDataBase() {
+
         jjanggu = memberRepository.save(MemberFixtures.짱구());
         greenlawn = memberRepository.save(MemberFixtures.그린론());
         dwoo = memberRepository.save(MemberFixtures.디우());
@@ -144,8 +144,7 @@ class SearchingStudyControllerTest {
     @DisplayName("페이징 정보로 스터디 목록 조회")
     @Test
     void getStudies() {
-        ResponseEntity<StudiesResponse> response = sut.getStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT,
-                PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = sut.getStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -164,9 +163,7 @@ class SearchingStudyControllerTest {
     @Test
     void searchByBlankKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", emptyList(), emptyList(), emptyList(),
-                        PageRequest.of(0, 3)
-                );
+                .searchStudies("", emptyList(), emptyList(), emptyList(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -185,10 +182,7 @@ class SearchingStudyControllerTest {
     @Test
     void searchByKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "Java 스터디", emptyList(), emptyList(),
-                        emptyList(),
-                        PageRequest.of(0, 3)
-                );
+                .searchStudies("Java 스터디", emptyList(), emptyList(), emptyList(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -203,8 +197,7 @@ class SearchingStudyControllerTest {
     @Test
     void searchWithTrimKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "   Java 스터디   ", emptyList(), emptyList(),
-                        emptyList(), PageRequest.of(0, 3));
+                .searchStudies("   Java 스터디   ", emptyList(), emptyList(), emptyList(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -222,8 +215,7 @@ class SearchingStudyControllerTest {
         List<Long> areas = List.of(3L); // BE
 
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", emptyList(), areas, tags,
-                        PageRequest.of(0, 3));
+                .searchStudies("", emptyList(), areas, tags, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -238,8 +230,7 @@ class SearchingStudyControllerTest {
         List<Long> areaIds = List.of(3L, 4L); // BE, FE
         List<Long> tagIds = List.of(1L, 5L); // Java, React
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", generationIds, areaIds, tagIds,
-                        PageRequest.of(0, 3));
+                .searchStudies("", generationIds, areaIds, tagIds, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();

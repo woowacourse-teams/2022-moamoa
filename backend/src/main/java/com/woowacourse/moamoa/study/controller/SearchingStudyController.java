@@ -7,8 +7,7 @@ import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,25 +25,25 @@ public class SearchingStudyController {
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
             @RequestParam(required = false) final Long id,
-            @RequestParam(required = false) final LocalDateTime createdAt,
-            @PageableDefault(size = 5) final Pageable pageable
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @RequestParam(required = false) final LocalDateTime createdAt,
+            @RequestParam(required = false, defaultValue = "5") final int size
     ) {
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id, createdAt, pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id, createdAt, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 
     @GetMapping("/search")
     public ResponseEntity<StudiesResponse> searchStudies(
-            @RequestParam(required = false) final Long id,
-            @RequestParam(required = false) final LocalDateTime createdAt,
             @RequestParam(required = false, defaultValue = "") final String title,
             @RequestParam(required = false, name = "generation", defaultValue = "") final List<Long> generations,
             @RequestParam(required = false, name = "area", defaultValue = "") final List<Long> areas,
             @RequestParam(required = false, name = "subject", defaultValue = "") final List<Long> tags,
-            @PageableDefault(size = 5) final Pageable pageable
+            @RequestParam(required = false) final Long id,
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @RequestParam(required = false) final LocalDateTime createdAt,
+            @RequestParam(required = false, defaultValue = "5") final int size
     ) {
         final SearchingTags searchingTags = new SearchingTags(generations, areas, tags);
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id, createdAt, pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id, createdAt, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 

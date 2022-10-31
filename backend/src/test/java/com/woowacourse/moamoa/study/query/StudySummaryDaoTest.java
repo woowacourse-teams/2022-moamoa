@@ -34,8 +34,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.client.RestTemplate;
 
@@ -151,10 +149,10 @@ class StudySummaryDaoTest {
     @DisplayName("페이징 정보를 사용해 스터디 목록 조회")
     @ParameterizedTest
     @MethodSource("providePageableAndExpect")
-    void findAllByPageable(Pageable pageable, Long cursorId, LocalDateTime createdAt, List<Tuple> expectedTuples,
+    void findAllByPageable(int size, Long cursorId, LocalDateTime createdAt, List<Tuple> expectedTuples,
                            boolean expectedHasNext) {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy("", SearchingTags.emptyTags(), cursorId,
-                createdAt, pageable);
+                createdAt, size);
 
         assertThat(response.hasNext()).isEqualTo(expectedHasNext);
         assertThat(response.getContent())
@@ -175,13 +173,13 @@ class StudySummaryDaoTest {
         );
 
         return Stream.of(
-                Arguments.of(PageRequest.of(0, 3),
+                Arguments.of(3,
                         EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT,
                         tuples.subList(0, 3), true),
-                Arguments.of(PageRequest.of(1, 2),
+                Arguments.of(2,
                         알고리즘_ID, LocalDateTime.of(2023, 11, 7, 1, 0, 0),
                         tuples.subList(2, 4), true),
-                Arguments.of(PageRequest.of(1, 3),
+                Arguments.of(3,
                         HTTP_ID, LocalDateTime.of(2023, 11, 7, 0, 0, 0),
                         tuples.subList(3, 6), false)
         );
@@ -191,8 +189,7 @@ class StudySummaryDaoTest {
     @Test
     void findByTitleContaining() {
         final Slice<StudySummaryData> response = studySummaryDao
-                .searchBy("java", SearchingTags.emptyTags(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT,
-                        PageRequest.of(0, 3));
+                .searchBy("java", SearchingTags.emptyTags(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.hasNext()).isFalse();
         assertThat(response.getContent())
@@ -209,7 +206,7 @@ class StudySummaryDaoTest {
     @Test
     void findByBlankTitle() {
         final Slice<StudySummaryData> response = studySummaryDao.searchBy(
-                "", SearchingTags.emptyTags(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, PageRequest.of(0, 5));
+                "", SearchingTags.emptyTags(), EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 5);
 
         assertThat(response.hasNext()).isTrue();
         assertThat(response.getContent())
@@ -230,7 +227,7 @@ class StudySummaryDaoTest {
     @MethodSource("provideOneKindFiltersAndExpectResult")
     void searchByOneKindFilter(SearchingTags searchingTags, List<Tuple> tuples) {
         Slice<StudySummaryData> response = studySummaryDao.searchBy(
-                "", searchingTags, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, PageRequest.of(0, 3));
+                "", searchingTags, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.hasNext()).isFalse();
         assertThat(response.getContent())
@@ -262,7 +259,7 @@ class StudySummaryDaoTest {
     @MethodSource("provideFiltersAndExpectResult")
     void searchByUnableToFoundTags(SearchingTags searchingTags, List<Tuple> tuples, boolean hasNext) {
         Slice<StudySummaryData> response = studySummaryDao.searchBy(
-                "", searchingTags, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, PageRequest.of(0, 3));
+                "", searchingTags, EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, 3);
 
         assertThat(response.hasNext()).isEqualTo(hasNext);
         assertThat(response.getContent())
