@@ -4,6 +4,7 @@ import com.woowacourse.moamoa.study.query.SearchingTags;
 import com.woowacourse.moamoa.study.service.SearchingStudyService;
 import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,14 +25,18 @@ public class SearchingStudyController {
 
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
+            @RequestParam(required = false) final Long id,
+            @RequestParam(required = false) final LocalDateTime createdAt,
             @PageableDefault(size = 5) final Pageable pageable
     ) {
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id, createdAt, pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
 
     @GetMapping("/search")
     public ResponseEntity<StudiesResponse> searchStudies(
+            @RequestParam(required = false) final Long id,
+            @RequestParam(required = false) final LocalDateTime createdAt,
             @RequestParam(required = false, defaultValue = "") final String title,
             @RequestParam(required = false, name = "generation", defaultValue = "") final List<Long> generations,
             @RequestParam(required = false, name = "area", defaultValue = "") final List<Long> areas,
@@ -39,7 +44,7 @@ public class SearchingStudyController {
             @PageableDefault(size = 5) final Pageable pageable
     ) {
         final SearchingTags searchingTags = new SearchingTags(generations, areas, tags);
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id, createdAt, pageable);
         return ResponseEntity.ok().body(studiesResponse);
     }
 

@@ -32,4 +32,10 @@ public class SearchingTags {
     public static SearchingTags emptyTags() {
         return new SearchingTags(List.of(), List.of(), List.of());
     }
+
+    public boolean isEmpty() {
+        return tags.values()
+                .stream()
+                .allMatch(List::isEmpty);
+    }
 }

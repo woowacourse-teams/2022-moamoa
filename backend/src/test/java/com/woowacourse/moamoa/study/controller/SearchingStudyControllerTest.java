@@ -9,7 +9,6 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.acceptance.TestConfig;
 import com.woowacourse.moamoa.alarm.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -32,6 +31,7 @@ import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.assertj.core.groups.Tuple;
@@ -48,6 +48,9 @@ import org.springframework.web.client.RestTemplate;
 @RepositoryTest
 @Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
 class SearchingStudyControllerTest {
+
+    private static final Long EMPTY_CURSOR_ID = null;
+    private static final LocalDateTime EMPTY_CURSOR_CREATED_AT = null;
 
     private SearchingStudyController sut;
 
@@ -115,8 +118,9 @@ class SearchingStudyControllerTest {
                 .build();
         linuxStudyId = studyService.createStudy(verus.getId(), linuxStudyRequest).getId();
 
-        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem());
-        
+        StudyParticipantService participantService = new StudyParticipantService(memberRepository, studyRepository,
+                new DateTimeSystem());
+
         participantService.participateStudy(dwoo.getId(), javaStudyId);
         participantService.participateStudy(verus.getId(), javaStudyId);
 
@@ -140,7 +144,8 @@ class SearchingStudyControllerTest {
     @DisplayName("페이징 정보로 스터디 목록 조회")
     @Test
     void getStudies() {
-        ResponseEntity<StudiesResponse> response = sut.getStudies(PageRequest.of(0, 3));
+        ResponseEntity<StudiesResponse> response = sut.getStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT,
+                PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -159,7 +164,7 @@ class SearchingStudyControllerTest {
     @Test
     void searchByBlankKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies("", emptyList(), emptyList(), emptyList(),
+                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", emptyList(), emptyList(), emptyList(),
                         PageRequest.of(0, 3)
                 );
 
@@ -180,7 +185,8 @@ class SearchingStudyControllerTest {
     @Test
     void searchByKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies("Java 스터디", emptyList(), emptyList(), emptyList(),
+                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "Java 스터디", emptyList(), emptyList(),
+                        emptyList(),
                         PageRequest.of(0, 3)
                 );
 
@@ -197,7 +203,8 @@ class SearchingStudyControllerTest {
     @Test
     void searchWithTrimKeyword() {
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies("   Java 스터디   ", emptyList(), emptyList(), emptyList(), PageRequest.of(0, 3));
+                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "   Java 스터디   ", emptyList(), emptyList(),
+                        emptyList(), PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -215,7 +222,8 @@ class SearchingStudyControllerTest {
         List<Long> areas = List.of(3L); // BE
 
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies("", emptyList(), areas, tags, PageRequest.of(0, 3));
+                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", emptyList(), areas, tags,
+                        PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -230,7 +238,8 @@ class SearchingStudyControllerTest {
         List<Long> areaIds = List.of(3L, 4L); // BE, FE
         List<Long> tagIds = List.of(1L, 5L); // Java, React
         ResponseEntity<StudiesResponse> response = sut
-                .searchStudies("", generationIds, areaIds, tagIds, PageRequest.of(0, 3));
+                .searchStudies(EMPTY_CURSOR_ID, EMPTY_CURSOR_CREATED_AT, "", generationIds, areaIds, tagIds,
+                        PageRequest.of(0, 3));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -290,7 +299,7 @@ class SearchingStudyControllerTest {
                 // Study Participant
                 .currentMemberCount(4).maxMemberCount(5)
                 .owner(new OwnerData(dwoo.getId(), "dwoo", "https://dwoo.png",
-                        "https://dwoo.com", LocalDate.now(),3))
+                        "https://dwoo.com", LocalDate.now(), 3))
                 // Study Period
                 .enrollmentEndDate(LocalDate.now())
                 .startDate(LocalDate.now())

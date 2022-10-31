@@ -13,6 +13,7 @@ import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.response.TagData;
 import com.woowacourse.moamoa.tag.query.response.TagSummaryData;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,8 +43,9 @@ public class SearchingStudyService {
         this.tagDao = tagDao;
     }
 
-    public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Pageable pageable) {
-        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, pageable);
+    public StudiesResponse getStudies(final String title, final SearchingTags searchingTags, final Long id, final
+                                      LocalDateTime createdAt, final Pageable pageable) {
+        final Slice<StudySummaryData> studyData = studySummaryDao.searchBy(title.trim(), searchingTags, id, createdAt, pageable);
 
         final List<Long> studyIds = studyData.getContent().stream()
                 .map(StudySummaryData::getId)
