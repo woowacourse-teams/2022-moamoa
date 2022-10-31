@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { Page, Size, Study, TagInfo } from '@custom-types';
 

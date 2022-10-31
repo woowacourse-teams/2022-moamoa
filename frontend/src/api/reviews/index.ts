@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { DEFAULT_STUDY_REVIEW_QUERY_PARAM } from '@constants';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { Size, StudyId, StudyReview } from '@custom-types';
 

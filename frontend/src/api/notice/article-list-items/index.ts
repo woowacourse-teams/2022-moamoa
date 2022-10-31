@@ -1,7 +1,7 @@
 import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { NoticeArticleDetail, Page, Size, StudyId } from '@custom-types';
 

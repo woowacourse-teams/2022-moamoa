@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_COMMUNITY_COMMENT_QUERY_PARAM } from '@constants';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { ArticleId, CommunityComment, Merge, Page, Size, StudyId } from '@custom-types';
 

@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_LINK_QUERY_PARAM } from '@constants';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { Link, Page, Size, StudyId } from '@custom-types';
 

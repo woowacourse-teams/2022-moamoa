@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM } from '@constants';
 
-import buildURLQuery from '@utils/buildURLQuery';
+import { buildURLQuery } from '@utils';
 
 import type { DraftArtcle, Page, Size, StudyDetail, StudyId } from '@custom-types';
 
