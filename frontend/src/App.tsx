@@ -35,22 +35,31 @@ const CommunityTabPanel = lazy(
 const CommunityArticleList = lazy(
   () =>
     import(
-      /* webpackChunkName: "community-article-list" */ '@community-tab/components/article-list-page/ArticleListPage'
+      /* webpackChunkName: "community-article-list" */ '@community-tab/components/article-list-page/CommunityArticleListPage'
     ),
 );
 const CommunityArticle = lazy(
-  () => import(/* webpackChunkName: "community-article" */ '@community-tab/components/article/Article'),
+  () =>
+    import(
+      /* webpackChunkName: "community-article" */ '@community-tab/components/article-detail/CommunityArticleDetail'
+    ),
 );
 const CommunityPublish = lazy(
-  () => import(/* webpackChunkName: "community-publish" */ '@community-tab/components/publish/Publish'),
+  () =>
+    import(
+      /* webpackChunkName: "community-publish" */ '@community-tab/components/article-detail-publish/CommunityArticleDetailPublish'
+    ),
 );
 const CommunityEdit = lazy(
-  () => import(/* webpackChunkName: "community-edit" */ '@community-tab/components/edit/Edit'),
+  () =>
+    import(
+      /* webpackChunkName: "community-edit" */ '@community-tab/components/article-detail-edit/CommunityArticleDetailEdit'
+    ),
 );
 const DraftArticlePublish = lazy(
   () =>
     import(
-      /* webpackChunkName: "community-draft-article-publish" */ '@community-tab/inner-pages/draft-article-publish/DraftArticlePublish'
+      /* webpackChunkName: "community-draft-article-publish" */ '@community-tab/inner-pages/draft-article-publish/CommunityDraftArticlePublish'
     ),
 );
 
