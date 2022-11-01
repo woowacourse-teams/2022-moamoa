@@ -19,7 +19,7 @@ export type FilterButtonProps = {
 const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, isChecked, onClick: handleClick }) => {
   const theme = useTheme();
   return (
-    <Self css={resolveCustomCSS(custom, theme)}>
+    <div css={resolveCustomCSS(custom, theme)}>
       <Flex alignItems="center" custom={{ height: '70px' }}>
         <ToggleButton checked={isChecked} onClick={handleClick}>
           <Flex flexDirection="column" alignItems="center" custom={{ width: '80px' }}>
@@ -28,13 +28,11 @@ const FilterButton: React.FC<FilterButtonProps> = ({ custom, name, description, 
           </Flex>
         </ToggleButton>
       </Flex>
-    </Self>
+    </div>
   );
 };
 
 export default memo(FilterButton);
-
-const Self = styled.div``;
 
 const Name = styled.span`
   ${({ theme }) => css`

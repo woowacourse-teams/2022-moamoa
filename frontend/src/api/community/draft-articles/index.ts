@@ -3,6 +3,8 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM } from '@constants';
 
+import { buildURLQuery } from '@utils';
+
 import type { DraftArtcle, Page, Size, StudyDetail, StudyId } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -34,7 +36,7 @@ export type ApiCommunityDraftArticles = {
 const getCommunityDraftArticles = async ({ page, size }: ApiCommunityDraftArticles['get']['variables']) => {
   // 서버쪽에서는 page를 0번부터 계산하기 때문에 page - 1을 해줘야 한다
   const response = await axiosInstance.get<ApiCommunityDraftArticles['get']['responseData']>(
-    `/api/draft/community/articles?page=${page}&size=${size}`,
+    buildURLQuery(`/api/draft/community/articles`, { page, size }),
   );
 
   return checkCommunityDraftArticles(response.data);

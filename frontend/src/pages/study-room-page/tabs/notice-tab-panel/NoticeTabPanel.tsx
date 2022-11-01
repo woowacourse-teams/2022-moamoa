@@ -6,10 +6,10 @@ import { useUserRole } from '@hooks/useUserRole';
 
 import PageWrapper from '@shared/page-wrapper/PageWrapper';
 
-import ArticleListPage from '@notice-tab/components/article-list-page/ArticleListPage';
-import Article from '@notice-tab/components/article/Article';
-import Edit from '@notice-tab/components/edit/Edit';
-import Publish from '@notice-tab/components/publish/Publish';
+import Edit from '@notice-tab/components/article-detail-edit/NoticeArticleDetailEdit';
+import ArticleDetail from '@notice-tab/components/article-detail/NoticeArticleDetail';
+import ArticleListPage from '@notice-tab/components/article-list-page/NoticeArticleListPage';
+import Publish from '@notice-tab/components/publish/NoticeArticleDetailPublish';
 
 const NoticeTabPanel: React.FC = () => {
   const location = useLocation();
@@ -30,7 +30,7 @@ const NoticeTabPanel: React.FC = () => {
         if ((isPublishPage || isEditPage) && !isOwner) return <Navigate to={`../${PATH.NOTICE}`} replace />;
         if (isPublishPage && isOwner) return <Publish studyId={studyId} />;
         if (isEditPage && isOwner) return <Edit studyId={studyId} articleId={articleId} />;
-        if (isDetailPage) return <Article studyId={studyId} articleId={articleId} />;
+        if (isDetailPage) return <ArticleDetail studyId={studyId} articleId={articleId} />;
         return <ArticleListPage studyId={studyId} />;
       })()}
     </PageWrapper>

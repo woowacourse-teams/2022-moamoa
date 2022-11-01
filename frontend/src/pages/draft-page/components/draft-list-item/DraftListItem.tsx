@@ -11,11 +11,10 @@ import type { DraftArtcle, StudyDetail, StudyId } from '@custom-types';
 import { applyHoverBgTransitionStyle } from '@styles/theme';
 
 import { IconButton } from '@shared/button';
+import Chip from '@shared/chip/Chip';
 import Flex from '@shared/flex/Flex';
 import { TrashcanIcon } from '@shared/icons';
 import ListItem from '@shared/list-item/ListItem';
-
-import Chip from '@components/@shared/chip/Chip';
 
 export type DraftListItemProps = Pick<DraftArtcle, 'id' | 'title' | 'createdDate'> & {
   study: {

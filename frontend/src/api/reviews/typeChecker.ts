@@ -3,12 +3,12 @@ import { AxiosError } from 'axios';
 import { arrayOfAll, checkType, hasOwnProperties, isArray, isNumber, isObject } from '@utils';
 
 import { checkStudyReview } from '@api/review/typeChecker';
-import { type ApiReviews } from '@api/reviews';
+import { type ApiStudyReviews } from '@api/reviews';
 
-type StudyReviewsKeys = keyof ApiReviews['get']['responseData'];
+type StudyReviewsKeys = keyof ApiStudyReviews['get']['responseData'];
 
 const arrayOfAllStudyReviewsKeys = arrayOfAll<StudyReviewsKeys>();
-export const checkStudyReviews = (data: unknown): ApiReviews['get']['responseData'] => {
+export const checkStudyReviews = (data: unknown): ApiStudyReviews['get']['responseData'] => {
   if (!isObject(data)) throw new AxiosError(`StudyReviews does not have correct type: object`);
 
   const keys = arrayOfAllStudyReviewsKeys(['reviews', 'totalCount']);

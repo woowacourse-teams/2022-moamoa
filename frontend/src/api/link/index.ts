@@ -24,7 +24,7 @@ export type ApiLink = {
   };
 };
 
-export const postLink = async ({ studyId, linkUrl, description }: ApiLink['post']['variables']) => {
+const postLink = async ({ studyId, linkUrl, description }: ApiLink['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiLink['post']['body']>(
     `/api/studies/${studyId}/reference-room/links`,
     {
@@ -39,7 +39,7 @@ export const usePostLink = () => useMutation<null, AxiosError, ApiLink['post']['
 
 // put
 
-export const putLink = async ({ studyId, linkId, linkUrl, description }: ApiLink['put']['variables']) => {
+const putLink = async ({ studyId, linkId, linkUrl, description }: ApiLink['put']['variables']) => {
   const response = await axiosInstance.put<null, AxiosResponse<null>, ApiLink['put']['body']>(
     `/api/studies/${studyId}/reference-room/links/${linkId}`,
     {
@@ -52,7 +52,7 @@ export const putLink = async ({ studyId, linkId, linkUrl, description }: ApiLink
 
 export const usePutLink = () => useMutation<null, AxiosError, ApiLink['put']['variables']>(putLink);
 
-export const deleteLink = async ({ studyId, linkId }: ApiLink['delete']['variables']) => {
+const deleteLink = async ({ studyId, linkId }: ApiLink['delete']['variables']) => {
   const response = await axiosInstance.delete<null, AxiosResponse<null>, null>(
     `/api/studies/${studyId}/reference-room/links/${linkId}`,
   );
