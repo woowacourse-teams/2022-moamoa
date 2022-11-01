@@ -14,7 +14,7 @@ export type ApiTags = {
   };
 };
 
-export const getTags = async () => {
+const getTags = async () => {
   const response = await axiosInstance.get<ApiTags['get']['responseData']>(`/api/tags`);
   return checkTags(response.data);
 };

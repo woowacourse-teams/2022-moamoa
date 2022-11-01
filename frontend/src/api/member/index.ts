@@ -40,7 +40,7 @@ export type ApiUserInformation = {
   };
 };
 
-export const getUserRole = async ({ studyId }: ApiUserRole['get']['variables']) => {
+const getUserRole = async ({ studyId }: ApiUserRole['get']['variables']) => {
   const response = await axiosInstance.get<ApiUserRole['get']['responseData']>(
     `/api/members/me/role?study-id=${studyId}`,
   );
@@ -54,7 +54,7 @@ export const useGetUserRole = ({ studyId, options }: ApiUserRole['get']['variabl
     options,
   );
 
-export const getUserInformation = async () => {
+const getUserInformation = async () => {
   const response = await axiosInstance.get<ApiUserInformation['get']['responseData']>(`/api/members/me`);
   return checkUserInformation(response.data);
 };

@@ -1,6 +1,6 @@
 import { USER_ROLE } from '@constants';
 
-import { StudyId } from '@custom-types';
+import type { StudyId } from '@custom-types';
 
 import { useGetUserRole } from '@api/member';
 
@@ -24,15 +24,20 @@ export const useUserRole = ({ studyId }: { studyId: StudyId }) => {
 
   const userRole = data?.role;
 
+  const isOwner = userRole === USER_ROLE.OWNER;
+  const isMember = userRole === USER_ROLE.MEMBER;
+  const isNonMember = userRole === USER_ROLE.NON_MEMBER;
+  const isOwnerOrMember = isOwner || isMember;
+
   return {
     fetchUserRole,
     userRole,
     isFetching,
     isError,
     isSuccess,
-    isOwner: userRole === USER_ROLE.OWNER,
-    isMember: userRole === USER_ROLE.MEMBER,
-    isNonMember: userRole === USER_ROLE.NON_MEMBER,
-    isOwnerOrMember: userRole !== USER_ROLE.NON_MEMBER,
+    isOwner,
+    isMember,
+    isNonMember,
+    isOwnerOrMember,
   };
 };

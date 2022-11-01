@@ -62,7 +62,7 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
+const getLinkPreview = async ({ linkUrl }: ApiLinkPreview['get']['variables']) => {
   const response = await axiosInstance.get<ApiLinkPreview['get']['responseData']>(
     `/api/link-preview?linkUrl=${linkUrl}`,
   );

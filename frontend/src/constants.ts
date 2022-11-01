@@ -1,4 +1,4 @@
-import { ArticleId, StudyId } from '@custom-types';
+import type { ArticleId, StudyId } from '@custom-types';
 
 export const PATH = {
   MAIN: '/',
@@ -40,6 +40,18 @@ export const DEFAULT_STUDY_CARD_QUERY_PARAM = {
 export const DEFAULT_LINK_QUERY_PARAM = {
   PAGE: 0,
   SIZE: 9,
+};
+export const DEFAULT_STUDY_REVIEW_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 8,
+};
+export const DEFAULT_COMMUNITY_COMMENT_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 8,
+};
+export const DEFAULT_NOTICE_COMMENT_QUERY_PARAM = {
+  PAGE: 0,
+  SIZE: 8,
 };
 export const DEFAULT_COMMUNITY_ARTICLE_DRAFT_QUERY_PARAM = {
   PAGE: 0,
@@ -105,6 +117,36 @@ export const MEMBER_COUNT = {
     VALUE: 100,
     get MESSAGE() {
       return `${this.VALUE}명까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const NOTICE_COMMENT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
+    },
+  },
+};
+
+export const COMMUNITY_COMMENT_LENGTH = {
+  MIN: {
+    VALUE: 1,
+    get MESSAGE() {
+      return `${this.VALUE}글자 이상이어야 합니다`;
+    },
+  },
+  MAX: {
+    VALUE: 200,
+    get MESSAGE() {
+      return `${this.VALUE}글자까지 입력할 수 있습니다`;
     },
   },
 };
