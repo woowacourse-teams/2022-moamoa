@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
@@ -12,7 +13,6 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.TempArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.TempArticleData;
-import com.woowacourse.moamoa.studyroom.service.exception.StudyRoomNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.TempArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.exception.UnViewableException;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
@@ -53,7 +53,7 @@ public class TempArticleService {
             final Long memberId, final Long studyId, final ArticleRequest request, final ArticleType articleType
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(() -> new StudyRoomNotFoundException(studyId));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         final Accessor accessor = new Accessor(memberId, studyId);
         final Content content = new Content(request.getTitle(), request.getContent());
         final TempArticle article = TempArticle.create(content, studyRoom, accessor, articleType);

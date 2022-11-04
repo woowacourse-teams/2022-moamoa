@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.article.Article;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
@@ -10,7 +11,6 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.ArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.ArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.StudyRoomNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummariesResponse;
 import com.woowacourse.moamoa.studyroom.service.response.ArticleSummaryResponse;
@@ -59,7 +59,7 @@ public class ArticleService {
             final Long memberId, final Long studyId, final Content content, final ArticleType type
     ) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(() -> new StudyRoomNotFoundException(studyId));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         final Article article = Article.create(studyRoom, new Accessor(memberId, studyId), content, type);
 
         return articleRepository.save(article).getId();

@@ -1,5 +1,6 @@
 package com.woowacourse.moamoa.studyroom.service;
 
+import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
@@ -9,7 +10,6 @@ import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRep
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
 import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
-import com.woowacourse.moamoa.studyroom.service.exception.StudyRoomNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -41,7 +41,7 @@ public class LinkArticleService {
     @Transactional
     public Long createArticle(final Long memberId, final Long studyId, final LinkContent content) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(() -> new StudyRoomNotFoundException(studyId));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         final LinkArticle article = LinkArticle.create(studyRoom, new Accessor(memberId, studyId), content);
 
         return linkArticleRepository.save(article).getId();
