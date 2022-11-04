@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class UpdatingStudyTest {
+class UpdatingStudyTest {
 
     @DisplayName("Recruit Planner| 수정하려는 모집 마감 일이 생성일 이전인 경우 예외가 발생한다.")
     @Test

@@ -15,7 +15,7 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ParticipantRelatedStudyTest {
+class ParticipantRelatedStudyTest {
 
     @DisplayName("방장이 모집 종료 이전에 스터디원을 강퇴시키는 경우 모집 상태는 RECRUITMENT_START다.")
     @Test

@@ -2,7 +2,6 @@ package com.woowacourse.moamoa.studyroom.domain.article;
 
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.COMMUNITY;
 import static com.woowacourse.moamoa.studyroom.domain.article.ArticleType.NOTICE;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,7 +21,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class TempArticleTest {
+class TempArticleTest {
 
     private static final long OWNER_ID = 1L;
     private static final long PARTICIPANT_ID = 2L;

@@ -6,8 +6,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
-import com.woowacourse.moamoa.study.domain.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.domain.exception.InvalidPeriodException;
+import com.woowacourse.moamoa.study.domain.exception.NotParticipatedMemberException;
 import com.woowacourse.moamoa.study.service.exception.FailureKickOutException;
 import com.woowacourse.moamoa.study.service.exception.FailureParticipationException;
 import com.woowacourse.moamoa.study.service.exception.InvalidUpdatingException;
@@ -85,15 +85,6 @@ public class Study {
         updatePlanners(createdAt.toLocalDate(), maxMemberCount, enrollmentEndDate, startDate, endDate);
     }
 
-    private StudyPlanner makeStudyPlanner(final LocalDateTime createdAt,
-                                         final LocalDate startDate,
-                                         final LocalDate endDate) {
-        if (startDate.equals(createdAt.toLocalDate())) {
-            return new StudyPlanner(startDate, endDate, IN_PROGRESS);
-        }
-        return new StudyPlanner(startDate, endDate, PREPARE);
-    }
-
     public boolean isParticipant(final Long memberId) {
         return participants.isParticipation(memberId);
     }
@@ -133,37 +124,12 @@ public class Study {
         }
     }
 
-    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
-        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
-                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
-    }
-
-    private boolean isRecruitedOrStartStudyBeforeCreatedAt(
-            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final LocalDateTime createdAt
-    ) {
-        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
-                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
-    }
-
-    private void verifyCanLeave(final Participant participant) {
-        if (participants.isOwner(participant.getMemberId())) {
-            throw new OwnerCanNotLeaveException();
-        }
-        if (!participants.isParticipation(participant.getMemberId())) {
-            throw new NotParticipatedMemberException();
-        }
-    }
-
     public boolean isProgressStatus() {
         return studyPlanner.isProgress();
     }
 
     public boolean isCloseStudy() {
         return studyPlanner.isCloseStudy();
-    }
-
-    private boolean isFullOfCapacity() {
-        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
     }
 
     public MemberRole getRole(final Long memberId) {
@@ -213,6 +179,49 @@ public class Study {
         throw new RuntimeException("스터디 모집 상태에서 오류가 발생했습니다.");
     }
 
+    public void updateContent(Long memberId, Content content, AttachedTags attachedTags) {
+        if (!participants.isOwner(memberId)) {
+            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
+        }
+
+        this.content = content;
+        this.attachedTags = attachedTags;
+    }
+
+    private StudyPlanner makeStudyPlanner(final LocalDateTime createdAt,
+                                          final LocalDate startDate,
+                                          final LocalDate endDate) {
+        if (startDate.equals(createdAt.toLocalDate())) {
+            return new StudyPlanner(startDate, endDate, IN_PROGRESS);
+        }
+        return new StudyPlanner(startDate, endDate, PREPARE);
+    }
+
+    private boolean isRecruitingAfterEndStudy(final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner) {
+        return recruitPlanner.hasEnrollmentEndDate() && studyPlanner
+                .isEndBeforeThan(recruitPlanner.getEnrollmentEndDate());
+    }
+
+    private boolean isRecruitedOrStartStudyBeforeCreatedAt(
+            final RecruitPlanner recruitPlanner, final StudyPlanner studyPlanner, final LocalDateTime createdAt
+    ) {
+        return studyPlanner.isStartBeforeThan(createdAt.toLocalDate()) ||
+                recruitPlanner.isRecruitedBeforeThan(createdAt.toLocalDate());
+    }
+
+    private void verifyCanLeave(final Participant participant) {
+        if (participants.isOwner(participant.getMemberId())) {
+            throw new OwnerCanNotLeaveException();
+        }
+        if (!participants.isParticipation(participant.getMemberId())) {
+            throw new NotParticipatedMemberException();
+        }
+    }
+
+    private boolean isFullOfCapacity() {
+        return recruitPlanner.hasCapacity() && recruitPlanner.getCapacity() == participants.getSize();
+    }
+
     private boolean isNotMaxMemberCount(final RecruitPlanner recruitPlanner) {
         return recruitPlanner.getMaxMemberCount() == null || !participants.isParticipantsMaxCount(
                 recruitPlanner.getMaxMemberCount());
@@ -251,14 +260,5 @@ public class Study {
     private void setPlanner(final StudyPlanner studyPlanner, final RecruitPlanner recruitPlanner) {
         this.studyPlanner = studyPlanner;
         this.recruitPlanner = recruitPlanner;
-    }
-
-    public void updateContent(Long memberId, Content content, AttachedTags attachedTags) {
-        if (!participants.isOwner(memberId)) {
-            throw new UnauthorizedException("스터디 방장만이 스터디를 수정할 수 있습니다.");
-        }
-
-        this.content = content;
-        this.attachedTags = attachedTags;
     }
 }

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
-public class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
+class GettingTempArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("토큰없이 임시글을 조회할 경우 401을 반환한다.")
     @Test

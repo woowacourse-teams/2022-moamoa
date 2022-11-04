@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreatingStudyTest {
+class CreatingStudyTest {
 
     @DisplayName("시작일자는 종료일자보다 클 수 없다.")
     @Test

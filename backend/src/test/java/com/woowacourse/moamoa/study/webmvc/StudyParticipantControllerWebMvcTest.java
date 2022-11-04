@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
-public class StudyParticipantControllerWebMvcTest extends WebMVCTest {
+class StudyParticipantControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("스터디원 강퇴 시 정상적이지 않은 스터디 id인 경우 400을 반환한다.")
     @Test

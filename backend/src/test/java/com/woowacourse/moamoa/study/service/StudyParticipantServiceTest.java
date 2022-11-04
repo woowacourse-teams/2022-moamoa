@@ -10,10 +10,8 @@ import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
-import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
-import com.woowacourse.moamoa.study.service.request.StudyRequest;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,13 +55,5 @@ class StudyParticipantServiceTest {
         entityManager.flush();
         entityManager.clear();
         return savedMember.getId();
-    }
-
-    private Long createStudy(final Long ownerId, StudyRequest studyRequest) {
-        final StudyService studyService = new StudyService(studyRepository, memberRepository, new DateTimeSystem());
-        final Study study = studyService.createStudy(ownerId, studyRequest);
-        entityManager.flush();
-        entityManager.clear();
-        return study.getId();
     }
 }

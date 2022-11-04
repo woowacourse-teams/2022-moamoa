@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 
-public class DeletingTempArticleControllerWebMvcTest extends WebMVCTest {
+class DeletingTempArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("토큰없이 임시글을 조회할 경우 401을 반환한다.")
     @ParameterizedTest
