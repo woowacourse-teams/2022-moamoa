@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller.interceptor;
+package com.woowacourse.moamoa.auth.config.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

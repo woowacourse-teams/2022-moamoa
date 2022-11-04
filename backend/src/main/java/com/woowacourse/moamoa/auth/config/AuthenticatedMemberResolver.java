@@ -1,7 +1,5 @@
-package com.woowacourse.moamoa.auth.controller;
+package com.woowacourse.moamoa.auth.config;
 
-import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
-import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;

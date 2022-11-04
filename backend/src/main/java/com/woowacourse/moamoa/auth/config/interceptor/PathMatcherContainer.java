@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller.interceptor;
+package com.woowacourse.moamoa.auth.config.interceptor;
 
 import java.util.ArrayList;
 import java.util.List;

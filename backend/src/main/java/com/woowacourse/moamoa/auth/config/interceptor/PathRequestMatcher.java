@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller.interceptor;
+package com.woowacourse.moamoa.auth.config.interceptor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
