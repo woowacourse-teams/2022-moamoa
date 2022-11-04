@@ -1,12 +1,12 @@
 package com.woowacourse.moamoa.studyroom.service;
 
-import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
-import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
+import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.exception.ReviewNotFoundException;
+import com.woowacourse.moamoa.studyroom.service.exception.StudyRoomNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class ReviewService {
 
     public Long writeReview(final Long memberId, final Long studyId, final ReviewRequest reviewRequest) {
         final StudyRoom studyRoom = studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(StudyNotFoundException::new);
+                .orElseThrow(StudyRoomNotFoundException::new);
 
         final Accessor accessor = new Accessor(memberId, studyId);
         final Review review = Review.write(studyRoom, accessor, reviewRequest.getContent());
@@ -37,7 +37,7 @@ public class ReviewService {
             final ReviewRequest reviewRequest
     ) {
         studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(StudyNotFoundException::new);
+                .orElseThrow(StudyRoomNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
@@ -46,7 +46,7 @@ public class ReviewService {
 
     public void deleteReview(final Long memberId, final Long studyId, final Long reviewId) {
         studyRoomRepository.findByStudyId(studyId)
-                .orElseThrow(StudyNotFoundException::new);
+                .orElseThrow(StudyRoomNotFoundException::new);
         final Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
 
