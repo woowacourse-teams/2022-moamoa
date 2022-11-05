@@ -17,7 +17,7 @@ public interface StudyRepository {
     Optional<Study> findById(Long id);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "1000")})
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
     @Query("select s from Study s where s.id = :id")
     Optional<Study> findByIdUpdateFor(@Param("id") Long id);
 
