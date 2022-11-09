@@ -7,7 +7,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.document.StudyDocument;
 import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
-import com.woowacourse.moamoa.comment.service.request.CommentRequest;
+import com.woowacourse.moamoa.studyroom.service.request.CommentRequest;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import com.woowacourse.moamoa.studyroom.domain.article.ArticleType;
 import com.woowacourse.moamoa.studyroom.service.request.ArticleRequest;
