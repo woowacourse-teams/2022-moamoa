@@ -58,7 +58,7 @@ class StudyParticipantControllerTest {
         when(slackUsersClient.getUserChannelByEmail("dwoo@moamoa.space")).thenReturn("dwoo-channel");
 
         slackAlarmSender = mock(SlackAlarmSender.class);
-        doNothing().when(slackAlarmSender).requestSlackMessage("dwoo-channel");
+        doNothing().when(slackAlarmSender).sendMessage("dwoo-channel");
 
         jjanggu = memberRepository.save(MemberFixtures.짱구());
         dwoo = memberRepository.save(MemberFixtures.디우());

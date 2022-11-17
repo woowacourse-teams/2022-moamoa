@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.study.service;
 
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.AlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
@@ -18,14 +18,14 @@ public class AsyncService {
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
     private final SlackUsersClient slackUsersClient;
-    private final SlackAlarmSender slackAlarmSender;
+    private final AlarmSender alarmSender;
 
     public AsyncService(final StudyRepository studyRepository, final MemberRepository memberRepository,
-                        final SlackUsersClient slackUsersClient, final SlackAlarmSender slackAlarmSender) {
+                        final SlackUsersClient slackUsersClient, final AlarmSender alarmSender) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
         this.slackUsersClient = slackUsersClient;
-        this.slackAlarmSender = slackAlarmSender;
+        this.alarmSender = alarmSender;
     }
 
     @Transactional(readOnly = true)
@@ -38,9 +38,9 @@ public class AsyncService {
     }
 
     @Async
-    public void  send(final Long studyId) {
+    public void send(final Long studyId) {
         final String email = getOwnerEmail(studyId);
         final String channel = slackUsersClient.getUserChannelByEmail(email);
-        slackAlarmSender.requestSlackMessage(channel);
+        alarmSender.sendMessage(channel);
     }
 }

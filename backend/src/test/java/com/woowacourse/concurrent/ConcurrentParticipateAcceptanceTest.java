@@ -48,7 +48,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
 
         for (SlackUserResponse profile : users) {
             when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         // act
@@ -78,7 +78,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
 
         for (SlackUserResponse profile : users) {
             when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         for (GithubProfileResponse 프로필 : 탈퇴를_원하는_사용자) {
@@ -113,7 +113,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
 
         for (SlackUserResponse profile : users) {
             when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         for (GithubProfileResponse 프로필 : 탈퇴를_원하는_사용자) {
