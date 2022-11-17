@@ -15,7 +15,7 @@ import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.study.domain.Study;
 import com.woowacourse.moamoa.study.domain.repository.StudyRepository;
-import com.woowacourse.moamoa.study.service.AsyncService;
+import com.woowacourse.moamoa.alarm.service.AlarmService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import com.woowacourse.moamoa.study.service.StudyService;
 import com.woowacourse.moamoa.study.service.request.StudyRequest;
@@ -44,7 +44,7 @@ class StudyParticipantControllerTest {
     private EntityManager entityManager;
 
     @Autowired
-    private AsyncService asyncService;
+    private AlarmService alarmService;
 
     private SlackUsersClient slackUsersClient;
     private SlackAlarmSender slackAlarmSender;
@@ -89,7 +89,7 @@ class StudyParticipantControllerTest {
         final long studyId = getStudyIdBy(location);
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), asyncService);
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), alarmService);
         final ResponseEntity<Void> response = sut.participateStudy(dwoo.getId(), studyId);
 
         // then
@@ -133,7 +133,7 @@ class StudyParticipantControllerTest {
         entityManager.clear();
 
         final StudyParticipantController sut = new StudyParticipantController(
-                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), asyncService);
+                new StudyParticipantService(memberRepository, studyRepository, new DateTimeSystem()), alarmService);
         sut.leaveStudy(green.getId(), studyId);
 
         // then

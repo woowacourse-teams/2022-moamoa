@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.study.service;
+package com.woowacourse.moamoa.alarm.service;
 
 import com.woowacourse.moamoa.alarm.AlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AsyncService {
+public class AlarmService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
     private final SlackUsersClient slackUsersClient;
     private final AlarmSender alarmSender;
 
-    public AsyncService(final StudyRepository studyRepository, final MemberRepository memberRepository,
+    public AlarmService(final StudyRepository studyRepository, final MemberRepository memberRepository,
                         final SlackUsersClient slackUsersClient, final AlarmSender alarmSender) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
