@@ -5,7 +5,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.woowacourse.moamoa.alarm.service.alarmuserclient.AlarmUserClient;
 import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
 import com.woowacourse.moamoa.alarm.service.response.SlackUsersResponse;
 import org.springframework.beans.factory.annotation.Value;
