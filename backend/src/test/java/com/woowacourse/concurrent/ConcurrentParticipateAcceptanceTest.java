@@ -6,10 +6,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUserProfile;
+import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserProfile;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
-import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;

@@ -12,7 +12,7 @@ import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바_스터디;
 import static com.woowacourse.moamoa.fixtures.StudyFixtures.자바스크립트_스터디;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.member.domain.Member;

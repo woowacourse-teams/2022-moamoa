@@ -4,7 +4,7 @@ import static com.woowacourse.moamoa.fixtures.MemberFixtures.디우;
 import static com.woowacourse.moamoa.fixtures.MemberFixtures.짱구;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;

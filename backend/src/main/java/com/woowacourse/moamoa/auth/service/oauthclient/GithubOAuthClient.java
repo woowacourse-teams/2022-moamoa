@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.infrastructure;
+package com.woowacourse.moamoa.auth.service.oauthclient;
 
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.common.exception.UnauthorizedException;

@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.common;
 
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.config.JpaAuditingConfig;
 import com.woowacourse.moamoa.alarm.service.AlarmService;

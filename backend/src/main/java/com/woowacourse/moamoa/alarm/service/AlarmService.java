@@ -1,6 +1,6 @@
 package com.woowacourse.moamoa.alarm.service;
 
-import com.woowacourse.moamoa.alarm.AlarmSender;
+import com.woowacourse.moamoa.alarm.service.alarmsender.AlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;

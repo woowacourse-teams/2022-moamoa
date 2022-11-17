@@ -1,7 +1,6 @@
-package com.woowacourse.moamoa.alarm.response;
+package com.woowacourse.moamoa.alarm.service.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.woowacourse.moamoa.alarm.SlackUserProfile;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

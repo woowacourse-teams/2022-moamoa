@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.service.alarmsender;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -6,7 +6,8 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.slack.api.model.Attachment;
-import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.alarmsender.AlarmSender;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.service.alarmsender;
 
 public interface AlarmSender {
 
