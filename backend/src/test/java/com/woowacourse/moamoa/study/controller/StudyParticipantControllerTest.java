@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.common.utils.DateTimeSystem;
 import com.woowacourse.moamoa.fixtures.MemberFixtures;
@@ -55,7 +55,7 @@ class StudyParticipantControllerTest {
     @BeforeEach
     void initDataBase() {
         slackUsersClient = mock(SlackUsersClient.class);
-        when(slackUsersClient.getUserChannelByEmail("dwoo@moamoa.space")).thenReturn("dwoo-channel");
+        when(slackUsersClient.getUserChannel("dwoo@moamoa.space")).thenReturn("dwoo-channel");
 
         slackAlarmSender = mock(SlackAlarmSender.class);
         doNothing().when(slackAlarmSender).sendMessage("dwoo-channel");

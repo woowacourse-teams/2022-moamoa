@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.tag.query.TagDao;
 import com.woowacourse.moamoa.tag.query.request.CategoryIdRequest;

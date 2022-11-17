@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
 import com.woowacourse.moamoa.fixtures.MemberFixtures;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;

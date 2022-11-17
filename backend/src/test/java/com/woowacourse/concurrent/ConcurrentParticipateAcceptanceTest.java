@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.woowacourse.acceptance.AcceptanceTest;
 import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.service.response.SlackUserProfile;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
 import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
@@ -47,7 +47,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
             doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
@@ -77,7 +77,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
             doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
@@ -112,7 +112,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
             doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 

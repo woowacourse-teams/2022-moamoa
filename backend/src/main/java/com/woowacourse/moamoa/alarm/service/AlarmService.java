@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.alarm.service;
 
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.AlarmUserClient;
 import com.woowacourse.moamoa.alarm.service.alarmsender.AlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -17,14 +17,14 @@ public class AlarmService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
-    private final SlackUsersClient slackUsersClient;
+    private final AlarmUserClient alarmUserClient;
     private final AlarmSender alarmSender;
 
     public AlarmService(final StudyRepository studyRepository, final MemberRepository memberRepository,
-                        final SlackUsersClient slackUsersClient, final AlarmSender alarmSender) {
+                        final AlarmUserClient alarmUserClient, final AlarmSender alarmSender) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
-        this.slackUsersClient = slackUsersClient;
+        this.alarmUserClient = alarmUserClient;
         this.alarmSender = alarmSender;
     }
 
@@ -40,7 +40,7 @@ public class AlarmService {
     @Async
     public void send(final Long studyId) {
         final String email = getOwnerEmail(studyId);
-        final String channel = slackUsersClient.getUserChannelByEmail(email);
+        final String channel = alarmUserClient.getUserChannel(email);
         alarmSender.sendMessage(channel);
     }
 }

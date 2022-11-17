@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
 import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
 import com.woowacourse.moamoa.auth.service.oauthclient.GithubOAuthClient;
