@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -16,11 +18,11 @@ import FilterSection from '@main-page/components/filter-section/FilterSection';
 import StudyCard from '@main-page/components/study-card/StudyCard';
 import useMainPage from '@main-page/hooks/useMainPage';
 
-const MainPage: React.FC = () => {
+const Core: React.FC = () => {
   const { studiesQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
     useMainPage();
 
-  const { isFetching, isError, data, fetchNextPage } = studiesQueryResult;
+  const { isFetching, data, fetchNextPage } = studiesQueryResult;
 
   const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
@@ -30,7 +32,6 @@ const MainPage: React.FC = () => {
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
       <PageWrapper>
         {(() => {
-          if (isError) return <Error />;
           if (!searchedStudies || (searchedStudies && searchedStudies.length === 0)) return <NoResult />;
           return (
             <InfinitScrollCardList
@@ -45,11 +46,34 @@ const MainPage: React.FC = () => {
   );
 };
 
+const MainPage: React.FC = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<LoadingFallback />}>
+        <Core />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
 export default MainPage;
 
-const Error = () => <div>에러가 발생했습니다</div>;
+const ErrorFallback: React.ComponentType<FallbackProps> = ({ error }) => {
+  return (
+    <div>
+      <h2>스터디를 불러오는 도중 에러가 발생했습니다</h2>
+      <p>{error.message}</p>
+    </div>
+  );
+};
 
-const NoResult = () => <div>검색 결과가 없습니다</div>;
+const LoadingFallback: React.FC = () => {
+  return <div>스터디 불러오는중</div>;
+};
+
+const NoResult: React.FC = () => {
+  return <div>결과가 없습니다</div>;
+};
 
 type InfinitScrollCardListProps = { studies: Array<Study> } & Omit<InfiniteScrollProps, 'children'>;
 
@@ -75,7 +99,7 @@ const InfinitScrollCardList: React.FC<InfinitScrollCardListProps> = ({
         </li>
       ))}
     </CardList>
-    {isContentLoading && <Loading />}
+    {isContentLoading && <LoadingFallback />}
   </InfiniteScroll>
 );
 
@@ -102,5 +126,3 @@ const CardList = styled.ul`
 `;
 
 const Page = styled.div``;
-
-const Loading = () => <div>Loading...</div>;
