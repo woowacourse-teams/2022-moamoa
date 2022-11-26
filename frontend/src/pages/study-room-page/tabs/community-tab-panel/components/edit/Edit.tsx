@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { PATH } from '@constants';
@@ -22,14 +24,14 @@ type HandleEditFormSubmit = (
   submitResult: UseFormSubmitResult,
 ) => Promise<null | undefined>;
 
-const Edit: React.FC = () => {
+const Core: React.FC = () => {
   const { studyId: _studyId, articleId: _articleId } = useParams<{ studyId: string; articleId: string }>();
   const [studyId, articleId] = [Number(_studyId), Number(_articleId)];
 
   const formMethods = useForm();
   const navigate = useNavigate();
 
-  const { isFetching, isSuccess, isError, data } = useGetCommunityArticle({ studyId, articleId });
+  const { data } = useGetCommunityArticle({ studyId, articleId });
   const { mutateAsync } = usePutCommunityArticle();
 
   const handleSubmit: HandleEditFormSubmit = async (_, submitResult) => {
@@ -60,22 +62,30 @@ const Edit: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <PageTitle>게시글 수정</PageTitle>
-      {(() => {
-        if (isFetching) return <Loading />;
-        if (isError) return <Error />;
-        if (isSuccess) {
-          return <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />;
-        }
-      })()}
+      <EditForm article={data} formMethods={formMethods} onSubmit={handleSubmit} />
     </FormProvider>
+  );
+};
+
+const Edit: React.FC = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<LoadingFallback />}>
+        <Core />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 
 export default Edit;
 
-const Loading = () => <div>Loading...</div>;
+const ErrorFallback: React.ComponentType<FallbackProps> = () => {
+  return <div>Error...</div>;
+};
 
-const Error = () => <div>Error...</div>;
+const LoadingFallback: React.FC = () => {
+  return <div>Loading...</div>;
+};
 
 type EditFormProps = {
   article: CommunityArticle;

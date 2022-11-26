@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -16,11 +18,12 @@ import FilterSection from '@main-page/components/filter-section/FilterSection';
 import StudyCard from '@main-page/components/study-card/StudyCard';
 import useMainPage from '@main-page/hooks/useMainPage';
 
-const MainPage: React.FC = () => {
+const Core: React.FC = () => {
+  // @TODO: 한곳에 몰아넣지 말고 의미 단위로 분리한다
   const { studiesQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
     useMainPage();
 
-  const { isFetching, isError, data, fetchNextPage } = studiesQueryResult;
+  const { isFetching, data, fetchNextPage } = studiesQueryResult;
 
   const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
@@ -29,7 +32,6 @@ const MainPage: React.FC = () => {
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <PageWrapper>
         {(() => {
-          if (isError) return <Error />;
           if (!searchedStudies || (searchedStudies && searchedStudies.length === 0)) return <NoResult />;
           return (
             <InfinitScrollCardList
@@ -45,9 +47,25 @@ const MainPage: React.FC = () => {
   );
 };
 
+const MainPage: React.FC = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<LoadingFallback />}>
+        <Core />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
 export default MainPage;
 
-const Error = () => <div>에러가 발생했습니다</div>;
+const ErrorFallback: React.ComponentType<FallbackProps> = () => {
+  return <div>Error...</div>;
+};
+
+const LoadingFallback: React.FC = () => {
+  return <div>Loading...</div>;
+};
 
 const NoResult = () => <div>검색 결과가 없습니다</div>;
 

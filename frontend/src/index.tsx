@@ -26,6 +26,8 @@ if ($root) {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        useErrorBoundary: true,
+        suspense: true,
       },
     },
   });

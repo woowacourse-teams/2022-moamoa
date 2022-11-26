@@ -53,6 +53,7 @@ export const getStudies = async ({
   const response = await axiosInstance.get<ApiStudies['get']['responseData']>(
     `/api/studies/search?page=${page}&size=${size}${titleParams}${tagParams}`,
   );
+
   return checkStudies(response.data);
 };
 
@@ -78,6 +79,8 @@ export const useGetInfiniteStudies = ({ title, selectedFilters }: ApiInfiniteStu
         if (!lastPage.hasNext) return;
         return { page: lastPage.page };
       },
+      suspense: true,
+      useErrorBoundary: true,
     },
   );
 };

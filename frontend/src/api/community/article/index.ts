@@ -8,6 +8,8 @@ import type { ArticleId, CommunityArticle, StudyId } from '@custom-types';
 import axiosInstance from '@api/axiosInstance';
 import { checkCommunityArticle } from '@api/community/article/typeChecker';
 
+import { useSuspendedQuery } from '@hooks/useSuspenseQuery';
+
 export type ApiCommunityArticle = {
   get: {
     responseData: CommunityArticle;
@@ -52,7 +54,7 @@ const getCommunityArticle = async ({ studyId, articleId }: ApiCommunityArticle['
 };
 
 export const useGetCommunityArticle = ({ studyId, articleId }: ApiCommunityArticle['get']['variables']) => {
-  return useQuery<ApiCommunityArticle['get']['responseData'], AxiosError>(
+  return useSuspendedQuery<ApiCommunityArticle['get']['responseData'], AxiosError>(
     ['get-community-article', studyId, articleId],
     () => getCommunityArticle({ studyId, articleId }),
   );
