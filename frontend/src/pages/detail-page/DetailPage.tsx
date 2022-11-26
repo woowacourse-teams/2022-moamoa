@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { Navigate } from 'react-router-dom';
 
 import styled from '@emotion/styled';
@@ -18,9 +20,9 @@ import StudyReviewSection from '@detail-page/components/study-review-section/Stu
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
-const DetailPage: React.FC = () => {
+const Core: React.FC = () => {
   const { studyId, detailQueryResult, isOwner, isOwnerOrMember, handleRegisterButtonClick } = useDetailPage();
-  const { isFetching, isSuccess, isError, data } = detailQueryResult;
+  const { data } = detailQueryResult;
 
   if (!studyId) {
     alert('잘못된 접근입니다.');
@@ -30,71 +32,80 @@ const DetailPage: React.FC = () => {
   // TODO: background에 thumbnail 이미지 사용
   return (
     <PageWrapper>
-      {(() => {
-        if (isFetching) return <Loading />;
-        if (isError) return <Error />;
-        if (isSuccess)
-          return (
-            <>
-              <Head
-                id={data.id}
-                title={data.title}
-                recruitmentStatus={data.recruitmentStatus}
-                excerpt={data.excerpt}
-                startDate={data.startDate}
-                endDate={data.endDate}
-                tags={data.tags}
-                isOwner={isOwner}
-              />
-              <Divider space="20px" />
-              <Flex columnGap="40px">
-                <Main>
-                  <MarkdownRendererContainer>
-                    <MarkdownRender markdownContent={data.description} />
-                  </MarkdownRendererContainer>
-                  <Divider space="20px" />
-                  <StudyMemberSection owner={data.owner} members={data.members} />
-                </Main>
-                <Sidebar>
-                  <FloatButtonContainer>
-                    <StudyFloatBox
-                      studyId={data.id}
-                      isOwnerOrMember={isOwnerOrMember}
-                      ownerName={data.owner.username}
-                      currentMemberCount={data.currentMemberCount}
-                      maxMemberCount={data.maxMemberCount}
-                      enrollmentEndDate={data.enrollmentEndDate}
-                      recruitmentStatus={data.recruitmentStatus}
-                      onRegisterButtonClick={handleRegisterButtonClick}
-                    />
-                  </FloatButtonContainer>
-                </Sidebar>
-              </Flex>
-              <Divider space="20px" />
-              <StudyReviewSection studyId={data.id} />
-              <FixedBottomContainer>
-                <StudyWideFloatBox
-                  studyId={data.id}
-                  isOwnerOrMember={isOwnerOrMember}
-                  currentMemberCount={data.currentMemberCount}
-                  maxMemberCount={data.maxMemberCount}
-                  enrollmentEndDate={data.enrollmentEndDate}
-                  recruitmentStatus={data.recruitmentStatus}
-                  onRegisterButtonClick={handleRegisterButtonClick}
-                />
-              </FixedBottomContainer>
-            </>
-          );
-      })()}
+      <Head
+        id={data.id}
+        title={data.title}
+        recruitmentStatus={data.recruitmentStatus}
+        excerpt={data.excerpt}
+        startDate={data.startDate}
+        endDate={data.endDate}
+        tags={data.tags}
+        isOwner={isOwner}
+      />
+      <Divider space="20px" />
+      <Flex columnGap="40px">
+        <Main>
+          <MarkdownRendererContainer>
+            <MarkdownRender markdownContent={data.description} />
+          </MarkdownRendererContainer>
+          <Divider space="20px" />
+          <StudyMemberSection owner={data.owner} members={data.members} />
+        </Main>
+        <Sidebar>
+          <FloatButtonContainer>
+            <StudyFloatBox
+              studyId={data.id}
+              isOwnerOrMember={isOwnerOrMember}
+              ownerName={data.owner.username}
+              currentMemberCount={data.currentMemberCount}
+              maxMemberCount={data.maxMemberCount}
+              enrollmentEndDate={data.enrollmentEndDate}
+              recruitmentStatus={data.recruitmentStatus}
+              onRegisterButtonClick={handleRegisterButtonClick}
+            />
+          </FloatButtonContainer>
+        </Sidebar>
+      </Flex>
+      <Divider space="20px" />
+      <StudyReviewSection studyId={data.id} />
+      <FixedBottomContainer>
+        <StudyWideFloatBox
+          studyId={data.id}
+          isOwnerOrMember={isOwnerOrMember}
+          currentMemberCount={data.currentMemberCount}
+          maxMemberCount={data.maxMemberCount}
+          enrollmentEndDate={data.enrollmentEndDate}
+          recruitmentStatus={data.recruitmentStatus}
+          onRegisterButtonClick={handleRegisterButtonClick}
+        />
+      </FixedBottomContainer>
     </PageWrapper>
+  );
+};
+const DetailPage: React.FC = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<LoadingFallback />}>
+        <Core />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 
 export default DetailPage;
 
-const Loading = () => <div>Loading...</div>;
+const ErrorFallback: React.ComponentType<FallbackProps> = ({ error }) => {
+  return (
+    <div>
+      <h2>스터디 정보를 불러오는 도중 에러가 발생했습니다</h2>
+      <p>{error.message}</p>
+    </div>
+  );
+};
 
-const Error = () => <div>조회에 실패했습니다</div>;
+const LoadingFallback: React.FC = () => {
+  return <div>스터디 정보 불러오는중</div>;
+};
 
 const Main = styled.section`
   width: 100%;

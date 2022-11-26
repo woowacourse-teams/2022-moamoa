@@ -78,7 +78,6 @@ export const useGetInfiniteStudies = ({ title, selectedFilters }: ApiInfiniteStu
         return { page: lastPage.page };
       },
       suspense: true,
-      useErrorBoundary: true,
     },
   );
 };
