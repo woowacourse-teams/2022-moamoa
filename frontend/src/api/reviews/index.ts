@@ -1,5 +1,8 @@
-import { type AxiosError } from 'axios';
 import { useQuery } from 'react-query';
+
+import { DEFAULT_STUDY_REVIEW_QUERY_PARAM } from '@constants';
+
+import { buildURLQuery } from '@utils';
 
 import type { Size, StudyId, StudyReview } from '@custom-types';
 
@@ -7,8 +10,9 @@ import axiosInstance from '@api/axiosInstance';
 import { checkStudyReviews } from '@api/reviews/typeChecker';
 
 export const QK_STUDY_REVIEWS = 'study-reviews';
+export const QK_STUDY_REVIEWS_INFINITE_SCROLL = 'infinite-scroll-study-reviews';
 
-export type ApiReviews = {
+export type ApiStudyReviews = {
   get: {
     params: {
       studyId: StudyId;
@@ -18,17 +22,22 @@ export type ApiReviews = {
       reviews: Array<StudyReview>;
       totalCount: number;
     };
-    variables: ApiReviews['get']['params'];
+    variables: ApiStudyReviews['get']['params'];
   };
 };
 
-export const getStudyReviews = async ({ studyId, size }: ApiReviews['get']['variables']) => {
-  const url = size ? `/api/studies/${studyId}/reviews?size=${size}` : `/api/studies/${studyId}/reviews`;
-  const response = await axiosInstance.get<ApiReviews['get']['responseData']>(url);
+const { SIZE } = DEFAULT_STUDY_REVIEW_QUERY_PARAM;
+
+// size와 page가 없는 경우에는 전체를 불러온다
+// reviews는 pagination이 아닌 전체를 불러와서 사용하는 경우도 있기 때문에
+// getStudyReviews와 getStudyReviewsWithPage를 구분해 줘야 합니다.
+const getStudyReviews = async ({ studyId, size }: ApiStudyReviews['get']['variables']) => {
+  const url = buildURLQuery(`/api/studies/${studyId}/reviews`, {
+    size,
+  });
+  const response = await axiosInstance.get<ApiStudyReviews['get']['responseData']>(url);
   return checkStudyReviews(response.data);
 };
-
-export const useGetStudyReviews = ({ studyId, size }: ApiReviews['get']['variables']) => {
-  const queryKey = size ? [QK_STUDY_REVIEWS, studyId] : [QK_STUDY_REVIEWS, studyId, 'all'];
-  return useQuery<ApiReviews['get']['responseData'], AxiosError>(queryKey, () => getStudyReviews({ studyId, size }));
+export const useGetStudyReviews = ({ size = SIZE, studyId }: ApiStudyReviews['get']['variables']) => {
+  return useQuery([QK_STUDY_REVIEWS, size, studyId], () => getStudyReviews({ size, studyId }));
 };

@@ -42,7 +42,13 @@ export type LinkEditFormProps = {
 const LINK_URL = 'link-url';
 const LINK_DESCRIPTION = 'link-description';
 
-const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalContent, onPutSuccess, onPutError }) => {
+const LinkEditForm: React.FC<LinkEditFormProps> = ({
+  author,
+  linkId,
+  originalContent,
+  onPutSuccess: handlePutSuccess,
+  onPutError: handlePutError,
+}) => {
   const theme = useTheme();
   const { studyId: _studyId } = useParams<{ studyId: string }>();
   const studyId = Number(_studyId);
@@ -75,10 +81,10 @@ const LinkEditForm: React.FC<LinkEditFormProps> = ({ author, linkId, originalCon
 
     return mutateAsync(putData, {
       onSuccess: () => {
-        onPutSuccess();
+        handlePutSuccess();
       },
       onError: error => {
-        onPutError(error);
+        handlePutError(error);
       },
     });
   };

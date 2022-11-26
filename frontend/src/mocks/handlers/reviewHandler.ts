@@ -7,13 +7,31 @@ import { type ApiReview } from '@api/review';
 
 export const reviewHandlers = [
   rest.get('/api/studies/:studyId/reviews', (req, res, ctx) => {
-    const size = req.url.searchParams.get('size');
-    if (size) {
-      const sizeNum = Number(size);
+    const _size = req.url.searchParams.get('size');
+    const _page = req.url.searchParams.get('page');
+
+    if (_size && _page) {
+      const size = Number(_size);
+      const page = _page ? Number(_page) : 0;
+      const startIndex = page * size;
+      const endIndexExclusive = startIndex + size;
+
       return res(
         ctx.status(200),
         ctx.json({
-          reviews: reviewJSON.reviews.slice(0, sizeNum),
+          reviews: reviewJSON.reviews.slice(startIndex, endIndexExclusive),
+          totalCount: reviewJSON.reviews.length,
+          hasNext: reviewJSON.reviews.length > size * page,
+        }),
+      );
+    }
+
+    if (_size) {
+      const size = Number(_size);
+      return res(
+        ctx.status(200),
+        ctx.json({
+          reviews: reviewJSON.reviews.slice(0, size),
           totalCount: reviewJSON.reviews.length,
         }),
       );

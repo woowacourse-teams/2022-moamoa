@@ -21,11 +21,10 @@ import SearchBar from '@layout/header/components/search-bar/SearchBar';
 
 import Avatar from '@shared/avatar/Avatar';
 import { IconButton } from '@shared/button';
+import ButtonGroup from '@shared/button-group/ButtonGroup';
 import DropDownBox from '@shared/drop-down-box/DropDownBox';
 import Flex from '@shared/flex/Flex';
 import { BookmarkIcon, FolderIcon, LoginIcon, LogoutIcon } from '@shared/icons';
-
-import ButtonGroup from '@components/@shared/button-group/ButtonGroup';
 
 const Header: React.FC = () => {
   const { setKeyword } = useContext(SearchContext);

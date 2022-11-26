@@ -12,11 +12,11 @@ export type SearchBarProps = {
   inputName?: string;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSubmit, inputName = 'keyword' }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit: handleSubmit, inputName = 'keyword' }) => {
   return (
     <Self>
       <Inner>
-        <Form onSubmit={e => onSubmit(e, inputName)}>
+        <Form onSubmit={e => handleSubmit(e, inputName)}>
           <Input name={inputName} maxLength={20} placeholder="스터디 제목 검색" />
           <SearchButton />
         </Form>

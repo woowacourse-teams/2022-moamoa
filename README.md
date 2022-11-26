@@ -24,17 +24,16 @@
 ---
 
 ## 🌐 사용자 요청 흐름도
+
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195348433-2d28a9e4-1adb-4d13-a640-bd4e522048cb.png" />
 </p>
 
 ---
-
 ## 🚀 기술 스택
-
-|프론트엔드 기술 스택|백엔드 기술 스택|
-|--|--|
-|<img src="https://user-images.githubusercontent.com/61091307/195329613-178f8f40-e29b-4563-bc90-3928f25899d5.png" />|<img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" />|
+| 프론트엔드 기술 스택                                                                                                | 백엔드 기술 스택                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://user-images.githubusercontent.com/68623798/198697857-e6bf9b3b-69a2-4c08-9c9b-acecfeeb5279.png" /> | <img src="https://user-images.githubusercontent.com/61091307/195329972-3a9c93f8-1e0c-4d5a-b3b6-8d5f065b6dc2.png" /> |
 
 ### 인프라 기술 스택
 
@@ -45,12 +44,14 @@
 ---
 
 ## ⚙️ 인프라 구조
+
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/197088025-c741e8ad-5349-49e3-bfc8-5fb4d6786c7e.png" />
 </p>
 
 
 ## 🛠 CI/CD
+
 <p align="left">
   <img src="https://user-images.githubusercontent.com/61091307/195333213-41325640-1fb8-45ca-a335-995b0da1e20c.png" />
 </p>
@@ -59,7 +60,7 @@
 
 ## 🙂 Crews (Members)
 
-|[디우(김동규)](https://github.com/tco0427)|[태태(김태윤)](https://github.com/nan-noo)|[그린론(유재서)](https://github.com/jaejae-yoo)|[베루스(정진혁)](https://github.com/wilgur513)|[짱구(신승철)](https://github.com/sc0116)|[병민(윤병인)](https://github.com/airman5573)|
-|:------:|:------:|:------:|:------:|:------:|:------:|
-|Backend|FrontEnd|Backend|Backend|Backend|FrontEnd|
-|<img src="https://avatars.githubusercontent.com/u/57028386?v=4" />|<img src="https://avatars.githubusercontent.com/u/54002105?v=4" />|<img src="https://avatars.githubusercontent.com/u/61091307?v=4" />|<img src="https://avatars.githubusercontent.com/u/25394140?v=4" />|<img src="https://avatars.githubusercontent.com/u/47477359?v=4" />|<img src="https://avatars.githubusercontent.com/u/68623798?v=4" />|
+|             [디우(김동규)](https://github.com/tco0427)             |             [태태(김태윤)](https://github.com/nan-noo)             |          [그린론(유재서)](https://github.com/jaejae-yoo)           |           [베루스(정진혁)](https://github.com/wilgur513)           |             [짱구(신승철)](https://github.com/sc0116)              |           [병민(윤병인)](https://github.com/airman5573)            |
+| :----------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
+|                              Backend                               |                              FrontEnd                              |                              Backend                               |                              Backend                               |                              Backend                               |                              FrontEnd                              |
+| <img src="https://avatars.githubusercontent.com/u/57028386?v=4" /> | <img src="https://avatars.githubusercontent.com/u/54002105?v=4" /> | <img src="https://avatars.githubusercontent.com/u/61091307?v=4" /> | <img src="https://avatars.githubusercontent.com/u/25394140?v=4" /> | <img src="https://avatars.githubusercontent.com/u/47477359?v=4" /> | <img src="https://avatars.githubusercontent.com/u/68623798?v=4" /> |

@@ -27,6 +27,7 @@ const MainPage: React.FC = () => {
   return (
     <Page>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
+      <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
       <PageWrapper>
         {(() => {
           if (isError) return <Error />;
@@ -40,7 +41,6 @@ const MainPage: React.FC = () => {
           );
         })()}
       </PageWrapper>
-      <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
     </Page>
   );
 };

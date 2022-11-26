@@ -3,6 +3,8 @@ import { useInfiniteQuery } from 'react-query';
 
 import { DEFAULT_STUDY_CARD_QUERY_PARAM } from '@constants';
 
+import { buildURLQuery } from '@utils';
+
 import type { Page, Size, Study, TagInfo } from '@custom-types';
 
 import axiosInstance from '@api/axiosInstance';
@@ -41,18 +43,15 @@ const defaultParam: PageParam = {
   page: DEFAULT_STUDY_CARD_QUERY_PARAM.PAGE,
 };
 
-export const getStudies = async ({
-  page = PAGE,
-  size = SIZE,
-  title,
-  selectedFilters,
-}: ApiStudies['get']['variables']) => {
-  const tagParams = selectedFilters.map(({ id, categoryName }) => `&${categoryName}=${id}`).join('');
-  const titleParams = title && `&title=${title}`;
-
-  const response = await axiosInstance.get<ApiStudies['get']['responseData']>(
-    `/api/studies/search?page=${page}&size=${size}${titleParams}${tagParams}`,
-  );
+const getStudies = async ({ page = PAGE, size = SIZE, title, selectedFilters }: ApiStudies['get']['variables']) => {
+  const tagParams = selectedFilters.reduce((acc, { id, categoryName }) => ({ ...acc, [categoryName]: id }), {});
+  const url = buildURLQuery('/api/studies/search', {
+    page,
+    size,
+    title,
+    ...tagParams,
+  });
+  const response = await axiosInstance.get<ApiStudies['get']['responseData']>(url);
   return checkStudies(response.data);
 };
 

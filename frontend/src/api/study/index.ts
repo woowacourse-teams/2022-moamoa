@@ -38,7 +38,7 @@ export type ApiStudy = {
   };
 };
 
-export const postStudy = async (newStudy: ApiStudy['post']['variables']) => {
+const postStudy = async (newStudy: ApiStudy['post']['variables']) => {
   const response = await axiosInstance.post<null, AxiosResponse<null>, ApiStudy['post']['variables']>(
     `/api/studies`,
     newStudy,
@@ -50,7 +50,7 @@ export const usePostStudy = () => {
   return useMutation<null, AxiosError, ApiStudy['post']['variables']>(postStudy);
 };
 
-export const getStudy = async ({ studyId }: ApiStudy['get']['variables']) => {
+const getStudy = async ({ studyId }: ApiStudy['get']['variables']) => {
   const response = await axiosInstance.get<ApiStudy['get']['responseData']>(`/api/studies/${studyId}`);
   return checkStudy(response.data);
 };
@@ -59,7 +59,7 @@ export const useGetStudy = ({ studyId }: ApiStudy['get']['variables']) => {
   return useQuery<ApiStudy['get']['responseData'], AxiosError>([QK_STUDY_DETAIL, studyId], () => getStudy({ studyId }));
 };
 
-export const putStudy = async ({ studyId, editedStudy }: ApiStudy['put']['variables']) => {
+const putStudy = async ({ studyId, editedStudy }: ApiStudy['put']['variables']) => {
   const response = await axiosInstance.put<null, AxiosResponse<null>>(`/api/studies/${studyId}`, editedStudy);
   return checkType(response.data, isNull);
 };

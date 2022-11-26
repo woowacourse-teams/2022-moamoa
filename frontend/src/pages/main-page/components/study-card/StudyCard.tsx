@@ -70,7 +70,10 @@ type TagListProps = {
 const TagList: React.FC<TagListProps> = ({ tags }) => (
   <Flex flexWrap="wrap" columnGap="6px" justifyContent="flex-end">
     {tags.map(tag => (
-      <Tag key={tag.id}>#{tag.name}</Tag>
+      <Tag key={tag.id}>
+        <span aria-hidden>#</span>
+        {tag.name}
+      </Tag>
     ))}
   </Flex>
 );

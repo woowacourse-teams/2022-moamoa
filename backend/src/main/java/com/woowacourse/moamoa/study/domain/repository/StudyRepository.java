@@ -4,8 +4,10 @@ import com.woowacourse.moamoa.study.domain.Study;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 public interface StudyRepository {
@@ -15,6 +17,7 @@ public interface StudyRepository {
     Optional<Study> findById(Long id);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
     @Query("select s from Study s where s.id = :id")
     Optional<Study> findByIdUpdateFor(@Param("id") Long id);
 
