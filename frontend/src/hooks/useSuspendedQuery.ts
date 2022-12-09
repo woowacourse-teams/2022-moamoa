@@ -1,11 +1,15 @@
 // from: https://github.com/toss/slash/blob/main/packages/react/react-query/src/hooks/useSuspendedQuery.ts
 import { type QueryFunction, type QueryKey, type UseQueryOptions, type UseQueryResult, useQuery } from 'react-query';
 
-export interface BaseSuspendedUseQueryResult<TData>
-  extends Omit<UseQueryResult<TData, never>, 'data' | 'status' | 'error' | 'isLoading' | 'isError' | 'isFetching'> {
-  data: TData;
-  status: 'success' | 'idle';
-}
+import { Merge } from '@custom-types';
+
+export type BaseSuspendedUseQueryResult<TData> = Merge<
+  Omit<UseQueryResult<TData, never>, 'data' | 'status' | 'error' | 'isLoading' | 'isError' | 'isFetching'>,
+  {
+    data: TData;
+    status: 'success' | 'idle';
+  }
+>;
 
 export type SuspendedUseQueryResultOnSuccess<TData> = BaseSuspendedUseQueryResult<TData> & {
   status: 'success';
