@@ -20,7 +20,7 @@ import StudyReviewSection from '@detail-page/components/study-review-section/Stu
 import StudyWideFloatBox from '@detail-page/components/study-wide-float-box/StudyWideFloatBox';
 import useDetailPage from '@detail-page/hooks/useDetailPage';
 
-const Core: React.FC = () => {
+const Success: React.FC = () => {
   const { studyId, detailQueryResult, isOwner, isOwnerOrMember, handleRegisterButtonClick } = useDetailPage();
   const { data } = detailQueryResult;
 
@@ -86,7 +86,7 @@ const DetailPage: React.FC = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<LoadingFallback />}>
-        <Core />
+        <Success />
       </Suspense>
     </ErrorBoundary>
   );

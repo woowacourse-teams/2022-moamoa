@@ -18,7 +18,7 @@ import FilterSection from '@main-page/components/filter-section/FilterSection';
 import StudyCard from '@main-page/components/study-card/StudyCard';
 import useMainPage from '@main-page/hooks/useMainPage';
 
-const Core: React.FC = () => {
+const Success: React.FC = () => {
   const { studiesQueryResult, selectedFilters, handleFilterButtonClick, handleCreateNewStudyButtonClick } =
     useMainPage();
 
@@ -50,7 +50,7 @@ const MainPage: React.FC = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<LoadingFallback />}>
-        <Core />
+        <Success />
       </Suspense>
     </ErrorBoundary>
   );
