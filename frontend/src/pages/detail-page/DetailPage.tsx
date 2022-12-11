@@ -96,15 +96,19 @@ export default DetailPage;
 
 const ErrorFallback: React.ComponentType<FallbackProps> = ({ error }) => {
   return (
-    <div>
+    <PageWrapper>
       <h2>스터디 정보를 불러오는 도중 에러가 발생했습니다</h2>
       <p>{error.message}</p>
-    </div>
+    </PageWrapper>
   );
 };
 
 const LoadingFallback: React.FC = () => {
-  return <div>스터디 정보 불러오는중</div>;
+  return (
+    <PageWrapper>
+      <div>스터디 정보 불러오는중</div>
+    </PageWrapper>
+  );
 };
 
 const Main = styled.section`

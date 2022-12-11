@@ -27,7 +27,7 @@ const Success: React.FC = () => {
   const searchedStudies = data?.pages.reduce<Array<Study>>((acc, cur) => [...acc, ...cur.studies], []);
 
   return (
-    <Page>
+    <>
       <FilterSection selectedFilters={selectedFilters} onFilterButtonClick={handleFilterButtonClick} />
       <CreateNewStudyButton onClick={handleCreateNewStudyButtonClick} />
       <PageWrapper>
@@ -42,7 +42,7 @@ const Success: React.FC = () => {
           );
         })()}
       </PageWrapper>
-    </Page>
+    </>
   );
 };
 
@@ -60,15 +60,19 @@ export default MainPage;
 
 const ErrorFallback: React.ComponentType<FallbackProps> = ({ error }) => {
   return (
-    <div>
+    <PageWrapper>
       <h2>스터디를 불러오는 도중 에러가 발생했습니다</h2>
       <p>{error.message}</p>
-    </div>
+    </PageWrapper>
   );
 };
 
 const LoadingFallback: React.FC = () => {
-  return <div>스터디 불러오는중</div>;
+  return (
+    <PageWrapper>
+      <div>스터디 불러오는중</div>
+    </PageWrapper>
+  );
 };
 
 const NoResult: React.FC = () => {
