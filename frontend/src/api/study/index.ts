@@ -8,6 +8,8 @@ import type { MakeOptional, StudyDetail, StudyId, TagId } from '@custom-types';
 import axiosInstance from '@api/axiosInstance';
 import { checkStudy } from '@api/study/typeChecker';
 
+import { useSuspendedQuery } from '@hooks/useSuspendedQuery';
+
 export const QK_STUDY_DETAIL = 'study-detail';
 
 export type ApiStudy = {
@@ -56,7 +58,9 @@ const getStudy = async ({ studyId }: ApiStudy['get']['variables']) => {
 };
 
 export const useGetStudy = ({ studyId }: ApiStudy['get']['variables']) => {
-  return useQuery<ApiStudy['get']['responseData'], AxiosError>([QK_STUDY_DETAIL, studyId], () => getStudy({ studyId }));
+  return useSuspendedQuery<ApiStudy['get']['responseData'], AxiosError>([QK_STUDY_DETAIL, studyId], () =>
+    getStudy({ studyId }),
+  );
 };
 
 const putStudy = async ({ studyId, editedStudy }: ApiStudy['put']['variables']) => {

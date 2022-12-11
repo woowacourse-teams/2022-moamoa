@@ -77,6 +77,7 @@ export const useGetInfiniteStudies = ({ title, selectedFilters }: ApiInfiniteStu
         if (!lastPage.hasNext) return;
         return { page: lastPage.page };
       },
+      suspense: true,
     },
   );
 };
