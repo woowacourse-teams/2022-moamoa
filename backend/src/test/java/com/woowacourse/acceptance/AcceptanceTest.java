@@ -14,7 +14,6 @@ import com.woowacourse.acceptance.steps.Steps;
 import com.woowacourse.moamoa.MoamoaApplication;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import com.woowacourse.moamoa.auth.service.request.AccessTokenRequest;
-
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -34,7 +33,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(
         webEnvironment = WebEnvironment.RANDOM_PORT,
@@ -47,16 +45,13 @@ public class AcceptanceTest {
     protected RequestSpecification spec;
 
     @RegisterExtension
-    final RestDocumentationExtension restDocumentation = new RestDocumentationExtension (OUTPUT_DIRECTORY);
+    final RestDocumentationExtension restDocumentation = new RestDocumentationExtension(OUTPUT_DIRECTORY);
 
     @LocalServerPort
     protected int port;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     public SlackAlarmMockServer slackAlarmMockServer;

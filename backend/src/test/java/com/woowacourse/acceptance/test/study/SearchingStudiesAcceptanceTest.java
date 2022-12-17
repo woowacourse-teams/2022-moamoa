@@ -18,6 +18,8 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.woowacourse.acceptance.AcceptanceTest;
 import io.restassured.RestAssured;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,65 +34,41 @@ class SearchingStudiesAcceptanceTest extends AcceptanceTest {
     void setUp() {
         LocalDate 지금 = LocalDate.now();
 
-         짱구가().로그인하고().자바_스터디를()
+        짱구가().로그인하고().자바_스터디를()
                 .시작일자는(지금).태그는(자바_태그_ID, 우테코4기_태그_ID, BE_태그_ID)
                 .생성한다();
 
-         짱구가().로그인하고().리액트_스터디를()
+        짱구가().로그인하고().리액트_스터디를()
                 .시작일자는(지금).태그는(우테코4기_태그_ID, FE_태그_ID, 리액트_태그_ID)
                 .생성한다();
 
-         짱구가().로그인하고().자바스크립트_스터디를()
+        짱구가().로그인하고().자바스크립트_스터디를()
                 .시작일자는(지금).태그는(우테코4기_태그_ID, FE_태그_ID)
                 .생성한다();
 
-         짱구가().로그인하고().HTTP_스터디를()
+        짱구가().로그인하고().HTTP_스터디를()
                 .시작일자는(지금).태그는(우테코4기_태그_ID, BE_태그_ID)
                 .생성한다();
 
-         짱구가().로그인하고().알고리즘_스터디를()
+        짱구가().로그인하고().알고리즘_스터디를()
                 .시작일자는(지금)
                 .생성한다();
 
-         짱구가().로그인하고().리눅스_스터디를()
+        짱구가().로그인하고().리눅스_스터디를()
                 .시작일자는(지금)
                 .생성한다();
     }
 
     @DisplayName("잘못된 페이징 정보로 목록을 검색시 400에러를 응답한다.")
     @ParameterizedTest
-    @CsvSource({"-1,3", "1,0", "one,1", "1,one"})
-    void response400WhenRequestByInvalidPagingInfo(String page, String size) {
+    @CsvSource({"one, 1", "1, one"})
+    void response400WhenRequestByInvalidPagingInfo(String id, String size) {
         RestAssured.given().log().all()
                 .queryParam("title", "java")
-                .queryParam("page", page)
+                .queryParam("id", id)
+                .queryParam("createdAt",
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .queryParam("size", size)
-                .when().log().all()
-                .get("/api/studies/search")
-                .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", not(blankOrNullString()));
-    }
-
-    @DisplayName("페이지 정보 없이 목록 검색시 400에러를 응답한다.")
-    @Test
-    void getStudiesByDefaultPage() {
-        RestAssured.given().log().all()
-                .queryParam("title", "java")
-                .queryParam("size", 5)
-                .when().log().all()
-                .get("/api/studies/search")
-                .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", not(blankOrNullString()));
-    }
-
-    @DisplayName("사이즈 정보 없이 목록 조회시 400에러를 응답한다.")
-    @Test
-    void getStudiesByDefaultSize() {
-        RestAssured.given().log().all()
-                .queryParam("title", "java")
-                .queryParam("page", 0)
                 .when().log().all()
                 .get("/api/studies/search")
                 .then().log().all()
@@ -117,7 +95,9 @@ class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.thumbnail", contains(
                         "linux thumbnail", "algorithm thumbnail", "http thumbnail", "javascript thumbnail",
                         "react thumbnail"))
-                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
+                .body("studies.recruitmentStatus",
+                        contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START",
+                                "RECRUITMENT_START"));
     }
 
     @DisplayName("앞뒤 공백을 제거한 키워드로 스터디 목록을 조회한다.")
@@ -223,7 +203,8 @@ class SearchingStudiesAcceptanceTest extends AcceptanceTest {
                 .body("studies.excerpt", contains("HTTP 설명", "자바스크립트 설명", "리액트 설명", "자바 설명"))
                 .body("studies.thumbnail",
                         contains("http thumbnail", "javascript thumbnail", "react thumbnail", "java thumbnail"))
-                .body("studies.recruitmentStatus", contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
+                .body("studies.recruitmentStatus",
+                        contains("RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START", "RECRUITMENT_START"));
     }
 
     @DisplayName("서로 다른 카테고리의 필터로 필터링하여 스터디 목록을 조회한다.")

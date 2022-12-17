@@ -6,8 +6,6 @@ import com.woowacourse.moamoa.study.service.response.StudiesResponse;
 import com.woowacourse.moamoa.study.service.response.StudyDetailResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +22,12 @@ public class SearchingStudyController {
 
     @GetMapping
     public ResponseEntity<StudiesResponse> getStudies(
-            @PageableDefault(size = 5) final Pageable pageable
+            @RequestParam(required = false) final Long id,
+            @RequestParam(required = false, defaultValue = "") final String createdDate,
+            @RequestParam(required = false, defaultValue = "5") final int size
     ) {
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies("", SearchingTags.emptyTags(), id,
+                createdDate, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 
@@ -36,10 +37,13 @@ public class SearchingStudyController {
             @RequestParam(required = false, name = "generation", defaultValue = "") final List<Long> generations,
             @RequestParam(required = false, name = "area", defaultValue = "") final List<Long> areas,
             @RequestParam(required = false, name = "subject", defaultValue = "") final List<Long> tags,
-            @PageableDefault(size = 5) final Pageable pageable
+            @RequestParam(required = false) final Long id,
+            @RequestParam(required = false, defaultValue = "") final String createdDate,
+            @RequestParam(required = false, defaultValue = "5") final int size
     ) {
         final SearchingTags searchingTags = new SearchingTags(generations, areas, tags);
-        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, pageable);
+        final StudiesResponse studiesResponse = searchingStudyService.getStudies(title.trim(), searchingTags, id,
+                createdDate, size);
         return ResponseEntity.ok().body(studiesResponse);
     }
 

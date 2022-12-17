@@ -2,6 +2,8 @@ package com.woowacourse.moamoa.study.query;
 
 import com.woowacourse.moamoa.study.query.data.StudySummaryData;
 import com.woowacourse.moamoa.tag.domain.CategoryName;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,34 +27,30 @@ public class StudySummaryDao {
         final String excerpt = resultSet.getString("excerpt");
         final String thumbnail = resultSet.getString("thumbnail");
         final String status = resultSet.getString("recruitment_status");
+        final LocalDateTime createdDate = resultSet.getObject("created_at", LocalDateTime.class);
 
-        return new StudySummaryData(id, title, excerpt, thumbnail, status);
+        return new StudySummaryData(id, title, excerpt, thumbnail, status, createdDate);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Pageable pageable) {
+    public Slice<StudySummaryData> searchBy(final String title, final SearchingTags searchingTags, final Long id,
+                                            final LocalDateTime createdAt, final int size) {
         final List<StudySummaryData> data = jdbcTemplate
-                .query(sql(searchingTags, title), params(title, searchingTags, pageable), STUDY_ROW_MAPPER);
-        return new SliceImpl<>(getCurrentPageStudies(data, pageable), pageable, hasNext(data, pageable));
+                .query(sql(title, searchingTags, id, createdAt), params(title, searchingTags, id, createdAt, size),
+                        STUDY_ROW_MAPPER);
+        return new SliceImpl<>(getCurrentPageStudies(data, size), Pageable.ofSize(size), hasNext(data, size));
     }
 
-    private String sql(final SearchingTags searchingTags, final String title) {
+    private String sql(final String title, final SearchingTags searchingTags, final Long id,
+                       final LocalDateTime createdAt) {
         return "SELECT study.id, study.title, study.excerpt, study.thumbnail, study.recruitment_status, study.created_at "
-                + "FROM study "
-                + joinTableClause(searchingTags)
-                + joinTitleClause(title)
-                + filtersInQueryClause(searchingTags)
-                + "GROUP BY study.id "
-                + "ORDER BY study.created_at DESC "
-                + "LIMIT :limit OFFSET :offset ";
-    }
-
-    private String joinTitleClause(final String title) {
-        if (title.isBlank()) {
-            return "";
-        }
-        return "WHERE UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' ";
+                        + "FROM study "
+                        + joinTableClause(searchingTags)
+                        + whereCondition(id, createdAt, title, searchingTags)
+                        + "GROUP BY study.id "
+                        + "ORDER BY study.created_at DESC, id DESC "
+                        + "LIMIT :limit ";
     }
 
     private String joinTableClause(final SearchingTags searchingTags) {
@@ -66,6 +64,45 @@ public class StudySummaryDao {
                 .collect(Collectors.joining());
     }
 
+    private String whereCondition(final Long id, final LocalDateTime createdAt, final String title,
+                                  final SearchingTags searchingTags) {
+        if (!hasCondition(id, createdAt, title, searchingTags)) {
+            return "";
+        }
+
+        final String cursorClause = filtersInCursorClause(id, createdAt);
+        final String titleClause = filtersTitleClause(title);
+        final String filtersInQueryClause = filtersInQueryClause(searchingTags);
+        final String combinedClause = combineClause(cursorClause, titleClause);
+
+        if (combinedClause.isBlank()) {
+            return "WHERE " + filtersInQueryClause.replaceFirst("AND ", "");
+        }
+
+        return "WHERE " + combineClause(cursorClause, titleClause) + filtersInQueryClause;
+    }
+
+    private boolean hasCondition(final Long id, final LocalDateTime createdAt,
+                                        final String title, final SearchingTags searchingTags) {
+        return id != null || createdAt != null || !title.isBlank() || !searchingTags.isEmpty();
+    }
+
+
+    private String filtersInCursorClause(final Long id, final LocalDateTime createdAt) {
+        if (id != null && createdAt != null) {
+            return "(study.created_at < :createdAt OR (study.created_at = :createdAt AND id < :id)) ";
+        }
+
+        return "";
+    }
+
+    private String filtersTitleClause(final String title) {
+        if (title.isBlank()) {
+            return "";
+        }
+        return "UPPER(study.title) LIKE UPPER(:title) ESCAPE '\' ";
+    }
+
     private String filtersInQueryClause(final SearchingTags searchingTags) {
         String sql = "AND {}_tag.id IN (:{}) ";
 
@@ -75,27 +112,47 @@ public class StudySummaryDao {
                 .collect(Collectors.joining());
     }
 
-    private Map<String, Object> params(final String title, final SearchingTags searchingTags,
-                                       final Pageable pageable) {
+    private String combineClause(String... clauses) {
+        final List<String> notBlankClauses = Arrays.stream(clauses)
+                .filter(it -> !it.isBlank())
+                .collect(Collectors.toList());
+
+        if (notBlankClauses.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder(notBlankClauses.get(0));
+        for (int i = 1; i < notBlankClauses.size(); i++) {
+            stringBuilder.append("AND " + notBlankClauses.get(i));
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private Map<String, Object> params(final String title, final SearchingTags searchingTags, final Long id,
+                                       final LocalDateTime createdAt,
+                                       final int size) {
         final Map<String, Object> tagIds = Stream.of(CategoryName.values())
                 .collect(Collectors.toMap(name -> name.name().toLowerCase(), searchingTags::getTagIdsBy));
 
         Map<String, Object> param = new HashMap<>();
         param.put("title", "%" + title + "%");
-        param.put("limit", pageable.getPageSize() + 1);
-        param.put("offset", pageable.getOffset());
+        param.put("id", id);
+        param.put("createdAt", createdAt);
+        param.put("limit", size + 1);
         param.putAll(tagIds);
         return param;
     }
 
-    private List<StudySummaryData> getCurrentPageStudies(final List<StudySummaryData> studies, final Pageable pageable) {
-        if (hasNext(studies, pageable)) {
+    private List<StudySummaryData> getCurrentPageStudies(final List<StudySummaryData> studies,
+                                                         final int size) {
+        if (hasNext(studies, size)) {
             return studies.subList(0, studies.size() - 1);
         }
         return studies;
     }
 
-    private boolean hasNext(final List<StudySummaryData> studies, final Pageable pageable) {
-        return studies.size() > pageable.getPageSize();
+    private boolean hasNext(final List<StudySummaryData> studies, final int size) {
+        return studies.size() > size;
     }
 }
