@@ -2,6 +2,7 @@ package com.woowacourse.moamoa.auth.controller.interceptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.moamoa.auth.config.interceptor.PathMatcherContainer;
 import com.woowacourse.moamoa.common.WebMVCTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

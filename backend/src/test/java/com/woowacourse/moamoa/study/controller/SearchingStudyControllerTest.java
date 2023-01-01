@@ -9,7 +9,6 @@ import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-import com.woowacourse.acceptance.TestConfig;
 import com.woowacourse.moamoa.alarm.SlackAlarmSender;
 import com.woowacourse.moamoa.alarm.SlackUsersClient;
 import com.woowacourse.moamoa.common.RepositoryTest;
@@ -352,7 +351,7 @@ class SearchingStudyControllerTest {
 
     @DisplayName("스터디 디테일 정보 조회 시 스터디원들이 가입한 스터디의 수와 가입날짜도 함께 조회한다.")
     @Test
-    public void findStudyDetailsWithNumberOfStudy() {
+    void findStudyDetailsWithNumberOfStudy() {
         final ResponseEntity<StudyDetailResponse> response = sut.getStudyDetails(javaStudyId);
 
         final StudyDetailResponse responseBody = response.getBody();

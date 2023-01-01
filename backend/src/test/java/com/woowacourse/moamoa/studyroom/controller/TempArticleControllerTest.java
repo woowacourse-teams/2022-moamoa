@@ -50,7 +50,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RepositoryTest
 @Import({RestTemplate.class, SlackAlarmSender.class, SlackUsersClient.class})
-public class TempArticleControllerTest {
+class TempArticleControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -299,9 +299,9 @@ public class TempArticleControllerTest {
         assertThat(responses.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responses.getBody()).isNotNull();
         assertThat(responses.getBody().getDraftArticles()).isEmpty();
-        assertThat(responses.getBody().getCurrentPage()).isEqualTo(0);
-        assertThat(responses.getBody().getLastPage()).isEqualTo(0);
-        assertThat(responses.getBody().getTotalCount()).isEqualTo(0);
+        assertThat(responses.getBody().getCurrentPage()).isZero();
+        assertThat(responses.getBody().getLastPage()).isZero();
+        assertThat(responses.getBody().getTotalCount()).isZero();
     }
 
     @DisplayName("작성한 임시글을 공개한다.")

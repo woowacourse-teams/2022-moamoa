@@ -2,10 +2,10 @@ package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
-import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
-import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.domain.review.Review;
+import com.woowacourse.moamoa.studyroom.domain.review.repository.ReviewRepository;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.service.exception.ReviewNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.request.ReviewRequest;
 import lombok.RequiredArgsConstructor;

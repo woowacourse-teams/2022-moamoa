@@ -2,14 +2,14 @@ package com.woowacourse.moamoa.studyroom.service;
 
 import com.woowacourse.moamoa.study.service.exception.StudyNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.Accessor;
-import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkArticle;
 import com.woowacourse.moamoa.studyroom.domain.link.LinkContent;
-import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.domain.link.repository.LinkArticleRepository;
+import com.woowacourse.moamoa.studyroom.domain.studyroom.StudyRoom;
 import com.woowacourse.moamoa.studyroom.domain.studyroom.repository.StudyRoomRepository;
 import com.woowacourse.moamoa.studyroom.query.LinkArticleDao;
 import com.woowacourse.moamoa.studyroom.query.data.LinkArticleData;
+import com.woowacourse.moamoa.studyroom.service.exception.ArticleNotFoundException;
 import com.woowacourse.moamoa.studyroom.service.response.LinksResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

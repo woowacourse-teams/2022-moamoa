@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class WritingTempArticleControllerWebMvcTest extends WebMVCTest {
+class WritingTempArticleControllerWebMvcTest extends WebMVCTest {
 
     @DisplayName("토큰없이 임시글을 생성할 경우 401을 반환한다.")
     @Test

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("임시 공지글 관련 인수 테스트")
-public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
+class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
 
     private LocalDate 지금;
 
@@ -108,7 +108,7 @@ public class TempNoticeArticleAcceptanceTest extends AcceptanceTest {
             );
         }
 
-        assertThat(responses.getCurrentPage()).isEqualTo(0);
+        assertThat(responses.getCurrentPage()).isZero();
         assertThat(responses.getLastPage()).isEqualTo(1);
         assertThat(responses.getTotalCount()).isEqualTo(6);
     }

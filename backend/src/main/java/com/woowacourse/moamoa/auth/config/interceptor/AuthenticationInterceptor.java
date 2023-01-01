@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.auth.controller.interceptor;
+package com.woowacourse.moamoa.auth.config.interceptor;
 
 import com.woowacourse.moamoa.auth.config.AuthenticationExtractor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;

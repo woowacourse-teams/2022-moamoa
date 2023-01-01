@@ -24,7 +24,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("임시 게시글 관련 인수 테스트")
-public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
+class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
 
     private LocalDate 지금;
 
@@ -117,7 +117,7 @@ public class TempCommunityArticleAcceptanceTest extends AcceptanceTest {
                     expectedArticleIds.next(), expectedTitles.next(), expectedContents.next(), expectedStudyId.next());
         }
 
-        assertThat(responses.getCurrentPage()).isEqualTo(0);
+        assertThat(responses.getCurrentPage()).isZero();
         assertThat(responses.getLastPage()).isEqualTo(1);
         assertThat(responses.getTotalCount()).isEqualTo(6);
     }

@@ -1,9 +1,8 @@
 package com.woowacourse.moamoa.auth.config;
 
-import com.woowacourse.moamoa.auth.controller.AuthenticatedMemberResolver;
-import com.woowacourse.moamoa.auth.controller.interceptor.AuthenticationInterceptor;
-import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherContainer;
-import com.woowacourse.moamoa.auth.controller.interceptor.PathMatcherInterceptor;
+import com.woowacourse.moamoa.auth.config.interceptor.AuthenticationInterceptor;
+import com.woowacourse.moamoa.auth.config.interceptor.PathMatcherContainer;
+import com.woowacourse.moamoa.auth.config.interceptor.PathMatcherInterceptor;
 import com.woowacourse.moamoa.auth.infrastructure.TokenProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

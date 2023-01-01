@@ -94,7 +94,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
 
         // assert
         assertThat(requester.getSuccessUser()).isEqualTo(100);
-        assertThat(requester.getFailUser()).isEqualTo(0);
+        assertThat(requester.getFailUser()).isZero();
         assertThat(getCurrentMemberCount(스터디_ID)).isEqualTo(1);
     }
 
@@ -136,7 +136,7 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
 
         // assert
         assertThat(requester.getSuccessUser()).isEqualTo(100);
-        assertThat(requester.getFailUser()).isEqualTo(0);
+        assertThat(requester.getFailUser()).isZero();
         assertThat(getCurrentMemberCount(스터디_ID)).isEqualTo(52);
     }
 
