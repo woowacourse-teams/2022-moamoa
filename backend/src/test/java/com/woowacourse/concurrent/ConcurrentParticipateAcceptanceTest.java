@@ -6,10 +6,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUserProfile;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
-import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
+import com.woowacourse.moamoa.alarm.service.alarmsender.SlackAlarmSender;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserProfile;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
 import com.woowacourse.moamoa.auth.service.oauthclient.OAuthClient;
 import com.woowacourse.moamoa.auth.service.oauthclient.response.GithubProfileResponse;
 import io.restassured.RestAssured;
@@ -47,8 +47,8 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         // act
@@ -77,8 +77,8 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         for (GithubProfileResponse 프로필 : 탈퇴를_원하는_사용자) {
@@ -112,8 +112,8 @@ class ConcurrentParticipateAcceptanceTest extends AcceptanceTest{
                 .collect(Collectors.toList());
 
         for (SlackUserResponse profile : users) {
-            when(slackUsersClient.getUserChannelByEmail(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
-            doNothing().when(slackAlarmSender).requestSlackMessage(profile.getChannel());
+            when(slackUsersClient.getUserChannel(profile.getSlackUserProfile().getEmail())).thenReturn(profile.getChannel());
+            doNothing().when(slackAlarmSender).sendMessage(profile.getChannel());
         }
 
         for (GithubProfileResponse 프로필 : 탈퇴를_원하는_사용자) {

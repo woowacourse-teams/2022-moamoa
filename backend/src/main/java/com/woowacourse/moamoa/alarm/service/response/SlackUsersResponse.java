@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm.response;
+package com.woowacourse.moamoa.alarm.service.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

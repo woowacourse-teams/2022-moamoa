@@ -1,7 +1,7 @@
 package com.woowacourse.moamoa.study.controller;
 
 import com.woowacourse.moamoa.auth.config.AuthenticatedMemberId;
-import com.woowacourse.moamoa.study.service.AsyncService;
+import com.woowacourse.moamoa.alarm.service.AlarmService;
 import com.woowacourse.moamoa.study.service.StudyParticipantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudyParticipantController {
 
     private final StudyParticipantService studyParticipantService;
-    private final AsyncService asyncService;
+    private final AlarmService alarmService;
 
     public StudyParticipantController(final StudyParticipantService studyParticipantService,
-                                      final AsyncService asyncService) {
+                                      final AlarmService alarmService) {
         this.studyParticipantService = studyParticipantService;
-        this.asyncService = asyncService;
+        this.alarmService = alarmService;
     }
 
     @PostMapping
@@ -28,7 +28,7 @@ public class StudyParticipantController {
             @AuthenticatedMemberId final Long memberId, @PathVariable("study-id") final Long studyId
     ) {
         studyParticipantService.participateStudy(memberId, studyId);
-        asyncService.send(studyId);
+        alarmService.send(studyId);
         return ResponseEntity.noContent().build();
     }
 

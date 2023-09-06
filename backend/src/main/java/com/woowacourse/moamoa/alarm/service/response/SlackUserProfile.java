@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.service.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;

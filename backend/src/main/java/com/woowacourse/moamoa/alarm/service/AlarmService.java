@@ -1,7 +1,7 @@
-package com.woowacourse.moamoa.study.service;
+package com.woowacourse.moamoa.alarm.service;
 
-import com.woowacourse.moamoa.alarm.SlackAlarmSender;
-import com.woowacourse.moamoa.alarm.SlackUsersClient;
+import com.woowacourse.moamoa.alarm.service.alarmuserclient.AlarmUserClient;
+import com.woowacourse.moamoa.alarm.service.alarmsender.AlarmSender;
 import com.woowacourse.moamoa.member.domain.Member;
 import com.woowacourse.moamoa.member.domain.repository.MemberRepository;
 import com.woowacourse.moamoa.member.service.exception.MemberNotFoundException;
@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AsyncService {
+public class AlarmService {
 
     private final StudyRepository studyRepository;
     private final MemberRepository memberRepository;
-    private final SlackUsersClient slackUsersClient;
-    private final SlackAlarmSender slackAlarmSender;
+    private final AlarmUserClient alarmUserClient;
+    private final AlarmSender alarmSender;
 
-    public AsyncService(final StudyRepository studyRepository, final MemberRepository memberRepository,
-                        final SlackUsersClient slackUsersClient, final SlackAlarmSender slackAlarmSender) {
+    public AlarmService(final StudyRepository studyRepository, final MemberRepository memberRepository,
+                        final AlarmUserClient alarmUserClient, final AlarmSender alarmSender) {
         this.studyRepository = studyRepository;
         this.memberRepository = memberRepository;
-        this.slackUsersClient = slackUsersClient;
-        this.slackAlarmSender = slackAlarmSender;
+        this.alarmUserClient = alarmUserClient;
+        this.alarmSender = alarmSender;
     }
 
     @Transactional(readOnly = true)
@@ -38,9 +38,9 @@ public class AsyncService {
     }
 
     @Async
-    public void  send(final Long studyId) {
+    public void send(final Long studyId) {
         final String email = getOwnerEmail(studyId);
-        final String channel = slackUsersClient.getUserChannelByEmail(email);
-        slackAlarmSender.requestSlackMessage(channel);
+        final String channel = alarmUserClient.getUserChannel(email);
+        alarmSender.sendMessage(channel);
     }
 }

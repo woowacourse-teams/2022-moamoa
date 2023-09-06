@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.service.alarmsender;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -6,18 +6,18 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.slack.api.model.Attachment;
-import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.alarmsender.AlarmSender;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class SlackAlarmSender {
+public class SlackAlarmSender implements AlarmSender {
 
     private final String authorization;
     private final String sendMessageUri;
@@ -31,7 +31,8 @@ public class SlackAlarmSender {
         this.restTemplate = restTemplate;
     }
 
-    public void requestSlackMessage(final String channel) {
+    @Override
+    public void sendMessage(final String channel) {
         final SlackMessageRequest slackMessageRequest = setSlackMessage(channel);
 
         HttpEntity<SlackMessageRequest> request = new HttpEntity<>(slackMessageRequest, headers());

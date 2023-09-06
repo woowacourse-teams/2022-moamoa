@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.config;
 
 import java.util.concurrent.Executor;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @EnableAsync
-public class AsyncConfig extends AsyncConfigurerSupport {
+public class AlarmAsyncConfig extends AsyncConfigurerSupport {
 
     @Override
     public Executor getAsyncExecutor() {

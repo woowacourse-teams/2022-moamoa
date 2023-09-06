@@ -8,11 +8,10 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.slack.api.model.Attachment;
-import com.woowacourse.moamoa.alarm.SlackUserProfile;
-import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
-import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
-import com.woowacourse.moamoa.alarm.response.SlackUsersResponse;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserProfile;
+import com.woowacourse.moamoa.alarm.service.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
+import com.woowacourse.moamoa.alarm.service.response.SlackUsersResponse;
 import com.woowacourse.moamoa.auth.config.AuthConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 

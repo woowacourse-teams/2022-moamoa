@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.slack.api.model.Attachment;
 import com.woowacourse.acceptance.AcceptanceTest;
-import com.woowacourse.moamoa.alarm.request.SlackMessageRequest;
+import com.woowacourse.moamoa.alarm.service.request.SlackMessageRequest;
 import com.woowacourse.moamoa.member.service.response.MemberResponse;
 import com.woowacourse.moamoa.studyroom.service.request.LinkArticleRequest;
 import com.woowacourse.moamoa.studyroom.service.response.AuthorResponse;

@@ -1,12 +1,12 @@
-package com.woowacourse.moamoa.alarm;
+package com.woowacourse.moamoa.alarm.service.alarmuserclient;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.woowacourse.moamoa.alarm.response.SlackUserResponse;
-import com.woowacourse.moamoa.alarm.response.SlackUsersResponse;
+import com.woowacourse.moamoa.alarm.service.response.SlackUserResponse;
+import com.woowacourse.moamoa.alarm.service.response.SlackUsersResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class SlackUsersClient {
+public class SlackUsersClient implements AlarmUserClient {
 
     private final String authorization;
     private final String usersUri;
@@ -29,7 +29,21 @@ public class SlackUsersClient {
         this.restTemplate = restTemplate;
     }
 
-    public SlackUsersResponse requestSlackUsers() {
+    @Override
+    public String getUserChannel(final String email) {
+        SlackUserResponse slackUser = getSlackUser(email, requestSlackUsers());
+        return slackUser.getChannel();
+    }
+
+    private SlackUserResponse getSlackUser(final String email, final SlackUsersResponse response) {
+        return response.getResponses()
+                .stream()
+                .filter(slackUser -> email.equals(slackUser.getSlackUserProfile().getEmail()))
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("슬랙에서 사용자를 찾지 못 했습니다."));
+    }
+
+    private SlackUsersResponse requestSlackUsers() {
         HttpEntity<SlackUsersResponse> request = new HttpEntity<>(headers());
         final ResponseEntity<SlackUsersResponse> response = restTemplate
                 .exchange(usersUri, GET, request, SlackUsersResponse.class);
@@ -45,18 +59,5 @@ public class SlackUsersClient {
         headers.add(AUTHORIZATION, authorization);
         headers.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
         return headers;
-    }
-
-    public String getUserChannelByEmail(final String email) {
-        SlackUserResponse slackUser = getSlackUser(email, requestSlackUsers());
-        return slackUser.getChannel();
-    }
-
-    private SlackUserResponse getSlackUser(final String email, final SlackUsersResponse response) {
-        return response.getResponses()
-                .stream()
-                .filter(slackUser -> email.equals(slackUser.getSlackUserProfile().getEmail()))
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("슬랙에서 사용자를 찾지 못 했습니다."));
     }
 }

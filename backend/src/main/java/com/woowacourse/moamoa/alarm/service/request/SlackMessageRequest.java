@@ -1,4 +1,4 @@
-package com.woowacourse.moamoa.alarm.request;
+package com.woowacourse.moamoa.alarm.service.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.slack.api.model.Attachment;
